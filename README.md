@@ -1,5 +1,7 @@
 # clanker-tools
 
+![A robot in a spacecraft lab holding a device labelled "PURPOSE DEVICE" projecting a holographic terrain scan](docs/assets/purpose-device.png)
+
 A catalog of agent skills, compatible with both **Hermes** and **Claude Code**.
 
 ## Layout
