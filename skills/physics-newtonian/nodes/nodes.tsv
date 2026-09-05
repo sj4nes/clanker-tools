@@ -1,0 +1,59 @@
+id	type	title	domain	status	knowledge_level	primary_formula
+SI_units	convention	SI unit system	cross_domain	reviewed	foundation	-
+real_numbers	primitive	Real numbers	math	reviewed	foundation	-
+function	math_definition	Function	math	reviewed	foundation	-
+limit	math_definition	Limit	math	reviewed	foundation	-
+derivative	math_definition	Derivative	math	reviewed	foundation	df/dx
+integral	math_definition	Definite integral	math	reviewed	foundation	int f dx
+scalar_multiplication	math_definition	Scalar multiplication	math	reviewed	foundation	-
+squaring	math_definition	Squaring	math	reviewed	foundation	-
+trigonometry	math_definition	Sine and cosine	math	reviewed	foundation	-
+dimension_analysis	diagnostic	Dimensional consistency	cross_domain	reviewed	foundation	[LHS]=[RHS]
+time	primitive	Time	cross_domain	reviewed	foundation	-
+length	primitive	Length	cross_domain	reviewed	foundation	-
+mass	primitive	Inertial mass	mechanics	reviewed	foundation	-
+inertial_frame	primitive	Inertial frame	mechanics	reviewed	foundation	-
+newtonian_mechanics	assumption	Newtonian regime	mechanics	reviewed	foundation	-
+nonrelativistic	assumption	Nonrelativistic regime	cross_domain	reviewed	foundation	v << c
+point_particle	assumption	Point-particle / centre of mass	mechanics	reviewed	foundation	-
+constant_mass	assumption	Constant mass	mechanics	reviewed	foundation	dm/dt = 0
+isolated_system	assumption	Isolated system (no external force)	mechanics	reviewed	foundation	F_ext = 0
+conservative_force	assumption	Conservative force	mechanics	reviewed	foundation	curl F = 0
+uniform_gravity	assumption	Uniform gravitational field	mechanics	reviewed	foundation	g = const
+small_oscillation	assumption	Small oscillation about equilibrium	mechanics	reviewed	foundation	-
+position	physical_definition	Position	mechanics	reviewed	foundation	x(t)
+displacement	derived_formula	Displacement	mechanics	reviewed	foundation	Dx = x - x0
+velocity	physical_definition	Velocity	mechanics	reviewed	foundation	v = dx/dt
+speed	physical_definition	Speed	mechanics	reviewed	foundation	|v|
+acceleration	physical_definition	Acceleration	mechanics	reviewed	foundation	a = dv/dt
+constant_acceleration_kinematics	derived_formula	Constant-acceleration kinematics	mechanics	reviewed	core	x = x0 + v0 t + 1/2 a t^2
+force	physical_definition	Force	mechanics	reviewed	foundation	-
+newton_first_law	principle_law	Newton's first law	mechanics	reviewed	core	F_net = 0 => a = 0
+newton_second_law	principle_law	Newton's second law	mechanics	reviewed	core	F_net = m a
+newton_third_law	principle_law	Newton's third law	mechanics	reviewed	core	F_AB = - F_BA
+normal_force	physical_definition	Normal force	mechanics	reviewed	foundation	N
+weight	constitutive_relation	Weight near a surface	mechanics	reviewed	core	W = m g
+friction_kinetic	constitutive_relation	Kinetic friction	mechanics	reviewed	core	f_k = mu_k N
+hookes_law	constitutive_relation	Hooke's law	mechanics	reviewed	core	F = - k x
+work	derived_formula	Work	mechanics	reviewed	core	W = int F dx
+kinetic_energy	derived_formula	Kinetic energy	mechanics	reviewed	core	K = 1/2 m v^2
+work_energy_theorem	bridge	Work-energy theorem	mechanics	reviewed	core	W_net = Delta K
+potential_energy	physical_definition	Potential energy	mechanics	reviewed	core	Delta U = - W_cons
+force_from_potential	bridge	Force from potential energy	mechanics	reviewed	core	F = - dU/dx
+gravitational_pe_uniform	derived_formula	Gravitational PE (uniform field)	mechanics	reviewed	core	U = m g h
+elastic_pe	derived_formula	Elastic potential energy	mechanics	reviewed	core	U = 1/2 k x^2
+mechanical_energy	derived_formula	Mechanical energy	mechanics	reviewed	core	E = K + U
+conservation_of_mechanical_energy	principle_law	Conservation of mechanical energy	mechanics	reviewed	core	E = const
+power	derived_formula	Power	mechanics	reviewed	core	P = dE/dt
+momentum	derived_formula	Linear momentum	mechanics	reviewed	core	p = m v
+impulse	derived_formula	Impulse	mechanics	reviewed	core	J = int F dt
+impulse_momentum_theorem	bridge	Impulse-momentum theorem	mechanics	reviewed	core	J = Delta p
+conservation_of_momentum	principle_law	Conservation of linear momentum	mechanics	reviewed	core	sum p = const
+small_angle_approximation	regime_limit	Small-angle approximation	math	reviewed	core	sin th ~ th
+simple_harmonic_motion	derived_formula	Simple harmonic motion	mechanics	reviewed	core	x = A cos(w t + phi)
+angular_frequency_shm	derived_formula	Angular frequency (mass-spring)	mechanics	reviewed	core	w = sqrt(k/m)
+shm_period	derived_formula	Period of SHM	mechanics	reviewed	core	T = 2 pi / w
+simple_pendulum	derived_formula	Simple pendulum period	mechanics	reviewed	core	T = 2 pi sqrt(L/g)
+newton_gravitation	principle_law	Newton's law of gravitation	mechanics	reviewed	core	F = G m1 m2 / r^2
+gravitational_field	derived_formula	Gravitational field strength	mechanics	reviewed	core	g = G M / r^2
+gravitational_pe_general	derived_formula	Gravitational PE (inverse square)	mechanics	reviewed	core	U = - G m1 m2 / r

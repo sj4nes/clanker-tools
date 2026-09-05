@@ -1,0 +1,210 @@
+# Release 0.1 prerequisite edges. Each block: a plain-language justification (the
+# physics-formula-tree edge test) then the edge(s). Comments and blank lines are
+# stripped to dependencies.edges before tsort.
+
+# --- calculus prerequisites ---
+# The real line underlies the notion of a function.
+real_numbers function
+# A limit is defined on functions of a real variable.
+function limit
+# The derivative is a limit of difference quotients.
+limit derivative
+# The definite integral is a limit of Riemann sums.
+limit integral
+
+# --- kinematics ---
+# Position is a length-valued function of time.
+length position
+time position
+function position
+# Displacement is the change in position over an interval.
+position displacement
+# Velocity is the time-derivative of position.
+position velocity
+time velocity
+derivative velocity
+# Speed is the magnitude of velocity.
+velocity speed
+# Acceleration is the time-derivative of velocity.
+velocity acceleration
+time acceleration
+derivative acceleration
+# The constant-acceleration formulae are obtained by integrating a constant
+# acceleration twice; they involve displacement, an initial velocity, and t^2.
+acceleration constant_acceleration_kinematics
+velocity constant_acceleration_kinematics
+displacement constant_acceleration_kinematics
+integral constant_acceleration_kinematics
+squaring constant_acceleration_kinematics
+newtonian_mechanics constant_acceleration_kinematics
+SI_units constant_acceleration_kinematics
+
+# --- Newton's laws ---
+# Force is a Newtonian dynamical quantity; it presupposes the Newtonian regime.
+newtonian_mechanics force
+SI_units force
+# The first law presupposes an inertial frame and the concept of net force.
+inertial_frame newton_first_law
+force newton_first_law
+newtonian_mechanics newton_first_law
+# The second law refines the first: it quantifies how a net force changes motion.
+newton_first_law newton_second_law
+mass newton_second_law
+force newton_second_law
+acceleration newton_second_law
+inertial_frame newton_second_law
+newtonian_mechanics newton_second_law
+constant_mass newton_second_law
+SI_units newton_second_law
+# The third law is a statement about interaction forces in the Newtonian regime.
+force newton_third_law
+newtonian_mechanics newton_third_law
+# A constant net force produces constant acceleration, feeding the kinematics set.
+newton_second_law constant_acceleration_kinematics
+
+# --- constitutive models ---
+# Weight is the near-surface, uniform-field limit of the gravitational force on a mass.
+mass weight
+uniform_gravity weight
+gravitational_field weight
+SI_units weight
+# The normal force is a contact reaction force (third law) perpendicular to a surface.
+force normal_force
+newton_third_law normal_force
+# Kinetic friction is modelled as proportional to the normal force.
+force friction_kinetic
+normal_force friction_kinetic
+# Hooke's law models a restoring force proportional to displacement from equilibrium.
+force hookes_law
+displacement hookes_law
+SI_units hookes_law
+
+# --- work and energy ---
+# Work is the line integral of force over displacement.
+force work
+displacement work
+integral work
+SI_units work
+# Newtonian kinetic energy is a function of mass and speed in an inertial frame,
+# valid only nonrelativistically, for a point particle.
+mass kinetic_energy
+speed kinetic_energy
+scalar_multiplication kinetic_energy
+squaring kinetic_energy
+SI_units kinetic_energy
+newtonian_mechanics kinetic_energy
+nonrelativistic kinetic_energy
+inertial_frame kinetic_energy
+point_particle kinetic_energy
+# The work-energy theorem is derived by integrating the second law along the path.
+newton_second_law work_energy_theorem
+work work_energy_theorem
+kinetic_energy work_energy_theorem
+integral work_energy_theorem
+# Potential energy is defined as minus the work done by a conservative force.
+work potential_energy
+conservative_force potential_energy
+work_energy_theorem potential_energy
+# A conservative force is minus the gradient of its potential energy.
+derivative force_from_potential
+potential_energy force_from_potential
+conservative_force force_from_potential
+# Uniform-field gravitational PE is the work to lift a weight through a height.
+mass gravitational_pe_uniform
+uniform_gravity gravitational_pe_uniform
+weight gravitational_pe_uniform
+potential_energy gravitational_pe_uniform
+length gravitational_pe_uniform
+# Elastic PE is the work stored in a Hookean spring.
+hookes_law elastic_pe
+potential_energy elastic_pe
+integral elastic_pe
+squaring elastic_pe
+# Mechanical energy is the sum of kinetic and potential energy.
+kinetic_energy mechanical_energy
+potential_energy mechanical_energy
+# Mechanical energy is conserved when only conservative forces do work.
+mechanical_energy conservation_of_mechanical_energy
+conservative_force conservation_of_mechanical_energy
+work_energy_theorem conservation_of_mechanical_energy
+isolated_system conservation_of_mechanical_energy
+# Power is the time rate of energy transfer / work.
+mechanical_energy power
+work power
+derivative power
+time power
+
+# --- momentum ---
+# Momentum is mass times velocity, nonrelativistically.
+mass momentum
+velocity momentum
+scalar_multiplication momentum
+nonrelativistic momentum
+newtonian_mechanics momentum
+SI_units momentum
+# Impulse is the time integral of force.
+force impulse
+time impulse
+integral impulse
+# The impulse-momentum theorem restates the second law in integral form.
+newton_second_law impulse_momentum_theorem
+impulse impulse_momentum_theorem
+momentum impulse_momentum_theorem
+# Total momentum is conserved for an isolated system (third law + impulse-momentum).
+newton_third_law conservation_of_momentum
+impulse_momentum_theorem conservation_of_momentum
+isolated_system conservation_of_momentum
+momentum conservation_of_momentum
+
+# --- simple harmonic motion ---
+# The small-angle approximation is a truncated Taylor limit of sine.
+trigonometry small_angle_approximation
+limit small_angle_approximation
+# SHM is the solution of the second law with a linear (Hookean) restoring force.
+trigonometry simple_harmonic_motion
+hookes_law simple_harmonic_motion
+newton_second_law simple_harmonic_motion
+derivative simple_harmonic_motion
+small_oscillation simple_harmonic_motion
+# The mass-spring angular frequency comes from substituting SHM into m x'' = -k x.
+hookes_law angular_frequency_shm
+mass angular_frequency_shm
+simple_harmonic_motion angular_frequency_shm
+newton_second_law angular_frequency_shm
+# Period is 2 pi over angular frequency.
+simple_harmonic_motion shm_period
+angular_frequency_shm shm_period
+trigonometry shm_period
+# The simple pendulum is SHM once the small-angle approximation linearises it.
+simple_harmonic_motion simple_pendulum
+small_angle_approximation simple_pendulum
+shm_period simple_pendulum
+weight simple_pendulum
+uniform_gravity simple_pendulum
+length simple_pendulum
+small_oscillation simple_pendulum
+
+# --- gravitation ---
+# Newton's law of gravitation: inverse-square attraction between point masses.
+mass newton_gravitation
+length newton_gravitation
+squaring newton_gravitation
+newtonian_mechanics newton_gravitation
+point_particle newton_gravitation
+SI_units newton_gravitation
+# Field strength is the gravitational force per unit test mass.
+newton_gravitation gravitational_field
+mass gravitational_field
+length gravitational_field
+squaring gravitational_field
+# Inverse-square gravitational PE is the work integral from infinity.
+newton_gravitation gravitational_pe_general
+potential_energy gravitational_pe_general
+integral gravitational_pe_general
+conservative_force gravitational_pe_general
+length gravitational_pe_general
+mass gravitational_pe_general
+
+# --- diagnostics ---
+# Dimensional analysis is a consistency check expressed in the chosen unit basis.
+SI_units dimension_analysis

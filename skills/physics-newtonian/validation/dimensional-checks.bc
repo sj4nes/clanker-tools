@@ -1,0 +1,45 @@
+/* Dimensional consistency checks, Release 0.1.
+ * Base dimensions tracked as exponent triples (M, L, T). A formula is
+ * dimensionally consistent iff LHS exponents == RHS exponents, component-wise.
+ * Run:  bc -q -l validation/dimensional-checks.bc
+ * bc has no vectors and no uppercase names, so each quantity is three lowercase
+ * scalars <q>m <q>l <q>t and each check prints "0 0 0" when consistent (LHS-RHS).
+ */
+scale = 0
+
+massm = 1; massl = 0; masst = 0        /* mass          M        */
+lenm  = 0; lenl  = 1; lent  = 0        /* length        L        */
+timm  = 0; timl  = 0; timt  = 1        /* time          T        */
+velm  = 0; vell  = 1; velt  = -1       /* velocity      L/T      */
+accm  = 0; accl  = 1; acct  = -2       /* acceleration  L/T^2    */
+frcm  = 1; frcl  = 1; frct  = -2       /* force         M L/T^2   */
+enem  = 1; enel  = 2; enet  = -2       /* energy        M L^2/T^2 */
+momm  = 1; moml  = 1; momt  = -1       /* momentum      M L/T     */
+powm  = 1; powl  = 2; powt  = -3       /* power         M L^2/T^3 */
+angm  = 0; angl  = 0; angt  = -1       /* angular freq  1/T       */
+sprm  = 1; sprl  = 0; sprt  = -2       /* spring const  M/T^2     */
+fldm  = 0; fldl  = 1; fldt  = -2       /* field / accel L/T^2     */
+grvm  = -1; grvl = 3; grvt  = -2       /* G             M^-1 L^3 T^-2 */
+
+print "check (LHS-RHS exponents, want 0 0 0):\n"
+print "F = m a          : ", frcm-(massm+accm), " ", frcl-(massl+accl), " ", frct-(masst+acct), "\n"
+print "K = 1/2 m v^2    : ", enem-(massm+2*velm), " ", enel-(massl+2*vell), " ", enet-(masst+2*velt), "\n"
+print "W = F x          : ", enem-(frcm+lenm), " ", enel-(frcl+lenl), " ", enet-(frct+lent), "\n"
+print "U = m g h        : ", enem-(massm+fldm+lenm), " ", enel-(massl+fldl+lenl), " ", enet-(masst+fldt+lent), "\n"
+print "U = 1/2 k x^2    : ", enem-(sprm+2*lenm), " ", enel-(sprl+2*lenl), " ", enet-(sprt+2*lent), "\n"
+print "p = m v          : ", momm-(massm+velm), " ", moml-(massl+vell), " ", momt-(masst+velt), "\n"
+print "J = F t  (= dp)  : ", momm-(frcm+timm), " ", moml-(frcl+timl), " ", momt-(frct+timt), "\n"
+print "P = F v          : ", powm-(frcm+velm), " ", powl-(frcl+vell), " ", powt-(frct+velt), "\n"
+print "w = sqrt(k/m)    : ", 2*angm-(sprm-massm), " ", 2*angl-(sprl-massl), " ", 2*angt-(sprt-masst), "\n"
+print "Tp= 2pi sqrt(L/g): ", 2*timm-(lenm-fldm), " ", 2*timl-(lenl-fldl), " ", 2*timt-(lent-fldt), "\n"
+print "F = G m m / r^2  : ", frcm-(grvm+2*massm), " ", frcl-(grvl+2*massl-2*lenl), " ", frct-(grvt+2*masst-2*lent), "\n"
+print "U = -G m m / r   : ", enem-(grvm+2*massm), " ", enel-(grvl+2*massl-lenl), " ", enet-(grvt+2*masst-lent), "\n"
+print "g = G M / r^2    : ", fldm-(grvm+massm), " ", fldl-(grvl+massl-2*lenl), " ", fldt-(grvt+masst-2*lent), "\n"
+
+print "\nspecial cases:\n"
+print "K at v=0         : ", 0.5*1*(0^2), " (want 0)\n"
+print "K(2v)/K(v)       : ", (2^2), " (want 4)\n"
+scale = 6
+print "sin(0.1) - 0.1   : ", s(0.1) - 0.1, " (small-angle leading error ~ -1.667e-4)\n"
+print "cos(0.1) approx 1: ", 1 - c(0.1), " (dropped term ~ 5.0e-3)\n"
+quit

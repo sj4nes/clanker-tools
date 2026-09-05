@@ -1,0 +1,5 @@
+/build/*
+!/build/*.sh
+/edges/dependencies.edges
+/validation/tsort-errors.txt
+/validation/*.out
