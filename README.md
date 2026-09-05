@@ -29,9 +29,9 @@ templates/
 
 ## Skills
 
-Each skill packages a disciplined workflow for one classic Unix tool — how an
+Each skill packages a disciplined workflow for one command-line tool — how an
 agent should use it carefully, what it must never be used for, and how to verify
-the result. All five follow the same shape: a `SKILL.md` with the core doctrine
+the result. They all follow the same shape: a `SKILL.md` with the core doctrine
 and `references/` holding the deep-dive material.
 
 | Skill | Purpose |
@@ -41,6 +41,7 @@ and `references/` holding the deep-dive material.
 | [`tsort`](skills/tsort/SKILL.md) | Deriving evidence-backed, dependency-respecting execution orders with `tsort` — migrations, rollouts, build/release stages — plus cycle detection and keeping planning separate from execution. Worked graphs and a planning script in [`references/`](skills/tsort/references/). |
 | [`ptx`](skills/ptx/SKILL.md) | Building a keyword-in-context index of curated project text for terminology mapping and exact-word discovery, then confirming every lead with `rg`/`grep`. Corpus design, discovery workflow, and command patterns in [`references/`](skills/ptx/references/). |
 | [`csplit`](skills/csplit/SKILL.md) | Splitting text files into context-defined sections (line number, regex boundary, repeated marker) into an isolated directory, with mandatory piece verification and lossless-reconstruction checks. Boundary semantics, format guidance, and a transactional template in [`references/`](skills/csplit/references/). |
+| [`tla-checker`](skills/tla-checker/SKILL.md) | Modelling bounded concurrent/distributed/transactional systems in a TLA+ subset with `tla-checker` — exhaustive state exploration, safety invariants, deadlock and bounded-liveness checks, and counterexample traces as debugging evidence. Analytics/modes and modeling guidance with worked examples in [`references/`](skills/tla-checker/references/). |
 
 ## Adding a skill
 
