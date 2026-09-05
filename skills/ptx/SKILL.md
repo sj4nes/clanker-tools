@@ -43,7 +43,7 @@ For exact source-level identifier search, prefer `rg -n -F -- 'exact_identifier'
 
 > A search for `cache` should not be assumed to find `caches`, `cached`, `caching`, `Cache`, `cache_key`, `cache-key`, `CacheKey`, or `redis_cache`.
 
-Depending on tokenization and options, punctuation and separators may split terms: `cache_key` may be indexed as the two words `cache` and `key` rather than the exact identifier. `RetryPolicy` may not be discoverable through `retry` or `policy` alone in a way that preserves identifier semantics. `ptx` may also treat capitalization differently by implementation and options — do not assume case sensitivity either way without testing locally.
+Depending on tokenization and options, punctuation and separators may split terms. Verified on GNU coreutils `ptx` 9.11, the default keyword regex is **letters only** (`[[:alpha:]]+`): `_`, `-`, and digits all break a word, so `cache_key` is indexed as `cache` and `key` and is *not* findable as `cache_key`; `retry-policy` becomes `retry` and `policy`; a CamelCase run like `RetryPolicy` stays whole (so `retry` alone will not find it). Case is preserved, not folded — matching is case-sensitive by default. Pass `-W '[A-Za-z0-9_]+'` to keep `snake_case` and digit-bearing identifiers atomic (see `references/language-and-patterns.md`). Always confirm the behavior of the installed `ptx` with the probe below before trusting recall.
 
 Therefore: use `ptx` to find exact vocabulary words in readable context; use `grep`/`rg` to confirm actual source occurrences; search morphological and naming-style variants explicitly; treat `ptx` output as a lead, not a complete result set.
 

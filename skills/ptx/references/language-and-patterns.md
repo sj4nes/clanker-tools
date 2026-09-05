@@ -14,7 +14,7 @@ For `retry`, search `retry Retry RETRY RetryPolicy`. Test whether the local `ptx
 
 ### Separator variants
 
-For the phrase `cache key`, search `cache key cache_key cache-key cacheKey CacheKey`. Because `ptx` may tokenize separators, a word-level match identifies nearby vocabulary but not a specific identifier. Confirm identifier forms with literal search:
+For the phrase `cache key`, search `cache key cache_key cache-key cacheKey CacheKey`. GNU `ptx`'s default keyword regex is letters-only (verified on coreutils 9.11), so `cache_key` and `cache-key` are only reachable through `cache` or `key`, and `cacheKey`/`CacheKey` stay whole. Confirm identifier forms with literal search:
 
 ```sh
 rg -n -F -- 'cache_key' .
@@ -22,6 +22,14 @@ rg -n -F -- 'cache-key' .
 rg -n -F -- 'cacheKey' .
 rg -n -F -- 'CacheKey' .
 ```
+
+To make `ptx` itself index `snake_case` and digit-bearing identifiers atomically, override the word regex (GNU `ptx` rejects `[[:alnum:]]`-style classes here — use explicit ranges):
+
+```sh
+ptx -A -W '[A-Za-z0-9_]+' "$corpus" > "$corpus.ident.ptx"   # cache_key indexed whole
+```
+
+Hyphenated tokens still split under that regex; add `-` to the class (`'[A-Za-z0-9_-]+'`) only if the corpus does not rely on `-` as ordinary punctuation.
 
 ### Stems and abbreviations
 
@@ -140,7 +148,12 @@ ptx .agent-ptx/docs-corpus.txt > .agent-ptx/docs.ptx
 # Search source after a ptx lead
 rg -n -i -C 5 -- 'authentication|authorization|credential|token|session' README.md docs src tests
 
-# Preserve line-oriented provenance
+# Preserve line-oriented provenance.
+# GNU ptx: -A emits `file:line:` on every rotation for free (verified on 9.11):
+find docs -type f -name '*.md' > .agent-ptx/files.txt
+ptx -A $(cat .agent-ptx/files.txt) > .agent-ptx/docs-located.ptx
+
+# Portable fallback (any ptx): fold provenance into the text before indexing.
 find docs -type f -name '*.md' -print0 |
 while IFS= read -r -d '' file; do
   nl -ba "$file" | sed "s|^|$file:|"

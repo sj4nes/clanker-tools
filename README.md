@@ -46,7 +46,8 @@ and `references/` holding the deep-dive material.
 ## Verification
 
 The runnable examples were exercised on macOS (BSD userland: `ed`, `tsort`,
-`csplit`) with GNU `bc` 7.x and `tla` 0.6.11. Findings folded back into the skills:
+`csplit`) with GNU `bc` 7.x, GNU `ptx` 9.11, and `tla` 0.6.11. Every skill has now
+been run against its real tool. Findings folded back into the skills:
 
 | Skill | Status | Notes |
 |---|---|---|
@@ -54,7 +55,7 @@ The runnable examples were exercised on macOS (BSD userland: `ed`, `tsort`,
 | `bc` | verified, **fixed** | The `x / 1` truncation idiom does **not** truncate on the macOS/FreeBSD `bc`; rounding helpers rewritten to drop to `scale = 0` for the division only. Base-conversion example corrected — after `ibase = 16`, `obase = 10` means base-16 ten, so set `obase` first or use `obase = A`. |
 | `tsort` | verified, **fixed** | BSD `tsort` exits `0` on a cycle (writes `cycle in data` to stderr); cycle detection now checks stderr, not just exit status. |
 | `csplit` | verified, **fixed** | BSD/macOS `csplit` lacks `{*}`, `-b`, `--`, `--suppress-matched`, `-z`, `--version`. Added a GNU-vs-BSD table and a portable numeric-split recipe (`grep -n` → line-number args); transactional template rewritten to run on both. |
-| `ptx` | partial | `ptx` is not in the macOS base system; the surrounding `find` / `grep` / `awk` corpus and search pipelines were verified, the `ptx` invocation itself was not. |
+| `ptx` | verified, **fixed** | Checked against GNU coreutils `ptx` 9.11. Confirmed the central caveat concretely: the default keyword regex is letters-only, so `cache_key` → `cache` + `key`, `retry-policy` → `retry` + `policy`, CamelCase stays whole, matching is case-sensitive. Added `-W '[A-Za-z0-9_]+'` to index identifiers atomically and `ptx -A` for free `file:line:` provenance; both verified. |
 | `tla-checker` | verified, **fixed** | Checked against `tla 0.6.11`. `Counter` reaches a deadlock at `x = Limit` — example now uses `--allow-deadlock` and explains why. `Lease` was missing an `epoch < MaxEpoch` guard (immediate `TypeOK` violation) and `EXTENDS FiniteSets` for `Cardinality`; both fixed, now 13 states clean. `RetryCharge` produces the claimed duplicate-charge counterexample. Added `--validate`, `--list-invariants`, `--trace-json` / `--save-counterexample` / `--replay`; version corrected from 0.3.11; verified JSON shape documented. |
 
 ## Adding a skill
