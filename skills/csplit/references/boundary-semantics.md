@@ -82,8 +82,10 @@ A repeat count applies to the immediately preceding pattern.
 
 ```sh
 csplit input.txt '/^---$/' '{3}'      # split on '---', repeat the regex 3 more times
-csplit input.txt '/^## /' '{*}'       # repeat as long as possible — many H2 sections
+csplit input.txt '/^## /' '{*}'       # GNU only: repeat as long as possible
 ```
+
+`{*}` is **GNU-only**. BSD/macOS `csplit` errors with `bad repetition count`, and its `{N}` + regex behavior is implementation-sensitive (it errors outright when the file's first line matches the pattern). The portable substitute is to enumerate the marker line numbers with `grep -n` and pass them as numeric split arguments — see "Portable form" in `SKILL.md` step 5. Reserve `{N}`/`{*}` for cases where you have already confirmed the local `csplit` handles them on the actual input.
 
 Repetition is dangerous when: the marker also occurs inside code blocks, examples, or prose; the file does not begin with an expected preamble; the final section lacks a trailing marker; an unexpected match creates many tiny fragments; the output count is not checked; or a repeated pattern eventually fails, leaving partial outputs if `-k` is enabled.
 
@@ -107,13 +109,19 @@ Required pattern:
 input=README.md
 outdir=.agent-csplit/readme-sections
 
-rm -rf -- "$outdir"      # only against a resolved, reviewed path
-mkdir -p -- "$outdir"
+rm -rf "$outdir"        # only against a resolved, reviewed path
+mkdir -p "$outdir"
 
-csplit -f "$outdir/section-" -b '%03d.md' -s -- "$input" '/^## /' '{*}'
+# GNU:
+csplit -s -f "$outdir/section-" -b '%03d.md' -- "$input" '/^## /' '{*}'
+# Portable (GNU + BSD/macOS): numeric splits from grep -n, then rename.
+lines=$(grep -n '^## ' "$input" | cut -d: -f1)
+case $(sed -n '1p' "$input") in '## '*) lines=$(printf '%s\n' "$lines" | tail -n +2);; esac
+csplit -s -f "$outdir/section-" -n 3 "$input" $lines
+for f in "$outdir"/section-[0-9]*; do mv "$f" "$f.md"; done
 ```
 
-Before using it: confirm the local `csplit` supports `-b`; confirm the output directory is agent scratch space, not a source directory; confirm it is safe to remove/recreate; never run `rm -rf` against an unresolved path. Prefer a unique directory when persistent names are unnecessary:
+Before using it: confirm the output directory is agent scratch space, not a source directory; confirm it is safe to remove/recreate; never run `rm -rf` against an unresolved path. Prefer a unique directory when persistent names are unnecessary:
 
 ```sh
 outdir=$(mktemp -d "${TMPDIR:-/tmp}/agent-csplit.XXXXXX") || exit 1

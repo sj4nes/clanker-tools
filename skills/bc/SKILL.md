@@ -198,31 +198,40 @@ Do not compress a significant formula into one line if that makes it hard to ins
 
 Standard `bc` truncates; it does not automatically apply "round half up" or banker's rounding. To round a positive `x` to `d` places: `round(x,d) = floor(x * 10^d + 0.5) / 10^d`.
 
+Truncation itself is not portable as a bare `x / 1`: on GNU `bc` `x / 1` truncates, but on the `bc` that ships with macOS and FreeBSD (Gavin Howard's `bc`) it keeps the ambient `scale`, so `1235.06 / 1` is `1235.060000…`, not `1235`. The portable idiom is to drop to `scale = 0` only for the division and restore it:
+
 ```sh
 bc <<'BC'
 scale = 12
 
 define roundpos(x, d) {
-    auto f
-    f = 10 ^ d
-    return ((x * f + 0.5) / 1) / f
+    auto os, r
+    os = scale
+    scale = 0
+    r = (x * (10 ^ d) + 0.5) / 1
+    scale = d
+    return r / (10 ^ d)
 }
 
 roundpos(12.3456, 2)
+roundpos(67.9915, 2)
 BC
 ```
 
-produces `12.35`. The `/ 1` truncates toward zero, producing the integer part for positive values. For values that may be negative, use a sign-aware definition:
+produces `12.35` and `67.99`. The multiplication `x * (10 ^ d)` is exact regardless of `scale`; only the `/ 1` needs `scale = 0` to truncate; `scale = d` before the final division makes the printed result carry exactly `d` places. For values that may be negative, use a sign-aware definition:
 
 ```sh
 bc <<'BC'
 scale = 12
 
 define roundhalfaway(x, d) {
-    auto f
-    f = 10 ^ d
-    if (x >= 0) return ((x * f + 0.5) / 1) / f
-    return ((x * f - 0.5) / 1) / f
+    auto os, r
+    os = scale
+    scale = 0
+    if (x >= 0) r = (x * (10 ^ d) + 0.5) / 1
+    if (x < 0)  r = (x * (10 ^ d) - 0.5) / 1
+    scale = d
+    return r / (10 ^ d)
 }
 
 roundhalfaway(12.3456, 2)
@@ -230,7 +239,7 @@ roundhalfaway(-12.3456, 2)
 BC
 ```
 
-Use this only when "half away from zero" is the required convention. Do not claim it is banker's rounding or a jurisdiction-specific standard.
+produces `12.35` and `-12.35`. Use this only when "half away from zero" is the required convention. Do not claim it is banker's rounding or a jurisdiction-specific standard.
 
 For currency or regulated financial work, determine the required rounding rule first: truncation; half away from zero; half up; half to even (banker's rounding); round at each line item; or round only after aggregation. These produce different results — state the one used.
 
@@ -243,7 +252,7 @@ result=$(
   bc <<'BC'
 scale = 12
 x = 79.99 * (1 - 15 / 100)
-define roundpos(x, d) { auto f; f = 10 ^ d; return ((x * f + 0.5) / 1) / f }
+define roundpos(x, d) { auto os, r; os = scale; scale = 0; r = (x * (10 ^ d) + 0.5) / 1; scale = d; return r / (10 ^ d) }
 roundpos(x, 2)
 BC
 )

@@ -76,10 +76,25 @@ Do **not** use `csplit` as the primary tool for: refactoring source code in any 
 
 ```sh
 command -v csplit
-csplit --version   # or: csplit --help / man csplit
+csplit --version   # GNU only; BSD/macOS csplit rejects it — use: man csplit
 ```
 
 Confirm support and behavior for the options you plan to use: `-f PREFIX`, `-n DIGITS`, `-b FORMAT`, `-s`, `-z`, `-k`, `--suppress-matched`. GNU `csplit` supports all of these; platform support can differ. Do not use GNU long options in a portability-sensitive environment until local help confirms they exist.
+
+**GNU vs BSD/macOS `csplit` — verified differences.** The `csplit` on macOS and the BSDs is a different, smaller implementation. It supports only `csplit [-ks] [-f prefix] [-n number] file args...`. Specifically it does **not** support:
+
+| Feature | GNU | BSD/macOS | Portable approach |
+|---|---|---|---|
+| `{*}` (repeat to exhaustion) | yes | **no** — errors `bad repetition count` | Count the markers first (`grep -c`), then use `{N}` with N = matches − 1 (the first piece plus one per remaining match) |
+| `-b FORMAT` / `--suffix-format` | yes | **no** | `-f PREFIX -n DIGITS` → files are `PREFIX00`, `PREFIX01`, … (no extension; rename afterward if a consumer needs one) |
+| `--` end-of-options | yes | **no** — treated as a bad option | Put the filename right after the options; guard leading-dash filenames with `./` |
+| `--suppress-matched` | yes | **no** | Strip boundary lines in a second pass (`sed`/`grep -v`) after the split, and document the transformation |
+| `-z` / `--elide-empty-files` | yes | **no** | Delete zero-byte pieces explicitly after verifying they are spurious |
+| `--version` / `--help` | yes | **no** | `man csplit` |
+
+What BSD/macOS `csplit` *does* honor: `-s` (quiet), `-k` (keep files on error — and it does retain partial output on failure), `-f`, `-n`, line-number and `/REGEXP/` and `%REGEXP%` patterns with `+N`/`-N` offsets, and `{N}` numeric repeat. Reconstruction from `cat PREFIX*` is byte-exact when suffixes are zero-padded.
+
+Every command block below marked *(GNU)* uses `{*}`, `-b`, `--`, or `--suppress-matched`; on BSD/macOS translate it using the table above before running.
 
 ## Input safety check
 
@@ -142,12 +157,27 @@ Descriptive prefix + suffix (`section-000.md`, `request-000.log`, `case-000.txt`
 Use `-s` to suppress byte-count noise once validation data is independently recorded.
 
 ```sh
-input=README.md
-outdir=.agent-csplit/readme-h2
-mkdir -p -- "$outdir"
-
+# GNU shorthand:
 csplit -s -f "$outdir/section-" -b '%03d.md' -- "$input" '/^## /' '{*}'
 ```
+
+**Portable form (works on GNU and BSD/macOS): split on the line numbers of the markers.** BSD `csplit`'s regex + `{N}` repetition is fiddly — it errors when the file starts with a marker and the repeat count is implementation-sensitive. Deriving explicit line numbers from `grep -n` sidesteps all of that:
+
+```sh
+input=README.md
+outdir=.agent-csplit/readme-h2
+mkdir -p "$outdir"
+
+# Every marker line number; drop the first only if the file starts with a marker
+# (splitting at line 1 would create an empty leading piece).
+lines=$(grep -n '^## ' "$input" | cut -d: -f1)
+case $(sed -n '1p' "$input") in '## '*) lines=$(printf '%s\n' "$lines" | tail -n +2);; esac
+
+csplit -s -f "$outdir/section-" -n 3 "$input" $lines
+for f in "$outdir"/section-[0-9]*; do mv "$f" "$f.md"; done
+```
+
+Each numeric argument `L` ends a piece just before line `L`, so the marker line begins the next piece — the same semantics as `/^## /`. Verify the piece count immediately: it is `(number of markers) + 1` when there is a preamble, `(number of markers)` when the file starts with a marker.
 
 Do not add `-k` by default — on failure, default behavior removes output pieces, reducing the chance partial results are mistaken for a complete corpus. Use `-k` only to debug a failed split, and label the directory incomplete. Never consume partial outputs automatically.
 

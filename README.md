@@ -43,6 +43,20 @@ and `references/` holding the deep-dive material.
 | [`csplit`](skills/csplit/SKILL.md) | Splitting text files into context-defined sections (line number, regex boundary, repeated marker) into an isolated directory, with mandatory piece verification and lossless-reconstruction checks. Boundary semantics, format guidance, and a transactional template in [`references/`](skills/csplit/references/). |
 | [`tla-checker`](skills/tla-checker/SKILL.md) | Modelling bounded concurrent/distributed/transactional systems in a TLA+ subset with `tla-checker` — exhaustive state exploration, safety invariants, deadlock and bounded-liveness checks, and counterexample traces as debugging evidence. Analytics/modes and modeling guidance with worked examples in [`references/`](skills/tla-checker/references/). |
 
+## Verification
+
+The runnable examples were exercised on macOS (BSD userland: `ed`, `tsort`,
+`csplit`) with GNU `bc` 7.x. Findings folded back into the skills:
+
+| Skill | Status | Notes |
+|---|---|---|
+| `ed` | verified | All `SKILL.md` and `references/` examples run as written on BSD `ed`. |
+| `bc` | verified, **fixed** | The `x / 1` truncation idiom does **not** truncate on the macOS/FreeBSD `bc`; rounding helpers rewritten to drop to `scale = 0` for the division only. Base-conversion example corrected — after `ibase = 16`, `obase = 10` means base-16 ten, so set `obase` first or use `obase = A`. |
+| `tsort` | verified, **fixed** | BSD `tsort` exits `0` on a cycle (writes `cycle in data` to stderr); cycle detection now checks stderr, not just exit status. |
+| `csplit` | verified, **fixed** | BSD/macOS `csplit` lacks `{*}`, `-b`, `--`, `--suppress-matched`, `-z`, `--version`. Added a GNU-vs-BSD table and a portable numeric-split recipe (`grep -n` → line-number args); transactional template rewritten to run on both. |
+| `ptx` | partial | `ptx` is not in the macOS base system; the surrounding `find` / `grep` / `awk` corpus and search pipelines were verified, the `ptx` invocation itself was not. |
+| `tla-checker` | unverified | Requires building the `tla` binary from source; not available in this environment. TLA+ snippets are written to the documented supported subset but were not machine-checked. |
+
 ## Adding a skill
 
 1. `cp -r templates/skill-template skills/<name>`

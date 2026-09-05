@@ -1,5 +1,7 @@
 # `csplit` format-specific guidance, failure modes, and template
 
+The command blocks in this section use the **GNU** shorthand (`-b`, `--`, `{*}`). On BSD/macOS `csplit`, translate each with the portable numeric-split recipe from `SKILL.md` step 5: `lines=$(grep -n 'MARKER' "$input" | cut -d: -f1)` (drop the first if the file starts with a marker), then `csplit -s -f "$outdir/piece-" -n N "$input" $lines`, renaming afterward if a consumer needs an extension.
+
 ## Markdown
 
 Good candidates: `'/^# /'`, `'/^## /'`, `'/^### /'`. Before splitting, check whether headings appear inside fenced code blocks; whether Setext headings are used; whether headings are escaped, quoted, generated, or duplicated; whether the document begins with a title that should stay in a preamble piece; and whether the preamble should become its own output piece.
@@ -67,7 +69,8 @@ Permissible read-only use: split an intentionally generated, line-delimited Rust
 
 ## Transactional split template
 
-Lossless, review-oriented split:
+Lossless, review-oriented split. Uses numeric splits from `grep -n`, so it runs on
+both GNU and BSD/macOS `csplit` (verified on macOS `csplit` and GNU coreutils):
 
 ```sh
 #!/bin/sh
@@ -75,28 +78,37 @@ set -eu
 
 input=${1:?usage: split-sections.sh INPUT OUTPUT_DIR}
 outdir=${2:?usage: split-sections.sh INPUT OUTPUT_DIR}
+marker=${3:-^## }
 
 test -f "$input"
 test ! -e "$outdir"
-mkdir -p -- "$outdir"
+mkdir -p "$outdir"
 
-grep -n -- '^## ' "$input" > "$outdir/boundaries.txt"
+grep -n -- "$marker" "$input" > "$outdir/boundaries.txt" || {
+  printf 'no marker matches: %s\n' "$marker" >&2; exit 1; }
 
-csplit -s -f "$outdir/section-" -b '%03d.md' -- "$input" '/^## /' '{*}'
+# Split line numbers = marker lines, minus line 1 if the file opens on a marker
+# (a split at line 1 would make an empty leading piece).
+lines=$(cut -d: -f1 "$outdir/boundaries.txt")
+if [ "$(printf '%s\n' "$lines" | head -n1)" = 1 ]; then
+  lines=$(printf '%s\n' "$lines" | tail -n +2)
+fi
 
-find "$outdir" -maxdepth 1 -type f -name 'section-*.md' -print |
+# shellcheck disable=SC2086
+csplit -s -f "$outdir/section-" -n 3 "$input" $lines
+
+find "$outdir" -maxdepth 1 -type f -name 'section-*' -print |
   LC_ALL=C sort > "$outdir/pieces.txt"
 test -s "$outdir/pieces.txt"
 
 while IFS= read -r piece; do
-  printf '%s: ' "$piece"
-  head -n 1 "$piece"
+  printf '%s: ' "$piece"; head -n 1 "$piece"
 done < "$outdir/pieces.txt" > "$outdir/piece-starts.txt"
 
-cat "$outdir"/section-*.md > "$outdir/reconstructed.md"
-cmp -s -- "$input" "$outdir/reconstructed.md"
+cat "$outdir"/section-* > "$outdir/reconstructed"
+cmp -s "$input" "$outdir/reconstructed"
 
 printf '%s\n' 'Split completed and reconstruction is byte-identical.'
 ```
 
-This template refuses to overwrite an existing output directory, records candidate boundaries, splits into a dedicated location, records output pieces, captures each piece's first line for review, reconstructs the original file, and uses `cmp` to require byte-for-byte equivalence. Adapt the boundary pattern, suffix, extension, and validation criteria to the input format. Do not copy it blindly into a non-GNU environment without checking `csplit` option support.
+This template refuses to overwrite an existing output directory, records candidate boundaries, splits into a dedicated location, records output pieces, captures each piece's first line for review, reconstructs the original file, and uses `cmp` to require byte-for-byte equivalence. Adapt the marker, digit width, and validation criteria to the input format.

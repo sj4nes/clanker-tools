@@ -166,20 +166,24 @@ Unexpected roots often indicate missing prerequisites. Unexpected leaves may mea
 
 ### 6. Run `tsort`
 
+**Do not rely on exit status alone to detect a cycle.** GNU `tsort` exits non-zero on a cycle, but the BSD `tsort` that ships with macOS prints `tsort: cycle in data` to stderr, still emits a (meaningless) ordering, and exits `0`. Check stderr as well:
+
 ```sh
-if tsort dependencies.edges > execution-order.txt 2> tsort-errors.txt; then
-  printf '%s\n' 'Topological sort succeeded.'
-else
-  printf '%s\n' 'Topological sort failed; inspect tsort-errors.txt.' >&2
+tsort dependencies.edges > execution-order.txt 2> tsort-errors.txt
+status=$?
+
+if [ "$status" -ne 0 ] || [ -s tsort-errors.txt ]; then
+  printf '%s\n' 'Topological sort failed or reported a cycle; inspect tsort-errors.txt.' >&2
+  cat tsort-errors.txt >&2
   exit 1
 fi
+printf '%s\n' 'Topological sort succeeded.'
 ```
 
-- Exit `0`: `execution-order.txt` is a valid topological ordering *for the supplied graph*.
-- Nonzero with cycle diagnostics: the graph contains a cycle or invalid input.
-- Nonzero with parsing/operational errors: inspect the edge file and tool output.
+- Exit `0` **and** empty stderr: `execution-order.txt` is a valid topological ordering *for the supplied graph*.
+- Any stderr output (`cycle in data`, `odd data`, parse errors) or non-zero exit: the graph contains a cycle or invalid input.
 
-Do not proceed with execution if `tsort` returns a nonzero status.
+Do not proceed with execution if `tsort` wrote anything to stderr or returned a non-zero status. A cross-check that catches a cycle on every implementation: a cyclic graph still prints every node, so compare the ordered-node count with the unique-node count *and* scan stderr — if stderr mentions `cycle`, stop.
 
 ### 7. Verify the proposed order
 

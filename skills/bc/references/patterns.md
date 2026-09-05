@@ -164,23 +164,23 @@ Keep operands integral when using `%`. Modulo has no intuitive meaning for decim
 
 ## Base conversion
 
-`bc` supports input/output bases via `ibase` and `obase`. Once `ibase` changes, subsequent numeric literals are interpreted in the new base. Reliable procedure:
-
-1. Set `ibase`.
-2. Enter or assign the input value.
-3. Set `obase`.
-4. Print the stored value.
+`bc` supports input/output bases via `ibase` and `obase`. The trap: **once `ibase` changes, every later numeric literal — including the one you assign to `obase` — is read in the new base.** After `ibase = 16`, writing `obase = 10` sets `obase` to sixteen (`10` base 16), so a hex-to-decimal conversion silently prints hex. Set `obase` *first*, or use the hex digit `A` for ten:
 
 ```sh
 bc <<'BC'
+obase = A
 ibase = 16
-n = FF
-obase = 10
-n
+FF
 BC
 ```
 
-Expected: `255`. Decimal to hex:
+Expected: `255`. Or keep it on one line with `obase` before `ibase`:
+
+```sh
+echo 'obase=10; ibase=16; FF' | bc     # => 255
+```
+
+Decimal to hex needs no such care (`ibase` stays 10):
 
 ```sh
 bc <<'BC'
@@ -189,19 +189,24 @@ obase = 16
 BC
 ```
 
-Expected: `FF`. Restore `ibase = A` when working in hex and needing decimal 10, or use a fresh session to avoid ambiguity. Use base conversion for integer values only unless fractional-digit behavior has been confirmed on the installed implementation.
+Expected: `FF`. Prefer a fresh `bc` invocation per conversion to avoid leftover base state. Use base conversion for integer values only unless fractional-digit behavior has been confirmed on the installed implementation.
 
 ## Reusable `define` functions
 
 Keep functions small and document assumptions.
 
-Positive-value rounding:
+Positive-value rounding (half away from zero). Drops to `scale = 0` only for the
+truncating division so it works on both GNU `bc` and the macOS/FreeBSD `bc`, where
+a bare `x / 1` does not truncate:
 
 ```bc
 define roundpos(x, d) {
-    auto f
-    f = 10 ^ d
-    return ((x * f + 0.5) / 1) / f
+    auto os, r
+    os = scale
+    scale = 0
+    r = (x * (10 ^ d) + 0.5) / 1
+    scale = d
+    return r / (10 ^ d)
 }
 ```
 

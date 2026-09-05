@@ -28,8 +28,12 @@ awk '
 LC_ALL=C sort -u "$edge_file" > "$edge_file.sorted"
 mv "$edge_file.sorted" "$edge_file"
 
-if ! tsort "$edge_file" > "$order_file" 2> "$error_file"; then
+tsort "$edge_file" > "$order_file" 2> "$error_file" || true
+# BSD/macOS tsort exits 0 on a cycle but writes "tsort: cycle in data" to stderr,
+# so treat ANY stderr output as failure, not just a non-zero exit.
+if [ -s "$error_file" ]; then
   printf '%s\n' "Dependency graph is invalid or cyclic; see $error_file." >&2
+  cat "$error_file" >&2
   exit 1
 fi
 
