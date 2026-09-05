@@ -67,7 +67,15 @@ Use to find when an invariant begins to fail as a count grows, whether retries i
 tla formal/protocol.tla --config formal/protocol.cfg --json > formal/artifacts/protocol-result.json
 ```
 
-Output includes a `properties` array and can include `depth_breakdown` per property. Store JSON in a generated-artifacts directory; do not overwrite evidence from distinct runs unless the workflow uses versioned results.
+Verified shape (`tla 0.6.11`): a passing run is `{"status": "ok", "stats": {"states_explored", "transitions", "max_depth", "elapsed_secs"}}`. A failing run adds a `trace` array of `{index, action, state}`. With one or more `--count-satisfying NAME`, a `properties` array is added, each entry `{name, satisfied, violated, errors, total, ratio, depth_breakdown:[{depth, satisfied, total}]}`. Store JSON in a generated-artifacts directory; do not overwrite evidence from distinct runs unless the workflow uses versioned results.
+
+### `--trace-json` / `--save-counterexample` / `--replay`
+
+`--trace-json FILE` writes just the counterexample trace as state-by-state JSON; `--save-counterexample FILE` writes the trace plus replay metadata; `--replay FILE` re-runs a saved counterexample interactively. Use the pair as a regression check: save the trace when a violation is found, fix the model or design, then `--replay` to confirm the sequence is no longer possible.
+
+### `--validate` / `--list-invariants`
+
+`--validate` parses and checks the spec (variable/constant/invariant/definition counts) without exploring — the fastest syntax-iteration loop. `--list-invariants` prints exactly which definitions were auto-detected as invariants; run it whenever a check passes suspiciously fast to confirm your `Inv…` / `TypeOK` names were picked up.
 
 ### `--verbose`
 
@@ -114,7 +122,9 @@ Error states are highlighted red; trace edges are red and emphasized. Use DOT gr
 ## Command patterns
 
 ```sh
-# Fast syntax / model iteration
+# Syntax-only check (no exploration), then quick model iteration
+tla formal/protocol.tla --validate --config formal/protocol.cfg
+tla formal/protocol.tla --list-invariants --config formal/protocol.cfg
 tla formal/protocol.tla --config formal/protocol.cfg --quick
 
 # Full bounded safety check

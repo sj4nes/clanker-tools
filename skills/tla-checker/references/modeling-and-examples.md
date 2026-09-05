@@ -131,7 +131,7 @@ The model intentionally permits a retry while the request is already `"processin
 
 ```tla
 ---- MODULE Lease ----
-EXTENDS Naturals
+EXTENDS Naturals, FiniteSets
 
 CONSTANT Nodes, MaxEpoch
 None == "none"
@@ -146,6 +146,7 @@ Init == owner = None /\ epoch = 0 /\ active = {}
 
 Acquire(n) ==
     /\ n \in Nodes /\ owner = None
+    /\ epoch < MaxEpoch                 \* bound epoch so it stays within TypeOK
     /\ owner' = n /\ epoch' = epoch + 1 /\ active' = {n}
 
 Release(n) ==
@@ -162,7 +163,21 @@ InvOwnerMatchesActive ==
 ====
 ```
 
-Intentionally simplistic. To model a real distributed lease, add separate local views, clock/epoch behavior, delayed observations, expiration, persistence, and retry behavior — increase fidelity only where it affects the property.
+```text
+CONSTANT Nodes = {"n1", "n2", "n3"}
+CONSTANT MaxEpoch = 3
+INIT Init
+NEXT Next
+INVARIANT TypeOK
+INVARIANT InvSingleActiveOwner
+INVARIANT InvOwnerMatchesActive
+```
+
+```sh
+tla Lease.tla --config Lease.cfg --allow-deadlock   # 13 reachable states, no violations
+```
+
+Two things this small model illustrates. **`Cardinality` needs `FiniteSets`** — `tla-checker` happens to resolve it without the `EXTENDS`, but TLC and the wider ecosystem do not, so declare it. **The `epoch < MaxEpoch` guard is not cosmetic**: without it `Acquire` keeps incrementing `epoch` past `MaxEpoch`, immediately violating `TypeOK` (`epoch \in 0..MaxEpoch`). And the model deadlocks once no lease is held and every epoch is spent — that terminal state is legitimate here, hence `--allow-deadlock`. To model a real distributed lease, add separate local views, clock/epoch behavior, delayed observations, expiration, persistence, and retry behavior — increase fidelity only where it affects the property.
 
 ## Iterative refinement strategy
 

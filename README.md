@@ -46,7 +46,7 @@ and `references/` holding the deep-dive material.
 ## Verification
 
 The runnable examples were exercised on macOS (BSD userland: `ed`, `tsort`,
-`csplit`) with GNU `bc` 7.x. Findings folded back into the skills:
+`csplit`) with GNU `bc` 7.x and `tla` 0.6.11. Findings folded back into the skills:
 
 | Skill | Status | Notes |
 |---|---|---|
@@ -55,7 +55,7 @@ The runnable examples were exercised on macOS (BSD userland: `ed`, `tsort`,
 | `tsort` | verified, **fixed** | BSD `tsort` exits `0` on a cycle (writes `cycle in data` to stderr); cycle detection now checks stderr, not just exit status. |
 | `csplit` | verified, **fixed** | BSD/macOS `csplit` lacks `{*}`, `-b`, `--`, `--suppress-matched`, `-z`, `--version`. Added a GNU-vs-BSD table and a portable numeric-split recipe (`grep -n` → line-number args); transactional template rewritten to run on both. |
 | `ptx` | partial | `ptx` is not in the macOS base system; the surrounding `find` / `grep` / `awk` corpus and search pipelines were verified, the `ptx` invocation itself was not. |
-| `tla-checker` | unverified | Requires building the `tla` binary from source; not available in this environment. TLA+ snippets are written to the documented supported subset but were not machine-checked. |
+| `tla-checker` | verified, **fixed** | Checked against `tla 0.6.11`. `Counter` reaches a deadlock at `x = Limit` — example now uses `--allow-deadlock` and explains why. `Lease` was missing an `epoch < MaxEpoch` guard (immediate `TypeOK` violation) and `EXTENDS FiniteSets` for `Cardinality`; both fixed, now 13 states clean. `RetryCharge` produces the claimed duplicate-charge counterexample. Added `--validate`, `--list-invariants`, `--trace-json` / `--save-counterexample` / `--replay`; version corrected from 0.3.11; verified JSON shape documented. |
 
 ## Adding a skill
 

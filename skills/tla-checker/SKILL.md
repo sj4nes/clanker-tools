@@ -60,10 +60,12 @@ InvNeverExceedsLimit == x <= Limit
 ```
 
 ```sh
-tla Counter.tla -c 'Limit=5'
+tla Counter.tla --validate -c 'Limit=5'    # parse + check; no exploration
+tla Counter.tla --list-invariants -c 'Limit=5'
+tla Counter.tla -c 'Limit=5' --allow-deadlock
 ```
 
-Definitions beginning with `Inv`, `TypeOK`, or `NotSolved` are automatically checked.
+Definitions beginning with `Inv`, `TypeOK`, or `NotSolved` are automatically checked (`--list-invariants` prints exactly what was detected — run it whenever a check passes suspiciously fast, to confirm your invariants were actually picked up). This `Counter` **reaches a deadlock** at `x = Limit`: once `x` equals `Limit` no `Next` disjunct is enabled, so a plain `tla Counter.tla -c 'Limit=5'` exits non-zero with a deadlock trace. Here that terminal state is intended, so `--allow-deadlock` is correct; alternatively add a `x = Limit /\ x' = x` stutter disjunct. Treat every deadlock this deliberately — see the deadlock policy below.
 
 ## Required operating principles
 
@@ -87,7 +89,7 @@ tla --help
 tla --version   # or record the git revision / crate version used
 ```
 
-Do not assume a globally installed `tla` binary is this tool — confirm its help output contains the expected options: `--max-states`, `--max-depth`, `--config`, `--allow-deadlock`, `--check-liveness`, `--scenario`, `--export-dot`, `--json`. (Documented release line includes 0.3.11, May 2026, Rust 2024.)
+Do not assume a globally installed `tla` binary is this tool — confirm its help output contains the expected options: `--max-states`, `--max-depth`, `--config`, `--allow-deadlock`, `--check-liveness`, `--scenario`, `--export-dot`, `--json`, `--validate`, `--list-invariants`. (Verified against `tla 0.6.11`.)
 
 ## Supported subset and constraints
 
@@ -144,7 +146,7 @@ Init ==
     /\ retries = [j \in Jobs |-> 0]
 ```
 
-Iterate with `--quick` (caps exploration at 10,000 states — not a complete pass if the reachable space is larger).
+Iterate on syntax with `--validate` (parse and check, no exploration), then on early behavior with `--quick` (caps exploration at 10,000 states — not a complete pass if the reachable space is larger).
 
 ### 5. Model actions with primed state
 
@@ -228,7 +230,9 @@ When an invariant fails, the checker reports a trace with state differences and 
 | Missing state/model behavior | Model omits a relevant condition or transition | Correct model, then re-run all checks |
 | Incorrect invariant | Property is stronger/different than the actual requirement | Restate requirement and revise only with evidence |
 
-Workflow: save the command + exact model/config; identify the first violating state; list preceding actions and changed values; translate each abstract transition into the real-system event; confirm whether the execution is possible under intended production semantics; determine whether the issue is design, model, or requirement; add a narrowly scoped fix or guard; re-run the smallest reproducing configuration; expand bounds again; keep the counterexample scenario/trace as a regression artifact. Do not add an invariant that merely excludes the failing state unless it corresponds to a genuine protocol condition the system enforces.
+Workflow: save the command + exact model/config; identify the first violating state; list preceding actions and changed values; translate each abstract transition into the real-system event; confirm whether the execution is possible under intended production semantics; determine whether the issue is design, model, or requirement; add a narrowly scoped fix or guard; re-run the smallest reproducing configuration; expand bounds again; keep the counterexample as a regression artifact. Do not add an invariant that merely excludes the failing state unless it corresponds to a genuine protocol condition the system enforces.
+
+Capture the trace with `--trace-json FILE` (state-by-state JSON) or `--save-counterexample FILE` (trace plus metadata for replay); re-run it later with `--replay FILE` to confirm a fix removed it. The failing-run JSON (`--json`) embeds the trace as a `trace` array of `{index, action, state}` and `stats` as `{states_explored, transitions, max_depth, elapsed_secs}`; with `--count-satisfying` it adds a `properties` array of `{name, satisfied, violated, errors, total, ratio, depth_breakdown}`.
 
 ## References
 
