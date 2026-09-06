@@ -286,11 +286,10 @@ effects, and dropout can invalidate it.
 - [`templates/decision-report.md`](templates/decision-report.md) — the final
   decision report.
 
-[`verification/`](verification/) (`sh verification/run.sh`, ~15 s) exercises the
-prescribed steps on tractable cases with known answers — the `bc` sample-size
-formula and its adjustments, a Monte Carlo of realized power / design effect /
-the pseudoreplication false-positive rate / ANCOVA variance reduction, and the
-2^(4−1) alias structure derived two independent ways.
+[`verification/`](verification/) (`sh verification/run.sh`) checks the `bc`
+sample-size formula and its adjustments, a Monte Carlo of power / design effect /
+the pseudoreplication false-positive rate / ANCOVA, and a 2^(4−1) alias
+structure derived two ways.
 
 ## Completion report
 
