@@ -1,0 +1,48 @@
+id: distributions.poisson_distribution
+node: poisson_distribution
+status_label: definition
+display: 'X ~ Poisson(lambda), lambda > 0: P(X = k) = e^{-lambda} lambda^k / k! for k = 0, 1, 2, .... E[X] = Var(X) = lambda. M_X(t) = exp(lambda(e^t - 1)).'
+parseable: 'P(X = k) = e^{-lambda} lambda^k / k! ;  E = Var = lambda'
+symbols:
+  'X': 'a Poisson count, type: Omega -> {0,1,2,...}'
+  'lambda': 'the rate / mean, type: positive real'
+type_check_status: well_formed
+type_check_note: 'the law of counts of rare events: the limit of Binomial(n, lambda/n) as n -> inf (poisson_limit_theorem), and the one-parameter family with equal mean and variance. Sums of independent Poissons are Poisson (rates add).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'expectation'
+  - 'mgf'
+  - 'pmf'
+  - 'series_convergence'
+  - 'variance'
+proof:
+  technique: 'mean: sum k e^{-lambda} lambda^k/k! = lambda sum e^{-lambda} lambda^{k-1}/(k-1)! = lambda. Variance via E[X(X-1)] = lambda^2 then Var = lambda^2 + lambda - lambda^2. MGF: sum e^{tk} e^{-lambda} lambda^k/k! = e^{-lambda} e^{lambda e^t}'
+  derives_from: 'series_convergence'
+  lean_status: core
+  lean_ref: 'validation/instance-checks.bc -- Poisson(2) E and Var = 2'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'number of decay events per second; typos per page; arrivals in a fixed interval of a Poisson process'
+  - 'lambda large: Poisson(lambda) approx N(lambda, lambda) (a CLT via the sum-of-Poissons representation)'
+  - 'the index of dispersion Var/mean = 1 -- overdispersed count data (Var > mean) needs negative binomial instead'
+counterexamples_when_dropped:
+  lambda_gt_0: 'lambda = 0 degenerates to X = 0 a.s.'
+  equal_mean_and_variance: 'real count data with Var > mean (contagion, heterogeneity) is NOT Poisson -- fitting Poisson underestimates the variance and overstates significance'
+common_misuse:
+  - 'using Poisson for overdispersed counts'
+  - 'assuming independence of counts in disjoint intervals without the Poisson-process assumption'
+related:
+  limit_of: ['binomial_distribution (poisson_limit_theorem)']
+  overdispersed_alternative: ['negative binomial']
+  process_version: ['Poisson process (boundary)']
+sources:
+  - 'grimmett_stirzaker'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#poisson_distribution
+  specialization: validation/specialization-cases.md#poisson_distribution
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#poisson_distribution

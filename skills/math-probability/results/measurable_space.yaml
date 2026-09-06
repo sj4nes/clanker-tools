@@ -1,0 +1,35 @@
+id: measure.measurable_space
+node: measurable_space
+status_label: definition
+display: 'A measurable space is a pair (Omega, F) where F is a sigma-algebra on Omega. Its members are the measurable sets (events).'
+parseable: '(Omega, F) with F a sigma-algebra on Omega'
+symbols:
+  'Omega': 'underlying set, type: set'
+  'F': 'sigma-algebra, type: subset of 2^Omega'
+type_check_status: well_formed
+type_check_note: 'no measure is attached yet; a measurable space is the domain on which measures and measurable functions are defined.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'sigma_algebra'
+well_definedness: 'any set with any sigma-algebra on it is a measurable space; morphisms are measurable functions (preimage of measurable is measurable).'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - '(R, B(R)) is the canonical target for a real random variable'
+  - '(Omega, {empty, Omega}) -- the trivial sigma-algebra: only constants are measurable'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used in the proof; see the block above'
+common_misuse:
+  - 'conflating the measurable space with the probability space (which adds P)'
+related:
+  category: ['objects of Meas; morphisms are measurable maps']
+sources:
+  - 'billingsley_probability_measure'
+  - 'folland_real_analysis'
+status: reviewed
+checks:
+  type: validation/type-checks.md#measurable_space
+  specialization: validation/specialization-cases.md#measurable_space
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#measurable_space

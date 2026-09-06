@@ -1,0 +1,39 @@
+id: random_variable.cdf
+node: cdf
+status_label: definition
+display: 'The cumulative distribution function of X is F_X(x) = P(X <= x) = P_X((-inf, x]).'
+parseable: 'F_X(x) := P(X <= x)'
+symbols:
+  'F_X': 'the CDF, type: R -> [0,1]'
+  'x': 'a real threshold, type: real'
+type_check_status: well_formed
+type_check_note: 'F_X evaluates the law on the half-lines, which form a pi-system generating B(R) -- hence F_X determines P_X (cdf_determines_law). Right-continuity (not left) is the convention, from { X <= x } = bigcap_n { X <= x + 1/n }.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'distribution_pushforward'
+  - 'random_variable'
+well_definedness: 'F_X is well-defined for every random variable (the half-lines are Borel); its four characterizing properties are cdf_properties.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'X ~ Uniform(0,1): F_X(x) = x on [0,1]'
+  - 'X = c: F_X = step at c (0 below, 1 from c on)'
+  - 'F_X has an atom at x iff P(X = x) = F_X(x) - F_X(x^-) > 0'
+counterexamples_when_dropped:
+  none_defined_for_every_rv: 'F_X always exists; the content is in cdf_properties (which functions are CDFs) and cdf_determines_law'
+common_misuse:
+  - 'using P(X < x) (left-continuous) and P(X <= x) interchangeably -- they differ exactly at atoms'
+  - 'assuming F_X is continuous (it is only right-continuous in general)'
+related:
+  equivalent_to: ['the law P_X']
+  used_by: ['quantile_function', 'convergence_in_distribution', 'probability_integral_transform']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#cdf
+  specialization: validation/specialization-cases.md#cdf
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#cdf

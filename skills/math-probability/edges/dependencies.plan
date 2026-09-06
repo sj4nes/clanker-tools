@@ -1,0 +1,509 @@
+# edges/dependencies.plan  --  Release 0.1
+# Format: one "A B" edge per non-comment line; A is a necessary prerequisite for
+# correctly stating / proving / interpreting / applying B, within scope.
+# Each block's "#" comment states the evidence.  Non-prerequisite relations
+# (generalizes, equivalent_to, special_case_of, ...) live in edges/relations.tsv.
+#
+# Roots (no incoming edges): set_algebra, preimage_algebra, countable_set,
+# real_field, sequence_limit, limsup_liminf, series_convergence, convex_function.
+# These are discharged into math-sets-functions-cardinality / math-real-analysis
+# (see conventions.md).
+
+# --- the cited measure/integration bridge ------------------------------------
+# a sigma-algebra IS a family of sets closed under the set operations, indexed
+# countably.
+set_algebra sigma_algebra
+countable_set sigma_algebra
+# sigma(C): smallest sigma-algebra over a collection -- needs the notion first.
+sigma_algebra generated_sigma_algebra
+set_algebra generated_sigma_algebra
+# B(R) = sigma(open intervals of R).
+generated_sigma_algebra borel_sigma_algebra
+real_field borel_sigma_algebra
+sigma_algebra measurable_space
+# a measure is countably additive: needs countable disjoint unions and a
+# convergent series of nonnegative reals into [0, inf].
+measurable_space measure
+sigma_algebra measure
+countable_set measure
+series_convergence measure
+real_field measure
+# Dynkin: a lambda-system containing a pi-system contains sigma(pi-system).
+sigma_algebra dynkin_pi_lambda
+generated_sigma_algebra dynkin_pi_lambda
+set_algebra dynkin_pi_lambda
+# Lebesgue measure is the Caratheodory extension of interval length to B(R).
+measure lebesgue_measure_caratheodory
+borel_sigma_algebra lebesgue_measure_caratheodory
+real_field lebesgue_measure_caratheodory
+# monotonicity/subadditivity: additivity on the difference set; union bound.
+measure measure_monotonicity
+set_algebra measure_monotonicity
+series_convergence measure_monotonicity
+# continuity of a measure: countable additivity applied to a monotone sequence
+# of sets, then take the limit of partial sums.
+measure measure_continuity
+limsup_liminf measure_continuity
+sequence_limit measure_continuity
+set_algebra measure_continuity
+# a null set is a measurable set of measure zero.
+measure null_set
+# the abstract integral is defined for measurable functions against a measure.
+measurable_function abstract_integral
+measure abstract_integral
+real_field abstract_integral
+# the three convergence theorems and Fubini are stated for the abstract integral.
+abstract_integral monotone_convergence_theorem
+sequence_limit monotone_convergence_theorem
+abstract_integral dominated_convergence_theorem
+sequence_limit dominated_convergence_theorem
+abstract_integral fatou_lemma
+limsup_liminf fatou_lemma
+abstract_integral fubini_tonelli
+measure fubini_tonelli
+# Radon-Nikodym: nu << mu sigma-finite => a density exists.
+abstract_integral radon_nikodym
+measure radon_nikodym
+
+# --- measurable functions ---------------------------------------------------
+# measurability: preimage of every target-measurable set is in F.
+measurable_space measurable_function
+preimage_algebra measurable_function
+borel_sigma_algebra measurable_function
+
+# --- the probability space -------------------------------------------------
+# Kolmogorov's axioms describe P as a measure with P(Omega)=1.
+measure kolmogorov_axioms
+sigma_algebra kolmogorov_axioms
+countable_set kolmogorov_axioms
+set_algebra kolmogorov_axioms
+measure probability_measure
+kolmogorov_axioms probability_measure
+probability_measure probability_space
+measurable_space probability_space
+# "a.s." = probability 1 = complement of a P-null set.
+probability_measure almost_sure
+null_set almost_sure
+
+# --- elementary consequences of the axioms --------------------------------
+# finite additivity: pad a finite disjoint family with copies of the empty set.
+kolmogorov_axioms finite_additivity
+set_algebra finite_additivity
+# P(A^c) = 1 - P(A): finite additivity of A and A^c plus normalization.
+kolmogorov_axioms complement_rule
+finite_additivity complement_rule
+# inclusion-exclusion: induction on finite additivity over the atoms.
+finite_additivity inclusion_exclusion
+set_algebra inclusion_exclusion
+complement_rule inclusion_exclusion
+# Boole: subadditivity -- disjointify, then countable additivity + monotonicity.
+kolmogorov_axioms boole_inequality
+finite_additivity boole_inequality
+series_convergence boole_inequality
+set_algebra boole_inequality
+measure_monotonicity boole_inequality
+# continuity of P: the measure-continuity proposition specialised to P.
+kolmogorov_axioms continuity_of_probability
+measure_continuity continuity_of_probability
+sequence_limit continuity_of_probability
+set_algebra continuity_of_probability
+# BC1: P(limsup A_n) <= P(union_{n>=N} A_n) <= sum_{n>=N} P(A_n) -> 0.
+boole_inequality borel_cantelli_first
+continuity_of_probability borel_cantelli_first
+limsup_liminf borel_cantelli_first
+series_convergence borel_cantelli_first
+# BC2: independence + 1-x <= e^{-x} on the complements, then continuity of P.
+continuity_of_probability borel_cantelli_second
+independence_events borel_cantelli_second
+limsup_liminf borel_cantelli_second
+series_convergence borel_cantelli_second
+complement_rule borel_cantelli_second
+
+# --- conditional probability and Bayes -----------------------------------
+# P(A|B) is defined only where P(B) > 0 (a positivity precondition).
+probability_measure conditional_probability
+complement_rule conditional_probability
+# chain rule: rearrange the definition; induct for the n-fold form.
+conditional_probability multiplication_rule
+# LTP: split A over a partition, apply the multiplication rule to each piece.
+conditional_probability law_of_total_probability
+finite_additivity law_of_total_probability
+multiplication_rule law_of_total_probability
+set_algebra law_of_total_probability
+# Bayes = definition of P(B_j|A) with the LTP substituted into the denominator.
+conditional_probability bayes_theorem
+law_of_total_probability bayes_theorem
+multiplication_rule bayes_theorem
+
+# --- random variables ----------------------------------------------------
+measurable_function random_variable
+borel_sigma_algebra random_variable
+probability_space random_variable
+random_variable indicator_rv
+set_algebra indicator_rv
+# the law is the pushforward P o X^-1, a probability measure on (R, B(R)).
+random_variable distribution_pushforward
+measure distribution_pushforward
+preimage_algebra distribution_pushforward
+probability_measure distribution_pushforward
+random_variable cdf
+distribution_pushforward cdf
+# CDF properties: right-continuity from continuity of P on the half-lines.
+cdf cdf_properties
+continuity_of_probability cdf_properties
+sequence_limit cdf_properties
+limsup_liminf cdf_properties
+# CDF determines the law: half-lines are a pi-system generating B(R) -- Dynkin.
+cdf cdf_determines_law
+distribution_pushforward cdf_determines_law
+dynkin_pi_lambda cdf_determines_law
+random_variable discrete_rv
+countable_set discrete_rv
+discrete_rv pmf
+distribution_pushforward pmf
+# an a.c. r.v. has P_X << Lebesgue; its pdf is the Radon-Nikodym derivative.
+distribution_pushforward absolutely_continuous_rv
+lebesgue_measure_caratheodory absolutely_continuous_rv
+radon_nikodym absolutely_continuous_rv
+absolutely_continuous_rv pdf
+radon_nikodym pdf
+abstract_integral pdf
+cdf quantile_function
+real_field quantile_function
+# PIT: F(X) ~ U(0,1) when F is continuous; F^-1(U) ~ F always -- the sim bridge.
+cdf probability_integral_transform
+cdf_properties probability_integral_transform
+quantile_function probability_integral_transform
+continuous_uniform_distribution probability_integral_transform
+distribution_pushforward probability_integral_transform
+# univariate CoV: differentiate F_Y(y) = F_X(g^-1(y)) for monotone g.
+pdf transformation_univariate
+cdf transformation_univariate
+real_field transformation_univariate
+# multivariate CoV: the Jacobian determinant replaces |d/dy g^-1|.
+pdf jacobian_transformation
+transformation_univariate jacobian_transformation
+abstract_integral jacobian_transformation
+random_variable joint_distribution
+distribution_pushforward joint_distribution
+borel_sigma_algebra joint_distribution
+# marginals: integrate the joint density over the other coordinates (Fubini).
+joint_distribution marginal_distribution
+abstract_integral marginal_distribution
+fubini_tonelli marginal_distribution
+joint_distribution conditional_distribution
+pdf conditional_distribution
+marginal_distribution conditional_distribution
+
+# --- independence -------------------------------------------------------
+# independence is defined by the product rule over every finite subfamily --
+# NOT via conditioning (that would create the independence <-> conditional
+# cycle; see edges/cycles.md).
+probability_measure independence_events
+finite_additivity independence_events
+independence_events independence_sigma_algebras
+sigma_algebra independence_sigma_algebras
+independence_sigma_algebras independence_random_variables
+random_variable independence_random_variables
+joint_distribution independence_random_variables
+distribution_pushforward independence_random_variables
+# factorization: F_{X,Y}=F_X F_Y on the pi-system of rectangles, then Dynkin.
+independence_random_variables independence_factorization
+cdf independence_factorization
+pdf independence_factorization
+joint_distribution independence_factorization
+dynkin_pi_lambda independence_factorization
+independence_events pairwise_not_mutual
+independence_random_variables iid
+distribution_pushforward iid
+# convolution: push (x,y) -> x+y through the product law (Fubini).
+independence_random_variables convolution_formula
+pdf convolution_formula
+abstract_integral convolution_formula
+fubini_tonelli convolution_formula
+
+# --- expectation -------------------------------------------------------
+random_variable expectation
+abstract_integral expectation
+probability_measure expectation
+# LOTUS: change of variables into the pushforward measure.
+expectation lotus
+distribution_pushforward lotus
+pmf lotus
+pdf lotus
+abstract_integral lotus
+# linearity: linearity of the integral (no independence).
+expectation expectation_linearity
+abstract_integral expectation_linearity
+expectation expectation_monotonicity
+abstract_integral expectation_monotonicity
+almost_sure expectation_monotonicity
+
+# --- the two elementary inequalities ---------------------------------
+# Markov: E[X] >= E[X 1_{X>=a}] >= a P(X>=a).
+expectation markov_inequality
+expectation_monotonicity markov_inequality
+indicator_rv markov_inequality
+probability_measure markov_inequality
+# Jensen: supporting line at E[X], then take expectations.
+expectation jensen_inequality
+convex_function jensen_inequality
+expectation_linearity jensen_inequality
+expectation_monotonicity jensen_inequality
+
+# --- variance, covariance, correlation ------------------------------
+expectation variance
+expectation_linearity variance
+variance variance_computational
+expectation_linearity variance_computational
+variance variance_affine
+variance_computational variance_affine
+expectation_linearity variance_affine
+# Chebyshev: Markov applied to (X - E X)^2 with threshold k^2.
+markov_inequality chebyshev_inequality
+variance chebyshev_inequality
+variance_computational chebyshev_inequality
+expectation covariance
+expectation_linearity covariance
+variance covariance
+covariance covariance_bilinear
+expectation_linearity covariance_bilinear
+variance covariance_bilinear
+# Cauchy-Schwarz: the discriminant of t -> E[(X + tY)^2] >= 0.
+expectation cauchy_schwarz_expectation
+expectation_linearity cauchy_schwarz_expectation
+expectation_monotonicity cauchy_schwarz_expectation
+covariance correlation
+variance correlation
+cauchy_schwarz_expectation correlation
+variance variance_of_sum
+covariance variance_of_sum
+covariance_bilinear variance_of_sum
+expectation_linearity variance_of_sum
+# E[XY] = E[X]E[Y] for independent integrable X,Y (Fubini on the product law).
+independence_random_variables independence_expectation
+expectation independence_expectation
+lotus independence_expectation
+fubini_tonelli independence_expectation
+covariance independence_expectation
+covariance uncorrelated_not_independent
+independence_random_variables uncorrelated_not_independent
+continuous_uniform_distribution uncorrelated_not_independent
+
+# --- moments, L^p, generating functions ----------------------------
+expectation moment
+lotus moment
+expectation lp_space
+moment lp_space
+convex_function lp_space
+# L^p nesting on a probability space: Jensen with phi(u)=|u|^{p/q}.
+lp_space moment_ladder
+jensen_inequality moment_ladder
+moment moment_ladder
+# Holder: Young's inequality (a convexity fact) then integrate.
+lp_space holder_inequality
+convex_function holder_inequality
+expectation_monotonicity holder_inequality
+jensen_inequality holder_inequality
+expectation mgf
+lotus mgf
+# moments from the MGF: differentiate under the integral (DCT).
+mgf mgf_moments
+moment mgf_moments
+dominated_convergence_theorem mgf_moments
+series_convergence mgf_moments
+mgf mgf_uniqueness
+distribution_pushforward mgf_uniqueness
+expectation characteristic_function
+lotus characteristic_function
+real_field characteristic_function
+# CF properties: |e^{itx}|=1 gives boundedness; DCT gives uniform continuity.
+characteristic_function cf_properties
+dominated_convergence_theorem cf_properties
+distribution_pushforward cf_properties
+# MGF/CF of a sum: E[e^{t(X+Y)}] = E[e^{tX}]E[e^{tY}] by independence_expectation.
+mgf mgf_sum_independent
+characteristic_function mgf_sum_independent
+independence_expectation mgf_sum_independent
+independence_random_variables mgf_sum_independent
+# Chernoff: Markov applied to e^{tX}, optimise over t > 0.
+markov_inequality chernoff_bound
+mgf chernoff_bound
+# Hoeffding's lemma: convexity of e^{tx} on [a,b] bounds the MGF of a centred
+# bounded variable.
+mgf hoeffding_lemma
+convex_function hoeffding_lemma
+expectation hoeffding_lemma
+jensen_inequality hoeffding_lemma
+# Hoeffding's inequality: Chernoff on the sum, MGFs multiply, apply the lemma.
+hoeffding_lemma hoeffding_inequality
+chernoff_bound hoeffding_inequality
+mgf_sum_independent hoeffding_inequality
+independence_random_variables hoeffding_inequality
+
+# --- distribution families ----------------------------------------
+pmf bernoulli_distribution
+expectation bernoulli_distribution
+variance bernoulli_distribution
+mgf bernoulli_distribution
+indicator_rv bernoulli_distribution
+# binomial = sum of n iid Bernoulli: mean/variance by linearity + independence.
+bernoulli_distribution binomial_distribution
+iid binomial_distribution
+pmf binomial_distribution
+variance_of_sum binomial_distribution
+expectation_linearity binomial_distribution
+mgf_sum_independent binomial_distribution
+pmf geometric_distribution
+expectation geometric_distribution
+variance geometric_distribution
+memorylessness geometric_distribution
+pmf poisson_distribution
+expectation poisson_distribution
+variance poisson_distribution
+mgf poisson_distribution
+series_convergence poisson_distribution
+# Poisson limit: Binomial(n, lambda/n) pmf -> Poisson(lambda) pmf termwise.
+binomial_distribution poisson_limit_theorem
+poisson_distribution poisson_limit_theorem
+sequence_limit poisson_limit_theorem
+pdf continuous_uniform_distribution
+expectation continuous_uniform_distribution
+variance continuous_uniform_distribution
+conditional_probability memorylessness
+cdf memorylessness
+pdf exponential_distribution
+expectation exponential_distribution
+variance exponential_distribution
+mgf exponential_distribution
+memorylessness exponential_distribution
+# gamma = sum of k iid Exponential (convolution).
+pdf gamma_distribution
+exponential_distribution gamma_distribution
+iid gamma_distribution
+convolution_formula gamma_distribution
+expectation gamma_distribution
+variance gamma_distribution
+pdf beta_distribution
+expectation beta_distribution
+variance beta_distribution
+pdf normal_distribution
+expectation normal_distribution
+variance normal_distribution
+abstract_integral normal_distribution
+normal_distribution standard_normal
+characteristic_function standard_normal
+transformation_univariate standard_normal
+# normals closed under affine maps (CoV) and sums (CF multiply, complete square).
+normal_distribution normal_affine_closure
+standard_normal normal_affine_closure
+transformation_univariate normal_affine_closure
+convolution_formula normal_affine_closure
+characteristic_function normal_affine_closure
+pdf cauchy_no_mean
+expectation cauchy_no_mean
+abstract_integral cauchy_no_mean
+
+# --- modes of convergence and the limit theorems -----------------
+random_variable convergence_almost_sure
+almost_sure convergence_almost_sure
+sequence_limit convergence_almost_sure
+probability_measure convergence_almost_sure
+random_variable convergence_in_probability
+sequence_limit convergence_in_probability
+probability_measure convergence_in_probability
+random_variable convergence_in_lp
+lp_space convergence_in_lp
+sequence_limit convergence_in_lp
+cdf convergence_in_distribution
+sequence_limit convergence_in_distribution
+cdf_properties convergence_in_distribution
+# portmanteau: the bounded-continuous-test-function characterisation.
+convergence_in_distribution portmanteau_theorem
+expectation portmanteau_theorem
+cdf_properties portmanteau_theorem
+# the implication lattice: Markov (L^p=>p), BC1 (p=>a.s. subseq), portmanteau (p=>d).
+convergence_almost_sure convergence_implications
+convergence_in_probability convergence_implications
+convergence_in_lp convergence_implications
+convergence_in_distribution convergence_implications
+markov_inequality convergence_implications
+borel_cantelli_first convergence_implications
+portmanteau_theorem convergence_implications
+convergence_in_distribution continuous_mapping_theorem
+convergence_in_probability continuous_mapping_theorem
+convergence_almost_sure continuous_mapping_theorem
+portmanteau_theorem continuous_mapping_theorem
+convergence_in_distribution slutsky_theorem
+convergence_in_probability slutsky_theorem
+continuous_mapping_theorem slutsky_theorem
+portmanteau_theorem slutsky_theorem
+# WLLN: Chebyshev on the sample mean (finite-variance route), CF route noted.
+iid weak_law_large_numbers
+chebyshev_inequality weak_law_large_numbers
+convergence_in_probability weak_law_large_numbers
+variance_of_sum weak_law_large_numbers
+expectation_linearity weak_law_large_numbers
+characteristic_function weak_law_large_numbers
+# SLLN: Etemadi / fourth-moment truncation + BC1 (choice-free).
+iid strong_law_large_numbers
+convergence_almost_sure strong_law_large_numbers
+borel_cantelli_first strong_law_large_numbers
+expectation strong_law_large_numbers
+variance strong_law_large_numbers
+moment strong_law_large_numbers
+# Levy continuity: pointwise CF convergence (phi cts at 0) <=> convergence in d.
+characteristic_function levy_continuity_theorem
+convergence_in_distribution levy_continuity_theorem
+cf_properties levy_continuity_theorem
+# CLT: expand the CF of the normalised sum, -> e^{-t^2/2}, apply Levy.
+iid central_limit_theorem
+characteristic_function central_limit_theorem
+levy_continuity_theorem central_limit_theorem
+convergence_in_distribution central_limit_theorem
+standard_normal central_limit_theorem
+expectation central_limit_theorem
+variance central_limit_theorem
+mgf_sum_independent central_limit_theorem
+central_limit_theorem lindeberg_clt
+levy_continuity_theorem lindeberg_clt
+convergence_in_distribution lindeberg_clt
+central_limit_theorem delta_method
+convergence_in_distribution delta_method
+slutsky_theorem delta_method
+continuous_mapping_theorem delta_method
+
+# --- conditional expectation ------------------------------------
+conditional_probability conditional_expectation_elementary
+conditional_distribution conditional_expectation_elementary
+expectation conditional_expectation_elementary
+pmf conditional_expectation_elementary
+# abstract E[X|G]: the a.s.-unique G-measurable function with matching integrals.
+expectation conditional_expectation_abstract
+sigma_algebra conditional_expectation_abstract
+measurable_function conditional_expectation_abstract
+abstract_integral conditional_expectation_abstract
+almost_sure conditional_expectation_abstract
+# existence: Radon-Nikodym on A -> integral_A X (or the L^2 projection).
+conditional_expectation_abstract conditional_expectation_existence
+radon_nikodym conditional_expectation_existence
+lp_space conditional_expectation_existence
+conditional_expectation_abstract tower_property
+conditional_expectation_existence tower_property
+expectation_linearity tower_property
+conditional_expectation_abstract law_of_total_variance
+tower_property law_of_total_variance
+variance law_of_total_variance
+variance_computational law_of_total_variance
+conditional_expectation_abstract conditional_expectation_l2_projection
+lp_space conditional_expectation_l2_projection
+conditional_expectation_existence conditional_expectation_l2_projection
+
+# --- boundary nodes (stated, not developed) --------------------
+conditional_expectation_abstract martingale
+tower_property martingale
+random_variable stochastic_process
+probability_space stochastic_process
+stochastic_process kolmogorov_extension_theorem
+joint_distribution kolmogorov_extension_theorem
+lebesgue_measure_caratheodory kolmogorov_extension_theorem

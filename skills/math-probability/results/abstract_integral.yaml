@@ -1,0 +1,45 @@
+id: measure.abstract_integral
+node: abstract_integral
+status_label: proved_theorem
+display: 'For a measure space (Omega, F, mu) and a measurable f: Omega -> [0, inf], integral f dmu is defined as sup over simple 0 <= s <= f of integral s dmu; for general f it is integral f^+ dmu - integral f^- dmu when at least one part is finite. f is integrable if integral |f| dmu < inf.'
+parseable: 'integral f dmu := sup { integral s dmu : s simple, 0 <= s <= f }  (f >= 0)'
+symbols:
+  'f': 'a measurable function, type: Omega -> R (or [0, inf])'
+  'mu': 'the measure, type: measure on F'
+  'integral f dmu': 'the integral, type: real or +-inf'
+type_check_status: well_formed
+type_check_note: 'CITED, not constructed. The integral is linear, monotone, and satisfies MCT / DCT / Fatou; E[X] is this integral against P. f measurable is required for the sup to be over a well-defined set.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'measurable_function'
+  - 'measure'
+  - 'real_field'
+proof:
+  technique: 'standard three-step construction: indicators -> nonnegative simple functions (finite sums) -> nonnegative measurable via MCT -> integrable via f = f^+ - f^-'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'Folland Real Analysis 2e SS2.2-2.4; Billingsley SS15-16'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'mu = P: integral X dP = E[X]'
+  - 'mu = counting measure on N: integral f dmu = sum_n f(n) -- series are integrals'
+  - 'f = 1_A: integral 1_A dmu = mu(A)'
+counterexamples_when_dropped:
+  measurability_of_f: 'a non-measurable f has no well-defined integral -- the defining sup is over an ill-specified family and Fubini/Tonelli fail'
+common_misuse:
+  - 'swapping limit and integral without MCT/DCT/Fatou justification'
+  - 'assuming integral f dmu is finite for every measurable f'
+related:
+  specializes_to: ['expectation']
+  developed_in: ['a future math-measure-and-integration capsule']
+sources:
+  - 'folland_real_analysis'
+  - 'billingsley_probability_measure'
+status: reviewed
+checks:
+  type: validation/type-checks.md#abstract_integral
+  specialization: validation/specialization-cases.md#abstract_integral
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#abstract_integral

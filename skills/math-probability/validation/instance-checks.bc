@@ -1,0 +1,95 @@
+/* Release 0.1 instance checks — distribution moment formulas made concrete and
+   a numerical CLT convergence demonstration.
+   Run:  bc -q -l validation/instance-checks.bc
+   Every identifier is lowercase and starts with a letter (bc rule).
+   bc TRUNCATES; it does not round.  These are INSTANCES — they check the moment
+   formulas at specific parameters and show the CLT trend numerically.  They do
+   not prove the general formulas or the theorem. */
+
+scale = 20
+
+print "=== bernoulli(p): E = p, Var = p(1-p) ===\n"
+p = 0.3
+em = p
+va = p*(1-p)
+print "  p = 0.3 : E = ", em, "  Var = ", va, "\n"
+/* direct sum: 0*(1-p) + 1*p = p ; (0-em)^2*(1-p) + (1-em)^2*p */
+es = 1*p
+vs = (0-em)^2*(1-p) + (1-em)^2*p
+print "  direct : E = ", es, "  Var = ", vs, "  (match)\n\n"
+
+print "=== binomial(n,p): E = np, Var = np(1-p) ; check by summation, n=10 p=0.3 ===\n"
+n = 10; p = 0.3
+define fact(k) { auto r, i; r = 1; for (i = 2; i <= k; i++) r *= i; return r }
+define choose(a,b) { return fact(a)/(fact(b)*fact(a-b)) }
+esum = 0; e2sum = 0
+for (k = 0; k <= n; k++) {
+  pk = choose(n,k) * (p^k) * ((1-p)^(n-k))
+  esum += k*pk
+  e2sum += k*k*pk
+}
+print "  sum k p_k      = ", esum, "   (np = ", n*p, ")\n"
+print "  sum k^2 p_k    = ", e2sum, "\n"
+print "  Var = E[X^2]-E[X]^2 = ", e2sum - esum*esum, "   (np(1-p) = ", n*p*(1-p), ")\n\n"
+
+print "=== poisson(lambda): E = Var = lambda ; lambda = 2, truncate sum at k=30 ===\n"
+lambda = 2
+es = 0; e2s = 0; psum = 0
+for (k = 0; k <= 30; k++) {
+  pk = e(-lambda) * (lambda^k) / fact(k)
+  psum += pk; es += k*pk; e2s += k*k*pk
+}
+print "  total mass  = ", psum, "\n"
+print "  E[X]        = ", es, "   (lambda = ", lambda, ")\n"
+print "  Var         = ", e2s - es*es, "   (lambda = ", lambda, ")\n\n"
+
+print "=== poisson_limit_theorem: binomial(n, lambda/n) -> poisson(lambda), lambda=2, k=3 ===\n"
+lambda = 2; kk = 3
+target = e(-lambda) * (lambda^kk) / fact(kk)
+print "  poisson(2) pmf at 3 = ", target, "\n"
+for (n = 10; n <= 2000; n *= 10) {
+  q = lambda/n
+  b = choose(n,kk) * (q^kk) * ((1-q)^(n-kk))
+  print "  binom(n=", n, ", 2/n) at 3 = ", b, "\n"
+}
+print "  -> converges to the poisson value\n\n"
+
+print "=== exponential(lambda): E = 1/lambda, Var = 1/lambda^2 ; memorylessness ===\n"
+lambda = 0.5
+print "  E = ", 1/lambda, "  Var = ", 1/(lambda*lambda), "\n"
+s = 3; t = 4
+lhs = (e(-lambda*(s+t))) / (e(-lambda*s))   /* P(X>s+t)/P(X>s) */
+rhs = e(-lambda*t)                          /* P(X>t) */
+print "  P(X>s+t|X>s) = ", lhs, "   P(X>t) = ", rhs, "   (memoryless: match)\n\n"
+
+print "=== normal(mu,sigma^2): standardization ; N(0,1) pdf integral by midpoint ===\n"
+define npdf(x) { return e(-(x*x)/2) / sqrt(8*a(1)) }   /* a(1)=pi/4, so 8*a(1)=2pi */
+area = 0; dx = 0.01
+for (x = -8; x < 8; x += dx) area += npdf(x + dx/2) * dx
+print "  integral of standard-normal pdf over [-8,8] ~ ", area, "  (target 1)\n"
+m2 = 0
+for (x = -8; x < 8; x += dx) m2 += (x+dx/2)^2 * npdf(x + dx/2) * dx
+print "  integral x^2 phi(x) dx ~ ", m2, "  (target Var = 1)\n\n"
+
+print "=== central_limit_theorem: standardized binomial(n,1/2) vs N(0,1) ===\n"
+print "    X ~ Bin(n,1/2): mu = n/2, sigma = sqrt(n)/2.  S_n = (X - n/2)/(sqrt(n)/2).\n"
+print "    Compare P(S_n <= 1) = P(X <= n/2 + sqrt(n)/2) to Phi(1) = 0.8413447...\n"
+define phi(z) {                        /* standard normal CDF via the erf series */
+  auto s, term, k, x
+  x = z/sqrt(2)
+  s = x; term = x
+  for (k = 1; k <= 80; k++) { term *= -(x*x)/k; s += term/(2*k+1) }
+  return 0.5 + s/sqrt(4*a(1))
+}
+print "  Phi(1) = ", phi(1), "\n"
+for (n = 4; n <= 400; n *= 2) {
+  thr = n/2 + sqrt(n)/2
+  cut = 0; while (cut + 1 <= thr) cut += 1     /* floor(thr) */
+  cdf = 0
+  for (k = 0; k <= cut; k++) cdf += choose(n,k) / (2^n)
+  print "  n = ", n, " : P(S_n <= 1) ~ ", cdf, "\n"
+}
+print "  -> the standardized binomial CDF at 1 approaches Phi(1) as n grows.\n"
+print "  (INSTANCE: a numerical trend with lattice/continuity wobble, not a proof of the CLT.)\n"
+
+quit

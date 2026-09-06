@@ -1,0 +1,42 @@
+# indicator_rv
+
+## Type
+example
+
+## Statement
+The indicator 1_A of an event A: 1_A(omega) = 1 if omega in A, else 0. It is a random variable iff A in F, and E[1_A] = P(A), Var(1_A) = P(A)(1 - P(A)).
+
+## Symbols
+- `A` — an event, type: element of F
+- `1_A` — its indicator, type: Omega -> {0,1}
+
+## Epistemic status
+example
+
+## Prerequisites (tsort edges into this node)
+random_variable, set_algebra
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Well-definedness
+1_A is measurable exactly when A = 1_A^{-1}({1}) in F; it is bounded, hence in every L^p.
+
+## Type / well-formedness check
+the bridge between set operations and arithmetic: 1_{A cap B} = 1_A 1_B, 1_{A cup B} = 1_A + 1_B - 1_A 1_B, 1_{A^c} = 1 - 1_A. Turning a probability into an expectation (P(A) = E[1_A]) is the move behind Markov's inequality and the first-moment method.
+
+## Specialization / boundary cases
+- A = Omega: 1_A = 1 constant
+- sum_i 1_{A_i} counts how many A_i occur; E of it is sum P(A_i) by linearity
+
+## Hypothesis-dropped counterexamples
+- **A_in_F**: if A is not an event, 1_A is not a random variable and E[1_A] is undefined -- this is the only hypothesis
+
+## Common misuse
+- writing 1_{A cup B} = 1_A + 1_B (only for disjoint A, B)
+
+## Related nodes (non-prerequisite)
+- used_by: markov_inequality, expectation, bernoulli_distribution
+
+## Sources
+billingsley_probability_measure, durrett_pte

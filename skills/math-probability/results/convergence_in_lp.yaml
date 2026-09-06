@@ -1,0 +1,41 @@
+id: convergence.convergence_in_lp
+node: convergence_in_lp
+status_label: definition
+display: 'X_n -> X in L^p (p >= 1) if E[|X_n - X|^p] -> 0, i.e. ||X_n - X||_p -> 0.'
+parseable: 'E[|X_n - X|^p] -> 0'
+convergence_mode: in_lp
+symbols:
+  '(X_n)': 'a sequence of random variables on one probability space, type: N -> (Omega -> R)'
+  'X': 'the limit random variable (or law), type: Omega -> R (or a law)'
+type_check_status: well_formed
+type_check_note: 'convergence in the L^p(P) norm; requires X_n, X in L^p. By Markov''s inequality (applied to |X_n - X|^p) it implies convergence in probability; the converse needs uniform integrability.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'lp_space'
+  - 'random_variable'
+  - 'sequence_limit'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'L^2 convergence of the sample mean under finite variance (a one-line Chebyshev bound), giving the L^2 WLLN'
+  - 'in a Hilbert space (L^2) it is convergence in norm; Cauchy sequences converge (Riesz-Fischer)'
+counterexamples_when_dropped:
+  uniform_integrability_for_the_converse: 'X_n = n 1_{(0, 1/n]} on ([0,1], lambda): X_n -> 0 in probability and a.s., but E[|X_n|] = 1 not -> 0 -- convergence in probability does NOT imply L^1 without a dominating / uniformly integrable family'
+common_misuse:
+  - 'forgetting the p (L^1 and L^2 convergence are different)'
+  - 'assuming L^p convergence from a.s. convergence (needs domination -- DCT)'
+related:
+  implies: ['convergence_in_probability']
+  via: ['markov_inequality']
+  strongest_with: ['convergence_almost_sure']
+  tag: ['L^p']
+sources:
+  - 'durrett_pte'
+  - 'billingsley_probability_measure'
+status: reviewed
+checks:
+  type: validation/type-checks.md#convergence_in_lp
+  specialization: validation/specialization-cases.md#convergence_in_lp
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#convergence_in_lp

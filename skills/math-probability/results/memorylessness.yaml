@@ -1,0 +1,42 @@
+id: distributions.memorylessness
+node: memorylessness
+status_label: proposition
+display: 'P(X > s + t | X > s) = P(X > t) for all s, t >= 0. Among distributions on [0, inf) this holds iff X is exponential; among distributions on {1, 2, ...} iff X is geometric.'
+parseable: 'P(X > s + t | X > s) = P(X > t)   characterizes exponential (continuous) / geometric (discrete)'
+symbols:
+  'X': 'a nonnegative random variable, type: Omega -> [0, inf) or {1,2,...}'
+  's, t': 'nonnegative reals/integers'
+type_check_status: well_formed
+type_check_note: 'the survival function G(x) = P(X > x) satisfies G(s + t) = G(s) G(t) (Cauchy''s functional equation); the only monotone solutions are G(x) = e^{-lambda x} (continuous) or G(k) = (1-p)^k (discrete).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'cdf'
+  - 'conditional_probability'
+proof:
+  technique: 'P(X > s+t | X > s) = G(s+t)/G(s) = G(t) means G(s+t) = G(s)G(t); with G monotone and G(0) = 1, G(x) = G(1)^x = e^{-lambda x}'
+  derives_from: 'cdf'
+  lean_status: cited
+  lean_ref: 'Grimmett-Stirzaker 4.8; Feller I.XIII'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the residual lifetime of an exponential component is exactly a fresh exponential -- no ''aging'''
+  - 'a geometric number of coin flips: given the first m were failures, the additional flips to a success is again Geometric(p)'
+counterexamples_when_dropped:
+  the_characterization_is_exact: 'gamma with shape 2: P(X > s + t | X > s) DECREASES in s -- it ''remembers'' (positive aging). Weibull with shape > 1 likewise. Pareto: negative aging.'
+common_misuse:
+  - 'assuming any ''waiting time'' is memoryless'
+  - 'using memorylessness to justify ignoring elapsed time for a non-exponential process'
+related:
+  characterizes: ['exponential_distribution', 'geometric_distribution']
+  fails_for: ['gamma, Weibull, lognormal, Pareto']
+sources:
+  - 'grimmett_stirzaker'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#memorylessness
+  specialization: validation/specialization-cases.md#memorylessness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#memorylessness

@@ -1,0 +1,43 @@
+id: moments.covariance_bilinear
+node: covariance_bilinear
+status_label: proposition
+display: 'Covariance is a symmetric, positive-semidefinite bilinear form on L^2(P): Cov(aX + bZ, Y) = a Cov(X, Y) + b Cov(Z, Y), Cov(X, Y) = Cov(Y, X), Cov(X, X) >= 0.'
+parseable: 'Cov(aX + bZ, Y) = a Cov(X,Y) + b Cov(Z,Y) ;  Cov symmetric ;  Cov(X,X) = Var(X) >= 0'
+symbols:
+  'X, Y, Z': 'random variables in L^2(P), type: L^2(P)'
+  'a, b': 'constants, type: real'
+type_check_status: well_formed
+type_check_note: 'bilinearity is linearity of expectation applied in each argument after centering; constants have zero covariance with everything, so Cov(X + c, Y) = Cov(X, Y).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'covariance'
+  - 'expectation_linearity'
+  - 'variance'
+proof:
+  technique: 'expand the centered products and use expectation_linearity in each slot; symmetry is commutativity of the product; Cov(X,X) = Var(X) >= 0'
+  derives_from: 'expectation_linearity'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Cov(sum a_i X_i, sum b_j Y_j) = sum_{i,j} a_i b_j Cov(X_i, Y_j) -- the general bilinear expansion behind variance_of_sum'
+  - 'Cov(X, c) = 0 for constant c'
+counterexamples_when_dropped:
+  none_holds_on_all_of_L2: 'bilinearity is unconditional on L^2(P); it is the inner-product structure (X, Y) |-> Cov(X, Y) on the quotient by constants'
+common_misuse:
+  - 'forgetting cross terms when expanding Cov of two sums'
+  - 'treating Cov as an inner product without quotienting out constants (it is only PSD, not PD)'
+related:
+  gives: ['the L^2 geometry behind conditional_expectation_l2_projection']
+  used_by: ['variance_of_sum', 'correlation']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#covariance_bilinear
+  specialization: validation/specialization-cases.md#covariance_bilinear
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#covariance_bilinear

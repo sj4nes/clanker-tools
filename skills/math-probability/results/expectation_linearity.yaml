@@ -1,0 +1,47 @@
+id: expectation.expectation_linearity
+node: expectation_linearity
+status_label: proved_theorem
+display: 'For integrable $X,Y$ and scalars $a,b$: $E[aX+bY]=a\,E[X]+b\,E[Y]$. No independence is required.'
+parseable: 'E[|X|],E[|Y|] < inf  =>  E[aX + bY] = a E[X] + b E[Y]'
+symbols:
+  X: { meaning: integrable random variable, type: 'L^1(P)' }
+  Y: { meaning: integrable random variable, type: 'L^1(P)' }
+  a: { meaning: scalar, type: real }
+  b: { meaning: scalar, type: real }
+type_check_status: well_formed
+type_check_note: 'aX + bY is integrable because |aX + bY| <= |a||X| + |b||Y| and L^1 is a vector space (triangle inequality + monotonicity of the integral).'
+hypotheses: [X_integrable, Y_integrable]
+preconditions: []
+dependencies: [expectation, abstract_integral]
+proof:
+  technique: >-
+    linearity of the Lebesgue integral: prove for nonnegative simple functions
+    (finite sums), extend to nonnegative measurable by MCT, then to integrable
+    by splitting into positive and negative parts.  E[.] = integral . dP is that
+    integral specialised to the probability measure P.
+  derives_from: abstract_integral
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.expectation_linearity (GENUINE: universal in the scalars a,b, list induction + grind) + the general measure-theoretic case cited (integral linearity)'
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'X_i = 1_{A_i} indicators: E[sum 1_{A_i}] = sum P(A_i) -- the mean of a count, e.g. the number of fixed points of a random permutation is 1 regardless of n'
+  - 'binomial X = sum of n iid Bernoulli(p): E[X] = np immediately, with no combinatorial sum'
+  - 'a = 1, b = -1: E[X - Y] = E[X] - E[Y]'
+counterexamples_when_dropped:
+  X_integrable: 'X ~ Cauchy, Y = -X: X + Y = 0 has E = 0, but E[X] and E[Y] do not exist, so E[X] + E[Y] is undefined -- linearity needs both pieces integrable. (X + Y integrable is NOT enough.)'
+common_misuse:
+  - 'believing independence is required (it is not -- this is the single most useful fact in the capsule)'
+  - 'applying it to E[XY] or E[g(X)] -- linearity is in the argument, not through nonlinear functions'
+  - 'using it when a summand fails to be integrable even though the sum is'
+related:
+  used_by: [variance, covariance, variance_of_sum, jensen_inequality, weak_law_large_numbers, binomial_distribution]
+  generalizes: []
+sources: [billingsley_probability_measure, williams_probability_martingales, durrett_pte]
+status: reviewed
+checks:
+  type: validation/type-checks.md#expectation_linearity
+  specialization: validation/specialization-cases.md#expectation_linearity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#expectation_linearity

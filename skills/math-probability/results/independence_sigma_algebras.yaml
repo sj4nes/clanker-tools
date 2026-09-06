@@ -1,0 +1,40 @@
+id: independence.independence_sigma_algebras
+node: independence_sigma_algebras
+status_label: definition
+display: 'Sub-sigma-algebras G_1, ..., G_n of F are independent if P(bigcap_i A_i) = prod_i P(A_i) for every choice of A_i in G_i. Equivalently, generating pi-systems can be checked (via pi-lambda).'
+parseable: 'for all A_i in G_i:  P(bigcap_i A_i) = prod_i P(A_i)'
+symbols:
+  'G_i': 'sub-sigma-algebras, type: sigma-algebra subset F'
+  'A_i': 'A_i in G_i, type: element of G_i'
+type_check_status: well_formed
+type_check_note: 'the right level of generality: independence of random variables is independence of the sigma-algebras they generate. By the pi-lambda theorem it suffices to verify the factorization on generating pi-systems (this is what makes it checkable).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'independence_events'
+  - 'sigma_algebra'
+well_definedness: 'the set of A_1 for which the factorization holds (with A_2, ..., A_n fixed in generating pi-systems) is a lambda-system; pi-lambda extends it to all of G_1, then iterate.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'G_i = sigma(X_i): recovers independence_random_variables'
+  - 'G = { empty, Omega }: independent of every sigma-algebra'
+  - 'the tail sigma-algebra of an independent sequence is independent of every finite prefix -- Kolmogorov''s zero-one law'
+counterexamples_when_dropped:
+  factorization_on_a_pi_system_that_generates: 'checking factorization on a generating family that is not intersection-closed does not extend (dynkin_pi_lambda counterexample)'
+common_misuse:
+  - 'verifying independence on a non-pi-system and extending'
+  - 'conflating independence of G_1, G_2 with G_1 cap G_2 = { empty, Omega }'
+related:
+  uses: ['dynkin_pi_lambda']
+  specializes_to: ['independence_random_variables']
+  generalizes: ['independence_events']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#independence_sigma_algebras
+  specialization: validation/specialization-cases.md#independence_sigma_algebras
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#independence_sigma_algebras

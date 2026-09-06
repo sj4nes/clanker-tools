@@ -1,0 +1,51 @@
+id: distributions.binomial_distribution
+node: binomial_distribution
+status_label: definition
+display: 'X ~ Binomial(n, p): the number of successes in n independent Bernoulli(p) trials. P(X = k) = C(n, k) p^k (1-p)^{n-k}. E[X] = np, Var(X) = np(1-p), M_X(t) = (1 - p + p e^t)^n.'
+parseable: 'P(X = k) = C(n,k) p^k (1-p)^{n-k} ;  E = np ;  Var = np(1-p)'
+symbols:
+  'X': 'a binomial count, type: Omega -> {0,1,...,n}'
+  'n': 'number of trials, type: positive integer'
+  'p': 'success probability, type: real in [0,1]'
+type_check_status: well_formed
+type_check_note: 'X = sum_{i=1}^n Y_i with Y_i iid Bernoulli(p); the mean and variance follow from linearity and independence (variance_of_sum), not from the combinatorial sum.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'bernoulli_distribution'
+  - 'expectation_linearity'
+  - 'iid'
+  - 'mgf_sum_independent'
+  - 'pmf'
+  - 'variance_of_sum'
+proof:
+  technique: 'mean by expectation_linearity over the indicator sum; variance by variance_of_sum with independence; MGF by mgf_sum_independent'
+  derives_from: 'mgf_sum_independent'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- Binomial(4,1/2) mean/var decide instances + Prob.var_of_sum_raw'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 1: Bernoulli(p)'
+  - 'p = 1/2: symmetric about n/2'
+  - 'n large, p small, np = lambda: approx Poisson(lambda) (poisson_limit_theorem)'
+  - 'n large, p fixed: (X - np)/sqrt(np(1-p)) approx N(0,1) (de Moivre-Laplace, a case of the CLT)'
+counterexamples_when_dropped:
+  independence_of_trials: 'correlated trials (e.g. sampling without replacement) give the hypergeometric distribution, with the SAME mean np but SMALLER variance (finite-population correction)'
+  identical_p: 'varying p_i per trial gives the Poisson-binomial distribution; mean sum p_i, variance sum p_i(1-p_i)'
+common_misuse:
+  - 'using it for sampling without replacement'
+  - 'assuming Var = np (that is the Poisson limit; binomial Var = np(1-p) < np)'
+related:
+  sum_of: ['bernoulli_distribution']
+  limits_to: ['poisson_distribution', 'normal_distribution']
+  without_replacement: ['hypergeometric']
+sources:
+  - 'grimmett_stirzaker'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#binomial_distribution
+  specialization: validation/specialization-cases.md#binomial_distribution
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#binomial_distribution

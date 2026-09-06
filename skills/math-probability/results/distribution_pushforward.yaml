@@ -1,0 +1,41 @@
+id: random_variable.distribution_pushforward
+node: distribution_pushforward
+status_label: definition
+display: 'The distribution (law) of X is the probability measure P_X on (R, B(R)) defined by P_X(B) = P(X in B) = P(X^{-1}(B)). It is the pushforward P o X^{-1}.'
+parseable: 'P_X(B) := P(X^{-1}(B)) ,  a probability measure on (R, B(R))'
+symbols:
+  'P_X': 'the law of X, type: probability measure on B(R)'
+  'X': 'a random variable, type: Omega -> R'
+type_check_status: well_formed
+type_check_note: 'P_X packages everything about X that does not depend on the underlying Omega; equality in law is P_X = P_Y. The pushforward of a probability measure by a measurable map is a probability measure (preimage of B(R) is a sigma-algebra, countable additivity transfers).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'measure'
+  - 'preimage_algebra'
+  - 'probability_measure'
+  - 'random_variable'
+well_definedness: 'P_X inherits countable additivity from P via the preimage algebra (X^{-1} commutes with countable disjoint unions); P_X(R) = P(Omega) = 1.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'X discrete: P_X = sum_x p_X(x) delta_x'
+  - 'X absolutely continuous: P_X(B) = integral_B f_X dlambda'
+  - 'X = c constant: P_X = delta_c'
+counterexamples_when_dropped:
+  measurability_of_X: 'without it X^{-1}(B) need not be an event and P_X(B) is undefined'
+common_misuse:
+  - 'conflating the law P_X (a measure on R) with the random variable X (a function on Omega)'
+  - 'assuming P_X determines X (it does not -- only up to equality in law)'
+related:
+  used_by: ['cdf', 'expectation', 'lotus']
+  equivalent_to: ['the CDF F_X (cdf_determines_law)']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#distribution_pushforward
+  specialization: validation/specialization-cases.md#distribution_pushforward
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#distribution_pushforward

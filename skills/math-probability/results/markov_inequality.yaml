@@ -1,0 +1,46 @@
+id: inequalities.markov_inequality
+node: markov_inequality
+status_label: proved_theorem
+display: 'If $X\ge 0$ almost surely and $a>0$, then $P(X\ge a)\le \dfrac{E[X]}{a}$.'
+parseable: 'X >= 0 a.s., a > 0  =>  P(X >= a) <= E[X] / a'
+symbols:
+  X: { meaning: a nonnegative random variable, type: 'Omega -> [0, inf)' }
+  a: { meaning: threshold, type: 'positive real' }
+type_check_status: well_formed
+type_check_note: 'E[X] is well defined in [0, inf] because X >= 0 (no integrability precondition needed); if E[X] = inf the bound is vacuous.'
+hypotheses: [X_nonnegative_a_s, a_positive]
+preconditions: []
+dependencies: [expectation, expectation_monotonicity, indicator_rv, probability_measure]
+proof:
+  technique: >-
+    a * 1_{X >= a} <= X 1_{X >= a} <= X  pointwise (using X >= 0).  Take
+    expectations and use monotonicity + E[1_{X>=a}] = P(X >= a):
+    a P(X >= a) <= E[X].
+  derives_from: expectation_monotonicity
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.markov_finite (finite-support case, universal, induction)'
+uses_choice: false
+constructive: true
+solving_for: 'an upper bound on the upper-tail probability P(X >= a) from the mean alone'
+specialization_cases:
+  - 'X = |Y - E[Y]|^2, a = k^2: gives Chebyshev''s inequality'
+  - 'X = e^{tY} (t > 0), a = e^{ts}: gives the Chernoff bound after optimising over t'
+  - 'X an indicator 1_A, a = 1: P(A) <= E[1_A] = P(A), an equality -- the bound is tight'
+counterexamples_when_dropped:
+  X_nonnegative_a_s: 'X = -1 constant, a = 1: P(X >= 1) = 0 but also E[X]/a = -1 < 0; more sharply X taking values +-M with mean 0 has P(X >= a) = 1/2 while E[X]/a = 0. The one-sided nonnegativity is essential.'
+  a_positive: 'a <= 0 makes E[X]/a <= 0 (or undefined), while P(X >= a) can be 1.'
+common_misuse:
+  - 'applying it to a signed variable without centring or taking absolute values'
+  - 'expecting tightness -- Markov is usually very loose; it is tight only for two-point {0, a} distributions'
+  - 'reading it as a lower bound'
+related:
+  generalizes: [chebyshev_inequality, chernoff_bound]
+  strengthens: []
+  used_by: [weak_law_large_numbers, convergence_implications, hoeffding_inequality]
+sources: [billingsley_probability_measure, durrett_pte, boucheron_lugosi_massart]
+status: reviewed
+checks:
+  type: validation/type-checks.md#markov_inequality
+  specialization: validation/specialization-cases.md#markov_inequality
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#markov_inequality

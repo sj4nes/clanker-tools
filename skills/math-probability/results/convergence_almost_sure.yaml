@@ -1,0 +1,41 @@
+id: convergence.convergence_almost_sure
+node: convergence_almost_sure
+status_label: definition
+display: 'X_n -> X almost surely if P({omega : X_n(omega) -> X(omega)}) = 1.'
+parseable: 'P(X_n -> X) = 1'
+convergence_mode: almost_sure
+symbols:
+  '(X_n)': 'a sequence of random variables on one probability space, type: N -> (Omega -> R)'
+  'X': 'the limit random variable (or law), type: Omega -> R (or a law)'
+type_check_status: well_formed
+type_check_note: 'the convergence set { omega : X_n(omega) -> X(omega) } is an event (a countable combination of { |X_n - X| < 1/k }); a.s. convergence requires it to have probability 1. This is the strongest of the four modes together with L^p.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'almost_sure'
+  - 'probability_measure'
+  - 'random_variable'
+  - 'sequence_limit'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the SLLN delivers this mode: sample mean -> E[X_1] a.s.'
+  - 'a.s. convergence is preserved by continuous functions (continuous_mapping_theorem) and is equivalent to P(sup_{m >= n} |X_m - X| > eps) -> 0 for all eps'
+counterexamples_when_dropped:
+  common_probability_space: 'a.s. convergence is meaningless for X_n and X defined on different spaces -- only the WEAKER convergence in distribution makes sense then'
+common_misuse:
+  - 'confusing ''X_n -> X a.s.'' with ''P(X_n -> X) can be computed pointwise'' -- it needs the whole trajectory'
+  - 'assuming a.s. convergence from convergence in probability (only a SUBSEQUENCE converges a.s.)'
+related:
+  implies: ['convergence_in_probability']
+  delivered_by: ['strong_law_large_numbers']
+  tag: ['a.s. -- the choice_grade analogue']
+sources:
+  - 'durrett_pte'
+  - 'billingsley_probability_measure'
+status: reviewed
+checks:
+  type: validation/type-checks.md#convergence_almost_sure
+  specialization: validation/specialization-cases.md#convergence_almost_sure
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#convergence_almost_sure

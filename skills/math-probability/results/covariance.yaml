@@ -1,0 +1,40 @@
+id: moments.covariance
+node: covariance
+status_label: definition
+display: 'Cov(X, Y) = E[(X - E[X])(Y - E[Y])] = E[XY] - E[X]E[Y], defined when X, Y in L^2. Cov(X, X) = Var(X).'
+parseable: 'Cov(X,Y) := E[(X - EX)(Y - EY)] = E[XY] - EX EY'
+symbols:
+  'X, Y': 'random variables in L^2(P), type: L^2(P)'
+type_check_status: well_formed
+type_check_note: 'a measure of linear co-variation; the product XY is integrable by Cauchy-Schwarz when X, Y in L^2. Cov > 0 / < 0 / = 0 means positive / negative / no linear association (NOT independence).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'expectation'
+  - 'expectation_linearity'
+  - 'variance'
+well_definedness: 'XY in L^1 by Cauchy-Schwarz (|E[XY]| <= ||X||_2 ||Y||_2 < inf); the centered form equals the raw form by linearity.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Y = X: Cov(X, X) = Var(X)'
+  - 'Y = aX + b: Cov(X, Y) = a Var(X)'
+  - 'X, Y independent: Cov = 0 (independence_expectation)'
+counterexamples_when_dropped:
+  finite_second_moments: 'if E[X^2] or E[Y^2] is infinite, E[XY] may not exist and Cov is undefined'
+common_misuse:
+  - 'reading Cov = 0 as independence (uncorrelated_not_independent)'
+  - 'comparing covariances across different unit scales -- use correlation'
+related:
+  normalized_to: ['correlation']
+  bilinear_via: ['covariance_bilinear']
+  used_by: ['variance_of_sum']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#covariance
+  specialization: validation/specialization-cases.md#covariance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#covariance

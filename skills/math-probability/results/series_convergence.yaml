@@ -1,0 +1,35 @@
+id: analysis.series_convergence
+node: series_convergence
+status_label: definition
+display: 'Convergence of an infinite series of reals via its partial sums; the comparison, ratio, and root tests; absolute convergence; the fact that a series of nonnegative terms either converges or diverges to +inf.'
+parseable: 'sum_{n} a_n := lim_{N} sum_{n=1}^{N} a_n , when the limit exists'
+symbols:
+  '(a_n)': 'the terms, type: N -> R'
+  'sum a_n': 'the sum, type: real or +inf'
+type_check_status: well_formed
+type_check_note: 'a series of NONNEGATIVE terms always has a sum in [0, +inf] (monotone partial sums) -- this is what makes countable additivity of a measure well-posed. Discharged from math-real-analysis.'
+hypotheses: []
+preconditions: []
+dependencies: []
+well_definedness: 'the sum is the limit of the monotone (for nonnegative terms) partial-sum sequence; rearrangement is safe for absolutely convergent series only.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'countable additivity: P(bigcup A_n) = sum P(A_n) is a convergent series bounded by 1'
+  - 'sum P(A_n) < inf is the hypothesis of the first Borel-Cantelli lemma'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used in the proof; see the block above'
+common_misuse:
+  - 'rearranging a conditionally convergent series (Riemann rearrangement theorem)'
+  - 'assuming a_n -> 0 implies sum a_n converges (harmonic series)'
+related:
+  developed_in: ['math-real-analysis']
+sources:
+  - 'rudin_principles'
+  - 'tao_analysis_I'
+status: reviewed
+checks:
+  type: validation/type-checks.md#series_convergence
+  specialization: validation/specialization-cases.md#series_convergence
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#series_convergence

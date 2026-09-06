@@ -1,0 +1,40 @@
+id: independence.independence_events
+node: independence_events
+status_label: definition
+display: 'Events A_1, ..., A_n are (mutually) independent if for EVERY subset S of indices, P(bigcap_{i in S} A_i) = prod_{i in S} P(A_i). An infinite family is independent if every finite subfamily is.'
+parseable: 'for all S subset {1..n}:  P(bigcap_{i in S} A_i) = prod_{i in S} P(A_i)'
+symbols:
+  'A_i': 'events, type: element of F'
+  'S': 'any subset of the index set, type: index set'
+type_check_status: well_formed
+type_check_note: 'defined by FACTORIZATION, not by conditioning -- this keeps independence available for null events and sigma-algebras, and avoids the independence <-> conditional-probability circularity (see edges/cycles.md). ''P(A|B) = P(A)'' is then a theorem, valid when P(B) > 0.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'finite_additivity'
+  - 'probability_measure'
+well_definedness: 'the condition is a finite conjunction of numeric identities per subset; it is preserved under complementation of any subset of the A_i.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'two events: independence is the single equation P(A cap B) = P(A) P(B)'
+  - 'A with P(A) in {0, 1}: A is independent of every event'
+  - 'pairwise independence: only the |S| = 2 equations -- strictly weaker (pairwise_not_mutual)'
+counterexamples_when_dropped:
+  all_subsets_not_just_pairs: 'pairwise_not_mutual: X, Y iid fair bits, Z = X XOR Y -- each pair independent, but P(X=Y=Z=0) = 1/4 != 1/8'
+  the_empty_and_singleton_S_are_trivial: 'the content is in |S| >= 2'
+common_misuse:
+  - 'checking only pairwise independence'
+  - 'confusing independence with disjointness (disjoint events with positive probability are DEPENDENT: P(A cap B) = 0 != P(A)P(B))'
+related:
+  generalizes_to: ['independence_sigma_algebras', 'independence_random_variables']
+  equivalent_to: ['P(A|B) = P(A) when P(B) > 0']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#independence_events
+  specialization: validation/specialization-cases.md#independence_events
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#independence_events

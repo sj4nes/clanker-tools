@@ -1,0 +1,51 @@
+id: distributions.gamma_distribution
+node: gamma_distribution
+status_label: definition
+display: 'X ~ Gamma(k, theta), shape k > 0, scale theta > 0: density f_X(x) proportional to x^{k-1} e^{-x/theta} on x > 0 (normalizer Gamma(k) theta^k). E[X] = k theta, Var(X) = k theta^2. For integer k it is the sum of k iid Exponential(1/theta).'
+parseable: 'f_X(x) prop x^{k-1} e^{-x/theta}, x > 0 ;  E = k theta ;  Var = k theta^2'
+symbols:
+  'X': 'a gamma variable, type: Omega -> (0, inf)'
+  'k': 'shape, type: positive real'
+  'theta': 'scale, type: positive real'
+type_check_status: well_formed
+type_check_note: 'the flexible right-skewed family on (0, inf): shape k < 1 gives a pole at 0, k = 1 is exponential, k large approaches normal. Closed under sums with common scale (shapes add). Rate parameterization uses beta = 1/theta.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'convolution_formula'
+  - 'expectation'
+  - 'exponential_distribution'
+  - 'iid'
+  - 'pdf'
+  - 'variance'
+proof:
+  technique: 'for integer k, convolution_formula on k iid Exponential(1/theta); E and Var by k-fold sum of the exponential''s 1/lambda and 1/lambda^2. General k via the Gamma-function integral'
+  derives_from: 'convolution_formula'
+  lean_status: cited
+  lean_ref: 'Grimmett-Stirzaker 4.14'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k = 1: Exponential(1/theta)'
+  - 'Gamma(k, 2) with 2k = nu integer: chi-squared with nu degrees of freedom'
+  - 'conjugate prior for the rate of a Poisson / the precision of a normal'
+  - 'k -> inf: (X - k theta)/sqrt(k theta^2) -> N(0,1)'
+counterexamples_when_dropped:
+  common_scale_for_the_sum_rule: 'Gamma(k_1, theta_1) + Gamma(k_2, theta_2) with theta_1 != theta_2 is NOT gamma -- the sum rule needs a shared scale'
+  shape_and_scale_vs_shape_and_rate: 'software differs; mixing them scales the mean by theta^2'
+common_misuse:
+  - 'adding gammas with different scales'
+  - 'confusing scale theta with rate 1/theta'
+related:
+  sum_of: ['exponential_distribution']
+  special_case: ['chi-squared, Erlang']
+  conjugate_to: ['Poisson rate, normal precision']
+sources:
+  - 'grimmett_stirzaker'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#gamma_distribution
+  specialization: validation/specialization-cases.md#gamma_distribution
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#gamma_distribution

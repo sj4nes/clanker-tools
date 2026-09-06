@@ -1,0 +1,40 @@
+id: independence.conditional_probability
+node: conditional_probability
+status_label: definition
+display: 'For events A, B with P(B) > 0, the conditional probability of A given B is P(A | B) = P(A cap B) / P(B). For fixed B, P(. | B) is itself a probability measure on F.'
+parseable: 'P(A | B) := P(A cap B) / P(B)   (requires P(B) > 0)'
+symbols:
+  'A, B': 'events, type: element of F'
+  'P(. | B)': 'the conditioned measure, type: F -> [0,1]'
+type_check_status: well_formed
+type_check_note: 'the positivity P(B) > 0 is a genuine precondition; conditioning on probability-zero events needs conditional_expectation_abstract. P(. | B) restricts and renormalizes P to B.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'complement_rule'
+  - 'probability_measure'
+well_definedness: 'P(. | B) satisfies the Kolmogorov axioms: nonnegative, P(Omega | B) = P(B)/P(B) = 1, countably additive (inherited from P). So all earlier results apply to it.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'B = Omega: P(A | Omega) = P(A)'
+  - 'A subset B: P(A | B) = P(A)/P(B) >= P(A)'
+  - 'A, B disjoint: P(A | B) = 0'
+counterexamples_when_dropped:
+  positivity_of_P_B: 'P(B) = 0 makes the ratio 0/0 -- the Borel-Kolmogorov paradox shows the ''limit'' answer depends on the approximating sequence of positive-probability events'
+common_misuse:
+  - 'confusing P(A|B) with P(B|A) (base-rate / prosecutor''s fallacy)'
+  - 'conditioning on a measure-zero event without the abstract machinery'
+  - 'assuming P(A|B) >= P(A) (only when A, B positively associated)'
+related:
+  used_by: ['multiplication_rule', 'bayes_theorem', 'law_of_total_probability']
+  generalizes_to: ['conditional_expectation_abstract']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#conditional_probability
+  specialization: validation/specialization-cases.md#conditional_probability
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#conditional_probability

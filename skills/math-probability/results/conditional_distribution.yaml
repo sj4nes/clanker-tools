@@ -1,0 +1,42 @@
+id: random_variable.conditional_distribution
+node: conditional_distribution
+status_label: definition
+display: 'For jointly continuous (X, Y) with f_X(x) > 0, the conditional density of Y given X = x is f_{Y|X}(y | x) = f_{X,Y}(x, y) / f_X(x). The discrete analogue uses pmfs.'
+parseable: 'f_{Y|X}(y|x) := f_{X,Y}(x,y) / f_X(x)   (where f_X(x) > 0)'
+symbols:
+  'f_{Y|X}': 'the conditional density, type: (R x R) -> [0, inf)'
+  'f_X': 'the marginal density of X, type: R -> [0, inf)'
+type_check_status: well_formed
+type_check_note: 'for each fixed x with f_X(x) > 0, y |-> f_{Y|X}(y|x) is a genuine probability density (nonnegative, integrates to 1). Conditioning on the measure-zero event { X = x } is legitimate here because of the density; the general case needs conditional_expectation_abstract / regular conditional distributions.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'joint_distribution'
+  - 'marginal_distribution'
+  - 'pdf'
+well_definedness: 'integral f_{Y|X}(y|x) dy = integral f_{X,Y}(x,y) dy / f_X(x) = f_X(x)/f_X(x) = 1 for a.e. x; the exceptional set { f_X = 0 } is P_X-null.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'independence: f_{Y|X}(y|x) = f_Y(y), no dependence on x'
+  - 'bivariate normal: Y | X = x is normal with mean mu_Y + rho (sigma_Y/sigma_X)(x - mu_X) -- the linear regression line'
+  - '(X,Y) uniform on the triangle 0 < y < x < 1: Y | X = x is Uniform(0, x)'
+counterexamples_when_dropped:
+  positive_marginal_density: 'where f_X(x) = 0 the ratio is 0/0 -- conditioning on a value X never takes is undefined'
+  existence_of_a_joint_density: 'for singular joints (e.g. Y = X^2) there is no f_{X,Y}; conditioning requires the abstract construction (Borel-Kolmogorov paradox: the answer depends on how the conditioning event is approached)'
+common_misuse:
+  - 'conditioning on { X = x } without a joint density (Borel-Kolmogorov paradox)'
+  - 'treating f_{Y|X}(y|x) as a function of x for fixed y as if it were a density in x'
+related:
+  requires: ['joint_distribution', 'marginal_distribution']
+  generalizes_to: ['conditional_expectation_abstract']
+  used_by: ['conditional_expectation_elementary']
+sources:
+  - 'durrett_pte'
+  - 'grimmett_stirzaker'
+status: reviewed
+checks:
+  type: validation/type-checks.md#conditional_distribution
+  specialization: validation/specialization-cases.md#conditional_distribution
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#conditional_distribution

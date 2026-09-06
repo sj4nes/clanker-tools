@@ -1,0 +1,35 @@
+id: logic.countable_set
+node: countable_set
+status_label: definition
+display: 'A set is countable if it injects into the natural numbers. Finite sets are countable; a countable union of countable sets is countable (using countable choice); N x N is countable.'
+parseable: '|A| <= |N| ; countable union of countable sets is countable'
+symbols:
+  'A': 'a set, type: set'
+  'N': 'the natural numbers, type: set'
+type_check_status: well_formed
+type_check_note: '''countable'' includes finite here. A countable union of countable sets needs the axiom of countable choice (noted, not used elsewhere in this capsule). Discharged from math-sets-functions-cardinality.'
+hypotheses: []
+preconditions: []
+dependencies: []
+well_definedness: 'injectivity into N is a well-defined property; the Cantor pairing N x N -> N is an explicit bijection (see instance-checks in the sibling capsule).'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Q is countable; the algebraic numbers are countable'
+  - 'a sigma-algebra is closed under countable unions, so it is the natural domain for a countably additive measure'
+counterexamples_when_dropped:
+  countable_choice: 'without countable choice it is consistent that a countable union of countable sets of reals is uncountable (Feferman-Levy)'
+common_misuse:
+  - 'assuming R or 2^N is countable (Cantor''s diagonal argument: they are not)'
+  - 'confusing ''countable union'' with ''arbitrary union'''
+related:
+  developed_in: ['math-sets-functions-cardinality']
+sources:
+  - 'enderton_set_theory'
+  - 'halmos_naive_set_theory'
+status: reviewed
+checks:
+  type: validation/type-checks.md#countable_set
+  specialization: validation/specialization-cases.md#countable_set
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#countable_set

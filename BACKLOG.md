@@ -39,7 +39,7 @@ capsules — organised by domain, low confidence, no commitments — see
 
 ## Mathematics
 
-### math-probability  (new capsule — planned)
+### math-probability  (new capsule — Release 0.1 COMPLETE, 2026-09-06; polish pending)
 
 The missing foundational floor under `design-of-experiments`, `simulation`,
 `unknown-discovery` (forecast ledger + calibration), and any future statistics /
@@ -47,7 +47,56 @@ ML skill. Built with [`math-theorem-tree`](skills/math-theorem-tree/SKILL.md);
 sits on top of `math-sets-functions-cardinality` (σ-algebras, measures) and
 `math-real-analysis` (limits, integration).
 
-- [ ] **math-probability:** `scope.md` — Kolmogorov axioms; σ-algebras and
+**Done (2026-09-06):** `scope.md`, `conventions.md`, `objects.md`, `notation.md`,
+`SKILL.md`, `README.md`; the **131-node registry** (`nodes/nodes.tsv`) and the
+fully-evidenced **399-edge DAG** (`edges/dependencies.plan`) — `tsort` clean,
+acyclic (BSD stderr-checked), 0 isolated; `edges/cycles.md` (4 would-be cycles
+resolved: independence↔conditional via factorization def, expectation↔integral
+via cited integral, + 2 modelling slips); generated indexes (hypothesis, status,
+prereq-paths, counterexample, symbol/KWIC, reverse-deps); `validation/proof-checks.lean`
+(Mathlib-free, **exit 0** — genuine: union bound, finite-support expectation
+additivity by induction, Markov by induction; `decide` instances: Bayes,
+Var=E[X²]−E[X]², binomial(4,½) mean/var, Jensen φ=square);
+`validation/instance-checks.bc` (**exit 0** — Bernoulli/binomial/Poisson/exp/normal
+moments, Poisson limit, memorylessness, standardized-binomial → Φ(1) CLT trend);
+`sources/bibliography.md`. Convergence-mode tag defined in `conventions.md` (the
+choice_grade analogue). 6 headline `results/*.yaml` written (kolmogorov_axioms,
+bayes_theorem, markov_inequality, chebyshev_inequality, expectation_linearity,
+central_limit_theorem).
+
+**Added 2026-09-06 (session 2):** ALL 131 `results/<id>.yaml` + ALL 131
+`nodes/<id>.md` — generated from one spec table `build/gen-results.py` (deps read
+from the graph, so no drift), 6 headline entries hand-written.
+`edges/relations.tsv` (45 non-prerequisite relations incl. `P(A|B)=P(A)` as
+`equivalent_to` on `independence_events`). `build/check-consistency.py` (YAML↔graph
+deps, source keys, relation endpoints — **all green**). New bibliography keys.
+128 nodes promoted `draft`→`reviewed` in `nodes.tsv` (3 boundary nodes stay
+`draft`). `build/all.sh` green end to end.
+
+**Added 2026-09-06 (session 3 — polish):** rewrote `validation/proof-checks.lean`
+using Lean 4.33 core `grind`/`omega` (still **no Mathlib, exit 0, no warnings**):
+**15 genuine universal cores** now — union bound, incl-excl 2/3, Bayes
+denominator, indicator algebra (`ind_and/or/compl`), `wsum_const` (E[c]=c),
+`expectation_linearity` (universal in a,b, list induction), `centid` (the
+centered-moment identity behind `Var=E[X²]−E[X]²` and `law_of_total_variance`),
+`var_affine`, `markov_finite`, `chebyshev_reduction_fwd`, `jensen_sq` (universal
+via the `t(n−t)(x−y)²` factorization), `cov_bilinear_raw`, `var_of_sum_raw`,
+`corr_bound_iff` — plus `decide` instance grids. **36 nodes now `lean_status:
+core`** (was ~15), 41 `cited`; every `lean_ref` points at a real declaration.
+`proof-checks.md` rewritten with the genuine-vs-instance table keyed to nodes.
+New `build/gen-validation-md.py` renders `validation/{type-checks,
+specialization-cases,instance-checks}.md` (131 `## <node>` sections each) from
+the YAMLs, so every `checks:` anchor resolves; wired into `build/all.sh`.
+
+**Remaining for 0.1 / 0.2:** `upmd` tutorial via a probability analogue of
+`formula-tree-tutorial`; a `math-measure-and-integration` capsule as the floor
+below (would discharge the 6 cited integration bridges); Release 0.2 martingales
++ stochastic processes (the 3 boundary nodes).
+
+**Target ~130 nodes** (2026-09-06, user): probability at this level is a
+naturally high concept-load domain; 131 stays. No trim.
+
+- [x] **math-probability:** `scope.md` — Kolmogorov axioms; σ-algebras and
       probability measures (discharge from `math-sets-functions-cardinality`);
       random variables, distribution / density / CDF; expectation, variance,
       moments, MGF/characteristic function; independence and conditional
@@ -61,19 +110,21 @@ sits on top of `math-sets-functions-cardinality` (σ-algebras, measures) and
       processes (out of scope for 0.1).  Exclude: measure-theoretic
       probability *beyond* the σ-algebra/measure entry, stochastic processes,
       statistical inference (its own skill).
-- [ ] **math-probability:** graph + `tsort` — target ~90–110 nodes; roots
-      discharged into `math-sets-functions-cardinality` / `math-real-analysis`;
-      watch the independence ↔ conditional-probability and
-      expectation ↔ integral would-be cycles.
-- [ ] **math-probability:** Lean validation — kernel-checked cores for the
-      discrete inequalities (Markov, Chebyshev from Markov, Jensen for a convex
-      combination), Bayes' theorem as an identity, linearity of expectation,
-      `Var(X) = E[X²] − E[X]²`, binomial mean/variance; `bc` worksheets for the
-      distribution moment formulas and a CLT convergence demonstration.
-- [ ] **math-probability:** `every_choice_grade` analogue — tag each limit
-      theorem with the mode of convergence it uses (almost-sure / in-probability
-      / in-distribution / L²) the way the `math-*` capsules tag `choice_grade` /
-      `constructive_grade`.
+- [x] **math-probability:** graph + `tsort` — 131 nodes, 399 edges, acyclic,
+      0 isolated; both would-be cycles resolved (see `edges/cycles.md`).
+      Target revised to ~130 (high concept-load domain — kept, no trim).
+      (2026-09-06)
+- [x] **math-probability:** Lean validation — 15 genuine universal `grind`/`omega`
+      cores + `decide` instance grids (Mathlib-free, Lean 4.33, exit 0, no
+      warnings); 36 nodes `lean_status: core`, every `lean_ref` points at a real
+      declaration; `proof-checks.md` rewritten. (2026-09-06)
+- [x] **math-probability:** all 131 result YAMLs + 131 node pages +
+      `relations.tsv` + `check-consistency.py`; `nodes.tsv` statuses promoted;
+      `validation/{type-checks,specialization-cases,instance-checks}.md`
+      generated (131 sections each) via `gen-validation-md.py`. (2026-09-06)
+- [x] **math-probability:** `every_choice_grade` analogue — convergence-mode tag
+      table in `conventions.md`; each limit-theorem YAML carries
+      `convergence_mode:` (see `central_limit_theorem.yaml`). (2026-09-06)
 
 ### statistics  (follows math-probability — planned)
 

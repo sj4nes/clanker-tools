@@ -1,0 +1,45 @@
+id: moments.variance_of_sum
+node: variance_of_sum
+status_label: proved_theorem
+display: 'Var(sum_{i=1}^n X_i) = sum_i Var(X_i) + 2 sum_{i<j} Cov(X_i, X_j). If the X_i are pairwise uncorrelated, Var(sum) = sum Var.'
+parseable: 'Var(sum X_i) = sum Var(X_i) + 2 sum_{i<j} Cov(X_i, X_j)'
+symbols:
+  'X_i': 'random variables in L^2(P), type: L^2(P)'
+  'n': 'a fixed positive integer, type: natural number'
+type_check_status: well_formed
+type_check_note: 'expand Var(sum X_i) = Cov(sum X_i, sum X_j) by bilinearity; the diagonal terms are Var(X_i), the off-diagonal terms pair up.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'covariance'
+  - 'covariance_bilinear'
+  - 'expectation_linearity'
+  - 'variance'
+proof:
+  technique: 'bilinearity of covariance: Cov(sum_i X_i, sum_j X_j) = sum_{i,j} Cov(X_i, X_j), split diagonal from off-diagonal'
+  derives_from: 'covariance_bilinear'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.var_of_sum_raw and Prob.cov_bilinear_raw (GENUINE raw-moment identities)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'pairwise uncorrelated (in particular independent) X_i: Var(sum) = sum Var(X_i) -- ''variances add'''
+  - 'iid X_i: Var(sum) = n Var(X_1), so Var(sample mean) = Var(X_1)/n -- the 1/n that drives the LLN and the sqrt(n) in the CLT'
+  - 'X_i = X for all i: Var(nX) = n^2 Var(X) -- maximal positive correlation'
+counterexamples_when_dropped:
+  uncorrelatedness_for_the_clean_form: 'X_1 ~ N(0,1), X_2 = -X_1: Var(X_1 + X_2) = Var(0) = 0, not Var(X_1) + Var(X_2) = 2 -- the -2 Cov term matters'
+common_misuse:
+  - 'assuming variances add without checking (pairwise) uncorrelatedness'
+  - 'forgetting the factor 2 on the covariance sum'
+related:
+  derives_from: ['covariance_bilinear']
+  used_by: ['weak_law_large_numbers', 'binomial_distribution']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#variance_of_sum
+  specialization: validation/specialization-cases.md#variance_of_sum
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#variance_of_sum

@@ -1,0 +1,45 @@
+id: distributions.standard_normal
+node: standard_normal
+status_label: definition
+display: 'Z ~ N(0, 1): density phi(z) = e^{-z^2/2} / sqrt(2 pi), CDF Phi(z) = integral_{-inf}^z phi. E[Z] = 0, Var(Z) = 1, phi_Z(t) = e^{-t^2/2}, all odd moments 0, E[Z^{2k}] = (2k-1)!!.'
+parseable: 'Z ~ N(0,1) ;  phi(z) = e^{-z^2/2}/sqrt(2 pi) ;  phi_Z(t) = e^{-t^2/2}'
+symbols:
+  'Z': 'a standard normal variable, type: Omega -> R'
+  'Phi': 'its CDF, type: R -> (0,1)'
+type_check_status: well_formed
+type_check_note: 'the reference point: any N(mu, sigma^2) variable is mu + sigma Z, and any normal probability reduces to Phi. The CLT limit is stated as convergence to Z.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'characteristic_function'
+  - 'normal_distribution'
+  - 'transformation_univariate'
+proof:
+  technique: 'Z = (X - mu)/sigma for X ~ N(mu, sigma^2) via transformation_univariate; phi_Z(t) = e^{-t^2/2} by completing the square in E[e^{itZ}]'
+  derives_from: 'transformation_univariate'
+  lean_status: core
+  lean_ref: 'validation/instance-checks.bc -- Phi(1) = 0.8413...'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Phi(0) = 1/2; Phi(1) approx 0.8413; Phi(1.96) approx 0.975 (the 95% two-sided quantile)'
+  - 'Z^2 ~ chi-squared_1; Z_1/Z_2 ~ Cauchy for independent Z_i; sum of k iid Z_i^2 ~ chi-squared_k'
+  - 'Mills ratio: P(Z > z)/phi(z) -> 1/z as z -> inf'
+counterexamples_when_dropped:
+  none_it_is_a_fixed_law: 'the standard normal is a single distribution; the caution is downstream (assuming data is standard normal after a bad standardization)'
+common_misuse:
+  - 'using a normal-approximation quantile (1.96) when the sample is small or heavy-tailed (use t)'
+  - 'confusing phi (density) with Phi (CDF)'
+related:
+  rescales_to: ['normal_distribution']
+  clt_limit: ['central_limit_theorem']
+  squares_to: ['chi-squared']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#standard_normal
+  specialization: validation/specialization-cases.md#standard_normal
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#standard_normal

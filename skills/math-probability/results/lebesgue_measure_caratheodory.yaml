@@ -1,0 +1,43 @@
+id: measure.lebesgue_measure_caratheodory
+node: lebesgue_measure_caratheodory
+status_label: constructive_result
+display: 'There is a unique measure lambda on B(R) with lambda([a,b]) = b - a. It is built by extending interval length to an outer measure lambda* on all of 2^R, then restricting to the Caratheodory-measurable sets, which include B(R).'
+parseable: 'exists! lambda on B(R) with lambda((a,b]) = b - a ; translation-invariant, sigma-finite'
+symbols:
+  'lambda': 'Lebesgue measure, type: measure on B(R)'
+  'lambda*': 'Lebesgue outer measure, type: 2^R -> [0, inf]'
+type_check_status: well_formed
+type_check_note: 'CITED. lambda is sigma-finite (R = bigcup [-n, n]) and translation-invariant; it is the reference measure for ''absolutely continuous'' random variables and densities. Non-measurable sets (Vitali) exist, using AC.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'borel_sigma_algebra'
+  - 'measure'
+  - 'real_field'
+proof:
+  technique: 'Caratheodory extension theorem: an outer measure''s Caratheodory-measurable sets form a sigma-algebra on which it is a complete measure; interval length is a premeasure on the algebra of finite unions of intervals, so it extends; pi-lambda gives uniqueness on B(R)'
+  derives_from: 'dynkin_pi_lambda'
+  lean_status: cited
+  lean_ref: 'Folland Real Analysis 2e Thm 1.14, 1.19; Billingsley Thm 12.4'
+uses_choice: true
+constructive: false
+specialization_cases:
+  - 'lambda restricted to [0,1] is the uniform probability measure -- the model probability space'
+  - 'lambda({x}) = 0, lambda(Q) = 0, lambda(Cantor set) = 0 -- uncountable null sets exist'
+counterexamples_when_dropped:
+  caratheodory_measurability: 'lambda* is only finitely subadditive-not-additive on all of 2^R; a Vitali set V has lambda*(V) > 0 but the translates of V partition [0,1] into countably many congruent pieces, so countable additivity would force a contradiction -- V is not measurable'
+common_misuse:
+  - 'assuming every subset of R has a Lebesgue measure'
+  - 'confusing lambda (on B(R)) with its completion (Lebesgue sigma-algebra)'
+related:
+  uses: ['axiom_of_choice (for non-measurable sets, not for lambda itself)']
+  extends: ['interval length']
+sources:
+  - 'folland_real_analysis'
+  - 'billingsley_probability_measure'
+status: reviewed
+checks:
+  type: validation/type-checks.md#lebesgue_measure_caratheodory
+  specialization: validation/specialization-cases.md#lebesgue_measure_caratheodory
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#lebesgue_measure_caratheodory

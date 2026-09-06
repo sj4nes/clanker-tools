@@ -1,0 +1,42 @@
+id: moments.correlation
+node: correlation
+status_label: definition
+display: 'rho(X, Y) = Cov(X, Y) / (sd(X) sd(Y)), defined when Var(X), Var(Y) in (0, inf). rho in [-1, 1]; |rho| = 1 iff Y is a.s. an affine function of X.'
+parseable: 'rho(X,Y) := Cov(X,Y) / (sd(X) sd(Y)) ,  rho in [-1, 1]'
+symbols:
+  'rho': 'the correlation coefficient, type: real in [-1,1]'
+  'X, Y': 'random variables with positive finite variance, type: L^2(P)'
+type_check_status: well_formed
+type_check_note: 'the scale-invariant, dimensionless version of covariance -- the cosine of the angle between the centered variables in L^2(P). The bound |rho| <= 1 is Cauchy-Schwarz applied to the centered variables.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'cauchy_schwarz_expectation'
+  - 'covariance'
+  - 'variance'
+well_definedness: 'requires sd(X), sd(Y) > 0 (non-degenerate) and finite; then |Cov(X,Y)| <= sd(X) sd(Y) by Cauchy-Schwarz, so rho in [-1, 1].'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Y = aX + b, a > 0: rho = 1; a < 0: rho = -1'
+  - 'X, Y independent: rho = 0'
+  - 'bivariate normal: rho is the single parameter governing dependence -- and here rho = 0 DOES imply independence'
+counterexamples_when_dropped:
+  positive_finite_variances: 'a constant Y has sd(Y) = 0 -- rho is 0/0, undefined'
+  linearity_of_the_relationship: 'Y = X^2 with X ~ Uniform(-1,1): perfect functional dependence but rho = 0 -- correlation only sees LINEAR association'
+common_misuse:
+  - 'reading rho = 0 as independence (only true for jointly normal)'
+  - 'reading |rho| near 1 as ''causation'' or as a good fit for a nonlinear relationship'
+  - 'comparing rho across samples of very different range (restriction of range attenuates rho)'
+related:
+  normalizes: ['covariance']
+  bounded_by: ['cauchy_schwarz_expectation']
+sources:
+  - 'grimmett_stirzaker'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#correlation
+  specialization: validation/specialization-cases.md#correlation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#correlation

@@ -1,0 +1,40 @@
+id: random_variable.absolutely_continuous_rv
+node: absolutely_continuous_rv
+status_label: definition
+display: 'X is absolutely continuous if its law P_X is absolutely continuous with respect to Lebesgue measure: lambda(B) = 0 implies P_X(B) = 0. Equivalently F_X(x) = integral_{-inf}^x f for some f.'
+parseable: 'P_X << lambda   <=>   F_X(x) = integral_{-inf}^{x} f_X dt  for some integrable f_X >= 0'
+symbols:
+  'X': 'a random variable, type: Omega -> R'
+  'lambda': 'Lebesgue measure, type: measure on B(R)'
+type_check_status: well_formed
+type_check_note: '''absolutely continuous'' is a property of the LAW relative to lambda, distinct from F_X being a continuous function (the Cantor function is continuous but its law is singular). Radon-Nikodym then supplies the density f_X = dP_X/dlambda.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'distribution_pushforward'
+  - 'lebesgue_measure_caratheodory'
+  - 'radon_nikodym'
+well_definedness: 'P_X << lambda is a well-defined relation between measures; by Radon-Nikodym (P_X finite, lambda sigma-finite) it is equivalent to the existence of a density.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Uniform, exponential, normal, gamma, beta: all absolutely continuous'
+  - 'P(X = x) = 0 for every x (no atoms) is necessary but NOT sufficient (singular continuous laws also have no atoms)'
+counterexamples_when_dropped:
+  absolute_continuity_vs_continuous_cdf: 'the Cantor distribution: F_X continuous and strictly increasing on the Cantor set, F_X'' = 0 lambda-a.e., P_X concentrated on a lambda-null set -- continuous CDF, no density'
+common_misuse:
+  - 'equating ''continuous random variable'' with ''continuous CDF'''
+  - 'assuming a density exists whenever there are no atoms'
+related:
+  requires: ['radon_nikodym']
+  complement_of: ['discrete_rv']
+  third_case: ['singular continuous']
+sources:
+  - 'billingsley_probability_measure'
+  - 'folland_real_analysis'
+status: reviewed
+checks:
+  type: validation/type-checks.md#absolutely_continuous_rv
+  specialization: validation/specialization-cases.md#absolutely_continuous_rv
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#absolutely_continuous_rv

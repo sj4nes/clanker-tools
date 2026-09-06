@@ -1,0 +1,45 @@
+id: inequalities.chebyshev_inequality
+node: chebyshev_inequality
+status_label: proved_theorem
+display: 'If $\operatorname{Var}(X)<\infty$ and $k>0$, then $P\big(|X-E[X]|\ge k\big)\le \dfrac{\operatorname{Var}(X)}{k^2}$.'
+parseable: 'Var(X) < inf, k > 0  =>  P(|X - E[X]| >= k) <= Var(X) / k^2'
+symbols:
+  X: { meaning: a random variable with a finite second moment, type: 'Omega -> R' }
+  k: { meaning: deviation threshold, type: 'positive real' }
+type_check_status: well_formed
+type_check_note: 'Var(X) < inf implies E[X] finite (moment_ladder), so E[X] and the centred variable X - E[X] are well defined.'
+hypotheses: [finite_variance, k_positive]
+preconditions: [E_X_finite]
+dependencies: [markov_inequality, variance, variance_computational]
+proof:
+  technique: >-
+    apply Markov to the nonnegative variable Y = (X - E[X])^2 with threshold
+    k^2:  P(|X - E[X]| >= k) = P(Y >= k^2) <= E[Y]/k^2 = Var(X)/k^2.
+  derives_from: markov_inequality
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.chebyshev_reduction_fwd (GENUINE: the {|y|>=k} => {y^2>=k^2} direction Chebyshev uses) + the decide grid; the Markov core is Prob.markov_finite'
+uses_choice: false
+constructive: true
+solving_for: 'a two-sided concentration bound around the mean from the variance alone'
+specialization_cases:
+  - 'k = c * sd(X): P(|X - E[X]| >= c sd) <= 1/c^2 -- the "how many standard deviations" form'
+  - 'X = sample mean of n iid variables, Var = sigma^2/n: P(|mean - mu| >= eps) <= sigma^2/(n eps^2) -> 0, i.e. the WLLN'
+  - 'two-point symmetric law at +-k with the stated variance: equality -- Chebyshev is tight'
+counterexamples_when_dropped:
+  finite_variance: 'X ~ Cauchy (cauchy_no_mean): Var and E both fail to exist; the tail P(|X| >= k) ~ 2/(pi k) decays like 1/k, not 1/k^2, and no variance bound applies.'
+  k_positive: 'k <= 0: the right side is infinite or undefined and the statement is vacuous or meaningless.'
+common_misuse:
+  - 'using it when a sharper bound (Chernoff / Hoeffding, needing more than 2 moments or boundedness) is available -- Chebyshev gives only polynomial tails'
+  - 'forgetting it is two-sided; the one-sided version is Cantelli''s inequality, Var/(Var + k^2)'
+  - 'applying it to a variable whose variance is infinite or undefined'
+related:
+  special_case_of: [markov_inequality]
+  strengthened_by: [chernoff_bound, hoeffding_inequality]
+  used_by: [weak_law_large_numbers]
+sources: [billingsley_probability_measure, durrett_pte, grimmett_stirzaker]
+status: reviewed
+checks:
+  type: validation/type-checks.md#chebyshev_inequality
+  specialization: validation/specialization-cases.md#chebyshev_inequality
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#chebyshev_inequality

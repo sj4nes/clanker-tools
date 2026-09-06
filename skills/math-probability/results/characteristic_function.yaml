@@ -1,0 +1,42 @@
+id: moments.characteristic_function
+node: characteristic_function
+status_label: definition
+display: 'The characteristic function of X is phi_X(t) = E[e^{i t X}] = E[cos tX] + i E[sin tX]. It exists for EVERY random variable and every real t, with |phi_X(t)| <= 1 and phi_X(0) = 1.'
+parseable: 'phi_X(t) := E[e^{itX}] ,  |phi_X| <= 1 ,  phi_X(0) = 1'
+symbols:
+  'phi_X': 'the characteristic function, type: R -> C, |phi_X| <= 1'
+  't': 'a real parameter, type: real'
+type_check_status: well_formed
+type_check_note: 'the Fourier transform of the law P_X. Unlike the MGF it always exists because |e^{itX}| = 1 is bounded. It determines the law (inversion), is uniformly continuous, and turns sums of independents into products.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'expectation'
+  - 'lotus'
+  - 'real_field'
+well_definedness: '|e^{itX}| = 1 so e^{itX} is bounded, hence integrable against the probability measure P; phi_X is defined for all t.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'N(0,1): phi(t) = e^{-t^2/2}'
+  - 'Cauchy: phi(t) = e^{-|t|} (exists! even though no moments do)'
+  - 'X = c: phi(t) = e^{itc}'
+  - 'Bernoulli(p): phi(t) = 1 - p + p e^{it}'
+counterexamples_when_dropped:
+  none_always_defined: 'the CF is the tool precisely because it needs no hypothesis -- every law has one'
+common_misuse:
+  - 'expecting phi to be real (it is real iff the law is symmetric about 0)'
+  - 'reading phi_X''(0) as E[X] without E|X| < inf (the derivative may fail to exist)'
+related:
+  always_exists_unlike: ['mgf']
+  determines: ['the law (cf_properties)']
+  used_by: ['levy_continuity_theorem', 'central_limit_theorem']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#characteristic_function
+  specialization: validation/specialization-cases.md#characteristic_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#characteristic_function

@@ -1,0 +1,42 @@
+id: moments.mgf_uniqueness
+node: mgf_uniqueness
+status_label: proved_theorem
+display: 'If M_X(t) = M_Y(t) < inf for all t in an open interval around 0, then P_X = P_Y.'
+parseable: 'M_X = M_Y finite on (-h, h)  =>  P_X = P_Y'
+symbols:
+  'M_X, M_Y': 'MGFs finite near 0, type: (-h, h) -> R'
+type_check_status: well_formed
+type_check_note: 'finiteness on a neighborhood of 0 forces the law to have exponentially decaying tails, and such laws are determined by their moment sequence (the moment problem is determinate); alternatively the MGF extends to a strip in C and equals the CF, which always determines the law (cf_properties).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'distribution_pushforward'
+  - 'mgf'
+proof:
+  technique: 'analytic continuation of M to the complex strip |Re z| < h; on the imaginary axis it is the characteristic function, whose inversion determines the law'
+  derives_from: 'dynkin_pi_lambda'
+  lean_status: cited
+  lean_ref: 'Billingsley Thm 30.1; Curtiss 1942'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'sum of independent Poissons: M = product of exp(lambda_i(e^t - 1)) = exp((sum lambda_i)(e^t - 1)) => Poisson(sum lambda_i)'
+  - 'sum of independent N(mu_i, sigma_i^2): M = exp(sum mu_i t + (sum sigma_i^2) t^2 / 2) => N(sum mu_i, sum sigma_i^2)'
+counterexamples_when_dropped:
+  finiteness_on_an_interval: 'agreement of M_X and M_Y only AT t = 0 (both equal 1) says nothing; and two different laws can share every moment (lognormal and a discrete perturbation) -- but then neither has an MGF finite near 0'
+common_misuse:
+  - 'concluding P_X = P_Y from M_X = M_Y at finitely many points'
+  - 'using MGF uniqueness for heavy-tailed laws (no MGF -- must use the CF)'
+related:
+  cf_analogue: ['phi_X = phi_Y => P_X = P_Y, UNCONDITIONALLY']
+  uses: ['dynkin_pi_lambda']
+  used_by: ['normal_affine_closure', 'poisson_limit_theorem']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#mgf_uniqueness
+  specialization: validation/specialization-cases.md#mgf_uniqueness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#mgf_uniqueness

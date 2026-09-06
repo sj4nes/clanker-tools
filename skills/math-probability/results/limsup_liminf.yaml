@@ -1,0 +1,35 @@
+id: analysis.limsup_liminf
+node: limsup_liminf
+status_label: definition
+display: 'limsup and liminf of a real sequence (always defined in the extended reals); for a sequence of SETS, limsup A_n = { omega in infinitely many A_n } = intersection_N union_{n>=N} A_n.'
+parseable: 'limsup A_n = bigcap_N bigcup_{n>=N} A_n ;  liminf A_n = bigcup_N bigcap_{n>=N} A_n'
+symbols:
+  '(a_n)': 'a real sequence, type: N -> R'
+  '(A_n)': 'a sequence of events, type: N -> F'
+type_check_status: well_formed
+type_check_note: 'for sets, ''A_n infinitely often'' (i.o.) is limsup A_n; ''A_n eventually / all but finitely often'' is liminf A_n. Both are events (countable operations on F). Discharged from math-real-analysis.'
+hypotheses: []
+preconditions: []
+dependencies: []
+well_definedness: 'limsup a_n = inf_N sup_{n>=N} a_n exists in [-inf, +inf]; the set versions are countable unions and intersections, hence in any sigma-algebra containing the A_n.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Borel-Cantelli lemmas are statements about P(limsup A_n)'
+  - 'a_n -> a iff limsup a_n = liminf a_n = a'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used in the proof; see the block above'
+common_misuse:
+  - 'reading limsup A_n as ''the last A_n'' -- it is the i.o. event'
+  - 'forgetting liminf A_n subset limsup A_n always'
+related:
+  developed_in: ['math-real-analysis']
+sources:
+  - 'rudin_principles'
+  - 'billingsley_probability_measure'
+status: reviewed
+checks:
+  type: validation/type-checks.md#limsup_liminf
+  specialization: validation/specialization-cases.md#limsup_liminf
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#limsup_liminf

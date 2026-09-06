@@ -1,0 +1,40 @@
+id: independence.uncorrelated_not_independent
+node: uncorrelated_not_independent
+status_label: counterexample
+display: 'Zero covariance does not imply independence. Example: X ~ Uniform(-1, 1), Y = X^2. Then Cov(X, Y) = E[X^3] - E[X] E[X^2] = 0 - 0 = 0, but Y is a deterministic function of X.'
+parseable: 'X ~ Uniform(-1,1), Y = X^2:  Cov(X, Y) = 0  but  X, Y dependent'
+symbols:
+  'X': 'Uniform(-1,1), type: Omega -> (-1,1)'
+  'Y': 'X^2, type: Omega -> [0,1)'
+type_check_status: well_formed
+type_check_note: 'correlation measures only LINEAR association; the relationship here is purely quadratic (even), so it is invisible to covariance. P(Y < 1/4 | X > 1/2) = 0 != P(Y < 1/4), witnessing dependence.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'continuous_uniform_distribution'
+  - 'covariance'
+  - 'independence_random_variables'
+well_definedness: 'E[X] = 0 and E[X^3] = 0 by symmetry, so Cov(X, X^2) = 0 exactly; yet sigma(Y) subset sigma(X) non-trivially.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'general principle: for any symmetric X with finite third moment, X and |X| (or X^2) are uncorrelated but dependent'
+  - 'the one place the converse DOES hold: (X, Y) jointly Gaussian => uncorrelated implies independent'
+counterexamples_when_dropped:
+  this_IS_the_counterexample: 'it shows independence_expectation is a one-way implication'
+common_misuse:
+  - 'concluding independence from a zero sample correlation'
+  - 'using rho as a general dependence measure (it is not -- consider distance correlation / mutual information)'
+  - 'assuming a regression with R^2 = 0 means no relationship'
+related:
+  limits: ['independence_expectation']
+  exception: ['jointly Gaussian (normal_distribution)']
+sources:
+  - 'grimmett_stirzaker'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#uncorrelated_not_independent
+  specialization: validation/specialization-cases.md#uncorrelated_not_independent
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#uncorrelated_not_independent

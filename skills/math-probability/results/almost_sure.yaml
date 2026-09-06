@@ -1,0 +1,38 @@
+id: measure.almost_sure
+node: almost_sure
+status_label: definition
+display: 'An event A holds almost surely (a.s.) if P(A) = 1, equivalently if its complement is a P-null set. Convergence, equality, and inequalities of random variables are all understood in the a.s. sense unless stated otherwise.'
+parseable: 'A a.s.  <=>  P(A) = 1  <=>  P(A^c) = 0'
+symbols:
+  'A': 'an event, type: element of F'
+  'P': 'the probability measure, type: F -> [0,1]'
+type_check_status: well_formed
+type_check_note: '''a.s.'' is ''a.e.'' for a probability measure. Countably many a.s. events hold simultaneously a.s. (their intersection has probability 1). X = Y a.s. means P(X = Y) = 1; it is an equivalence relation on random variables and is the identification used to define L^p and E[X | G].'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'null_set'
+  - 'probability_measure'
+well_definedness: 'P(A) = 1 is well-defined; the a.s. quantifier is closed under countable intersection: P(bigcap A_n) = 1 if P(A_n) = 1 for all n (complement is a countable union of null sets).'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'X_n -> X a.s. is the strongest of the four convergence modes'
+  - 'E[X | G] is defined only up to a.s. equality'
+counterexamples_when_dropped:
+  countable_intersection_only: 'an uncountable family of a.s. events can have intersection of probability 0: on [0,1] uniform, A_x = { omega != x } has P(A_x) = 1 but bigcap_x A_x = empty'
+common_misuse:
+  - 'reading ''a.s.'' as ''always'' -- a.s. events can fail on a nonempty (null) set'
+  - 'intersecting uncountably many a.s. events (e.g. ''X_t continuous in t'' needs a separate argument -- separability / a continuous modification)'
+related:
+  specializes: ['null_set']
+  used_by: ['convergence_almost_sure', 'strong_law_large_numbers']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#almost_sure
+  specialization: validation/specialization-cases.md#almost_sure
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#almost_sure

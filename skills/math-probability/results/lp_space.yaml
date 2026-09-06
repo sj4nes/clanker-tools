@@ -1,0 +1,41 @@
+id: moments.lp_space
+node: lp_space
+status_label: definition
+display: 'L^p(P) = { X : E[|X|^p] < inf } for p >= 1, a normed vector space with ||X||_p = E[|X|^p]^{1/p} (identifying X = Y a.s.). It is complete (a Banach space); L^2 is a Hilbert space.'
+parseable: 'L^p(P) := { X : E[|X|^p] < inf } ,  ||X||_p := (E[|X|^p])^{1/p}'
+symbols:
+  'X': 'a random variable, type: Omega -> R'
+  'p': 'an exponent, type: real >= 1'
+type_check_status: well_formed
+type_check_note: 'elements are a.s.-equivalence classes, not functions. The triangle inequality is Minkowski; completeness (Riesz-Fischer) is cited. On a PROBABILITY space the L^p are nested (moment_ladder), unlike on infinite measure spaces.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'convex_function'
+  - 'expectation'
+  - 'moment'
+well_definedness: '||.||_p is a genuine norm on the quotient by a.s.-equality (||X||_p = 0 iff X = 0 a.s., by expectation_monotonicity); Minkowski gives the triangle inequality.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'p = 1: integrable variables, E[X] defined'
+  - 'p = 2: finite variance, the Hilbert space where E[X|G] is a projection'
+  - 'p = inf: ||X||_inf = ess sup |X|, the a.s.-bounded variables'
+counterexamples_when_dropped:
+  probability_space_for_nesting: 'on (R, lambda), 1/x is in L^2(1, inf) but not L^1(1, inf) -- the nesting L^p subset L^q (p > q) needs a FINITE measure'
+common_misuse:
+  - 'treating L^p elements as functions with pointwise values'
+  - 'assuming L^p nesting on a general measure space'
+related:
+  ordered_by: ['moment_ladder']
+  normed_by: ['holder_inequality', 'minkowski']
+  used_by: ['conditional_expectation_l2_projection', 'convergence_in_lp']
+sources:
+  - 'folland_real_analysis'
+  - 'williams_probability_martingales'
+status: reviewed
+checks:
+  type: validation/type-checks.md#lp_space
+  specialization: validation/specialization-cases.md#lp_space
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#lp_space

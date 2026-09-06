@@ -1,0 +1,51 @@
+# holder_inequality
+
+## Type
+theorem
+
+## Statement
+If 1/p + 1/q = 1 with p, q > 1 (or the pair 1, inf), then E[|XY|] <= ||X||_p ||Y||_q. The case p = q = 2 is Cauchy-Schwarz.
+
+## Symbols
+- `X` — in L^p(P), type: L^p(P)
+- `Y` — in L^q(P), type: L^q(P)
+- `p, q` — conjugate exponents, type: real > 1
+
+## Epistemic status
+proved_theorem
+
+## Prerequisites (tsort edges into this node)
+convex_function, expectation_monotonicity, jensen_inequality, lp_space
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: normalize, apply Young's inequality (from convexity of exp / concavity of log) pointwise, integrate
+derives_from: jensen_inequality
+lean_status: core
+
+## Type / well-formedness check
+Young's inequality ab <= a^p/p + b^q/q (a convexity fact) applied pointwise to a = |X|/||X||_p, b = |Y|/||Y||_q, then take expectations: E[|XY|]/(||X||_p ||Y||_q) <= 1/p + 1/q = 1.
+
+## Specialization / boundary cases
+- p = q = 2: Cauchy-Schwarz, (E|XY|)^2 <= E[X^2] E[Y^2]
+- p = 1, q = inf: E[|XY|] <= E[|X|] ess-sup|Y|
+- Y = 1: E[|X|] <= ||X||_p (part of the moment ladder)
+- generalized (three factors): E[|XYZ|] <= ||X||_r ||Y||_s ||Z||_t with 1/r + 1/s + 1/t = 1
+
+## Hypothesis-dropped counterexamples
+- **conjugacy_1_over_p_plus_1_over_q_eq_1**: with 1/p + 1/q < 1 the inequality is false in general (dimensional analysis / scaling X -> cX breaks it)
+- **X_in_Lp_and_Y_in_Lq**: if X not in L^p the right side is infinite -- the bound holds but says nothing
+
+## Common misuse
+- using non-conjugate exponents
+- forgetting the absolute values (Holder bounds E[|XY|], not E[XY])
+
+## Related nodes (non-prerequisite)
+- generalizes: cauchy_schwarz_expectation
+- dual_pair_with: minkowski (the triangle inequality for ||.||_p)
+- used_by: moment_ladder
+
+## Sources
+folland_real_analysis, boucheron_lugosi_massart

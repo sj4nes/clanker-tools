@@ -1,0 +1,44 @@
+id: independence.independence_factorization
+node: independence_factorization
+status_label: proved_theorem
+display: 'X, Y are independent iff F_{X,Y}(x, y) = F_X(x) F_Y(y) for all x, y; iff (when densities exist) f_{X,Y}(x, y) = f_X(x) f_Y(y) for a.e. (x, y); iff (discrete) p_{X,Y}(x,y) = p_X(x) p_Y(y).'
+parseable: 'X ⟂ Y  <=>  F_{X,Y} = F_X F_Y  <=>  f_{X,Y} = f_X f_Y  (a.e.)'
+symbols:
+  'F_{X,Y}, f_{X,Y}': 'joint CDF / density, type: R^2 -> [0,1] / [0, inf)'
+type_check_status: well_formed
+type_check_note: 'the half-line rectangles (-inf, x] x (-inf, y] are a pi-system generating B(R^2); the factorization of the joint CDF there extends to full independence by the pi-lambda theorem.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'cdf'
+  - 'dynkin_pi_lambda'
+  - 'independence_random_variables'
+  - 'joint_distribution'
+  - 'pdf'
+proof:
+  technique: 'factorization on the generating pi-system of rectangles + pi-lambda; for densities, integrate/differentiate the CDF statement'
+  derives_from: 'dynkin_pi_lambda'
+  lean_status: cited
+  lean_ref: 'Billingsley Thm 20.1; Durrett Thm 2.1.7'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'a joint density that is a product g(x) h(y) (even unnormalized) => X, Y independent with marginals proportional to g, h -- the ''factorization criterion'''
+  - 'checking independence: it is enough that the SUPPORT is a product AND the density factors on it'
+counterexamples_when_dropped:
+  factorization_over_the_full_support: 'f_{X,Y}(x,y) = 2 on the triangle 0 < x < y < 1: the density is ''constant'' but the support is not a rectangle, so X, Y are NOT independent (Y | X = x is Uniform(x, 1))'
+common_misuse:
+  - 'reading a constant joint density as independence without checking the support is a product'
+  - 'checking factorization at a few points rather than a.e.'
+related:
+  uses: ['dynkin_pi_lambda']
+  operationalizes: ['independence_random_variables']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#independence_factorization
+  specialization: validation/specialization-cases.md#independence_factorization
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#independence_factorization

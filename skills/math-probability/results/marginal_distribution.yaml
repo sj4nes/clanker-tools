@@ -1,0 +1,43 @@
+id: random_variable.marginal_distribution
+node: marginal_distribution
+status_label: definition
+display: 'A marginal distribution is the law of a subvector of (X_1,...,X_n), obtained by integrating (or summing) the joint density (pmf) over the remaining coordinates: f_{X_1}(x_1) = integral f_{X_1,X_2}(x_1, x_2) dx_2.'
+parseable: 'f_{X_i}(x_i) = integral_{R^{n-1}} f_X(x) dx_{-i}   (Fubini)'
+symbols:
+  'f_X': 'the joint density, type: R^n -> [0, inf)'
+  'f_{X_i}': 'a marginal density, type: R -> [0, inf)'
+type_check_status: well_formed
+type_check_note: 'marginalization is projection of the joint law; it discards all dependence information. Fubini-Tonelli justifies the integration (nonnegative integrand).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'abstract_integral'
+  - 'fubini_tonelli'
+  - 'joint_distribution'
+proof:
+  technique: 'P(X_1 in B) = P(X in B x R^{n-1}) = integral_B integral_{R^{n-1}} f_X dx_{-1} dx_1 by Tonelli'
+  derives_from: 'fubini_tonelli'
+  lean_status: cited
+  lean_ref: 'Billingsley Thm 18.3'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'joint uniform on the unit disk: each marginal has a semicircular density, not uniform'
+  - 'bivariate normal: marginals are normal (but normal marginals do not imply joint normal)'
+counterexamples_when_dropped:
+  none_well_defined_always: 'the marginal always exists; the caution is that MANY joints share it'
+common_misuse:
+  - 'thinking equal marginals implies equal joints'
+  - 'assuming joint normality from normal marginals'
+related:
+  projection_of: ['joint_distribution']
+  used_by: ['conditional_distribution', 'independence_factorization']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#marginal_distribution
+  specialization: validation/specialization-cases.md#marginal_distribution
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#marginal_distribution

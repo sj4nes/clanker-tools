@@ -1,0 +1,44 @@
+type	source_id	target_id	note
+equivalent_to	independence_events	conditional_probability	"P(A|B) = P(A)" is equivalent to independence of A, B WHEN P(B) > 0; independence is defined by factorization (edges/cycles.md #1) so this is a theorem, not the definition
+equivalent_to	cdf	distribution_pushforward	the CDF determines the law and vice versa (cdf_determines_law, via dynkin_pi_lambda); modelled as distribution_pushforward -> cdf in the tsort graph (edges/cycles.md #4)
+equivalent_to	characteristic_function	distribution_pushforward	the CF determines the law unconditionally (cf_properties, inversion formula)
+equivalent_to	mgf	distribution_pushforward	the MGF determines the law WHEN finite on a neighbourhood of 0 (mgf_uniqueness)
+generalizes	kolmogorov_axioms	measure	a probability measure is a measure with total mass 1
+generalizes	inclusion_exclusion	finite_additivity	inclusion-exclusion reduces to finite additivity for disjoint events
+generalizes	boole_inequality	finite_additivity	the union bound is subadditivity; equality for disjoint events
+generalizes	independence_sigma_algebras	independence_events	independence of events = independence of the sigma-algebras {empty,A,A^c,Omega}
+generalizes	independence_random_variables	independence_sigma_algebras	X independent = sigma(X) independent
+generalizes	jensen_inequality	variance_computational	Var(X) >= 0 is Jensen for phi(x) = x^2
+generalizes	holder_inequality	cauchy_schwarz_expectation	Cauchy-Schwarz is Holder at p = q = 2
+generalizes	moment_ladder	holder_inequality	the L^p nesting follows from Holder / Lyapunov
+generalizes	tower_property	law_of_total_probability	iterated expectation generalizes the partition formula
+generalizes	poisson_limit_theorem	convergence_in_distribution	a named instance of weak convergence
+generalizes	central_limit_theorem	convergence_in_distribution	the headline instance of weak convergence
+generalizes	lindeberg_clt	central_limit_theorem	drops "identically distributed" for the Lindeberg condition
+special_case_of	chebyshev_inequality	markov_inequality	Markov applied to (X - EX)^2
+special_case_of	chernoff_bound	markov_inequality	Markov applied to e^{tX}
+special_case_of	cauchy_schwarz_expectation	holder_inequality	p = q = 2
+special_case_of	bernoulli_distribution	binomial_distribution	n = 1
+special_case_of	continuous_uniform_distribution	beta_distribution	Beta(1,1) = Uniform(0,1)
+special_case_of	exponential_distribution	gamma_distribution	Gamma(1, theta) = Exponential(1/theta)
+special_case_of	standard_normal	normal_distribution	mu = 0, sigma = 1
+strengthens	strong_law_large_numbers	weak_law_large_numbers	a.s. convergence is strictly stronger than in probability; same finite-mean hypothesis
+strengthens	hoeffding_inequality	chebyshev_inequality	exponential vs polynomial tail, for bounded summands
+strengthens	chernoff_bound	chebyshev_inequality	exponential vs polynomial tail, when an MGF exists
+dual_of	borel_cantelli_first	borel_cantelli_second	convergent-sum => P(i.o.)=0 (no independence) vs divergent-sum + independence => P(i.o.)=1
+dual_of	quantile_function	cdf	Galois connection F^{-1}(u) <= x  <=>  u <= F(x)
+approximates	poisson_distribution	binomial_distribution	Poisson(np) approximates Binomial(n,p) for large n, small p; error O(n p^2) (Le Cam)
+approximates	normal_distribution	binomial_distribution	N(np, np(1-p)) approximates Binomial(n,p) for large n; error O(1/sqrt n) (Berry-Esseen)
+approximates	standard_normal	central_limit_theorem	the CLT approximation Xbar ~ N(mu, sigma^2/n); Berry-Esseen bounds the CDF error by C rho / (sigma^3 sqrt n)
+commonly_confused_with	convergence_almost_sure	convergence_in_probability	a.s. controls the whole tail at once; in probability only each marginal -- the typewriter sequence separates them
+commonly_confused_with	uncorrelated_not_independent	independence_expectation	Cov = 0 does not imply independence; the converse of independence_expectation is false
+commonly_confused_with	pairwise_not_mutual	independence_events	pairwise independence is strictly weaker than mutual
+commonly_confused_with	pmf	pdf	a pmf value IS a probability; a pdf value is a density (can exceed 1)
+commonly_confused_with	absolutely_continuous_rv	cdf_properties	"continuous random variable" (law << Lebesgue) vs "continuous CDF" (the Cantor law has the second, not the first)
+contrapositive_of	strong_law_large_numbers	cauchy_no_mean	E|X_1| = inf  =>  limsup |Xbar_n| = inf a.s.
+proved_using	weak_law_large_numbers	characteristic_function	CF route: phi_{Xbar_n}(t) = phi_{X_1}(t/n)^n -> e^{i mu t}; alternative to the Chebyshev route
+proved_using	strong_law_large_numbers	martingale	the backward-martingale proof (Williams 12.10); the encoded route is Etemadi's truncation
+illustrated_by	probability_integral_transform	continuous_uniform_distribution	F(X) ~ Uniform(0,1); the target and source of the transform
+illustrated_by	central_limit_theorem	normal_distribution	the CLT is why the normal law is ubiquitous
+historically_precedes	bayes_theorem	conditional_expectation_abstract	Bayes (1763) long precedes Kolmogorov's abstract conditioning (1933)
+historically_precedes	weak_law_large_numbers	strong_law_large_numbers	Bernoulli 1713 (WLLN) precedes Borel 1909 / Kolmogorov 1930s (SLLN)

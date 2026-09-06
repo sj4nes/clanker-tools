@@ -1,0 +1,46 @@
+id: expectation.lotus
+node: lotus
+status_label: proved_theorem
+display: 'Law of the unconscious statistician: for measurable g, E[g(X)] = integral_R g dP_X, which equals sum_x g(x) p_X(x) (discrete) or integral g(x) f_X(x) dx (density) -- no need to find the law of g(X).'
+parseable: 'E[g(X)] = integral_R g(x) P_X(dx) = sum_x g(x) p_X(x) = integral g(x) f_X(x) dx'
+symbols:
+  'g': 'a measurable function, type: R -> R'
+  'X': 'a random variable, type: Omega -> R'
+type_check_status: well_formed
+type_check_note: 'the change-of-variables formula for the pushforward: integral_Omega (g o X) dP = integral_R g d(P o X^{-1}). Requires E[|g(X)|] < inf for a finite answer.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'abstract_integral'
+  - 'distribution_pushforward'
+  - 'expectation'
+  - 'pdf'
+  - 'pmf'
+proof:
+  technique: 'change of variables for the pushforward measure: true for indicators g = 1_B (definition of P_X), extend by linearity to simple g, by MCT to g >= 0, by parts to integrable g'
+  derives_from: 'distribution_pushforward'
+  lean_status: cited
+  lean_ref: 'Billingsley Thm 16.13'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'g(x) = x: E[X] from the law directly'
+  - 'g(x) = x^k: the k-th moment'
+  - 'g(x) = e^{tx}: the MGF'
+  - 'g(x) = 1_B(x): E[1_B(X)] = P(X in B)'
+counterexamples_when_dropped:
+  integrability_of_g_X: 'g(x) = x on a Cauchy X: E[g(X)] = integral x/(pi(1+x^2)) dx does not converge absolutely -- LOTUS gives no finite value'
+common_misuse:
+  - 'computing the law of g(X) unnecessarily'
+  - 'applying it when E[|g(X)|] = inf'
+related:
+  used_by: ['moment', 'mgf', 'characteristic_function', 'variance']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#lotus
+  specialization: validation/specialization-cases.md#lotus
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#lotus

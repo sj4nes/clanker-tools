@@ -1,0 +1,50 @@
+id: independence.bayes_theorem
+node: bayes_theorem
+status_label: proved_theorem
+display: 'For a partition $\{B_i\}$ of $\Omega$ with $P(B_i)>0$ and any event $A$ with $P(A)>0$: $P(B_j\mid A)=\dfrac{P(A\mid B_j)\,P(B_j)}{\sum_i P(A\mid B_i)\,P(B_i)}$.'
+parseable: 'P(B_j|A) = P(A|B_j)P(B_j) / sum_i P(A|B_i)P(B_i)'
+symbols:
+  A: { meaning: the observed event, type: 'element of F' }
+  '{B_i}': { meaning: a countable measurable partition of Omega, type: 'family in F' }
+  'P(.|.)': { meaning: conditional probability, type: 'F x F_{>0} -> [0,1]' }
+type_check_status: well_formed
+type_check_note: 'the denominator is P(A) rewritten by the law of total probability; every term needs its conditioning event to have positive probability. j ranges over the same index set as i.'
+hypotheses: [partition_of_Omega, positive_prior_P_B_i, positive_evidence_P_A]
+preconditions: [P_A_positive, P_B_i_positive_for_all_i]
+dependencies: [conditional_probability, law_of_total_probability, multiplication_rule]
+proof:
+  technique: >-
+    P(B_j|A) = P(A cap B_j)/P(A)  (definition).  Numerator: P(A cap B_j) =
+    P(A|B_j)P(B_j)  (multiplication rule).  Denominator: P(A) = sum_i P(A cap
+    B_i) = sum_i P(A|B_i)P(B_i)  (law of total probability, using that {B_i}
+    partitions Omega).  Divide.
+  derives_from: law_of_total_probability
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.bayes_denominator (denominator = P(A)) + the disease-test decide instance'
+uses_choice: false
+constructive: true
+solving_for: 'P(B_j | A) in terms of the likelihoods P(A | B_i) and priors P(B_i)'
+specialization_cases:
+  - 'two hypotheses B, B^c: P(B|A) = P(A|B)P(B) / [P(A|B)P(B) + P(A|B^c)P(B^c)] -- the odds form: posterior odds = likelihood ratio x prior odds'
+  - 'uniform prior P(B_i) = 1/n: P(B_j|A) proportional to the likelihood P(A|B_j) alone'
+  - 'A independent of every B_i: P(B_j|A) = P(B_j) -- evidence moves nothing'
+counterexamples_when_dropped:
+  partition_of_Omega: 'if the B_i do not cover Omega, sum_i P(A|B_i)P(B_i) < P(A) and the formula gives a posterior that does not sum to 1 over j. (base-rate fallacy is the special case of ignoring P(B_j).)'
+  positive_prior_P_B_i: 'P(B_j) = 0 makes P(A|B_j) undefined; a hypothesis with prior 0 can never gain posterior mass -- "Cromwell''s rule".'
+  positive_evidence_P_A: 'P(A) = 0 makes every P(B_j|A) undefined (0/0).'
+common_misuse:
+  - 'confusing P(A|B) with P(B|A) (prosecutor''s fallacy)'
+  - 'omitting the prior P(B_j) / using an implausible uniform prior by default'
+  - 'forgetting the partition must be exhaustive -- a missing hypothesis silently absorbs probability'
+  - 'iterating with correlated evidence as if it were conditionally independent (naive Bayes error)'
+related:
+  generalizes: [conditional_probability]
+  special_case_of: [conditional_expectation_abstract]
+  used_by: [unknown-discovery forecast ledger, design-of-experiments priors]
+sources: [bayes_1763, billingsley_probability_measure, grimmett_stirzaker, jaynes_probability_theory]
+status: reviewed
+checks:
+  type: validation/type-checks.md#bayes_theorem
+  specialization: validation/specialization-cases.md#bayes_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bayes_theorem

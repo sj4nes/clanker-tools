@@ -1,0 +1,47 @@
+id: conditional_expectation.law_of_total_variance
+node: law_of_total_variance
+status_label: proved_theorem
+display: 'For X in L^2 and a sub-sigma-algebra G: Var(X) = E[Var(X | G)] + Var(E[X | G]), where Var(X | G) = E[(X - E[X|G])^2 | G].'
+parseable: 'Var(X) = E[ Var(X | G) ] + Var( E[X | G] )'
+symbols:
+  'X': 'a square-integrable random variable, type: L^2(P)'
+  'G': 'a sub-sigma-algebra, type: sigma-algebra subset F'
+type_check_status: well_formed
+type_check_note: '''within-group + between-group variance''. Decomposes total variability into the average conditional (unexplained) variance plus the variance of the conditional means (explained). Proof: apply variance_computational and the tower property.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'conditional_expectation_abstract'
+  - 'tower_property'
+  - 'variance'
+  - 'variance_computational'
+proof:
+  technique: 'E[Var(X|G)] = E[E[X^2|G]] - E[(E[X|G])^2] = E[X^2] - E[(E[X|G])^2] (tower); Var(E[X|G]) = E[(E[X|G])^2] - (E X)^2; add -- the middle terms cancel'
+  derives_from: 'tower_property'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.centid + Prob.expectation_linearity (GENUINE)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'G = sigma(Y): Var(X) = E[Var(X | Y)] + Var(E[X | Y]) -- the ANOVA / random-effects decomposition; R^2 = Var(E[X|Y])/Var(X) is the fraction ''explained'' by Y'
+  - 'hierarchical models: total variance = measurement variance + between-unit variance'
+  - 'compound distributions: Var(sum_{i=1}^N Y_i) = E[N] Var(Y) + Var(N) (E Y)^2 for N ⟂ iid Y_i'
+counterexamples_when_dropped:
+  finite_second_moment: 'X must be in L^2 for all three variances to be finite'
+  both_terms_nonnegative: 'E[Var(X|G)] >= 0 and Var(E[X|G]) >= 0, so conditioning can only REDUCE expected variance: E[Var(X|G)] <= Var(X)'
+common_misuse:
+  - 'forgetting the Var(E[X|G]) term (assuming Var(X) = E[Var(X|G)])'
+  - 'using it with X not in L^2'
+related:
+  uses: ['tower_property', 'variance_computational']
+  decomposes: ['variance']
+  analogue: ['law of total expectation']
+sources:
+  - 'williams_probability_martingales'
+  - 'grimmett_stirzaker'
+status: reviewed
+checks:
+  type: validation/type-checks.md#law_of_total_variance
+  specialization: validation/specialization-cases.md#law_of_total_variance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#law_of_total_variance

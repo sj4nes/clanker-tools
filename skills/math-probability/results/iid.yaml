@@ -1,0 +1,40 @@
+id: independence.iid
+node: iid
+status_label: definition
+display: 'A sequence (X_n) is independent and identically distributed if the X_n are mutually independent and all have the same law. The canonical hypothesis of the laws of large numbers and the classical CLT.'
+parseable: '(X_n) mutually independent  AND  P_{X_n} = P_{X_1} for all n'
+symbols:
+  '(X_n)': 'an iid sequence, type: N -> (Omega -> R)'
+  'P_{X_1}': 'the common law, type: probability measure on B(R)'
+type_check_status: well_formed
+type_check_note: '''identically distributed'' constrains the marginals; ''independent'' constrains the dependence. An iid sequence on a single probability space exists for any law (product / Kolmogorov extension construction).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'distribution_pushforward'
+  - 'independence_random_variables'
+well_definedness: 'the infinite product measure (P_{X_1})^{tensor N} on (R^N, B(R)^{tensor N}) exists (Kolmogorov extension) and realizes an iid sequence via coordinate projections.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'repeated independent trials of one experiment (coin, die, measurement with iid noise)'
+  - 'the empirical distribution of an iid sample converges to P_{X_1} (Glivenko-Cantelli)'
+  - 'a random sample in statistics IS an iid sequence (design permitting)'
+counterexamples_when_dropped:
+  identically_distributed: 'independent but not identical: the Lindeberg CLT (lindeberg_clt) is what replaces ''identical'' for a non-degenerate limit'
+  independence: 'identically distributed but dependent (e.g. a stationary time series): the LLN can still hold (ergodic theorem) but the CLT rate and variance change (long-range dependence)'
+common_misuse:
+  - 'assuming survey / observational data is iid when there is clustering, time trend, or selection'
+  - 'treating ''identically distributed'' as ''independent'' or vice versa'
+related:
+  hypothesis_of: ['weak_law_large_numbers', 'strong_law_large_numbers', 'central_limit_theorem']
+  constructed_by: ['kolmogorov_extension_theorem']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#iid
+  specialization: validation/specialization-cases.md#iid
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#iid

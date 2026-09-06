@@ -1,0 +1,39 @@
+id: measure.dominated_convergence_theorem
+node: dominated_convergence_theorem
+status_label: proved_theorem
+display: 'If f_n -> f a.e. and |f_n| <= g a.e. for an integrable g, then f is integrable and integral f_n dmu -> integral f dmu (and integral |f_n - f| dmu -> 0).'
+parseable: 'f_n -> f a.e., |f_n| <= g integrable  =>  integral f_n dmu -> integral f dmu'
+symbols:
+  'f_n, f': 'measurable functions, type: Omega -> R'
+  'mu': 'a (sigma-finite) measure, type: measure'
+type_check_status: well_formed
+type_check_note: 'CITED. The exchange-of-limit toolkit for the integral; each is stated for a general measure and specialised to P for expectations (MCT/DCT/Fatou for E, Fubini for E[XY] and convolutions).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'abstract_integral'
+  - 'sequence_limit'
+proof:
+  technique: 'cited construction from the abstract integral'
+  derives_from: 'abstract_integral'
+  lean_status: cited
+  lean_ref: 'Folland Real Analysis 2e ch. 2; Billingsley SS16'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'mu = P: the probability form used for E[lim] = lim E, differentiating an MGF, and Scheffe''s lemma'
+counterexamples_when_dropped:
+  integrable_dominator_g: 'f_n = n 1_{(0, 1/n]} on ([0,1], lambda): f_n -> 0 a.e. but integral f_n = 1; no integrable g dominates (sup_n f_n is not integrable)'
+common_misuse:
+  - 'applying the wrong theorem for the situation (MCT needs monotone; DCT needs a dominator; Fatou only gives an inequality)'
+related:
+  developed_in: ['a future math-measure-and-integration capsule']
+sources:
+  - 'folland_real_analysis'
+  - 'billingsley_probability_measure'
+status: reviewed
+checks:
+  type: validation/type-checks.md#dominated_convergence_theorem
+  specialization: validation/specialization-cases.md#dominated_convergence_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#dominated_convergence_theorem

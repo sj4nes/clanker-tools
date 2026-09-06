@@ -1,0 +1,41 @@
+id: independence.multiplication_rule
+node: multiplication_rule
+status_label: mathematical_identity
+display: 'P(A cap B) = P(A | B) P(B) = P(B | A) P(A). Chain rule: P(A_1 cap ... cap A_n) = P(A_1) P(A_2 | A_1) P(A_3 | A_1 cap A_2) ... (each conditioning event having positive probability).'
+parseable: 'P(A cap B) = P(A|B) P(B) ;  P(cap A_i) = prod_i P(A_i | A_1 cap ... cap A_{i-1})'
+symbols:
+  'A_i': 'events with the running intersections of positive probability, type: element of F'
+type_check_status: well_formed
+type_check_note: 'a rearrangement of the definition of conditional probability, iterated. The order of the A_i can be permuted; each requires its predecessor-intersection to have positive probability.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'conditional_probability'
+proof:
+  technique: 'P(A|B) P(B) = [P(A cap B)/P(B)] P(B) = P(A cap B); induct for the n-fold version'
+  derives_from: 'conditional_probability'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'independent A, B: P(A cap B) = P(A) P(B)'
+  - 'drawing without replacement: P(both aces) = (4/52)(3/51) -- the chain rule computes sequential-sampling probabilities'
+  - 'P(A_1 cap ... cap A_n) for a Markov chain telescopes to P(A_1) prod P(A_{i+1} | A_i)'
+counterexamples_when_dropped:
+  positive_probability_of_the_conditioning_events: 'if some prefix intersection has probability 0, that conditional factor is undefined -- but then the whole intersection also has probability 0, so the identity is read as 0 = 0'
+common_misuse:
+  - 'assuming P(A cap B) = P(A) P(B) without independence'
+  - 'chain-rule factors in an order where a conditioning event has probability 0'
+related:
+  derives_from: ['conditional_probability']
+  used_by: ['law_of_total_probability', 'bayes_theorem']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#multiplication_rule
+  specialization: validation/specialization-cases.md#multiplication_rule
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#multiplication_rule

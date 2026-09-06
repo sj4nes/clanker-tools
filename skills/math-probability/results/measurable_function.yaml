@@ -1,0 +1,40 @@
+id: random_variable.measurable_function
+node: measurable_function
+status_label: definition
+display: 'f: (Omega, F) -> (E, E'') is measurable if f^{-1}(B) in F for every B in E''. For E'' = B(R) it suffices that { f <= x } in F for every x.'
+parseable: 'for all B in E'', f^{-1}(B) in F   (equivalently { f <= x } in F for all x, when E = R)'
+symbols:
+  'f': 'the function, type: Omega -> E'
+  '(E, E'')': 'the target measurable space, type: measurable space'
+type_check_status: well_formed
+type_check_note: 'measurability is preservation of structure BACKWARD (preimage), which is why the preimage algebra -- not the image -- is the tool. Continuous functions R -> R are Borel measurable; measurable functions are closed under +, x, sup_n, liminf_n, limits.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'borel_sigma_algebra'
+  - 'measurable_space'
+  - 'preimage_algebra'
+well_definedness: 'the collection { B : f^{-1}(B) in F } is a sigma-algebra, so it suffices to check measurability on a generating collection of E'' (the half-lines for B(R)).'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'f = 1_A: measurable iff A in F'
+  - 'f continuous: Borel measurable'
+  - 'f = sup_n f_n of measurable f_n: measurable'
+counterexamples_when_dropped:
+  generating_collection_check: 'checking f^{-1} of a non-generating family is not enough; and a pointwise limit of measurable functions is measurable but a limit of continuous functions need not be continuous'
+common_misuse:
+  - 'checking the forward image instead of the preimage'
+  - 'assuming an arbitrary function Omega -> R is measurable'
+related:
+  used_by: ['random_variable', 'abstract_integral', 'conditional_expectation_abstract']
+  developed_in: ['math-sets-functions-cardinality (preimage algebra)']
+sources:
+  - 'billingsley_probability_measure'
+  - 'folland_real_analysis'
+status: reviewed
+checks:
+  type: validation/type-checks.md#measurable_function
+  specialization: validation/specialization-cases.md#measurable_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#measurable_function

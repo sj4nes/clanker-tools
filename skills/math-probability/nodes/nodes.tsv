@@ -1,0 +1,132 @@
+id	type	title	area	status	role	primary_statement
+set_algebra	primitive	Algebra of sets	logic	reviewed	foundation	unions, intersections, complements, De Morgan, indexed families (from math-sets)
+preimage_algebra	primitive	Preimage algebra	logic	reviewed	foundation	f^-1 commutes with union, intersection, complement (from math-sets)
+countable_set	primitive	Countable set	logic	reviewed	foundation	injects into N; countable unions of countable sets are countable (from math-sets)
+real_field	primitive	R as a complete ordered field	analysis	reviewed	foundation	the least-upper-bound property and its consequences (from math-real-analysis)
+sequence_limit	primitive	Convergence of a real sequence	analysis	reviewed	foundation	epsilon-N convergence, algebra of limits, squeeze (from math-real-analysis)
+limsup_liminf	primitive	limsup and liminf	analysis	reviewed	foundation	limsup A_n = intersection of tails; for sets, {omega in infinitely many A_n}
+series_convergence	primitive	Convergence of a real series	analysis	reviewed	foundation	partial sums, comparison, absolute convergence (from math-real-analysis)
+convex_function	primitive	Convex function	analysis	reviewed	foundation	f(tx+(1-t)y) <= t f(x)+(1-t)f(y); supporting line at every interior point
+abstract_integral	bridge	Lebesgue integral against a measure	measure	reviewed	foundation	integral of f dmu for measurable f >= 0, then integrable f (CITED, not built)
+monotone_convergence_theorem	bridge	Monotone convergence theorem	measure	reviewed	foundation	0<=f_n up f  =>  integral f_n up integral f (CITED)
+dominated_convergence_theorem	bridge	Dominated convergence theorem	measure	reviewed	foundation	f_n -> f pointwise, |f_n|<=g integrable  =>  integral f_n -> integral f (CITED)
+fatou_lemma	bridge	Fatou's lemma	measure	reviewed	foundation	integral of liminf f_n <= liminf integral f_n for f_n >= 0 (CITED)
+fubini_tonelli	bridge	Fubini-Tonelli theorem	measure	reviewed	foundation	iterated integrals equal the product integral (nonneg, or integrable) (CITED)
+radon_nikodym	bridge	Radon-Nikodym theorem	measure	reviewed	foundation	nu << mu, sigma-finite  =>  nu has a density dnu/dmu w.r.t. mu (CITED)
+sigma_algebra	definition	Sigma-algebra	measure	reviewed	foundation	a family of subsets closed under complement and countable union, containing Omega
+generated_sigma_algebra	construction	Generated sigma-algebra	measure	reviewed	support	sigma(C) is the smallest sigma-algebra containing the collection C
+borel_sigma_algebra	definition	Borel sigma-algebra on R	measure	reviewed	core	B(R) = sigma(open intervals); the events a real random variable can produce
+measurable_space	structure	Measurable space	measure	reviewed	foundation	a pair (Omega, F) with F a sigma-algebra on Omega
+measure	definition	Measure	measure	reviewed	foundation	mu: F -> [0, infinity], mu(empty)=0, countably additive on disjoint unions
+dynkin_pi_lambda	theorem	pi-lambda (Dynkin) theorem	measure	reviewed	core	a lambda-system containing a pi-system contains the sigma-algebra it generates
+lebesgue_measure_caratheodory	construction	Lebesgue measure via Caratheodory	measure	reviewed	support	the outer-measure / Caratheodory extension gives Lebesgue measure on B(R) (CITED)
+measure_monotonicity	proposition	Monotonicity and subadditivity of a measure	measure	reviewed	support	A subset B => mu(A) <= mu(B); mu(union A_n) <= sum mu(A_n)
+measure_continuity	proposition	Continuity of a measure	measure	reviewed	support	A_n up A => mu(A_n) -> mu(A); A_n down A with mu(A_1)<inf => mu(A_n) -> mu(A)
+null_set	definition	Null set	measure	reviewed	support	N in F with mu(N) = 0; a property holds almost everywhere if it fails only on a null set
+almost_sure	notation_convention	Almost surely (a.s.)	measure	reviewed	foundation	an event of probability 1; "P-a.s." = "outside a P-null set"
+kolmogorov_axioms	axiom	Kolmogorov axioms	probability_space	reviewed	headline	P >= 0 ; P(Omega) = 1 ; P is countably additive on disjoint events
+probability_measure	definition	Probability measure	probability_space	reviewed	foundation	a measure P on (Omega, F) with P(Omega) = 1
+probability_space	structure	Probability space	probability_space	reviewed	foundation	a triple (Omega, F, P) satisfying the Kolmogorov axioms
+complement_rule	identity	Complement and monotonicity of P	probability_space	reviewed	support	P(A^c) = 1 - P(A) ; A subset B => P(A) <= P(B) ; P(A) in [0,1]
+finite_additivity	proposition	Finite additivity of P	probability_space	reviewed	support	pairwise disjoint A_1..A_n => P(union) = sum P(A_i)  (from countable additivity)
+inclusion_exclusion	theorem	Inclusion-exclusion	probability_space	reviewed	core	P(union A_i) = sum P(A_i) - sum P(A_i cap A_j) + ...
+boole_inequality	theorem	Boole's inequality (union bound)	probability_space	reviewed	headline	P(union A_n) <= sum P(A_n)
+continuity_of_probability	proposition	Continuity of probability	probability_space	reviewed	core	A_n up A => P(A_n) -> P(A) ; A_n down A => P(A_n) -> P(A)
+borel_cantelli_first	theorem	First Borel-Cantelli lemma	probability_space	reviewed	headline	sum P(A_n) < infinity  =>  P(A_n infinitely often) = 0
+borel_cantelli_second	theorem	Second Borel-Cantelli lemma	probability_space	reviewed	core	A_n independent and sum P(A_n) = infinity  =>  P(A_n infinitely often) = 1
+conditional_probability	definition	Conditional probability	independence	reviewed	headline	P(A | B) = P(A cap B) / P(B) when P(B) > 0
+multiplication_rule	identity	Multiplication / chain rule	independence	reviewed	support	P(A cap B) = P(A|B) P(B) ; P(cap A_i) = prod P(A_i | earlier)
+law_of_total_probability	theorem	Law of total probability	independence	reviewed	core	{B_i} a partition, P(B_i)>0  =>  P(A) = sum P(A|B_i) P(B_i)
+bayes_theorem	theorem	Bayes' theorem	independence	reviewed	headline	P(B_j | A) = P(A|B_j) P(B_j) / sum_i P(A|B_i) P(B_i)
+measurable_function	definition	Measurable function	random_variable	reviewed	foundation	f^-1(B) in F for every B in the target sigma-algebra
+random_variable	definition	Random variable	random_variable	reviewed	headline	a measurable function X: (Omega,F) -> (R, B(R)) (or R^d, B(R^d))
+indicator_rv	example	Indicator random variable	random_variable	reviewed	support	1_A(omega) = 1 if omega in A else 0 ; measurable iff A in F ; E[1_A] = P(A)
+distribution_pushforward	definition	Distribution (law) of a random variable	random_variable	reviewed	core	P_X = P compose X^-1, a probability measure on (R, B(R))
+cdf	definition	Cumulative distribution function	random_variable	reviewed	core	F_X(x) = P(X <= x)
+cdf_properties	theorem	Characterization of a CDF	random_variable	reviewed	core	F nondecreasing, right-continuous, F(-inf)=0, F(+inf)=1 ; every such F is some law
+cdf_determines_law	theorem	A CDF determines the law	random_variable	reviewed	support	F_X = F_Y  =>  P_X = P_Y  (pi-lambda on the half-lines)
+discrete_rv	definition	Discrete random variable	random_variable	reviewed	support	X takes values in a countable set
+pmf	definition	Probability mass function	random_variable	reviewed	support	p_X(x) = P(X = x) ; sums to 1 over the support
+absolutely_continuous_rv	definition	Absolutely continuous random variable	random_variable	reviewed	support	P_X << Lebesgue measure
+pdf	definition	Probability density function	random_variable	reviewed	core	f_X = dP_X/dLebesgue ; P(X in B) = integral_B f_X ; f_X >= 0, integrates to 1
+quantile_function	definition	Quantile function	random_variable	reviewed	support	F_X^-1(u) = inf { x : F_X(x) >= u }, the generalized inverse
+probability_integral_transform	theorem	Probability integral transform	random_variable	reviewed	headline	F continuous => F(X) ~ Uniform(0,1) ; and F^-1(U) has law F  (the simulation bridge)
+transformation_univariate	theorem	Univariate change of variables	random_variable	reviewed	core	Y = g(X), g monotone C^1 => f_Y(y) = f_X(g^-1(y)) |d/dy g^-1(y)|
+jacobian_transformation	theorem	Multivariate change of variables	random_variable	reviewed	support	Y = g(X), g a diffeomorphism => f_Y(y) = f_X(g^-1(y)) |det J_{g^-1}(y)|
+joint_distribution	definition	Joint distribution	random_variable	reviewed	core	the law of the random vector (X_1,...,X_n) on (R^n, B(R^n))
+marginal_distribution	definition	Marginal distribution	random_variable	reviewed	support	the law of a subvector, obtained by integrating out the others
+conditional_distribution	definition	Conditional distribution	random_variable	reviewed	support	f_{Y|X}(y|x) = f_{X,Y}(x,y) / f_X(x) where f_X(x) > 0
+independence_events	definition	Independence of events	independence	reviewed	headline	P(cap_{i in S} A_i) = prod_{i in S} P(A_i) for every finite S (mutual)
+independence_sigma_algebras	definition	Independence of sigma-algebras	independence	reviewed	support	P(A cap B) = P(A)P(B) for all A in G_1, B in G_2
+independence_random_variables	definition	Independence of random variables	independence	reviewed	headline	the generated sigma-algebras are independent ; equivalently the joint law is a product
+independence_factorization	theorem	Factorization criterion for independence	independence	reviewed	core	X,Y independent iff F_{X,Y} = F_X F_Y iff (densities) f_{X,Y} = f_X f_Y
+pairwise_not_mutual	counterexample	Pairwise independence is weaker than mutual	independence	reviewed	support	three events pairwise independent but not mutually independent (two fair coins, XOR)
+iid	definition	Independent and identically distributed	independence	reviewed	foundation	(X_n) mutually independent and all with the same law
+convolution_formula	theorem	Convolution for a sum of independents	independence	reviewed	core	X,Y independent => f_{X+Y}(z) = integral f_X(x) f_Y(z-x) dx  (sum in the discrete case)
+expectation	definition	Expectation	expectation	reviewed	headline	E[X] = integral X dP, defined when E[|X|] < infinity (or X >= 0)
+lotus	theorem	Law of the unconscious statistician	expectation	reviewed	core	E[g(X)] = integral g dP_X = sum g(x) p_X(x) = integral g(x) f_X(x) dx
+expectation_linearity	theorem	Linearity of expectation	expectation	reviewed	headline	E[aX + bY] = a E[X] + b E[Y]  (no independence needed)
+expectation_monotonicity	proposition	Monotonicity of expectation	expectation	reviewed	support	X <= Y a.s. => E[X] <= E[Y] ; |E[X]| <= E[|X|]
+markov_inequality	theorem	Markov's inequality	inequalities	reviewed	headline	X >= 0, a > 0  =>  P(X >= a) <= E[X] / a
+jensen_inequality	theorem	Jensen's inequality	inequalities	reviewed	headline	phi convex, E[|X|]<inf  =>  phi(E[X]) <= E[phi(X)]
+variance	definition	Variance	moments	reviewed	headline	Var(X) = E[(X - E[X])^2], defined when E[X^2] < infinity
+variance_computational	identity	Computational formula for variance	moments	reviewed	core	Var(X) = E[X^2] - (E[X])^2
+variance_affine	identity	Variance under an affine map	moments	reviewed	support	Var(aX + b) = a^2 Var(X)
+chebyshev_inequality	theorem	Chebyshev's inequality	inequalities	reviewed	headline	k > 0  =>  P(|X - E[X]| >= k) <= Var(X) / k^2
+covariance	definition	Covariance	moments	reviewed	core	Cov(X,Y) = E[(X-E[X])(Y-E[Y])] = E[XY] - E[X]E[Y]
+covariance_bilinear	proposition	Bilinearity of covariance	moments	reviewed	support	Cov is symmetric bilinear ; Cov(X,X) = Var(X)
+cauchy_schwarz_expectation	theorem	Cauchy-Schwarz for expectation	inequalities	reviewed	core	(E[XY])^2 <= E[X^2] E[Y^2]
+correlation	definition	Correlation coefficient	moments	reviewed	support	rho(X,Y) = Cov(X,Y) / (sd(X) sd(Y)) ; |rho| <= 1 by Cauchy-Schwarz
+variance_of_sum	theorem	Variance of a sum	moments	reviewed	core	Var(sum X_i) = sum Var(X_i) + 2 sum_{i<j} Cov(X_i, X_j)
+independence_expectation	theorem	Expectation factorizes under independence	independence	reviewed	headline	X,Y independent and integrable  =>  E[XY] = E[X] E[Y] ; hence Cov = 0
+uncorrelated_not_independent	counterexample	Uncorrelated does not imply independent	independence	reviewed	support	X ~ Uniform(-1,1), Y = X^2 : Cov(X,Y) = 0 but Y is a function of X
+moment	definition	Moments and central moments	moments	reviewed	support	m_k = E[X^k] ; mu_k = E[(X - E[X])^k] ; skewness, kurtosis
+lp_space	definition	L^p space of random variables	moments	reviewed	support	L^p(P) = { X : E[|X|^p] < infinity }, norm ||X||_p = E[|X|^p]^{1/p}
+moment_ladder	theorem	Nesting of L^p spaces	moments	reviewed	core	on a probability space, p > q >= 1  =>  ||X||_q <= ||X||_p , so L^p subset L^q
+holder_inequality	theorem	Holder's inequality	inequalities	reviewed	core	1/p + 1/q = 1  =>  E[|XY|] <= ||X||_p ||Y||_q
+mgf	definition	Moment generating function	moments	reviewed	core	M_X(t) = E[e^{tX}], where it is finite on a neighborhood of 0
+mgf_moments	theorem	Moments from the MGF	moments	reviewed	support	M_X finite near 0 => M_X is C^infinity there and M_X^{(k)}(0) = E[X^k]
+mgf_uniqueness	theorem	MGF determines the law	moments	reviewed	core	M_X = M_Y finite on a neighborhood of 0  =>  P_X = P_Y
+characteristic_function	definition	Characteristic function	moments	reviewed	core	phi_X(t) = E[e^{i t X}] ; always exists, |phi_X| <= 1, phi_X(0) = 1
+cf_properties	theorem	Properties of the characteristic function	moments	reviewed	support	uniformly continuous ; phi determines the law (inversion) ; phi_{aX+b}(t) = e^{itb} phi_X(at)
+mgf_sum_independent	identity	MGF / CF of a sum of independents	independence	reviewed	core	X,Y independent  =>  M_{X+Y} = M_X M_Y  and  phi_{X+Y} = phi_X phi_Y
+chernoff_bound	theorem	Chernoff bound	inequalities	reviewed	core	P(X >= a) <= inf_{t>0} e^{-ta} M_X(t)  (Markov applied to e^{tX})
+hoeffding_lemma	lemma	Hoeffding's lemma	inequalities	reviewed	support	X in [a,b] a.s., E[X]=0  =>  M_X(t) <= exp(t^2 (b-a)^2 / 8)
+hoeffding_inequality	theorem	Hoeffding's inequality	inequalities	reviewed	headline	X_i independent in [a_i,b_i]  =>  P(S - E[S] >= s) <= exp(-2 s^2 / sum (b_i-a_i)^2)
+bernoulli_distribution	definition	Bernoulli distribution	distributions	reviewed	support	P(X=1)=p, P(X=0)=1-p ; E=p, Var=p(1-p) ; MGF (1-p)+p e^t
+binomial_distribution	definition	Binomial distribution	distributions	reviewed	core	sum of n iid Bernoulli(p) ; P(X=k)=C(n,k)p^k(1-p)^{n-k} ; E=np, Var=np(1-p)
+geometric_distribution	definition	Geometric distribution	distributions	reviewed	support	P(X=k)=(1-p)^{k-1}p ; E=1/p, Var=(1-p)/p^2 ; memoryless
+poisson_distribution	definition	Poisson distribution	distributions	reviewed	core	P(X=k)=e^{-lambda} lambda^k / k! ; E=Var=lambda ; MGF exp(lambda(e^t-1))
+poisson_limit_theorem	theorem	Poisson limit (law of rare events)	distributions	reviewed	core	Binomial(n, lambda/n) -> Poisson(lambda) as n -> infinity
+continuous_uniform_distribution	definition	Continuous uniform distribution	distributions	reviewed	support	f(x) = 1/(b-a) on [a,b] ; E=(a+b)/2, Var=(b-a)^2/12
+exponential_distribution	definition	Exponential distribution	distributions	reviewed	core	f(x)=lambda e^{-lambda x}, x>=0 ; E=1/lambda, Var=1/lambda^2 ; memoryless
+memorylessness	proposition	Memorylessness	distributions	reviewed	support	P(X > s+t | X > s) = P(X > t) ; characterizes geometric (discrete) and exponential (continuous)
+gamma_distribution	definition	Gamma distribution	distributions	reviewed	support	f(x) prop x^{k-1} e^{-x/theta} ; sum of k iid Exponential ; E=k theta, Var=k theta^2
+beta_distribution	definition	Beta distribution	distributions	reviewed	support	f(x) prop x^{a-1}(1-x)^{b-1} on [0,1] ; conjugate prior for a Bernoulli rate
+normal_distribution	definition	Normal (Gaussian) distribution	distributions	reviewed	headline	f(x) = (1/(sigma sqrt(2 pi))) exp(-(x-mu)^2/(2 sigma^2)) ; E=mu, Var=sigma^2
+standard_normal	definition	Standard normal	distributions	reviewed	support	Z ~ N(0,1) ; CF exp(-t^2/2) ; Z = (X - mu)/sigma
+normal_affine_closure	proposition	Normals are closed under affine maps and sums	distributions	reviewed	core	aX+b ~ N(a mu + b, a^2 sigma^2) ; independent normals sum to a normal
+cauchy_no_mean	counterexample	Cauchy distribution has no mean	distributions	reviewed	support	f(x) = 1/(pi(1+x^2)) : E[|X|] = infinity, so the LLN and CLT both fail
+convergence_almost_sure	definition	Almost sure convergence	convergence	reviewed	headline	P( X_n -> X ) = 1  (convergence mode tag: a.s.)
+convergence_in_probability	definition	Convergence in probability	convergence	reviewed	headline	for all eps > 0, P(|X_n - X| > eps) -> 0  (mode tag: p)
+convergence_in_lp	definition	Convergence in L^p	convergence	reviewed	support	E[|X_n - X|^p] -> 0  (mode tag: L^p)
+convergence_in_distribution	definition	Convergence in distribution	convergence	reviewed	headline	F_{X_n}(x) -> F_X(x) at every continuity point of F_X  (mode tag: d)
+convergence_implications	theorem	Lattice of convergence modes	convergence	reviewed	core	a.s. => p ; L^p => p ; p => d ; p => a.s. subsequence ; d to a constant => p ; none reverse in general
+portmanteau_theorem	theorem	Portmanteau theorem	convergence	reviewed	support	X_n -> X in distribution iff E[g(X_n)] -> E[g(X)] for all bounded continuous g (and 3 more forms)
+continuous_mapping_theorem	theorem	Continuous mapping theorem	convergence	reviewed	core	X_n -> X (a.s. / p / d) and g continuous on a set of P_X-measure 1 => g(X_n) -> g(X) in the same mode
+slutsky_theorem	theorem	Slutsky's theorem	convergence	reviewed	core	X_n -> X in d, Y_n -> c in p  =>  X_n + Y_n -> X + c and X_n Y_n -> cX in d
+weak_law_large_numbers	theorem	Weak law of large numbers	convergence	reviewed	headline	X_i iid, E|X_1| < inf  =>  sample mean -> E[X_1] in probability  (mode tag: p)
+strong_law_large_numbers	theorem	Strong law of large numbers	convergence	reviewed	headline	X_i iid, E|X_1| < inf  =>  sample mean -> E[X_1] almost surely  (mode tag: a.s.)
+levy_continuity_theorem	theorem	Levy's continuity theorem	convergence	reviewed	core	phi_{X_n}(t) -> phi(t) for all t, phi continuous at 0  =>  X_n -> X in distribution (CITED)
+central_limit_theorem	theorem	Central limit theorem (i.i.d.)	convergence	reviewed	headline	X_i iid, mean mu, var sigma^2 in (0,inf)  =>  sqrt(n)(mean - mu)/sigma -> N(0,1) in distribution (CITED)
+lindeberg_clt	theorem	Lindeberg central limit theorem	convergence	reviewed	support	independent, not identically distributed ; the Lindeberg condition  =>  normalized sum -> N(0,1) (CITED)
+delta_method	theorem	Delta method	convergence	reviewed	support	sqrt(n)(T_n - theta) -> N(0,sigma^2), g differentiable  =>  sqrt(n)(g(T_n)-g(theta)) -> N(0, g'(theta)^2 sigma^2)
+conditional_expectation_elementary	definition	Elementary conditional expectation	conditional_expectation	reviewed	core	E[X | Y = y] = sum x p_{X|Y}(x|y)  (or the density analogue)
+conditional_expectation_abstract	definition	Conditional expectation given a sigma-algebra	conditional_expectation	reviewed	headline	E[X | G] is the a.s.-unique G-measurable Z with integral_A Z = integral_A X for all A in G
+conditional_expectation_existence	theorem	Existence of conditional expectation	conditional_expectation	reviewed	core	X integrable  =>  E[X|G] exists and is a.s. unique (Radon-Nikodym, or L^2 projection then extend) (CITED)
+tower_property	theorem	Tower property / law of total expectation	conditional_expectation	reviewed	headline	H subset G  =>  E[ E[X|G] | H ] = E[X|H] ; in particular E[E[X|G]] = E[X]
+law_of_total_variance	theorem	Law of total variance	conditional_expectation	reviewed	core	Var(X) = E[ Var(X|G) ] + Var( E[X|G] )
+conditional_expectation_l2_projection	theorem	Conditional expectation as the L^2 best predictor	conditional_expectation	reviewed	core	for X in L^2, E[X|G] minimizes E[(X - Z)^2] over G-measurable Z
+martingale	bridge	Martingale	boundary	draft	boundary	E[X_{n+1} | F_n] = X_n ; the doorway to stochastic processes (STATED, not developed)
+stochastic_process	bridge	Stochastic process	boundary	draft	boundary	a family (X_t) of random variables on one probability space (STATED, not developed)
+kolmogorov_extension_theorem	bridge	Kolmogorov extension theorem	boundary	draft	boundary	consistent finite-dimensional laws determine a process on the product space (STATED, CITED)

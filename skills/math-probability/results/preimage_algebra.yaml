@@ -1,0 +1,35 @@
+id: logic.preimage_algebra
+node: preimage_algebra
+status_label: definition
+display: 'For any function f, the preimage operator f^{-1} on sets commutes with arbitrary union, arbitrary intersection, and complement: f^{-1}(bigcup B_i) = bigcup f^{-1}(B_i), etc.'
+parseable: 'f^{-1}(bigcup_i B_i) = bigcup_i f^{-1}(B_i) ; f^{-1}(B^c) = (f^{-1}(B))^c'
+symbols:
+  'f': 'any function X -> Y, type: function'
+  'B_i': 'subsets of the codomain Y, type: element of 2^Y'
+type_check_status: well_formed
+type_check_note: 'f^{-1} here is the preimage OPERATOR ON SETS, defined for every f (not an inverse function). It is a Boolean-algebra homomorphism 2^Y -> 2^X; the forward image is only a join-homomorphism.'
+hypotheses: []
+preconditions: []
+dependencies: []
+well_definedness: 'f^{-1}(B) := { x : f(x) in B } is defined for every f and every B; the three commutation identities are immediate from the definition of membership.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'f measurable iff f^{-1}(generating sets) are all measurable -- this is why the preimage algebra, not the image, drives measurability'
+  - 'image only satisfies f[A cap B] subset f[A] cap f[B], with equality iff f injective'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used in the proof; see the block above'
+common_misuse:
+  - 'expecting the forward image to commute with intersection or complement'
+related:
+  developed_in: ['math-sets-functions-cardinality']
+  contrast_with: ['image (weaker laws)']
+sources:
+  - 'enderton_set_theory'
+  - 'folland_real_analysis'
+status: reviewed
+checks:
+  type: validation/type-checks.md#preimage_algebra
+  specialization: validation/specialization-cases.md#preimage_algebra
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#preimage_algebra

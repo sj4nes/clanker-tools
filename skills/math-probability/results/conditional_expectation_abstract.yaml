@@ -1,0 +1,50 @@
+id: conditional_expectation.conditional_expectation_abstract
+node: conditional_expectation_abstract
+status_label: definition
+display: 'For X in L^1(Omega, F, P) and a sub-sigma-algebra G subset F, E[X | G] is any random variable Z such that (i) Z is G-measurable and (ii) integral_A Z dP = integral_A X dP for every A in G. It is unique up to P-a.s. equality.'
+parseable: 'E[X | G] is the a.s.-unique G-measurable Z with  integral_A Z dP = integral_A X dP  for all A in G'
+symbols:
+  'X': 'an integrable random variable, type: L^1(P)'
+  'G': 'a sub-sigma-algebra (the conditioning information), type: sigma-algebra subset F'
+  'Z': 'the conditional expectation E[X | G], type: L^1(Omega, G, P)'
+type_check_status: well_formed
+type_check_note: 'the defining property is (i) measurability + (ii) matching integrals on G-sets; conditioning on a variable is E[X | sigma(Y)]. This handles conditioning on probability-zero events, which the elementary definition cannot.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'abstract_integral'
+  - 'almost_sure'
+  - 'expectation'
+  - 'measurable_function'
+  - 'sigma_algebra'
+proof:
+  technique: 'existence and uniqueness are conditional_expectation_existence (Radon-Nikodym or L^2 projection); this node is the DEFINITION via the two properties'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'Williams ch. 9; Durrett ch. 4'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'G = { empty, Omega }: E[X | G] = E[X] (a constant)'
+  - 'G = F: E[X | G] = X'
+  - 'X G-measurable: E[X | G] = X; X independent of G: E[X | G] = E[X]'
+  - 'pull-out: E[Y X | G] = Y E[X | G] when Y is G-measurable and bounded'
+counterexamples_when_dropped:
+  integrability_of_X: 'for X >= 0 not integrable one defines E[X | G] in [0, inf] by monotone approximation; for signed non-integrable X it need not exist'
+  measurability_condition_(i): 'dropping (i) makes Z = X trivially satisfy (ii) -- the content is that Z is COARSER (G-measurable), a genuine projection / averaging'
+common_misuse:
+  - 'computing integral_A Z = integral_A X only for A generating G, without checking it is a pi-system (then pi-lambda is needed)'
+  - 'treating E[X | G] as defined pointwise (it is an a.s. equivalence class)'
+related:
+  exists_by: ['conditional_expectation_existence']
+  generalizes: ['conditional_expectation_elementary', 'law_of_total_probability']
+  is_a: ['projection (conditional_expectation_l2_projection)']
+sources:
+  - 'williams_probability_martingales'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#conditional_expectation_abstract
+  specialization: validation/specialization-cases.md#conditional_expectation_abstract
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#conditional_expectation_abstract

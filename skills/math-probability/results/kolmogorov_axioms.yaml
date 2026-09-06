@@ -1,0 +1,44 @@
+id: probability_space.kolmogorov_axioms
+node: kolmogorov_axioms
+status_label: axiom
+display: 'A probability measure on $(\Omega,\mathcal{F})$ satisfies: $P(A)\ge 0$; $P(\Omega)=1$; and for pairwise-disjoint $A_1,A_2,\dots\in\mathcal{F}$, $P\big(\bigcup_n A_n\big)=\sum_n P(A_n)$.'
+parseable: 'P >= 0 ; P(Omega) = 1 ; disjoint (A_n) => P(union A_n) = sum P(A_n)'
+symbols:
+  Omega: { meaning: sample space, type: nonempty set }
+  'F': { meaning: event sigma-algebra, type: 'sigma-algebra on Omega' }
+  P: { meaning: probability measure, type: 'F -> [0,1]' }
+  '(A_n)': { meaning: a countable disjoint family of events, type: 'N -> F' }
+type_check_status: well_formed
+type_check_note: 'countable additivity quantifies over COUNTABLE disjoint families; the sum is a series of nonnegative reals, convergent because bounded by 1. Finite additivity is the special case padding with the empty set.'
+hypotheses: []
+preconditions: [omega_nonempty, F_is_sigma_algebra]
+dependencies: [measure, sigma_algebra, countable_set, set_algebra]
+well_definedness: 'P is a measure (measure node) with the extra normalization P(Omega)=1; consistency of the three requirements: the zero measure fails normalization, counting measure on an infinite Omega fails it too, so normalization is a genuine constraint. Countable additivity forces P(empty)=0 (take all A_n = empty).'
+equivalent_forms:
+  - 'nonnegativity + finite additivity + continuity from above at the empty set (P(A_n) -> 0 for A_n down empty) -- equivalent to countable additivity GIVEN finite additivity'
+  - 'a probability measure is a normalized measure in the sense of the measure node'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Omega finite, F = 2^Omega: P determined by the pmf p(omega) >= 0 summing to 1; countable additivity is automatic (finite sums)'
+  - 'A single event A: P(A^c) = 1 - P(A) follows immediately'
+  - 'disjoint A,B: P(A cup B) = P(A) + P(B) -- finite additivity as the 2-set case'
+counterexamples_when_dropped:
+  countable_additivity: 'on Omega = N with F = 2^N, "P(A) = 0 if A finite, 1 if cofinite" is finitely additive and normalized but NOT countably additive (singletons have measure 0 but union to measure 1) -- and it is not sigma-additive-extendable, so it is not a probability measure. This is why the third axiom is countable, not finite.'
+  normalization: 'drop P(Omega)=1 and any measure qualifies; "probability" statements (expectations as weighted averages, Bayes) collapse.'
+  nonnegativity: 'signed measures are not probabilities; P(A) in [0,1] and monotonicity both fail.'
+common_misuse:
+  - 'assuming only finite additivity, then invoking continuity of probability or Borel-Cantelli (which need the countable form)'
+  - 'treating every subset of Omega as an event when Omega is uncountable (non-measurable sets exist; F cannot be 2^[0,1])'
+  - 'forgetting the disjointness hypothesis in countable additivity'
+related:
+  generalizes: [measure]
+  specializes_to: [finite_additivity, complement_rule]
+  historically_precedes: [borel_cantelli_first]
+sources: [kolmogorov_1933, billingsley_probability_measure, durrett_pte, williams_probability_martingales]
+status: reviewed
+checks:
+  type: validation/type-checks.md#kolmogorov_axioms
+  specialization: validation/specialization-cases.md#kolmogorov_axioms
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

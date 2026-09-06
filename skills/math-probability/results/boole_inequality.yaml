@@ -1,0 +1,45 @@
+id: probability_space.boole_inequality
+node: boole_inequality
+status_label: proved_theorem
+display: 'P(bigcup_n A_n) <= sum_n P(A_n) for any countable family of events (no disjointness).'
+parseable: 'P(bigcup_n A_n) <= sum_n P(A_n)'
+symbols:
+  '(A_n)': 'any countable family of events, type: N -> F'
+type_check_status: well_formed
+type_check_note: 'the countable subadditivity of P; disjointify B_n = A_n minus (A_1 cup ... cup A_{n-1}), so B_n subset A_n, the B_n are disjoint with the same union, and countable additivity + monotonicity finish it.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'finite_additivity'
+  - 'kolmogorov_axioms'
+  - 'measure_monotonicity'
+  - 'series_convergence'
+  - 'set_algebra'
+proof:
+  technique: 'disjointify and apply countable additivity: P(bigcup A_n) = P(bigcup B_n) = sum P(B_n) <= sum P(A_n)'
+  derives_from: 'measure_monotonicity'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.union_bound (two-set case)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'finitely many A_n: the finite union bound'
+  - 'A_n with sum P(A_n) < 1: P(no A_n occurs) >= 1 - sum P(A_n) > 0 -- the probabilistic method''s first-moment argument'
+  - 'if sum P(A_n) < inf then P(A_n i.o.) = 0 (borel_cantelli_first)'
+counterexamples_when_dropped:
+  none_unconditional: 'the bound holds for every countable family; it is tight iff the A_n are pairwise disjoint (mod null sets)'
+common_misuse:
+  - 'expecting near-equality when the A_n overlap a lot'
+  - 'applying to an uncountable family'
+related:
+  generalizes: ['finite_additivity (as a bound)']
+  used_by: ['borel_cantelli_first', 'convergence_implications']
+sources:
+  - 'boucheron_lugosi_massart'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#boole_inequality
+  specialization: validation/specialization-cases.md#boole_inequality
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#boole_inequality

@@ -1,0 +1,38 @@
+id: probability_space.probability_measure
+node: probability_measure
+status_label: definition
+display: 'A probability measure is a measure P on (Omega, F) with P(Omega) = 1. So P: F -> [0,1], P(empty) = 0, and P is countably additive.'
+parseable: 'P a measure on F with P(Omega) = 1'
+symbols:
+  'P': 'the probability measure, type: F -> [0,1]'
+  '(Omega, F)': 'a measurable space, type: measurable space'
+type_check_status: well_formed
+type_check_note: 'the only change from a general measure is the normalization P(Omega) = 1, which forces P <= 1 everywhere and removes every finiteness caveat (continuity from above always holds).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'kolmogorov_axioms'
+  - 'measure'
+well_definedness: 'a measure with P(Omega) = 1 exists on any measurable space (e.g. a Dirac point mass); the constraint is consistent and non-vacuous.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Omega finite: P given by a pmf on Omega'
+  - 'P = lambda restricted to [0,1]: the uniform model space'
+counterexamples_when_dropped:
+  normalization: 'drop P(Omega)=1 and expectations are no longer weighted averages; Bayes'' normalizing constant is meaningless'
+common_misuse:
+  - 'forgetting P is countably (not just finitely) additive'
+  - 'assuming P(A) > 0 for every nonempty A'
+related:
+  specializes: ['measure']
+  used_by: ['probability_space', 'kolmogorov_axioms']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#probability_measure
+  specialization: validation/specialization-cases.md#probability_measure
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#probability_measure

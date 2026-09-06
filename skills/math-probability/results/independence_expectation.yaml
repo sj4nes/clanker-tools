@@ -1,0 +1,47 @@
+id: independence.independence_expectation
+node: independence_expectation
+status_label: proved_theorem
+display: 'If X, Y are independent and both integrable, then XY is integrable and E[XY] = E[X] E[Y]. Consequently Cov(X, Y) = 0: independent random variables are uncorrelated.'
+parseable: 'X ⟂ Y, integrable  =>  E[XY] = E[X] E[Y]  =>  Cov(X, Y) = 0'
+symbols:
+  'X, Y': 'independent integrable random variables, type: L^1(P)'
+type_check_status: well_formed
+type_check_note: 'the joint law is the product P_X tensor P_Y; E[XY] = integral integral xy dP_X dP_Y = (integral x dP_X)(integral y dP_Y) by Fubini-Tonelli (applicable since the product |x||y| integrates).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'covariance'
+  - 'expectation'
+  - 'fubini_tonelli'
+  - 'independence_random_variables'
+  - 'lotus'
+proof:
+  technique: 'LOTUS on the product law + Fubini-Tonelli: true for indicators of rectangles, extend by linearity and MCT; integrability of XY from E|XY| = E|X| E|Y| < inf'
+  derives_from: 'fubini_tonelli'
+  lean_status: cited
+  lean_ref: 'Billingsley Thm 21.2; Durrett Thm 2.1.9'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'more generally E[g(X) h(Y)] = E[g(X)] E[h(Y)] for measurable g, h with the products integrable'
+  - 'Var(X + Y) = Var(X) + Var(Y) for independent X, Y'
+  - 'the MGF and CF of a sum of independents factor (mgf_sum_independent)'
+counterexamples_when_dropped:
+  independence_not_merely_uncorrelated: 'X ~ Uniform(-1,1), Y = X^2: E[XY] = E[X^3] = 0 = E[X] E[Y], so uncorrelated, but X, Y are strongly dependent -- the converse is FALSE (uncorrelated_not_independent)'
+  integrability: 'independent Cauchy X, Y: E[XY] does not exist even though E[X], E[Y] individually fail too'
+common_misuse:
+  - 'using E[XY] = E[X]E[Y] to CONCLUDE independence'
+  - 'applying it to non-integrable variables'
+related:
+  one_way_only: ['uncorrelated_not_independent is the failed converse']
+  requires: ['independence_random_variables']
+  used_by: ['variance_of_sum', 'mgf_sum_independent']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#independence_expectation
+  specialization: validation/specialization-cases.md#independence_expectation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#independence_expectation

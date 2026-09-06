@@ -1,0 +1,42 @@
+id: random_variable.pdf
+node: pdf
+status_label: definition
+display: 'The probability density function of an absolutely continuous X is f_X = dP_X/dlambda, the Radon-Nikodym derivative: P(X in B) = integral_B f_X dlambda. f_X >= 0 lambda-a.e. and integral_R f_X = 1.'
+parseable: 'f_X = dP_X/dlambda ;  P(X in B) = integral_B f_X dlambda ;  integral_R f_X = 1'
+symbols:
+  'f_X': 'the density, type: R -> [0, inf), defined lambda-a.e.'
+  'P_X': 'the law, type: probability measure << lambda'
+type_check_status: well_formed
+type_check_note: 'f_X is defined only up to a lambda-null set; f_X(x) is NOT a probability (it can exceed 1) but f_X(x) dx is an infinitesimal probability. Where F_X is differentiable, f_X = F_X''.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'absolutely_continuous_rv'
+  - 'abstract_integral'
+  - 'radon_nikodym'
+well_definedness: 'existence and a.e.-uniqueness of f_X is exactly Radon-Nikodym for P_X << lambda; the normalization integral f_X = P_X(R) = 1.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Uniform(a,b): f_X = 1/(b-a) on [a,b]'
+  - 'standard normal: f_X(x) = e^{-x^2/2}/sqrt(2 pi)'
+  - 'Exponential(lambda): f_X(x) = lambda e^{-lambda x} for x >= 0'
+counterexamples_when_dropped:
+  absolute_continuity: 'a discrete or singular X has no density; writing ''f_X'' for them is a type error'
+common_misuse:
+  - 'treating f_X(x) as P(X = x)'
+  - 'assuming f_X <= 1'
+  - 'forgetting f_X is only an a.e. equivalence class (pointwise values are not meaningful without a continuity choice)'
+related:
+  requires: ['radon_nikodym']
+  analogue_of: ['pmf']
+  used_by: ['lotus', 'transformation_univariate', 'convolution_formula']
+sources:
+  - 'billingsley_probability_measure'
+  - 'folland_real_analysis'
+status: reviewed
+checks:
+  type: validation/type-checks.md#pdf
+  specialization: validation/specialization-cases.md#pdf
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#pdf

@@ -1,0 +1,45 @@
+id: independence.law_of_total_probability
+node: law_of_total_probability
+status_label: proved_theorem
+display: 'If {B_i} is a countable partition of Omega with P(B_i) > 0, then for any event A: P(A) = sum_i P(A | B_i) P(B_i).'
+parseable: '{B_i} a partition, P(B_i) > 0  =>  P(A) = sum_i P(A | B_i) P(B_i)'
+symbols:
+  'A': 'an event, type: element of F'
+  '{B_i}': 'a countable measurable partition of Omega, type: family in F'
+type_check_status: well_formed
+type_check_note: 'A is the disjoint union of A cap B_i; apply countable additivity, then the multiplication rule to each term.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'conditional_probability'
+  - 'finite_additivity'
+  - 'multiplication_rule'
+  - 'set_algebra'
+proof:
+  technique: 'A = bigsqcup_i (A cap B_i); P(A) = sum_i P(A cap B_i) = sum_i P(A | B_i) P(B_i) by countable additivity and the multiplication rule'
+  derives_from: 'finite_additivity'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.bayes_denominator'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'two-part partition {B, B^c}: P(A) = P(A|B) P(B) + P(A|B^c) P(B^c)'
+  - 'the denominator of Bayes'' theorem is exactly this expansion'
+  - 'first-step analysis: P(gambler ruin) = p P(ruin | up) + (1-p) P(ruin | down)'
+counterexamples_when_dropped:
+  the_B_i_partition_Omega: 'if the B_i do not cover Omega, sum_i P(A|B_i) P(B_i) = P(A cap bigcup B_i) < P(A) -- you undercount the part of A outside the B_i'
+common_misuse:
+  - 'using events that overlap or fail to cover Omega'
+  - 'forgetting a case (a non-exhaustive partition silently loses probability)'
+related:
+  used_by: ['bayes_theorem']
+  expectation_analogue: ['tower_property / law of total expectation']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#law_of_total_probability
+  specialization: validation/specialization-cases.md#law_of_total_probability
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#law_of_total_probability

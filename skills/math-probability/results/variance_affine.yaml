@@ -1,0 +1,43 @@
+id: moments.variance_affine
+node: variance_affine
+status_label: mathematical_identity
+display: 'Var(aX + b) = a^2 Var(X). Standard deviation scales as |a|; adding a constant b does not change the variance.'
+parseable: 'Var(aX + b) = a^2 Var(X)'
+symbols:
+  'a, b': 'constants, type: real'
+  'X': 'a random variable in L^2(P), type: L^2(P)'
+type_check_status: well_formed
+type_check_note: 'E[aX + b] = a E[X] + b, so (aX + b) - E[aX + b] = a(X - E[X]); square and take expectations.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'expectation_linearity'
+  - 'variance'
+  - 'variance_computational'
+proof:
+  technique: 'substitute into the definition; the b cancels, a factors out squared'
+  derives_from: 'expectation_linearity'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.var_affine (GENUINE: the 2ab.n.sx and b^2 n^2 terms cancel)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'standardization: Z = (X - mu)/sigma has Var(Z) = 1'
+  - 'a = -1: Var(-X) = Var(X)'
+counterexamples_when_dropped:
+  none_holds_whenever_Var_X_is_finite: 'unconditional given a finite second moment'
+common_misuse:
+  - 'writing Var(aX) = a Var(X) (missing the square)'
+  - 'thinking b affects the spread'
+related:
+  derives_from: ['variance_computational']
+  used_by: ['standard_normal', 'central_limit_theorem']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#variance_affine
+  specialization: validation/specialization-cases.md#variance_affine
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#variance_affine

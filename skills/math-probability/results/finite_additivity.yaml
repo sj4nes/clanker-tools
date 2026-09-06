@@ -1,0 +1,42 @@
+id: probability_space.finite_additivity
+node: finite_additivity
+status_label: proposition
+display: 'For pairwise-disjoint A_1, ..., A_n in F, P(A_1 cup ... cup A_n) = P(A_1) + ... + P(A_n).'
+parseable: 'disjoint A_1..A_n  =>  P(bigcup_{i=1}^n A_i) = sum_{i=1}^n P(A_i)'
+symbols:
+  'A_i': 'pairwise disjoint events, type: element of F'
+  'n': 'a fixed positive integer, type: natural number'
+type_check_status: well_formed
+type_check_note: 'the finite case of countable additivity: pad the finite family with A_{n+1} = A_{n+2} = ... = empty and apply the countable axiom (the tail terms are 0).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'kolmogorov_axioms'
+  - 'set_algebra'
+proof:
+  technique: 'take the countably additive axiom on (A_1, ..., A_n, empty, empty, ...); the series has finitely many nonzero terms'
+  derives_from: 'kolmogorov_axioms'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.incl_excl_2 (n=2)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2: P(A cup B) = P(A) + P(B) for disjoint A, B'
+  - 'partition of Omega: sum_i P(B_i) = 1'
+counterexamples_when_dropped:
+  disjointness: 'P(A cup B) = P(A) + P(B) - P(A cap B) in general; without disjointness the sum overcounts the overlap (inclusion_exclusion)'
+common_misuse:
+  - 'applying it to non-disjoint events'
+  - 'extending to a countably infinite family (that is the axiom, not this proposition)'
+related:
+  special_case_of: ['kolmogorov_axioms']
+  generalizes_to: ['inclusion_exclusion']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#finite_additivity
+  specialization: validation/specialization-cases.md#finite_additivity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#finite_additivity

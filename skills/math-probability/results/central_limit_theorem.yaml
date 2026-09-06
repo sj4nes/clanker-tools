@@ -1,0 +1,53 @@
+id: convergence.central_limit_theorem
+node: central_limit_theorem
+status_label: proved_theorem
+display: 'If $X_1,X_2,\dots$ are i.i.d. with mean $\mu$ and variance $\sigma^2\in(0,\infty)$, then $\dfrac{\sqrt{n}\,(\bar X_n-\mu)}{\sigma}\xrightarrow{d}N(0,1)$.'
+parseable: 'X_i iid, E[X_1]=mu, Var(X_1)=sigma^2 in (0,inf)  =>  sqrt(n)(mean_n - mu)/sigma  -->^{d}  N(0,1)'
+convergence_mode: in_distribution
+symbols:
+  '(X_i)': { meaning: 'an i.i.d. sequence', type: 'N -> L^2(P)' }
+  mu: { meaning: 'common mean E[X_1]', type: real }
+  sigma^2: { meaning: 'common variance', type: 'positive finite real' }
+  'mean_n': { meaning: 'sample mean (X_1 + ... + X_n)/n', type: 'Omega -> R' }
+type_check_status: well_formed
+type_check_note: 'the limit is a fixed N(0,1) LAW, not a random variable; "-->^{d}" is convergence of CDFs at every continuity point (here, everywhere, since the normal CDF is continuous). sigma > 0 is needed to divide.'
+hypotheses: [iid, finite_mean, finite_nonzero_variance]
+preconditions: [sigma_positive]
+dependencies: [iid, characteristic_function, levy_continuity_theorem, convergence_in_distribution, standard_normal, expectation, variance, mgf_sum_independent]
+proof:
+  technique: >-
+    WLOG mu = 0, sigma = 1.  phi_{X_1}(t) = 1 - t^2/2 + o(t^2) near 0 (two
+    finite moments).  The CF of S_n = (X_1+...+X_n)/sqrt(n) is
+    phi_{X_1}(t/sqrt(n))^n = (1 - t^2/(2n) + o(1/n))^n -> e^{-t^2/2}, the CF of
+    N(0,1).  Apply Levy's continuity theorem.
+  derives_from: levy_continuity_theorem
+  lean_status: cited
+  lean_ref: 'CITED -- Billingsley Probability and Measure 3e Thm 27.1; Durrett PTE 5e Thm 3.4.1. Not formalized here (no Mathlib real-analysis / CF machinery in the Lean core).'
+uses_choice: false
+constructive: false
+solving_for: 'the limiting distribution of a standardized sample mean'
+specialization_cases:
+  - 'X_i ~ Bernoulli(p): sqrt(n)(mean - p)/sqrt(p(1-p)) -> N(0,1) -- the de Moivre-Laplace theorem; the bc worksheet shows the standardized-binomial CDF at 1 approaching Phi(1)'
+  - 'X_i ~ N(mu, sigma^2): the standardized mean is EXACTLY N(0,1) for every n (not just in the limit)'
+  - 'g differentiable at mu: sqrt(n)(g(mean) - g(mu)) -> N(0, g''(mu)^2 sigma^2) -- the delta method'
+counterexamples_when_dropped:
+  finite_nonzero_variance: 'X_i ~ Cauchy (cauchy_no_mean): mean_n is again Cauchy for every n -- no normalization makes it converge to a normal. Infinite variance breaks the theorem; stable laws with index < 2 are the correct limits.'
+  iid_identical: 'independent but not identically distributed can fail without a further condition -- the Lindeberg condition (lindeberg_clt) is what restores the conclusion.'
+  iid_independent: 'strongly dependent X_i (e.g. X_i = X_1 for all i): the standardized mean is sqrt(n)(X_1 - mu)/sigma, which diverges, not converges.'
+  finite_mean: 'if E|X_1| = inf the centring constant mu does not exist.'
+common_misuse:
+  - 'claiming a rate or an error bound (that is Berry-Esseen, needing a third moment); the CLT alone gives no n at which the approximation is "good"'
+  - 'applying it to a fixed n as if mean_n were exactly normal'
+  - 'using it for the maximum or the sum of heavy-tailed variables (extreme-value / stable laws govern those)'
+  - 'reading -->^{d} as almost-sure or in-probability convergence of the standardized sum -- it is neither (the standardized sum has no a.s. limit)'
+related:
+  strengthened_by: [lindeberg_clt, berry_esseen]
+  uses: [levy_continuity_theorem]
+  contrast_with: [strong_law_large_numbers]
+sources: [billingsley_probability_measure, durrett_pte, williams_probability_martingales]
+status: reviewed
+checks:
+  type: validation/type-checks.md#central_limit_theorem
+  specialization: validation/specialization-cases.md#central_limit_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#central_limit_theorem

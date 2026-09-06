@@ -1,0 +1,44 @@
+id: probability_space.inclusion_exclusion
+node: inclusion_exclusion
+status_label: proved_theorem
+display: 'P(A_1 cup ... cup A_n) = sum P(A_i) - sum_{i<j} P(A_i cap A_j) + sum_{i<j<k} P(A_i cap A_j cap A_k) - ... + (-1)^{n+1} P(A_1 cap ... cap A_n).'
+parseable: 'P(bigcup A_i) = sum_k (-1)^{k+1} sum_{|S|=k} P(bigcap_{i in S} A_i)'
+symbols:
+  'A_i': 'events, type: element of F'
+  'S': 'a subset of {1..n}, type: index set'
+type_check_status: well_formed
+type_check_note: 'an alternating sum over all nonempty subsets S of the indices; the terms are probabilities of intersections, always well-defined.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'complement_rule'
+  - 'finite_additivity'
+  - 'set_algebra'
+proof:
+  technique: 'induction on n using P(A cup B) = P(A) + P(B) - P(A cap B); or take expectations of the indicator identity 1_{bigcup A_i} = 1 - prod (1 - 1_{A_i})'
+  derives_from: 'finite_additivity'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.incl_excl_2, Prob.incl_excl_3'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2: P(A cup B) = P(A) + P(B) - P(A cap B)'
+  - 'Bonferroni: truncating after k terms gives an upper bound (k odd) or lower bound (k even)'
+  - 'derangements: P(no fixed point of a uniform random permutation) -> 1/e'
+counterexamples_when_dropped:
+  none_all_terms_needed: 'dropping the higher-order terms gives only the Bonferroni one-sided bounds, not equality'
+common_misuse:
+  - 'forgetting the sign alternation'
+  - 'using only the first two terms as if exact (that is the union bound / a Bonferroni bound)'
+related:
+  generalizes: ['finite_additivity']
+  special_case_of: ['the Mobius inversion formula on the subset lattice']
+sources:
+  - 'grimmett_stirzaker'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#inclusion_exclusion
+  specialization: validation/specialization-cases.md#inclusion_exclusion
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#inclusion_exclusion

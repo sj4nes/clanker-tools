@@ -1,0 +1,46 @@
+id: convergence.portmanteau_theorem
+node: portmanteau_theorem
+status_label: proved_theorem
+display: 'The following are equivalent to X_n -> X in distribution: (i) E[g(X_n)] -> E[g(X)] for all bounded continuous g; (ii) for all bounded Lipschitz g; (iii) limsup P(X_n in C) <= P(X in C) for all closed C; (iv) liminf P(X_n in U) >= P(X in U) for all open U; (v) P(X_n in A) -> P(X in A) for all A with P(X in boundary A) = 0.'
+parseable: 'X_n -->^{d} X  <=>  E[g(X_n)] -> E[g(X)] for all bounded continuous g  (and 4 more forms)'
+symbols:
+  'g': 'a test function, type: R -> R bounded and continuous'
+  'C, U, A': 'closed / open / continuity Borel sets, type: element of B(R)'
+type_check_status: well_formed
+type_check_note: 'the CDF definition is the special case A = (-inf, x] with P(X = x) = 0. Form (i) is the working definition of weak convergence on general metric spaces; forms (iii)-(v) are what make it a topology on laws.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'cdf_properties'
+  - 'convergence_in_distribution'
+  - 'expectation'
+proof:
+  technique: 'CDF => (i) by approximating 1_{(-inf,x]} by Lipschitz functions and using continuity points; (i) => (iii) by g_k decreasing to 1_C; (iii) <=> (iv) by complements; (v) from both one-sided bounds when the boundary is null; (i) => CDF by (v) with A = (-inf, x]'
+  derives_from: 'convergence_in_distribution'
+  lean_status: cited
+  lean_ref: 'Billingsley Convergence of Probability Measures Thm 2.1; Durrett Thm 3.2.5'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A = (-inf, x], P(X = x) = 0: the CDF form'
+  - 'g bounded uniformly continuous is enough (form ii) -- the class can be shrunk'
+  - 'the Levy metric / bounded-Lipschitz metric metrizes this convergence on laws over R'
+counterexamples_when_dropped:
+  boundedness_of_g: 'g(x) = x is continuous but unbounded: E[X_n] -> E[X] can FAIL under X_n -> X in distribution (escaping mass) -- convergence of unbounded moments needs uniform integrability'
+  continuity_of_g: 'g = 1_{(-inf, 0]} (discontinuous): P(X_n <= 0) -> P(X <= 0) fails when X has an atom at 0'
+  P_of_boundary_zero_in_(v): 'A = {0}, X ~ N(0,1) (so P(X in bd A) = P(X = 0) = 0) is fine; A = {0}, X = 0 constant is not'
+common_misuse:
+  - 'applying form (i) to an unbounded g (moments)'
+  - 'using P(X_n in A) -> P(X in A) for a set whose boundary carries mass'
+related:
+  characterizes: ['convergence_in_distribution']
+  used_by: ['continuous_mapping_theorem', 'slutsky_theorem']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#portmanteau_theorem
+  specialization: validation/specialization-cases.md#portmanteau_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#portmanteau_theorem

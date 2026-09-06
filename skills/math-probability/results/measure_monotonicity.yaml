@@ -1,0 +1,42 @@
+id: measure.measure_monotonicity
+node: measure_monotonicity
+status_label: proposition
+display: 'For a measure mu: A subset B implies mu(A) <= mu(B); and mu is countably subadditive: mu(bigcup_n A_n) <= sum_n mu(A_n) for any (not necessarily disjoint) A_n.'
+parseable: 'A subset B => mu(A) <= mu(B) ;  mu(bigcup A_n) <= sum mu(A_n)'
+symbols:
+  'mu': 'a measure, type: F -> [0, inf]'
+  '(A_n)': 'any countable family in F, type: N -> F'
+type_check_status: well_formed
+type_check_note: 'monotonicity uses mu(B) = mu(A) + mu(B \ A) >= mu(A); subadditivity disjointifies B_n = A_n \ (A_1 cup ... cup A_{n-1}) then uses countable additivity + monotonicity.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'measure'
+  - 'series_convergence'
+  - 'set_algebra'
+proof:
+  technique: 'monotonicity: B = A disjoint-union (B minus A), additivity, mu >= 0. Subadditivity: replace A_n by disjoint B_n subset A_n with the same union; sum mu(B_n) <= sum mu(A_n)'
+  derives_from: 'measure'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.union_bound (the two-set case)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'mu = P: P(A) <= P(B) and P(A) in [0,1]; Boole''s inequality is the probability form of subadditivity'
+  - 'equality in subadditivity iff the A_n are pairwise disjoint (mod null sets)'
+counterexamples_when_dropped:
+  nonnegativity_of_mu: 'for a signed measure monotonicity fails: a set of negative measure can contain one of positive measure'
+common_misuse:
+  - 'expecting equality in the union bound (usually strict)'
+  - 'using it for mu(A \ B) = mu(A) - mu(B) without mu(B) < inf and B subset A'
+related:
+  used_by: ['boole_inequality', 'borel_cantelli_first']
+sources:
+  - 'billingsley_probability_measure'
+  - 'folland_real_analysis'
+status: reviewed
+checks:
+  type: validation/type-checks.md#measure_monotonicity
+  specialization: validation/specialization-cases.md#measure_monotonicity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#measure_monotonicity

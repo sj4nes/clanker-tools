@@ -1,0 +1,36 @@
+id: analysis.convex_function
+node: convex_function
+status_label: definition
+display: 'phi: I -> R is convex if phi(t x + (1-t) y) <= t phi(x) + (1-t) phi(y) for all x,y in I and t in [0,1]; equivalently it lies above each of its tangent/supporting lines on the interior.'
+parseable: 'phi(t x + (1-t) y) <= t phi(x) + (1-t) phi(y)'
+symbols:
+  'phi': 'the function, type: I -> R with I an interval'
+  'supporting line at c': 'an affine L with L(c)=phi(c), L<=phi, type: affine function'
+type_check_status: well_formed
+type_check_note: 'convexity is on an interval I; at an interior point c there is at least one supporting line phi(x) >= phi(c) + m (x - c). Jensen''s inequality is exactly ''take x = X, c = E[X], then integrate''. Discharged from math-real-analysis.'
+hypotheses: []
+preconditions: []
+dependencies: []
+well_definedness: 'a convex function on an open interval is continuous and has one-sided derivatives everywhere; the supporting-line family is nonempty at every interior point.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'phi(x) = x^2, |x|, e^{tx} are convex on R -- the cases used for variance, Jensen, and the Chernoff/Hoeffding bounds'
+  - 'phi affine: Jensen holds with equality'
+counterexamples_when_dropped:
+  convexity: 'phi(x) = -x^2 (concave): Jensen reverses, phi(E[X]) >= E[phi(X)]'
+common_misuse:
+  - 'applying Jensen with the inequality the wrong way for a concave phi'
+  - 'assuming strict inequality without strict convexity + a non-degenerate X'
+related:
+  developed_in: ['math-real-analysis']
+  dual_of: ['concave function']
+sources:
+  - 'rudin_principles'
+  - 'boucheron_lugosi_massart'
+status: reviewed
+checks:
+  type: validation/type-checks.md#convex_function
+  specialization: validation/specialization-cases.md#convex_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#convex_function

@@ -1,0 +1,45 @@
+id: probability_space.continuity_of_probability
+node: continuity_of_probability
+status_label: proposition
+display: 'If A_n increases to A then P(A_n) -> P(A); if A_n decreases to A then P(A_n) -> P(A). (No finiteness caveat: P <= 1.)'
+parseable: 'A_n up A => P(A_n) -> P(A) ;  A_n down A => P(A_n) -> P(A)'
+symbols:
+  '(A_n)': 'a monotone sequence of events, type: N -> F'
+  'A': 'bigcup A_n or bigcap A_n, type: element of F'
+type_check_status: well_formed
+type_check_note: 'the specialisation of measure_continuity to a finite (probability) measure; continuity from above needs no extra hypothesis because P(A_1) <= 1 < inf.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'kolmogorov_axioms'
+  - 'measure_continuity'
+  - 'sequence_limit'
+  - 'set_algebra'
+proof:
+  technique: 'measure_continuity with mu = P; from above via complements'
+  derives_from: 'measure_continuity'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A_n = { X <= x + 1/n } down { X <= x }: gives right-continuity of the CDF'
+  - 'A_n = { |X_k - X| <= eps for all k <= n }: used to relate a.s. and in-probability convergence'
+  - 'P(bigcup_{n} A_n) = lim_N P(bigcup_{n<=N} A_n)'
+counterexamples_when_dropped:
+  monotonicity_of_A_n: 'for a non-monotone sequence only Fatou-type bounds hold: P(liminf A_n) <= liminf P(A_n) <= limsup P(A_n) <= P(limsup A_n)'
+common_misuse:
+  - 'applying to a non-monotone sequence'
+  - 'confusing set convergence A_n -> A with numerical P(A_n) -> P(A) (the proposition is exactly the bridge)'
+related:
+  specializes: ['measure_continuity']
+  used_by: ['cdf_properties', 'borel_cantelli_first', 'borel_cantelli_second']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#continuity_of_probability
+  specialization: validation/specialization-cases.md#continuity_of_probability
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#continuity_of_probability

@@ -1,0 +1,45 @@
+id: convergence.levy_continuity_theorem
+node: levy_continuity_theorem
+status_label: proved_theorem
+display: 'If phi_{X_n}(t) -> phi(t) for every t and phi is continuous at t = 0, then phi is the characteristic function of some random variable X and X_n -> X in distribution. Conversely X_n -> X in distribution implies phi_{X_n} -> phi_X pointwise.'
+parseable: 'phi_{X_n}(t) -> phi(t) for all t, phi continuous at 0  <=>  X_n -->^{d} X  with phi_X = phi'
+convergence_mode: in_distribution
+symbols:
+  'phi_{X_n}': 'characteristic functions, type: R -> C'
+  'phi': 'the pointwise limit, type: R -> C'
+type_check_status: well_formed
+type_check_note: 'the workhorse for proving convergence in distribution: reduce to a pointwise limit of characteristic functions (which factor over sums). The continuity of phi at 0 rules out mass escaping to infinity (tightness).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'cf_properties'
+  - 'characteristic_function'
+  - 'convergence_in_distribution'
+proof:
+  technique: 'continuity of phi at 0 gives tightness of (X_n) (a CF-tail bound); every subsequential distributional limit has CF phi (by the converse direction + the pointwise convergence); phi determines the limit uniquely, so the whole sequence converges'
+  derives_from: 'cf_properties'
+  lean_status: cited
+  lean_ref: 'Billingsley Thm 26.3; Durrett Thm 3.3.6'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'CLT: phi_{S_n}(t) = phi_{X_1}(t/sqrt n)^n -> e^{-t^2/2}, continuous at 0, hence S_n -> N(0,1)'
+  - 'Poisson limit: (1 + (lambda/n)(e^{it} - 1))^n -> exp(lambda(e^{it} - 1))'
+counterexamples_when_dropped:
+  continuity_of_the_limit_phi_at_0: 'X_n ~ N(0, n): phi_{X_n}(t) = e^{-n t^2/2} -> 1_{t = 0}, which is NOT continuous at 0 -- and indeed X_n has no distributional limit (mass escapes to +-inf). The continuity condition is exactly the tightness check.'
+  pointwise_convergence_for_all_t: 'convergence of phi_{X_n}(t) on a bounded interval of t is not enough in general'
+common_misuse:
+  - 'skipping the continuity-at-0 check (it is where tightness lives)'
+  - 'concluding convergence from CF agreement on a finite set of t'
+related:
+  uses: ['characteristic_function', 'cf_properties']
+  used_by: ['central_limit_theorem', 'poisson_limit_theorem']
+sources:
+  - 'billingsley_probability_measure'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#levy_continuity_theorem
+  specialization: validation/specialization-cases.md#levy_continuity_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#levy_continuity_theorem

@@ -1,0 +1,50 @@
+id: inequalities.hoeffding_inequality
+node: hoeffding_inequality
+status_label: proved_theorem
+display: 'If X_1, ..., X_n are independent with a_i <= X_i <= b_i a.s., and S = sum X_i, then for s > 0: P(S - E[S] >= s) <= exp(-2 s^2 / sum_i (b_i - a_i)^2), and the two-sided bound doubles the right side.'
+parseable: 'X_i independent in [a_i, b_i], S = sum X_i  =>  P(S - E[S] >= s) <= exp(-2 s^2 / sum (b_i - a_i)^2)'
+symbols:
+  'X_i': 'independent bounded random variables, type: Omega -> [a_i, b_i]'
+  's': 'the deviation, type: positive real'
+type_check_status: well_formed
+type_check_note: 'Chernoff on S - E[S]: P(S - E[S] >= s) <= e^{-ts} prod_i E[e^{t(X_i - E X_i)}] <= e^{-ts} exp(t^2 sum (b_i - a_i)^2 / 8) by independence (MGFs multiply) and Hoeffding''s lemma; optimize t = 4s / sum (b_i - a_i)^2.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'chernoff_bound'
+  - 'hoeffding_lemma'
+  - 'independence_random_variables'
+  - 'mgf_sum_independent'
+proof:
+  technique: 'Chernoff + mgf_sum_independent + hoeffding_lemma per factor, then optimize over t'
+  derives_from: 'hoeffding_lemma'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Prob.markov_finite (Markov/Chernoff core); the assembly is algebra'
+uses_choice: false
+constructive: true
+solving_for: 'a non-asymptotic, distribution-free concentration bound for a sum/average of bounded independent variables'
+specialization_cases:
+  - 'X_i in [0, 1], sample mean Xbar: P(Xbar - E[Xbar] >= eps) <= e^{-2 n eps^2} -- the workhorse bound for empirical means, bandit algorithms, and PAC learning'
+  - 'n coin flips: P(#heads - n/2 >= s) <= e^{-2 s^2 / n}'
+  - 'gives the sample size n >= (1/(2 eps^2)) log(2/delta) for an eps-accurate mean with confidence 1 - delta'
+counterexamples_when_dropped:
+  boundedness_of_each_X_i: 'one unbounded X_i (even with tiny variance) breaks the sub-Gaussian MGF bound -- use Bernstein''s inequality (needs a variance bound + a one-sided bound) instead'
+  independence: 'for dependent X_i the MGF does not factor; McDiarmid''s / Azuma''s inequality handles bounded-difference dependence'
+common_misuse:
+  - 'applying it to unbounded variables'
+  - 'using it for dependent data'
+  - 'forgetting the factor 2 in the two-sided version'
+  - 'ignoring that it can be very loose when the variances are much smaller than the ranges (Bernstein is tighter then)'
+related:
+  derives_from: ['hoeffding_lemma', 'chernoff_bound']
+  sharpens: ['chebyshev_inequality']
+  relatives: ['Bernstein, Azuma-Hoeffding, McDiarmid']
+sources:
+  - 'boucheron_lugosi_massart'
+  - 'durrett_pte'
+status: reviewed
+checks:
+  type: validation/type-checks.md#hoeffding_inequality
+  specialization: validation/specialization-cases.md#hoeffding_inequality
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#hoeffding_inequality

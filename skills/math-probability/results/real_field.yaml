@@ -1,0 +1,33 @@
+id: analysis.real_field
+node: real_field
+status_label: definition
+display: 'R is a complete ordered field: the least-upper-bound property holds, giving the Archimedean property, density of Q, monotone convergence, and the nested-interval theorem.'
+parseable: 'every nonempty bounded-above S subset R has a supremum in R'
+symbols:
+  'R': 'the real numbers, type: complete ordered field'
+type_check_status: well_formed
+type_check_note: 'the completeness axiom (lub property) is taken as given; a construction of R (Dedekind cuts / Cauchy completion) is cited to math-real-analysis, not built.'
+hypotheses: []
+preconditions: []
+dependencies: []
+well_definedness: 'R is the unique complete ordered field up to isomorphism (math-number-systems); [0, inf] is its two-point compactification, the range of a measure.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - '[0,1] with its order is where every probability P(A) lives'
+  - 'the extended reals [0, inf] carry measure and integral values'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used in the proof; see the block above'
+common_misuse:
+  - 'using the lub property in Q (fails: sup{ q : q^2 < 2 } does not exist in Q)'
+related:
+  developed_in: ['math-real-analysis', 'math-number-systems']
+sources:
+  - 'rudin_principles'
+  - 'tao_analysis_I'
+status: reviewed
+checks:
+  type: validation/type-checks.md#real_field
+  specialization: validation/specialization-cases.md#real_field
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#real_field
