@@ -1,0 +1,86 @@
+[
+  {
+    "period": "2024-01-01",
+    "customers": 1000,
+    "received": 920,
+    "status": "observed",
+    "contact_rate": 92.0
+  },
+  {
+    "period": "2024-02-01",
+    "customers": 1080,
+    "received": 990,
+    "status": "observed",
+    "contact_rate": 91.67
+  },
+  {
+    "period": "2024-03-01",
+    "customers": 1160,
+    "received": 1035,
+    "status": "observed",
+    "contact_rate": 89.22
+  },
+  {
+    "period": "2024-04-01",
+    "customers": 1250,
+    "received": 1080,
+    "status": "observed",
+    "contact_rate": 86.4
+  },
+  {
+    "period": "2024-05-01",
+    "customers": 1330,
+    "received": null,
+    "status": "missing",
+    "contact_rate": null
+  },
+  {
+    "period": "2024-06-01",
+    "customers": 1410,
+    "received": 1170,
+    "status": "observed",
+    "contact_rate": 82.98
+  },
+  {
+    "period": "2024-07-01",
+    "customers": 1500,
+    "received": 1210,
+    "status": "observed",
+    "contact_rate": 80.67
+  },
+  {
+    "period": "2024-08-01",
+    "customers": 1590,
+    "received": 1260,
+    "status": "observed",
+    "contact_rate": 79.25
+  },
+  {
+    "period": "2024-09-01",
+    "customers": 1680,
+    "received": 1305,
+    "status": "observed",
+    "contact_rate": 77.68
+  },
+  {
+    "period": "2024-10-01",
+    "customers": 1770,
+    "received": 1360,
+    "status": "observed",
+    "contact_rate": 76.84
+  },
+  {
+    "period": "2024-11-01",
+    "customers": 1860,
+    "received": 1405,
+    "status": "observed",
+    "contact_rate": 75.54
+  },
+  {
+    "period": "2024-12-01",
+    "customers": 1950,
+    "received": 940,
+    "status": "partial",
+    "contact_rate": 48.21
+  }
+]

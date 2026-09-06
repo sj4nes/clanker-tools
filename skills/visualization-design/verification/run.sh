@@ -18,3 +18,7 @@ echo
 
 echo "=== 3-4. palette accessibility checks (python) ==="
 python3 palette_check.py
+echo
+
+echo "=== 5. worked example: support-contact-rate end-to-end ==="
+python3 ../examples/support-contact-rate/check.py

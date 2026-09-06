@@ -1,0 +1,109 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "description": "Line chart of monthly support contact rate (support tickets received per 100 active customers) for 2024. The rate falls steadily from 92.0 in January to 75.5 in November, an 18% decline, even though the raw ticket count rose 53% over the same period because the customer base grew faster. May is not plotted (ticketing-system migration lost the received count). December is shown as a separate hollow marker, not joined to the trend line, because only 20 of 31 days were collected; pro-rated to a full month its rate is about 74.7, on trend.",
+  "title": {
+    "text": "Support contact rate fell 18% in 2024 as the customer base outgrew ticket volume",
+    "subtitle": [
+      "Support tickets received per 100 active customers, by month.",
+      "Raw ticket volume rose 53% (920 to 1,405/mo); active customers rose 86% (1,000 to 1,860)."
+    ],
+    "anchor": "start",
+    "fontSize": 15,
+    "subtitleFontSize": 11,
+    "subtitleColor": "#555"
+  },
+  "width": 640,
+  "height": 320,
+  "data": {
+    "values": [
+      {"period": "2024-01-01", "contact_rate": 92.0,  "received": 920,  "customers": 1000, "status": "observed"},
+      {"period": "2024-02-01", "contact_rate": 91.67, "received": 990,  "customers": 1080, "status": "observed"},
+      {"period": "2024-03-01", "contact_rate": 89.22, "received": 1035, "customers": 1160, "status": "observed"},
+      {"period": "2024-04-01", "contact_rate": 86.4,  "received": 1080, "customers": 1250, "status": "observed"},
+      {"period": "2024-05-01", "contact_rate": null,  "received": null, "customers": 1330, "status": "missing"},
+      {"period": "2024-06-01", "contact_rate": 82.98, "received": 1170, "customers": 1410, "status": "observed"},
+      {"period": "2024-07-01", "contact_rate": 80.67, "received": 1210, "customers": 1500, "status": "observed"},
+      {"period": "2024-08-01", "contact_rate": 79.25, "received": 1260, "customers": 1590, "status": "observed"},
+      {"period": "2024-09-01", "contact_rate": 77.68, "received": 1305, "customers": 1680, "status": "observed"},
+      {"period": "2024-10-01", "contact_rate": 76.84, "received": 1360, "customers": 1770, "status": "observed"},
+      {"period": "2024-11-01", "contact_rate": 75.54, "received": 1405, "customers": 1860, "status": "observed"},
+      {"period": "2024-12-01", "contact_rate": 48.21, "received": 940,  "customers": 1950, "status": "partial"},
+      {"period": "2024-12-01", "contact_rate": 74.7,  "note": "pro-rated to 31 days", "status": "prorated"}
+    ]
+  },
+  "encoding": {
+    "x": {
+      "field": "period",
+      "type": "temporal",
+      "timeUnit": "yearmonth",
+      "axis": {"title": null, "format": "%b", "labelFontSize": 11, "grid": false, "tickCount": 12}
+    },
+    "y": {
+      "field": "contact_rate",
+      "type": "quantitative",
+      "scale": {"domain": [0, 100]},
+      "axis": {
+        "title": "Tickets received per 100 active customers",
+        "titleFontSize": 11,
+        "labelFontSize": 11,
+        "values": [0, 25, 50, 75, 100]
+      }
+    }
+  },
+  "layer": [
+    {
+      "description": "Observed monthly trend, Jan-Nov. May is null so the line breaks there.",
+      "transform": [{"filter": "datum.status === 'observed' || datum.status === 'missing'"}],
+      "mark": {"type": "line", "strokeWidth": 2.5, "color": "#1f5fa8", "point": false}
+    },
+    {
+      "transform": [{"filter": "datum.status === 'observed'"}],
+      "mark": {"type": "point", "filled": true, "size": 55, "color": "#1f5fa8"}
+    },
+    {
+      "description": "Direct value labels on the first and last observed months.",
+      "transform": [{"filter": "datum.period === '2024-01-01' || datum.period === '2024-11-01'"}],
+      "mark": {"type": "text", "dy": -12, "fontSize": 11, "color": "#1f5fa8", "fontWeight": "bold"},
+      "encoding": {"text": {"field": "contact_rate", "type": "quantitative", "format": ".1f"}}
+    },
+    {
+      "description": "May: vertical rule + note. The gap is made explicit, not smoothed over.",
+      "data": {"values": [{"period": "2024-05-01"}]},
+      "mark": {"type": "rule", "strokeDash": [3, 3], "color": "#6f6f6f"},
+      "encoding": {"x": {"field": "period", "type": "temporal", "timeUnit": "yearmonth"}}
+    },
+    {
+      "data": {"values": [{"period": "2024-05-01", "y": 20, "label": "May: not recorded (system migration)"}]},
+      "mark": {"type": "text", "align": "center", "angle": 0, "dy": 0, "fontSize": 10, "color": "#666"},
+      "encoding": {
+        "x": {"field": "period", "type": "temporal", "timeUnit": "yearmonth"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    },
+    {
+      "description": "December as reported: 20/31 days. Hollow marker, NOT joined to the trend line.",
+      "transform": [{"filter": "datum.status === 'partial'"}],
+      "mark": {"type": "point", "shape": "circle", "filled": false, "size": 70, "strokeWidth": 1.5, "color": "#6f6f6f"}
+    },
+    {
+      "description": "December pro-rated to a full month: open square, shown as an estimate.",
+      "transform": [{"filter": "datum.status === 'prorated'"}],
+      "mark": {"type": "point", "shape": "square", "filled": false, "size": 70, "strokeWidth": 1.5, "color": "#1f5fa8", "opacity": 0.7}
+    },
+    {
+      "data": {"values": [{"period": "2024-12-01", "y": 34, "label": "Dec: partial month (20/31 days)."}, {"period": "2024-12-01", "y": 27, "label": "Open square = pro-rated estimate (74.7)."}]},
+      "mark": {"type": "text", "align": "right", "dx": 4, "fontSize": 10, "color": "#666"},
+      "encoding": {
+        "x": {"field": "period", "type": "temporal", "timeUnit": "yearmonth"},
+        "y": {"field": "y", "type": "quantitative"},
+        "text": {"field": "label"}
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {"domainColor": "#888", "tickColor": "#888"},
+    "font": "sans-serif"
+  }
+}

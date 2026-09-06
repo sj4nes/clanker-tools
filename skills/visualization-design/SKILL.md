@@ -115,12 +115,12 @@ wrong job misleads; the right job encoded on a distorting scale also misleads.
   extended description for complex visuals, and an accessible data table when
   exact values matter. Test: *would the distinctions survive grayscale, print,
   and a screen reader?* [`references/accessibility.md`](references/accessibility.md).
-- **Least-ink adequate, not minimal for its own sake.** Remove marks that do not
+- **Least-ink adequate, not minimal for its own sake.** Cut marks that don't
   help the reader read, compare, navigate, or interpret — decorative 3D,
-  gradients, shadows, ornamental icons, noisy backgrounds. Keep titles, labels,
-  uncertainty notes, annotations, and guides that clarify.
-- **Direct-label near the marks**; use a legend only when direct labelling would
-  collide. Use small multiples with a shared scale for repeated comparisons.
+  gradients, shadows, ornamental icons, noisy backgrounds — but keep titles,
+  labels, uncertainty notes, annotations, and guides that clarify.
+- **Direct-label near the marks**; use a legend only when labels would collide.
+  Small multiples with a shared scale for repeated comparisons.
 - **Emit a semantic source, not just a picture.** Prefer diagram-as-code
   (Mermaid, Graphviz/DOT, PlantUML, D2) and chart-as-code (Vega-Lite/Altair,
   Observable Plot, matplotlib, ggplot2) so the artifact is auditable,
@@ -128,12 +128,11 @@ wrong job misleads; the right job encoded on a distorting scale also misleads.
   artifact and the spec with data, labels, colours, layout rules, and
   provenance.
 - **Choose static / interactive / animated deliberately.** Static when the
-  message is stable and specific and interaction would not change the
-  conclusion; interactive when users must explore many variables, inspect
-  values, compare scenarios, or filter to their context — with a strong initial
-  view, discoverable controls, reset, and an accessible alternative; animation
-  only when change, sequence, or state transition *is* the subject, and prefer a
-  scrubber or small multiples for accurate comparison.
+  message is stable and interaction would not change the conclusion; interactive
+  when users must explore, inspect values, compare scenarios, or filter to their
+  context — with a strong initial view, discoverable controls, reset, and an
+  accessible alternative; animation only when change or state transition *is* the
+  subject, and prefer a scrubber or small multiples for accurate comparison.
 - **Critique before delivery.** Score purpose, semantic correctness, data
   integrity, perceptual effectiveness, hierarchy, cognitive load, accessibility,
   annotation, context, decision utility, and maintainability. List unresolved
@@ -202,11 +201,10 @@ wrong job misleads; the right job encoded on a distorting scale also misleads.
    [`templates/critique-report.md`](templates/critique-report.md).
 9. **For simulation / DOE / causal / architecture work**, apply the specialized
    mode in [`references/evidence-and-domains.md`](references/evidence-and-domains.md)
-   — main-effect and interaction plots, Pareto-of-effects, contour/response
-   surfaces, tornado and exceedance curves, fan charts, observed-vs-predicted
-   and residual diagnostics; solid vs dashed causal edges with an assumption
-   note; layered C4-style architecture views with a stated viewpoint and
-   boundary.
+   — effect and interaction plots, response surfaces, tornado and exceedance
+   curves, fan charts, observed-vs-predicted diagnostics; solid vs dashed causal
+   edges with an assumption note; layered C4-style architecture views with a
+   stated viewpoint and boundary.
 
 ## The visual job (pick before the chart type)
 
@@ -289,19 +287,21 @@ diagram-semantics table — is in
 - [`templates/critique-report.md`](templates/critique-report.md) — the
   integrity + accessibility + rubric critique and revision log.
 
-[`verification/`](verification/) (`sh verification/run.sh`) checks the WCAG
-contrast-ratio formula and the proportional-distortion ratio in `bc`, and builds
-a categorical palette then checks its grayscale and colour-vision separation.
+[`examples/support-contact-rate/`](examples/support-contact-rate/) runs steps 1–9
+on a messy monthly dataset and a loaded chart request, with a `check.py` that
+recomputes every claim. [`verification/`](verification/) (`sh
+verification/run.sh`) checks the WCAG contrast formula and the
+proportional-distortion ratio in `bc`, tests a categorical palette for grayscale
+and colour-vision separation, and runs the worked example end to end.
 
 ## Completion report
 
 Report: the primary question and audience as you understood them; the visual job
-and the product class; the form chosen and why (for diagrams, the arrow
-grammar and boundary); the encodings, scales, and any non-zero baseline or
-transformation with its justification; the graphical-integrity audit result
+and product class; the form chosen and why (for diagrams, the arrow grammar and
+boundary); the encodings, scales, and any non-zero baseline or transformation
+with its justification; the graphical-integrity audit result
 including the visual-effect ratio for any area/length encoding; how evidence
-status and uncertainty are shown; the accessibility package (alt text, contrast
-results, grayscale check, data table); the semantic source emitted and its
-provenance; the rubric scores, red flags found, and revisions made; remaining
-assumptions and limitations; and any alternative design offered with its
-rationale.
+status and uncertainty are shown; the accessibility package (alt text, contrast,
+grayscale check, data table); the semantic source and its provenance; the rubric
+scores, red flags found, and revisions made; remaining assumptions; and any
+alternative design offered with its rationale.

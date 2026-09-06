@@ -55,10 +55,6 @@ Format:
 
 ## visualization-design
 
-- [ ] **visualization-design:** worked end-to-end example — take one messy
-      dataset + brief through brief → job → spec → integrity audit → a11y
-      package → Vega-Lite source → critique, and commit it under
-      `skills/visualization-design/verification/` or a new `examples/` dir.
 - [ ] **visualization-design:** cross-link with `simulation` and
       `design-of-experiments` — their reporting steps could point at
       `references/evidence-and-domains.md` for the plot catalogue instead of
@@ -81,6 +77,12 @@ Format:
       templates + `verification/` (WCAG contrast + Tufte lie factor in `bc`,
       Okabe–Ito vs bad-palette CVD/grayscale check, rainbow-ramp failure);
       `sh run.sh` green.  (2026-09-06)
+
+- [x] **visualization-design:** worked end-to-end example —
+      `examples/support-contact-rate/` takes a messy monthly CSV + a loaded
+      "make it go up and to the right" request through steps 1–9 (brief → job →
+      Vega-Lite spec → integrity audit → a11y package → critique); `check.py`
+      recomputes every claim, wired into `verification/run.sh`.  (2026-09-06)
 
 - [x] **design-of-experiments:** `verification/` worked check — `bc` sample-size
       + adjustments, Monte Carlo power / design-effect / pseudoreplication-FPR /
