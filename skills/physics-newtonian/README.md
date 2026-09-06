@@ -10,6 +10,13 @@ method, and its proof-of-method.
 - Views: [`indexes/`](indexes/) — formula/topic/symbol/assumption indexes, tsort order, prerequisite paths
 - Verification: [`validation/consistency-audit.md`](validation/consistency-audit.md)
 
+## Tutorials
+
+- [`tutorial/pendulum.md`](tutorial/pendulum.md) — "Why a Pendulum Keeps Time":
+  an interactive walk from Newton's second law to `T = 2π√(L/g)`, built with the
+  [`formula-tree-tutorial`](../formula-tree-tutorial/SKILL.md) skill. Run it with
+  `upmd tutorial/pendulum.md` (or `upmd --ci --all tutorial/pendulum.md`).
+
 ## Build
 
 ```sh
