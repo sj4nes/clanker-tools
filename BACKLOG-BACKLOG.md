@@ -105,7 +105,7 @@ floors** under almost everything applied.
 | Candidate | One line | Verify | Confidence |
 |---|---|---|---|
 | `physics-electromagnetism` | charges → fields → Maxwell's equations → waves → radiation; the biggest missing core domain | dimensional checks in `bc`; limiting cases (statics, plane waves) | plausible |
-| `physics-thermodynamics` | state variables → the four laws → potentials → Maxwell relations → cycles (proper, general — thermoacoustics assumes it) | `bc` identity checks; Carnot / ideal-gas limiting cases | plausible |
+| ~~`physics-thermodynamics`~~ | **built — Release 0.1** (77-node capsule, four laws → potentials → Maxwell relations). See [`skills/physics-thermodynamics/`](skills/physics-thermodynamics/SKILL.md). 0.2: open systems / `μ`, phase equilibria, real-gas EoS. | — | done |
 | `physics-statistical-mechanics` | microstates → ensembles → partition functions → the bridge to thermodynamics | `bc` for the ideal-gas and two-level-system closed forms | plausible |
 | `physics-special-relativity` | postulates → Lorentz transforms → four-vectors → energy-momentum | `bc` invariant-interval and velocity-addition checks | plausible |
 | `physics-fluid-dynamics` | continuity → Euler → Navier-Stokes → Bernoulli → dimensionless groups | `bc` dimensionless-number checks; pipe-flow / potential-flow limits | plausible |

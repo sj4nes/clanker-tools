@@ -1,0 +1,78 @@
+id	type	title	domain	status	knowledge_level	primary_formula
+SI_units	convention	SI unit system	cross_domain	reviewed	foundation	-
+real_numbers	primitive	Real numbers	math	reviewed	foundation	-
+function	math_definition	Function	math	reviewed	foundation	-
+derivative	math_definition	Derivative	math	reviewed	foundation	df/dx
+partial_derivative	math_definition	Partial derivative	math	reviewed	foundation	(df/dx)_y
+integral	math_definition	Definite / line integral	math	reviewed	foundation	int f dx
+exact_differential	math_definition	Exact differential	math	reviewed	foundation	dz = M dx + N dy, M_y = N_x
+logarithm	math_definition	Natural logarithm	math	reviewed	foundation	ln x
+dimension_analysis	diagnostic	Dimensional consistency	cross_domain	reviewed	foundation	[LHS]=[RHS]
+mass	primitive	Mass	cross_domain	reviewed	foundation	-
+length	primitive	Length	cross_domain	reviewed	foundation	-
+time	primitive	Time	cross_domain	reviewed	foundation	-
+energy	physical_definition	Energy	cross_domain	reviewed	foundation	[E] = M L^2 T^-2
+energy_conservation	assumption	Conservation of energy	cross_domain	reviewed	foundation	E_total = const
+extensive_intensive	convention	Extensive vs intensive variables	thermo	reviewed	foundation	-
+work_sign_convention	convention	First-law sign convention	thermo	reviewed	foundation	dU = dQ - dW
+gas_constant	convention	Universal gas constant R	thermo	reviewed	foundation	R = 8.314 J/(mol K)
+thermodynamic_system	physical_definition	System, surroundings, boundary	thermo	reviewed	foundation	-
+state_variable	physical_definition	State variable	thermo	reviewed	foundation	-
+thermodynamic_equilibrium	physical_definition	Thermodynamic equilibrium	thermo	reviewed	foundation	-
+state_function	physical_definition	State function vs path function	thermo	reviewed	foundation	cyclic int dX = 0
+process	physical_definition	Thermodynamic process	thermo	reviewed	foundation	-
+quasistatic	assumption	Quasi-static process	thermo	reviewed	foundation	-
+reversible	assumption	Reversible process	thermo	reviewed	foundation	dS_univ = 0
+irreversible	regime_limit	Irreversible process	thermo	reviewed	foundation	dS_univ > 0
+closed_system	assumption	Closed system	thermo	reviewed	foundation	dn = 0
+isolated_system	assumption	Isolated system	thermo	reviewed	foundation	dQ = dW = 0
+pressure	primitive	Pressure	thermo	reviewed	foundation	[P] = M L^-1 T^-2
+volume	physical_definition	Volume	thermo	reviewed	foundation	[V] = L^3
+amount_of_substance	physical_definition	Amount of substance	thermo	reviewed	foundation	n (mol)
+thermal_equilibrium	physical_definition	Thermal equilibrium	thermo	reviewed	foundation	-
+zeroth_law	principle_law	Zeroth law of thermodynamics	thermo	reviewed	core	A~C and B~C => A~B
+temperature	physical_definition	Empirical temperature	thermo	reviewed	core	T
+ideal_gas	assumption	Ideal-gas working fluid	thermo	reviewed	foundation	-
+ideal_gas_law	constitutive_relation	Ideal-gas equation of state	thermo	reviewed	core	P V = n R T
+internal_energy	physical_definition	Internal energy	thermo	reviewed	core	U (state function)
+work_thermodynamic	physical_definition	Thermodynamic (P dV) work	thermo	reviewed	core	dW = P dV
+first_law_thermodynamics	principle_law	First law of thermodynamics	thermo	reviewed	core	dU = dQ - dW
+heat	physical_definition	Heat	thermo	reviewed	core	dQ = dU + dW
+isothermal_process	physical_definition	Isothermal process	thermo	reviewed	core	T = const
+isobaric_process	physical_definition	Isobaric process	thermo	reviewed	core	P = const
+isochoric_process	physical_definition	Isochoric process	thermo	reviewed	core	V = const
+adiabatic_process	physical_definition	Adiabatic process	thermo	reviewed	core	dQ = 0
+isenthalpic_process	physical_definition	Isenthalpic process	thermo	draft	core	H = const
+heat_capacity	physical_definition	Heat capacity	thermo	reviewed	core	C = dQ/dT
+heat_capacity_cv	physical_definition	Isochoric molar heat capacity c_v	thermo	reviewed	core	c_v = (du/dT)_v
+enthalpy	derived_formula	Enthalpy	thermo	reviewed	core	H = U + P V
+heat_capacity_cp	physical_definition	Isobaric molar heat capacity c_p	thermo	reviewed	core	c_p = (dh/dT)_p
+mayer_relation	derived_formula	Mayer's relation	thermo	draft	core	c_p - c_v = R
+heat_capacity_ratio	derived_formula	Heat-capacity ratio gamma	thermo	draft	core	gamma = c_p / c_v
+ideal_gas_internal_energy	derived_formula	Ideal-gas internal energy	thermo	draft	core	u = u(T), du = c_v dT
+joule_free_expansion	example	Joule free expansion	thermo	draft	core	dU = 0, W = 0, Q = 0
+joule_thomson_coefficient	derived_formula	Joule-Thomson coefficient	thermo	draft	core	mu = (dT/dP)_H
+adiabatic_reversible_ideal_gas	derived_formula	Reversible adiabatic ideal gas	thermo	draft	core	P V^gamma = const
+thermodynamic_cycle	physical_definition	Thermodynamic cycle	thermo	reviewed	core	cyclic int dU = 0
+heat_engine	physical_definition	Heat engine	thermo	reviewed	core	eta = |W| / |Q_h|
+refrigerator	physical_definition	Refrigerator / heat pump	thermo	reviewed	core	COP = |Q| / |W|
+kelvin_planck_statement	principle_law	Kelvin-Planck statement	thermo	reviewed	core	no cyclic engine, one reservoir
+clausius_statement	principle_law	Clausius statement	thermo	reviewed	core	no spontaneous cold->hot heat flow
+second_law_equivalence	bridge	Kelvin-Planck <=> Clausius	thermo	reviewed	core	-
+carnot_cycle	example	Carnot cycle	thermo	reviewed	core	2 isothermals + 2 adiabats, reversible
+carnot_theorem	principle_law	Carnot's theorem	thermo	reviewed	core	eta_rev >= eta_any
+thermodynamic_temperature_scale	physical_definition	Thermodynamic temperature scale	thermo	reviewed	core	Q_h / Q_c = T_h / T_c
+carnot_efficiency	derived_formula	Carnot efficiency	thermo	reviewed	core	eta = 1 - T_c / T_h
+carnot_cop	derived_formula	Carnot COP	thermo	draft	core	COP_ref = T_c / (T_h - T_c)
+clausius_inequality	principle_law	Clausius inequality	thermo	reviewed	core	cyclic int dQ/T <= 0
+entropy	physical_definition	Entropy	thermo	reviewed	core	dS = dQ_rev / T
+entropy_increase_principle	principle_law	Entropy-increase principle	thermo	reviewed	core	dS_univ >= 0
+entropy_ideal_gas	derived_formula	Ideal-gas entropy change	thermo	draft	core	dS = n c_v ln(T2/T1) + n R ln(V2/V1)
+tds_relations	identity	T dS relations	thermo	draft	core	T dS = dU + P dV
+entropy_free_expansion	example	Entropy of free expansion	thermo	draft	core	dS = n R ln(V2/V1) > 0
+fundamental_relation_u	identity	Fundamental thermodynamic relation	thermo	draft	core	dU = T dS - P dV
+helmholtz_free_energy	derived_formula	Helmholtz free energy	thermo	draft	core	F = U - T S
+gibbs_free_energy	derived_formula	Gibbs free energy	thermo	draft	core	G = H - T S
+free_energy_extremum	principle_law	Free-energy extremum principles	thermo	draft	core	dF <= 0 at const T,V
+maxwell_relations	identity	Maxwell relations	thermo	draft	core	(dT/dV)_S = -(dP/dS)_V
+third_law_thermodynamics	principle_law	Third law of thermodynamics	thermo	reviewed	core	S -> S_0 as T -> 0

@@ -1,0 +1,30 @@
+# Minimal prerequisite paths (Release 0.1)
+
+Transitive closure of `edges/dependencies.edges`, not the flat `tsort`
+order. Each list is the set of nodes to understand first, in `tsort`
+order. `[A]` marks an assumption / regime node -- required, but not a
+concept to "learn".
+
+## ideal_gas_law  (13 prerequisites)
+length · SI_units · volume · thermodynamic_system · pressure · gas_constant · amount_of_substance · thermodynamic_equilibrium · thermal_equilibrium · state_variable · [ideal_gas] · zeroth_law · temperature
+
+## first_law_thermodynamics  (25 prerequisites)
+time · real_numbers · mass · length · function · energy · derivative · SI_units · integral · work_sign_convention · [energy_conservation] · partial_derivative · volume · thermodynamic_system · pressure · thermodynamic_equilibrium · state_variable · process · extensive_intensive · exact_differential · [closed_system] · [quasistatic] · state_function · work_thermodynamic · internal_energy
+
+## carnot_efficiency  (42 prerequisites)
+time · real_numbers · mass · length · function · energy · derivative · SI_units · integral · work_sign_convention · [energy_conservation] · partial_derivative · volume · thermodynamic_system · pressure · thermodynamic_equilibrium · thermal_equilibrium · state_variable · process · extensive_intensive · exact_differential · [closed_system] · zeroth_law · [quasistatic] · state_function · work_thermodynamic · internal_energy · first_law_thermodynamics · temperature · [reversible] · isothermal_process · thermodynamic_cycle · heat · adiabatic_process · refrigerator · heat_engine · clausius_statement · carnot_cycle · kelvin_planck_statement · second_law_equivalence · carnot_theorem · thermodynamic_temperature_scale
+
+## entropy  (43 prerequisites)
+time · real_numbers · mass · length · function · energy · derivative · SI_units · integral · work_sign_convention · [energy_conservation] · partial_derivative · volume · thermodynamic_system · pressure · thermodynamic_equilibrium · thermal_equilibrium · state_variable · process · extensive_intensive · exact_differential · [closed_system] · zeroth_law · [quasistatic] · state_function · work_thermodynamic · internal_energy · first_law_thermodynamics · temperature · [reversible] · isothermal_process · thermodynamic_cycle · heat · adiabatic_process · refrigerator · heat_engine · clausius_statement · carnot_cycle · kelvin_planck_statement · second_law_equivalence · carnot_theorem · thermodynamic_temperature_scale · clausius_inequality
+
+## entropy_ideal_gas  (55 prerequisites)
+time · real_numbers · mass · length · function · energy · derivative · SI_units · logarithm · integral · work_sign_convention · [energy_conservation] · partial_derivative · volume · thermodynamic_system · pressure · gas_constant · amount_of_substance · thermodynamic_equilibrium · thermal_equilibrium · state_variable · process · isochoric_process · [ideal_gas] · extensive_intensive · exact_differential · [closed_system] · zeroth_law · [quasistatic] · state_function · work_thermodynamic · internal_energy · [isolated_system] · first_law_thermodynamics · temperature · [reversible] · isothermal_process · thermodynamic_cycle · heat · heat_capacity · ideal_gas_law · adiabatic_process · refrigerator · heat_engine · heat_capacity_cv · clausius_statement · joule_free_expansion · carnot_cycle · kelvin_planck_statement · ideal_gas_internal_energy · second_law_equivalence · carnot_theorem · thermodynamic_temperature_scale · clausius_inequality · entropy
+
+## adiabatic_reversible_ideal_gas  (47 prerequisites)
+time · real_numbers · mass · length · function · energy · derivative · SI_units · logarithm · integral · work_sign_convention · [energy_conservation] · partial_derivative · volume · thermodynamic_system · pressure · gas_constant · amount_of_substance · thermodynamic_equilibrium · thermal_equilibrium · state_variable · process · isochoric_process · isobaric_process · [ideal_gas] · extensive_intensive · exact_differential · [closed_system] · zeroth_law · [quasistatic] · state_function · work_thermodynamic · internal_energy · [isolated_system] · first_law_thermodynamics · temperature · [reversible] · enthalpy · heat · heat_capacity · ideal_gas_law · adiabatic_process · heat_capacity_cv · heat_capacity_cp · joule_free_expansion · ideal_gas_internal_energy · heat_capacity_ratio
+
+## maxwell_relations  (49 prerequisites)
+time · real_numbers · mass · length · function · energy · derivative · SI_units · integral · work_sign_convention · [energy_conservation] · partial_derivative · volume · thermodynamic_system · pressure · thermodynamic_equilibrium · thermal_equilibrium · state_variable · process · extensive_intensive · exact_differential · [closed_system] · zeroth_law · [quasistatic] · state_function · work_thermodynamic · internal_energy · first_law_thermodynamics · temperature · [reversible] · isothermal_process · thermodynamic_cycle · enthalpy · heat · adiabatic_process · refrigerator · heat_engine · clausius_statement · carnot_cycle · kelvin_planck_statement · second_law_equivalence · carnot_theorem · thermodynamic_temperature_scale · clausius_inequality · entropy · tds_relations · fundamental_relation_u · gibbs_free_energy · helmholtz_free_energy
+
+## gibbs_free_energy  (47 prerequisites)
+time · real_numbers · mass · length · function · energy · derivative · SI_units · integral · work_sign_convention · [energy_conservation] · partial_derivative · volume · thermodynamic_system · pressure · thermodynamic_equilibrium · thermal_equilibrium · state_variable · process · extensive_intensive · exact_differential · [closed_system] · zeroth_law · [quasistatic] · state_function · work_thermodynamic · internal_energy · first_law_thermodynamics · temperature · [reversible] · isothermal_process · thermodynamic_cycle · enthalpy · heat · adiabatic_process · refrigerator · heat_engine · clausius_statement · carnot_cycle · kelvin_planck_statement · second_law_equivalence · carnot_theorem · thermodynamic_temperature_scale · clausius_inequality · entropy · tds_relations · fundamental_relation_u

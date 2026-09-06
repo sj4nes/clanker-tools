@@ -19,6 +19,24 @@ capsules — organised by domain, low confidence, no commitments — see
 
 ---
 
+## Physics
+
+### physics-thermodynamics
+
+- [ ] **physics-thermodynamics:** Release 0.2 scope expansion — open systems and
+      chemical potential (`dG = −S dT + V dP + μ dN`), phase equilibria +
+      Clausius–Clapeyron, a real-gas node (van der Waals) as the correction the
+      ideal-gas model omits.  (`scope.md` "Excluded" list)
+- [ ] **physics-thermodynamics:** per-node detail pages (`nodes/<id>.md`) — the
+      capsule currently collapses to the formula view; promote the 15 `draft`
+      derived-formula nodes to `reviewed` with per-node `bc`/`lean` cross-checks.
+- [ ] **physics-thermodynamics:** `upmd` tutorial via `formula-tree-tutorial` —
+      "Why heat engines have a ceiling", `zeroth_law` → `carnot_efficiency`.
+- [ ] **physics-thermodynamics:** cross-capsule — `physics-thermoacoustics`
+      re-declares ideal-gas + first/second-law + entropy primitives; replace with
+      `requires` edges into this capsule's developed nodes (0.2, mirrors the
+      `math-*` stack pattern).
+
 ## Mathematics
 
 ### math-logic-and-proof
@@ -107,6 +125,13 @@ capsules — organised by domain, low confidence, no commitments — see
 ---
 
 ## Done
+
+- [x] **physics-thermodynamics:** new capsule (Release 0.1) — 77-node acyclic
+      graph (four laws, ideal gas, Carnot, entropy, potentials), `[M L T Θ N]`
+      basis, `dU = δQ − δW` convention; scope/conventions/units, formula view,
+      `edges/cycles.md` (5 cycles designed out), `build/run.sh` green (10 `bc`
+      dimensional + 6 numeric checks, 8 Lean instance checks), registry-derived
+      topic / assumption / prerequisite-path indexes.  (2026-09-06)
 
 - [x] **unknown-discovery:** new skill — SKILL.md + 6 references
       (epistemic-map-and-assumptions, alternatives-and-challenge,

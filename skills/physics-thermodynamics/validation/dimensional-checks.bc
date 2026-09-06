@@ -1,0 +1,66 @@
+/* Dimensional consistency checks, Release 0.1.
+ * Base dimensions tracked as exponent 5-tuples (M, L, T, Theta, N).
+ * bc has no vectors and no uppercase names, so each quantity is five lowercase
+ * scalars <q>m <q>l <q>t <q>h <q>n and each check prints "0 0 0 0 0" when the
+ * exponent difference [LHS] - [RHS] is consistent.
+ * Run:  bc -q -l validation/dimensional-checks.bc
+ */
+scale = 6
+
+/* quantity exponents (m, l, t, h, n) */
+enem = 1; enel = 2; enet = -2; eneh = 0;  enen = 0    /* energy  U,Q,W,H,F,G  M L^2 T^-2 */
+prem = 1; prel = -1; pret = -2; preh = 0;  pren = 0    /* pressure          M L^-1 T^-2 */
+volm = 0; voll = 3; volt = 0;  volh = 0;  voln = 0     /* volume            L^3 */
+temm = 0; teml = 0; temt = 0;  temh = 1;  temn = 0     /* temperature       Theta */
+amnm = 0; amnl = 0; amnt = 0;  amnh = 0;  amnn = 1     /* amount            N */
+rgcm = 1; rgcl = 2; rgct = -2; rgch = -1; rgcn = -1    /* gas constant R    M L^2 T^-2 Theta^-1 N^-1 */
+cmom = 1; cmol = 2; cmot = -2; cmoh = -1; cmon = -1    /* molar heat cap    same as R */
+entm = 1; entl = 2; entt = -2; enth = -1; entn = 0     /* entropy S (ext.)  M L^2 T^-2 Theta^-1 */
+jtcm = -1; jtcl = 1; jtct = 2; jtch = 1;  jtcn = 0     /* mu_JT  = Theta / pressure */
+
+define d5(am,al,at,ah,an, bm,bl,bt,bh,bn) {
+    print am-bm, " ", al-bl, " ", at-bt, " ", ah-bh, " ", an-bn, "\n"
+}
+
+print "dimensional checks  ([LHS] - [RHS] exponents, want  0 0 0 0 0):\n"
+
+print "P V = n R T          : "
+zz=d5(prem+volm, prel+voll, pret+volt, preh+volh, pren+voln, \
+   amnn*0+amnm+rgcm+temm, amnl+rgcl+teml, amnt+rgct+temt, amnh+rgch+temh, amnn+rgcn+temn)
+
+print "H = U + P V          : "
+zz=d5(enem, enel, enet, eneh, enen, prem+volm, prel+voll, pret+volt, preh+volh, pren+voln)
+
+print "c_p - c_v = R        : "
+zz=d5(cmom, cmol, cmot, cmoh, cmon, rgcm, rgcl, rgct, rgch, rgcn)
+
+print "dU = dQ - dW         : "
+zz=d5(enem, enel, enet, eneh, enen, enem, enel, enet, eneh, enen)
+
+print "dS = dQ / T          : "
+zz=d5(entm, entl, entt, enth, entn, enem-temm, enel-teml, enet-temt, eneh-temh, enen-temn)
+
+print "T dS = dU + P dV     : "
+zz=d5(temm+entm, teml+entl, temt+entt, temh+enth, temn+entn, enem, enel, enet, eneh, enen)
+
+print "F = U - T S          : "
+zz=d5(enem, enel, enet, eneh, enen, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
+
+print "eta = 1 - T_c/T_h    : "
+zz=d5(0,0,0,0,0, temm-temm, teml-teml, temt-temt, temh-temh, temn-temn)
+
+print "S_ideal term n c_v   : "
+zz=d5(entm, entl, entt, enth, entn, amnm+cmom, amnl+cmol, amnt+cmot, amnh+cmoh, amnn+cmon)
+
+print "mu_JT = (dT/dP)_H    : "
+zz=d5(jtcm, jtcl, jtct, jtch, jtcn, temm-prem, teml-prel, temt-pret, temh-preh, temn-pren)
+
+print "\nnumeric special cases:\n"
+scale = 6
+print "Carnot eta, Tc=300 Th=600 : ", 1 - 300/600, "   (want .5)\n"
+print "gamma diatomic (7/2)/(5/2): ", (7/2)/(5/2), "   (want 1.4)\n"
+print "Mayer  cp-cv, cp=29.1 cv=20.8 : ", 29.1 - 20.8, "   (~ R = 8.314)\n"
+print "free-exp dS = R ln2 (n=1) : ", 8.314 * l(2), "   (> 0, want ~5.763)\n"
+print "adiabatic T2/T1, g=1.4 V2/V1=2 : ", e(-0.4*l(2)), "   (want ~.7579)\n"
+print "irrev eta < Carnot: 0.35 < ", 1 - 300/600, " ? ", (0.35 < 1 - 300/600), "\n"
+quit

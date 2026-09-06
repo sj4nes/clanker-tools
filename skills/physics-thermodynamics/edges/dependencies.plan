@@ -1,0 +1,314 @@
+# Release 0.1 prerequisite edges. Each block: a plain-language justification (the
+# physics-formula-tree edge test -- "A must be understood before B can be
+# correctly used") then the edge(s). Comments and blank lines are stripped to
+# dependencies.edges before tsort.
+
+# --- calculus prerequisites ---
+# The real line underlies the notion of a function.
+real_numbers function
+# The derivative is a limit of difference quotients on a function.
+function derivative
+# A partial derivative is a derivative holding other variables fixed.
+derivative partial_derivative
+# The (line) integral is defined on functions along a path.
+function integral
+# The exact-differential test compares mixed partials of an integrand.
+partial_derivative exact_differential
+integral exact_differential
+# The natural logarithm is a real function; it appears in ideal-gas entropy.
+real_numbers logarithm
+function logarithm
+
+# --- dimensional grounding ---
+# Energy carries dimension M L^2 T^-2, built from the mechanical basis.
+mass energy
+length energy
+time energy
+# Dimensional analysis is a consistency diagnostic expressed in SI base units.
+SI_units dimension_analysis
+# Conservation of energy is the premise the first law promotes to a state function.
+energy energy_conservation
+
+# --- system and state ---
+# A system is delimited against its surroundings by a boundary.
+SI_units thermodynamic_system
+# Equilibrium is a property of a system with no macroscopic change.
+thermodynamic_system thermodynamic_equilibrium
+# A state variable is a macroscopic property of a system in equilibrium.
+thermodynamic_system state_variable
+thermodynamic_equilibrium state_variable
+# Extensive vs intensive classifies state variables by how they scale with size.
+state_variable extensive_intensive
+# A state function has an exact differential; a path function does not.
+state_variable state_function
+exact_differential state_function
+# A process is a path between two equilibrium states of a system.
+thermodynamic_system process
+thermodynamic_equilibrium process
+# Quasi-static means the process stays arbitrarily close to equilibrium throughout.
+process quasistatic
+# A reversible process is quasi-static AND leaves no net entropy change; it is the
+# limiting idealisation of a quasi-static process without dissipation.
+quasistatic reversible
+# Irreversible is defined by contrast with the reversible idealisation.
+process irreversible
+reversible irreversible
+# A closed system exchanges energy but not matter with its surroundings.
+thermodynamic_system closed_system
+# An isolated system is a closed system that also exchanges no energy.
+closed_system isolated_system
+
+# --- state variables P, V, n, T ---
+# Pressure and volume are grounded in SI units.
+SI_units pressure
+SI_units volume
+length volume
+# Amount of substance (the mole) is an SI base quantity.
+SI_units amount_of_substance
+# Thermal equilibrium is mutual equilibrium under heat exchange only.
+thermodynamic_system thermal_equilibrium
+thermodynamic_equilibrium thermal_equilibrium
+# The zeroth law asserts transitivity of thermal equilibrium.
+thermal_equilibrium zeroth_law
+# Temperature is the label the zeroth law licenses: equal iff in mutual thermal equilibrium.
+zeroth_law temperature
+thermal_equilibrium temperature
+state_variable temperature
+SI_units temperature
+
+# --- ideal gas ---
+# R is the universal gas constant, an SI-defined value.
+SI_units gas_constant
+# The ideal gas is an idealised working fluid (no interactions, point molecules).
+thermodynamic_system ideal_gas
+# The ideal-gas law relates its four state variables through R.
+pressure ideal_gas_law
+volume ideal_gas_law
+temperature ideal_gas_law
+amount_of_substance ideal_gas_law
+gas_constant ideal_gas_law
+ideal_gas ideal_gas_law
+
+# --- energy transfer and the first law ---
+# Internal energy is the state function of a system's total microscopic energy.
+energy internal_energy
+state_function internal_energy
+thermodynamic_system internal_energy
+extensive_intensive internal_energy
+# The first-law sign convention fixes dU = dQ - dW with dW done BY the system.
+energy work_sign_convention
+# Quasi-static P dV work is a path integral of pressure over volume change.
+pressure work_thermodynamic
+volume work_thermodynamic
+integral work_thermodynamic
+quasistatic work_thermodynamic
+work_sign_convention work_thermodynamic
+energy work_thermodynamic
+# The first law asserts U exists as a state function and accounts energy in/out.
+internal_energy first_law_thermodynamics
+work_thermodynamic first_law_thermodynamics
+work_sign_convention first_law_thermodynamics
+energy_conservation first_law_thermodynamics
+closed_system first_law_thermodynamics
+state_function first_law_thermodynamics
+# Heat is defined by the first law as the energy transfer that is not work.
+first_law_thermodynamics heat
+temperature heat
+energy heat
+
+# --- named processes ---
+# An isothermal process holds temperature constant.
+process isothermal_process
+temperature isothermal_process
+pressure isobaric_process
+process isobaric_process
+volume isochoric_process
+process isochoric_process
+# An adiabatic process exchanges no heat.
+heat adiabatic_process
+process adiabatic_process
+# An isenthalpic process holds enthalpy constant (throttling).
+enthalpy isenthalpic_process
+process isenthalpic_process
+
+# --- heat capacities and enthalpy ---
+# Heat capacity is heat per unit temperature rise along a specified path.
+heat heat_capacity
+temperature heat_capacity
+derivative heat_capacity
+# c_v is the partial of molar internal energy w.r.t. T at fixed volume.
+internal_energy heat_capacity_cv
+partial_derivative heat_capacity_cv
+isochoric_process heat_capacity_cv
+heat_capacity heat_capacity_cv
+first_law_thermodynamics heat_capacity_cv
+extensive_intensive heat_capacity_cv
+# Enthalpy H = U + PV is a state function combining internal energy and flow work.
+internal_energy enthalpy
+pressure enthalpy
+volume enthalpy
+state_function enthalpy
+# c_p is the partial of molar enthalpy w.r.t. T at fixed pressure.
+enthalpy heat_capacity_cp
+partial_derivative heat_capacity_cp
+isobaric_process heat_capacity_cp
+heat_capacity heat_capacity_cp
+# Mayer's relation c_p - c_v = R follows from the ideal-gas law and H = U + PV.
+heat_capacity_cv mayer_relation
+heat_capacity_cp mayer_relation
+ideal_gas_law mayer_relation
+enthalpy mayer_relation
+gas_constant mayer_relation
+# gamma is the ratio of the two heat capacities.
+heat_capacity_cv heat_capacity_ratio
+heat_capacity_cp heat_capacity_ratio
+# Free expansion of an ideal gas keeps U (hence T) fixed: Q = 0, W = 0.
+first_law_thermodynamics joule_free_expansion
+internal_energy joule_free_expansion
+work_thermodynamic joule_free_expansion
+isolated_system joule_free_expansion
+adiabatic_process joule_free_expansion
+# Ideal-gas internal energy depends on T only; free expansion is the evidence.
+ideal_gas ideal_gas_internal_energy
+internal_energy ideal_gas_internal_energy
+heat_capacity_cv ideal_gas_internal_energy
+joule_free_expansion ideal_gas_internal_energy
+# The Joule-Thomson coefficient is (dT/dP) at constant enthalpy.
+enthalpy joule_thomson_coefficient
+partial_derivative joule_thomson_coefficient
+isenthalpic_process joule_thomson_coefficient
+temperature joule_thomson_coefficient
+pressure joule_thomson_coefficient
+# Reversible adiabatic ideal gas: integrate dU = -P dV with dU = n c_v dT and PV = nRT.
+adiabatic_process adiabatic_reversible_ideal_gas
+reversible adiabatic_reversible_ideal_gas
+ideal_gas_law adiabatic_reversible_ideal_gas
+heat_capacity_ratio adiabatic_reversible_ideal_gas
+first_law_thermodynamics adiabatic_reversible_ideal_gas
+ideal_gas_internal_energy adiabatic_reversible_ideal_gas
+integral adiabatic_reversible_ideal_gas
+logarithm adiabatic_reversible_ideal_gas
+
+# --- second law ---
+# A cycle returns the system to its initial state: the state functions net to zero.
+process thermodynamic_cycle
+state_function thermodynamic_cycle
+internal_energy thermodynamic_cycle
+# A heat engine is a cyclic device converting heat into work.
+thermodynamic_cycle heat_engine
+heat heat_engine
+work_thermodynamic heat_engine
+temperature heat_engine
+# A refrigerator / heat pump is a cyclic device moving heat against a gradient.
+thermodynamic_cycle refrigerator
+heat refrigerator
+work_thermodynamic refrigerator
+temperature refrigerator
+# Kelvin-Planck: no cyclic engine takes heat from one reservoir and fully converts it to work.
+heat_engine kelvin_planck_statement
+thermodynamic_cycle kelvin_planck_statement
+temperature kelvin_planck_statement
+# Clausius: no cyclic process transfers heat from cold to hot with no other effect.
+refrigerator clausius_statement
+heat clausius_statement
+temperature clausius_statement
+# The two statements are logically equivalent.
+kelvin_planck_statement second_law_equivalence
+clausius_statement second_law_equivalence
+# The Carnot cycle: two reversible isothermals and two reversible adiabats.
+isothermal_process carnot_cycle
+adiabatic_process carnot_cycle
+reversible carnot_cycle
+thermodynamic_cycle carnot_cycle
+heat_engine carnot_cycle
+# Carnot's theorem: no engine between two reservoirs beats a reversible one.
+kelvin_planck_statement carnot_theorem
+carnot_cycle carnot_theorem
+reversible carnot_theorem
+second_law_equivalence carnot_theorem
+# The thermodynamic temperature scale: Q_h/Q_c = T_h/T_c for a reversible engine.
+carnot_theorem thermodynamic_temperature_scale
+temperature thermodynamic_temperature_scale
+heat thermodynamic_temperature_scale
+# Carnot efficiency eta = 1 - T_c/T_h.
+carnot_theorem carnot_efficiency
+thermodynamic_temperature_scale carnot_efficiency
+heat_engine carnot_efficiency
+# Carnot COP for a reversible refrigerator / heat pump.
+carnot_theorem carnot_cop
+thermodynamic_temperature_scale carnot_cop
+refrigerator carnot_cop
+# The Clausius inequality: cyclic integral of dQ/T <= 0, from Carnot's theorem.
+carnot_theorem clausius_inequality
+thermodynamic_cycle clausius_inequality
+thermodynamic_temperature_scale clausius_inequality
+temperature clausius_inequality
+heat clausius_inequality
+integral clausius_inequality
+# Entropy: the equality case of the Clausius inequality makes dQ_rev/T an exact differential.
+clausius_inequality entropy
+reversible entropy
+temperature entropy
+heat entropy
+state_function entropy
+integral entropy
+# The entropy-increase principle: dS_univ >= 0, strict for an irreversible process.
+entropy entropy_increase_principle
+clausius_inequality entropy_increase_principle
+isolated_system entropy_increase_principle
+irreversible entropy_increase_principle
+# Ideal-gas entropy change combines the c_v ln T and R ln V terms.
+entropy entropy_ideal_gas
+ideal_gas_law entropy_ideal_gas
+ideal_gas_internal_energy entropy_ideal_gas
+heat_capacity_cv entropy_ideal_gas
+logarithm entropy_ideal_gas
+gas_constant entropy_ideal_gas
+# The T dS relations rewrite the first law with entropy replacing heat.
+first_law_thermodynamics tds_relations
+entropy tds_relations
+enthalpy tds_relations
+work_thermodynamic tds_relations
+# Free expansion is irreversible: dS = nR ln(V2/V1) > 0 even though Q = 0.
+entropy entropy_free_expansion
+joule_free_expansion entropy_free_expansion
+entropy_ideal_gas entropy_free_expansion
+irreversible entropy_free_expansion
+logarithm entropy_free_expansion
+
+# --- thermodynamic potentials ---
+# The fundamental relation dU = T dS - P dV: the first law for a reversible path.
+tds_relations fundamental_relation_u
+entropy fundamental_relation_u
+internal_energy fundamental_relation_u
+work_thermodynamic fundamental_relation_u
+exact_differential fundamental_relation_u
+# Helmholtz free energy F = U - TS; natural variables T, V.
+internal_energy helmholtz_free_energy
+temperature helmholtz_free_energy
+entropy helmholtz_free_energy
+fundamental_relation_u helmholtz_free_energy
+state_function helmholtz_free_energy
+# Gibbs free energy G = H - TS; natural variables T, P.
+enthalpy gibbs_free_energy
+temperature gibbs_free_energy
+entropy gibbs_free_energy
+fundamental_relation_u gibbs_free_energy
+state_function gibbs_free_energy
+# F is minimised at equilibrium at constant T,V; G at constant T,P.
+helmholtz_free_energy free_energy_extremum
+gibbs_free_energy free_energy_extremum
+entropy_increase_principle free_energy_extremum
+isothermal_process free_energy_extremum
+isochoric_process free_energy_extremum
+isobaric_process free_energy_extremum
+# Maxwell relations: equality of mixed second partials of each potential.
+exact_differential maxwell_relations
+partial_derivative maxwell_relations
+fundamental_relation_u maxwell_relations
+helmholtz_free_energy maxwell_relations
+gibbs_free_energy maxwell_relations
+enthalpy maxwell_relations
+# The third law: entropy approaches a constant (zero for a perfect crystal) as T -> 0.
+entropy third_law_thermodynamics
+temperature third_law_thermodynamics
