@@ -1,0 +1,37 @@
+type	source_id	target_id	note
+equivalent_to	lub_axiom	monotone_convergence_theorem	over an Archimedean ordered field the two are equivalent; MCT-as-axiom is an alternative foundation. Lemma: eqv_lub_mct (not built in 0.1).
+equivalent_to	lub_axiom	nested_interval_theorem	equivalent given the Archimedean property. Lemma: eqv_lub_nip.
+equivalent_to	lub_axiom	cauchy_convergence_criterion	Cauchy-completeness + Archimedean <=> lub. Lemma: eqv_lub_cauchy.
+equivalent_to	lub_axiom	bolzano_weierstrass	BW + Archimedean <=> lub. Lemma: eqv_lub_bw.
+equivalent_to	compact_set	sequential_compactness	coincide for subsets of R (indeed any metric space); proved both directions in heine_borel + sequential_compactness.
+equivalent_to	compact_set	heine_borel	"compact" vs "closed and bounded" coincide in R only.
+equivalent_to	continuity_at_point	sequential_continuity	the two characterizations of continuity; (<=) direction uses countable choice.
+equivalent_to	function_limit	sequential_criterion_limit	the two characterizations of a functional limit; (<=) uses countable choice.
+equivalent_to	closed_set	closed_iff_seq_closed	topological vs sequential closedness coincide in R.
+equivalent_to	connected_set	connected_iff_interval	for subsets of R only.
+equivalent_to	radius_of_convergence	root_test	1/R = limsup|a_n|^{1/n} is the root test applied to the power series.
+special_case_of	rolles_theorem	mean_value_theorem	Rolle is the MVT with f(a)=f(b).
+special_case_of	mean_value_theorem	cauchy_mean_value_theorem	MVT is CMVT with g(x)=x.
+special_case_of	geometric_series	power_series	the geometric series is the power series with all a_n = 1, c = 0.
+special_case_of	comparison_test	weierstrass_m_test	the M-test is the comparison test in sup-norm.
+generalizes	taylor_theorem	mean_value_theorem	MVT is Taylor to first order (n=1).
+generalizes	uniform_continuity	continuity_on_set	uniform continuity is continuity with the delta independent of the point.
+generalizes	uniform_convergence	pointwise_convergence	uniform is pointwise with the N independent of the point.
+strengthens	abs_convergence_implies_convergence	series_convergence	absolute convergence is strictly stronger; alternating harmonic series is the separating example.
+contrapositive_of	nth_term_test	series_convergence	"a_n -/-> 0  =>  Sigma a_n diverges" is the useful contrapositive form.
+dual_of	supremum	infimum	inf A = -sup(-A).
+dual_of	limsup_liminf	limsup_liminf	liminf x_n = -limsup(-x_n).
+approximates	taylor_theorem	analytic_function	|x-a| small; remainder R_n = f^{(n)}(xi)(x-a)^n/n!; fails if f is not C^n or the series radius is 0.
+approximates	geometric_series	rational_function_near_zero	|r|<1; 1/(1-r) = 1 + r + r^2 + ...; diverges for |r|>=1.
+historically_precedes	mean_value_theorem	lub_axiom	the MVT (Lagrange, 1797) long predates a rigorous completeness axiom (Dedekind/Cantor, 1872).
+historically_precedes	riemann_integral	lub_axiom	Cauchy/Riemann integration predates the rigorous real line.
+commonly_confused_with	pointwise_convergence	uniform_convergence	the central distinction of the last chapter; f_n(x)=x^n on [0,1] separates them.
+commonly_confused_with	continuity_on_set	uniform_continuity	f(x)=1/x on (0,1) is continuous, not uniformly continuous.
+commonly_confused_with	sequence_convergence	cauchy_sequence	equivalent in R, NOT in Q; the distinction is the whole point of completeness.
+commonly_confused_with	limit_point	closure	an isolated point of A is in the closure but is not a limit point.
+commonly_confused_with	absolute_convergence	series_convergence	conditional convergence (alternating harmonic) shows the gap; Riemann rearrangement is the cautionary tale (out of scope).
+illustrated_by	monotone_convergence_theorem	example_recursive_sqrt2	x_{n+1} = (x_n + 2/x_n)/2 decreases to sqrt(2); Cauchy in Q, no limit in Q.
+illustrated_by	intermediate_value_theorem	example_root_existence	a degree-odd polynomial has a real root.
+illustrated_by	uniform_convergence	example_xn_on_01	f_n(x) = x^n on [0,1]: pointwise to a discontinuous limit, not uniform.
+proved_using	bolzano_weierstrass	monotone_subsequence_lemma	alt route: every real sequence has a monotone subsequence, then apply MCT. Canonical route in 0.1 is bisection.
+proved_using	intermediate_value_theorem	continuous_image_of_connected	alt route via topology; canonical route in 0.1 is the lub_axiom on {x: f(x)<y}.

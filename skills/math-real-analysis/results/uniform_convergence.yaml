@@ -1,0 +1,41 @@
+id: function_sequences.uniform_convergence
+node: uniform_convergence
+status_label: definition
+display: '$f_n \rightrightarrows f$ on $D$ iff $\sup_{x\in D}|f_n(x)-f(x)| \to 0$, i.e. $\forall\varepsilon\,\exists N\,\forall n\ge N\,\forall x\in D:\ |f_n(x)-f(x)|<\varepsilon$.'
+parseable: 'uniformConv(f_n,f,D) iff forall eps>0 exists N forall n>=N forall x in D, |f_n x - f x| < eps'
+symbols:
+  f_n: { meaning: a sequence of functions on D, type: function_sequence }
+  f: { meaning: the limit function on D, type: function }
+  D: { meaning: the common domain, type: subset_R }
+type_check_status: well_formed
+type_check_note: 'differs from pointwise_convergence ONLY by moving the forall x LEFT of the exists N (objects.md rule 6). sup over D is a real only if f_n - f is bounded (else read in the extended reals).'
+hypotheses: [common_domain]
+preconditions: []
+dependencies: [pointwise_convergence, supremum]
+uses_choice: false
+constructive: true
+equivalent_forms:
+  - 'the uniform_cauchy_criterion: (f_n) uniformly Cauchy'
+  - 'convergence in the sup-norm ||.||_infinity on the space of bounded functions on D'
+solving_for: null
+specialization_cases:
+  - 'f_n eventually equal to f: uniform'
+  - 'uniform on D => uniform on every subset of D'
+  - 'x^n on [0,0.9]: sup = 0.9^n -> 0, uniform (instance-checks.bc)'
+counterexamples_when_dropped:
+  uniformity_itself: 'x^n on [0,1] -> pointwise to a discontinuous limit; sup_x|x^n - f| = 1 for all n (instance-checks.bc). Pointwise but NOT uniform.'
+  bounded_difference_for_sup_as_real: 'f_n(x) = x/n on R: f_n -> 0 pointwise, sup_x |x/n| = +inf for every n — not uniform on R (uniform on every bounded set).'
+common_misuse:
+  - 'confusing with pointwise convergence — the whole last chapter turns on this'
+  - 'assuming uniform convergence on each compact subset implies uniform convergence on the whole (locally uniform != uniform)'
+related:
+  generalizes: pointwise_convergence
+  commonly_confused_with: pointwise_convergence
+  enables: [uniform_limit_continuous, uniform_convergence_integral, uniform_convergence_derivative]
+sources: [abbott_understanding_2e, rudin_principles_3e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#uniform_convergence
+  specialization: validation/specialization-cases.md#uniform_convergence
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

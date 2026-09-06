@@ -1,0 +1,110 @@
+id	type	title	area	status	role	primary_statement
+set	primitive	Set	foundations	active	foundation	-
+function	definition	Function	foundations	active	foundation	f assigns to each x in D exactly one f(x)
+natural_number	primitive	Natural number	foundations	active	foundation	Peano: 1 in N; successor; induction
+induction	principle_law	Principle of induction	foundations	reviewed	foundation	if S contains 1 and is successor-closed then S = N
+rational_field	primitive	The ordered field Q	foundations	active	foundation	Q is an ordered field, not complete
+ordered_field	structure	Ordered field	foundations	reviewed	foundation	field axioms + total order compatible with + and *
+absolute_value	definition	Absolute value	foundations	reviewed	foundation	|x| = x if x>=0 else -x
+upper_bound	definition	Upper bound	reals	reviewed	foundation	u is an upper bound of A if a <= u for all a in A
+supremum	definition	Supremum	reals	reviewed	core	sup A is the least upper bound of A
+infimum	definition	Infimum	reals	reviewed	core	inf A is the greatest lower bound of A
+real_number	primitive	Real number	reals	active	foundation	-
+lub_axiom	axiom	Least-upper-bound axiom	reals	reviewed	foundation	every nonempty subset of R bounded above has a supremum in R
+completeness_of_R	definition	Completeness of R	reals	reviewed	foundation	R is an ordered field satisfying lub_axiom
+archimedean_property	proposition	Archimedean property	reals	reviewed	core	for every x in R there is n in N with n > x
+density_of_rationals	proposition	Density of Q in R	reals	reviewed	support	between any two reals lies a rational
+interval	definition	Interval	reals	reviewed	foundation	a subset I of R such that x,y in I, x<z<y implies z in I
+nested_interval_theorem	theorem	Nested interval theorem	reals	reviewed	core	a decreasing sequence of nonempty closed bounded intervals has nonempty intersection
+sequence	definition	Sequence	sequences	reviewed	foundation	a function x : N -> R
+sequence_convergence	definition	Convergence of a sequence	sequences	reviewed	core	forall eps>0 exists N forall n>=N |x_n - L| < eps
+limit_uniqueness	proposition	Uniqueness of sequential limits	sequences	reviewed	support	a convergent sequence has exactly one limit
+bounded_sequence	hypothesis	Bounded sequence	sequences	active	foundation	exists M forall n |x_n| <= M
+convergent_implies_bounded	proposition	Convergent implies bounded	sequences	reviewed	support	every convergent sequence is bounded
+algebra_of_limits	proposition	Algebra of limits	sequences	reviewed	core	limits commute with + - * and / (nonzero limit)
+squeeze_theorem	proposition	Squeeze theorem	sequences	reviewed	support	a_n <= x_n <= b_n and a_n,b_n -> L imply x_n -> L
+monotone_sequence	hypothesis	Monotone sequence	sequences	active	foundation	nondecreasing or nonincreasing
+monotone_convergence_theorem	theorem	Monotone convergence theorem	sequences	reviewed	headline	a bounded monotone real sequence converges to its sup or inf
+subsequence	definition	Subsequence	sequences	reviewed	foundation	x composed with a strictly increasing n_j : N -> N
+subsequential_limit	definition	Subsequential limit	sequences	reviewed	support	a limit of some convergent subsequence
+bolzano_weierstrass	theorem	Bolzano-Weierstrass theorem	sequences	reviewed	headline	every bounded real sequence has a convergent subsequence
+cauchy_sequence	definition	Cauchy sequence	sequences	reviewed	core	forall eps>0 exists N forall m,n>=N |x_m - x_n| < eps
+cauchy_convergence_criterion	theorem	Cauchy criterion for sequences	sequences	reviewed	headline	a real sequence converges iff it is Cauchy
+limsup_liminf	definition	Limit superior and inferior	sequences	reviewed	core	limsup x_n = inf_N sup_{n>=N} x_n ; liminf dually
+axiom_of_choice	axiom	Axiom of choice	cross_domain	active	foundation	every family of nonempty sets has a choice function
+countable_choice	axiom	Axiom of countable choice	cross_domain	active	foundation	a countable family of nonempty sets has a choice function
+series	definition	Infinite series	series	reviewed	foundation	the formal sum of the terms of a sequence
+partial_sum	definition	Partial sum	series	reviewed	foundation	s_n = a_1 + ... + a_n
+series_convergence	definition	Convergence of a series	series	reviewed	core	Sigma a_n converges if the partial sums converge
+geometric_series	mathematical_identity	Geometric series	series	reviewed	core	Sigma_{n>=0} r^n = 1/(1-r) for |r| < 1
+nth_term_test	proposition	nth-term (divergence) test	series	reviewed	support	if Sigma a_n converges then a_n -> 0
+cauchy_criterion_series	proposition	Cauchy criterion for series	series	reviewed	support	Sigma a_n converges iff tails of partial sums are small
+comparison_test	theorem	Comparison test	series	reviewed	core	0 <= a_n <= b_n and Sigma b_n converges imply Sigma a_n converges
+absolute_convergence	definition	Absolute convergence	series	reviewed	core	Sigma a_n converges absolutely if Sigma |a_n| converges
+abs_convergence_implies_convergence	theorem	Absolute convergence implies convergence	series	reviewed	core	if Sigma |a_n| converges then Sigma a_n converges
+ratio_test	theorem	Ratio test	series	reviewed	support	limsup |a_{n+1}/a_n| < 1 implies absolute convergence
+root_test	theorem	Root test	series	reviewed	support	limsup |a_n|^{1/n} < 1 implies absolute convergence
+alternating_series_test	theorem	Alternating series test	series	reviewed	support	if b_n decreases to 0 then Sigma (-1)^n b_n converges
+p_series	proposition	The p-series	series	reviewed	support	Sigma 1/n^p converges iff p > 1
+open_set	definition	Open set	topology	reviewed	core	U is open if every point has an interval neighbourhood inside U
+closed_set	definition	Closed set	topology	reviewed	core	A is closed if its complement is open
+bounded_set	hypothesis	Bounded set	topology	active	foundation	A subset of some [-M, M]
+limit_point	definition	Limit point	topology	reviewed	core	every neighbourhood of p meets A in a point other than p
+closure	definition	Closure	topology	reviewed	support	the union of A with its set of limit points
+closed_iff_seq_closed	proposition	Closed iff sequentially closed	topology	reviewed	support	A is closed iff limits of convergent sequences in A stay in A
+open_cover	definition	Open cover	topology	reviewed	foundation	a family of open sets whose union contains A
+compact_set	definition	Compact set	topology	reviewed	headline	every open cover of K has a finite subcover
+heine_borel	theorem	Heine-Borel theorem	topology	reviewed	headline	a subset of R is compact iff it is closed and bounded
+sequential_compactness	theorem	Sequential compactness in R	topology	reviewed	core	K compact iff every sequence in K has a subsequence converging in K
+connected_set	definition	Connected set	topology	reviewed	core	not the union of two disjoint nonempty relatively open sets
+connected_iff_interval	proposition	Connected subsets of R are intervals	topology	reviewed	core	A subset of R is connected iff it is an interval
+function_limit	definition	Limit of a function	continuity	reviewed	core	forall eps>0 exists delta>0 : 0<|x-c|<delta implies |f(x)-L|<eps
+sequential_criterion_limit	proposition	Sequential criterion for functional limits	continuity	reviewed	support	lim_{x->c} f = L iff f(x_n) -> L for every x_n -> c with x_n != c
+continuity_at_point	definition	Continuity at a point	continuity	reviewed	core	forall eps>0 exists delta>0 : |x-c|<delta implies |f(x)-f(c)|<eps
+continuity_on_set	definition	Continuity on a set	continuity	reviewed	core	f is continuous at every point of D
+sequential_continuity	proposition	Sequential characterization of continuity	continuity	reviewed	support	f continuous at c iff f(x_n) -> f(c) whenever x_n -> c
+algebra_of_continuous_functions	proposition	Algebra of continuous functions	continuity	reviewed	support	sums products quotients of continuous functions are continuous
+composition_of_continuous	proposition	Composition of continuous functions	continuity	reviewed	support	the composite of continuous functions is continuous
+continuous_image_of_compact	theorem	Continuous image of a compact set is compact	continuity	reviewed	core	if f is continuous on compact K then f(K) is compact
+extreme_value_theorem	theorem	Extreme value theorem	continuity	reviewed	headline	a continuous function on [a,b] attains a maximum and a minimum
+intermediate_value_theorem	theorem	Intermediate value theorem	continuity	reviewed	headline	a continuous function on [a,b] takes every value between f(a) and f(b)
+uniform_continuity	definition	Uniform continuity	continuity	reviewed	core	forall eps>0 exists delta>0 forall x,y |x-y|<delta implies |f(x)-f(y)|<eps
+heine_cantor	theorem	Heine-Cantor theorem	continuity	reviewed	core	a continuous function on a compact set is uniformly continuous
+continuous_image_of_connected	theorem	Continuous image of a connected set is connected	continuity	reviewed	support	if f is continuous on connected D then f(D) is connected
+derivative	definition	Derivative	differentiation	reviewed	headline	f'(c) = lim_{x->c} (f(x)-f(c))/(x-c) when the limit exists
+differentiable_implies_continuous	proposition	Differentiable implies continuous	differentiation	reviewed	support	if f'(c) exists then f is continuous at c
+differentiation_rules	proposition	Sum product and quotient rules	differentiation	reviewed	support	(f+g)'=f'+g' ; (fg)'=f'g+fg' ; (f/g)'=(f'g-fg')/g^2
+chain_rule	theorem	Chain rule	differentiation	reviewed	core	(f o g)'(c) = f'(g(c)) g'(c)
+interior_extremum_theorem	proposition	Fermat interior extremum theorem	differentiation	reviewed	core	if f has a local extremum at an interior point c and f'(c) exists then f'(c)=0
+rolles_theorem	theorem	Rolle's theorem	differentiation	reviewed	core	f continuous on [a,b], differentiable on (a,b), f(a)=f(b) imply f'(c)=0 for some c
+mean_value_theorem	theorem	Mean value theorem	differentiation	reviewed	headline	f'(c) = (f(b)-f(a))/(b-a) for some c in (a,b)
+monotonicity_from_derivative	proposition	Monotonicity from the sign of f'	differentiation	reviewed	support	f' >= 0 on an interval implies f is nondecreasing there
+cauchy_mean_value_theorem	theorem	Cauchy mean value theorem	differentiation	reviewed	support	(f(b)-f(a)) g'(c) = (g(b)-g(a)) f'(c) for some c
+lhopital_rule	theorem	L'Hopital's rule	differentiation	reviewed	support	lim f/g = lim f'/g' under the 0/0 or inf/inf hypotheses
+taylor_theorem	theorem	Taylor's theorem with Lagrange remainder	differentiation	reviewed	headline	f(x) = sum_{k<n} f^{(k)}(a)(x-a)^k/k! + f^{(n)}(xi)(x-a)^n/n!
+partition	definition	Partition of an interval	integration	reviewed	foundation	a finite set a = t_0 < ... < t_n = b
+bounded_function	hypothesis	Bounded function	integration	active	foundation	exists M forall x in D |f(x)| <= M
+monotone_function	hypothesis	Monotone function	integration	active	foundation	nondecreasing or nonincreasing on D
+darboux_sums	definition	Upper and lower Darboux sums	integration	reviewed	core	U(f,P) = sum M_i dt_i ; L(f,P) = sum m_i dt_i
+riemann_integral	definition	Riemann integral	integration	reviewed	headline	the common value of inf_P U(f,P) and sup_P L(f,P) when they are equal
+riemann_criterion	theorem	Riemann (Cauchy) criterion for integrability	integration	reviewed	core	f is integrable iff for every eps>0 some P has U(f,P) - L(f,P) < eps
+continuous_implies_integrable	theorem	Continuous functions are integrable	integration	reviewed	core	a continuous function on [a,b] is Riemann integrable
+monotone_implies_integrable	theorem	Monotone functions are integrable	integration	reviewed	support	a monotone function on [a,b] is Riemann integrable
+linearity_of_integral	proposition	Linearity of the integral	integration	reviewed	support	integral of af+bg = a int f + b int g
+interval_additivity	proposition	Additivity over intervals	integration	reviewed	support	int_a^b = int_a^c + int_c^b
+integral_monotonicity	proposition	Monotonicity of the integral	integration	reviewed	support	f <= g implies int f <= int g
+integral_mvt	proposition	Integral mean value theorem	integration	reviewed	support	int_a^b f = f(c)(b-a) for some c, f continuous
+ftc_part1	theorem	Fundamental theorem of calculus, part I	integration	reviewed	headline	F(x) = int_a^x f is differentiable with F' = f where f is continuous
+ftc_part2	theorem	Fundamental theorem of calculus, part II	integration	reviewed	headline	int_a^b f = G(b) - G(a) for any antiderivative G of an integrable f
+integration_by_parts	proposition	Integration by parts	integration	reviewed	support	int u v' = uv - int u' v
+substitution_rule	theorem	Change of variables (substitution)	integration	reviewed	support	int_a^b f(g(x)) g'(x) dx = int_{g(a)}^{g(b)} f(u) du
+pointwise_convergence	definition	Pointwise convergence	function_sequences	reviewed	core	f_n(x) -> f(x) for each fixed x in D
+uniform_convergence	definition	Uniform convergence	function_sequences	reviewed	headline	sup_{x in D} |f_n(x) - f(x)| -> 0
+uniform_cauchy_criterion	theorem	Uniform Cauchy criterion	function_sequences	reviewed	core	f_n converges uniformly iff it is uniformly Cauchy
+weierstrass_m_test	theorem	Weierstrass M-test	function_sequences	reviewed	core	|f_n| <= M_n and Sigma M_n converges imply Sigma f_n converges uniformly
+uniform_limit_continuous	theorem	Uniform limit of continuous functions is continuous	function_sequences	reviewed	headline	if f_n are continuous and f_n -> f uniformly then f is continuous
+uniform_convergence_integral	theorem	Uniform convergence and integration	function_sequences	reviewed	core	if f_n -> f uniformly on [a,b] then int f_n -> int f
+uniform_convergence_derivative	theorem	Uniform convergence and differentiation	function_sequences	reviewed	core	if f_n -> f pointwise and f_n' -> g uniformly then f' = g
+power_series	definition	Power series	function_sequences	reviewed	core	Sigma a_n (x - c)^n
+radius_of_convergence	definition	Radius of convergence	function_sequences	reviewed	core	1/R = limsup |a_n|^{1/n} ; converges for |x-c| < R
+epsilon_delta	notation_convention	The epsilon-delta / epsilon-N idiom	cross_domain	reviewed	foundation	quantifier order is forall eps exists delta/N

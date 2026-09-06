@@ -1,0 +1,6 @@
+source_key	title	edition	sections	conventions
+rudin_principles_3e	Principles of Mathematical Analysis	3	ch 1-8	Dedekind cuts; N from 1; open-cover compactness; RS integral
+abbott_understanding_2e	Understanding Analysis	2	ch 1-8	N from 1; lub as Axiom of Completeness
+tao_analysis_I_4e	Analysis I	4	ch 5-11	N from 0; R via Cauchy sequences; explicit AC/CC
+bartle_sherbert_4e	Introduction to Real Analysis	4	ch 5-7	Darboux integral; N from 1
+spivak_calculus_4e	Calculus	4	ch 11,19-20	N from 1

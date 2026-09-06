@@ -1,0 +1,85 @@
+/* Release 0.1 instance checks and hypothesis-dropped counterexamples.
+   Run:  bc -q -l validation/instance-checks.bc
+   Every identifier is lowercase and starts with a letter (bc rule).
+   bc TRUNCATES; where rounding matters the check is stated as an inequality.
+
+   These are INSTANCES.  A clean run exhibits counterexamples (a valid disproof
+   of a dropped-hypothesis claim) and sanity-checks specializations.  It is
+   NOT a proof of any theorem.  See validation/instance-checks.md for prose. */
+
+scale = 40
+print "=== geometric_series: partial sum vs 1/(1-r) ===\n"
+r = 1/2
+s = 0
+for (n = 0; n <= 60; n++) s += r^n
+print "r=1/2  partial(0..60) = ", s, "\n"
+print "r=1/2  1/(1-r)        = ", 1/(1-r), "\n"
+print "gap                   = ", 1/(1-r) - s, "  (-> 0, converges)\n"
+/* drop |r| < 1 */
+r = 1
+s = 0; for (n = 0; n <= 60; n++) s += r^n
+print "DROP |r|<1: r=1  partial(0..60) = ", s, "  (= 61, grows without bound: DIVERGES)\n"
+r = 2
+s = 0; for (n = 0; n <= 20; n++) s += r^n
+print "DROP |r|<1: r=2  partial(0..20) = ", s, "  (2^21 - 1, DIVERGES)\n\n"
+
+print "=== monotone_convergence_theorem: x_{n+1} = (x_n + 2/x_n)/2 -> sqrt(2) ===\n"
+x = 2
+for (n = 1; n <= 6; n++) { x = (x + 2/x)/2; print "x_", n, " = ", x, "\n" }
+print "sqrt(2)  = ", sqrt(2), "\n"
+print "x_6 - sqrt(2) = ", x - sqrt(2), "  (decreasing, bounded below by sqrt(2))\n"
+print "DROP completeness (work in Q): every x_n is rational, the sequence is\n"
+print "  Cauchy, but sqrt(2) is irrational, so it has NO limit in Q.\n"
+print "  x_6 as a check is already correct to ", scale, " places numerically.\n\n"
+
+print "=== bolzano_weierstrass: drop boundedness ===\n"
+print "x_n = n.  Differences x_{n+1} - x_n = 1 for all n, so |x_m - x_n| >= 1\n"
+print "  for m != n: no subsequence is Cauchy, none converges.\n"
+d = 1
+print "  spacing = ", d, "  (constant, bounded below by 1 -> no convergent subseq)\n\n"
+
+print "=== p_series / comparison_test: harmonic (p=1) diverges, p=2 converges ===\n"
+h = 0
+for (n = 1; n <= 100000; n++) h += 1/n
+print "sum 1/n,  n=1..1e5   = ", h, "  (~ ln(1e5) = ", l(100000), ", grows)\n"
+p = 0
+for (n = 1; n <= 100000; n++) p += 1/(n*n)
+print "sum 1/n^2, n=1..1e5  = ", p, "  (bounded; true value pi^2/6 = ", 4*a(1)*4*a(1)/6, ")\n"
+print "  p=1 is the boundary: DROP p>1 and the series diverges.\n\n"
+
+print "=== alternating_series_test: conditional convergence of sum (-1)^{n+1}/n ===\n"
+a2 = 0; sg = 1
+for (n = 1; n <= 200000; n++) { a2 += sg * (1/n); sg = -sg }
+print "partial sum (n=1..2e5) = ", a2, "  (-> ln 2 = ", l(2), ")\n"
+print "  converges though sum 1/n (absolute values) diverges: conditional.\n"
+print "  DROP 'b_n decreasing': terms 1,1/2,1,1/3,1,1/4,... would not -> 0 in a\n"
+print "  controlled way and the bracketing fails.\n\n"
+
+print "=== uniform_convergence: f_n(x) = x^n on [0,1] vs [0, 0.9] ===\n"
+print "On [0,1]:  sup_x |x^n - f(x)| where f(1)=1, f(x)=0 for x<1.\n"
+print "  sup is achieved near x -> 1^-: for any n, x^n gets arbitrarily close to 1,\n"
+print "  so sup_x |x^n - f(x)| = 1 for every n.  NOT uniform (limit not 0).\n"
+b = (0.999999)^50
+print "  e.g. n=50, x=0.999999:  x^n = ", b, "  while f(x) = 0  -> gap ~ 1\n"
+print "On [0, 0.9]:  sup is 0.9^n.\n"
+for (n = 10; n <= 60; n += 25) print "  0.9^", n, " = ", (0.9)^n, "\n"
+print "  -> 0, so f_n -> 0 uniformly on [0, 0.9].  The hypothesis is the domain.\n\n"
+
+print "=== mean_value_theorem specialization: f(x) = x^2 on [1,3] ===\n"
+print "  (f(3) - f(1))/(3 - 1) = (9 - 1)/2 = ", (9-1)/2, "\n"
+print "  f'(c) = 2c = 4  =>  c = 2, which lies in (1,3).  OK\n\n"
+
+print "=== intermediate_value_theorem: f(x) = x^2 - 2 on [1,2] ===\n"
+print "  f(1) = ", 1-2, " ,  f(2) = ", 4-2, "  (sign change)\n"
+lo = 1; hi = 2
+for (n = 1; n <= 80; n++) { mid = (lo+hi)/2; if (mid*mid - 2 > 0) hi = mid else lo = mid }
+print "  bisection root = ", lo, " ,  sqrt(2) = ", sqrt(2), "\n"
+print "  DROP continuity: g(x) = 0 for x<1.5, g(x)=1 for x>=1.5 on [1,2] skips 0.5.\n\n"
+
+print "=== taylor_theorem: e^x at a=0, degree 4, remainder on [0, 1] ===\n"
+t = 1 + 1 + 1/2 + 1/6 + 1/24
+print "  P_4(1) = ", t, "\n"
+print "  e^1    = ", e(1), "\n"
+print "  |R_4|  = ", e(1) - t, "\n"
+print "  Lagrange bound: e^xi * 1^5 / 5! <= e/120 = ", e(1)/120, "  (holds)\n"
+quit

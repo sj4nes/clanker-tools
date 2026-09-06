@@ -1,0 +1,44 @@
+id: integration.ftc_part1
+node: ftc_part1
+status_label: proved_theorem
+display: 'If $f$ is integrable on $[a,b]$ and continuous at $x_0\in[a,b]$, then $F(x)=\int_a^x f$ is differentiable at $x_0$ with $F''(x_0)=f(x_0)$.'
+parseable: 'integrable(f,[a,b]) and continuousAt(f,x0) -> deriv F x0 = f x0  where F x = int_a^x f'
+symbols:
+  f: { meaning: an integrable real function on [a,b], type: function }
+  F: { meaning: 'the integral function x |-> int_a^x f', type: function }
+  x0: { meaning: a point of continuity of f, type: real }
+type_check_status: well_formed
+hypotheses: [f_integrable_on_interval, f_continuous_at_x0]
+preconditions: []
+dependencies: [riemann_integral, continuity_at_point, derivative, integral_mvt, interval_additivity]
+proof:
+  technique: >-
+    (F(x0+h) - F(x0))/h = (1/h) int_{x0}^{x0+h} f (interval_additivity). By
+    continuity at x0, given eps>0 pick delta so |f(t) - f(x0)| < eps for
+    |t - x0| < delta; then the average of f over [x0, x0+h] is within eps of
+    f(x0) for |h| < delta. So the difference quotient -> f(x0).
+  derives_from: integral_mvt
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §3 (the squeeze bounding the average), §4 (telescoping for interval_additivity)'
+uses_choice: false
+constructive: true
+constructive_note: 'given a modulus of continuity for f at x0, F''(x0) = f(x0) is witnessed effectively.'
+solving_for: null
+specialization_cases:
+  - 'f = 1: F(x) = x - a, F'' = 1'
+  - 'f continuous on all of [a,b]: F is an antiderivative of f everywhere'
+counterexamples_when_dropped:
+  f_continuous_at_x0: 'f = 1_{[c,b]} on [a,b]: F has a corner at c; F''(c) does not exist though F is continuous'
+  f_integrable_on_interval: 'if f is not integrable, F is not even defined'
+common_misuse:
+  - 'claiming F'' = f everywhere when f is merely integrable (true only at points of continuity of f)'
+  - 'assuming F is C^1 when f is only integrable'
+related:
+  strengthened_by: ftc_part2
+sources: [rudin_principles_3e, bartle_sherbert_4e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#ftc_part1
+  specialization: validation/specialization-cases.md
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

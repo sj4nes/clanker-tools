@@ -1,0 +1,42 @@
+id: sequences.cauchy_convergence_criterion
+node: cauchy_convergence_criterion
+status_label: nonconstructive_result
+display: 'A real sequence converges iff it is Cauchy.'
+parseable: 'converges(x) <-> cauchy(x)'
+symbols:
+  x: { meaning: a real sequence, type: 'nat -> real' }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [cauchy_sequence, sequence_convergence, bolzano_weierstrass, convergent_implies_bounded, completeness_of_R]
+proof:
+  technique: >-
+    (=>) if x_n -> L then |x_m - x_n| <= |x_m - L| + |L - x_n| < eps (triangle).
+    (<=) a Cauchy sequence is bounded (take eps = 1 plus a finite head), so has
+    a convergent subsequence x_{n_j} -> L (bolzano_weierstrass); the Cauchy
+    condition then forces the whole sequence -> L.
+  derives_from: bolzano_weierstrass
+  lean_status: core-arith
+  lean_ref: 'validation/proof-checks.lean §1 (triangle inequality, both directions use it)'
+uses_choice: false
+constructive: false
+constructive_note: 'the (<=) direction inherits the nonconstructivity of bolzano_weierstrass; with an explicit Cauchy modulus the limit is computable, so a modulated Cauchy sequence converges effectively.'
+solving_for: null
+specialization_cases:
+  - '(=>) direction holds for any convergent sequence in any metric space'
+  - 'a contractive sequence (|x_{n+1}-x_n| <= c^n) is Cauchy, hence converges'
+counterexamples_when_dropped:
+  completeness_of_ambient_field: 'in Q: (1, 1.4, 1.41, 1.414, ...) is Cauchy and does not converge. This is the defining incompleteness of Q.'
+common_misuse:
+  - 'assuming "|x_{n+1} - x_n| -> 0" implies Cauchy (false: partial sums of the harmonic series)'
+  - 'using it to find the limit (it only certifies existence)'
+related:
+  equivalent_to: 'lub_axiom (Cauchy-complete + Archimedean <=> lub) — edges/relations.tsv'
+  commonly_confused_with: sequence_convergence
+sources: [rudin_principles_3e, abbott_understanding_2e, tao_analysis_I_4e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#cauchy_convergence_criterion
+  specialization: validation/specialization-cases.md#cauchy_convergence_criterion
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

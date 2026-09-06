@@ -1,0 +1,43 @@
+id: integration.riemann_integral
+node: riemann_integral
+status_label: definition
+display: '$\int_a^b f = \inf_P U(f,P) = \sup_P L(f,P)$ when the two agree; then $f$ is Riemann integrable on $[a,b]$.'
+parseable: 'integrable(f,[a,b]) iff inf_P U(f,P) = sup_P L(f,P) ; the common value is int_a^b f'
+symbols:
+  f: { meaning: a bounded real function on [a,b], type: function }
+  P: { meaning: a partition of [a,b], type: partition }
+  'U(f,P)': { meaning: upper Darboux sum, type: real }
+  'L(f,P)': { meaning: lower Darboux sum, type: real }
+type_check_status: well_formed
+hypotheses: [bounded_function, compact_interval]
+preconditions: [a_lt_b]
+well_definedness: >-
+  inf_P U and sup_P L exist as reals because f is bounded (each U, L lies in
+  [m(b-a), M(b-a)]) and the set of partitions is nonempty — lub_axiom. Always
+  sup_P L <= inf_P U (a common refinement argument); integrability is equality.
+dependencies: [darboux_sums, supremum, infimum, lub_axiom]
+uses_choice: false
+constructive: false
+equivalent_forms:
+  - 'Riemann sums with tagged partitions and mesh -> 0 (the tagged/Darboux equivalence is a lemma)'
+  - 'the riemann_criterion: integrable iff for all eps>0 some P has U - L < eps'
+solving_for: null
+specialization_cases:
+  - 'f = c constant: int = c(b-a)'
+  - 'f = 1_{[c,b]} on [a,b]: int = b - c (integrable despite a jump)'
+  - 'f monotone: integrable (monotone_implies_integrable)'
+counterexamples_when_dropped:
+  bounded_function: 'f(x) = 1/sqrt(x) on (0,1]: unbounded, U(f,P) = +inf for every P — not Riemann integrable (improper integral, out of scope)'
+  compact_interval: 'the theory is stated on [a,b]; non-compact domains need improper integrals'
+  integrability_itself: 'Dirichlet 1_Q on [0,1]: L(f,P) = 0, U(f,P) = 1 for every P — sup_P L != inf_P U, not integrable'
+common_misuse:
+  - 'assuming every bounded function is integrable'
+  - 'assuming continuity is necessary (1_{[1/2,1]} is a discontinuous integrable function)'
+  - 'forgetting the orientation convention int_b^a = -int_a^b when a > b'
+sources: [rudin_principles_3e, bartle_sherbert_4e, abbott_understanding_2e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#riemann_integral
+  specialization: validation/specialization-cases.md
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

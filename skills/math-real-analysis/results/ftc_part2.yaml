@@ -1,0 +1,41 @@
+id: integration.ftc_part2
+node: ftc_part2
+status_label: proved_theorem
+display: 'If $f$ is integrable on $[a,b]$ and $G$ is an antiderivative of $f$ on $[a,b]$ ($G''=f$), then $\int_a^b f = G(b)-G(a)$.'
+parseable: 'integrable(f,[a,b]) and (forall x, deriv G x = f x) -> int_a^b f = G b - G a'
+symbols:
+  f: { meaning: an integrable real function, type: function }
+  G: { meaning: an antiderivative of f, type: function }
+type_check_status: well_formed
+hypotheses: [f_integrable_on_interval, G_antiderivative_on_closed_interval]
+preconditions: [a_lt_b]
+dependencies: [ftc_part1, mean_value_theorem, riemann_criterion]
+proof:
+  technique: >-
+    for any partition P, G(b) - G(a) = sum (G(t_i) - G(t_{i-1})) = sum f(c_i) dt_i
+    (mean_value_theorem on each subinterval) — a Riemann sum of f lying between
+    L(f,P) and U(f,P). Since f is integrable, these squeeze to int_a^b f
+    (riemann_criterion).
+  derives_from: mean_value_theorem
+  lean_status: core-arith
+  lean_ref: 'validation/proof-checks.lean §4 (telescope: sum (G(t_i)-G(t_{i-1})) = G(b)-G(a), genuine induction) + §3 (squeeze between L and U)'
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'f = G'' with G polynomial: recovers the power rule for definite integrals'
+  - 'f continuous: F from FTC I is one valid G; any two antiderivatives differ by a constant (MVT)'
+counterexamples_when_dropped:
+  G_antiderivative_on_closed_interval: 'G(x) = |x| on [-1,1] is not differentiable at 0; naively "int_{-1}^1 sgn = 0 = G(1)-G(-1)" holds only by symmetry — shift to G with a jump and it fails'
+  f_integrable_on_interval: 'Volterra''s function has a bounded derivative that is not Riemann integrable (out of scope): the RHS is defined, the LHS is not'
+common_misuse:
+  - 'assuming every derivative is Riemann integrable (false — Volterra)'
+  - 'requiring f continuous (only integrability + an antiderivative are needed)'
+  - 'forgetting G must be an antiderivative on the CLOSED interval, endpoints included (one-sided there)'
+sources: [rudin_principles_3e, bartle_sherbert_4e, spivak_calculus_4e]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md#ftc_part1
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

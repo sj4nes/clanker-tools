@@ -1,0 +1,41 @@
+id: continuity.extreme_value_theorem
+node: extreme_value_theorem
+status_label: nonconstructive_result
+display: 'A continuous $f:[a,b]\to\mathbb{R}$ attains a maximum and a minimum on $[a,b]$.'
+parseable: 'continuousOn(f,[a,b]) -> exists p q in [a,b], forall x in [a,b], f p <= f x <= f q'
+symbols:
+  f: { meaning: a real function on [a,b], type: function }
+  p: { meaning: a minimizer, type: real }
+  q: { meaning: a maximizer, type: real }
+type_check_status: well_formed
+hypotheses: [continuity_on_closed_interval]
+preconditions: [a_le_b]
+dependencies: [continuous_image_of_compact, heine_borel, supremum, interval]
+proof:
+  technique: >-
+    f([a,b]) is compact (continuous_image_of_compact), hence closed and bounded
+    (heine_borel). Bounded => M = sup f([a,b]) is a real (lub_axiom). Closed =>
+    M in f([a,b]), i.e. M = f(q) for some q. Min dually.
+  derives_from: continuous_image_of_compact
+  lean_status: none
+  lean_ref: null
+uses_choice: false
+constructive: false
+solving_for: null
+specialization_cases:
+  - 'constant function: max = min, attained everywhere'
+  - 'f(x) = x on [a,b]: min at a, max at b'
+counterexamples_when_dropped:
+  closed_interval: 'f(x) = x on (0,1): neither sup nor inf attained'
+  bounded_interval: 'f(x) = arctan x on R: sup = pi/2, never attained'
+  continuity_on_set: 'f(x) = x - floor(x) on [0,1] with f(1)=0: sup = 1, never attained'
+common_misuse:
+  - 'assuming the extremum is unique or interior'
+  - 'using it on a half-open interval'
+sources: [rudin_principles_3e, abbott_understanding_2e]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md#extreme_value_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

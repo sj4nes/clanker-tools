@@ -1,0 +1,43 @@
+id: sequences.monotone_convergence_theorem
+node: monotone_convergence_theorem
+status_label: nonconstructive_result
+display: 'A bounded monotone real sequence converges (to $\sup_n x_n$ if nondecreasing, $\inf_n x_n$ if nonincreasing).'
+parseable: 'monotone(x) and bounded(x) -> converges(x)'
+symbols:
+  x: { meaning: a real sequence, type: 'nat -> real' }
+  L: { meaning: 'sup or inf of the range {x_n}', type: real }
+type_check_status: well_formed
+hypotheses: [monotone_sequence, bounded_sequence]
+preconditions: []
+dependencies: [monotone_sequence, bounded_sequence, sequence_convergence, completeness_of_R, supremum]
+proof:
+  technique: >-
+    nondecreasing case: L = sup{x_n} exists by lub_axiom. Given eps>0, L-eps is
+    not an upper bound, so x_N > L-eps for some N; monotonicity gives
+    L-eps < x_n <= L for all n>=N.
+  derives_from: lub_axiom
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §8 (AM-GM core of the sqrt(2) example)'
+uses_choice: false
+constructive: false
+solving_for: null
+specialization_cases:
+  - 'constant x_n = c -> c'
+  - 'x_n = 1 - 1/n -> 1'
+  - 'x_1=2, x_{n+1}=(x_n+2/x_n)/2 -> sqrt(2) (instance-checks.bc: x_6 exact to 40 places)'
+counterexamples_when_dropped:
+  bounded_sequence: 'x_n = n (increasing, diverges)'
+  monotone_sequence: 'x_n = (-1)^n (bounded, diverges)'
+  completeness_of_ambient_field: 'the sqrt(2) recursion in Q: monotone, bounded, Cauchy, no rational limit'
+common_misuse:
+  - 'assuming the limit is in the range of the sequence'
+  - 'using it for a monotone but unbounded sequence to get a finite limit'
+related:
+  equivalent_to: 'lub_axiom (over an Archimedean field) — edges/relations.tsv eqv_lub_mct'
+sources: [abbott_understanding_2e, rudin_principles_3e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#monotone_convergence_theorem
+  specialization: validation/specialization-cases.md#monotone_convergence_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

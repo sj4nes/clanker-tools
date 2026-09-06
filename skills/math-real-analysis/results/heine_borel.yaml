@@ -1,0 +1,44 @@
+id: topology.heine_borel
+node: heine_borel
+status_label: nonconstructive_result
+display: 'A subset $K \subseteq \mathbb{R}$ is compact (every open cover has a finite subcover) iff it is closed and bounded.'
+parseable: 'compact(K) <-> (closed(K) and bounded(K))'
+symbols:
+  K: { meaning: a set of reals, type: subset_R }
+type_check_status: well_formed
+hypotheses: [subset_of_R]
+preconditions: []
+dependencies: [compact_set, closed_set, bounded_set, nested_interval_theorem]
+proof:
+  technique: >-
+    (compact => closed+bounded): the cover {(-n,n)} forces boundedness; a point
+    p not in K is separated from each point of K, giving an open cover of K with
+    no finite subcover unless K is closed. (closed+bounded => compact): K in
+    [a,b]; if some cover had no finite subcover, bisect [a,b] keeping a half
+    with no finite subcover, iterate (nested_interval_theorem) to a point x in K
+    covered by some U; U contains a whole small interval, contradiction.
+  derives_from: nested_interval_theorem
+  lean_status: none
+  lean_ref: null
+uses_choice: false
+constructive: false
+solving_for: null
+specialization_cases:
+  - '[a,b] is compact; a finite set is compact; the empty set is compact'
+  - 'a convergent sequence together with its limit is compact'
+counterexamples_when_dropped:
+  closed_set: '(0,1): cover {(1/n,1)}_{n>=2} has no finite subcover'
+  bounded_set: '[0,inf): cover {(-1,n)}_{n>=1} has no finite subcover'
+  subset_of_R: 'the closed unit ball of l^2 is closed and bounded but not compact (metric-space caveat)'
+common_misuse:
+  - 'assuming "closed and bounded => compact" in a general metric space'
+  - 'forgetting that continuous images preserve compactness but not closedness+boundedness directly'
+related:
+  equivalent_to: 'compact_set, sequential_compactness (in R only)'
+sources: [rudin_principles_3e, abbott_understanding_2e]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md#heine_borel
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

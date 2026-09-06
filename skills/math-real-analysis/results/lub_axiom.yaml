@@ -1,0 +1,41 @@
+id: reals.lub_axiom
+node: lub_axiom
+status_label: axiom
+display: 'Every nonempty $S \subseteq \mathbb{R}$ that is bounded above has a least upper bound $\sup S \in \mathbb{R}$.'
+parseable: 'nonempty(S) and boundedAbove(S) -> exists m, isLUB(m, S)'
+symbols:
+  S: { meaning: a set of reals, type: subset_R }
+  m: { meaning: the least upper bound, type: real }
+type_check_status: well_formed
+hypotheses: [nonempty_set, bounded_above]
+preconditions: []
+dependencies: [real_number, ordered_field, supremum]
+proof:
+  technique: none — this is the completeness axiom for Release 0.1
+  derives_from: null
+  lean_status: none
+  lean_ref: null
+uses_choice: false
+constructive: false
+equivalent_forms:
+  - 'greatest-lower-bound form (inf of nonempty bounded-below sets)'
+  - 'Dedekind completeness: every cut is realized'
+  - 'monotone convergence (given Archimedean): see edges/relations.tsv eqv_lub_mct'
+  - 'nested intervals + Archimedean; Cauchy-complete + Archimedean'
+specialization_cases:
+  - 'S = {x : x^2 < 2} has sup = sqrt(2); the same set in Q has no sup in Q'
+  - 'S = {1 - 1/n : n in N} has sup = 1, not attained'
+counterexamples_when_dropped:
+  bounded_above: 'S = N has no upper bound, hence no sup'
+  nonempty_set: 'sup of the empty set is left undefined in 0.1 (conventions.md)'
+  field_is_R: 'in Q, S = {x : x^2 < 2} is nonempty and bounded above but has no supremum in Q — this is exactly what distinguishes R from Q'
+common_misuse:
+  - 'assuming the sup is attained (it need not be in S)'
+  - 'using it in Q'
+sources: [abbott_understanding_2e, rudin_principles_3e, tao_analysis_I_4e]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

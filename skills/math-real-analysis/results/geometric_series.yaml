@@ -1,0 +1,41 @@
+id: series.geometric_series
+node: geometric_series
+status_label: mathematical_identity
+display: '$\sum_{n=0}^{\infty} r^n = \dfrac{1}{1-r}$ for $|r|<1$; the series diverges for $|r|\ge 1$.'
+parseable: '|r| < 1 -> sum_{n>=0} r^n = 1/(1 - r)'
+symbols:
+  r: { meaning: the common ratio, type: real }
+type_check_status: well_formed
+hypotheses: [ratio_strictly_less_than_one_in_absolute_value]
+preconditions: []
+dependencies: [series_convergence, partial_sum]
+proof:
+  technique: >-
+    partial sum s_n = (1 - r^{n+1})/(1 - r) (algebra: (1-r) s_n telescopes).
+    For |r| < 1, r^{n+1} -> 0, so s_n -> 1/(1-r).
+  derives_from: partial_sum
+  lean_status: core-arith
+  lean_ref: 'validation/proof-checks.lean §6 ((1-r)(1+r+...+r^n) = 1 - r^{n+1}, instance r=3,n=4)'
+uses_choice: false
+constructive: true
+solving_for:
+  sum_from_k: 'sum_{n>=k} r^n = r^k/(1-r)'
+specialization_cases:
+  - 'r = 0: sum = 1'
+  - 'r = 1/2: sum = 2 (instance-checks.bc: partial(0..60) = 1.9999...)'
+  - 'differentiate termwise inside |r|<1: sum n r^{n-1} = 1/(1-r)^2'
+counterexamples_when_dropped:
+  hypothesis_r_lt_1: 'r = 1: partial sums n+1 -> inf. r = -1: partial sums 1,0,1,0,... (no limit). r = 2: 2^{n+1}-1 -> inf. |r| < 1 is exactly the boundary.'
+common_misuse:
+  - 'using 1/(1-r) outside |r| < 1 (the closed form is an analytic continuation, not the series sum)'
+  - 'starting the index at 1 and forgetting the sum is then r/(1-r)'
+related:
+  special_case_of: power_series
+  approximates: 'rational_function_near_zero (edges/relations.tsv)'
+sources: [rudin_principles_3e, abbott_understanding_2e]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md#geometric_series
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

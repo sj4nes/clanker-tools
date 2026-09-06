@@ -1,0 +1,42 @@
+id: function_sequences.weierstrass_m_test
+node: weierstrass_m_test
+status_label: proved_theorem
+display: 'If $|f_n(x)|\le M_n$ for all $x\in D$ and $\sum M_n<\infty$, then $\sum f_n$ converges uniformly (and absolutely) on $D$.'
+parseable: '(forall n x, |f_n x| <= M_n) and convergent(sum M_n) -> uniformlyConvergent(sum f_n, D)'
+symbols:
+  f_n: { meaning: functions on D, type: function_sequence }
+  M_n: { meaning: a summable sequence of nonnegative bounds, type: 'nat -> real, >= 0' }
+type_check_status: well_formed
+hypotheses: [uniform_bound_by_summable_majorant]
+preconditions: []
+dependencies: [uniform_convergence, uniform_cauchy_criterion, comparison_test]
+proof:
+  technique: >-
+    for m > n, sup_x |sum_{k=n+1}^m f_k(x)| <= sum_{k=n+1}^m M_k, which is a tail
+    of the convergent series sum M_k (comparison_test) and so < eps for n large,
+    uniformly in x. Hence the partial sums are uniformly Cauchy
+    (uniform_cauchy_criterion) -> uniformly convergent.
+  derives_from: uniform_cauchy_criterion
+  lean_status: core-arith
+  lean_ref: 'validation/proof-checks.lean §1 (triangle inequality for the partial sum bound), §5 (geometric ratio bound for the common M_n = c^n case)'
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'f_n(x) = x^n/2^n on [-1,1]: |f_n| <= 2^{-n}, sum 2^{-n} = 1 -> uniform (it is 1/(1-x/2))'
+  - 'power series inside its radius: |a_n x^n| <= |a_n| r^n on |x| <= r < R, sum converges -> uniform on [-r,r]'
+counterexamples_when_dropped:
+  summable_majorant: 'if sum M_n = inf the test says nothing; e.g. M_n = 1/n'
+  sufficiency_not_necessity: 'f_n(x) = (-1)^n x^n / n on [0,1]: sup|f_n| = 1/n, sum 1/n = inf so the M-test fails, yet sum f_n converges uniformly (Abel/Dirichlet). A failed M-test is NOT a proof of non-uniform convergence.'
+common_misuse:
+  - 'treating the M-test as a necessary condition'
+  - 'choosing M_n = sup|f_n| and concluding divergence of sum f_n when sum M_n diverges'
+related:
+  special_case_of: comparison_test
+sources: [rudin_principles_3e, abbott_understanding_2e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#weierstrass_m_test
+  specialization: validation/specialization-cases.md#weierstrass_m_test
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

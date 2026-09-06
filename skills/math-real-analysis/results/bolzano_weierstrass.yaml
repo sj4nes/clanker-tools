@@ -1,0 +1,53 @@
+id: sequences.bolzano_weierstrass
+node: bolzano_weierstrass
+status_label: nonconstructive_result
+display: 'Every bounded sequence $(x_n)$ in $\mathbb{R}$ has a convergent subsequence.'
+parseable: 'bounded(x) -> exists (n_j) strictly_increasing, converges(fun j => x (n_j))'
+symbols:
+  x: { meaning: a real sequence, type: 'nat -> real' }
+  n_j: { meaning: the extracted index map, type: 'nat -> nat, strictly increasing' }
+  L: { meaning: the subsequential limit, type: real }
+type_check_status: well_formed
+hypotheses: [bounded_sequence]
+preconditions: [nonempty_sequence]
+dependencies: [bounded_sequence, subsequence, sequence_convergence, nested_interval_theorem]
+proof:
+  technique: >-
+    bisection. [a_0,b_0] bounds the sequence. Split in half; at least one half
+    contains x_n for infinitely many n — keep it (deterministic rule: keep the
+    left half if it qualifies, else the right). Iterate to get nested intervals
+    of length (b_0-a_0)/2^k with the common point L (nested_interval_theorem).
+    Pick n_1 < n_2 < ... with x_{n_k} in the kth interval. Then |x_{n_k}-L| ->0.
+  derives_from: nested_interval_theorem
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §5 (geometric/pigeonhole core); §3 (squeeze)'
+uses_choice: false
+constructive: partial
+constructive_note: >-
+  The bisection rule is deterministic, so no choice is used. Given an explicit
+  modulus of boundedness the limit L and the subsequence are computable to any
+  precision; but "keep a half with infinitely many terms" is decided
+  non-constructively (it is a Sigma^0_2 predicate), so the result is listed
+  nonconstructive_result.
+solving_for: null
+specialization_cases:
+  - 'constant sequence x_n = c -> whole sequence converges'
+  - 'finitely many distinct values -> a constant subsequence'
+  - 'enumeration of Q cap [0,1] -> subsequences converging to every point of [0,1]'
+counterexamples_when_dropped:
+  bounded_sequence: 'x_n = n: |x_m - x_n| >= 1 for m != n, no Cauchy subsequence'
+  completeness_of_ambient_field: 'in Q: digit truncations of sqrt(2) — bounded, every subsequence Cauchy, none converges in Q'
+  finite_dimension: 'in l^2 (out of scope): the unit vectors e_n are bounded, pairwise distance sqrt(2), no convergent subsequence'
+common_misuse:
+  - 'concluding the whole sequence converges'
+  - 'applying in an incomplete space or infinite dimensions'
+related:
+  equivalent_to: 'lub_axiom (BW + Archimedean <=> lub) — edges/relations.tsv'
+  proved_using: 'monotone_subsequence_lemma + monotone_convergence_theorem (alt route)'
+sources: [rudin_principles_3e, abbott_understanding_2e, tao_analysis_I_4e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#bolzano_weierstrass
+  specialization: validation/specialization-cases.md#bolzano_weierstrass
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

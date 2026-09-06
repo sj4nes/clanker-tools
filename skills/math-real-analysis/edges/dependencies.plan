@@ -1,0 +1,525 @@
+# =============================================================================
+# Release 0.1 prerequisite edges.  Format: "A B" means A is a necessary
+# prerequisite for correctly stating/proving/using B (SKILL.md edge test).
+# Evidence for each edge is the preceding `#` comment.  Comments are stripped by
+# validation/graph-check.sh to produce edges/dependencies.edges.
+# Equivalences, generalisations, approximations live in edges/relations.tsv.
+# =============================================================================
+
+# --- Foundations -------------------------------------------------------------
+
+# A function is defined as a special kind of relation on sets.
+set function
+
+# Induction is the third Peano axiom, stated as a principle about subsets of N.
+natural_number induction
+
+# The absolute value is defined by a case split on the order of the field.
+ordered_field absolute_value
+# |x| uses the additive inverse, i.e. field structure.
+rational_field ordered_field
+
+# An upper bound is defined relative to the order of an ordered field.
+ordered_field upper_bound
+# The supremum is the least element of the set of upper bounds.
+upper_bound supremum
+# The infimum is the greatest lower bound; dual to supremum, same order structure.
+ordered_field infimum
+
+# The epsilon-delta idiom names the quantifier order reused by every limit node.
+ordered_field epsilon_delta
+absolute_value epsilon_delta
+
+# --- The real numbers -------------------------------------------------------
+
+# The lub axiom is a statement about nonempty bounded-above subsets of R having
+# a supremum -- it presupposes `supremum` and the ordered-field R.
+real_number lub_axiom
+ordered_field lub_axiom
+supremum lub_axiom
+
+# Completeness of R is precisely "R is an ordered field with the lub axiom".
+real_number completeness_of_R
+ordered_field completeness_of_R
+lub_axiom completeness_of_R
+
+# Archimedean property: proved by applying the lub axiom to N as a subset of R
+# and deriving a contradiction from a finite supremum.
+completeness_of_R archimedean_property
+natural_number archimedean_property
+
+# Density of Q: given x < y pick n with 1/n < y-x (Archimedean) then an integer
+# multiple of 1/n landing in (x,y).
+archimedean_property density_of_rationals
+rational_field density_of_rationals
+
+# An interval is an order-convex subset of R.
+real_number interval
+ordered_field interval
+
+# Nested interval theorem: the intersection point is sup of the left endpoints,
+# which exists by the lub axiom; the intervals are closed and bounded.
+completeness_of_R nested_interval_theorem
+interval nested_interval_theorem
+supremum nested_interval_theorem
+
+# --- Sequences -------------------------------------------------------------
+
+# A sequence is a function from N to R.
+function sequence
+natural_number sequence
+real_number sequence
+
+# Convergence is the epsilon-N statement about a sequence and a candidate limit.
+sequence sequence_convergence
+absolute_value sequence_convergence
+epsilon_delta sequence_convergence
+
+# Uniqueness of limits: if L, L' are both limits then |L-L'| < eps for all eps.
+sequence_convergence limit_uniqueness
+
+# Boundedness of a sequence is a property of the sequence and the order.
+sequence bounded_sequence
+absolute_value bounded_sequence
+
+# A convergent sequence is eventually within 1 of L, and the finite head is
+# bounded; take the max.
+sequence_convergence convergent_implies_bounded
+bounded_sequence convergent_implies_bounded
+
+# The algebra of limits: sum/product/quotient rules, proved with the triangle
+# inequality and boundedness of convergent sequences.
+sequence_convergence algebra_of_limits
+convergent_implies_bounded algebra_of_limits
+absolute_value algebra_of_limits
+
+# Squeeze: a_n <= x_n <= b_n forces |x_n - L| <= max(|a_n-L|,|b_n-L|).
+sequence_convergence squeeze_theorem
+
+# Monotone sequence: a monotonicity property of a sequence in an ordered field.
+sequence monotone_sequence
+ordered_field monotone_sequence
+
+# Monotone convergence theorem: a bounded increasing sequence converges to the
+# supremum of its range, which exists by the lub axiom.
+monotone_sequence monotone_convergence_theorem
+bounded_sequence monotone_convergence_theorem
+sequence_convergence monotone_convergence_theorem
+completeness_of_R monotone_convergence_theorem
+supremum monotone_convergence_theorem
+
+# A subsequence is the composition of a sequence with a strictly increasing
+# index map N -> N.
+sequence subsequence
+natural_number subsequence
+
+# A subsequential limit is a limit of a convergent subsequence.
+subsequence subsequential_limit
+sequence_convergence subsequential_limit
+
+# Bolzano-Weierstrass: bisect a bounding interval, keep a half with infinitely
+# many terms, iterate -> nested intervals -> common point is the subsequential
+# limit.  Choice-free (bisection rule picks the half deterministically).
+bounded_sequence bolzano_weierstrass
+subsequence bolzano_weierstrass
+sequence_convergence bolzano_weierstrass
+nested_interval_theorem bolzano_weierstrass
+
+# A Cauchy sequence: the epsilon-N statement about pairs of late terms.
+sequence cauchy_sequence
+absolute_value cauchy_sequence
+epsilon_delta cauchy_sequence
+
+# Cauchy criterion: Cauchy => bounded => (Bolzano-Weierstrass) a convergent
+# subsequence => the whole sequence converges to that limit.  Converse is easy.
+cauchy_sequence cauchy_convergence_criterion
+sequence_convergence cauchy_convergence_criterion
+bolzano_weierstrass cauchy_convergence_criterion
+convergent_implies_bounded cauchy_convergence_criterion
+completeness_of_R cauchy_convergence_criterion
+
+# limsup/liminf: inf over N of the sups of the tails; needs sup, inf, and
+# boundedness for the values to be real.
+bounded_sequence limsup_liminf
+supremum limsup_liminf
+infimum limsup_liminf
+
+# Countable choice is a weakening of the full axiom of choice.
+axiom_of_choice countable_choice
+
+# --- Series --------------------------------------------------------------
+
+# A series is built from a sequence of terms.
+sequence series
+
+# The nth partial sum is a finite sum of the first n terms.
+series partial_sum
+induction partial_sum
+
+# A series converges iff its sequence of partial sums converges.
+partial_sum series_convergence
+sequence_convergence series_convergence
+
+# Geometric series: the partial sum (1-r^{n+1})/(1-r) has a limit for |r|<1.
+series_convergence geometric_series
+partial_sum geometric_series
+
+# nth-term test: a_n = s_n - s_{n-1} -> L - L = 0 when s_n converges.
+series_convergence nth_term_test
+
+# Cauchy criterion for series: apply the sequence Cauchy criterion to (s_n).
+series_convergence cauchy_criterion_series
+cauchy_convergence_criterion cauchy_criterion_series
+
+# Comparison test: partial sums of a_n are increasing and bounded by Sigma b_n,
+# so they converge by monotone convergence.
+series_convergence comparison_test
+monotone_convergence_theorem comparison_test
+partial_sum comparison_test
+
+# Absolute convergence: convergence of the series of absolute values.
+series_convergence absolute_convergence
+absolute_value absolute_convergence
+
+# Absolute => ordinary convergence: the tails of Sigma a_n are bounded by tails
+# of Sigma |a_n|, so (s_n) is Cauchy.
+absolute_convergence abs_convergence_implies_convergence
+cauchy_criterion_series abs_convergence_implies_convergence
+
+# Ratio test: eventually |a_{n+1}| <= c |a_n| with c<1 gives a geometric
+# majorant; conclude by comparison.
+absolute_convergence ratio_test
+geometric_series ratio_test
+comparison_test ratio_test
+limsup_liminf ratio_test
+
+# Root test: eventually |a_n|^{1/n} <= c < 1 gives |a_n| <= c^n; compare.
+absolute_convergence root_test
+geometric_series root_test
+comparison_test root_test
+limsup_liminf root_test
+
+# Alternating series test: s_{2n} increases and s_{2n+1} decreases, both bounded,
+# so both converge (monotone convergence); equal since b_n -> 0 (squeeze).
+series_convergence alternating_series_test
+monotone_sequence alternating_series_test
+monotone_convergence_theorem alternating_series_test
+squeeze_theorem alternating_series_test
+
+# p-series: Cauchy condensation reduces Sigma 1/n^p to a geometric series in
+# 2^{1-p}; converges iff p>1.  Uses comparison and the geometric series.
+comparison_test p_series
+geometric_series p_series
+
+# --- Topology of R ----------------------------------------------------------
+
+# An open set is defined via interval neighbourhoods inside R.
+real_number open_set
+interval open_set
+
+# A closed set is the complement of an open set.
+open_set closed_set
+
+# A bounded set sits inside some symmetric interval.
+real_number bounded_set
+interval bounded_set
+
+# A limit point p of A: every neighbourhood meets A ∖ {p}.
+real_number limit_point
+interval limit_point
+
+# The closure adjoins the limit points to the set.
+closed_set closure
+limit_point closure
+
+# Closed iff sequentially closed: a limit of points of A is a limit point (or in
+# A); needs the sequential description of limit points -> countable choice to
+# build the witnessing sequence.
+closed_set closed_iff_seq_closed
+limit_point closed_iff_seq_closed
+sequence_convergence closed_iff_seq_closed
+countable_choice closed_iff_seq_closed
+
+# An open cover is a family of open sets covering A.
+open_set open_cover
+
+# Compactness: the finite-subcover property of open covers.
+open_cover compact_set
+
+# Heine-Borel: (closed+bounded => compact) by bisection using the nested
+# interval theorem; (compact => closed+bounded) directly from the definition.
+compact_set heine_borel
+closed_set heine_borel
+bounded_set heine_borel
+nested_interval_theorem heine_borel
+
+# Sequential compactness in R: compact => every sequence has a subsequential
+# limit in K (via Bolzano-Weierstrass + closedness); converse via Heine-Borel.
+compact_set sequential_compactness
+bolzano_weierstrass sequential_compactness
+subsequential_limit sequential_compactness
+heine_borel sequential_compactness
+
+# Connectedness: no separation into two disjoint nonempty relatively open sets.
+open_set connected_set
+
+# Connected subsets of R are exactly the intervals: a non-interval has a gap
+# point splitting it; an interval cannot be split, by the lub axiom.
+connected_set connected_iff_interval
+interval connected_iff_interval
+lub_axiom connected_iff_interval
+
+# --- Limits and continuity of functions -----------------------------------
+
+# Function limit: epsilon-delta, requires c to be a limit point of the domain.
+function function_limit
+real_number function_limit
+limit_point function_limit
+epsilon_delta function_limit
+
+# Sequential criterion for functional limits: lim_{x->c} f = L iff f(x_n) -> L
+# for all x_n -> c, x_n != c.  (=>) is direct; (<=) contrapositive builds a bad
+# sequence -> countable choice.
+function_limit sequential_criterion_limit
+sequence_convergence sequential_criterion_limit
+countable_choice sequential_criterion_limit
+
+# Continuity at a point: its own epsilon-delta statement (NOT via function_limit,
+# to break the limit<->continuity cycle -- see conventions.md).
+function continuity_at_point
+real_number continuity_at_point
+epsilon_delta continuity_at_point
+
+# Continuity on a set: continuity at each point of the set.
+continuity_at_point continuity_on_set
+
+# Sequential continuity: f continuous at c iff f(x_n) -> f(c) for x_n -> c.
+continuity_at_point sequential_continuity
+sequence_convergence sequential_continuity
+countable_choice sequential_continuity
+
+# Algebra of continuous functions: from the algebra of limits / sequential
+# continuity applied pointwise.
+continuity_at_point algebra_of_continuous_functions
+algebra_of_limits algebra_of_continuous_functions
+
+# Composition of continuous functions: chase deltas through g then f.
+continuity_at_point composition_of_continuous
+
+# Continuous image of a compact set is compact: pull back an open cover of f(K)
+# through continuity to an open cover of K, take a finite subcover.
+continuity_on_set continuous_image_of_compact
+compact_set continuous_image_of_compact
+open_cover continuous_image_of_compact
+
+# Extreme value theorem: f([a,b]) is compact hence closed and bounded, so it
+# contains its sup and inf.
+continuous_image_of_compact extreme_value_theorem
+heine_borel extreme_value_theorem
+supremum extreme_value_theorem
+interval extreme_value_theorem
+
+# Intermediate value theorem.  CANONICAL 0.1 proof: let c = sup{x in [a,b] :
+# f(x) < y}; continuity forces f(c) = y.  Direct lub_axiom argument.  (The
+# topological route via continuous_image_of_connected is a proved_using
+# alternative in relations.tsv, not an edge -- see edges/cycles.md item 5.)
+continuity_on_set intermediate_value_theorem
+lub_axiom intermediate_value_theorem
+interval intermediate_value_theorem
+
+# Continuous image of a connected set is connected: a separation of f(D) pulls
+# back to a separation of D.
+continuity_on_set continuous_image_of_connected
+connected_set continuous_image_of_connected
+
+# Uniform continuity: one delta works for all pairs; differs from continuity_on_set
+# only by moving the forall x left of the exists delta.
+continuity_on_set uniform_continuity
+epsilon_delta uniform_continuity
+
+# Heine-Cantor: continuous on a compact set => uniformly continuous.  Proof by
+# contradiction extracts a bad pair-sequence and uses Bolzano-Weierstrass.
+uniform_continuity heine_cantor
+compact_set heine_cantor
+continuity_on_set heine_cantor
+bolzano_weierstrass heine_cantor
+
+# --- Differentiation ------------------------------------------------------
+
+# Derivative: the function limit of the difference quotient at c (a limit point
+# of the domain).  Requires function_limit, NOT continuity (see conventions.md).
+function_limit derivative
+real_number derivative
+
+# Differentiable => continuous: (f(x)-f(c)) = quotient * (x-c) -> f'(c)*0 = 0.
+derivative differentiable_implies_continuous
+continuity_at_point differentiable_implies_continuous
+
+# Sum/product/quotient rules: algebra of limits on the difference quotients.
+derivative differentiation_rules
+algebra_of_limits differentiation_rules
+
+# Chain rule: compose difference quotients, handle the g(x)=g(c) case.
+derivative chain_rule
+composition_of_continuous chain_rule
+
+# Fermat: at an interior local max, one-sided quotients have opposite signs, so
+# the two-sided limit f'(c) is 0.
+derivative interior_extremum_theorem
+interval interior_extremum_theorem
+
+# Rolle: EVT gives an interior extremum (unless f is constant); Fermat gives
+# f'(c)=0.  Needs differentiable => continuous for the endpoints.
+interior_extremum_theorem rolles_theorem
+extreme_value_theorem rolles_theorem
+differentiable_implies_continuous rolles_theorem
+
+# MVT: apply Rolle to f(x) - [secant line].
+rolles_theorem mean_value_theorem
+
+# Monotonicity from f': if f' >= 0 on an interval, MVT gives f(y)-f(x) = f'(c)(y-x) >= 0.
+mean_value_theorem monotonicity_from_derivative
+interval monotonicity_from_derivative
+
+# Cauchy MVT: apply Rolle to f(x)(g(b)-g(a)) - g(x)(f(b)-f(a)).
+rolles_theorem cauchy_mean_value_theorem
+
+# L'Hopital: Cauchy MVT on [c,x] rewrites f(x)/g(x) as f'(xi)/g'(xi).
+cauchy_mean_value_theorem lhopital_rule
+function_limit lhopital_rule
+
+# Taylor with Lagrange remainder: iterate Rolle / the MVT on an auxiliary
+# function; needs n-fold derivatives.
+mean_value_theorem taylor_theorem
+rolles_theorem taylor_theorem
+derivative taylor_theorem
+induction taylor_theorem
+
+# --- Riemann integration --------------------------------------------------
+
+# A partition is a finite increasing tuple spanning [a,b].
+interval partition
+real_number partition
+
+# A bounded function: the sup/inf on each subinterval must be real.
+function bounded_function
+absolute_value bounded_function
+
+# A monotone function on an interval.
+function monotone_function
+interval monotone_function
+
+# Darboux sums: sum of (sup or inf of f on the subinterval) times its width.
+partition darboux_sums
+bounded_function darboux_sums
+supremum darboux_sums
+infimum darboux_sums
+
+# Riemann integral: the common value of the infimum of upper sums and supremum
+# of lower sums, when equal.  Existence of those uses the lub axiom.
+darboux_sums riemann_integral
+supremum riemann_integral
+infimum riemann_integral
+lub_axiom riemann_integral
+
+# Riemann (Cauchy) criterion: integrable iff U(f,P)-L(f,P) can be made < eps.
+riemann_integral riemann_criterion
+partition riemann_criterion
+
+# Continuous => integrable: uniform continuity (Heine-Cantor) makes the
+# oscillation on a fine enough partition < eps/(b-a); apply the criterion.
+riemann_criterion continuous_implies_integrable
+heine_cantor continuous_implies_integrable
+continuity_on_set continuous_implies_integrable
+uniform_continuity continuous_implies_integrable
+
+# Monotone => integrable: on a uniform partition U-L telescopes to
+# (f(b)-f(a)) * (b-a)/n -> 0.
+riemann_criterion monotone_implies_integrable
+monotone_function monotone_implies_integrable
+
+# Linearity of the integral: additivity of sup/inf estimates over partitions,
+# plus scaling.
+riemann_integral linearity_of_integral
+riemann_criterion linearity_of_integral
+
+# Interval additivity: a partition of [a,b] through c splits every Darboux sum.
+riemann_integral interval_additivity
+partition interval_additivity
+
+# Monotonicity: f <= g makes every lower/upper sum of f <= that of g.
+riemann_integral integral_monotonicity
+
+# Integral MVT: (b-a) min f <= int f <= (b-a) max f, then IVT hits the average.
+continuous_implies_integrable integral_mvt
+intermediate_value_theorem integral_mvt
+extreme_value_theorem integral_mvt
+
+# FTC I: F(x) = int_a^x f; the difference quotient of F is an average of f over
+# [x, x+h], which -> f(x) by continuity of f (integral MVT / squeeze).
+riemann_integral ftc_part1
+continuity_at_point ftc_part1
+derivative ftc_part1
+integral_mvt ftc_part1
+interval_additivity ftc_part1
+
+# FTC II: for an antiderivative G, apply the MVT to G on each subinterval of a
+# partition; the sum telescopes to G(b)-G(a) and is squeezed between L and U.
+ftc_part1 ftc_part2
+mean_value_theorem ftc_part2
+riemann_criterion ftc_part2
+
+# Integration by parts: FTC II applied to (uv)' = u'v + uv'.
+ftc_part2 integration_by_parts
+differentiation_rules integration_by_parts
+
+# Substitution: FTC II applied to (F o g)' = (f o g) g' via the chain rule.
+ftc_part2 substitution_rule
+chain_rule substitution_rule
+
+# --- Sequences and series of functions ----------------------------------
+
+# Pointwise convergence: for each fixed x, the number sequence f_n(x) converges.
+sequence pointwise_convergence
+function pointwise_convergence
+sequence_convergence pointwise_convergence
+
+# Uniform convergence: the sup-norm of f_n - f goes to 0.
+pointwise_convergence uniform_convergence
+supremum uniform_convergence
+
+# Uniform Cauchy criterion: uniform convergence <=> uniformly Cauchy, via the
+# sequence Cauchy criterion applied to the sup-norm.
+uniform_convergence uniform_cauchy_criterion
+cauchy_convergence_criterion uniform_cauchy_criterion
+
+# Weierstrass M-test: partial sums are uniformly Cauchy because the tail is
+# bounded by the convergent tail of Sigma M_n.
+uniform_convergence weierstrass_m_test
+uniform_cauchy_criterion weierstrass_m_test
+comparison_test weierstrass_m_test
+
+# Uniform limit of continuous functions is continuous: the 3-epsilon argument.
+uniform_convergence uniform_limit_continuous
+continuity_on_set uniform_limit_continuous
+
+# Uniform convergence and integration: |int f_n - int f| <= (b-a) * sup|f_n-f|.
+uniform_convergence uniform_convergence_integral
+riemann_integral uniform_convergence_integral
+continuous_implies_integrable uniform_convergence_integral
+
+# Uniform convergence and differentiation: if f_n' -> g uniformly and f_n
+# converges at one point, then f_n -> f and f' = g (via the MVT on f_n - f_m).
+uniform_convergence uniform_convergence_derivative
+derivative uniform_convergence_derivative
+mean_value_theorem uniform_convergence_derivative
+
+# Power series: a series of monomials a_n (x-c)^n.
+series power_series
+real_number power_series
+
+# Radius of convergence: 1/R = limsup |a_n|^{1/n}; the root test gives absolute
+# convergence for |x-c| < R.
+power_series radius_of_convergence
+root_test radius_of_convergence
+limsup_liminf radius_of_convergence

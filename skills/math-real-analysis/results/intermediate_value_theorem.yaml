@@ -1,0 +1,49 @@
+id: continuity.intermediate_value_theorem
+node: intermediate_value_theorem
+status_label: nonconstructive_result
+display: 'If $f$ is continuous on $[a,b]$ and $y$ lies between $f(a)$ and $f(b)$, then $f(c)=y$ for some $c\in[a,b]$.'
+parseable: 'continuousOn(f,[a,b]) and between(y, f a, f b) -> exists c in [a,b], f c = y'
+symbols:
+  f: { meaning: a real function on [a,b], type: function }
+  y: { meaning: an intermediate value, type: real }
+  c: { meaning: a point where f attains y, type: real }
+type_check_status: well_formed
+hypotheses: [continuity_on_closed_interval]
+preconditions: [a_le_b]
+dependencies: [continuity_on_set, lub_axiom, interval]
+proof:
+  technique: >-
+    WLOG f(a) < y < f(b). Let c = sup{x in [a,b] : f(x) < y} (nonempty, bounded
+    above -> lub_axiom). Continuity at c rules out f(c) < y (else points just
+    right of c are still < y) and f(c) > y (else points just left are > y), so
+    f(c) = y.
+  derives_from: lub_axiom
+  lean_status: none
+  lean_ref: null
+uses_choice: false
+constructive: false
+constructive_note: >-
+  The location of c is not computable in general (a computable f can have all
+  roots at noncomputable reals). If f is strictly monotone near the crossing,
+  bisection converges and the result is effectively constructive.
+solving_for: null
+specialization_cases:
+  - 'f(x) = x^2 - 2 on [1,2]: f(1) = -1 < 0 < 2 = f(2); bisection -> sqrt(2) (instance-checks.bc)'
+  - 'any odd-degree real polynomial has a real root'
+  - 'a continuous f : [0,1] -> [0,1] has a fixed point (apply IVT to f(x) - x)'
+counterexamples_when_dropped:
+  continuity_on_set: 'step function 0 on [1,1.5), 1 on [1.5,2] never takes 0.5'
+  connected_domain: 'f(x) = 1/x on [-1,0) U (0,1] takes -1 and 1 but never 0'
+common_misuse:
+  - 'concluding f is injective or monotone'
+  - 'expecting a unique c'
+  - 'using it to locate the root numerically without a monotonicity/bracketing guarantee'
+related:
+  proved_using: 'continuous_image_of_connected -> connected_iff_interval (alt topological route)'
+sources: [rudin_principles_3e, abbott_understanding_2e, bartle_sherbert_4e]
+status: reviewed
+checks:
+  type: validation/type-checks.md#intermediate_value_theorem
+  specialization: validation/specialization-cases.md#intermediate_value_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md
