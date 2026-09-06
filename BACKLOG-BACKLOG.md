@@ -209,6 +209,22 @@ charter → principles → workflow → guardrails → `verification/` shape six
 | `capsule-maintenance` | updating a knowledge capsule when a node changes — impact analysis on the `tsort` graph, re-validation scope, version bumps | change a node in a fixture capsule; the tool must identify exactly the affected downstream | plausible |
 | `cross-capsule-linking` | discharging one capsule's primitives against another's developed nodes (the `math-*` stack does this by hand — see `BACKLOG.md`) | fixture capsule pair; edges must stay acyclic and every primitive covered | plausible |
 
+## Cross-domain bridges
+
+A `bridge`-archetype capsule connects the *developed nodes* of two or three
+existing capsules and encodes the identifications, equivalences, and
+regime-of-validity conditions between them. Roots are **imported** from the
+capsules it joins — so a bridge is only worth building once ≥2 of its endpoints
+exist. Named for the *correspondence*, never for a spanning quantity (an
+"entropy" capsule would be an unbounded magnet; the method wants one bounded
+domain).
+
+| Candidate | One line | Verify | Confidence |
+|---|---|---|---|
+| `entropy-bridge` | Clausius ↔ Boltzmann/Gibbs ↔ Shannon entropy: `S = k_B ln Ω`, the Gibbs/Shannon shared form, **Landauer's principle** (`k_B T ln 2` per bit), Maxwell's demon / Szilard engine, fluctuation theorems, the second law as an information statement — with each identity's assumptions (equilibrium, equal a priori probabilities) explicit | `bc` for Shannon `H`, `KL ≥ 0`, Sackur–Tetrode, Landauer energy; Lean instance checks for the Gibbs/Jensen concavity core | needs-endpoints (wait for `math-probability` / `math-information-theory` / `physics-statistical-mechanics`) |
+| `least-action-bridge` | the variational thread across `physics-newtonian` (F=ma) → Lagrangian → Hamiltonian → optics (Fermat) → (later) field theory; `δS = 0` as the common root | `bc` on the Euler–Lagrange reduction for the pendulum / projectile; Lean for the `d/dt (∂L/∂q̇) − ∂L/∂q = 0 ⇔ F = ma` algebra | needs-endpoints (wait for a Lagrangian-mechanics capsule) |
+| `symmetry-conservation-bridge` | Noether's theorem as the link between `physics-newtonian`'s conservation laws and continuous symmetries (time → energy, translation → momentum, rotation → angular momentum) | `bc` on the explicit invariance → conserved-quantity computation for each; instance checks in Lean | needs-endpoints |
+
 ## Human-facing lane
 
 `formula-tree-tutorial` already crossed the line from "instruct an agent" to
