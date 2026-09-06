@@ -8,3 +8,7 @@ skills/*/build/*.out
 skills/*/build/*.edges
 skills/*/edges/dependencies.edges
 skills/*/validation/tsort-errors.txt
+
+# Python bytecode
+__pycache__/
+*.pyc
