@@ -69,7 +69,27 @@ Format:
       skill's step-9 "design the experiment" could point at this skill's
       `references/simulation-doe.md` instead of restating.
 
+## unknown-discovery
+
+- [ ] **unknown-discovery:** cross-link — step 6 hands off to `simulation`,
+      `design-of-experiments`, `control-systems`, `tla-checker`/`lean`; their
+      charters could point back at `templates/assumption-register.md` for the
+      assumption / hypothesis registers instead of restating.
+- [ ] **unknown-discovery:** worked end-to-end example — take one messy decision
+      (capacity commitment or a post-release metric drop) through steps 1–9:
+      charter → epistemic map → ranked assumptions → premortem + ACH → signal
+      cards → VoI-ranked backlog → forecast ledger → monitoring plan; `check.py`
+      recomputes the EVPI / Brier / diagnosticity claims, wired into `run.sh`.
+
 ## Done
+
+- [x] **unknown-discovery:** new skill — SKILL.md + 6 references
+      (epistemic-map-and-assumptions, alternatives-and-challenge,
+      signals-and-surprise, probes-and-value-of-information,
+      forecasting-and-calibration, governance-and-failure-modes) + 3 templates
+      (discovery-charter, assumption-register, discovery-report) + `verification/`
+      (EVPI in `bc`; Monte-Carlo calibration / Brier floor; ACH diagnosticity;
+      residual regime-shift masking; `P = I·U·(1−R)·D` triage); `sh run.sh` green.  (2026-09-06)
 
 - [x] **visualization-design:** new skill — SKILL.md + 7 references
       (visual-selection, graphical-integrity, perception-and-hierarchy,

@@ -1,0 +1,39 @@
+/* Value-of-information / EVPI on a two-action, two-state decision.
+   States: s1 (demand high) p = 0.30 ; s2 (demand low) 0.70
+   Actions: a1 = build capacity ; a2 = do not build
+   Payoffs v(action, state):                                        */
+scale = 6
+p = 0.30
+
+va1s1 = 100 ; va1s2 = -40
+va2s1 = -30 ; va2s2 = 20
+
+/* expected value of each fixed action under current belief */
+ea1 = p*va1s1 + (1-p)*va1s2
+ea2 = p*va2s1 + (1-p)*va2s2
+"E[a1]            = " ; ea1
+"E[a2]            = " ; ea2
+
+valuenow = ea1
+if (ea2 > ea1) valuenow = ea2
+"value_now        = " ; valuenow          /* expect 5 */
+
+/* expected value if the true state were known before acting */
+bests1 = va1s1 ; if (va2s1 > va1s1) bests1 = va2s1
+bests2 = va1s2 ; if (va2s2 > va1s2) bests2 = va2s2
+valueperfect = p*bests1 + (1-p)*bests2
+"value_perfect    = " ; valueperfect      /* expect 44 */
+
+evpi = valueperfect - valuenow
+"evpi             = " ; evpi              /* expect 39 */
+
+/* a probe that costs more than EVPI is not worth running */
+probecost = 45
+"probe_cost       = " ; probecost
+worth = 0 ; if (evpi > probecost) worth = 1
+"probe_worthwhile = " ; worth             /* expect 0 : do not probe, act + monitor */
+
+/* EVPI is never negative, and never more than the regret of the worse action */
+worstfixed = ea1 ; if (ea2 < ea1) worstfixed = ea2
+"evpi_nonneg      = " ; (evpi >= 0)                  /* expect 1 */
+"evpi_bounded     = " ; (evpi <= valueperfect - worstfixed)  /* expect 1 */
