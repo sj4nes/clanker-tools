@@ -1,0 +1,52 @@
+/* Analytic checks for the control-systems verification run.
+   Run with:  bc -q -l checks.bc
+   `bc` truncates; identifiers are lowercase, no `_` or single uppercase letters. */
+
+scale = 8
+
+wn = 1.0
+zeta = 0.2
+
+/* --- 1. open-loop poles: s^2 + 2 zeta wn s + wn^2 --- */
+a1 = 2 * zeta * wn
+a0 = wn * wn
+print "open-loop  a1 = ", a1, "  a0 = ", a0, "\n"
+disc = a1*a1 - 4*a0
+print "open-loop  discriminant = ", disc, "  (negative => underdamped, complex poles)\n"
+reol = -a1/2
+print "open-loop  Re(pole) = ", reol, "  (should be -", zeta*wn, ", stable but lightly damped)\n"
+
+/* --- 2. state feedback u = -[k1 k2] x, place a1_cl, a0_cl --- */
+/* target: wn_cl = 2.0, zeta_cl = 0.8  => a1_cl = 2*zeta_cl*wn_cl, a0_cl = wn_cl^2 */
+wncl = 2.0
+zetacl = 0.8
+a1cl = 2 * zetacl * wncl
+a0cl = wncl * wncl
+/* B gain is wn^2 (g = 1): a1_cl = 2 zeta wn + wn^2 k2 ; a0_cl = wn^2 + wn^2 k1 */
+k2 = (a1cl - 2*zeta*wn) / (wn*wn)
+k1 = (a0cl - wn*wn) / (wn*wn)
+print "state fb   K = [ ", k1, " ", k2, " ]\n"
+print "closed a1 = ", a1cl, "  a0 = ", a0cl, "\n"
+
+/* --- 3. Routh-Hurwitz for the 2nd-order closed loop: stable iff a1>0 and a0>0 --- */
+if (a1cl > 0 && a0cl > 0) {
+    print "Routh-Hurwitz: a1 > 0 and a0 > 0  => closed loop asymptotically stable\n"
+} else {
+    print "Routh-Hurwitz: FAIL\n"
+}
+
+/* --- 4. discrete stability bound: forward-Euler of s = -p needs Ts < 2/p --- */
+/* dominant closed-loop pole magnitude ~ wn_cl ; a crude loop-rate ceiling */
+tsmax = 2 / wncl
+print "crude explicit-discretisation ceiling: Ts < ", tsmax, " s  (2 / wn_cl)\n"
+print "  -> Ts = 0.05 s is well inside; Ts = 0.8 s is far outside (expect divergence)\n"
+
+/* --- 5. controllability / observability determinants (2x2) --- */
+/* Cm = [B  AB], B = [0 ; wn^2], AB = [wn^2 ; -2 zeta wn * wn^2] */
+detc = 0 * (-2*zeta*wn*wn*wn) - (wn*wn)*(wn*wn)
+print "det(controllability) = ", detc, "  (nonzero => controllable)\n"
+/* Om = [C ; C A], C = [1 0], CA = [0 1] */
+deto = 1*1 - 0*0
+print "det(observability)   = ", deto, "  (nonzero => observable)\n"
+
+quit
