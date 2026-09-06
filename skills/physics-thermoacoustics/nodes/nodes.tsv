@@ -1,0 +1,105 @@
+id	type	title	domain	status	knowledge_level	primary_formula
+real_numbers	primitive	Real numbers	math	reviewed	foundation	-
+complex_numbers	math_definition	Complex numbers	math	reviewed	foundation	z = a + i b
+phasor_notation	convention	Phasor / time-harmonic notation	math	reviewed	foundation	q(x,t) = Re[q1(x) e^{i w t}]
+derivative	math_definition	Derivative	math	reviewed	foundation	df/dx
+partial_derivative	math_definition	Partial derivative	math	reviewed	foundation	df/dx at fixed t
+integral	math_definition	Integral	math	reviewed	foundation	int f dx
+ordinary_differential_equation	math_definition	Ordinary differential equation	math	reviewed	foundation	-
+time_average	math_definition	Cycle time-average	math	reviewed	foundation	<AB> = 1/2 Re[A1 B1*]
+SI_units	convention	SI unit system with kelvin	cross_domain	reviewed	foundation	-
+dimension_analysis	diagnostic	Dimensional consistency	cross_domain	reviewed	foundation	[LHS]=[RHS]
+time	primitive	Time	cross_domain	reviewed	foundation	-
+position	primitive	Axial position x	cross_domain	reviewed	foundation	-
+mean_pressure	physical_definition	Mean pressure p_m	thermo	reviewed	foundation	-
+mean_density	physical_definition	Mean density rho_m	thermo	reviewed	foundation	-
+mean_temperature	physical_definition	Mean temperature T_m	thermo	reviewed	foundation	-
+velocity_field	physical_definition	Velocity field	fluids	reviewed	foundation	u(x,t)
+ideal_gas	assumption	Ideal-gas working fluid	thermo	reviewed	foundation	-
+gas_constant_specific	physical_definition	Specific gas constant R	thermo	reviewed	foundation	-
+ideal_gas_law	constitutive_relation	Ideal-gas equation of state	thermo	reviewed	core	p = rho R T
+specific_heat_cp	physical_definition	Isobaric specific heat c_p	thermo	reviewed	foundation	-
+specific_heat_cv	physical_definition	Isochoric specific heat c_v	thermo	reviewed	foundation	-
+heat_capacity_ratio	derived_formula	Heat-capacity ratio gamma	thermo	reviewed	core	gamma = c_p / c_v ; c_p - c_v = R
+first_law_thermodynamics	principle_law	First law of thermodynamics	thermo	reviewed	core	dU = dQ - dW
+second_law_thermodynamics	principle_law	Second law of thermodynamics	thermo	reviewed	core	dS >= dQ / T
+entropy	physical_definition	Specific entropy s	thermo	reviewed	foundation	-
+adiabatic_process	principle_law	Adiabatic process	thermo	reviewed	foundation	dQ = 0
+isothermal_process	physical_definition	Isothermal process	thermo	reviewed	foundation	dT = 0
+thermal_expansion_coefficient	physical_definition	Thermal expansion coefficient beta	thermo	reviewed	foundation	beta = -(1/rho)(d rho/d T)_p
+thermal_expansion_ideal_gas	derived_formula	Thermal expansion of an ideal gas	thermo	reviewed	core	beta = 1 / T_m
+carnot_efficiency	derived_formula	Carnot efficiency	thermo	reviewed	core	eta_C = 1 - T_C / T_H
+carnot_cop	derived_formula	Carnot coefficient of performance	thermo	reviewed	core	COP_C = T_C / (T_H - T_C)
+dynamic_viscosity	physical_definition	Dynamic viscosity mu	fluids	reviewed	foundation	-
+kinematic_viscosity	derived_formula	Kinematic viscosity nu	fluids	reviewed	core	nu = mu / rho_m
+thermal_conductivity	physical_definition	Thermal conductivity k	thermo	reviewed	foundation	-
+thermal_diffusivity	derived_formula	Thermal diffusivity alpha	thermo	reviewed	core	alpha = k / (rho_m c_p)
+prandtl_number	derived_formula	Prandtl number	fluids	reviewed	core	Pr = nu / alpha = mu c_p / k
+laminar_flow	assumption	Laminar oscillatory flow	fluids	reviewed	foundation	-
+small_amplitude	assumption	Small acoustic amplitude	acoustics	reviewed	foundation	Ma << 1
+acoustic_mach_number	derived_formula	Acoustic Mach number	acoustics	reviewed	foundation	Ma = |u1| / a
+time_harmonic	assumption	Single-frequency steady oscillation	acoustics	reviewed	foundation	-
+linearization	regime_limit	Acoustic linearization	acoustics	reviewed	core	first order in amplitude
+acoustic_pressure	physical_definition	Acoustic pressure p1	acoustics	reviewed	core	p = p_m + Re[p1 e^{i w t}]
+acoustic_velocity	physical_definition	Acoustic velocity u1	acoustics	reviewed	core	-
+acoustic_density	physical_definition	Acoustic density rho1	acoustics	reviewed	foundation	-
+angular_frequency	physical_definition	Angular frequency omega	acoustics	reviewed	foundation	-
+wavenumber	physical_definition	Wavenumber	acoustics	reviewed	foundation	-
+wavelength	derived_formula	Wavelength	acoustics	reviewed	foundation	lambda = 2 pi / k
+frequency	derived_formula	Frequency	acoustics	reviewed	foundation	f = omega / (2 pi)
+linearized_continuity	principle_law	Linearized continuity equation	acoustics	reviewed	core	d rho1/dt + rho_m div u1 = 0
+linearized_euler	principle_law	Linearized Euler (momentum) equation	acoustics	reviewed	core	rho_m d u1/dt = - grad p1
+adiabatic_sound_speed	derived_formula	Adiabatic sound speed	acoustics	reviewed	core	a = sqrt(gamma R T_m)
+acoustic_wave_equation	derived_formula	Acoustic wave equation	acoustics	reviewed	core	d2 p1/dt2 = a^2 d2 p1/dx2
+dispersion_relation	derived_formula	Acoustic dispersion relation	acoustics	reviewed	core	omega = a k
+plane_wave	derived_formula	Plane travelling wave solution	acoustics	reviewed	core	p1 = P e^{i(w t - k x)}
+characteristic_impedance	derived_formula	Characteristic impedance	acoustics	reviewed	core	z0 = rho_m a
+specific_acoustic_impedance	physical_definition	Specific acoustic impedance	acoustics	reviewed	core	z = p1 / u1
+volume_flow_rate	physical_definition	Acoustic volume flow rate U1	acoustics	reviewed	core	U1 = u1 A
+standing_wave	derived_formula	Standing wave	acoustics	reviewed	core	p1 = P cos(k x)
+travelling_wave	derived_formula	Travelling wave	acoustics	reviewed	core	p1 = P e^{-i k x}
+acoustic_resonator	physical_definition	Acoustic resonator	acoustics	reviewed	core	quarter- / half-wavelength
+acoustic_power	derived_formula	Time-averaged acoustic power	acoustics	reviewed	core	Wdot = 1/2 Re[p1 U1*]
+standing_wave_phasing	regime_limit	Standing-wave phasing	thermoacoustics	reviewed	core	p1, U1 90 deg out of phase
+travelling_wave_phasing	regime_limit	Travelling-wave phasing	thermoacoustics	reviewed	core	p1, U1 in phase
+no_mean_flow	assumption	No time-averaged mass flow	thermoacoustics	reviewed	foundation	streaming neglected
+rigid_isothermal_wall	assumption	Wall with large heat capacity	thermoacoustics	reviewed	foundation	T_wall = T_m(x)
+cross_sectional_uniformity	assumption	Uniform channel cross-section	thermoacoustics	reviewed	foundation	-
+thermal_penetration_depth	derived_formula	Thermal penetration depth	thermoacoustics	reviewed	core	delta_kappa = sqrt(2 alpha / omega)
+viscous_penetration_depth	derived_formula	Viscous penetration depth	thermoacoustics	reviewed	core	delta_nu = sqrt(2 nu / omega)
+penetration_depth_ratio	derived_formula	Penetration-depth ratio	thermoacoustics	reviewed	core	delta_nu / delta_kappa = sqrt(Pr)
+hydraulic_radius	physical_definition	Hydraulic radius	thermoacoustics	reviewed	core	r_h = A_gas / Perimeter
+stack_regime	regime_limit	Stack regime	thermoacoustics	reviewed	core	r_h >~ delta_kappa
+regenerator_regime	regime_limit	Regenerator regime	thermoacoustics	reviewed	core	r_h << delta_kappa
+mean_temperature_gradient	physical_definition	Imposed mean temperature gradient	thermoacoustics	reviewed	core	dT_m/dx
+linearized_navier_stokes	principle_law	Linearized Navier-Stokes with a wall	thermoacoustics	reviewed	core	rho_m dt u1 = - dx p1 + mu d2y u1
+linearized_energy_equation	principle_law	Linearized energy equation with a wall	thermoacoustics	reviewed	core	rho_m c_p dt T1 = dt p1 + k d2y T1 - rho_m c_p u1 dT_m/dx
+thermoacoustic_function_fnu	derived_formula	Viscous thermoacoustic function f_nu	thermoacoustics	draft	core	f_nu(delta_nu, r_h) complex
+thermoacoustic_function_fkappa	derived_formula	Thermal thermoacoustic function f_kappa	thermoacoustics	draft	core	f_kappa(delta_kappa, r_h) complex
+boundary_layer_limit_f	regime_limit	Boundary-layer limit of the f functions	thermoacoustics	draft	core	f_j ~ (1 - i) delta_j / (2 r_h)
+rott_momentum_equation	derived_formula	Rott momentum equation	thermoacoustics	reviewed	core	dx p1 = - i omega rho_m / (A (1 - f_nu)) U1
+rott_continuity_equation	derived_formula	Rott continuity equation	thermoacoustics	draft	core	dx U1 = - i omega A [1 + (g-1) f_kappa] / (g p_m) p1 + G_T U1
+rott_wave_equation	derived_formula	Rott thermoacoustic wave equation	thermoacoustics	draft	core	second-order ODE for p1(x)
+gas_parcel_cycle	bridge	Lagrangian gas-parcel cycle	thermoacoustics	reviewed	core	displace - compress - heat - expand
+total_energy_flux	derived_formula	Total energy flux Hdot2	thermoacoustics	draft	core	Hdot2 = Wdot2 + Qdot2
+thermoacoustic_heat_flux	derived_formula	Thermoacoustic heat flux Qdot2	thermoacoustics	draft	core	Qdot2 ~ -1/2 rho_m c_p Re[<u1 T1*>] A
+acoustic_power_gradient	derived_formula	Acoustic power gradient	thermoacoustics	draft	core	dWdot2/dx
+critical_temperature_gradient	derived_formula	Critical temperature gradient	thermoacoustics	reviewed	core	gradT_crit = omega |p1| / (rho_m c_p |u1|)
+temperature_gradient_ratio	derived_formula	Temperature-gradient ratio Gamma	thermoacoustics	reviewed	core	Gamma = gradT_m / gradT_crit
+short_stack_approximation	regime_limit	Short-stack approximation	thermoacoustics	reviewed	core	stack short vs wavelength; p1, U1 ~ const
+short_stack_acoustic_power	derived_formula	Short-stack acoustic power	thermoacoustics	draft	core	dWdot2 proportional to (Gamma - 1)
+short_stack_heat_flux	derived_formula	Short-stack heat flux	thermoacoustics	draft	core	Qdot2 proportional to |p1||u1| cos(phase)
+dissipation_mechanisms	bridge	Viscous and thermal-relaxation dissipation	thermoacoustics	reviewed	core	-
+entropy_generation	bridge	Entropy generation rate	thermoacoustics	reviewed	core	Sdot_gen >= 0
+ceperley_travelling_wave	bridge	Ceperley travelling-wave Stirling cycle	thermoacoustics	reviewed	core	regenerator sees near-reversible Stirling cycle
+acoustic_impedance_matching	regime_limit	High-impedance regenerator condition	thermoacoustics	reviewed	core	|z| >> rho_m a to cut viscous loss
+feedback_torus	physical_definition	Travelling-wave feedback loop	thermoacoustics	reviewed	core	toroidal acoustic network
+oscillation_onset	derived_formula	Engine oscillation onset	thermoacoustics	reviewed	core	acoustic gain = losses
+standing_wave_engine	example	Standing-wave engine (prime mover)	thermoacoustics	reviewed	core	Gamma > 1
+standing_wave_refrigerator	example	Standing-wave refrigerator	thermoacoustics	reviewed	core	Gamma < 1, work in
+travelling_wave_engine	example	Travelling-wave (Stirling) engine	thermoacoustics	reviewed	core	regenerator + torus
+travelling_wave_refrigerator	example	Travelling-wave (Stirling) refrigerator	thermoacoustics	reviewed	core	acoustic work pumps heat in a regenerator
+thermoacoustic_efficiency	derived_formula	Thermoacoustic engine efficiency	thermoacoustics	reviewed	core	eta = Wdot / Qdot_H
+thermoacoustic_cop	derived_formula	Thermoacoustic refrigerator COP	thermoacoustics	reviewed	core	COP = Qdot_C / Wdot
+carnot_limit	bridge	Carnot limit on thermoacoustic performance	thermoacoustics	reviewed	core	eta <= eta_C ; COP <= COP_C
+relative_carnot_performance	derived_formula	Relative-to-Carnot performance	thermoacoustics	reviewed	core	eta_rel = eta / eta_C

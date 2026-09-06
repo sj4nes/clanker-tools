@@ -214,4 +214,22 @@ echo "build-tree: ok ($(wc -l < indexes/tsort-order.txt) ordered nodes)"
 ```
 
 Isolated/root nodes are merged into presentation views by a controlled append —
-never by adding a fake prerequisite edge to force them into `tsort` output.
+never by adding a fake prerequisite edge to force them into `tsort` output. An
+assumption/regime node showing up isolated usually means a real missing edge —
+that formula *does* depend on the assumption; add it rather than shrugging.
+
+## View generators
+
+Keep the index generators as small committed scripts under `build/` (e.g.
+`gen-symbol-index.sh`, `gen-assumption-index.sh`). Derive their inputs from the
+registry, not hard-coded lists — e.g. the assumption index iterates the node ids
+whose `type` is `assumption` or `regime_limit`:
+
+```sh
+awk -F '\t' 'NR>1 && ($2=="assumption" || $2=="regime_limit") { print $1 }' nodes/nodes.tsv
+```
+
+so the view stays correct as nodes are added. The symbol index is a `ptx`
+discovery pass followed by a whole-token confirmation against each
+`## node — statement` line; keep every formula's one-line statement *on that
+header line* so it is indexed (a formula parked on the next line is missed).

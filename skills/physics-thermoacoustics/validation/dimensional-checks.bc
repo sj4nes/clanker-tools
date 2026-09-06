@@ -1,0 +1,89 @@
+/* Dimensional consistency checks, Release 0.1.
+ * Base dimensions (M, L, T, Theta) as exponent quadruples. A formula is
+ * consistent iff LHS exponents == RHS exponents component-wise.
+ * Run:  bc -q -l validation/dimensional-checks.bc
+ * bc has no vectors and no uppercase names: each quantity q is four lowercase
+ * scalars  qm ql qt qh  and each check prints "0 0 0 0" for LHS-RHS.
+ */
+scale = 0
+
+/* mean state */
+presm=1; presl=-1; prest=-2; presh=0    /* pressure       M L^-1 T^-2       */
+densm=1; densl=-3; denst=0;  densh=0    /* density        M L^-3           */
+tempm=0; templ=0;  tempt=0;  temph=1    /* temperature    Theta            */
+/* specific gas constant / specific heats:  J/(kg K) = L^2 T^-2 Theta^-1 */
+rgasm=0; rgasl=2;  rgast=-2; rgash=-1
+cpm=0;   cpl=2;    cpt=-2;   cph=-1
+/* transport */
+viscm=1; viscl=-1; visct=-1; visch=0    /* dynamic visc   M L^-1 T^-1      */
+kthm=1;  kthl=1;   ktht=-3;  kthh=-1    /* therm cond     M L T^-3 Theta^-1 */
+kinm=0;  kinl=2;   kint=-1;  kinh=0     /* nu or alpha    L^2 T^-1         */
+/* acoustics */
+omgm=0;  omgl=0;   omgt=-1;  omgh=0     /* angular freq   T^-1            */
+wnm=0;   wnl=-1;   wnt=0;    wnh=0      /* wavenumber     L^-1            */
+spdm=0;  spdl=1;   spdt=-1;  spdh=0     /* sound speed    L T^-1          */
+velm=0;  vell=1;   velt=-1;  velh=0     /* velocity       L T^-1          */
+impm=1;  impl=-2;  impt=-1;  imph=0     /* spec ac imped  M L^-2 T^-1     */
+vfrm=0;  vfrl=3;   vfrt=-1;  vfrh=0     /* volume flow    L^3 T^-1        */
+pwrm=1;  pwrl=2;   pwrt=-3;  pwrh=0     /* power / flux   M L^2 T^-3      */
+lenm=0;  lenl=1;   lent=0;   lenh=0     /* length         L              */
+gradm=0; gradl=-1; gradt=0;  gradh=1    /* temp gradient  Theta L^-1     */
+t1m=0;   t1l=0;    t1t=0;    t1h=1      /* acoustic temp  Theta          */
+
+define p4(nm, nl, nt, nh) {
+  print nm, " ", nl, " ", nt, " ", nh, "\n"
+}
+
+print "check (LHS - RHS exponents, want 0 0 0 0):\n"
+
+print "p = rho R T      : "
+dd=p4(presm-(densm+rgasm+tempm), presl-(densl+rgasl+templ), prest-(denst+rgast+tempt), presh-(densh+rgash+temph))
+print "c_p - c_v = R    : "
+dd=p4(cpm-rgasm, cpl-rgasl, cpt-rgast, cph-rgash)          /* c_v has same dims as c_p and R */
+print "beta = 1 / T_m   : "                             /* [beta] = Theta^-1 */
+dd=p4(0-0, 0-0, 0-0, (-1)-(-temph))
+print "nu = mu / rho    : "
+dd=p4(kinm-(viscm-densm), kinl-(viscl-densl), kint-(visct-denst), kinh-(visch-densh))
+print "alpha = k/(rho cp): "
+dd=p4(kinm-(kthm-densm-cpm), kinl-(kthl-densl-cpl), kint-(ktht-denst-cpt), kinh-(kthh-densh-cph))
+print "Pr = nu / alpha   : "
+dd=p4(0, 0, 0, 0)                                            /* ratio of equal dims -> dimensionless */
+print "a = sqrt(g R T)   : "                             /* 2*a = R + T  */
+dd=p4(2*spdm-(rgasm+tempm), 2*spdl-(rgasl+templ), 2*spdt-(rgast+tempt), 2*spdh-(rgash+temph))
+print "omega = a k       : "
+dd=p4(omgm-(spdm+wnm), omgl-(spdl+wnl), omgt-(spdt+wnt), omgh-(spdh+wnh))
+print "lambda = 2pi / k  : "
+dd=p4(lenm-(-wnm), lenl-(-wnl), lent-(-wnt), lenh-(-wnh))
+print "z0 = rho a        : "
+dd=p4(impm-(densm+spdm), impl-(densl+spdl), impt-(denst+spdt), imph-(densh+spdh))
+print "delta = sqrt(2 kin/omega): "                      /* 2*len = kin - omega */
+dd=p4(2*lenm-(kinm-omgm), 2*lenl-(kinl-omgl), 2*lent-(kint-omgt), 2*lenh-(kinh-omgh))
+print "U1 = u1 A         : "
+dd=p4(vfrm-(velm+0), vfrl-(vell+2), vfrt-(velt+0), vfrh-(velh+0))
+print "Wdot = p1 U1      : "
+dd=p4(pwrm-(presm+vfrm), pwrl-(presl+vfrl), pwrt-(prest+vfrt), pwrh-(presh+vfrh))
+print "dp1/dx = w rho/A U1: "                            /* (omega*dens/L^2)*vfr */
+dd=p4((presm-lenm)-(omgm+densm-0+vfrm), (presl-lenl)-(omgl+densl-2+vfrl), (prest-lent)-(omgt+denst-0+vfrt), (presh-lenh)-(omgh+densh-0+vfrh))
+print "gradT_crit = w p1/(rho cp u1): "
+dd=p4(gradm-(omgm+presm-densm-cpm-velm), gradl-(omgl+presl-densl-cpl-vell), gradt-(omgt+prest-denst-cpt-velt), gradh-(omgh+presh-densh-cph-velh))
+print "Qdot2 = rho cp <u1 T1> A: "
+dd=p4(pwrm-(densm+cpm+velm+t1m+0), pwrl-(densl+cpl+vell+t1l+2), pwrt-(denst+cpt+velt+t1t+0), pwrh-(densh+cph+velh+t1h+0))
+
+print "\ndimensionless quantities (want 0 0 0 0):\n"
+print "Ma = |u1| / a     : "
+dd=p4(velm-spdm, vell-spdl, velt-spdt, velh-spdh)
+print "eta_C = 1 - Tc/Th  : "
+dd=p4(temph-temph, temph-temph, temph-temph, temph-temph)
+print "delta_nu/delta_k = sqrt(pr): "
+dd=p4(0,0,0,0)
+
+print "\nspecial cases:\n"
+scale = 6
+print "short-stack dW/dx at Gamma=1  (prop. to Gamma-1): ", 1 - 1, "  (want 0)\n"
+print "standing wave  Re[p1 U1*], p1=(5,0) U1=(0,7): ", 5*0 + 0*7, "  (want 0 -> no net acoustic power)\n"
+print "travelling wave Re[p1 U1*], p1=(5,0) U1=(2,0): ", 5*2 + 0*0, "  (want 10 -> power transported)\n"
+pr = 0.71
+print "air: delta_nu/delta_kappa = sqrt(0.71) = ", sqrt(pr), "\n"
+tc = 300; th = 600
+print "Carnot Tc=300 Th=600: eta_C = ", 1 - tc/th, " ; COP_C(cool) = ", tc/(th-tc), " ; (1-eta_C)/eta_C = ", (1-(1-tc/th))/(1-tc/th), "\n"
+quit

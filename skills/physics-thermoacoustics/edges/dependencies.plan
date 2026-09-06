@@ -1,0 +1,336 @@
+# Release 0.1 prerequisite edges. Each block: plain-language justification (the
+# physics-formula-tree edge test) then the edge(s). Comments/blanks are stripped
+# to dependencies.edges before tsort. Node ids must match nodes/nodes.tsv exactly
+# (note: "travelling" spelling).
+
+# ================= math & conventions =================
+# Complex numbers are built on the reals; phasor notation is a use of them.
+real_numbers complex_numbers
+complex_numbers phasor_notation
+time phasor_notation
+# The cycle time-average is an integral of a product of phasors over one period.
+integral time_average
+phasor_notation time_average
+complex_numbers time_average
+# Partial derivatives presuppose the ordinary derivative.
+derivative partial_derivative
+# An ODE is an equation in derivatives of one variable.
+derivative ordinary_differential_equation
+# Dimensional analysis is a check expressed in the SI base dimensions.
+SI_units dimension_analysis
+
+# ================= ideal gas & thermodynamics =================
+# The equation of state relates the mean thermodynamic variables of an ideal gas.
+ideal_gas ideal_gas_law
+mean_pressure ideal_gas_law
+mean_density ideal_gas_law
+mean_temperature ideal_gas_law
+gas_constant_specific ideal_gas_law
+SI_units ideal_gas_law
+# gamma and Mayer's relation connect the two specific heats and R.
+specific_heat_cp heat_capacity_ratio
+specific_heat_cv heat_capacity_ratio
+gas_constant_specific heat_capacity_ratio
+ideal_gas heat_capacity_ratio
+# Entropy and the second law presuppose the first law and temperature.
+first_law_thermodynamics second_law_thermodynamics
+first_law_thermodynamics entropy
+mean_temperature entropy
+second_law_thermodynamics entropy
+# An adiabatic process is one with no heat exchange; isothermal one at fixed T.
+first_law_thermodynamics adiabatic_process
+mean_temperature isothermal_process
+# Thermal expansion coefficient; for an ideal gas it evaluates to 1/T_m.
+mean_density thermal_expansion_coefficient
+mean_temperature thermal_expansion_coefficient
+partial_derivative thermal_expansion_coefficient
+thermal_expansion_coefficient thermal_expansion_ideal_gas
+ideal_gas_law thermal_expansion_ideal_gas
+mean_temperature thermal_expansion_ideal_gas
+# Carnot bounds come from the second law applied to a reversible cycle.
+second_law_thermodynamics carnot_efficiency
+mean_temperature carnot_efficiency
+second_law_thermodynamics carnot_cop
+mean_temperature carnot_cop
+
+# ================= transport properties =================
+dynamic_viscosity kinematic_viscosity
+mean_density kinematic_viscosity
+thermal_conductivity thermal_diffusivity
+mean_density thermal_diffusivity
+specific_heat_cp thermal_diffusivity
+kinematic_viscosity prandtl_number
+thermal_diffusivity prandtl_number
+
+# ================= linear acoustics =================
+# Linearization: expand the flow variables to first order in a small amplitude.
+small_amplitude linearization
+time_harmonic linearization
+phasor_notation linearization
+# Acoustic Mach number is the smallness parameter of the expansion.
+acoustic_velocity acoustic_mach_number
+adiabatic_sound_speed acoustic_mach_number
+# The first-order fields are the linearization of pressure / velocity / density.
+linearization acoustic_pressure
+mean_pressure acoustic_pressure
+linearization acoustic_velocity
+velocity_field acoustic_velocity
+linearization acoustic_density
+mean_density acoustic_density
+# Frequency / wavenumber / wavelength of the harmonic field.
+time_harmonic angular_frequency
+angular_frequency frequency
+position wavenumber
+wavenumber wavelength
+# Linearized balances of mass and momentum for an inviscid gas.
+linearization linearized_continuity
+mean_density linearized_continuity
+acoustic_density linearized_continuity
+acoustic_velocity linearized_continuity
+partial_derivative linearized_continuity
+linearization linearized_euler
+mean_density linearized_euler
+acoustic_velocity linearized_euler
+acoustic_pressure linearized_euler
+partial_derivative linearized_euler
+# Adiabatic sound speed: the acoustic compression is adiabatic (fast vs diffusion).
+adiabatic_process adiabatic_sound_speed
+ideal_gas_law adiabatic_sound_speed
+heat_capacity_ratio adiabatic_sound_speed
+mean_temperature adiabatic_sound_speed
+gas_constant_specific adiabatic_sound_speed
+# Combining continuity, momentum and the adiabatic EOS gives the wave equation.
+linearized_continuity acoustic_wave_equation
+linearized_euler acoustic_wave_equation
+adiabatic_sound_speed acoustic_wave_equation
+partial_derivative acoustic_wave_equation
+# Harmonic solutions of the wave equation obey omega = a k.
+acoustic_wave_equation dispersion_relation
+angular_frequency dispersion_relation
+wavenumber dispersion_relation
+adiabatic_sound_speed dispersion_relation
+# The plane wave is the elementary travelling solution.
+acoustic_wave_equation plane_wave
+dispersion_relation plane_wave
+phasor_notation plane_wave
+# Impedances.
+characteristic_impedance specific_acoustic_impedance
+mean_density characteristic_impedance
+adiabatic_sound_speed characteristic_impedance
+acoustic_pressure specific_acoustic_impedance
+acoustic_velocity specific_acoustic_impedance
+# Volume flow rate through a duct of area A.
+acoustic_velocity volume_flow_rate
+cross_sectional_uniformity volume_flow_rate
+# Standing and travelling waves as superpositions / single plane waves.
+plane_wave standing_wave
+plane_wave travelling_wave
+# A resonator sets the standing-wave boundary conditions.
+standing_wave acoustic_resonator
+wavelength acoustic_resonator
+# Time-averaged acoustic power carried past a plane.
+time_average acoustic_power
+acoustic_pressure acoustic_power
+volume_flow_rate acoustic_power
+specific_acoustic_impedance acoustic_power
+# Phasing regimes follow from the impedance of the wave.
+standing_wave specific_acoustic_impedance
+standing_wave standing_wave_phasing
+acoustic_power standing_wave_phasing
+travelling_wave travelling_wave_phasing
+acoustic_power travelling_wave_phasing
+
+# ================= thermoacoustic boundary layers =================
+# Penetration depths: how far heat / momentum diffuse in one radian of the cycle.
+thermal_diffusivity thermal_penetration_depth
+angular_frequency thermal_penetration_depth
+kinematic_viscosity viscous_penetration_depth
+angular_frequency viscous_penetration_depth
+thermal_penetration_depth penetration_depth_ratio
+viscous_penetration_depth penetration_depth_ratio
+prandtl_number penetration_depth_ratio
+# Hydraulic radius characterises the pore; compared to delta_kappa it sets the regime.
+hydraulic_radius stack_regime
+thermal_penetration_depth stack_regime
+hydraulic_radius regenerator_regime
+thermal_penetration_depth regenerator_regime
+
+# ================= Rott's theory =================
+# Linearized Navier-Stokes: momentum with the wall shear (viscous) term.
+linearized_euler linearized_navier_stokes
+dynamic_viscosity linearized_navier_stokes
+laminar_flow linearized_navier_stokes
+partial_derivative linearized_navier_stokes
+# Linearized energy equation: first-order temperature with wall conduction and
+# advection of the mean temperature gradient.
+first_law_thermodynamics linearized_energy_equation
+thermal_conductivity linearized_energy_equation
+specific_heat_cp linearized_energy_equation
+acoustic_pressure linearized_energy_equation
+acoustic_velocity linearized_energy_equation
+mean_temperature_gradient linearized_energy_equation
+rigid_isothermal_wall linearized_energy_equation
+partial_derivative linearized_energy_equation
+# The f functions are the channel-averaged solutions of those wall problems.
+linearized_navier_stokes thermoacoustic_function_fnu
+viscous_penetration_depth thermoacoustic_function_fnu
+hydraulic_radius thermoacoustic_function_fnu
+complex_numbers thermoacoustic_function_fnu
+linearized_energy_equation thermoacoustic_function_fkappa
+thermal_penetration_depth thermoacoustic_function_fkappa
+hydraulic_radius thermoacoustic_function_fkappa
+complex_numbers thermoacoustic_function_fkappa
+# Their leading behaviour when the pore is wide compared to the boundary layer.
+thermoacoustic_function_fnu boundary_layer_limit_f
+thermoacoustic_function_fkappa boundary_layer_limit_f
+stack_regime boundary_layer_limit_f
+# Rott momentum equation: dp1/dx in terms of U1 and f_nu.
+linearized_navier_stokes rott_momentum_equation
+thermoacoustic_function_fnu rott_momentum_equation
+volume_flow_rate rott_momentum_equation
+angular_frequency rott_momentum_equation
+mean_density rott_momentum_equation
+ordinary_differential_equation rott_momentum_equation
+# Rott continuity equation: dU1/dx in terms of p1, U1, f_kappa, f_nu and dT_m/dx.
+linearized_continuity rott_continuity_equation
+linearized_energy_equation rott_continuity_equation
+thermoacoustic_function_fkappa rott_continuity_equation
+thermoacoustic_function_fnu rott_continuity_equation
+heat_capacity_ratio rott_continuity_equation
+mean_pressure rott_continuity_equation
+mean_temperature_gradient rott_continuity_equation
+prandtl_number rott_continuity_equation
+ordinary_differential_equation rott_continuity_equation
+# Eliminating U1 between the two first-order equations gives the Rott wave equation.
+rott_momentum_equation rott_wave_equation
+rott_continuity_equation rott_wave_equation
+ordinary_differential_equation rott_wave_equation
+# The 1-D Rott equations assume no time-averaged mass flow (streaming neglected).
+no_mean_flow rott_momentum_equation
+no_mean_flow rott_continuity_equation
+# The second-order energy fluxes also drop the streaming (mean-flow enthalpy) term.
+no_mean_flow total_energy_flux
+no_mean_flow thermoacoustic_heat_flux
+# The Lagrangian gas-parcel picture interprets the same physics.
+acoustic_pressure gas_parcel_cycle
+acoustic_velocity gas_parcel_cycle
+thermal_penetration_depth gas_parcel_cycle
+mean_temperature_gradient gas_parcel_cycle
+adiabatic_process gas_parcel_cycle
+
+# ================= energy conversion =================
+# Total energy flux along x: acoustic power plus a thermoacoustic heat term.
+rott_wave_equation total_energy_flux
+acoustic_power total_energy_flux
+thermoacoustic_heat_flux total_energy_flux
+time_average total_energy_flux
+# Thermoacoustic heat flux: cycle-averaged enthalpy transport by the wave.
+rott_wave_equation thermoacoustic_heat_flux
+linearized_energy_equation thermoacoustic_heat_flux
+specific_heat_cp thermoacoustic_heat_flux
+mean_density thermoacoustic_heat_flux
+time_average thermoacoustic_heat_flux
+# Acoustic power gradient: production (engine) or absorption (fridge) per length.
+rott_momentum_equation acoustic_power_gradient
+rott_continuity_equation acoustic_power_gradient
+acoustic_power acoustic_power_gradient
+derivative acoustic_power_gradient
+# Critical temperature gradient: the imposed gradient at which the wave neither
+# gains nor loses energy in the stack.
+acoustic_pressure critical_temperature_gradient
+acoustic_velocity critical_temperature_gradient
+angular_frequency critical_temperature_gradient
+mean_density critical_temperature_gradient
+specific_heat_cp critical_temperature_gradient
+thermal_expansion_ideal_gas critical_temperature_gradient
+standing_wave_phasing critical_temperature_gradient
+# Gamma compares the imposed gradient to the critical one.
+mean_temperature_gradient temperature_gradient_ratio
+critical_temperature_gradient temperature_gradient_ratio
+# Short-stack approximation: stack short vs wavelength, p1 and U1 ~ uniform.
+wavelength short_stack_approximation
+boundary_layer_limit_f short_stack_approximation
+acoustic_pressure short_stack_approximation
+volume_flow_rate short_stack_approximation
+# Short-stack acoustic power and heat flux, proportional to (Gamma - 1) and to
+# the p1-u1 phasing respectively.
+short_stack_approximation short_stack_acoustic_power
+acoustic_power_gradient short_stack_acoustic_power
+temperature_gradient_ratio short_stack_acoustic_power
+thermal_penetration_depth short_stack_acoustic_power
+short_stack_approximation short_stack_heat_flux
+thermoacoustic_heat_flux short_stack_heat_flux
+temperature_gradient_ratio short_stack_heat_flux
+thermal_penetration_depth short_stack_heat_flux
+# Loss mechanisms and entropy generation.
+viscous_penetration_depth dissipation_mechanisms
+thermal_penetration_depth dissipation_mechanisms
+acoustic_power_gradient dissipation_mechanisms
+second_law_thermodynamics entropy_generation
+entropy entropy_generation
+dissipation_mechanisms entropy_generation
+mean_temperature_gradient entropy_generation
+# Ceperley: in a regenerator a travelling wave drives a near-reversible Stirling
+# cycle in each gas parcel.
+regenerator_regime ceperley_travelling_wave
+travelling_wave_phasing ceperley_travelling_wave
+gas_parcel_cycle ceperley_travelling_wave
+isothermal_process ceperley_travelling_wave
+# High acoustic impedance in the regenerator keeps the viscous loss small.
+specific_acoustic_impedance acoustic_impedance_matching
+characteristic_impedance acoustic_impedance_matching
+regenerator_regime acoustic_impedance_matching
+dissipation_mechanisms acoustic_impedance_matching
+
+# ================= devices & performance =================
+# The feedback torus provides travelling-wave phasing without an external source.
+travelling_wave acoustic_resonator
+travelling_wave_phasing feedback_torus
+acoustic_resonator feedback_torus
+acoustic_impedance_matching feedback_torus
+# Onset: the engine self-excites when the acoustic gain from the gradient exceeds
+# the round-trip losses.
+acoustic_power_gradient oscillation_onset
+dissipation_mechanisms oscillation_onset
+temperature_gradient_ratio oscillation_onset
+acoustic_resonator oscillation_onset
+# Standing-wave engine / refrigerator.
+short_stack_acoustic_power standing_wave_engine
+short_stack_heat_flux standing_wave_engine
+standing_wave_phasing standing_wave_engine
+oscillation_onset standing_wave_engine
+acoustic_resonator standing_wave_engine
+short_stack_acoustic_power standing_wave_refrigerator
+short_stack_heat_flux standing_wave_refrigerator
+standing_wave_phasing standing_wave_refrigerator
+acoustic_resonator standing_wave_refrigerator
+# Travelling-wave (Stirling) engine / refrigerator.
+ceperley_travelling_wave travelling_wave_engine
+feedback_torus travelling_wave_engine
+regenerator_regime travelling_wave_engine
+oscillation_onset travelling_wave_engine
+total_energy_flux travelling_wave_engine
+ceperley_travelling_wave travelling_wave_refrigerator
+feedback_torus travelling_wave_refrigerator
+regenerator_regime travelling_wave_refrigerator
+total_energy_flux travelling_wave_refrigerator
+# Efficiency / COP of a whole device.
+total_energy_flux thermoacoustic_efficiency
+acoustic_power thermoacoustic_efficiency
+first_law_thermodynamics thermoacoustic_efficiency
+total_energy_flux thermoacoustic_cop
+acoustic_power thermoacoustic_cop
+first_law_thermodynamics thermoacoustic_cop
+# The Carnot limit bounds both.
+carnot_efficiency carnot_limit
+carnot_cop carnot_limit
+second_law_thermodynamics carnot_limit
+thermoacoustic_efficiency carnot_limit
+thermoacoustic_cop carnot_limit
+# Relative-to-Carnot performance.
+thermoacoustic_efficiency relative_carnot_performance
+carnot_efficiency relative_carnot_performance
+carnot_limit relative_carnot_performance
+
+# ================= diagnostics =================
+SI_units dimension_analysis

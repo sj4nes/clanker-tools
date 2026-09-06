@@ -239,6 +239,10 @@ from conceptual/physical priority.
 - [`../physics-newtonian/`](../physics-newtonian/SKILL.md) — a full capsule built
   with this method (Release 0.1, Newtonian mechanics, 58-node graph); its
   `README.md` records the end-to-end method verification.
+- [`../physics-thermoacoustics/`](../physics-thermoacoustics/SKILL.md) — a larger
+  capsule (Release 0.1, linear thermoacoustics, 104-node graph, complex fields,
+  `[M L T Θ]` basis); shows the method scaling to a deeper domain with `draft`
+  nodes for source-pending coefficients.
 
 ## Completion report
 

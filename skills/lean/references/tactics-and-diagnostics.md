@@ -26,6 +26,42 @@ lake build Mathlib.Algebra.Group.Defs   # build one module
 
 Do not run `lake clean` or `rm -rf .lake` unless necessary, understood, and authorized — they remove build state and trigger costly rebuilds.
 
+### Installing Lean, and a project with Mathlib
+
+If no Lean toolchain is present, install **elan** (Lean's version manager), which
+then fetches the exact toolchain each project pins:
+
+```sh
+curl https://elan.lean-lang.org/elan-init.sh -sSf | sh
+# reopen the shell so elan / lean / lake are on PATH
+```
+
+For a **new** project that needs Mathlib, scaffold from the Mathlib template so
+the toolchain and dependency are pinned compatibly, then pull the prebuilt
+`.olean` cache instead of compiling Mathlib from source:
+
+```sh
+lake +leanprover-community/mathlib4:lean-toolchain new my_project math
+cd my_project
+lake exe cache get        # prebuilt Mathlib oleans — minutes, not hours
+lake build
+```
+
+For an **existing** Lake project, add Mathlib to the Lake config with a matching
+`lean-toolchain`, then `lake update && lake exe cache get && lake build`.
+
+Confirm it works with a one-liner that needs Mathlib:
+
+```lean
+import Mathlib
+example (n : Nat) : n + 0 = n := by simp
+```
+
+Without Mathlib, `ring`, `nlinarith`, `linarith`, `polyrith`, `field_simp`,
+`norm_num` extensions, and the `Real`/`Complex` API are unavailable — plain-Lean
+proofs must use core tactics (`omega`, `simp`, `rw`, `induction`, explicit
+lemmas) or fall back to kernel-`decide`d instance checks over `Int`/`Nat`.
+
 ## Project discovery
 
 ```sh
