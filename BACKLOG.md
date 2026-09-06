@@ -53,6 +53,17 @@ Format:
       continuous-time (analytic ODE benchmark) and one Monte Carlo (dependence /
       tail-risk) worked check would cover more of the paradigm table.
 
+## design-of-experiments
+
+- [ ] **design-of-experiments:** Add a `verification/` worked check like
+      `simulation/verification/` — e.g. a two-arm power/sample-size calc validated
+      against `R`'s `power.t.test` (or a hand `bc` derivation) and a fractional
+      factorial whose alias structure is regenerated from its generators, so the
+      SKILL's formulas are exercised against a real tool.
+- [ ] **design-of-experiments:** Cross-link with `simulation` — the simulation
+      skill's step-9 "design the experiment" could point at this skill's
+      `references/simulation-doe.md` instead of restating.
+
 ## Done
 
 - [x] **math-logic-and-proof:** capsule — 130-node acyclic graph, detail page for
