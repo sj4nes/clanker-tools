@@ -43,6 +43,15 @@ Format:
       corresponding developed nodes here.  (cross-capsule; see
       `math-logic-and-proof/edges/cross-capsule.md`)
 
+## simulation
+
+- [ ] Verify against real tooling — the skill is methodology-only (no bespoke
+      CLI), but the worked example and any emitted `bc` unit checks should be run
+      end-to-end and findings folded back, matching the pattern in README's
+      Verification table. Currently `version: 0.1.0`, unverified.
+- [ ] Consider a `templates/` charter + reporting skeleton the skill can emit
+      (currently the templates live inline in `references/workflow.md`).
+
 ## Done
 
 - [x] `math-logic-and-proof` capsule: 130-node acyclic graph, detail page for
