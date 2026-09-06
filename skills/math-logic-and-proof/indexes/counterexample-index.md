@@ -1,0 +1,41 @@
+# Counterexample index (generated)
+
+Hypothesis that cannot be dropped -> the result it guards -> the witness.
+
+- **compactness_fol** drop `finite_satisfiability: 'essential and sole nontrivial hypothesis -- {P(c), not P(c)} has an unsatisfiable finite subset and no model'`
+- **compactness_fol** drop `first_order: 'compactness FAILS for second-order logic and for infinitary L_{omega_1,omega}. In SOL one can write a single sentence true exactly in the infinite structures and another true exactly in the finite ones; their consequences violate compactness. First-order-ness is what makes the theorem hold.'`
+- **compactness_prop** drop `finite_satisfiability: 'the sole nontrivial hypothesis, and essential. Drop it and the theorem is false: {p, not p} has an unsatisfiable finite subset (itself) and is unsatisfiable. The theorem''s force is entirely that FINITE satisfiability suffices -- a set all of whose finite subsets are satisfiable but which is itself unsatisfiable would be the counterexample, and compactness is precisely the assertion that none exists.'`
+- **de_morgan_prop** drop `classical_logic: 'in intuitionistic logic, not(p and not p) is a theorem but (not p or not not p) is not -- so not(p and q) -> not p or not q fails; Kripke countermodel: one world forcing neither p nor not p'`
+- **deduction_theorem** drop `first_order_side_condition: 'without "phi has no free variable generalised in the sub-derivation": from {P(x)} one derives forall x, P(x), so {P(x)} |- forall x P(x), but NOT |- P(x) -> forall x P(x) (false in any structure where P holds of some but not all elements)'`
+- **free_for** drop `free_for_condition: 'phi = exists y (y > x), t = y: phi[y/x] = exists y (y > y). In (N,<) the premise forall x, exists y (y > x) is true but exists y (y > y) is false -- forall-elimination becomes unsound. This is the canonical capture bug.'`
+- **functional_completeness** drop `none_all_hypotheses_vacuous: 'the theorem is unconditional. But the BASIS matters: {and,or,T,bottom} is not functionally complete (misses negation / every non-monotone function, e.g. NOT p); {iff, not} is not complete (only the affine functions); {imp} alone is not complete (cannot express bottom)'`
+- **godel_completeness_theorem** drop `first_order: 'second-order logic with standard semantics has NO complete proof system: (N,+,.,<) is categorical in SOL, so a complete SOL calculus would decide arithmetic, contradicting godel_incompleteness_first'`
+- **godel_completeness_theorem** drop `classical_logic: 'intuitionistic FOL is complete for Kripke semantics, not for classical (Tarski) semantics'`
+- **godel_completeness_theorem** drop `equality_is_identity: 'without the equality axioms the term-model quotient is not well-defined and interpretations are not functions'`
+- **godel_incompleteness_first** drop `T_consistent: 'an inconsistent T proves everything -- trivially complete'`
+- **godel_incompleteness_first** drop `T_recursively_axiomatised: 'Th(N) is complete'`
+- **godel_incompleteness_first** drop `T_interprets_Q: 'dense linear orders, Presburger arithmetic (N,+), real closed fields -- all complete and decidable'`
+- **godel_incompleteness_second** drop `T_proves_HBL_derivability_conditions: 'a theory interpreting only Q (first-theorem strength) may not support the internal formalisation -- the second theorem needs more arithmetic than the first'`
+- **godel_incompleteness_second** drop `T_consistent: 'an inconsistent T proves Con(T) (it proves everything)'`
+- **godel_incompleteness_second** drop `T_recursively_axiomatised: 'Th(N) proves Con(PA) -- but is not recursively axiomatised'`
+- **induction_equivalence** drop `successor_injective_and_no_predecessor_of_zero: 'on Z/6Z with "successor" = +1: weak induction from 0 "proves" every element reachable (true) but the well-ordering principle fails (no least element in the cyclic order) -- the Peano structure hypotheses are what make the three coincide'`
+- **induction_equivalence** drop `naturals_with_zero_successor_and_order: 'on Z (no least element): well-ordering fails outright; induction "downward" also fails'`
+- **lowenheim_skolem_down** drop `countable_language: 'a language with uncountably many constants {c_r : r in R} plus axioms c_r != c_s: every model has >= |R| elements -- no countable model'`
+- **lowenheim_skolem_down** drop `satisfiable_theory: 'an inconsistent theory has no model at all'`
+- **nd_hilbert_equivalence** drop `same_connective_set_both_calculi: 'Hilbert with only P->(Q->P) + MP proves strictly fewer wffs (no -> distribution); the equivalence needs the full schema list'`
+- **nd_hilbert_equivalence** drop `classical_rule_present_on_both_or_neither: 'ND with raa_rule vs an intuitionistic Hilbert system: ND proves not not p -> p, the Hilbert system does not -- equivalence breaks'`
+- **nd_hilbert_equivalence** drop `deduction_theorem_available: 'the ND => H direction has no route for ->I without the deduction theorem as a meta-result'`
+- **post_completeness_theorem** drop `classical_calculus: 'an intuitionistic propositional calculus is NOT complete for classical (Boolean) semantics: not not p -> p is a tautology but not intuitionistically derivable. It IS complete for Kripke / Heyting-algebra semantics (a different result).'`
+- **quantifier_negation** drop `classical_metatheory: 'in intuitionistic predicate logic not(forall x, P x or not P x) is refutable while forall x (P x or not P x) is not provable -- the not-forall -> exists-not direction fails. Kripke countermodel: ascending chain of worlds where P turns true later at each node.'`
+- **quantifier_negation** drop `nonempty_domain: 'free logic: forall x phi can be vacuously true while exists x phi is false, breaking the duality'`
+- **quantifier_order** drop `order_matters: 'treating forall x exists y phi as exists y forall x phi: f: R -> R continuous but not uniformly continuous (f(x) = x^2 on R, or 1/x on (0,1)) -- for each x a delta exists, no delta works for all x'`
+- **quantifier_order** drop `distinct_variables: 'if x and y are the same variable the statement is malformed'`
+- **soundness_fol** drop `eigenvariable_condition_enforced: 'drop the "y not free in open assumptions" side condition on forall-I: from P(y) derive forall x P(x), so {P(y)} |- forall x P(x); but {P(y)} not|= forall x P(x) (a structure where P holds of s(y) only). Soundness fails.'`
+- **soundness_fol** drop `rules_truth_preserving: 'an unsound quantifier rule, e.g. "from exists x phi infer phi[c/x] for arbitrary already-used c", breaks soundness (c may already be constrained)'`
+- **soundness_prop** drop `rules_are_truth_preserving: 'add an unsound rule, e.g. "from p or q infer p": then {p or q} |- p but {p or q} not |= p (assignment p=F, q=T). Soundness is exactly the guarantee that the rule set is not like this.'`
+- **substitution_lemma_semantic** drop `t_free_for_x_in_phi: 'phi = exists y (x = y) has y not free for... take phi = exists y not(x = y), t = y, A = (any 2+ element domain). phi[y/x] = exists y not(y = y) is unsatisfiable; but A |= phi[s(x -> s(y))] holds whenever the domain has another element. The two sides disagree -- the lemma is FALSE without free_for.'`
+- **tarski_satisfaction** drop `nonempty_domain: 'if A = empty were allowed: forall x phi is vacuously true and exists x phi is false for every phi, so exists x (x = x) is false -- breaking quantifier duality and the standard axioms. Free logic handles this; out of scope.'`
+- **tarski_satisfaction** drop `s_defined_on_free_variables: 'A |= (x = y)[s] is meaningless if s(x) or s(y) is undefined'`
+- **undecidability_fol_validity** drop `language_expressive_enough: 'monadic / prefix-restricted fragments are decidable -- undecidability needs enough expressive power to encode computation (one binary relation suffices)'`
+- **undecidability_fol_validity** drop `church_turing_thesis: 'without identifying "algorithm" with Turing-computable, the statement has no precise content'`
+- **wff_unique_readability** drop `fully_parenthesised_or_precedence_fixed: 'the string "p and q or r" has two parses (p and q) or r  vs  p and (q or r); without a precedence convention or full parentheses, unique readability fails and every semantic function is ill-defined'`

@@ -1,0 +1,22 @@
+from	relation	to	note
+exists_forall_duality	equivalent_to	quantifier_negation	each derivable from the other + double negation
+de_morgan_prop	dual_of	de_morgan_prop	self-dual pair under and/or swap
+raa_rule	equivalent_to	double_negation	RAA and DNE are inter-derivable over intuitionistic ND
+proof_by_contradiction	equivalent_to	proof_by_contrapositive	both classical; contrapositive is the weaker, DNE-free-adjacent form
+strong_induction	equivalent_to	weak_induction	proved as induction_equivalence
+well_ordering_principle	equivalent_to	weak_induction	proved as induction_equivalence
+nd_derivation	equivalent_to	hilbert_derivation	proved as nd_hilbert_equivalence
+compactness_fol	special_case_of	godel_completeness_theorem	compactness is the model-existence corollary
+compactness_prop	special_case_of	post_completeness_theorem	propositional model-existence corollary
+compactness_fol	generalizes	compactness_prop	quantifier-free fragment
+lowenheim_skolem_down	proved_using	godel_completeness_theorem	term model of a countable Henkin theory is countable
+sequent_calculus	mentioned_alternative	nd_derivation	Gentzen LK/LJ; cut elimination out of scope
+tableaux_method	mentioned_alternative	post_completeness_theorem	refutation-style completeness proof; not built
+resolution	mentioned_alternative	conjunctive_normal_form	propositional/first-order resolution; not built as an algorithm
+prenex_normal_form	generalizes	negation_normal_form	NNF is the quantifier-free analogue
+godel_incompleteness_first	commonly_confused_with	godel_completeness_theorem	completeness is about the logic; incompleteness about a theory
+skolem_paradox	illustrated_by	lowenheim_skolem_down	countable model of ZFC
+tarski_undefinability	proved_using	godel_incompleteness_first	diagonal lemma is shared machinery
+church_turing_thesis	historically_precedes	undecidability_fol_validity	Church 1936, Turing 1936
+intuitionistic_logic	contrast_with	raa_rule	drops DNE/LEM; tracked per-node as the constructive grade
+second_order_logic	contrast_with	godel_completeness_theorem	SOL has no complete proof system (with standard semantics)

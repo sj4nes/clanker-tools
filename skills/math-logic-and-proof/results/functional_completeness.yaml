@@ -1,0 +1,43 @@
+id: prop_normal.functional_completeness
+node: functional_completeness
+status_label: proved_theorem
+display: 'Every Boolean function $f:\{0,1\}^n\to\{0,1\}$ is computed by a wff built from $\{\neg,\wedge,\vee\}$ (and hence from $\{\neg,\to\}$, from $\{\neg,\wedge\}$, from $\{\uparrow\}$, from $\{\downarrow\}$).'
+parseable: 'forall n, forall f : Bool^n -> Bool, exists wff phi over {not,and,or} with n atoms, truthfun(phi) = f'
+symbols:
+  f: { meaning: an n-ary Boolean function, type: BooleanFunction }
+  n: { meaning: arity, type: 'natural number' }
+  phi: { meaning: a wff computing f, type: Wff }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [dnf_from_truth_table]
+proof:
+  technique: 'DNF from the truth table: for each row where f = 1, form the conjunction of literals (atom or its negation) matching that row; disjoin those conjunctions. The n=0 cases give T and bottom. Then {not,and,or} reduces to {not,or} by De Morgan, to {not,imp} by (p or q)=(not p -> q), to {nand} by p and q = not(p nand q), etc.'
+  derives_from: dnf_from_truth_table
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- constructive: the wff is built from the table. instance checks: reconstruct xor, majority-of-3, the 16 binary functions.'
+uses_choice: false
+constructive: true
+constructive_grade: intuitionistic
+constructive_note: 'the DNF construction is fully explicit; classical logic not needed to BUILD phi, only its correctness proof uses case analysis on Bool (decidable, fine intuitionistically).'
+solving_for: null
+specialization_cases:
+  - 'n = 2: all 16 binary connectives expressible; xor = (p or q) and not(p and q)'
+  - 'the empty basis expresses only... nothing; {and, or} (no negation) expresses only the monotone functions -- NOT complete'
+  - 'majority(p,q,r) = (p and q) or (p and r) or (q and r)'
+counterexamples_when_dropped:
+  none_all_hypotheses_vacuous: 'the theorem is unconditional. But the BASIS matters: {and,or,T,bottom} is not functionally complete (misses negation / every non-monotone function, e.g. NOT p); {iff, not} is not complete (only the affine functions); {imp} alone is not complete (cannot express bottom)'
+common_misuse:
+  - 'thinking {and, or} suffices (it gives only monotone functions)'
+  - 'thinking one needs all of not, and, or -- any one of the five minimal bases does'
+  - 'confusing "functionally complete" (expresses every truth function) with "deductively complete" (proves every tautology) -- different notions, both true here'
+related:
+  used_by: 'sheffer_stroke, binary_boolean_functions_16, and the CNF/DNF-based completeness proof of post_completeness_theorem'
+  generalises: 'DNF/CNF normal form theorems'
+sources: [enderton_logic_2e, chiswell_hodges]
+status: draft
+checks:
+  type: validation/type-checks.md#functional_completeness
+  specialization: validation/specialization-cases.md#functional_completeness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#functional_completeness

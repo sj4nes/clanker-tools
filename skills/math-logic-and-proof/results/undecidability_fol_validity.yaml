@@ -1,0 +1,45 @@
+id: boundary.undecidability_fol_validity
+node: undecidability_fol_validity
+status_label: stated_not_proved
+display: 'There is no algorithm that, given an arbitrary first-order sentence, decides whether it is valid (equivalently, whether it is derivable). First-order validity is undecidable (Church, Turing, 1936); it is semidecidable.'
+parseable: 'no decidable set = { phi : |= phi }  ;  { phi : |= phi } is recursively enumerable'
+symbols:
+  phi: { meaning: a first-order sentence in a language with at least one binary relation symbol, type: Wff }
+type_check_status: well_formed
+type_check_note: '"algorithm" / "decidable" via church_turing_thesis (informal primitive decidability). The claim is about the set of valid sentences of a sufficiently rich language.'
+hypotheses: [language_expressive_enough, church_turing_thesis]
+preconditions: []
+dependencies: [decidability, church_turing_thesis, derivability_fol, godel_completeness_theorem]
+proof:
+  technique: 'NOT PROVED HERE (scope). Standard proof: reduce the halting problem (or the Post correspondence problem, or the word problem for semigroups) to first-order validity -- encode a Turing machine computation as a first-order sentence that is valid iff the machine halts. Semidecidability is from godel_completeness_theorem: enumerate all derivations.'
+  derives_from: church_turing_thesis
+  lean_status: none
+  lean_ref: null
+uses_choice: false
+constructive: null
+constructive_grade: n/a
+solving_for: null
+specialization_cases:
+  - 'monadic first-order logic (only unary predicates, no equality, no functions): DECIDABLE (Loewenheim 1915)'
+  - 'first-order logic with equality but no other relation/function symbols: decidable'
+  - 'the Bernays-Schoenfinkel-Ramsey class (exists* forall* prefix, no functions): decidable'
+  - 'propositional logic: decidable (tautology_decidable) -- the boundary is exactly the quantifiers over a rich enough language'
+counterexamples_when_dropped:
+  language_expressive_enough: 'monadic / prefix-restricted fragments are decidable -- undecidability needs enough expressive power to encode computation (one binary relation suffices)'
+  church_turing_thesis: 'without identifying "algorithm" with Turing-computable, the statement has no precise content'
+essential_hypotheses_note: 'expressive power is essential -- many fragments are decidable; the negative result is about full FOL.'
+common_misuse:
+  - 'thinking undecidable means "no proof exists" -- valid sentences are exactly the provable ones (completeness); there is just no decision procedure'
+  - 'conflating undecidability of validity with incompleteness of a theory'
+  - 'assuming SAT-solver / prover success on practical inputs contradicts it (it does not -- semidecidable + heuristics)'
+related:
+  contrast_with: tautology_decidable
+  uses: [godel_completeness_theorem, halting_problem]
+  historically_precedes: 'consequences in group theory (word problem), Diophantine equations (Hilbert 10th, MRDP)'
+sources: [bbj_5e, enderton_logic_2e, smith_godel_2e]
+status: draft
+checks:
+  type: validation/type-checks.md#undecidability_fol_validity
+  specialization: validation/specialization-cases.md#undecidability_fol_validity
+  instances: n/a
+  proof: validation/proof-checks.md#undecidability_fol_validity

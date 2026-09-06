@@ -1,0 +1,45 @@
+id: fol_semantics.substitution_lemma_semantic
+node: substitution_lemma_semantic
+status_label: proposition
+display: 'If $t$ is free for $x$ in $\varphi$, then $\mathfrak{A}\models\varphi[t/x]\,[s] \iff \mathfrak{A}\models\varphi\,[s(x\mapsto \bar{s}(t))]$.'
+parseable: 'free_for(t,x,phi) -> ( sat(A, subst(phi,t,x), s)  iff  sat(A, phi, s(x -> termval(A,t,s))) )'
+symbols:
+  A: { meaning: a structure, type: Structure }
+  phi: { meaning: a formula, type: Wff }
+  t: { meaning: a term, type: Term }
+  s: { meaning: an assignment, type: 'Var -> A' }
+type_check_status: well_formed
+type_check_note: 'the free_for(t,x,phi) hypothesis is the entire type-safety content -- without it the two sides genuinely differ (see counterexample). Proof is by structural_induction_wff and needs coincidence_lemma for the quantifier case.'
+hypotheses: [t_free_for_x_in_phi]
+preconditions: [s_defined_on_free_variables_of_phi_and_t]
+dependencies: [substitution, term_evaluation, tarski_satisfaction, free_for, coincidence_lemma]
+proof:
+  technique: 'induction on phi. Terms: a sub-lemma that evaluating u[t/x] under s equals evaluating u under s(x -> sbar(t)), by induction on u. Atomic: from the term sub-lemma. Connectives: IH. Quantifier forall y psi: the free_for condition guarantees y not in var(t) (when x is free in forall y psi), so s(x -> sbar(t))(y -> a) and s(y -> a)(x -> sbar(t)) agree on FV(psi) -- coincidence_lemma closes it.'
+  derives_from: tarski_satisfaction
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean -- named-variable version with the FreeFor predicate; the quantifier case is the substantive one. Mathlib cites its de Bruijn analogue.'
+uses_choice: false
+constructive: true
+constructive_grade: intuitionistic
+solving_for: null
+specialization_cases:
+  - 't = a constant c: A |= phi[c/x][s] iff A |= phi[s(x -> c^A)] -- the form used in forall-elimination soundness'
+  - 't = x: both sides are A |= phi[s] (identity substitution)'
+  - 'phi atomic: reduces to the term-evaluation sub-lemma'
+counterexamples_when_dropped:
+  t_free_for_x_in_phi: 'phi = exists y (x = y) has y not free for... take phi = exists y not(x = y), t = y, A = (any 2+ element domain). phi[y/x] = exists y not(y = y) is unsatisfiable; but A |= phi[s(x -> s(y))] holds whenever the domain has another element. The two sides disagree -- the lemma is FALSE without free_for.'
+essential_hypotheses_note: 'free_for is essential and is the only nontrivial hypothesis; alpha_equivalence lets you always arrange it.'
+common_misuse:
+  - 'applying it (or forall-E / exists-I, which depend on it) without checking free_for'
+  - 'thinking substitution "obviously commutes with satisfaction"'
+related:
+  guards: [nd_rules_quantifier, soundness_fol]
+  companion: coincidence_lemma
+  used_by: [soundness_fol, godel_completeness_theorem]
+sources: [enderton_logic_2e, chiswell_hodges]
+status: draft
+checks:
+  type: validation/type-checks.md#substitution_lemma_semantic
+  specialization: validation/specialization-cases.md#substitution_lemma_semantic
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#substitution_lemma_semantic

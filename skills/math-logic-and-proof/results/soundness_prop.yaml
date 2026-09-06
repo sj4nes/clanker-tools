@@ -1,0 +1,43 @@
+id: metatheory.soundness_prop
+node: soundness_prop
+status_label: metatheorem
+display: 'If $\Gamma\vdash\varphi$ then $\Gamma\models\varphi$: every derivable consequence is a semantic consequence. Equivalently, a satisfiable set is consistent.'
+parseable: '(Gamma |- phi) -> (Gamma |= phi)'
+symbols:
+  Gamma: { meaning: a set of wffs, type: Context }
+  phi: { meaning: a wff, type: Wff }
+type_check_status: well_formed
+hypotheses: [rules_are_truth_preserving]
+preconditions: []
+dependencies: [derivability, semantic_consequence, nd_rules_propositional, structural_induction_wff]
+proof:
+  technique: 'induction on the derivation (structural_induction_wff applied to nd_derivation). Show each rule preserves the property "every assignment satisfying the open assumptions satisfies the conclusion": axioms/assumptions trivially; and-I, or-I, ->E, etc. by the truth-value clauses; ->I discharges an assumption; RAA uses that if every assignment satisfying Gamma, not phi gives a contradiction then every assignment satisfying Gamma satisfies phi (classical step).'
+  derives_from: nd_rules_propositional
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- induction over Deriv_ND; each rule case discharged by the truth_value_recursion clauses.'
+uses_choice: false
+constructive: true
+constructive_grade: needs_DNE
+constructive_note: 'the RAA rule case needs double-negation elimination in the metatheory (matching the classical object rule). A soundness proof for the intuitionistic fragment is fully constructive.'
+solving_for: null
+specialization_cases:
+  - 'Gamma empty: |- phi implies phi is a tautology'
+  - 'contrapositive: Gamma not |= phi (a countermodel exists) implies Gamma not |- phi -- how you show something is UNprovable'
+  - 'phi = bottom: if Gamma |- bottom then Gamma is unsatisfiable -- i.e. satisfiable implies consistent'
+counterexamples_when_dropped:
+  rules_are_truth_preserving: 'add an unsound rule, e.g. "from p or q infer p": then {p or q} |- p but {p or q} not |= p (assignment p=F, q=T). Soundness is exactly the guarantee that the rule set is not like this.'
+common_misuse:
+  - 'confusing soundness (|- implies |=) with completeness (|= implies |-)'
+  - 'thinking soundness is automatic -- it must be checked rule by rule, and a badly designed calculus can fail it'
+  - 'using it to conclude a sentence is provable (that is completeness)'
+related:
+  converse_is: post_completeness_theorem
+  used_by: 'post_completeness_theorem, compactness_prop, and the "unprovability" arguments in godel_incompleteness (a sentence with a countermodel is not a theorem)'
+  first_order_twin: soundness_fol
+sources: [enderton_logic_2e, vandalen_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#soundness_prop
+  specialization: validation/specialization-cases.md#soundness_prop
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#soundness_prop

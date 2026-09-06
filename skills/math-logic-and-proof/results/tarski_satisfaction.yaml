@@ -1,0 +1,47 @@
+id: fol_semantics.tarski_satisfaction
+node: tarski_satisfaction
+status_label: definition
+display: 'The relation $\mathfrak{A}\models\varphi[s]$ ("$\mathfrak{A}$ satisfies $\varphi$ under assignment $s$"), defined by recursion on $\varphi$, including the clauses $\mathfrak{A}\models\forall x\,\varphi[s]$ iff $\mathfrak{A}\models\varphi[s(x\mapsto a)]$ for every $a\in A$.'
+parseable: 'sat(A, phi, s) by recursion: atomic via interpretations; connectives via truth tables; forall x psi iff for all a in A, sat(A, psi, s(x -> a)); exists x psi iff for some a in A'
+symbols:
+  A: { meaning: a structure with domain A, type: Structure }
+  phi: { meaning: a first-order formula, type: Wff }
+  s: { meaning: a variable assignment, type: 'Var -> A' }
+  a: { meaning: a domain element, type: 'element of A' }
+type_check_status: well_formed
+type_check_note: 'metatheory: naive_collections -- depends on naive_collection (the domain A and the quantification "for every a in A"). Recursion on phi is licensed by wff_unique_readability (recursion_on_wff). s must be defined on FV(phi); coincidence_lemma says only those matter.'
+hypotheses: [nonempty_domain]
+preconditions: [s_defined_on_free_variables]
+dependencies: [first_order_wff, term_evaluation, assignment, structure, recursion_on_wff, quantifier_syntax]
+well_definedness: 'the recursion is well-founded on formula_complexity; the quantifier clause reduces satisfaction of forall x psi to satisfaction of the STRICTLY SIMPLER psi under a modified assignment. Total.'
+equivalent_forms:
+  - 'satisfaction of sentences (no free variables): assignment-independent, gives "A models sigma"'
+  - 'the "T-schema" instances: A models "phi" iff phi (the disquotational reading Tarski formalised)'
+  - 'game-theoretic semantics (Hintikka): a verifier has a winning strategy -- equivalent, out of scope'
+uses_choice: false
+constructive: true
+constructive_grade: intuitionistic
+constructive_note: 'the DEFINITION is intuitionistic. Deciding satisfaction in an infinite structure is not effective (the forall-clause quantifies over A), but that is a decidability matter, not a constructivity-of-the-definition matter.'
+solving_for: null
+specialization_cases:
+  - 'propositional reduct: no quantifiers, no terms -> recovers satisfaction (v |= phi)'
+  - 'finite structure: satisfaction is decidable (the forall/exists clauses are finite conjunctions/disjunctions) -- this is what bc checks'
+  - 'atomic sentence R(c,d): true iff (c^A, d^A) in R^A'
+counterexamples_when_dropped:
+  nonempty_domain: 'if A = empty were allowed: forall x phi is vacuously true and exists x phi is false for every phi, so exists x (x = x) is false -- breaking quantifier duality and the standard axioms. Free logic handles this; out of scope.'
+  s_defined_on_free_variables: 'A |= (x = y)[s] is meaningless if s(x) or s(y) is undefined'
+common_misuse:
+  - 'reading the forall-clause as ranging over the syntax rather than the domain'
+  - 'forgetting the assignment for open formulas / treating every formula as a sentence'
+  - 'conflating "true in A" (a semantic fact) with "provable" (a syntactic fact)'
+related:
+  refines: satisfaction
+  used_by: [model, validity, semantic_consequence_fol, coincidence_lemma, substitution_lemma_semantic, quantifier_negation, soundness_fol, truth_lemma_fol]
+  named_for: 'Tarski 1933/1936 (the definition of truth in formalised languages)'
+sources: [enderton_logic_2e, chiswell_hodges, vandalen_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#tarski_satisfaction
+  specialization: validation/specialization-cases.md#tarski_satisfaction
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#tarski_satisfaction

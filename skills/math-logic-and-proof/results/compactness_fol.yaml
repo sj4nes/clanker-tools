@@ -1,0 +1,44 @@
+id: fol_metatheory.compactness_fol
+node: compactness_fol
+status_label: metatheorem
+display: 'A set of first-order sentences has a model if and only if every finite subset has a model.'
+parseable: '(forall finite Gamma0 subset Gamma, exists model of Gamma0) -> exists model of Gamma'
+symbols:
+  Gamma: { meaning: a set of sentences, type: Theory }
+  Gamma0: { meaning: a finite subset, type: Theory }
+type_check_status: well_formed
+hypotheses: [finite_satisfiability]
+preconditions: []
+dependencies: [godel_completeness_theorem, derivability_fol, model]
+proof:
+  technique: 'from completeness: if Gamma has no model then (completeness, contrapositive) Gamma is inconsistent, so Gamma |- bottom; a derivation uses finitely many sentences Gamma0; (soundness) Gamma0 has no model. Alternative: ultraproduct of models of the finite subsets (Los theorem) -- out of scope.'
+  derives_from: godel_completeness_theorem
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean -- inherits the status of the completeness proof.'
+uses_choice: false
+choice_note: 'the ultraproduct proof needs an ultrafilter (BPIT, a weak choice principle); the completeness route needs whatever godel_completeness_theorem needs.'
+constructive: false
+constructive_grade: needs_full_classical
+solving_for: null
+specialization_cases:
+  - 'a theory with arbitrarily large finite models has an infinite model (add constants c_1, ..., c_n and axioms c_i != c_j for all n; every finite subset is satisfiable)'
+  - 'non-standard models of arithmetic: PA union {c > 0, c > 1, c > 2, ...} is finitely satisfiable, so has a model -- with an element exceeding every numeral'
+  - 'propositional reduct: compactness_prop'
+counterexamples_when_dropped:
+  finite_satisfiability: 'essential and sole nontrivial hypothesis -- {P(c), not P(c)} has an unsatisfiable finite subset and no model'
+  first_order: 'compactness FAILS for second-order logic and for infinitary L_{omega_1,omega}. In SOL one can write a single sentence true exactly in the infinite structures and another true exactly in the finite ones; their consequences violate compactness. First-order-ness is what makes the theorem hold.'
+essential_hypotheses_note: 'finite_satisfiability cannot be dropped; first-order-ness is what makes it true (SOL is not compact).'
+common_misuse:
+  - 'trying to express "infinite", "finite", "well-ordered", "connected", "torsion group" in first-order logic -- compactness is the standard proof that you cannot'
+  - 'expecting the model of Gamma to relate simply to the finite models'
+related:
+  special_case_of: godel_completeness_theorem
+  generalises: compactness_prop
+  used_by: [lowenheim_skolem_up, non_categoricity, non_finite_axiomatizability]
+sources: [enderton_logic_2e, chiswell_hodges, vandalen_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#compactness_fol
+  specialization: validation/specialization-cases.md#compactness_fol
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#compactness_fol

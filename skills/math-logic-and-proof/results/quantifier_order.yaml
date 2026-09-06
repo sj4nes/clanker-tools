@@ -1,0 +1,45 @@
+id: fol_laws.quantifier_order
+node: quantifier_order
+status_label: proposition
+display: '$\exists y\,\forall x\,\varphi \models \forall x\,\exists y\,\varphi$, and the converse is not valid: a uniform witness gives a pointwise witness, never conversely.'
+parseable: '(exists y forall x, phi) |= (forall x exists y, phi)  ;  NOT  (forall x exists y, phi) |= (exists y forall x, phi)'
+symbols:
+  phi: { meaning: a formula with x, y possibly free, type: Wff }
+  x, y: { meaning: distinct object variables, type: Var }
+type_check_status: well_formed
+type_check_note: 'x and y must be DISTINCT and neither captured; this is a notation_convention node (conventions.md) because the whole capsule depends on never silently swapping the order.'
+hypotheses: [distinct_variables]
+preconditions: []
+dependencies: [logical_equivalence_fol, tarski_satisfaction]
+proof:
+  technique: 'valid direction: if b witnesses forall x for the fixed y=b, then for each a take that same b. Invalid direction: exhibit a structure (see counterexample) where every x has some y but no single y works for all x.'
+  derives_from: tarski_satisfaction
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- forall_exists_of_exists_forall (one line); the non-implication by a decide-checked finite countermodel.'
+uses_choice: false
+constructive: true
+constructive_grade: intuitionistic
+constructive_note: 'the valid direction is intuitionistic. Note: extracting the uniform y in the invalid direction, when it DID hold, would be a choice-flavoured move -- but the point here is that it does not hold.'
+solving_for: null
+specialization_cases:
+  - 'phi = (x < y) over (N, <): forall x exists y (x < y) is TRUE (y = x+1); exists y forall x (x < y) is FALSE (no greatest+1). The standard witness.'
+  - 'epsilon-delta: "continuous" (forall x, forall eps, exists delta ...) vs "uniformly continuous" (forall eps, exists delta, forall x ...) -- swapping the delta out is exactly this'
+  - 'over a domain with one element: the two orders coincide'
+counterexamples_when_dropped:
+  order_matters: 'treating forall x exists y phi as exists y forall x phi: f: R -> R continuous but not uniformly continuous (f(x) = x^2 on R, or 1/x on (0,1)) -- for each x a delta exists, no delta works for all x'
+  distinct_variables: 'if x and y are the same variable the statement is malformed'
+essential_hypotheses_note: 'no hypothesis to drop from the VALID direction; the content is precisely that the converse fails.'
+common_misuse:
+  - 'swapping adjacent unlike quantifiers in a proof'
+  - 'reading "for every x there is a y" as providing one y'
+  - 'the pons asinorum of analysis: pointwise vs uniform (convergence, continuity, boundedness)'
+related:
+  strengthens: 'exists y forall x is the "uniform" form'
+  used_by: 'the uniform_convergence and uniform_continuity nodes of math-real-analysis; this is the quantifier_order primitive that capsule cites'
+sources: [enderton_logic_2e, velleman_3e, vandalen_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#quantifier_order
+  specialization: validation/specialization-cases.md#quantifier_order
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#quantifier_order

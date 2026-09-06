@@ -1,0 +1,42 @@
+id: prop_syntax.wff_unique_readability
+node: wff_unique_readability
+status_label: proved_theorem
+display: 'Every well-formed formula has exactly one parse tree: it is an atom, or $\neg\psi$, or $(\psi\circ\chi)$ for a unique connective $\circ$ and unique immediate subformulas.'
+parseable: 'wff(phi) -> exactly one of: phi is atom | phi = not psi | phi = (psi op chi), and psi,chi,op are determined by phi'
+symbols:
+  phi: { meaning: a well-formed formula, type: Wff }
+  psi, chi: { meaning: immediate subformulas, type: Wff }
+  op: { meaning: the principal connective, type: 'one of and, or, imp, iff' }
+type_check_status: well_formed
+type_check_note: 'the statement is about strings that are wffs; the parenthesisation convention (conventions.md, wff_syntax) is what makes it true. Drop the parentheses and it is false.'
+hypotheses: [fully_parenthesised_or_precedence_fixed]
+preconditions: []
+dependencies: [wff_syntax, formula_complexity]
+proof:
+  technique: 'induction on formula length (formula_complexity). Key combinatorial lemma: every proper nonempty prefix of a wff has more left than right parentheses, so no wff is a proper prefix of another; hence the split point after "(" ... principal connective is forced.'
+  derives_from: wff_syntax
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- Wff as an inductive type makes this the injectivity + no-confusion of the constructors (rfl-level); the string-grammar version is cited.'
+uses_choice: false
+constructive: true
+constructive_grade: intuitionistic
+solving_for: null
+specialization_cases:
+  - 'atoms: the base case, one parse trivially'
+  - 'first-order wffs: the same theorem, extended with the R(t1..tn), t=u, forall x, exists x clauses (see first_order_wff)'
+  - 'Polish (prefix) notation: unique readability holds with NO parentheses at all -- the classic alternative'
+counterexamples_when_dropped:
+  fully_parenthesised_or_precedence_fixed: 'the string "p and q or r" has two parses (p and q) or r  vs  p and (q or r); without a precedence convention or full parentheses, unique readability fails and every semantic function is ill-defined'
+common_misuse:
+  - 'defining truth-value / substitution / a proof rule "by recursion on phi" without having established this first -- the recursion is not well-defined otherwise'
+  - 'assuming it is obvious; the parenthesis-counting lemma is the actual content'
+related:
+  enables: 'recursion_on_wff, structural_induction_wff, and through them every semantic and proof-theoretic node'
+  mentioned_alternative: 'Polish notation, de Bruijn indices'
+sources: [enderton_logic_2e, vandalen_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#wff_unique_readability
+  specialization: validation/specialization-cases.md#wff_unique_readability
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#wff_unique_readability

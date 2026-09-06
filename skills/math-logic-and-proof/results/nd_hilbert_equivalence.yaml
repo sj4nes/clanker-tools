@@ -1,0 +1,46 @@
+id: prop_proof.nd_hilbert_equivalence
+node: nd_hilbert_equivalence
+status_label: proved_lemma
+display: 'For every finite $\Gamma$ and wff $\varphi$: $\Gamma\vdash_{\mathrm{ND}}\varphi \iff \Gamma\vdash_{\mathrm{H}}\varphi$. Derivability is calculus-independent.'
+parseable: '(Gamma |-_ND phi) iff (Gamma |-_H phi)'
+symbols:
+  Gamma: { meaning: a finite set of wffs, type: Context }
+  phi: { meaning: a wff, type: Wff }
+type_check_status: well_formed
+type_check_note: 'both sides over the same Wff type and same finite Gamma; propositional, so no free_for obligation in the deduction-theorem step.'
+hypotheses: [same_connective_set_both_calculi, classical_rule_present_on_both_or_neither]
+preconditions: []
+dependencies: [nd_derivation, hilbert_derivation, deduction_theorem, assumption_discharge]
+proof:
+  technique: 'H => ND: each Hilbert axiom schema is a short ND theorem, MP is ->E; induction on the Hilbert derivation. ND => H: induction on the structure of the ND derivation; the ->I (discharge) case is handled by the deduction theorem; or-E, not-I, RAA via Hilbert-provable schemas.'
+  derives_from: deduction_theorem
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean -- Deriv (ND fragment) and H (Hilbert ->-fragment) as separate inductive predicates; the substantive ND=>H ingredient, the DEDUCTION THEOREM, is proved by induction on H (theorem `deduction`), and H.self proves |- p->p. The full Deriv <-> H round trip is STATED, not formalised here (it needs a weakening lemma for Deriv and Hilbert derivations of the and/RAA schemas). See validation/proof-checks.md.'
+uses_choice: false
+constructive: false
+constructive_grade: needs_DNE
+constructive_note: 'as shipped both calculi are classical (ND has raa_rule; Hilbert has the contraposition axiom), so the equivalence is needs_DNE. The intuitionistic fragments (drop RAA / the classical axiom) coincide intuitionistically -- recorded, and it is what lets each downstream law be graded from either calculus.'
+solving_for: null
+specialization_cases:
+  - 'Gamma empty: the theorems coincide'
+  - 'a sequent calculus LK added as a third system: |-_LK coincides too (mentioned_alternative), so "provable" is robust'
+  - 'first-order: the analogous derivability_fol equivalence (ND + eigenvariable conditions  iff  Hilbert + generalisation)'
+counterexamples_when_dropped:
+  same_connective_set_both_calculi: 'Hilbert with only P->(Q->P) + MP proves strictly fewer wffs (no -> distribution); the equivalence needs the full schema list'
+  classical_rule_present_on_both_or_neither: 'ND with raa_rule vs an intuitionistic Hilbert system: ND proves not not p -> p, the Hilbert system does not -- equivalence breaks'
+  deduction_theorem_available: 'the ND => H direction has no route for ->I without the deduction theorem as a meta-result'
+common_misuse:
+  - 're-proving a metatheorem for each calculus separately'
+  - 'treating Fitch boxes and Gentzen trees as different systems'
+  - 'dropping the classical rule on one side only'
+related:
+  equivalent_to: 'nd_derivation <-> hilbert_derivation (this lemma makes that relation a proved node)'
+  enables: 'every downstream |- statement read calculus-free: soundness_prop, post_completeness_theorem, derived_rules, derivability_fol'
+  mentioned_alternative: 'sequent calculus, semantic tableaux'
+sources: [mendelson_6e, vandalen_5e, enderton_logic_2e]
+status: draft
+checks:
+  type: validation/type-checks.md#nd_hilbert_equivalence
+  specialization: validation/specialization-cases.md#nd_hilbert_equivalence
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#nd_hilbert_equivalence

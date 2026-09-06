@@ -1,0 +1,46 @@
+id: fol_laws.quantifier_negation
+node: quantifier_negation
+status_label: mathematical_identity
+display: '$\neg\forall x\,\varphi \equiv \exists x\,\neg\varphi$ (needs LEM) and $\neg\exists x\,\varphi \equiv \forall x\,\neg\varphi$ (intuitionistic).'
+parseable: 'not forall x phi  iff  exists x not phi  ;  not exists x phi  iff  forall x not phi'
+symbols:
+  phi: { meaning: a first-order formula, x possibly free, type: Wff }
+  x: { meaning: an object variable, type: Var }
+type_check_status: well_formed
+type_check_note: 'both sides are first_order_wff; x binds the same occurrences on each side; no substitution, so no free_for obligation. Stated for formulas (free vars allowed), evaluated under an assignment.'
+hypotheses: [nonempty_domain]
+preconditions: []
+dependencies: [tarski_satisfaction, logical_equivalence_fol, de_morgan_prop]
+proof:
+  technique: 'semantic, from the forall/exists clauses of tarski_satisfaction. not exists x phi true iff no a makes phi true iff every a makes not phi true iff forall x not phi -- no LEM. not forall x phi true iff not every a makes phi true; concluding exists a with not phi needs excluded middle in the metatheory (infinitary De Morgan).'
+  derives_from: tarski_satisfaction
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- three intuitionistic directions term-mode; not_forall_iff = Classical.not_forall; decide instance on a 3-element domain.'
+uses_choice: false
+constructive: false
+constructive_grade: needs_LEM
+constructive_note: 'SPLIT. Intuitionistic: not exists x phi <-> forall x not phi (both directions); exists x not phi -> not forall x phi. NEEDS LEM: not forall x phi -> exists x not phi. Node graded needs_LEM for its strongest component. Mirrors de_morgan_prop.'
+solving_for: null
+specialization_cases:
+  - 'not forall x (P x -> Q x)  iff  exists x (P x and not Q x)'
+  - 'negating continuity: not(forall eps>0 exists delta>0 forall x, |x-c|<delta -> |f x - f c|<eps)  iff  exists eps>0 forall delta>0 exists x, |x-c|<delta and |f x - f c| >= eps  -- the definition of discontinuity'
+  - 'not(X countable) = "no injection X -> omega"'
+counterexamples_when_dropped:
+  classical_metatheory: 'in intuitionistic predicate logic not(forall x, P x or not P x) is refutable while forall x (P x or not P x) is not provable -- the not-forall -> exists-not direction fails. Kripke countermodel: ascending chain of worlds where P turns true later at each node.'
+  nonempty_domain: 'free logic: forall x phi can be vacuously true while exists x phi is false, breaking the duality'
+essential_hypotheses_note: 'nonempty domain is a standing convention (objects.md); classical metatheory is required only for the not-forall -> exists-not direction.'
+common_misuse:
+  - 'stopping the negation at the outer quantifier'
+  - 'swapping quantifier ORDER while negating -- not forall x exists y phi is exists x forall y not phi, NOT exists y forall x not phi (that is quantifier_order)'
+  - 'claiming the classical direction constructively'
+related:
+  equivalent_to: exists_forall_duality
+  generalises: de_morgan_prop
+  used_by: 'every counterexample node in math-real-analysis, math-number-systems, math-sets-functions-cardinality (each "not continuous/compact/complete/countable"); this is the quantifier_negation primitive those capsules cite (edges/cross-capsule.md)'
+sources: [enderton_logic_2e, vandalen_5e, chiswell_hodges]
+status: draft
+checks:
+  type: validation/type-checks.md#quantifier_negation
+  specialization: validation/specialization-cases.md#quantifier_negation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#quantifier_negation

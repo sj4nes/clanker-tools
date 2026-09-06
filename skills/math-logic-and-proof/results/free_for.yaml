@@ -1,0 +1,45 @@
+id: fol_syntax.free_for
+node: free_for
+status_label: definition
+display: 'A term $t$ is free for $x$ in $\varphi$ when substituting $t$ for the free occurrences of $x$ captures no variable of $t$ under a quantifier of $\varphi$.'
+parseable: 'free_for(t, x, phi) := no variable y of t has a free occurrence of x in phi within the scope of a quantifier on y'
+symbols:
+  t: { meaning: a term, type: Term }
+  x: { meaning: the variable being substituted for, type: Var }
+  phi: { meaning: a first-order formula, type: Wff }
+type_check_status: well_formed
+type_check_note: 'this node IS the type check for every substitution-under-a-binder statement. It is defined by recursion on phi (recursion_on_wff), independently of the substitution operation itself (see edges/cycles.md section 1).'
+hypotheses: []
+preconditions: []
+dependencies: [free_bound_variables, quantifier_syntax, term_syntax]
+well_definedness: 'recursion on the structure of phi: atomic -> true; connective -> componentwise; quantifier Qy psi -> (x not free in Qy psi) or (y not in var(t) and free_for(t,x,psi)). Total and decidable.'
+equivalent_forms:
+  - '"t is substitutable for x in phi" (Enderton)'
+  - 'in a de Bruijn / locally nameless representation: vacuously always true (capture is structurally impossible)'
+uses_choice: false
+constructive: true
+constructive_grade: intuitionistic
+solving_for: null
+specialization_cases:
+  - 't a constant or closed term: free for x in every phi (this is why Henkin witness constants c_psi need no renaming)'
+  - 'x not free in phi: vacuously free for x (phi[t/x] = phi)'
+  - 't = x: always free for x in phi'
+  - 'phi quantifier-free: always free'
+counterexamples_when_dropped:
+  free_for_condition: 'phi = exists y (y > x), t = y: phi[y/x] = exists y (y > y). In (N,<) the premise forall x, exists y (y > x) is true but exists y (y > y) is false -- forall-elimination becomes unsound. This is the canonical capture bug.'
+essential_hypotheses_note: 'the condition is the hypothesis; alpha_equivalence always lets you re-establish it by renaming bound variables, so it obstructs nothing -- but skipping the check is a real unsoundness.'
+common_misuse:
+  - 'substituting "because the syntax allows it" without checking'
+  - 'forgetting compound terms f(y,z) can capture any of y, z'
+  - 'confusing with free_bound_variables (about occurrences in phi alone; free_for is about t and phi together)'
+related:
+  discharged_by: alpha_equivalence
+  guards: [nd_rules_quantifier, hilbert_quantifier_axioms, substitution_lemma_semantic, prenex_normal_form]
+  commonly_confused_with: free_bound_variables
+sources: [enderton_logic_2e, vandalen_5e, chiswell_hodges]
+status: draft
+checks:
+  type: validation/type-checks.md#free_for
+  specialization: validation/specialization-cases.md#free_for
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#free_for

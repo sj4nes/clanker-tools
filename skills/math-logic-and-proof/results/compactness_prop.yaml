@@ -1,0 +1,44 @@
+id: metatheory.compactness_prop
+node: compactness_prop
+status_label: metatheorem
+display: 'A set of propositional wffs is satisfiable if and only if every finite subset of it is satisfiable.'
+parseable: '(forall finite Gamma0 subset Gamma, sat(Gamma0)) -> sat(Gamma)'
+symbols:
+  Gamma: { meaning: a (possibly infinite) set of wffs, type: Context }
+  Gamma0: { meaning: a finite subset, type: Context }
+type_check_status: well_formed
+hypotheses: [finite_satisfiability]
+preconditions: []
+dependencies: [post_completeness_theorem, derivability, satisfiability, soundness_prop]
+proof:
+  technique: 'contrapositive via completeness: if Gamma is unsatisfiable then (completeness) Gamma |- bottom; a derivation of bottom uses only finitely many premises Gamma0 subset Gamma; (soundness) Gamma0 is unsatisfiable. Alternative direct proofs: Koenig''s lemma on the binary tree of partial assignments, or an ultrafilter / Tychonoff argument on 2^Atom.'
+  derives_from: post_completeness_theorem
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean -- via the completeness proof for countable atom sets; the Koenig-lemma route sketched.'
+uses_choice: false
+constructive: false
+constructive_grade: needs_full_classical
+constructive_note: 'countable atom set: needs only what post_completeness_theorem needs (LEM + metatheoretic_induction, or Koenig''s lemma / weak Koenig). Uncountable atom set: equivalent to the Boolean prime ideal theorem (a weak choice principle, strictly weaker than full AC).'
+solving_for: null
+specialization_cases:
+  - 'graph k-colourability: an infinite graph is k-colourable iff every finite subgraph is (de Bruijn-Erdos) -- a direct corollary'
+  - 'Gamma finite: trivial (Gamma is its own finite subset)'
+  - 'first-order lift: compactness_fol, proved the same way from godel_completeness_theorem'
+counterexamples_when_dropped:
+  finite_satisfiability: 'the sole nontrivial hypothesis, and essential. Drop it and the theorem is false: {p, not p} has an unsatisfiable finite subset (itself) and is unsatisfiable. The theorem''s force is entirely that FINITE satisfiability suffices -- a set all of whose finite subsets are satisfiable but which is itself unsatisfiable would be the counterexample, and compactness is precisely the assertion that none exists.'
+essential_hypotheses_note: 'every hypothesis is essential; the counterexample above shows finite_satisfiability cannot be dropped.'
+common_misuse:
+  - 'thinking finite satisfiability of each subset gives a single assignment working for all -- it does, but that is the theorem, not obvious'
+  - 'expecting a constructive/effective assignment -- generally none'
+  - 'applying the finite-character conclusion to properties that are not first-order'
+related:
+  special_case_of: post_completeness_theorem
+  generalised_by: compactness_fol
+  equivalent_to: 'Boolean prime ideal theorem (for arbitrary atom sets)'
+sources: [enderton_logic_2e, chiswell_hodges]
+status: draft
+checks:
+  type: validation/type-checks.md#compactness_prop
+  specialization: validation/specialization-cases.md#compactness_prop
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#compactness_prop

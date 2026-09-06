@@ -1,0 +1,41 @@
+id: prop_laws.de_morgan_prop
+node: de_morgan_prop
+status_label: mathematical_identity
+display: '$\neg(p\wedge q)\equiv\neg p\vee\neg q$ and $\neg(p\vee q)\equiv\neg p\wedge\neg q$.'
+parseable: 'not (p and q) iff (not p or not q) ; not (p or q) iff (not p and not q)'
+symbols:
+  p, q: { meaning: wffs / propositional atoms, type: Wff }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [logical_equivalence, implication_as_disjunction]
+proof:
+  technique: 'truth table (4 rows each), or: not(p or q) <-> not p and not q is intuitionistic; not(p and q) -> not p or not q needs LEM (case on p); the other three implications are intuitionistic.'
+  derives_from: logical_equivalence
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- not_or_iff (intuitionistic, term mode); not_and_iff uses Classical.em. decide on all 4 rows.'
+uses_choice: false
+constructive: false
+constructive_grade: needs_LEM
+constructive_note: 'the "and" law splits: not(p or q) <-> (not p and not q) is INTUITIONISTIC; not(p and q) <- (not p or not q) is INTUITIONISTIC; but not(p and q) -> (not p or not q) is NOT intuitionistically valid (it implies weak excluded middle). Node graded needs_LEM for its strongest component.'
+solving_for: null
+specialization_cases:
+  - 'iterate: not(p and q and r) iff not p or not q or not r'
+  - 'infinitary / quantified form: not(forall x, P x) iff exists x, not P x -- this is quantifier_negation, and inherits the same needs_LEM split'
+  - 'p = q: not(p and p) iff not p (with idempotence)'
+counterexamples_when_dropped:
+  classical_logic: 'in intuitionistic logic, not(p and not p) is a theorem but (not p or not not p) is not -- so not(p and q) -> not p or not q fails; Kripke countermodel: one world forcing neither p nor not p'
+common_misuse:
+  - 'distributing negation without flipping the connective: writing not(p and q) as not p and not q'
+  - 'assuming the whole equivalence is constructive (three of four implications are; one is not)'
+related:
+  generalises_to: quantifier_negation
+  dual_of: de_morgan_prop
+  used_by: 'negation_normal_form, conjunctive_normal_form, sheffer_stroke, proof_by_cases, quantifier_negation'
+sources: [enderton_logic_2e, vandalen_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#de_morgan_prop
+  specialization: validation/specialization-cases.md#de_morgan_prop
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#de_morgan_prop

@@ -1,0 +1,48 @@
+id: fol_metatheory.godel_completeness_theorem
+node: godel_completeness_theorem
+status_label: metatheorem
+display: 'For first-order logic with equality: $\Gamma\models\varphi \Rightarrow \Gamma\vdash\varphi$; equivalently, every consistent theory has a model.'
+parseable: '(Gamma |= phi) -> (Gamma |- phi)  ;  Con(Gamma) -> exists model of Gamma'
+symbols:
+  Gamma: { meaning: a set of sentences of a language L, type: Theory }
+  phi: { meaning: an L-sentence, type: Wff }
+  M: { meaning: the term model produced, type: Structure }
+type_check_status: well_formed
+type_check_note: 'metatheory: naive_collections (quantifies over "all models"). The Henkin axioms need each witness constant free for x -- automatic for constants, but checked; alpha_equivalence keeps nested substitutions capture-free.'
+hypotheses: [first_order, classical_logic, equality_is_identity]
+preconditions: [Gamma_in_a_fixed_language]
+dependencies: [truth_lemma_fol, term_model, henkin_theory, lindenbaum_lemma_fol, soundness_fol, semantic_consequence_fol, alpha_equivalence]
+proof:
+  technique: 'Henkin. (1) reduce Gamma |= phi, Gamma not|- phi to: Gamma union {not phi} consistent. (2) add witness constants in an omega-chain of languages + Henkin axioms (exists x psi) -> psi[c_psi/x], stays consistent. (3) Lindenbaum: extend to a maximal consistent Henkin theory T. (4) term model M: domain = closed terms / (t ~ u iff (t=u) in T), a congruence by the equality axioms. (5) truth lemma: M |= sigma iff sigma in T, by induction on sigma; the exists-clause uses the witness property. (6) M |= Gamma.'
+  derives_from: truth_lemma_fol
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean + proof-checks.md#godel_completeness_theorem -- Formula/Term/Structure/satisfaction as inductive types; soundness outright; Henkin construction carried as far as feasible, connected to Mathlib FirstOrder.Language completeness where present (mathlib_cited), every sorry / informal step logged. Epistemic label NOT upgraded past the kernel.'
+uses_choice: false
+choice_note: 'countable language: LEM + metatheoretic_induction, NO choice. Uncountable language: Lindenbaum needs Zorn / an ultrafilter -- recorded on lindenbaum_lemma_fol.'
+constructive: false
+constructive_grade: needs_full_classical
+solving_for: null
+specialization_cases:
+  - 'propositional fragment: reduces to post_completeness_theorem (no terms, no witnesses)'
+  - 'Gamma finite: |= (conj Gamma -> phi) implies |- (conj Gamma -> phi)'
+  - 'Gamma complete and consistent: the term model is a canonical model of Gamma'
+counterexamples_when_dropped:
+  first_order: 'second-order logic with standard semantics has NO complete proof system: (N,+,.,<) is categorical in SOL, so a complete SOL calculus would decide arithmetic, contradicting godel_incompleteness_first'
+  classical_logic: 'intuitionistic FOL is complete for Kripke semantics, not for classical (Tarski) semantics'
+  equality_is_identity: 'without the equality axioms the term-model quotient is not well-defined and interpretations are not functions'
+common_misuse:
+  - 'confusing with godel_incompleteness_first ("complete AND incomplete") -- the LOGIC is complete, a THEORY like PA is incomplete'
+  - 'reading completeness as a decision procedure for validity (it gives semidecidability; undecidability_fol_validity says no more)'
+  - 'assuming a countable model for an uncountable language'
+related:
+  converse_is: soundness_fol
+  commonly_confused_with: godel_incompleteness_first
+  implies: [compactness_fol, lowenheim_skolem_down]
+  equivalent_to: 'the model-existence (Henkin) form'
+sources: [enderton_logic_2e, vandalen_5e, chiswell_hodges, mathlib_firstorder]
+status: draft
+checks:
+  type: validation/type-checks.md#godel_completeness_theorem
+  specialization: validation/specialization-cases.md#godel_completeness_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#godel_completeness_theorem

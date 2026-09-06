@@ -1,0 +1,45 @@
+id: fol_metatheory.soundness_fol
+node: soundness_fol
+status_label: metatheorem
+display: 'If $\Gamma\vdash\varphi$ in the first-order calculus then $\Gamma\models\varphi$.'
+parseable: '(Gamma |- phi) -> (Gamma |= phi)   [first-order, with equality]'
+symbols:
+  Gamma: { meaning: a set of first-order formulas, type: Theory }
+  phi: { meaning: a first-order formula, type: Wff }
+type_check_status: well_formed
+type_check_note: 'metatheory: naive_collections. The delicate cases are forall-E / exists-I (need substitution_lemma_semantic, hence free_for) and the eigenvariable rules (need coincidence_lemma + the eigenvariable_condition).'
+hypotheses: [rules_truth_preserving, eigenvariable_condition_enforced]
+preconditions: []
+dependencies: [derivability_fol, semantic_consequence_fol, substitution_lemma_semantic, coincidence_lemma, eigenvariable_condition, structural_induction_wff]
+proof:
+  technique: 'induction on the derivation (structural_induction_wff over derivability_fol). Propositional rules as in soundness_prop. forall-E: from A |= forall x phi and substitution_lemma_semantic, A |= phi[t/x]. exists-I: converse. forall-I: the eigenvariable y is not free in Gamma or the conclusion, so from A |= phi[s(y -> a)] for the arbitrary a (by IH, since y ranges freely) conclude A |= forall y phi; coincidence_lemma discharges the "not free in Gamma" bookkeeping. Equality axioms: valid since = is interpreted as identity.'
+  derives_from: derivability_fol
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean -- proved outright once satisfaction and the substitution lemma are in place; the eigenvariable case is the bookkeeping-heavy one.'
+uses_choice: false
+constructive: true
+constructive_grade: needs_DNE
+constructive_note: 'the RAA / classical-rule case needs DNE in the metatheory. The core quantifier-rule cases are constructive.'
+solving_for: null
+specialization_cases:
+  - 'Gamma empty: |- phi implies phi is valid'
+  - 'contrapositive: a formula with a countermodel is not derivable -- the tool for proving non-theorems (e.g. that exists x P x -> forall x P x is not a theorem)'
+  - 'propositional reduct: recovers soundness_prop'
+counterexamples_when_dropped:
+  eigenvariable_condition_enforced: 'drop the "y not free in open assumptions" side condition on forall-I: from P(y) derive forall x P(x), so {P(y)} |- forall x P(x); but {P(y)} not|= forall x P(x) (a structure where P holds of s(y) only). Soundness fails.'
+  rules_truth_preserving: 'an unsound quantifier rule, e.g. "from exists x phi infer phi[c/x] for arbitrary already-used c", breaks soundness (c may already be constrained)'
+common_misuse:
+  - 'confusing with godel_completeness_theorem (the converse)'
+  - 'skipping the eigenvariable check "because it usually works out"'
+  - 'thinking soundness for FOL follows from soundness for propositional logic -- the quantifier and equality rules need their own cases'
+related:
+  converse_is: godel_completeness_theorem
+  propositional_case: soundness_prop
+  used_by: [godel_completeness_theorem, compactness_fol, undecidability_fol_validity]
+sources: [enderton_logic_2e, vandalen_5e, chiswell_hodges]
+status: draft
+checks:
+  type: validation/type-checks.md#soundness_fol
+  specialization: validation/specialization-cases.md#soundness_fol
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#soundness_fol

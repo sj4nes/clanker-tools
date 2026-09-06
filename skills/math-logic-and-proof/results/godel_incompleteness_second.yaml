@@ -1,0 +1,45 @@
+id: boundary.godel_incompleteness_second
+node: godel_incompleteness_second
+status_label: stated_not_proved
+display: 'A consistent, recursively axiomatised theory T that interprets a modest fragment of arithmetic cannot prove the sentence $\mathrm{Con}(T)$ expressing its own consistency.'
+parseable: 'Con(T) and rec_axiomatised(T) and (T interprets enough arithmetic) -> T not|- Con(T)'
+symbols:
+  T: { meaning: a first-order theory, type: Theory }
+  Con(T): { meaning: 'the sentence not Prov_T(quote (0=1)), a Pi_1 formula', type: Wff }
+type_check_status: well_formed
+type_check_note: 'schema over T. Needs T to prove the Hilbert-Bernays-Loeb derivability conditions (a stronger arithmetic hypothesis than the first theorem -- roughly PA, not just Q).'
+hypotheses: [T_consistent, T_recursively_axiomatised, T_proves_HBL_derivability_conditions]
+preconditions: []
+dependencies: [godel_incompleteness_first, consistency_fol]
+proof:
+  technique: 'NOT PROVED HERE (scope). Sketch: formalise the first theorem''s argument "Con(T) -> not Prov_T(quote G_T)" inside T; combined with the diagonal equivalence T |- G_T <-> not Prov_T(quote G_T), this gives T |- Con(T) -> G_T; if also T |- Con(T) then T |- G_T, contradicting the first theorem. Needs the three Loeb derivability conditions.'
+  derives_from: godel_incompleteness_first
+  lean_status: none
+  lean_ref: 'cited: [smith_godel_2e] part IV.'
+uses_choice: false
+constructive: true
+constructive_grade: n/a
+solving_for: null
+specialization_cases:
+  - 'T = PA: PA not|- Con(PA); but PA + Con(PA) is a strictly stronger consistent theory (which then cannot prove ITS own consistency)'
+  - 'T = ZFC: ZFC not|- Con(ZFC); Con(ZFC) follows from large-cardinal axioms (e.g. an inaccessible)'
+  - 'Gentzen: PA-consistency IS provable by transfinite induction up to epsilon_0 -- in a system not contained in PA. No contradiction with the theorem.'
+counterexamples_when_dropped:
+  T_proves_HBL_derivability_conditions: 'a theory interpreting only Q (first-theorem strength) may not support the internal formalisation -- the second theorem needs more arithmetic than the first'
+  T_consistent: 'an inconsistent T proves Con(T) (it proves everything)'
+  T_recursively_axiomatised: 'Th(N) proves Con(PA) -- but is not recursively axiomatised'
+essential_hypotheses_note: 'the derivability-conditions hypothesis is what separates this from the first theorem; all three are essential.'
+common_misuse:
+  - '"no theory can be proved consistent" -- false; consistency is provable in stronger systems (Gentzen, large cardinals)'
+  - 'reading it as evidence that PA / ZFC IS inconsistent'
+  - 'thinking a proof of Con(T) inside T would be reassuring anyway (an inconsistent T would also provide one)'
+related:
+  strengthens: godel_incompleteness_first
+  historically_precedes: 'Loeb''s theorem, provability logic (GL)'
+sources: [smith_godel_2e, bbj_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#godel_incompleteness_second
+  specialization: validation/specialization-cases.md#godel_incompleteness_second
+  instances: n/a
+  proof: validation/proof-checks.md#godel_incompleteness_second

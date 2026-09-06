@@ -1,0 +1,131 @@
+id	type	title	area	status	role	primary_statement
+symbol	primitive	Symbol	syntax	active	foundation	an element of a fixed countable alphabet
+string	primitive	String	syntax	active	foundation	a finite sequence of symbols
+finite_sequence	primitive	Finite sequence	syntax	active	foundation	a finite list of objects of one type
+inductive_definition	primitive	Inductive definition	syntax	active	foundation	a set given by base and closure clauses, with induction and recursion principles
+metatheoretic_induction	primitive	Metatheoretic induction	metatheory	active	foundation	ordinary and strong induction and recursion on the metatheoretic natural numbers
+naive_collection	primitive	Naive collection	semantics	active	foundation	informal set-of talk used only in semantic nodes; discharged from above by the set capsule
+wff_syntax	definition	Well-formed propositional formula	prop_syntax	draft	foundation	atoms closed under the connectives by an inductive definition
+true_false_constants	definition	Verum and falsum	prop_syntax	draft	support	top as p to p; bottom primitive with ex falso
+formula_complexity	definition	Formula complexity measures	prop_syntax	draft	support	length and connective-height of a wff, for induction
+wff_unique_readability	theorem	Unique readability	prop_syntax	draft	core	every wff has exactly one parse; licenses recursion on structure
+subformula	definition	Subformula	prop_syntax	draft	support	the nodes of a wffs parse tree
+structural_induction_wff	theorem	Structural induction on wffs	prop_syntax	draft	core	a property holding of atoms and preserved by each connective holds of every wff
+recursion_on_wff	theorem	Recursion on wff structure	prop_syntax	draft	core	a function on wffs is determined by its atom values and one clause per connective
+truth_assignment	definition	Truth assignment	prop_semantics	draft	foundation	a function from atoms to true or false
+truth_value_recursion	definition	Truth-value recursion	prop_semantics	draft	core	the value of a wff under an assignment, by recursion on structure
+satisfaction	definition	Satisfaction (propositional)	prop_semantics	draft	foundation	v satisfies phi when the truth-value recursion gives true
+truth_table	algorithm	Truth table	prop_semantics	draft	support	the finite tabulation of a wffs value over all assignments to its atoms
+tautology	definition	Tautology	prop_semantics	draft	core	true under every truth assignment
+contradiction_unsat	definition	Contradiction	prop_semantics	draft	support	false under every truth assignment
+satisfiability	definition	Satisfiability	prop_semantics	draft	core	true under at least one truth assignment
+semantic_consequence	definition	Semantic consequence (propositional)	prop_semantics	draft	foundation	every assignment satisfying all of Gamma satisfies phi
+logical_equivalence	definition	Logical equivalence	prop_semantics	draft	core	mutual semantic consequence; same truth value under every assignment
+substitution_of_equivalents	theorem	Substitution of equivalents	prop_semantics	draft	support	replacing a subformula by an equivalent one preserves equivalence
+duality_principle	proposition	Duality principle	prop_semantics	draft	support	swapping and-or and true-false and negating atoms negates a wff
+tautology_decidable	theorem	Decidability of tautology	prop_semantics	draft	core	whether a wff is a tautology is decided by its finite truth table
+double_negation	mathematical_identity	Double negation	prop_laws	draft	core	not not p is equivalent to p (classically)
+de_morgan_prop	mathematical_identity	De Morgan laws (propositional)	prop_laws	draft	core	not (p and q) iff not p or not q ; not (p or q) iff not p and not q
+distributivity_prop	mathematical_identity	Distributivity	prop_laws	draft	support	and over or and or over and
+implication_as_disjunction	mathematical_identity	Implication as disjunction	prop_laws	draft	core	p to q is equivalent to not p or q (classically)
+contraposition	mathematical_identity	Contraposition	prop_laws	draft	core	p to q is equivalent to not q to not p
+biconditional_as_conjunction	mathematical_identity	Biconditional decomposition	prop_laws	draft	support	p iff q is (p to q) and (q to p)
+commutativity_associativity_idempotence	mathematical_identity	Commutativity, associativity, idempotence	prop_laws	draft	support	and and or are commutative, associative, idempotent
+absorption	mathematical_identity	Absorption	prop_laws	draft	support	p and (p or q) is p ; p or (p and q) is p
+exportation	mathematical_identity	Exportation	prop_laws	draft	support	(p and q) to r is equivalent to p to (q to r)
+negation_normal_form	theorem	Negation normal form	prop_normal	draft	support	every wff is equivalent to one with negation only on atoms
+conjunctive_normal_form	theorem	Conjunctive normal form	prop_normal	draft	core	every wff is equivalent to a conjunction of clauses
+disjunctive_normal_form	theorem	Disjunctive normal form	prop_normal	draft	core	every wff is equivalent to a disjunction of terms
+dnf_from_truth_table	theorem	DNF from the truth table	prop_normal	draft	support	the rows evaluating to true give an explicit equivalent DNF
+functional_completeness	theorem	Functional completeness	prop_normal	draft	headline	not-and-or expresses every Boolean function
+sheffer_stroke	theorem	Sheffer and Peirce	prop_normal	draft	support	nand alone, and nor alone, are each functionally complete
+binary_boolean_functions_16	example	The sixteen binary connectives	prop_normal	draft	support	there are exactly sixteen functions from two bits to one bit
+nd_derivation	definition	Natural-deduction derivation	prop_proof	draft	foundation	a finite tree of wffs with discharged assumptions
+nd_rules_propositional	definition	Propositional ND rules	prop_proof	draft	foundation	introduction and elimination rules for each connective, plus bottom-elimination
+assumption_discharge	definition	Assumption discharge	prop_proof	draft	support	an implication-introduction closes off a temporarily assumed wff
+raa_rule	definition	Reductio ad absurdum	prop_proof	draft	core	from a derivation of bottom under not phi, conclude phi (classical rule)
+explosion_ex_falso	theorem	Ex falso quodlibet	prop_proof	draft	support	from bottom, derive any wff (intuitionistic)
+hilbert_system_prop	definition	Hilbert system (propositional)	prop_proof	draft	foundation	three axiom schemas and modus ponens
+modus_ponens	definition	Modus ponens	prop_proof	draft	support	from phi and phi to psi, infer psi
+hilbert_derivation	definition	Hilbert derivation	prop_proof	draft	support	a finite sequence of wffs, each an axiom instance or an MP consequence
+derivability	definition	Derivability	prop_proof	draft	foundation	Gamma proves phi in the calculus; calculus-independent after the equivalence lemma
+deduction_theorem	theorem	Deduction theorem	prop_proof	draft	core	Gamma with phi proves psi iff Gamma proves phi to psi
+nd_hilbert_equivalence	proved_lemma	ND and Hilbert coincide	prop_proof	draft	headline	the same wffs are derivable in the ND and Hilbert calculi
+derived_rules	proposition	Derived rules	prop_proof	draft	support	modus tollens, disjunctive syllogism, cut, and others are admissible
+consistency	definition	Consistency	metatheory	draft	foundation	Gamma is consistent when it does not prove bottom
+soundness_prop	metatheorem	Soundness (propositional)	metatheory	draft	headline	if Gamma proves phi then Gamma semantically entails phi
+maximal_consistent_set	definition	Maximal consistent set	metatheory	draft	core	a consistent set of wffs with no consistent proper extension
+lindenbaum_lemma_prop	proved_lemma	Lindenbaum's lemma (propositional)	metatheory	draft	core	every consistent set extends to a maximal consistent set
+truth_lemma_prop	proved_lemma	Truth lemma (propositional)	metatheory	draft	core	a maximal consistent set induces an assignment satisfying exactly its members
+post_completeness_theorem	metatheorem	Post completeness theorem	metatheory	draft	headline	if Gamma semantically entails phi then Gamma proves phi
+compactness_prop	metatheorem	Compactness (propositional)	metatheory	draft	headline	a set of wffs is satisfiable iff every finite subset is
+signature	definition	Signature (first-order language)	fol_syntax	draft	foundation	constant, function, and relation symbols with arities, plus logical equality
+term_syntax	definition	Terms	fol_syntax	draft	foundation	variables and constants closed under function-symbol application
+atomic_formula	definition	Atomic formula	fol_syntax	draft	support	a relation symbol or equality applied to terms
+quantifier_syntax	definition	Quantifiers	fol_syntax	draft	foundation	for-all and there-exists binding a variable in a wff
+first_order_wff	definition	First-order well-formed formula	fol_syntax	draft	foundation	atomic formulas closed under connectives and quantifiers
+free_bound_variables	definition	Free and bound variables	fol_syntax	draft	core	an occurrence is bound if under a quantifier on that variable, else free
+sentence	definition	Sentence	fol_syntax	draft	support	a wff with no free variables
+substitution	definition	Substitution	fol_syntax	draft	core	replace every free occurrence of a variable by a term
+free_for	definition	Free for (no capture)	fol_syntax	draft	core	t is free for x in phi when no free variable of t is captured by a quantifier of phi
+alpha_equivalence	definition	Alpha-equivalence	fol_syntax	draft	support	renaming bound variables gives a logically interchangeable wff
+prenex_normal_form	theorem	Prenex normal form	fol_syntax	draft	core	every wff is equivalent to one with all quantifiers in front
+structure	definition	Structure	fol_semantics	draft	foundation	a nonempty domain with interpretations of every non-logical symbol
+assignment	definition	Variable assignment	fol_semantics	draft	foundation	a function from variables to domain elements, with pointwise update
+term_evaluation	definition	Term evaluation	fol_semantics	draft	core	the domain element denoted by a term under an assignment, by recursion
+tarski_satisfaction	definition	Tarski satisfaction	fol_semantics	draft	foundation	structure satisfies wff under assignment, by recursion including the quantifier clauses
+model	definition	Model	fol_semantics	draft	core	a structure satisfying every sentence of a set
+validity	definition	Validity	fol_semantics	draft	core	true in every structure under every assignment
+semantic_consequence_fol	definition	Semantic consequence (first-order)	fol_semantics	draft	foundation	every model of Gamma under every assignment satisfies phi
+coincidence_lemma	proposition	Coincidence lemma	fol_semantics	draft	support	satisfaction depends only on the assignment to the free variables
+substitution_lemma_semantic	proposition	Substitution lemma (semantic)	fol_semantics	draft	core	satisfying phi with t substituted equals satisfying phi under the updated assignment
+first_order_logic_with_equality	axiom	First-order logic with equality	fol_semantics	draft	foundation	equality is logical and always interpreted as identity on the domain
+equality_congruence	proposition	Equality is a congruence	fol_semantics	draft	support	equal elements are interchangeable in every relation and function
+quantifier_negation	mathematical_identity	Negation of quantifiers	fol_laws	draft	headline	not for-all x phi iff there-exists x not phi ; not exists iff for-all not
+exists_forall_duality	mathematical_identity	Quantifier duality	fol_laws	draft	core	there-exists x phi is equivalent to not for-all x not phi
+quantifier_distribution	mathematical_identity	Quantifier distribution	fol_laws	draft	support	for-all distributes over and, there-exists over or; the other directions can fail
+quantifier_order	notation_convention	Quantifier order	fol_laws	draft	foundation	exists y for-all x entails for-all x exists y, never the converse
+vacuous_quantification	mathematical_identity	Vacuous quantification	fol_laws	draft	support	quantifying a variable not free in phi leaves phi equivalent (nonempty domain)
+nd_rules_quantifier	definition	Quantifier ND rules	fol_proof	draft	foundation	introduction and elimination rules for both quantifiers
+eigenvariable_condition	hypothesis	Eigenvariable condition	fol_proof	draft	core	the fresh variable in for-all-intro and exists-elim must not occur free in conclusion or open assumptions
+hilbert_quantifier_axioms	definition	Hilbert quantifier axioms	fol_proof	draft	support	the for-all-instantiation schema and the generalization rule
+equality_axioms	axiom	Equality axioms	fol_proof	draft	support	reflexivity and the substitution schema for equality
+derivability_fol	definition	Derivability (first-order)	fol_proof	draft	foundation	the first-order calculus proves phi from Gamma
+soundness_fol	metatheorem	Soundness (first-order)	fol_metatheory	draft	headline	if Gamma proves phi then Gamma semantically entails phi
+consistency_fol	definition	Consistency (first-order)	fol_metatheory	draft	support	a first-order theory that does not prove bottom
+henkin_constants	construction	Henkin constants	fol_metatheory	draft	core	add a witnessing constant for every existential wff, iterating over a chain of languages
+henkin_theory	construction	Henkin theory	fol_metatheory	draft	core	a maximal consistent theory with the witness property for every existential
+lindenbaum_lemma_fol	proved_lemma	Lindenbaum's lemma (first-order)	fol_metatheory	draft	core	every consistent theory extends to a maximal consistent one
+term_model	construction	Term model	fol_metatheory	draft	core	the structure whose domain is closed terms modulo provable equality
+truth_lemma_fol	proved_lemma	Truth lemma (first-order)	fol_metatheory	draft	core	in the term model a sentence is true iff it is in the Henkin theory
+godel_completeness_theorem	metatheorem	Godel completeness theorem	fol_metatheory	draft	headline	every semantically valid consequence is derivable; every consistent theory has a model
+compactness_fol	metatheorem	Compactness (first-order)	fol_metatheory	draft	headline	a theory has a model iff every finite subset does
+lowenheim_skolem_down	metatheorem	Downward Lowenheim-Skolem	fol_metatheory	draft	headline	a theory with an infinite model in a countable language has a countable model
+lowenheim_skolem_up	metatheorem	Upward Lowenheim-Skolem	fol_metatheory	draft	support	a theory with an infinite model has models of every larger cardinality
+skolem_paradox	diagnostic	Skolem paradox	fol_metatheory	draft	support	countable models of set theory exist; countability is not absolute
+non_categoricity	example	Non-categoricity	fol_metatheory	draft	support	first-order theories with an infinite model are never categorical
+non_finite_axiomatizability	example	Non-finite-axiomatizability	fol_metatheory	draft	support	infinity, and many theories, cannot be captured by finitely many first-order axioms
+direct_proof	definition	Direct proof	proof_methods	draft	support	assume the antecedent and derive the consequent by implication-introduction
+proof_by_contrapositive	definition	Proof by contrapositive	proof_methods	draft	core	prove not q to not p in place of p to q
+proof_by_contradiction	definition	Proof by contradiction	proof_methods	draft	core	assume the negation, derive bottom, conclude (RAA)
+proof_by_cases	definition	Proof by cases	proof_methods	draft	core	from an exhaustive disjunction, prove the goal under each disjunct (or-elimination)
+biconditional_proof	definition	Proof of a biconditional	proof_methods	draft	support	prove both implications separately
+existence_proof	definition	Existence proof	proof_methods	draft	core	constructive (exhibit a witness) versus pure-existence (non-constructive)
+uniqueness_proof	definition	Uniqueness proof	proof_methods	draft	support	assume two objects with the property and show they are equal
+disproof_by_counterexample	definition	Disproof by counterexample	proof_methods	draft	core	refute for-all x phi by exhibiting an x with not phi
+wlog	definition	Without loss of generality	proof_methods	draft	support	reduce to a representative case justified by a symmetry
+weak_induction	definition	Weak induction	proof_methods	draft	core	base case and successor step give the property for every natural number
+strong_induction	theorem	Strong induction	proof_methods	draft	support	the property for all predecessors gives it at n; equivalent to weak induction
+structural_induction	definition	Structural induction	proof_methods	draft	core	induction along the clauses of any inductive definition
+well_ordering_principle	theorem	Well-ordering principle	proof_methods	draft	support	every nonempty set of natural numbers has a least element
+induction_equivalence	proved_theorem	Induction principles coincide	proof_methods	draft	headline	weak induction, strong induction, and well-ordering are equivalent over the naturals
+vacuous_trivial_proof	definition	Vacuous and trivial proof	proof_methods	draft	support	a false antecedent or a true consequent proves an implication outright
+decidability	definition	Decidability	boundary	draft	support	a set is decidable when membership is settled by an always-halting procedure
+church_turing_thesis	regime	Church-Turing thesis	boundary	draft	foundation	the informally computable functions are exactly the Turing-computable ones
+undecidability_fol_validity	theorem	Undecidability of first-order validity	boundary	draft	headline	no algorithm decides whether an arbitrary first-order sentence is valid
+halting_problem	theorem	Halting problem	boundary	draft	support	no algorithm decides whether an arbitrary program halts on a given input
+godel_incompleteness_first	theorem	Godel first incompleteness theorem	boundary	draft	headline	any consistent recursively axiomatized theory interpreting arithmetic has an undecided sentence
+godel_incompleteness_second	theorem	Godel second incompleteness theorem	boundary	draft	headline	such a theory cannot prove its own consistency
+tarski_undefinability	theorem	Tarski undefinability of truth	boundary	draft	support	arithmetical truth is not definable by an arithmetical formula
+incompleteness_of_PA_ZFC	corollary	Incompleteness of PA and ZFC	boundary	draft	support	if consistent and recursively axiomatized, PA and ZFC are incomplete
+logical_equivalence_fol	definition	Logical equivalence (first-order)	fol_semantics	draft	support	mutual first-order semantic consequence

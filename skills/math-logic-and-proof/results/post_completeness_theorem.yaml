@@ -1,0 +1,44 @@
+id: metatheory.post_completeness_theorem
+node: post_completeness_theorem
+status_label: metatheorem
+display: 'If $\Gamma\models\varphi$ then $\Gamma\vdash\varphi$ (propositional). Equivalently: every consistent set of wffs is satisfiable.'
+parseable: '(Gamma |= phi) -> (Gamma |- phi)'
+symbols:
+  Gamma: { meaning: a set of wffs (possibly infinite), type: Context }
+  phi: { meaning: a wff, type: Wff }
+type_check_status: well_formed
+hypotheses: [classical_calculus]
+preconditions: []
+dependencies: [lindenbaum_lemma_prop, truth_lemma_prop, soundness_prop, semantic_consequence, consistency]
+proof:
+  technique: 'model existence form. Given Gamma consistent: extend to a maximal consistent Delta (lindenbaum_lemma_prop). Define v(atom) = T iff atom in Delta. Truth lemma (truth_lemma_prop): for every wff psi, v |= psi iff psi in Delta -- by induction on psi using that Delta is deductively closed and complete (contains psi or not psi). So v |= Delta hence v |= Gamma. For the |= => |- form: Gamma |= phi and Gamma not|- phi => Gamma, not phi consistent => has a model => contradicts Gamma |= phi.'
+  derives_from: lindenbaum_lemma_prop
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- full plain-Lean proof for a countable atom set: Lindenbaum by enumerating wffs, truth lemma by structural induction, no Mathlib.'
+uses_choice: false
+constructive: false
+constructive_grade: needs_full_classical
+constructive_note: 'Lindenbaum decides each wff in or out (LEM at every stage). For a countable atom set this is LEM + metatheoretic_induction, NO choice. For an uncountable atom set it needs Zorn / an ultrafilter -- recorded. The truth lemma not/or clauses use completeness of Delta.'
+solving_for: null
+specialization_cases:
+  - 'Gamma empty: |= phi implies |- phi -- every tautology is a theorem'
+  - 'Gamma finite: reduces to "the conjunction of Gamma implies phi is a tautology, hence a theorem"'
+  - 'this is the propositional fragment of godel_completeness_theorem (no terms, no Henkin witnesses)'
+counterexamples_when_dropped:
+  classical_calculus: 'an intuitionistic propositional calculus is NOT complete for classical (Boolean) semantics: not not p -> p is a tautology but not intuitionistically derivable. It IS complete for Kripke / Heyting-algebra semantics (a different result).'
+common_misuse:
+  - 'confusing with functional_completeness (expressing every truth function) -- different notion'
+  - 'confusing with godel_incompleteness (about a theory, not the logic)'
+  - 'thinking it gives a practical proof-search method -- it is an existence result'
+related:
+  converse_is: soundness_prop
+  special_case_of: godel_completeness_theorem
+  generalised_by: godel_completeness_theorem
+  implies: compactness_prop
+sources: [enderton_logic_2e, vandalen_5e]
+status: draft
+checks:
+  type: validation/type-checks.md#post_completeness_theorem
+  specialization: validation/specialization-cases.md#post_completeness_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#post_completeness_theorem

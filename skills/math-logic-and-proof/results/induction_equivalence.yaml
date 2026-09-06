@@ -1,0 +1,47 @@
+id: proof_methods.induction_equivalence
+node: induction_equivalence
+status_label: proved_theorem
+display: 'Over the natural numbers, weak induction, strong (course-of-values) induction, and the well-ordering principle are pairwise equivalent (each provable from any other, given the other Peano axioms).'
+parseable: 'weak_induction <-> strong_induction <-> well_ordering_principle   (over (N, 0, S, <))'
+symbols:
+  N: { meaning: the metatheoretic natural numbers, type: 'N (meta)' }
+  P: { meaning: an arbitrary predicate on N, type: 'N -> Prop (meta)' }
+type_check_status: well_formed
+type_check_note: 'stated in the metatheory (metatheoretic_induction supplies weak induction as primitive). The equivalence is a metatheorem about which principle to take as the axiom -- all give the same theorems.'
+hypotheses: [naturals_with_zero_successor_and_order, successor_injective_and_no_predecessor_of_zero]
+preconditions: []
+dependencies: [weak_induction, strong_induction, well_ordering_principle]
+proof:
+  technique: 'weak -> strong: apply weak induction to Q(n) := "P(k) for all k <= n". strong -> well-ordering: contrapositive -- if a set S has no least element, prove by strong induction that n not in S for all n, so S = empty. well-ordering -> weak: if P(0) and P(n)->P(n+1) but P fails somewhere, the set {n : not P(n)} has a least element m > 0, and P(m-1) holds so P(m) holds -- contradiction.'
+  derives_from: weak_induction
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- all three implications over Nat, plain Lean (Nat.strong_induction_on / a well-ordering lemma), no Mathlib needed.'
+uses_choice: false
+constructive: false
+constructive_grade: needs_DNE
+constructive_note: 'weak <-> strong is intuitionistic. The well-ordering principle for arbitrary predicates is classically equivalent to them but its "find the least element" content uses excluded middle (decidability of P at each step). For DECIDABLE P all three are intuitionistically equivalent.'
+solving_for: null
+specialization_cases:
+  - 'strong induction with no explicit base case: the base is the vacuous "P(k) for all k < 0"'
+  - 'induction from a base b: shift, or restrict P to n >= b'
+  - 'structural induction on wffs / terms / derivations: the same principle along an inductive_definition (structural_induction)'
+  - 'transfinite induction (math-sets-functions-cardinality): the well-ordering -> induction direction, lifted to ordinals'
+counterexamples_when_dropped:
+  successor_injective_and_no_predecessor_of_zero: 'on Z/6Z with "successor" = +1: weak induction from 0 "proves" every element reachable (true) but the well-ordering principle fails (no least element in the cyclic order) -- the Peano structure hypotheses are what make the three coincide'
+  naturals_with_zero_successor_and_order: 'on Z (no least element): well-ordering fails outright; induction "downward" also fails'
+essential_hypotheses_note: 'the Peano/well-founded structure of (N,0,S,<) is essential; on non-well-founded or cyclic carriers the principles diverge.'
+common_misuse:
+  - 'thinking strong induction is "more powerful" -- it proves exactly the same theorems'
+  - 'forgetting strong induction needs no separate base case'
+  - 'applying well-ordering to a set of rationals or reals (not well-ordered by <)'
+related:
+  equivalent_to: 'weak_induction <-> strong_induction <-> well_ordering_principle (this node IS that relation, proved)'
+  generalised_by: 'transfinite_induction (math-sets-functions-cardinality)'
+  used_by: 'every proof by induction in the whole capsule stack'
+sources: [velleman_3e, hammack_bop, enderton_logic_2e]
+status: draft
+checks:
+  type: validation/type-checks.md#induction_equivalence
+  specialization: validation/specialization-cases.md#induction_equivalence
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#induction_equivalence

@@ -1,0 +1,48 @@
+id: fol_metatheory.lowenheim_skolem_down
+node: lowenheim_skolem_down
+status_label: metatheorem
+display: 'A theory in a countable language that has an infinite model has a countable (countably infinite) model. More generally, every satisfiable countable theory has a model of cardinality $\le\aleph_0$.'
+parseable: 'countable(L) and Con(Gamma) -> exists model M of Gamma with |M| <= aleph_0'
+symbols:
+  L: { meaning: a first-order language, type: signature }
+  Gamma: { meaning: a satisfiable set of L-sentences, type: Theory }
+  M: { meaning: the countable model, type: Structure }
+type_check_status: well_formed
+type_check_note: 'metatheory: naive_collections; "countable" is |L| <= aleph_0 and |M| <= aleph_0 (cardinality talk imported from the set capsule as naive_collection).'
+hypotheses: [countable_language, satisfiable_theory]
+preconditions: []
+dependencies: [godel_completeness_theorem, term_model, signature]
+proof:
+  technique: 'the term model built in the completeness proof has domain = a quotient of the closed terms of a countable language L+ (L plus countably many Henkin constants), hence countable. So the model produced by godel_completeness_theorem for a consistent countable theory is already countable. (Downward LS to an arbitrary infinite cardinal kappa between aleph_0 and |M| uses Skolem functions / elementary substructures.)'
+  derives_from: godel_completeness_theorem
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean -- follows once the term model is shown countable; inherits completeness status.'
+uses_choice: false
+choice_note: 'the countable-term-model version is choice-free (given the countable-language completeness proof). The elementary-substructure version (downward LS to kappa) uses dependent choice / AC to pick Skolem witnesses.'
+constructive: false
+constructive_grade: needs_full_classical
+solving_for: null
+specialization_cases:
+  - 'ZFC, if consistent, has a countable model (skolem_paradox)'
+  - 'the theory of real closed fields has a countable model -- the real algebraic numbers'
+  - 'any consistent finitely axiomatised theory has a finite or countable model'
+counterexamples_when_dropped:
+  countable_language: 'a language with uncountably many constants {c_r : r in R} plus axioms c_r != c_s: every model has >= |R| elements -- no countable model'
+  satisfiable_theory: 'an inconsistent theory has no model at all'
+essential_hypotheses_note: 'both hypotheses essential; the language-cardinality bound transfers directly to the model.'
+common_misuse:
+  - 'the Skolem "paradox": concluding set theory is inconsistent because it has a countable model containing "uncountable" sets -- "uncountable" is not absolute (skolem_paradox)'
+  - 'thinking a theory with only infinite models cannot be pinned down -- LS says it cannot be pinned to a single cardinality (non_categoricity)'
+  - 'confusing with upward LS (models of every LARGER cardinality)'
+related:
+  companion: lowenheim_skolem_up
+  proved_using: godel_completeness_theorem
+  illustrated_by: skolem_paradox
+  implies: non_categoricity
+sources: [enderton_logic_2e, chiswell_hodges]
+status: draft
+checks:
+  type: validation/type-checks.md#lowenheim_skolem_down
+  specialization: validation/specialization-cases.md#lowenheim_skolem_down
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#lowenheim_skolem_down

@@ -1,0 +1,44 @@
+id: prop_proof.deduction_theorem
+node: deduction_theorem
+status_label: proved_theorem
+display: 'In the Hilbert calculus: $\Gamma\cup\{\varphi\}\vdash\psi$ if and only if $\Gamma\vdash\varphi\to\psi$.'
+parseable: '(Gamma, phi |- psi) iff (Gamma |- phi -> psi)'
+symbols:
+  Gamma: { meaning: a set of wffs, type: Context }
+  phi, psi: { meaning: wffs, type: Wff }
+type_check_status: well_formed
+type_check_note: 'propositional -- no eigenvariable / free_for conditions. First-order version needs "phi closed or the generalisation is on a variable not free in phi".'
+hypotheses: []
+preconditions: []
+dependencies: [hilbert_derivation, modus_ponens, metatheoretic_induction]
+proof:
+  technique: 'left-to-right by induction on the length of the Hilbert derivation of psi from Gamma, phi (metatheoretic_induction). Cases: psi an axiom or in Gamma -> psi -> (phi -> psi) is axiom 1, then MP; psi = phi -> use the proof of phi -> phi; psi by MP from chi and chi -> psi -> IH gives phi -> chi and phi -> (chi -> psi), then axiom 2 + MP twice. Right-to-left is one MP.'
+  derives_from: hilbert_derivation
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean -- induction over the Deriv_H inductive predicate.'
+uses_choice: false
+constructive: true
+constructive_grade: intuitionistic
+constructive_note: 'holds for the intuitionistic Hilbert system (axioms 1 and 2 suffice; the classical axiom is not used).'
+solving_for: 'phi -> psi (packaging a hypothetical derivation as an implication)'
+specialization_cases:
+  - 'Gamma empty: |- psi under assumption phi  iff  |- phi -> psi'
+  - 'iterate: Gamma, phi1, ..., phin |- psi  iff  Gamma |- phi1 -> ... -> phin -> psi'
+  - 'this IS the ->I rule of natural deduction -- the theorem is why Hilbert can simulate ND (nd_hilbert_equivalence)'
+counterexamples_when_dropped:
+  hilbert_axioms_1_and_2: 'a Hilbert system with only modus ponens and P->(Q->P) does not admit the deduction theorem -- axiom 2 (the distribution axiom) is exactly what the MP case of the induction needs'
+  first_order_side_condition: 'without "phi has no free variable generalised in the sub-derivation": from {P(x)} one derives forall x, P(x), so {P(x)} |- forall x P(x), but NOT |- P(x) -> forall x P(x) (false in any structure where P holds of some but not all elements)'
+common_misuse:
+  - 'using it in first-order logic without the free-variable side condition'
+  - 'thinking it is trivial -- right-to-left is; left-to-right is the real theorem'
+  - 'confusing it with modus ponens (its right-to-left half)'
+related:
+  equivalent_to: 'the ->I rule of nd_derivation'
+  enables: 'nd_hilbert_equivalence, derived_rules, most Hilbert-style completeness proofs'
+sources: [mendelson_6e, enderton_logic_2e]
+status: draft
+checks:
+  type: validation/type-checks.md#deduction_theorem
+  specialization: validation/specialization-cases.md#deduction_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#deduction_theorem

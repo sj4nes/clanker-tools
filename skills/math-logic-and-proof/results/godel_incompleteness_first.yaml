@@ -1,0 +1,52 @@
+id: boundary.godel_incompleteness_first
+node: godel_incompleteness_first
+status_label: stated_not_proved
+display: 'Any consistent, recursively axiomatised theory that interprets Robinson arithmetic Q is incomplete: some sentence G_T is neither provable nor refutable in T (and G_T is true in the standard model).'
+parseable: 'Con(T) and rec_axiomatised(T) and (T interprets Q) -> exists sigma, T not|- sigma and T not|- not sigma'
+symbols:
+  T: { meaning: a first-order theory, type: Theory }
+  G_T: { meaning: the Goedel sentence, T |- G_T <-> not Prov_T(quote G_T), type: Wff }
+  Q: { meaning: Robinson arithmetic, type: Theory }
+type_check_status: well_formed
+type_check_note: 'a schema over theories T. Each hypothesis is a predicate on T: consistency (consistency_fol), decidable axiom set (decidability / church_turing_thesis), interpretability of Q (a provability condition).'
+hypotheses: [T_consistent, T_recursively_axiomatised, T_interprets_Q]
+preconditions: []
+dependencies: [decidability, derivability_fol, consistency_fol, church_turing_thesis]
+proof:
+  technique: 'NOT PROVED HERE (scope: arithmetisation of syntax and the diagonal/fixed-point lemma are excluded). Sketch: Goedel-number syntax; Prov_T(x) is a Sigma_1 formula; the diagonal lemma gives G_T with T |- G_T <-> not Prov_T(quote G_T); if T |- G_T then T |- Prov_T(quote G_T) (Sigma_1 completeness) and T |- not G_T, so T inconsistent; if T |- not G_T then (omega-consistency, or Rosser) contradiction.'
+  derives_from: church_turing_thesis
+  lean_status: none
+  lean_ref: 'cited: [smith_godel_2e]. (Mathlib has a formalisation of the first incompleteness theorem; not connected in this capsule -- out of scope.)'
+uses_choice: false
+constructive: true
+constructive_grade: n/a
+constructive_note: 'the theorem and its usual proof are effective/constructive (G_T is explicitly constructed); "constructive_grade" (intuitionistic/LEM) does not apply to a boundary node.'
+solving_for: null
+specialization_cases:
+  - 'T = PA: PA not|- Con(PA) (godel_incompleteness_second); Goodstein, Paris-Harrington are natural PA-independent statements'
+  - 'T = ZFC: incomplete if consistent (incompleteness_of_PA_ZFC); CH independent (via forcing, different mechanism, same headline)'
+  - 'T = Q: incomplete and essentially undecidable'
+  - 'T = true arithmetic Th(N): COMPLETE, but not recursively axiomatisable -- hypothesis 2 fails. The tight boundary.'
+  - 'T = real closed fields / (R,+,.,<): COMPLETE and decidable (Tarski) -- does not interpret N, hypothesis 3 fails'
+counterexamples_when_dropped:
+  T_consistent: 'an inconsistent T proves everything -- trivially complete'
+  T_recursively_axiomatised: 'Th(N) is complete'
+  T_interprets_Q: 'dense linear orders, Presburger arithmetic (N,+), real closed fields -- all complete and decidable'
+essential_hypotheses_note: 'all three hypotheses essential -- each has a complete-theory counterexample when dropped.'
+common_misuse:
+  - '"Goedel showed mathematics is inconsistent / unknowable"'
+  - 'applying it to theories not interpreting arithmetic (group theory, RCF, Euclidean geometry)'
+  - 'reading G_T as absolutely "true but unprovable" -- true in N, and provable in stronger theories (PA + Con(PA) |- G_PA)'
+  - 'conflating with godel_completeness_theorem'
+related:
+  commonly_confused_with: godel_completeness_theorem
+  strengthened_by: [godel_incompleteness_second]
+  shares_machinery_with: tarski_undefinability
+  historically_precedes: 'Turing 1936, Rosser 1936, Chaitin'
+sources: [smith_godel_2e, bbj_5e, enderton_logic_2e]
+status: draft
+checks:
+  type: validation/type-checks.md#godel_incompleteness_first
+  specialization: validation/specialization-cases.md#godel_incompleteness_first
+  instances: n/a
+  proof: validation/proof-checks.md#godel_incompleteness_first

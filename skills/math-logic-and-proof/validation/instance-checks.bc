@@ -1,0 +1,137 @@
+/* Release 0.1 instance checks for math-logic-and-proof.
+   Run:  bc -q -l validation/instance-checks.bc
+   Every identifier is lowercase and starts with a letter (bc rule).
+   scale = 0 throughout: these are combinatorial / truth-functional checks,
+   no fractional arithmetic, so bc's truncation never bites.
+   These are INSTANCES -- they make the theorems concrete.  They are NOT proofs
+   of the general statements (that is what validation/proof-checks.lean is for). */
+
+scale = 0
+
+print "=== truth_table / tautology: enumerate all 2^n rows ===\n"
+print "  phi = (p -> q) -> ((q -> r) -> (p -> r))   [hypothetical syllogism]\n"
+taut = 1
+for (p = 0; p <= 1; p++) {
+  for (q = 0; q <= 1; q++) {
+    for (r = 0; r <= 1; r++) {
+      pq = (1 - p) + p*q ; if (pq > 1) pq = 1        /* p -> q */
+      qr = (1 - q) + q*r ; if (qr > 1) qr = 1        /* q -> r */
+      pr = (1 - p) + p*r ; if (pr > 1) pr = 1        /* p -> r */
+      inner = (1 - qr) + qr*pr ; if (inner > 1) inner = 1
+      val = (1 - pq) + pq*inner ; if (val > 1) val = 1
+      print "  p=", p, " q=", q, " r=", r, "  -> ", val, "\n"
+      if (val == 0) taut = 0
+    }
+  }
+}
+print "  tautology? ", taut, "  (1 = true under every one of the 8 assignments)\n\n"
+
+print "=== tautology / satisfiability / contradiction: classify sample wffs over {p,q} ===\n"
+print "  wff            rows_true / 4   verdict\n"
+define classify(name) { return 0 }
+/* phi1 = p or not p ; phi2 = p and not p ; phi3 = p and not q */
+for (k = 1; k <= 3; k++) {
+  cnt = 0
+  for (p = 0; p <= 1; p++) {
+    for (q = 0; q <= 1; q++) {
+      if (k == 1) val = (p + (1 - p) >= 1)
+      if (k == 2) val = (p * (1 - p))
+      if (k == 3) val = (p * (1 - q))
+      if (val >= 1) cnt = cnt + 1
+    }
+  }
+  if (k == 1) print "  p or not p     ", cnt, " / 4          tautology\n"
+  if (k == 2) print "  p and not p    ", cnt, " / 4          contradiction (unsatisfiable)\n"
+  if (k == 3) print "  p and not q    ", cnt, " / 4          contingent (satisfiable, not valid)\n"
+}
+print "  tautology = all rows true ; contradiction = no rows true ; satisfiable = some row true\n\n"
+
+print "=== duality_principle: prove one absorption law, get the dual free ===\n"
+print "  check  p and (p or q) == p   over all 4 rows, then its dual  p or (p and q) == p :\n"
+ok1 = 1 ; ok2 = 1
+for (p = 0; p <= 1; p++) {
+  for (q = 0; q <= 1; q++) {
+    lhs1 = p * ((p + q) >= 1) ; if (lhs1 != p) ok1 = 0
+    inner = (p * q) ; lhs2 = ((p + inner) >= 1) ; if (lhs2 != p) ok2 = 0
+  }
+}
+print "  p and (p or q) == p : ", ok1, "     dual  p or (p and q) == p : ", ok2, "\n"
+print "  swapping and<->or, true<->false sends any Boolean identity to its dual.\n\n"
+
+print "=== de_morgan_prop: the constructive-grade SPLIT, checked on Bool ===\n"
+print "  columns: not(p and q) | (not p or not q)      -- classically equal\n"
+for (p = 0; p <= 1; p++) {
+  for (q = 0; q <= 1; q++) {
+    lhs = 1 - (p * q)
+    rhs = (1 - p) + (1 - q) ; if (rhs > 1) rhs = 1
+    print "  p=", p, " q=", q, "   not(p&q)=", lhs, "   (!p | !q)=", rhs, "   equal? ", (lhs == rhs), "\n"
+  }
+}
+print "  the truth tables agree -- but the -> direction is needs_LEM: it is the\n"
+print "  step 'not both true, therefore one is definitely false' (see proof-checks.lean).\n\n"
+
+print "=== functional_completeness: the 16 binary Boolean functions, each as a\n"
+print "    NAND expression exists.  Here: not, and, or reconstructed from nand ===\n"
+define nd(a, b) { return 1 - (a * b) }
+oknot = 1 ; okand = 1 ; okor = 1
+for (a = 0; a <= 1; a++) {
+  na = 1 - a
+  if (nd(a, a) != na) oknot = 0
+  for (b = 0; b <= 1; b++) {
+    if (nd(nd(a,b), nd(a,b)) != (a * b)) okand = 0
+    orr = a + b ; if (orr > 1) orr = 1
+    if (nd(nd(a,a), nd(b,b)) != orr) okor = 0
+  }
+}
+print "  not from nand: ", oknot, "   and from nand: ", okand, "   or from nand: ", okor, "\n"
+print "  count of binary functions {0,1}^2 -> {0,1}: 2^(2^2) = ", 2^(2^2), "\n\n"
+
+print "=== quantifier_order: forall x exists y  vs  exists y forall x ===\n"
+print "  domain D = {0,1,2,3}, relation r(x,y) := (y == x+1 mod 4)\n"
+n = 4
+fa_ex = 1
+for (x = 0; x < n; x++) {
+  found = 0
+  for (y = 0; y < n; y++) { if (y == (x + 1) % n) found = 1 }
+  if (found == 0) fa_ex = 0
+}
+ex_fa = 0
+for (y = 0; y < n; y++) {
+  allx = 1
+  for (x = 0; x < n; x++) { if (y != (x + 1) % n) allx = 0 }
+  if (allx == 1) ex_fa = 1
+}
+print "  forall x, exists y, r(x,y) : ", fa_ex, "   (each x has the successor)\n"
+print "  exists y, forall x, r(x,y) : ", ex_fa, "   (no single y works for all x)\n"
+print "  => the two orders are NOT equivalent; exists-forall is strictly stronger.\n\n"
+
+print "=== free_for: the capture bug, numerically ===\n"
+print "  phi(x) := exists y in {0..9}, y == x + 1        -- true for x = 0..8\n"
+print "  capture: substitute the term 'y' for x  =>  exists y, y == y + 1  -- FALSE\n"
+phi3 = 0
+for (y = 0; y <= 9; y++) { if (y == 3 + 1) phi3 = 1 }
+cap = 0
+for (y = 0; y <= 9; y++) { if (y == y + 1) cap = 1 }
+print "  phi(3) = ", phi3, "     captured form = ", cap, "\n"
+print "  forall-elimination without the free_for check turns a truth into a falsehood.\n\n"
+
+print "=== quantifier_negation: negating an eps-delta statement (structure only) ===\n"
+print "  continuous at c:      forall e>0  exists d>0  forall x  (|x-c|<d -> |f x - f c|<e)\n"
+print "  NOT continuous at c:  exists e>0  forall d>0  exists x  (|x-c|<d and |f x - f c|>=e)\n"
+print "  each quantifier flips, order preserved -- this IS quantifier_negation, needs_LEM\n"
+print "  for the forall->exists step.\n\n"
+
+print "=== induction_equivalence: least-element search = well-ordering, on a sample set ===\n"
+print "  S = { n in 0..20 : n*n > 30 } ; find its least element by strong search\n"
+least = -1
+for (n = 0; n <= 20; n++) {
+  if (n*n > 30) { if (least == -1) least = n }
+}
+print "  least n with n^2 > 30 : ", least, "   (check ", least, "^2 = ", least*least, " > 30, ", (least-1), "^2 = ", (least-1)*(least-1), ")\n"
+print "  well-ordering: every nonempty subset of N has such a least element;\n"
+print "  equivalent to weak and to strong induction (proof-checks.lean, strong_of_weak).\n\n"
+
+print "=== boundary: propositional validity IS decidable (2^n table); first-order is NOT ===\n"
+print "  propositional: a wff with n atoms -> 2^n rows -> decidable (this file, row-by-row)\n"
+print "  first-order: no such bound; validity is only semi-decidable (undecidability_fol_validity)\n"
+quit
