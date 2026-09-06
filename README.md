@@ -122,3 +122,7 @@ skill has now been run against its real tool. Findings folded back into the skil
 2. Fill in `SKILL.md` frontmatter and body; add `references/` as needed.
 3. `ln -s ../../skills/<name> .claude/skills/<name>` for Claude Code discovery.
 4. Add a row to the matching domain table under [Skills](#skills).
+
+Near-term work on existing skills lives in [`BACKLOG.md`](BACKLOG.md); the
+speculative long-horizon roadmap of candidate domains is in
+[`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).

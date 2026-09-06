@@ -1,7 +1,9 @@
 # Backlog
 
-Lightweight, repo-native task tracker. No external issue tracker yet — this file
-is it. One `##` section per skill / area. Keep entries short; lead each with the
+Lightweight, repo-native task tracker for **near-term, actionable** work on
+skills that already exist. No external issue tracker yet — this file is it.
+
+Organised by domain, then by skill. Keep entries short; lead each with the
 **skill** it concerns (bold), then link to the file or node it touches.
 
 Format:
@@ -11,9 +13,15 @@ Format:
 - [x] **skill-name:** done thing  (2026-09-06)
 ```
 
+For the **speculative, long-horizon roadmap** of candidate new skills and
+capsules — organised by domain, low confidence, no commitments — see
+[`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
+
 ---
 
-## math-logic-and-proof
+## Mathematics
+
+### math-logic-and-proof
 
 - [ ] **math-logic-and-proof:** Mathlib-backed completeness formalisation — connect
       `godel_completeness_theorem` to `Mathlib.ModelTheory` (`FirstOrder.Language` +
@@ -39,21 +47,35 @@ Format:
 - [ ] **math-logic-and-proof:** Add the remaining `validation/` worksheet files the
       result YAMLs point at: `type-checks.md`, `specialization-cases.md`,
       `instance-checks.md` (only `proof-checks.md` and the `.lean` / `.bc` exist so far).
+
+### math-sets-functions-cardinality
+
 - [ ] **math-sets-functions-cardinality:** Release 0.2 — replace its five logic
       primitives (`proposition_logic`, `predicate_logic`, `quantifier_negation`,
       `quantifier_order`, `proof_methods`) with `requires` edges into the
       corresponding developed nodes in `math-logic-and-proof`.  (cross-capsule; see
       `math-logic-and-proof/edges/cross-capsule.md`)
 
-## simulation
+## Analysis & inference methodology
+
+### simulation
 
 - [ ] **simulation:** Consider a `templates/` charter + reporting skeleton the skill
       can emit (currently the templates live inline in `references/workflow.md`).
 - [ ] **simulation:** Extend `verification/` beyond the M/M/1 DES case — one
       continuous-time (analytic ODE benchmark) and one Monte Carlo (dependence /
       tail-risk) worked check would cover more of the paradigm table.
+- [ ] **simulation:** Cross-link with `design-of-experiments` — step-9 "design the
+      experiment" could point at `design-of-experiments/references/simulation-doe.md`
+      instead of restating.
 
-## visualization-design
+### design-of-experiments
+
+- [ ] **design-of-experiments:** Cross-link with `simulation` — the simulation
+      skill's step-9 "design the experiment" could point at this skill's
+      `references/simulation-doe.md` instead of restating.
+
+### visualization-design
 
 - [ ] **visualization-design:** cross-link with `simulation` and
       `design-of-experiments` — their reporting steps could point at
@@ -63,13 +85,7 @@ Format:
       check (parse a Mermaid/DOT source, confirm every edge style has a declared
       meaning in a legend node).
 
-## design-of-experiments
-
-- [ ] **design-of-experiments:** Cross-link with `simulation` — the simulation
-      skill's step-9 "design the experiment" could point at this skill's
-      `references/simulation-doe.md` instead of restating.
-
-## unknown-discovery
+### unknown-discovery
 
 - [ ] **unknown-discovery:** cross-link — step 6 hands off to `simulation`,
       `design-of-experiments`, `control-systems`, `tla-checker`/`lean`; their
@@ -80,6 +96,15 @@ Format:
       charter → epistemic map → ranked assumptions → premortem + ACH → signal
       cards → VoI-ranked backlog → forecast ledger → monitoring plan; `check.py`
       recomputes the EVPI / Brier / diagnosticity claims, wired into `run.sh`.
+
+## Cross-cutting
+
+- [ ] **verification harnesses:** every methodology skill's `verification/` re-solves
+      the same BSD-vs-GNU / `bc`-flags / Python-stdlib portability problem. Consider a
+      shared `templates/verification/` harness or a short `docs/verifying-skills.md`
+      capturing the fixes already discovered (see the Verification table in the README).
+
+---
 
 ## Done
 
