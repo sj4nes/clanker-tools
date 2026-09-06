@@ -1,0 +1,46 @@
+id: orders.well_ordering_theorem
+node: well_ordering_theorem
+status_label: proved_theorem
+display: 'Every set admits a well-ordering: a total order in which every nonempty subset has a least element.'
+parseable: 'forall X, exists a well-order on X'
+symbols:
+  X: { meaning: any set, type: set }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [well_order, zorn_lemma, axiom_of_choice]
+proof:
+  technique: >-
+    apply Zorn to the set of well-orderings of subsets of X, ordered by
+    "initial-segment extension". A chain of such well-orderings has their union
+    as an upper bound. A maximal one must have domain X (else extend it by one
+    more element). Equivalently: transfinitely enumerate X using a choice
+    function.
+  derives_from: zorn_lemma
+  lean_status: cited
+  lean_ref: null
+uses_choice: true
+choice_grade: needs_full_AC
+constructive: false
+constructive_note: 'radically non-constructive -- no definable well-ordering of R is possible (it is consistent that none exists in a definable form).'
+solving_for: null
+specialization_cases:
+  - 'omega is already well-ordered by membership (no AC needed for countable sets that come with an enumeration)'
+  - 'gives cardinal_comparability: well-order both X and Y, compare order types'
+  - 'gives "every infinite set has a countably infinite subset" (choose the first omega elements)'
+counterexamples_when_dropped:
+  full_AC: 'equivalent to AC; in ZF alone it is consistent that R cannot be well-ordered'
+common_misuse:
+  - 'imagining an explicit well-ordering of R (there is none definable)'
+  - 'confusing "well-ordered" with "well-founded" (the latter drops totality)'
+  - 'using it where DC or CC would suffice (sequential constructions)'
+related:
+  equivalent_to: [axiom_of_choice, zorn_lemma]
+  enables: [cardinal_comparability, aleph_hierarchy]
+sources: [zermelo_1904, jech_set_theory, enderton]
+status: reviewed
+checks:
+  type: validation/type-checks.md#well_ordering_theorem
+  specialization: validation/specialization-cases.md#well_ordering_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

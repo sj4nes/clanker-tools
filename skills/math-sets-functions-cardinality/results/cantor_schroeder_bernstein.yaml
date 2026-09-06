@@ -1,0 +1,47 @@
+id: cardinality.cantor_schroeder_bernstein
+node: cantor_schroeder_bernstein
+status_label: proved_theorem
+display: 'If $|X|\le|Y|$ and $|Y|\le|X|$ then $|X|=|Y|$: injections $f:X\to Y$ and $g:Y\to X$ yield a bijection.'
+parseable: 'inj(f : X -> Y) and inj(g : Y -> X) -> exists h : X -> Y, bijective h'
+symbols:
+  f, g: { meaning: injections in each direction, type: function }
+  h: { meaning: the constructed bijection, type: function }
+type_check_status: well_formed
+hypotheses: [injection_each_way]
+preconditions: []
+dependencies: [cardinal_le, bijection, function_composition]
+proof:
+  technique: >-
+    partition X by "ancestry": each x traces back g^{-1}, f^{-1}, ... until it
+    stops in X (X-origin), stops in Y (Y-origin), or never stops. Use f on
+    X-origin and no-origin points, g^{-1} on Y-origin points. Each piece is a
+    bijection and they assemble. (Equivalently: Knaster-Tarski fixed point of
+    A -> X \ g[Y \ f[A]] on P(X).)  NO CHOICE.
+  derives_from: cardinal_le
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+choice_grade: choice_free
+choice_note: 'often mistaught as needing choice -- it does not. The partition and the fixed point are explicit.'
+constructive: true
+solving_for: null
+specialization_cases:
+  - '|omega| = |omega x omega|: pairing one way, x -> (x,0) the other'
+  - '|(0,1)| = |[0,1]| in R: inclusion one way, x -> (x+1)/3 the other -> a bijection (instance-checks.bc-style back-and-forth)'
+  - 'combined with cantor_theorem: |X| <= |P(X)| and never equal, so always strict'
+counterexamples_when_dropped:
+  injection_each_way: 'one injection alone gives only |X| <= |Y|; e.g. omega injects into R but they are not equinumerous'
+common_misuse:
+  - 'assuming it needs AC'
+  - 'expecting the bijection to be "natural" -- it depends on the two injections and is generally not canonical'
+  - 'confusing with cardinal_comparability ("any two cardinals are <=-comparable"), which DOES need AC'
+related:
+  contrasts_with: cardinal_comparability
+  enables: powerset_nat_equinumerous_reals
+sources: [enderton, halmos, jech_set_theory]
+status: reviewed
+checks:
+  type: validation/type-checks.md#cantor_schroeder_bernstein
+  specialization: validation/specialization-cases.md#cantor_schroeder_bernstein
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

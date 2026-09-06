@@ -1,0 +1,46 @@
+id: equivalence.well_defined_on_quotient
+node: well_defined_on_quotient
+status_label: proved_theorem
+display: 'A rule $[x]\mapsto h(x)$ defines a function $X/\!\sim\;\to Z$ if and only if $x\sim x'\Rightarrow h(x)=h(x')$ (h respects $\sim$).'
+parseable: '[x] -> h(x) is a function iff (x ~ x'' implies h(x) = h(x''))'
+symbols:
+  h: { meaning: a rule on representatives, type: 'X -> Z' }
+  '[x] -> h(x)': { meaning: the induced map on classes, type: 'X/~ -> Z' }
+type_check_status: well_formed
+type_check_note: 'this IS objects.md rule 1 -- the recurring obligation in every quotient construction (Z, Q in math-number-systems; every quotient group/ring/module downstream).'
+hypotheses: []
+preconditions: []
+dependencies: [quotient_set, function]
+proof:
+  technique: >-
+    (<=) if h respects ~, then h factors as h = (bar h) o pi where pi is the
+    canonical projection; bar h([x]) := h(x) is single-valued because any two
+    representatives x, x' of [x] satisfy x ~ x', so h(x) = h(x'). (=>) if the
+    rule is a function, pick two representatives of the same class: they map to
+    the same value, i.e. h respects ~.
+  derives_from: quotient_set
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean §6 -- cls_eq_iff underpins "two representatives of [x] are ~-related"'
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'addition on Z = (NxN)/~ : [(a,b)]+[(c,d)] := [(a+c,b+d)] is well-defined because ~ is a congruence for +'
+  - 'the identity map X/~ -> X/~ (h = pi) always respects ~'
+  - 'a function constant on X descends trivially'
+counterexamples_when_dropped:
+  h_respects_the_relation: 'on Z/6Z, the rule [n] -> n^2 mod 12 is NOT well-defined: [0] = [6] but 0 != 36 mod 12 = 0... take [n] -> n mod 4 on Z/6Z: [0]=[6] but 0 != 2. The rule depends on the representative.'
+common_misuse:
+  - 'defining an operation on classes via representatives and forgetting to check it respects the relation'
+  - 'assuming a formula that "looks canonical" is automatically well-defined'
+related:
+  paired_with: universal_property_quotient
+  used_by: 'math-number-systems integer_operations_well_defined, rational_operations_well_defined'
+sources: [enderton, dummit_foote, halmos]
+status: reviewed
+checks:
+  type: validation/type-checks.md#well_defined_on_quotient
+  specialization: validation/specialization-cases.md#well_defined_on_quotient
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

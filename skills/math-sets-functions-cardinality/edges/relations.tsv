@@ -1,0 +1,33 @@
+type	source_id	target_id	note
+equivalent_to	axiom_of_choice	zorn_lemma	AC <=> Zorn over ZF; zorn_lemma derives_from AC one-directionally, this is the reverse.
+equivalent_to	axiom_of_choice	well_ordering_theorem	AC <=> well-ordering over ZF.
+equivalent_to	axiom_of_choice	cardinal_comparability	AC <=> "any two sets are <=-comparable".
+equivalent_to	axiom_of_choice	right_inverse_iff_surjective	AC <=> "every surjection splits".
+equivalent_to	zorn_lemma	well_ordering_theorem	the two headline AC-equivalents; each is a short consequence of the other.
+equivalent_to	power_set	function_space	P(X) is naturally bijective with 2^X (powerset_iso_two_power); NOT a definitional identity.
+equivalent_to	equivalence_relation	partition	the equivalence_partition_correspondence bijection.
+equivalent_to	dedekind_infinite	infinite_set	coincide over ZF + countable choice (finite_iff_not_dedekind_infinite); NOT over ZF alone.
+special_case_of	recursion_theorem	transfinite_recursion	recursion on omega is transfinite recursion restricted to the ordinal omega.
+special_case_of	cantor_diagonal	cantor_theorem	cantor_diagonal is cantor_theorem at X = omega.
+special_case_of	countable_choice	dependent_choice	DC implies CC (and AC implies DC); the arrows run AC -> DC -> CC.
+generalizes	cantor_theorem	real_uncountable	real_uncountable (in math-number-systems) is |omega| < |P(omega)|.
+generalizes	transfinite_recursion	recursion_theorem	see special_case_of, reversed.
+strengthens	well_ordering_theorem	cardinal_comparability	well-ordering gives comparability by comparing order types.
+contrasts_with	cantor_schroeder_bernstein	cardinal_comparability	CSB is choice-free; comparability needs AC. Both are "cardinals behave like an order" facts, on opposite sides of the choice line.
+contrasts_with	dedekind_infinite	finite_set	"in bijection with a proper subset" vs "in bijection with a finite ordinal".
+contrasts_with	preimage_algebra	image_algebra	preimage commutes with everything; image commutes only with union.
+commonly_confused_with	cantor_schroeder_bernstein	cardinal_comparability	CSB does NOT need choice; comparability does.
+commonly_confused_with	countable_set	finite_set	"countable" includes finite here.
+commonly_confused_with	continuum	continuum_hypothesis	"|R| = 2^aleph0" is a ZFC theorem; "|R| = aleph_1" is CH (independent).
+commonly_confused_with	well_order	relation_properties	"well-order" (total + least elements) vs "well-founded" (least elements, totality dropped).
+commonly_confused_with	preimage	inverse_function	the preimage operator f^{-1}[.] exists for every f; the inverse FUNCTION needs f bijective.
+historically_precedes	cantor_1891_diagonal	zf	Cantor's cardinality work (1874-1891) predates the ZF axiomatization (Zermelo 1908, Fraenkel/Skolem 1922).
+historically_precedes	axiom_of_choice	zorn_lemma	Zermelo 1904 (AC) predates Zorn 1935.
+depends_on_choice	countable_closure_properties	countable_choice	the countable-union clause only; the rest is choice-free.
+depends_on_choice	finite_iff_not_dedekind_infinite	countable_choice	the "not Dedekind-infinite => finite" direction.
+independent_of_ZFC	continuum_hypothesis	zfc	Godel 1938 (Con -> Con + CH via L) and Cohen 1963 (Con -> Con + not-CH via forcing).
+illustrated_by	nat_times_nat_countable	example_pairing	pi(0,0)=0, pi(1,0)=1, pi(0,1)=2, pi(2,0)=3, ... (instance-checks.bc)
+illustrated_by	cantor_diagonal	example_flip	flip the diagonal bit of a list of binary sequences (instance-checks.bc)
+illustrated_by	preimage_algebra	example_x_squared	f(x)=x^2: f[A cap B] can be strictly smaller than f[A] cap f[B], but f^{-1} is always exact
+proved_using	powerset_nat_equinumerous_reals	binary_expansion	|P(omega)| = |2^omega|; |2^omega| = |R| via base-2 digits + CSB (the digit-string map is not quite a bijection because of 0.111... = 1.000..., fixed by CSB)
+proved_using	nat_times_nat_countable	pairing_polynomial	alt route: the explicit polynomial (m+n)(m+n+1)/2 + n ; canonical route in 0.1 is the order-type argument (choice-free, no arithmetic)

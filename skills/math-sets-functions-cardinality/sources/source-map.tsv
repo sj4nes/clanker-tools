@@ -1,0 +1,17 @@
+source_key	title	edition	sections	conventions
+enderton	Elements of Set Theory	1977	ch 2-8	N from 0; von Neumann ordinals
+halmos	Naive Set Theory	1960	all	informal axioms; Zorn
+jech_set_theory	Set Theory	3	ch 1-5	Hartogs, alephs, CH independence stated
+kunen_set_theory	Set Theory	2011	ch 1	ZF schemas; forcing
+enderton_logic	A Mathematical Introduction to Logic	2	ch 1-2	classical predicate logic
+dedekind_1888	Was sind und was sollen die Zahlen	1888	-	recursion theorem; categoricity
+cantor_1891	Ueber eine elementare Frage	1891	-	the diagonal argument
+zermelo_1904	Beweis dass jede Menge wohlgeordnet	1904	-	AC and well-ordering
+zorn_1935	A remark on method in transfinite algebra	1935	-	Zorn's lemma
+godel_1940	The Consistency of the Continuum Hypothesis	1940	-	L models ZFC+GCH
+cohen_1966	Set Theory and the Continuum Hypothesis	1966	-	forcing; not-CH
+herrlich_axiom_of_choice	Axiom of Choice	LNM 1876	all	what breaks without AC
+munkres	Topology	2	ch 1-2	preimage algebra framing
+dummit_foote	Abstract Algebra	3	ch 0-3	quotient / well-definedness
+rudin_principles	Principles of Mathematical Analysis	3	ch 2	countability, diagonal
+tao_analysis_I	Analysis I	4	ch 8	explicit AC/CC

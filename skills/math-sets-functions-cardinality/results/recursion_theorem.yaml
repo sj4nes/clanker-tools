@@ -1,0 +1,47 @@
+id: naturals.recursion_theorem
+node: recursion_theorem
+status_label: proved_theorem
+display: 'For any set $A$, $a\in A$, and $g:\omega\times A\to A$, there is a unique $f:\omega\to A$ with $f(0)=a$ and $f(S n)=g(n,f(n))$.'
+parseable: 'exists! f : omega -> A, f 0 = a and forall n, f (S n) = g (n, f n)'
+symbols:
+  A: { meaning: an arbitrary target set, type: set }
+  g: { meaning: the step rule, type: 'omega x A -> A' }
+  f: { meaning: the function defined by recursion, type: 'omega -> A' }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [peano_holds_in_omega, omega_construction, function, axiom_separation]
+proof:
+  technique: >-
+    existence: f is the union of all "acceptable" partial functions (defined on
+    an initial segment, satisfying the two equations); induction shows an
+    acceptable function is defined at every n and that any two agree. uniqueness:
+    { n : f n = f' n } contains 0 and is S-closed, so is omega (induction).
+    Also a special case of transfinite_recursion.
+  derives_from: peano_holds_in_omega
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'g(n,x) = x + 1, a = 0 => f = identity (sanity)'
+  - 'g ignoring n gives iteration; g using n gives primitive recursion'
+  - 'this is what licenses defining +, *, ^, n!, and every recursively-given sequence -- math-number-systems uses it for all N arithmetic'
+counterexamples_when_dropped:
+  induction_via_minimality_of_omega: 'over a larger inductive set with an extra Z-chain, f is unconstrained on the chain -- existence and uniqueness both fail'
+  S_injective: 'if S(x) = S(y) with x != y, the equation at S(x) = S(y) doubly constrains f and can conflict'
+common_misuse:
+  - 'assuming a recursively-described f exists without invoking this theorem'
+  - 'confusing it with the recursion theorem of computability'
+related:
+  discharges: 'math-number-systems node `recursion_theorem` (there stated, here proved from the set model)'
+  special_case_of: transfinite_recursion
+sources: [enderton, dedekind_1888, halmos]
+status: reviewed
+checks:
+  type: validation/type-checks.md#recursion_theorem
+  specialization: validation/specialization-cases.md#recursion_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

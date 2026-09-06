@@ -1,0 +1,43 @@
+id: cardinality.cantor_diagonal
+node: cantor_diagonal
+status_label: proved_theorem
+display: '$2^{\omega}$ (equivalently $\mathcal{P}(\omega)$, $[0,1]$, $\mathbb{R}$) is uncountable.'
+parseable: 'not exists surjection omega -> 2^omega'
+symbols:
+  '2^omega': { meaning: the set of functions omega -> {0,1}, type: set }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [cantor_theorem, powerset_iso_two_power, omega_construction, countable_set, quantifier_negation]
+proof:
+  technique: >-
+    Cantor's theorem at X = omega: no surjection omega -> P(omega) ~ 2^omega.
+    Explicitly: given s : omega -> 2^omega, the sequence d with d(n) = 1 - s(n)(n)
+    differs from every s(n) at position n (instance-checks.bc), so d is missed.
+  derives_from: cantor_theorem
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean §4 -- cantor'
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'a worked 5-row enumeration -> the flipped diagonal sequence (instance-checks.bc)'
+  - 'via binary expansions, [0,1] is uncountable; via powerset_nat_equinumerous_reals, so is R'
+  - 'the irrationals are uncountable (R minus the countable Q)'
+counterexamples_when_dropped:
+  ambient_set_is_2_omega_not_omega: 'omega itself IS countable; the diagonal of a list of naturals is not a natural not on the list -- it escapes into 2^omega'
+  binary_not_decimal_ambiguity: 'over decimal digits one must avoid 9-tails (0.4999... = 0.5); over {0,1} with the "flip" rule there is no such collision, so the binary form is cleanest here'
+common_misuse:
+  - 'concluding a particular real is non-computable rather than "no enumeration of all of them exists"'
+  - 'assuming |2^omega| is aleph_1 (that is CH -- independent of ZFC)'
+related:
+  generalizes_from: cantor_theorem
+  enables: [continuum, real_uncountable]
+sources: [cantor_1891, enderton, rudin_principles]
+status: reviewed
+checks:
+  type: validation/type-checks.md#cantor_diagonal
+  specialization: validation/specialization-cases.md#cantor_diagonal
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

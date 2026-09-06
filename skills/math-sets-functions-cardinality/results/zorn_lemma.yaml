@@ -1,0 +1,52 @@
+id: orders.zorn_lemma
+node: zorn_lemma
+status_label: proved_theorem
+display: 'A nonempty partially ordered set in which every chain has an upper bound has a maximal element.'
+parseable: 'nonempty(P) and (forall chain C, has_upper_bound C) -> exists m in P, maximal m'
+symbols:
+  P: { meaning: a partial order, type: order }
+  m: { meaning: a maximal element, type: element of P }
+type_check_status: well_formed
+hypotheses: [P_nonempty, every_chain_has_an_upper_bound]
+preconditions: []
+dependencies: [partial_order, chain_antichain, maximal_element, bounds_extrema, axiom_of_choice]
+proof:
+  technique: >-
+    suppose no maximal element. Using a choice function, transfinitely build a
+    strictly increasing chain (x_alpha) indexed by the ordinals -- at each step
+    the current chain has an upper bound, which is not maximal, so pick something
+    strictly above. This injects the ordinals (a proper class) into P (a set),
+    contradiction (Hartogs). Hence a maximal element exists.
+  derives_from: axiom_of_choice
+  lean_status: cited
+  lean_ref: null
+uses_choice: true
+choice_grade: needs_full_AC
+constructive: false
+equivalent_forms:
+  - 'AC (zorn <=> AC over ZF)'
+  - 'the Hausdorff maximal principle (every chain extends to a maximal chain)'
+  - 'the Teichmuller-Tukey lemma (a nonempty property of finite character has a maximal set)'
+solving_for: null
+specialization_cases:
+  - 'every ideal in a ring with 1 extends to a maximal ideal'
+  - 'every vector space has a basis (maximal linearly independent set)'
+  - 'every filter extends to an ultrafilter'
+  - 'used to prove well_ordering_theorem and cardinal_comparability'
+counterexamples_when_dropped:
+  every_chain_has_an_upper_bound: 'the half-open interval [0,1) under <= : every chain is bounded above by 1 IN [0,1]... but 1 is not in [0,1), so chains {1 - 1/n} have NO upper bound in [0,1); and indeed [0,1) has no maximal element'
+  P_nonempty: 'the empty poset has no maximal element'
+  full_AC: 'Zorn is equivalent to AC -- in ZF alone it can fail'
+common_misuse:
+  - 'checking only that MAXIMAL chains are bounded rather than ALL chains'
+  - 'forgetting the empty chain (its upper bound witnesses P nonempty)'
+  - 'concluding a GREATEST element (Zorn gives maximal, not maximum)'
+related:
+  equivalent_to: [axiom_of_choice, well_ordering_theorem]
+sources: [zorn_1935, halmos, jech_set_theory]
+status: reviewed
+checks:
+  type: validation/type-checks.md#zorn_lemma
+  specialization: validation/specialization-cases.md#zorn_lemma
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

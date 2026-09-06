@@ -1,0 +1,40 @@
+id: logic.quantifier_negation
+node: quantifier_negation
+status_label: proved_theorem
+display: '$\neg(\forall x\,P(x))\iff\exists x\,\neg P(x)$ and $\neg(\exists x\,P(x))\iff\forall x\,\neg P(x)$.'
+parseable: 'not forall x P(x) iff exists x not P(x)'
+symbols:
+  P: { meaning: a predicate on the domain, type: predicate }
+type_check_status: well_formed
+type_check_note: '`not_forall` needs classical logic (excluded middle); `not_exists` is constructive. See conventions.md.'
+hypotheses: []
+preconditions: []
+dependencies: [predicate_logic, proof_methods]
+proof:
+  technique: '`not_exists` by unfolding; `not_forall` by contradiction: if not (exists x, not P x) then forall x, P x (not_exists), contradicting the hypothesis.'
+  derives_from: predicate_logic
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean §5 -- not_forall_iff (Classical.not_forall), not_exists_iff (not_exists)'
+uses_choice: false
+choice_grade: choice_free
+constructive: false
+constructive_note: 'the exists-not direction of `not_forall` is not constructively valid; the rest is.'
+solving_for: null
+specialization_cases:
+  - 'push through an implication: not (A -> B) iff A and not B'
+  - 'negate an eps-delta statement: not (forall eps>0 exists delta>0 forall x, |x-c|<delta -> |f x - f c|<eps)  iff  exists eps>0 forall delta>0 exists x, |x-c|<delta and |f x - f c|>=eps  -- this IS the definition of "discontinuous at c"'
+  - 'not (X is countable) unfolds to "no injection X -> omega"'
+counterexamples_when_dropped:
+  classical_logic: 'in intuitionistic logic, not (forall x, P x or not P x) is refutable, but forall x, (P x or not P x) is NOT provable -- the exists-not form is strictly classical'
+common_misuse:
+  - 'stopping the negation at the outer quantifier instead of pushing it all the way in'
+  - 'swapping quantifier ORDER while negating (that is quantifier_order, a separate issue)'
+related:
+  used_by: 'every counterexample node in math-real-analysis and math-number-systems (each "not continuous", "not compact", "not complete" is this)'
+sources: [enderton_logic, halmos]
+status: reviewed
+checks:
+  type: validation/type-checks.md#quantifier_negation
+  specialization: validation/specialization-cases.md#quantifier_negation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

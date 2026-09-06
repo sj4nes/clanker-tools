@@ -1,0 +1,44 @@
+id: naturals.peano_holds_in_omega
+node: peano_holds_in_omega
+status_label: proved_theorem
+display: '$(\omega,\varnothing,S)$ with $S(x)=x\cup\{x\}$ satisfies the five Peano axioms.'
+parseable: 'omega with 0 = emptyset and S = successor is a Peano system'
+symbols:
+  omega: { meaning: the constructed natural numbers, type: set }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [omega_construction, axiom_infinity, axiom_extensionality]
+proof:
+  technique: >-
+    0 in omega and S maps omega to omega (omega inductive). 0 is not a successor:
+    S(x) = x cup {x} contains x, so is nonempty, but 0 = emptyset. S is
+    injective: S(x) = S(y) gives x cup {x} = y cup {y}; foundation rules out
+    x in x, so x = y (extensionality). Induction: omega is the SMALLEST
+    inductive set, so any inductive X subset omega equals omega.
+  derives_from: omega_construction
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §4 (cantor uses the same "x in x is impossible" idea via iff_not_self); the Peano verification itself is cited'
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'the second-order induction axiom holds because omega is minimal -- this is what makes omega categorical'
+  - 'S injective uses Foundation (no x with x in x); without Foundation one can still get it from omega being an ordinal'
+counterexamples_when_dropped:
+  minimality_of_omega: 'a larger inductive set I_0 (with an extra Z-chain) satisfies Peano axioms 1-4 but not induction -- the extra chain is an inductive proper subset'
+  foundation_or_ordinal_structure: 'S injective needs that x notin x ; in a non-well-founded universe with a Quine atom x = {x}, S(x) = x and S is not injective'
+common_misuse:
+  - 'assuming the SET-THEORETIC encoding matters downstream (only the Peano structure does)'
+  - 'forgetting that first-order PA is not categorical -- the second-order axiom (via minimality) is what pins omega'
+related:
+  discharges: 'math-number-systems node `peano_axioms`'
+  enables: recursion_theorem
+sources: [enderton, dedekind_1888, jech_set_theory]
+status: reviewed
+checks:
+  type: validation/type-checks.md#peano_holds_in_omega
+  specialization: validation/specialization-cases.md#peano_holds_in_omega
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

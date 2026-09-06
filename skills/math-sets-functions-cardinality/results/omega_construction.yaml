@@ -1,0 +1,50 @@
+id: naturals.omega_construction
+node: omega_construction
+status_label: constructive_result
+display: '$\omega=\bigcap\{I : I\text{ inductive}\}$, the smallest inductive set; $0:=\varnothing$, $S(x):=x\cup\{x\}$.'
+parseable: 'omega = smallest set containing emptyset and closed under x -> x cup {x}'
+symbols:
+  omega: { meaning: the set of natural numbers, type: 'set (a limit ordinal)' }
+  '0': { meaning: 'the empty set', type: element of omega }
+  S: { meaning: 'x -> x cup {x}', type: 'omega -> omega' }
+type_check_status: well_formed
+type_check_note: >-
+  "inductive" = contains emptyset and is S-closed. The Axiom of Infinity gives
+  ONE inductive set I_0; Separation then carves out omega = { x in I_0 : x
+  belongs to every inductive set }.
+hypotheses: []
+preconditions: []
+dependencies: [set, axiom_infinity, axiom_separation, empty_set, binary_union_intersection]
+proof:
+  technique: >-
+    Infinity gives an inductive I_0. Let omega = { x in I_0 : forall inductive
+    I, x in I }. Then omega is inductive (emptyset and S-closure inherited), and
+    omega is a subset of every inductive set -- the smallest one. It does not
+    depend on the choice of I_0.
+  derives_from: axiom_infinity
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - '0 = {} , 1 = {0} = {{}} , 2 = {0,1} , 3 = {0,1,2} -- n = { 0,1,...,n-1 }, so m < n iff m in n'
+  - 'omega is the first limit ordinal; its elements (the finite ordinals) are exactly the natural numbers'
+  - 'each n is transitive and well-ordered by membership -- n is an ordinal'
+counterexamples_when_dropped:
+  axiom_infinity: 'without Infinity, ZF - Infinity is consistent with "every set is finite" (the hereditarily finite sets V_omega model it); omega does not exist'
+  axiom_separation: 'needed to carve omega out of I_0 as the intersection of all inductive sets'
+common_misuse:
+  - 'assuming a "smallest inductive set" exists without Separation'
+  - 'conflating the encoding (0 = {}) with the abstract number -- only the Peano structure matters downstream (peano_holds_in_omega)'
+related:
+  enables: [peano_holds_in_omega, recursion_theorem, finite_set, countable_set]
+  discharges: 'math-number-systems node `peano_axioms` (there a cited model, here built)'
+sources: [enderton, jech_set_theory, halmos]
+status: reviewed
+checks:
+  type: validation/type-checks.md#omega_construction
+  specialization: validation/specialization-cases.md#omega_construction
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

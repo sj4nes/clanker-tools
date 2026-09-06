@@ -1,0 +1,45 @@
+id: functions.preimage_algebra
+node: preimage_algebra
+status_label: proved_theorem
+display: 'For any $f:X\to Y$: $f^{-1}\!\big[\bigcup_i B_i\big]=\bigcup_i f^{-1}[B_i]$, $f^{-1}\!\big[\bigcap_i B_i\big]=\bigcap_i f^{-1}[B_i]$, and $f^{-1}[B^c]=(f^{-1}[B])^c$.'
+parseable: 'preimage commutes with arbitrary union, arbitrary intersection, and complement'
+symbols:
+  f: { meaning: any function, type: function }
+  B_i: { meaning: subsets of the codomain, type: 'family of subsets of Y' }
+type_check_status: well_formed
+type_check_note: 'the preimage OPERATOR f^{-1}[.] is defined for every f (not just bijections) -- objects.md rule 3.'
+hypotheses: []
+preconditions: []
+dependencies: [preimage, indexed_union_intersection, relative_complement, quantifier_negation]
+proof:
+  technique: >-
+    each identity is elementwise: x in f^{-1}[union B_i] iff f(x) in union B_i
+    iff exists i, f(x) in B_i iff exists i, x in f^{-1}[B_i]. The complement case
+    is x in f^{-1}[B^c] iff f(x) not in B iff not (x in f^{-1}[B]). Pure
+    quantifier manipulation.
+  derives_from: preimage
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean §1 -- preim_iUnion, preim_iInter, preim_compl (rfl, universal)'
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'f^{-1}[emptyset] = emptyset ; f^{-1}[Y] = X'
+  - 'the topological definition "f continuous iff the preimage of every open set is open" is well-posed precisely because f^{-1} respects unions and finite intersections'
+  - 'the compactness pullback ("pull an open cover of f(K) back through f") is this theorem plus continuity'
+counterexamples_when_dropped:
+  using_the_image_instead: 'f[A cap B] can be a PROPER subset of f[A] cap f[B] -- e.g. f(x)=x^2, A={-1}, B={1}: f[A cap B] = f[emptyset] = emptyset, but f[A] cap f[B] = {1}. Only the preimage algebra is clean.'
+common_misuse:
+  - 'assuming the image behaves the same way (it does not -- image_algebra)'
+  - 'confusing the preimage operator with the inverse function (the latter needs f bijective)'
+related:
+  contrasts_with: image_algebra
+  used_by: 'math-real-analysis continuity_at_point, continuous_image_of_compact, intermediate_value_theorem (topological route)'
+sources: [enderton, halmos, munkres]
+status: reviewed
+checks:
+  type: validation/type-checks.md#preimage_algebra
+  specialization: validation/specialization-cases.md#preimage_algebra
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

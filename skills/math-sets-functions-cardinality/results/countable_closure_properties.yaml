@@ -1,0 +1,45 @@
+id: cardinality.countable_closure_properties
+node: countable_closure_properties
+status_label: proved_theorem
+display: 'Countable sets are closed under: subsets, images, finite products, and countable unions (the last using countable choice).'
+parseable: 'subset/image/finite-product/countable-union of countable sets is countable'
+symbols:
+  '{A_n}': { meaning: a countable family of countable sets, type: family }
+type_check_status: well_formed
+hypotheses: [pieces_countable]
+preconditions: []
+dependencies: [countable_set, nat_times_nat_countable, countable_choice, image, cartesian_product]
+proof:
+  technique: >-
+    subset: restrict the injection into omega. image: precompose a section.
+    A x B: compose injections with the omega x omega -> omega pairing. Countable
+    union: for each n CHOOSE an injection e_n : A_n -> omega (countable choice),
+    then (n, a) -> pairing(n, e_n(a)) injects the union into omega.
+  derives_from: nat_times_nat_countable
+  lean_status: instance
+  lean_ref: 'validation/instance-checks.bc (pairing tabulated; Q+ enumerated via the inverse pairing); the choice step is cited'
+uses_choice: true
+choice_grade: needs_countable_choice
+choice_note: 'only the countable-UNION clause needs choice. Subsets, images, and finite products are choice-free. If each A_n comes with a GIVEN enumeration, the union is choice-free too.'
+constructive: false
+solving_for: null
+specialization_cases:
+  - 'Z = union over n of {-n,n} -- countable (each piece finite, given)'
+  - 'Q = union over n of {a/n : a in Z} -- countable (each piece has a given enumeration, so no choice)'
+  - 'the algebraic numbers are countable (countable union over polynomials of their finite root sets)'
+counterexamples_when_dropped:
+  countable_choice: 'consistent with ZF (Feferman-Levy) that R is a countable union of countable sets -- the union clause genuinely needs CC'
+  countably_many_pieces: 'an uncountable union of singletons is uncountable (X = union of {x})'
+common_misuse:
+  - 'using it to argue R is countable -- R is NOT a countable union of countable sets (cantor_diagonal)'
+  - 'forgetting the choice dependence of the union clause'
+related:
+  depends_on_choice: countable_choice
+  enables: infinite_cardinal_arithmetic
+sources: [enderton, jech_set_theory, tao_analysis_I]
+status: reviewed
+checks:
+  type: validation/type-checks.md#countable_closure_properties
+  specialization: validation/specialization-cases.md#countable_closure_properties
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

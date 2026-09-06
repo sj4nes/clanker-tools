@@ -1,0 +1,350 @@
+# =============================================================================
+# Release 0.1 prerequisite edges.  "A B" means A is a necessary prerequisite for
+# correctly stating / proving / using B.  The preceding `#` comment is the
+# evidence.  validation/graph-check.sh strips comments to
+# edges/dependencies.edges.  Equivalences live in edges/relations.tsv.
+# =============================================================================
+
+# --- Logic floor ---------------------------------------------------------
+
+# Quantifiers are built on propositional connectives.
+proposition_logic predicate_logic
+# The proof strategies are propositional (classical) reasoning.
+proposition_logic proof_methods
+# Quantifier negation is classical: not-forall unfolds to exists-not.
+predicate_logic quantifier_negation
+proof_methods quantifier_negation
+# Quantifier order is a fact about nested quantifiers.
+predicate_logic quantifier_order
+
+# --- The ZF(C) axioms --------------------------------------------------
+
+# Each axiom is a sentence of predicate logic; extensionality fixes what "set" means.
+predicate_logic axiom_extensionality
+# Uniqueness of the empty set, of pairs, of unions, of power sets is extensionality.
+axiom_extensionality axiom_empty_set
+axiom_extensionality axiom_pairing
+axiom_extensionality axiom_union
+axiom_extensionality axiom_power_set
+# Separation and replacement are schemas -- one instance per formula.
+predicate_logic axiom_separation
+predicate_logic axiom_replacement
+# An inductive set contains the empty set and is successor-closed.
+predicate_logic axiom_infinity
+axiom_empty_set axiom_infinity
+# Foundation forbids infinite descending membership chains.
+predicate_logic axiom_foundation
+# Choice: a selector for a family of nonempty sets.
+predicate_logic axiom_of_choice
+# The ZF bundle, then ZFC.
+axiom_extensionality zf
+axiom_empty_set zf
+axiom_pairing zf
+axiom_union zf
+axiom_power_set zf
+axiom_separation zf
+axiom_replacement zf
+axiom_infinity zf
+axiom_foundation zf
+zf zfc
+axiom_of_choice zfc
+# Choice implies dependent choice implies countable choice.
+axiom_of_choice dependent_choice
+dependent_choice countable_choice
+
+# --- Set algebra ------------------------------------------------------
+
+# A set is an element of a model of ZF (choice not needed to have sets).
+zf set
+# The named sets.
+set empty_set
+axiom_empty_set empty_set
+axiom_extensionality empty_set
+set subset
+axiom_extensionality subset
+axiom_power_set power_set
+subset power_set
+# Binary union/intersection from pairing + union + separation.
+set binary_union_intersection
+axiom_pairing binary_union_intersection
+axiom_union binary_union_intersection
+axiom_separation binary_union_intersection
+# Union / intersection of an arbitrary family (intersection needs nonempty).
+set family_union_intersection
+axiom_union family_union_intersection
+axiom_separation family_union_intersection
+# Difference and complement.
+set set_difference
+axiom_separation set_difference
+set_difference relative_complement
+# De Morgan's laws ARE quantifier negation, applied to membership.
+family_union_intersection de_morgan_laws
+relative_complement de_morgan_laws
+quantifier_negation de_morgan_laws
+# Distributivity of cap over an arbitrary union.
+family_union_intersection distributive_laws
+binary_union_intersection distributive_laws
+# Ordered pairs (Kuratowski) and products.
+set ordered_pair
+axiom_pairing ordered_pair
+axiom_extensionality ordered_pair
+ordered_pair cartesian_product
+power_set cartesian_product
+axiom_separation cartesian_product
+cartesian_product disjoint_union
+binary_union_intersection disjoint_union
+
+# --- Relations -------------------------------------------------------
+
+cartesian_product relation
+subset relation
+relation domain_range
+axiom_union domain_range
+relation relation_composition_inverse
+cartesian_product relation_composition_inverse
+relation relation_properties
+relation relation_restriction
+
+# --- Functions ------------------------------------------------------
+
+relation function
+domain_range function
+function injection
+function surjection
+injection bijection
+surjection bijection
+# Image and preimage.
+function image
+axiom_separation image
+axiom_replacement image
+function preimage
+axiom_separation preimage
+# An indexed family is a function; indexed union/intersection follow.
+function indexed_family
+indexed_family indexed_union_intersection
+family_union_intersection indexed_union_intersection
+# THE preimage algebra: f^{-1} commutes with union, intersection, complement.
+# The proofs are elementwise and are exactly quantifier manipulation.
+preimage preimage_algebra
+indexed_union_intersection preimage_algebra
+relative_complement preimage_algebra
+quantifier_negation preimage_algebra
+# Image laws (weaker for intersection).
+image image_algebra
+indexed_union_intersection image_algebra
+# Composition, identity, inverse.
+function function_composition
+function identity_function
+bijection inverse_function
+function_composition inverse_function
+identity_function inverse_function
+inverse_function inverse_iff_bijective
+bijection inverse_iff_bijective
+# One-sided inverses: left <-> injective (choice-free); right <-> surjective (AC).
+injection left_inverse_iff_injective
+inverse_function left_inverse_iff_injective
+identity_function left_inverse_iff_injective
+surjection right_inverse_iff_surjective
+inverse_function right_inverse_iff_surjective
+axiom_of_choice right_inverse_iff_surjective
+# Composites of injections/surjections/bijections.
+injection composition_preserves_properties
+surjection composition_preserves_properties
+bijection composition_preserves_properties
+function_composition composition_preserves_properties
+# Function spaces and characteristic functions.
+function function_space
+power_set function_space
+cartesian_product function_space
+function characteristic_function
+image characteristic_function
+empty_set characteristic_function
+# P(X) is isomorphic to 2^X via A -> 1_A.
+characteristic_function powerset_iso_two_power
+power_set powerset_iso_two_power
+function_space powerset_iso_two_power
+bijection powerset_iso_two_power
+
+# --- Equivalence relations and quotients --------------------------------
+
+relation_properties equivalence_relation
+equivalence_relation equivalence_class
+axiom_separation equivalence_class
+power_set partition
+set_difference partition
+equivalence_relation equivalence_partition_correspondence
+equivalence_class equivalence_partition_correspondence
+partition equivalence_partition_correspondence
+equivalence_class quotient_set
+power_set quotient_set
+axiom_separation quotient_set
+equivalence_partition_correspondence quotient_set
+quotient_set canonical_projection
+function canonical_projection
+quotient_set well_defined_on_quotient
+function well_defined_on_quotient
+well_defined_on_quotient universal_property_quotient
+canonical_projection universal_property_quotient
+function_composition universal_property_quotient
+
+# --- Orders --------------------------------------------------------
+
+relation_properties partial_order
+partial_order total_order
+relation_properties strict_order
+partial_order order_morphism
+function order_morphism
+partial_order bounds_extrema
+subset bounds_extrema
+total_order chain_antichain
+subset chain_antichain
+partial_order maximal_element
+total_order well_order
+bounds_extrema well_order
+# Zorn: a chain-bounded poset has a maximal element (equivalent to AC).
+partial_order zorn_lemma
+chain_antichain zorn_lemma
+maximal_element zorn_lemma
+bounds_extrema zorn_lemma
+axiom_of_choice zorn_lemma
+# Well-ordering theorem, proved via Zorn on partial well-orders.
+well_order well_ordering_theorem
+zorn_lemma well_ordering_theorem
+axiom_of_choice well_ordering_theorem
+# The summary equivalence node.
+axiom_of_choice ac_equivalences
+zorn_lemma ac_equivalences
+well_ordering_theorem ac_equivalences
+cardinal_comparability ac_equivalences
+
+# --- Ordinal spine ------------------------------------------------
+
+set ordinal
+well_order ordinal
+axiom_foundation ordinal
+axiom_separation ordinal
+ordinal transfinite_induction
+axiom_foundation transfinite_induction
+transfinite_induction transfinite_recursion
+ordinal transfinite_recursion
+function transfinite_recursion
+axiom_replacement transfinite_recursion
+well_order order_type_theorem
+ordinal order_type_theorem
+order_morphism order_type_theorem
+transfinite_recursion order_type_theorem
+
+# --- The natural numbers from sets ----------------------------------
+
+set omega_construction
+axiom_infinity omega_construction
+axiom_separation omega_construction
+empty_set omega_construction
+binary_union_intersection omega_construction
+omega_construction finite_ordinal
+# (omega, 0, S) satisfies the Peano axioms -- discharges math-number-systems.
+omega_construction peano_holds_in_omega
+axiom_infinity peano_holds_in_omega
+axiom_extensionality peano_holds_in_omega
+# Recursion on omega, proved directly (also a special case of transfinite_recursion).
+peano_holds_in_omega recursion_theorem
+omega_construction recursion_theorem
+function recursion_theorem
+axiom_separation recursion_theorem
+# Pigeonhole: induction on n that no injection [n+1] -> [n] exists.
+finite_ordinal pigeonhole_principle
+injection pigeonhole_principle
+omega_construction pigeonhole_principle
+quantifier_negation pigeonhole_principle
+
+# --- Cardinality --------------------------------------------------
+
+bijection equinumerous
+injection cardinal_le
+cardinal_le cardinal_lt
+equinumerous cardinal_lt
+quantifier_negation cardinal_lt
+# Cantor-Schroeder-Bernstein: injections both ways -> a bijection.  NO CHOICE.
+cardinal_le cantor_schroeder_bernstein
+bijection cantor_schroeder_bernstein
+function_composition cantor_schroeder_bernstein
+# Cantor: the set { x : x not in f(x) } defeats any f : X -> P(X).  NO CHOICE.
+surjection cantor_theorem
+power_set cantor_theorem
+cardinal_lt cantor_theorem
+quantifier_negation cantor_theorem
+# Finite / infinite / Dedekind-infinite.
+equinumerous finite_set
+finite_ordinal finite_set
+omega_construction finite_set
+finite_set infinite_set
+quantifier_negation infinite_set
+equinumerous dedekind_infinite
+subset dedekind_infinite
+quantifier_negation dedekind_infinite
+infinite_set finite_iff_not_dedekind_infinite
+dedekind_infinite finite_iff_not_dedekind_infinite
+countable_choice finite_iff_not_dedekind_infinite
+injection finite_iff_not_dedekind_infinite
+# Countable = injects into omega.
+injection countable_set
+omega_construction countable_set
+# omega x omega is countable: a lexicographic-by-max well-order of type omega.
+omega_construction nat_times_nat_countable
+order_type_theorem nat_times_nat_countable
+well_order nat_times_nat_countable
+cartesian_product nat_times_nat_countable
+bijection nat_times_nat_countable
+# Closure: subsets, images, finite products, countable unions (last needs CC).
+countable_set countable_closure_properties
+nat_times_nat_countable countable_closure_properties
+countable_choice countable_closure_properties
+image countable_closure_properties
+cartesian_product countable_closure_properties
+# Uncountable = infinite and not countable.
+countable_set uncountable_set
+infinite_set uncountable_set
+quantifier_negation uncountable_set
+# The diagonal argument: 2^omega is uncountable (Cantor's theorem at omega).
+cantor_theorem cantor_diagonal
+powerset_iso_two_power cantor_diagonal
+omega_construction cantor_diagonal
+countable_set cantor_diagonal
+quantifier_negation cantor_diagonal
+# |P(omega)| = |2^omega| = |R| (R imported; the equinumerosity uses CSB).
+cantor_schroeder_bernstein powerset_nat_equinumerous_reals
+powerset_iso_two_power powerset_nat_equinumerous_reals
+omega_construction powerset_nat_equinumerous_reals
+# Comparability of cardinals -- needs AC (via well-ordering + order types).
+cardinal_le cardinal_comparability
+well_ordering_theorem cardinal_comparability
+order_type_theorem cardinal_comparability
+axiom_of_choice cardinal_comparability
+# Arithmetic of infinite cardinals.
+nat_times_nat_countable infinite_cardinal_arithmetic
+countable_closure_properties infinite_cardinal_arithmetic
+cardinal_comparability infinite_cardinal_arithmetic
+zorn_lemma infinite_cardinal_arithmetic
+well_order infinite_cardinal_arithmetic
+# Hartogs: a well-ordered cardinal not injecting into X.  NO CHOICE.
+ordinal hartogs_number
+well_order hartogs_number
+order_type_theorem hartogs_number
+cardinal_le hartogs_number
+power_set hartogs_number
+axiom_replacement hartogs_number
+quantifier_negation hartogs_number
+# The aleph hierarchy.
+hartogs_number aleph_hierarchy
+ordinal aleph_hierarchy
+transfinite_recursion aleph_hierarchy
+well_ordering_theorem aleph_hierarchy
+cardinal_comparability aleph_hierarchy
+# The continuum.
+cantor_diagonal continuum
+powerset_nat_equinumerous_reals continuum
+aleph_hierarchy continuum
+# CH: no cardinal strictly between aleph0 and 2^aleph0 -- independent of ZFC.
+continuum continuum_hypothesis
+aleph_hierarchy continuum_hypothesis
+cardinal_lt continuum_hypothesis

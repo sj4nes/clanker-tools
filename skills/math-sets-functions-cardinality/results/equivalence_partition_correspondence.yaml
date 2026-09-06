@@ -1,0 +1,44 @@
+id: equivalence.equivalence_partition_correspondence
+node: equivalence_partition_correspondence
+status_label: proved_theorem
+display: 'Equivalence relations on $X$ are in bijection with partitions of $X$: $\sim\mapsto\{[x]:x\in X\}$ and back.'
+parseable: 'equivalence relations on X <-> partitions of X'
+symbols:
+  '~': { meaning: an equivalence relation on X, type: equiv }
+  '{[x]}': { meaning: the set of equivalence classes, type: partition }
+type_check_status: well_formed
+type_check_note: 'the classes must be shown NONEMPTY (x in [x], reflexivity), PAIRWISE DISJOINT ([x] cap [y] != empty implies [x] = [y], symmetry + transitivity), and COVERING (every x is in [x]).'
+hypotheses: []
+preconditions: []
+dependencies: [equivalence_relation, equivalence_class, partition]
+proof:
+  technique: >-
+    forward: from ~ , the classes form a partition (three checks above). Back:
+    from a partition, define x ~ y iff x,y lie in the same block -- reflexive
+    (x in its block), symmetric, transitive. The two maps are mutually inverse.
+  derives_from: equivalence_relation
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean §6 -- cls_eq_iff ([x] = [y] iff x ~ y), the disjointness core'
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'equality on X <-> the partition into singletons'
+  - 'the total relation X x X <-> the one-block partition {X}'
+  - 'congruence mod n on Z <-> the n residue classes'
+counterexamples_when_dropped:
+  transitivity: 'the relation "differ by less than 1" on R is reflexive and symmetric but not transitive; its "classes" overlap without being equal -- not a partition'
+  reflexivity: 'a symmetric transitive relation that is not reflexive (the empty relation) leaves some x in no class -- the classes do not cover X'
+common_misuse:
+  - 'assuming any reflexive-symmetric relation partitions (transitivity is essential)'
+  - 'treating [x] as depending on the representative x rather than on the class'
+related:
+  enables: [quotient_set, well_defined_on_quotient]
+sources: [enderton, halmos]
+status: reviewed
+checks:
+  type: validation/type-checks.md#equivalence_partition_correspondence
+  specialization: validation/specialization-cases.md#equivalence_partition_correspondence
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

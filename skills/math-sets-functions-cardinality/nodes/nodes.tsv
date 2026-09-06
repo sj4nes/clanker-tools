@@ -1,0 +1,107 @@
+id	type	title	area	status	role	primary_statement
+proposition_logic	primitive	Propositional logic	logic	active	foundation	connectives and truth-functional reasoning
+predicate_logic	primitive	Predicate logic	logic	active	foundation	quantifiers over a domain, bound variables
+quantifier_negation	principle_law	Negation of quantifiers	logic	reviewed	core	not forall x P(x) iff exists x not P(x) ; not exists iff forall not
+quantifier_order	notation_convention	Quantifier order	logic	reviewed	foundation	forall x exists y is weaker than exists y forall x
+proof_methods	principle_law	Proof by contradiction, contrapositive, cases	logic	reviewed	foundation	classical proof strategies
+axiom_extensionality	axiom	Axiom of extensionality	axioms	active	foundation	sets with the same elements are equal
+axiom_empty_set	axiom	Axiom of the empty set	axioms	active	foundation	there is a set with no elements
+axiom_pairing	axiom	Axiom of pairing	axioms	active	foundation	for any a,b the set {a,b} exists
+axiom_union	axiom	Axiom of union	axioms	active	foundation	for any set F the union of its members exists
+axiom_power_set	axiom	Axiom of power set	axioms	active	foundation	for any set X the set of all subsets of X exists
+axiom_separation	axiom	Axiom schema of separation	axioms	active	foundation	{ x in X : phi(x) } is a set for any formula phi
+axiom_replacement	axiom	Axiom schema of replacement	axioms	active	foundation	the image of a set under a definable class function is a set
+axiom_infinity	axiom	Axiom of infinity	axioms	active	foundation	there is an inductive set
+axiom_foundation	axiom	Axiom of foundation	axioms	active	foundation	membership is well-founded; no infinite descending epsilon-chains
+axiom_of_choice	axiom	Axiom of choice	axioms	active	foundation	every family of nonempty sets has a choice function
+countable_choice	axiom	Axiom of countable choice	axioms	active	foundation	a countable family of nonempty sets has a choice function
+dependent_choice	axiom	Axiom of dependent choice	axioms	active	foundation	a total relation admits an infinite chain
+zf	structure	Zermelo-Fraenkel set theory	axioms	reviewed	foundation	the nine ZF axioms
+zfc	structure	ZFC	axioms	reviewed	foundation	ZF plus the axiom of choice
+set	primitive	Set	sets	active	foundation	an element of a model of ZFC
+empty_set	definition	Empty set	sets	reviewed	foundation	the unique set with no elements
+subset	definition	Subset	sets	reviewed	foundation	A subset B iff every element of A is in B
+power_set	definition	Power set	sets	reviewed	core	P(X) is the set of all subsets of X
+binary_union_intersection	definition	Union and intersection	sets	reviewed	foundation	A cup B, A cap B
+family_union_intersection	definition	Union and intersection of a family	sets	reviewed	core	union F ; intersection F (F nonempty)
+indexed_family	definition	Indexed family	sets	reviewed	core	a function i -> A_i on an index set I
+indexed_union_intersection	definition	Indexed union and intersection	sets	reviewed	core	union over i of A_i ; intersection over i (I nonempty)
+set_difference	definition	Set difference	sets	reviewed	foundation	A minus B = { x in A : x not in B }
+relative_complement	definition	Relative complement	sets	reviewed	support	X^c = U minus X relative to an ambient U
+de_morgan_laws	proposition	De Morgan's laws	sets	reviewed	core	complement of a union is the intersection of complements, and dually
+distributive_laws	proposition	Distributive laws for sets	sets	reviewed	support	A cap union B_i = union (A cap B_i)
+ordered_pair	definition	Ordered pair	sets	reviewed	foundation	(a,b) = {{a},{a,b}} ; (a,b)=(c,d) iff a=c and b=d
+cartesian_product	definition	Cartesian product	sets	reviewed	core	X x Y = { (x,y) : x in X, y in Y }
+disjoint_union	definition	Disjoint union	sets	reviewed	support	X + Y = (X x {0}) cup (Y x {1})
+relation	definition	Binary relation	relations	reviewed	foundation	a subset of X x Y
+domain_range	definition	Domain and range	relations	reviewed	support	dom R and ran R
+relation_composition_inverse	definition	Composition and inverse of relations	relations	reviewed	support	S o R and R^{-1}
+relation_properties	definition	Properties of relations	relations	reviewed	foundation	reflexive, symmetric, antisymmetric, transitive, connex
+relation_restriction	definition	Restriction of a relation	relations	reviewed	support	R restricted to A
+equivalence_relation	definition	Equivalence relation	equivalence	reviewed	core	reflexive, symmetric, transitive
+equivalence_class	definition	Equivalence class	equivalence	reviewed	core	[x] = { y : y ~ x }
+partition	definition	Partition	equivalence	reviewed	core	nonempty pairwise-disjoint sets covering X
+equivalence_partition_correspondence	theorem	Equivalence relations correspond to partitions	equivalence	reviewed	headline	equivalence relations on X are in bijection with partitions of X
+quotient_set	construction	Quotient set	equivalence	reviewed	core	X/~ is the set of equivalence classes
+canonical_projection	definition	Canonical projection	equivalence	reviewed	support	pi : X -> X/~ , x -> [x]
+well_defined_on_quotient	principle_law	Well-definedness on a quotient	equivalence	reviewed	core	[x] -> f(x) is a function iff x~x' implies f(x)=f(x')
+universal_property_quotient	theorem	Universal property of the quotient	equivalence	reviewed	support	functions X/~ -> Z are exactly functions X -> Z constant on classes
+function	definition	Function	functions	reviewed	foundation	a single-valued relation, total on its domain, with a fixed codomain
+injection	definition	Injection	functions	reviewed	core	f(x)=f(y) implies x=y
+surjection	definition	Surjection	functions	reviewed	core	every y in the codomain has a preimage
+bijection	definition	Bijection	functions	reviewed	core	injective and surjective
+image	definition	Image of a set	functions	reviewed	core	f[A] = { f(x) : x in A }
+preimage	definition	Preimage of a set	functions	reviewed	core	f^{-1}[B] = { x : f(x) in B } , defined for every f
+preimage_algebra	theorem	Preimage algebra	functions	reviewed	headline	f^{-1} commutes with arbitrary union, arbitrary intersection, and complement
+image_algebra	proposition	Image algebra	functions	reviewed	support	f[union A_i] = union f[A_i] ; f[intersection A_i] subset intersection f[A_i]
+function_composition	definition	Composition of functions	functions	reviewed	support	(g o f)(x) = g(f(x))
+identity_function	definition	Identity function	functions	reviewed	support	id_X(x) = x
+inverse_function	definition	Inverse function	functions	reviewed	core	g with g o f = id and f o g = id
+inverse_iff_bijective	theorem	Invertible iff bijective	functions	reviewed	core	f has a two-sided inverse iff f is a bijection
+left_inverse_iff_injective	proposition	Left inverse iff injective	functions	reviewed	support	f has a left inverse iff f is injective (domain nonempty)
+right_inverse_iff_surjective	proposition	Right inverse iff surjective	functions	reviewed	support	f has a right inverse iff f is surjective (uses choice)
+composition_preserves_properties	proposition	Composition preserves inj/surj/bij	functions	reviewed	support	composites of injections are injections, etc.
+function_space	definition	Function space	functions	reviewed	support	Y^X is the set of all functions X -> Y
+characteristic_function	definition	Characteristic function	functions	reviewed	support	1_A : X -> {0,1} , 1_A(x)=1 iff x in A
+powerset_iso_two_power	theorem	P(X) is isomorphic to 2^X	functions	reviewed	core	A -> 1_A is a bijection P(X) -> 2^X
+pigeonhole_principle	theorem	Pigeonhole principle	functions	reviewed	core	no injection from a finite set into a strictly smaller one
+partial_order	definition	Partial order	orders	reviewed	foundation	reflexive, antisymmetric, transitive
+total_order	definition	Total order	orders	reviewed	foundation	a partial order in which any two elements are comparable
+strict_order	definition	Strict order	orders	reviewed	support	irreflexive and transitive
+order_morphism	definition	Order-preserving map and order isomorphism	orders	reviewed	support	x <= y implies f(x) <= f(y) ; bijective order embedding
+bounds_extrema	definition	Bounds, suprema, maxima	orders	reviewed	core	upper/lower bound, sup/inf, max/min
+chain_antichain	definition	Chain and antichain	orders	reviewed	support	a totally ordered / pairwise-incomparable subset
+maximal_element	definition	Maximal and minimal element	orders	reviewed	support	m with no element strictly above it
+well_order	definition	Well-order	orders	reviewed	core	a total order in which every nonempty subset has a least element
+zorn_lemma	theorem	Zorn's lemma	orders	reviewed	headline	a poset in which every chain has an upper bound has a maximal element
+well_ordering_theorem	theorem	Well-ordering theorem	orders	reviewed	headline	every set can be well-ordered
+ac_equivalences	theorem	Equivalents of the axiom of choice	orders	reviewed	core	AC iff Zorn iff well-ordering iff cardinal comparability
+ordinal	definition	Ordinal	ordinals	reviewed	core	a transitive set well-ordered by membership
+transfinite_induction	theorem	Transfinite induction	ordinals	reviewed	core	if a property passes to alpha whenever it holds below alpha it holds for all ordinals
+transfinite_recursion	theorem	Transfinite recursion	ordinals	reviewed	headline	a class function on ordinals is uniquely determined by a rule using its earlier values
+order_type_theorem	theorem	Order type	ordinals	reviewed	core	every well-order is isomorphic to a unique ordinal
+omega_construction	construction	Construction of the natural numbers	naturals	reviewed	headline	omega is the smallest inductive set ; 0 = empty set, S x = x cup {x}
+finite_ordinal	definition	Finite ordinal / natural number	naturals	reviewed	support	an element of omega
+peano_holds_in_omega	theorem	The Peano axioms hold in omega	naturals	reviewed	headline	(omega, 0, S) satisfies the Peano axioms
+recursion_theorem	theorem	Recursion theorem on omega	naturals	reviewed	headline	unique f on omega with f(0)=a and f(S n)=g(n, f n)
+equinumerous	definition	Equinumerosity	cardinality	reviewed	core	|X| = |Y| iff there is a bijection X -> Y
+cardinal_le	definition	Cardinal comparison	cardinality	reviewed	core	|X| <= |Y| iff there is an injection X -> Y
+cardinal_lt	definition	Strict cardinal comparison	cardinality	reviewed	support	|X| < |Y| iff |X| <= |Y| and not |X| = |Y|
+cantor_schroeder_bernstein	theorem	Cantor-Schroeder-Bernstein	cardinality	reviewed	headline	injections both ways give a bijection ; no choice needed
+cantor_theorem	theorem	Cantor's theorem	cardinality	reviewed	headline	|X| < |P(X)| for every set X
+finite_set	definition	Finite set	cardinality	reviewed	core	equinumerous with some finite ordinal
+infinite_set	definition	Infinite set	cardinality	reviewed	support	not finite
+dedekind_infinite	definition	Dedekind-infinite set	cardinality	reviewed	support	equinumerous with a proper subset of itself
+finite_iff_not_dedekind_infinite	theorem	Finite iff not Dedekind-infinite	cardinality	reviewed	support	over ZF + countable choice, the two notions of infinite coincide
+countable_set	definition	Countable set	cardinality	reviewed	core	admits an injection into omega
+nat_times_nat_countable	theorem	omega x omega is countable	cardinality	reviewed	core	the Cantor pairing is a bijection omega x omega -> omega
+countable_closure_properties	theorem	Countable sets are closed under the usual operations	cardinality	reviewed	core	subsets, images, finite products, and countable unions of countable sets are countable
+uncountable_set	definition	Uncountable set	cardinality	reviewed	support	infinite and not countable
+cantor_diagonal	theorem	The diagonal argument	cardinality	reviewed	headline	2^omega is uncountable
+powerset_nat_equinumerous_reals	theorem	P(omega) has the cardinality of the continuum	cardinality	reviewed	core	|P(omega)| = |2^omega| = |R|
+cardinal_comparability	theorem	Comparability of cardinals	cardinality	reviewed	support	for any X,Y either |X| <= |Y| or |Y| <= |X| (uses AC)
+infinite_cardinal_arithmetic	theorem	Arithmetic of infinite cardinals	cardinality	reviewed	core	aleph0 + aleph0 = aleph0*aleph0 = aleph0 ; kappa*kappa = kappa for infinite kappa (AC)
+hartogs_number	theorem	Hartogs' number	cardinality	reviewed	support	for every X there is a well-ordered cardinal that does not inject into X ; no choice
+aleph_hierarchy	definition	The aleph hierarchy	cardinality	reviewed	support	aleph_alpha enumerates the infinite well-ordered cardinals
+continuum	definition	The continuum	cardinality	reviewed	support	c = 2^aleph0 = |R|
+continuum_hypothesis	regime	The continuum hypothesis	cardinality	reviewed	support	no cardinal strictly between aleph0 and 2^aleph0 ; independent of ZFC

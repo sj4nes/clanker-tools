@@ -1,0 +1,46 @@
+id: cardinality.cantor_theorem
+node: cantor_theorem
+status_label: proved_theorem
+display: 'For every set $X$, $|X| < |\mathcal{P}(X)|$: there is no surjection $X \to \mathcal{P}(X)$.'
+parseable: 'not exists f : X -> P(X), Surjective f'
+symbols:
+  X: { meaning: any set, type: set }
+  f: { meaning: a candidate surjection, type: 'X -> P(X)' }
+type_check_status: well_formed
+type_check_note: 'the proof must EXHIBIT the missing set D = { x : x not in f(x) } (objects.md rule 8).'
+hypotheses: []
+preconditions: []
+dependencies: [surjection, power_set, cardinal_lt, quantifier_negation]
+proof:
+  technique: >-
+    given any f : X -> P(X), let D = { x in X : x not in f(x) } (a subset of X,
+    by Separation). If f(a) = D for some a, then a in D iff a not in f(a) = D --
+    contradiction. So D is not in the range of f; f is not surjective. The
+    injection x -> {x} gives |X| <= |P(X)|, hence strict.
+  derives_from: power_set
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean §4 -- cantor (diagonal, plain Lean, no Mathlib)'
+uses_choice: false
+choice_grade: choice_free
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'X = emptyset: |emptyset| = 0 < 1 = |{emptyset}|'
+  - 'X = omega: |omega| < |P(omega)| -- this is cantor_diagonal, the uncountability of the reals'
+  - 'iterating gives an unbounded chain of cardinals |X| < |P(X)| < |P(P(X))| < ...'
+counterexamples_when_dropped:
+  none_the_hypotheses_are_empty: 'the theorem is unconditional -- there is no finite or "small" X that escapes it. The instance-checks.bc worked example (X = {0,1,2,3}) shows D explicitly.'
+common_misuse:
+  - 'thinking it needs choice (it does not)'
+  - 'concluding a SPECIFIC set is "too big to enumerate" rather than "no enumeration exists"'
+  - 'assuming CH ("the next cardinal after |X|") -- Cantor gives strict growth, not the successor'
+related:
+  generalizes: [cantor_diagonal, real_uncountable]
+  historically_precedes: zf
+sources: [cantor_1891, enderton, halmos]
+status: reviewed
+checks:
+  type: validation/type-checks.md#cantor_theorem
+  specialization: validation/specialization-cases.md#cantor_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

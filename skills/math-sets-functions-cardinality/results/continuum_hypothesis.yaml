@@ -1,0 +1,47 @@
+id: cardinality.continuum_hypothesis
+node: continuum_hypothesis
+status_label: independent_of_ZFC
+display: 'CH: there is no cardinal $\kappa$ with $\aleph_0 < \kappa < 2^{\aleph_0}$. Equivalently, $2^{\aleph_0}=\aleph_1$.'
+parseable: 'not exists cardinal kappa, aleph0 < kappa < 2^aleph0'
+symbols:
+  '2^aleph0': { meaning: 'the continuum c = |R| = |P(omega)|', type: cardinal }
+  aleph_1: { meaning: the least uncountable well-ordered cardinal, type: cardinal }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [continuum, aleph_hierarchy, cardinal_lt]
+proof:
+  technique: >-
+    NOT PROVABLE and NOT REFUTABLE in ZFC. Godel (1938): the constructible
+    universe L models ZFC + GCH, so ZFC cannot refute CH. Cohen (1963): forcing
+    builds a model of ZFC + not-CH, so ZFC cannot prove CH. Both directions
+    assume Con(ZFC).
+  derives_from: null
+  lean_status: none
+  lean_ref: null
+uses_choice: false
+choice_grade: choice_free
+constructive: false
+status_note: >-
+  the ONE node in the capsule that is neither proved nor an axiom -- it is
+  INDEPENDENT of ZFC. Stated and cited; the independence proofs (L, forcing) are
+  out of scope (see scope.md).
+solving_for: null
+specialization_cases:
+  - 'GCH (generalized CH): 2^{aleph_alpha} = aleph_{alpha+1} for all alpha -- also independent, holds in L'
+  - 'CH implies a non-measurable set of reals, a Sierpinski set, etc. -- these follow from CH but are not equivalent to it'
+counterexamples_when_dropped:
+  it_cannot_be_dropped_or_assumed_in_general: 'any theorem whose proof uses CH must flag it; the result is then conditional. Many "CH-sensitive" statements in analysis (automatic continuity, the size of certain sigma-algebras) are genuinely undecided in ZFC.'
+common_misuse:
+  - 'treating CH as true (or false) without flagging the assumption'
+  - 'confusing "|R| = 2^aleph0" (a ZFC theorem, cantor_diagonal + CSB) with "|R| = aleph_1" (CH)'
+  - 'assuming a proof "by cardinality" that silently uses CH'
+related:
+  historically_precedes: zf
+sources: [godel_1940, cohen_1966, jech_set_theory, kunen_set_theory]
+status: reviewed
+checks:
+  type: validation/type-checks.md#continuum_hypothesis
+  specialization: validation/specialization-cases.md#continuum_hypothesis
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

@@ -61,11 +61,10 @@ hypothesis-dropped counterexamples**, **`lean` → primary verification tool**.
   "easier", "taught first", "generalizes", "equivalent to", or "special case
   of" — those are separate metadata relations.
 - **Hypotheses and structures are nodes, not prose.** `compactness`,
-  `continuity`, `measurability`, `commutativity`, `finite_dimensional`,
-  `hausdorff`, `completeness`, `lipschitz`, `convexity`, `axiom_of_choice`,
-  `excluded_middle` are first-class, and a theorem that needs one gets a
-  prerequisite edge to it. Using a theorem outside its hypotheses must be
-  visible in the graph.
+  `continuity`, `commutativity`, `finite_dimensional`, `completeness`,
+  `lipschitz`, `convexity`, `axiom_of_choice` are first-class, and a theorem
+  that needs one gets a prerequisite edge to it. Using a theorem outside its
+  hypotheses must be visible in the graph.
 - **The structure is a DAG, not a tree.** One canonical node per concept, reused
   by many parents. Equivalent definitions of one concept are **one node**, the
   equivalences as metadata (plus, in scope, an `equivalent_to` relation and a
@@ -305,17 +304,17 @@ and pedagogical order.
   discretization ladders, cross-area bridges.
 - [`references/skill-composition.md`](references/skill-composition.md) — which
   companion skill owns each stage, exact hand-off points, and what each returns.
-- [`references/worked-slice.md`](references/worked-slice.md) — a complete small
-  slice (the **Bolzano–Weierstrass theorem** and its prerequisites) through
-  every stage.
-- [`../math-real-analysis/`](../math-real-analysis/SKILL.md) — the first full
-  capsule (Real Analysis I, 109 nodes, 247 edges): the machinery at scale, five
-  would-be cycles designed out, the `omega`/induction-vs-`decide` split in a
-  Mathlib-free `lean` file.
-- [`../math-number-systems/`](../math-number-systems/SKILL.md) — the second
-  capsule (ℕ→ℤ→ℚ→ℝ constructed, 100 nodes, one root `set`): the method on
-  *constructions* (well-definedness-on-a-quotient is the type check), and a
-  capsule that discharges another's roots.
+- [`references/worked-slice.md`](references/worked-slice.md) — a small slice
+  (**Bolzano–Weierstrass** and its prerequisites) through every stage.
+- Three capsules built with this method, each demonstrating a facet:
+  [`math-real-analysis`](../math-real-analysis/SKILL.md) (109 nodes — the
+  machinery at scale, the `omega`/induction-vs-`decide` split in a Mathlib-free
+  `lean` file); [`math-number-systems`](../math-number-systems/SKILL.md) (100
+  nodes, one root `set` — the method on *constructions*,
+  well-definedness-on-a-quotient as the type check);
+  [`math-sets-functions-cardinality`](../math-sets-functions-cardinality/SKILL.md)
+  (106 nodes, one root `proposition_logic` — the per-result **choice grade**).
+  Each discharges the roots of the one above it.
 - [`../physics-formula-tree/`](../physics-formula-tree/SKILL.md) — the parent
   meta skill this was adapted from; its `references/` carry the shared `tsort` /
   package / cycle discipline in the original physics framing.

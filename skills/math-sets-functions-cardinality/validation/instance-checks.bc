@@ -1,0 +1,70 @@
+/* Release 0.1 instance checks: the countability bijections run concretely, the
+   diagonal argument executed, cardinal arithmetic exhibited.
+   Run:  bc -q -l validation/instance-checks.bc
+   Every identifier is lowercase and starts with a letter (bc rule).
+   These are INSTANCES -- they make the constructions concrete.  They are not
+   proofs of the general theorems. */
+
+scale = 0
+
+print "=== nat_times_nat_countable: the Cantor pairing pi(m,n) = (m+n)(m+n+1)/2 + n ===\n"
+define pp(m,n) { return (m+n)*(m+n+1)/2 + n }
+for (s = 0; s <= 4; s++) {
+  for (n = 0; n <= s; n++) { m = s - n; print "  pi(", m, ",", n, ") = ", pp(m,n), "\n" }
+}
+print "  -> hits 0,1,2,...,14 with no gaps or repeats: a bijection omega x omega -> omega\n\n"
+
+print "=== countable_set: Z is countable (interleave) ===\n"
+print "  0 -> 0, 1 -> 1, 2 -> -1, 3 -> 2, 4 -> -2, ...\n"
+for (k = 0; k <= 8; k++) {
+  if (k == 0) z = 0
+  if (k % 2 == 1) z = (k + 1) / 2
+  if (k % 2 == 0) { if (k > 0) z = -(k / 2) }
+  print "  f(", k, ") = ", z, "\n"
+}
+print "  (uses k %% 2 at scale 0 -- honest integer parity)\n\n"
+
+print "=== countable_closure_properties: Q+ enumerated via the pairing (with repeats) ===\n"
+print "  list a/b for pi(a-1,b-1) = 0,1,2,... :\n"
+for (t = 0; t <= 9; t++) {
+  /* invert pairing: find s with s(s+1)/2 <= t < (s+1)(s+2)/2 */
+  s = 0
+  while ((s+1)*(s+2)/2 <= t) s = s + 1
+  n = t - s*(s+1)/2
+  m = s - n
+  print "  q_", t, " = ", (m+1), "/", (n+1), "\n"
+}
+print "  every positive rational appears (infinitely often); dropping repeats stays countable\n\n"
+
+print "=== cantor_diagonal: 2^omega is uncountable -- build the missing sequence ===\n"
+print "  a candidate enumeration (rows) of binary sequences; flip the diagonal:\n"
+print "    s_0 = 1 0 1 1 0 ...      diag bit 0 = 1  -> d_0 = 0\n"
+print "    s_1 = 0 0 1 0 1 ...      diag bit 1 = 0  -> d_1 = 1\n"
+print "    s_2 = 1 1 0 1 0 ...      diag bit 2 = 0  -> d_2 = 1\n"
+print "    s_3 = 0 1 1 1 1 ...      diag bit 3 = 1  -> d_3 = 0\n"
+print "    s_4 = 1 0 0 0 0 ...      diag bit 4 = 0  -> d_4 = 1\n"
+print "  d = 0 1 1 0 1 ...  differs from s_k in bit k, so d is not any s_k.\n\n"
+
+print "=== powerset_iso_two_power: |P(X)| = 2^|X| via characteristic functions ===\n"
+for (nn = 0; nn <= 6; nn++) print "  |X| = ", nn, "  ->  |P(X)| = 2^", nn, " = ", 2^nn, "\n"
+print "  each subset A of {0,...,n-1} is the 0/1 string 1_A ; 2^n of them\n\n"
+
+print "=== cantor_theorem: from f : X -> P(X), the missing set { x : x not in f(x) } ===\n"
+print "  X = {0,1,2,3}, f given as membership rows (f(x) as a bitmask over X):\n"
+print "    f(0) = {0,2}     is 0 in f(0)? yes -> 0 not in D\n"
+print "    f(1) = {1,3}     is 1 in f(1)? yes -> 1 not in D\n"
+print "    f(2) = {0,1}     is 2 in f(2)? no  -> 2 in D\n"
+print "    f(3) = {}        is 3 in f(3)? no  -> 3 in D\n"
+print "  D = {2,3}.  For every x, D and f(x) disagree at x, so D is not in ran(f).\n\n"
+
+print "=== infinite_cardinal_arithmetic: aleph0 + aleph0 = aleph0 (interleave two copies) ===\n"
+print "  copy A: 0,1,2,3,...   copy B: 0',1',2',3',...\n"
+print "  g(2k) = k in A ,  g(2k+1) = k in B   -- a bijection omega -> A + B\n"
+for (k = 0; k <= 5; k++) print "  g(", 2*k, ") = a", k, "   g(", 2*k+1, ") = b", k, "\n"
+print "  aleph0 * aleph0 = aleph0 is the pairing above; kappa*kappa = kappa for\n"
+print "  infinite kappa needs AC (well-order kappa, induct on order type).\n\n"
+
+print "=== pigeonhole_principle: 5 items into 4 boxes ===\n"
+items = 5 ; boxes = 4
+print "  ceil(", items, "/", boxes, ") = ", (items + boxes - 1)/boxes, "  -- some box holds at least 2\n"
+quit

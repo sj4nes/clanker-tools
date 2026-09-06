@@ -1,0 +1,50 @@
+id: axioms.axiom_of_choice
+node: axiom_of_choice
+status_label: axiom
+display: 'For every family $\{A_i\}_{i\in I}$ of nonempty sets there is a function $c$ with $c(i)\in A_i$ for all $i$.'
+parseable: '(forall i, A_i != emptyset) -> exists c, forall i, c(i) in A_i'
+symbols:
+  '{A_i}': { meaning: an indexed family of nonempty sets, type: family }
+  c: { meaning: a choice function, type: function }
+type_check_status: well_formed
+type_check_note: 'a DEFINABLE selector (least element of a well-order; the unique element of a singleton; a canonical representative) is not a use of AC -- objects.md rule 7.'
+hypotheses: []
+preconditions: []
+dependencies: [predicate_logic]
+proof:
+  technique: none — an axiom, independent of ZF (Godel 1938: Con(ZF) -> Con(ZFC); Cohen 1963: Con(ZF) -> Con(ZF + not AC))
+  derives_from: null
+  lean_status: none
+  lean_ref: null
+uses_choice: true
+choice_grade: needs_full_AC
+constructive: false
+equivalent_forms:
+  - 'Zorn''s lemma (zorn_lemma)'
+  - 'the well-ordering theorem (well_ordering_theorem)'
+  - 'comparability of cardinals (cardinal_comparability)'
+  - 'every surjection has a right inverse (right_inverse_iff_surjective)'
+  - 'every vector space has a basis; every product of nonempty sets is nonempty; Tychonoff'
+weak_forms:
+  - 'dependent_choice (DC): strong enough for sequential arguments in analysis'
+  - 'countable_choice (CC): a countable union of countable sets is countable'
+specialization_cases:
+  - 'a FINITE family of nonempty sets: choice is provable in ZF by induction -- AC is only about infinite families'
+  - 'a family of nonempty subsets of a WELL-ORDERED set: pick the least element -- no AC needed'
+  - 'a family of nonempty sets of reals: still needs AC in general (no definable selector)'
+counterexamples_when_dropped:
+  full_AC: 'in ZF alone it is consistent that: R is a countable union of countable sets; there is an infinite set with no countable subset (amorphous); a vector space with no basis; the reals cannot be well-ordered'
+common_misuse:
+  - 'using "pick an element from each A_i" over an infinite family without acknowledging AC'
+  - 'thinking CSB, Cantor''s theorem, or the finite pigeonhole need it (they do not)'
+  - 'assuming a choice function is definable / canonical'
+related:
+  equivalent_to: [zorn_lemma, well_ordering_theorem, cardinal_comparability]
+  weakened_by: [dependent_choice, countable_choice]
+sources: [zermelo_1904, jech_set_theory, enderton, herrlich_axiom_of_choice]
+status: reviewed
+checks:
+  type: validation/type-checks.md#axiom_of_choice
+  specialization: validation/specialization-cases.md#axiom_of_choice
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md
