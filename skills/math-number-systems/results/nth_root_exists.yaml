@@ -1,0 +1,46 @@
+id: reals.nth_root_exists
+node: nth_root_exists
+status_label: constructive_result
+display: 'For every $x>0$ in $\mathbb{R}$ and every $n\in\mathbb{N}^+$ there is a unique $y>0$ with $y^n=x$.'
+parseable: 'x > 0 and n >= 1 -> exists! y > 0, y^n = x'
+symbols:
+  x: { meaning: a positive real, type: real }
+  n: { meaning: the root index, type: 'nat, n >= 1' }
+  y: { meaning: 'x^(1/n)', type: real }
+type_check_status: well_formed
+hypotheses: [x_positive]
+preconditions: [n_at_least_1]
+dependencies: [lub_property, real_is_ordered_field, real_order, recursion_theorem, real_multiplication]
+proof:
+  technique: >-
+    let E = { t > 0 : t^n < x } (nonempty, bounded above), y = sup E
+    (lub_property). Rule out y^n < x (some t slightly above y is still in E) and
+    y^n > x (some t slightly below y is an upper bound), leaving y^n = x.
+    Uniqueness: t -> t^n is strictly increasing on the positives.
+  derives_from: lub_property
+  lean_status: instance
+  lean_ref: 'validation/instance-checks.bc (bisection for 2^(1/3), 7^(1/2))'
+uses_choice: false
+constructive: true
+constructive_note: 'the sup is a specific cut; bisection computes y to any precision (instance-checks.bc).'
+solving_for: null
+specialization_cases:
+  - 'n = 1: y = x'
+  - 'x = 2, n = 2: y = sqrt(2), the number Q was missing (rational_incomplete_lub)'
+  - 'x = 2, n = 3: y ~ 1.2599 (instance-checks.bc)'
+counterexamples_when_dropped:
+  x_positive: 'x = -1, n = 2 has no real square root -- roots of negatives live in C, out of scope'
+  ambient_field_complete: 'in Q, sqrt(2) does not exist -- this theorem is a direct payoff of lub_property'
+common_misuse:
+  - 'assuming a real nth root of a negative for even n'
+  - 'expecting a closed form -- it is an existence (and computability) statement'
+related:
+  depends_on: lub_property
+  resolves: 'the motivating gap of rational_incomplete_lub'
+sources: [rudin_principles, landau]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md#nth_root_exists
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

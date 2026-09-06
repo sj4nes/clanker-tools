@@ -1,0 +1,48 @@
+id: cardinality.countable_union_countable
+node: countable_union_countable
+status_label: proved_theorem
+display: 'A countable union of countable sets is countable.'
+parseable: 'countable(I) and (forall i in I, countable(A_i)) -> countable(union_i A_i)'
+symbols:
+  I: { meaning: the (countable) index set, type: set }
+  A_i: { meaning: a countable set for each i, type: set }
+type_check_status: well_formed
+hypotheses: [index_set_countable, each_piece_countable]
+preconditions: []
+dependencies: [countable_set, nat_pairing_bijection, countable_choice]
+proof:
+  technique: >-
+    enumerate I by N; for each i CHOOSE an enumeration e_i : N -> A_i
+    (countable_choice -- one choice per i). Then (i,n) -> e_i(n) is a surjection
+    N x N -> union A_i, and N x N is countable (nat_pairing_bijection), so the
+    union is countable.
+  derives_from: nat_pairing_bijection
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §10 (pairing injective, grid); the choice step is cited'
+uses_choice: true
+choice_note: >-
+  countable_choice is USED ESSENTIALLY. Without it (Feferman-Levy model) it is
+  consistent that R is a countable union of countable sets. If each A_i comes
+  with a GIVEN enumeration (e.g. A_i subset of N), no choice is needed.
+constructive: false
+solving_for: null
+specialization_cases:
+  - 'Z = union of { -n, n } over n in N -- countable (integer_countable)'
+  - 'Q = union over d in N+ of { a/d : a in Z } -- countable (rational_countable)'
+  - 'a finite union of countable sets needs no choice'
+counterexamples_when_dropped:
+  countable_choice: 'consistent with ZF that R is a countable union of countable sets -- so the theorem genuinely needs CC'
+  index_set_countable: 'an uncountable union of singletons (each countable) can be uncountable -- e.g. R = union of {x}'
+common_misuse:
+  - 'using it to "prove" R countable -- R is not a countable union of countable sets (real_uncountable), so its pieces in any countable cover cannot all be countable'
+  - 'forgetting the choice dependence'
+related:
+  depends_on_choice: countable_choice
+  enables: [integer_countable, rational_countable]
+sources: [enderton, jech_set_theory, tao_analysis_I]
+status: reviewed
+checks:
+  type: validation/type-checks.md#countable_union_countable
+  specialization: validation/specialization-cases.md#countable_union_countable
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

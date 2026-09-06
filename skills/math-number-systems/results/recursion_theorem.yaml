@@ -1,0 +1,48 @@
+id: naturals.recursion_theorem
+node: recursion_theorem
+status_label: proved_theorem
+display: 'For any set $X$, $a\in X$, and $g:\mathbb{N}\times X\to X$, there is a unique $f:\mathbb{N}\to X$ with $f(0)=a$ and $f(S n)=g(n,f(n))$.'
+parseable: 'exists! f : N -> X, f 0 = a and forall n, f (S n) = g (n, f n)'
+symbols:
+  X: { meaning: an arbitrary target set, type: set }
+  a: { meaning: the seed value, type: element of X }
+  g: { meaning: the step rule, type: 'N x X -> X' }
+  f: { meaning: the function being defined, type: 'N -> X' }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [peano_axioms, function, induction_principle]
+proof:
+  technique: >-
+    existence: let f be the union of all "attempts" (partial functions on
+    initial segments satisfying the two equations); induction shows an attempt
+    exists on every initial segment and that any two agree. uniqueness: if f, f'
+    both satisfy the equations, { n : f n = f' n } contains 0 and is S-closed,
+    so is all of N (induction).
+  derives_from: induction_principle
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'g(n,x) = x + 1  ,  a = 0  =>  f = identity on N (a sanity check)'
+  - 'g(n,x) = x  fixed, a arbitrary  =>  f constant'
+  - 'primitive recursion (g may use n) subsumes iteration (g ignores n)'
+counterexamples_when_dropped:
+  successor_injective: 'if S is not injective the two attempts on overlapping segments can disagree; f is not well-defined'
+  zero_not_a_successor: 'if 0 = S k for some k, the equation at 0 and the equation at S k both constrain f(0) and can conflict'
+  induction_principle: 'without induction there may be "non-standard" naturals not reached from 0, on which f is unconstrained -- existence and uniqueness both fail'
+common_misuse:
+  - 'assuming a recursively-described f exists without invoking this theorem (it is exactly what licenses definition by recursion)'
+  - 'confusing it with the recursion theorem of computability'
+related:
+  enables: [nat_addition, nat_multiplication, nat_exponentiation, nth_root_exists, real_uniqueness]
+  corollary: 'any two systems satisfying the Peano axioms are uniquely isomorphic'
+sources: [enderton, landau, tao_analysis_I]
+status: reviewed
+checks:
+  type: validation/type-checks.md#recursion_theorem
+  specialization: validation/specialization-cases.md#recursion_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

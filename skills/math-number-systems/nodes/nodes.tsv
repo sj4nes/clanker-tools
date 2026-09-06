@@ -1,0 +1,101 @@
+id	type	title	area	status	role	primary_statement
+set	primitive	Set	foundations	active	foundation	-
+cartesian_product	definition	Cartesian product	foundations	reviewed	foundation	X x Y = { (x,y) : x in X, y in Y }
+relation	definition	Binary relation	foundations	reviewed	foundation	a subset of X x X
+function	definition	Function	foundations	reviewed	foundation	a relation that is single-valued and total
+injection	definition	Injection	foundations	reviewed	support	f(x)=f(y) implies x=y
+surjection	definition	Surjection	foundations	reviewed	support	every y has a preimage
+bijection	definition	Bijection	foundations	reviewed	support	injective and surjective
+composition	definition	Composition of functions	foundations	reviewed	support	(g o f)(x) = g(f(x))
+inverse_function	definition	Inverse function	foundations	reviewed	support	f o f^{-1} = id and f^{-1} o f = id
+equivalence_relation	definition	Equivalence relation	foundations	reviewed	foundation	reflexive, symmetric, transitive
+equivalence_class	definition	Equivalence class	foundations	reviewed	foundation	[x] = { y : y ~ x }
+partition_equiv	proposition	Partitions and equivalence relations	foundations	reviewed	support	equivalence relations correspond bijectively to partitions
+quotient_set	construction	Quotient set	foundations	reviewed	core	X/~ is the set of equivalence classes
+well_defined_on_quotient	principle_law	Well-definedness on a quotient	foundations	reviewed	core	[x] -> [h(x)] is a function iff x~x' implies h(x)~h(x')
+axiom_of_choice	axiom	Axiom of choice	foundations	active	foundation	every family of nonempty sets has a choice function
+countable_choice	axiom	Axiom of countable choice	foundations	active	foundation	a countable family of nonempty sets has a choice function
+peano_axioms	axiom	Peano axioms	naturals	active	foundation	0 in N; S injective; 0 not a successor; induction
+natural_number	structure	The natural numbers	naturals	reviewed	foundation	a system (N,0,S) satisfying the Peano axioms
+induction_principle	principle_law	Induction	naturals	reviewed	core	X contains 0 and is S-closed implies X = N
+recursion_theorem	theorem	Recursion theorem	naturals	reviewed	headline	unique f with f(0)=a and f(S n)=g(n,f n)
+strong_induction	proposition	Strong induction	naturals	reviewed	support	if P holds at n whenever it holds below n then P holds everywhere
+well_ordering_principle	proposition	Well-ordering of N	naturals	reviewed	core	every nonempty subset of N has a least element
+nat_addition	definition	Addition on N	naturals	reviewed	core	a+0=a ; a+S(b)=S(a+b)
+nat_multiplication	definition	Multiplication on N	naturals	reviewed	core	a*0=0 ; a*S(b)=a*b+a
+nat_exponentiation	definition	Exponentiation on N	naturals	reviewed	support	a^0=1 ; a^{S(b)}=a^b * a
+nat_order	definition	Order on N	naturals	reviewed	core	a <= b iff exists c, a + c = b
+nat_semiring_laws	proposition	Semiring laws on N	naturals	reviewed	core	+ and * are associative and commutative, * distributes over +
+nat_cancellation	proposition	Cancellation in N	naturals	reviewed	support	a+c=b+c implies a=b ; a*c=b*c and c!=0 implies a=b
+nat_no_zero_divisors	proposition	No zero divisors in N	naturals	reviewed	support	a*b=0 implies a=0 or b=0
+nat_order_trichotomy	proposition	Trichotomy in N	naturals	reviewed	support	exactly one of a<b, a=b, a>b
+nat_order_compatible	proposition	Order compatibility in N	naturals	reviewed	support	a<=b implies a+c<=b+c and a*c<=b*c
+nat_division_with_remainder	theorem	Division with remainder in N	naturals	reviewed	core	for b>0, unique q,r with a = bq + r and 0 <= r < b
+commutative_monoid	structure	Commutative monoid	structures	reviewed	foundation	associative commutative binary op with identity
+commutative_semiring	structure	Commutative semiring	structures	reviewed	foundation	two monoids + distributivity, no additive inverses required
+commutative_ring	structure	Commutative ring	structures	reviewed	foundation	commutative semiring with additive inverses
+integral_domain	structure	Integral domain	structures	reviewed	foundation	commutative ring, 1!=0, no zero divisors
+field	structure	Field	structures	reviewed	foundation	commutative ring in which every nonzero element is a unit
+ordered_ring	structure	Ordered ring	structures	reviewed	foundation	ring with a total order compatible with + and with * by positives
+ordered_integral_domain	structure	Ordered integral domain	structures	reviewed	foundation	integral domain that is an ordered ring
+ordered_field	structure	Ordered field	structures	reviewed	foundation	field with a total order compatible with + and *
+integer	construction	The integers	integers	reviewed	headline	Z = (N x N)/~ , (a,b) ~ (c,d) iff a+d = b+c
+integer_relation_equivalence	proposition	The integer relation is an equivalence	integers	reviewed	support	~_Z is reflexive symmetric transitive
+integer_addition	definition	Addition on Z	integers	reviewed	core	[(a,b)] + [(c,d)] = [(a+c, b+d)]
+integer_multiplication	definition	Multiplication on Z	integers	reviewed	core	[(a,b)] * [(c,d)] = [(ac+bd, ad+bc)]
+integer_negation	definition	Negation on Z	integers	reviewed	core	-[(a,b)] = [(b,a)]
+integer_operations_well_defined	proposition	Z operations are well defined	integers	reviewed	core	+ , * , - respect ~_Z
+integer_order	definition	Order on Z	integers	reviewed	core	[(a,b)] <= [(c,d)] iff a+d <= b+c in N
+integer_is_commutative_ring	theorem	Z is a commutative ring	integers	reviewed	core	(Z,+,*,0,1) satisfies the ring axioms
+integer_is_integral_domain	theorem	Z is an integral domain	integers	reviewed	core	Z has no zero divisors and 1 != 0
+integer_is_ordered_integral_domain	theorem	Z is an ordered integral domain	integers	reviewed	headline	the order on Z is total and compatible with + and *
+nat_embeds_in_integer	proposition	N embeds in Z	integers	reviewed	core	n -> [(n,0)] is an injective semiring and order homomorphism
+integer_cancellation	proposition	Cancellation in Z	integers	reviewed	support	ac = bc and c != 0 imply a = b
+integer_well_ordering	proposition	Well-ordering of bounded-below sets in Z	integers	reviewed	support	a nonempty subset of Z bounded below has a least element
+integer_division_with_remainder	theorem	Division with remainder in Z	integers	reviewed	core	for b != 0, unique q,r with a = bq + r and 0 <= r < |b|
+gcd_bezout	theorem	GCD and Bezout's identity	integers	reviewed	support	gcd(a,b) exists and equals ax + by for some integers x,y
+rational_number	construction	The rationals	rationals	reviewed	headline	Q = (Z x Z*)/~ , (a,b) ~ (c,d) iff ad = bc
+rational_relation_equivalence	proposition	The rational relation is an equivalence	rationals	reviewed	support	~_Q is an equivalence relation (transitivity uses that Z is a domain)
+rational_addition	definition	Addition on Q	rationals	reviewed	core	[(a,b)] + [(c,d)] = [(ad+bc, bd)]
+rational_multiplication	definition	Multiplication on Q	rationals	reviewed	core	[(a,b)] * [(c,d)] = [(ac, bd)]
+rational_inverse	definition	Inverse on Q	rationals	reviewed	core	[(a,b)]^{-1} = [(b,a)] for a != 0
+rational_operations_well_defined	proposition	Q operations are well defined	rationals	reviewed	core	+ , * , inverse respect ~_Q
+rational_order	definition	Order on Q	rationals	reviewed	core	[(a,b)] with b>0 is <= [(c,d)] with d>0 iff ad <= bc in Z
+rational_is_field	theorem	Q is a field	rationals	reviewed	core	every nonzero rational has a multiplicative inverse
+rational_is_ordered_field	theorem	Q is an ordered field	rationals	reviewed	headline	the order on Q is total and compatible with + and *
+integer_embeds_in_rational	proposition	Z embeds in Q	rationals	reviewed	core	a -> [(a,1)] is an injective ordered ring homomorphism
+field_of_fractions	theorem	Q is the field of fractions of Z	rationals	reviewed	support	Q is the smallest field containing Z, up to unique isomorphism
+rational_lowest_terms	proposition	Lowest-terms representative	rationals	reviewed	support	every rational equals a/b with gcd(a,b)=1 and b>0, uniquely
+rational_archimedean	proposition	Q is Archimedean	rationals	reviewed	core	for every x in Q there is n in N with n > x
+rational_order_dense	proposition	The order on Q is dense	rationals	reviewed	support	between any two rationals lies a third
+rational_absolute_value	definition	Absolute value on Q	rationals	reviewed	support	|x| = x if x>=0 else -x ; triangle inequality holds
+sqrt2_irrational	theorem	The square root of 2 is irrational	rationals	reviewed	headline	no rational x satisfies x^2 = 2
+cauchy_sequence_rational	definition	Cauchy sequence of rationals	rationals	reviewed	core	forall eps>0 in Q exists N forall m,n>=N |x_m - x_n| < eps
+rational_incomplete_lub	theorem	Q is not order-complete	rationals	reviewed	headline	{ x in Q : x^2 < 2 } is nonempty and bounded above but has no supremum in Q
+rational_incomplete_cauchy	theorem	Q is not Cauchy-complete	rationals	reviewed	core	there is a Cauchy sequence of rationals with no limit in Q
+dedekind_cut	definition	Dedekind cut	reals	reviewed	headline	a nonempty proper downward-closed subset of Q with no greatest element
+real_number	construction	The real numbers	reals	reviewed	headline	R is the set of Dedekind cuts of Q
+real_order	definition	Order on R	reals	reviewed	core	A <= B iff A is a subset of B ; this order is total
+real_addition	definition	Addition on R	reals	reviewed	core	A + B = { a + b : a in A, b in B } ; again a cut
+real_additive_inverse	definition	Negation on R	reals	reviewed	core	-A = { p in Q : -p is an upper bound of A but not the least one }
+real_multiplication	definition	Multiplication on R	reals	reviewed	core	defined for positive cuts then extended by sign
+real_is_ordered_field	theorem	R is an ordered field	reals	reviewed	headline	(R,+,*,0*,1*,<=) satisfies the ordered-field axioms
+rational_embeds_in_real	proposition	Q embeds in R	reals	reviewed	core	q -> q* = { p in Q : p < q } is an injective ordered field homomorphism
+lub_property	theorem	The least-upper-bound property of R	reals	reviewed	headline	every nonempty subset of R bounded above has a supremum, namely the union of its cuts
+real_archimedean	theorem	R is Archimedean	reals	reviewed	core	for every x in R there is n in N with n > x
+rational_dense_in_real	theorem	Q is dense in R	reals	reviewed	core	between any two reals lies a rational
+nth_root_exists	theorem	Existence of nth roots	reals	reviewed	headline	for x > 0 in R and n in N+ there is a unique y > 0 with y^n = x
+real_absolute_value	definition	Absolute value on R	reals	reviewed	support	|x| = max(x, -x) ; triangle inequality holds
+cauchy_completion	construction	R as the Cauchy completion of Q	reals	reviewed	support	R' = (Cauchy sequences of rationals)/(null sequences)
+dedekind_cauchy_equivalent	theorem	The two constructions of R agree	reals	reviewed	support	the Dedekind and Cauchy constructions are isomorphic ordered fields
+real_uniqueness	theorem	Uniqueness of the real number system	reals	reviewed	headline	any two Dedekind-complete ordered fields are uniquely order-isomorphic
+finite_set	definition	Finite set	cardinality	reviewed	foundation	in bijection with { k in N : k < n } for some n
+countable_set	definition	Countable set	cardinality	reviewed	core	admits an injection into N
+nat_pairing_bijection	theorem	N x N is countable	cardinality	reviewed	core	pi(m,n) = (m+n)(m+n+1)/2 + n is a bijection N x N -> N
+countable_union_countable	theorem	Countable union of countable sets	cardinality	reviewed	core	a countable union of countable sets is countable (uses countable choice)
+integer_countable	proposition	Z is countable	cardinality	reviewed	support	Z is a countable union of finite sets
+rational_countable	proposition	Q is countable	cardinality	reviewed	core	Q injects into Z x Z* which is countable
+cantor_theorem	theorem	Cantor's theorem	cardinality	reviewed	core	there is no surjection from X onto its power set
+cantor_diagonal_argument	theorem	The diagonal argument	cardinality	reviewed	headline	from any sequence of reals in [0,1] one can construct a real it omits
+schroeder_bernstein	theorem	Schroeder-Bernstein theorem	cardinality	reviewed	support	injections X -> Y and Y -> X give a bijection X -> Y
+real_uncountable	theorem	R is uncountable	cardinality	reviewed	headline	there is no surjection from N onto R

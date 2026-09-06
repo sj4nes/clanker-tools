@@ -1,0 +1,29 @@
+type	source_id	target_id	note
+equivalent_to	induction_principle	strong_induction	equivalent over the other Peano axioms; strong induction proves ordinary induction by taking the downward-closed hull.
+equivalent_to	induction_principle	well_ordering_principle	equivalent over the other Peano axioms; well-ordering proves induction by minimal counterexample.
+equivalent_to	strong_induction	well_ordering_principle	the two "non-basic" forms; each is a one-line consequence of the other.
+equivalent_to	real_number	cauchy_completion	two constructions of the same object; the isomorphism is dedekind_cauchy_equivalent. Cuts are canonical here (shortest lub proof); Cauchy generalises to completion of any metric space.
+equivalent_to	lub_property	real_dedekind_completeness	"every nonempty bounded-above set has a sup" vs "every cut of R is realised" -- packaging of the same completeness.
+equivalent_to	lub_property	nested_interval_plus_archimedean	over an Archimedean ordered field; not spelled out as a node in 0.1 (belongs to math-real-analysis).
+special_case_of	nat_division_with_remainder	integer_division_with_remainder	the N version is the b>0, a>=0 case.
+special_case_of	rational_incomplete_lub	rational_incomplete_cauchy	both witness incompleteness; the lub form is logically the sharper (implies the Cauchy form given Archimedean).
+generalizes	integer_division_with_remainder	gcd_bezout	the Euclidean algorithm iterates division with remainder.
+generalizes	cantor_theorem	real_uncountable	real_uncountable is the |R| > |N| instance; cantor_theorem gives |X| < |P(X)| for every X.
+generalizes	field_of_fractions	rational_number	Q is Frac(Z); the same construction turns any integral domain into a field.
+strengthens	real_uniqueness	real_is_ordered_field	uniqueness says the ordered-field-plus-completeness axioms are categorical, not merely consistent.
+contrasts_with	integer_is_integral_domain	rational_is_field	Z is a domain but not a field (2 has no inverse); Q is the smallest field fixing that.
+contrasts_with	rational_is_ordered_field	rational_incomplete_lub	Q has every first-order ordered-field property yet fails the (second-order) completeness property.
+contrasts_with	real_is_ordered_field	cantor_theorem	R is an ordered field like Q, but unlike Q it is uncountable.
+commonly_confused_with	countable_set	finite_set	"countable" includes finite here; some authors mean "countably infinite".
+commonly_confused_with	rational_incomplete_lub	sqrt2_irrational	"sqrt2 is irrational" is about one number; "Q is incomplete" is about a missing supremum -- irrationality is the ingredient, not the conclusion.
+commonly_confused_with	lub_property	real_is_ordered_field	the ordered-field axioms are first-order and Q satisfies them too; completeness is the extra, second-order axiom.
+commonly_confused_with	dedekind_cut	real_number	a cut is a set of rationals; a real IS that set -- there is no further "number" attached.
+historically_precedes	rational_incomplete_lub	real_number	the Pythagoreans' discovery of incommensurability (~5th c. BC) long predates Dedekind's and Cantor's constructions of R (1872).
+historically_precedes	real_number	lub_property	Dedekind's cut construction was explicitly built to make the completeness property provable.
+depends_on_choice	countable_union_countable	countable_choice	without countable choice it is consistent (Feferman-Levy) that R is a countable union of countable sets.
+illustrated_by	integer	example_int_pairs	[(5,2)] = [(8,5)] = "3" ; [(2,7)] = "-5".
+illustrated_by	rational_number	example_rat_pairs	[(2,4)] = [(1,2)] ; [(1,2)] + [(1,3)] = [(5,6)].
+illustrated_by	rational_incomplete_cauchy	example_babylonian	x_{n+1} = (x_n + 2/x_n)/2 is Cauchy in Q with no rational limit (see math-real-analysis tutorial).
+illustrated_by	nat_pairing_bijection	example_pairing	pi(0,0)=0, pi(1,0)=1, pi(0,1)=2, pi(2,0)=3, ...
+proved_using	real_uncountable	cantor_theorem	alt route: |R| = |P(N)| via binary expansions, then Cantor. Canonical route in 0.1 is the decimal diagonal argument.
+proved_using	sqrt2_irrational	unique_factorization	alt route via the fundamental theorem of arithmetic; canonical route is parity / infinite descent.

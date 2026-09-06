@@ -1,0 +1,49 @@
+id: reals.real_is_ordered_field
+node: real_is_ordered_field
+status_label: constructive_result
+display: '$(\mathbb{R},+,\cdot,0^*,1^*,\le)$ is an ordered field.'
+parseable: 'R with cut addition/multiplication/order satisfies the ordered-field axioms'
+symbols:
+  '0*': { meaning: 'the cut { p in Q : p < 0 }', type: real }
+  '1*': { meaning: 'the cut { p in Q : p < 1 }', type: real }
+type_check_status: well_formed
+type_check_note: >-
+  each axiom is checked at the level of sets of rationals: A + B and A * B must
+  be shown to be cuts (objects.md rule 3), and the field axioms reduce to the
+  corresponding identities in Q applied elementwise.
+hypotheses: []
+preconditions: []
+dependencies: [real_addition, real_additive_inverse, real_multiplication, real_order, ordered_field, rational_is_ordered_field]
+proof:
+  technique: >-
+    additive group: A + B = { a + b } is a cut; 0* is the identity; -A =
+    { p : -p is an upper bound of A but not the least } is the inverse;
+    associativity/commutativity from Q. Multiplication: define for A, B > 0*
+    as { p : p < ab for some a in A cap Q+, b in B cap Q+ } union (negatives),
+    then extend by sign; distributivity by cases on signs. Order compatibility
+    from inclusion and the Q order.
+  derives_from: real_addition
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'restricted to the rational reals q* it reproduces the ordered field Q (rational_embeds_in_real is a field homomorphism)'
+  - 'the sign-case multiplication agrees with elementary "(-)(-) = (+)"'
+counterexamples_when_dropped:
+  sign_cases_in_multiplication: 'defining A*B by { ab : a in A, b in B } for all cuts gives all of Q once A or B contains arbitrarily negative rationals -- not a cut'
+  no_greatest_element_of_a_cut: 'without it, -A is ambiguous and 0* has two representations'
+common_misuse:
+  - 'defining A*B the same way as A+B (fails -- see above)'
+  - 'assuming completeness is part of "ordered field" -- it is the SEPARATE lub_property'
+related:
+  strengthened_by: [lub_property, real_uniqueness]
+  contrasts_with: 'complex numbers -- a field that admits no compatible order'
+sources: [rudin_principles, landau]
+status: reviewed
+checks:
+  type: validation/type-checks.md#real_is_ordered_field
+  specialization: validation/specialization-cases.md
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

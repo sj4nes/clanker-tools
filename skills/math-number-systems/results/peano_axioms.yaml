@@ -1,0 +1,42 @@
+id: naturals.peano_axioms
+node: peano_axioms
+status_label: axiom
+display: 'There is a set $\mathbb{N}$, an element $0\in\mathbb{N}$, and $S:\mathbb{N}\to\mathbb{N}$ such that: $S$ is injective; $0\notin\operatorname{ran}S$; and any $X\subseteq\mathbb{N}$ with $0\in X$ and $S[X]\subseteq X$ equals $\mathbb{N}$.'
+parseable: 'exists (N, 0, S): injective(S) and 0 not in ran(S) and induction'
+symbols:
+  '0': { meaning: the first natural number, type: nat }
+  S: { meaning: the successor function, type: 'N -> N' }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [set, function]
+proof:
+  technique: none — this is the axiomatic floor for the capsule
+  derives_from: null
+  lean_status: none
+  lean_ref: null
+uses_choice: false
+constructive: true
+equivalent_forms:
+  - 'second-order induction (as stated) vs the first-order schema (one axiom per formula) -- the capsule uses the second-order form so that N is categorical'
+  - 'the "Dedekind-infinite" formulation: an injective non-surjective self-map with a point outside its range'
+model_cited: 'von Neumann finite ordinals: 0 = {}, S n = n union {n}, N = the smallest inductive set (Axiom of Infinity). See [enderton] ch. 4.'
+specialization_cases:
+  - 'induction with X = { n : P(n) } is ordinary proof by induction'
+  - 'the recursion theorem (recursion_theorem) is the non-trivial consequence -- it licenses ALL definition by recursion'
+counterexamples_when_dropped:
+  S_injective: 'Z/nZ with "successor" +1 satisfies the other axioms but S is not injective; recursion is not well-defined there'
+  zero_not_a_successor: 'a finite cycle { 0, 1, ..., k-1 } with S = +1 mod k has 0 = S(k-1); induction from 0 covers everything but recursion over-constrains f(0)'
+  induction: 'N disjoint-union an extra Z-chain satisfies axioms 1-4; induction is what rules out such non-standard elements'
+common_misuse:
+  - 'assuming N is "given" without noticing recursion needs an axiom to justify it'
+  - 'conflating the second-order axiom with first-order PA (which has non-standard models and is not categorical)'
+related:
+  enables: [natural_number, induction_principle, recursion_theorem]
+sources: [peano_1889, dedekind_1888, enderton, landau]
+status: reviewed
+checks:
+  type: validation/type-checks.md#peano_axioms
+  specialization: validation/specialization-cases.md#peano_axioms
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

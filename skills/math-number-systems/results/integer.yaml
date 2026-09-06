@@ -1,0 +1,51 @@
+id: integers.integer
+node: integer
+status_label: constructive_result
+display: '$\mathbb{Z} = (\mathbb{N}\times\mathbb{N})/\sim$, where $(a,b)\sim(c,d)$ iff $a+d=b+c$. The class $[(a,b)]$ represents "$a-b$".'
+parseable: 'Z = (N x N) / {(a,b) ~ (c,d) iff a + d = b + c}'
+symbols:
+  '(a,b)': { meaning: a pair of naturals, type: element of 'N x N' }
+  '[(a,b)]': { meaning: its equivalence class, an integer, type: int }
+type_check_status: well_formed
+type_check_note: >-
+  the relation is stated with + only (subtraction does not exist yet). It is an
+  equivalence relation (integer_relation_equivalence) BEFORE the quotient is
+  formed; transitivity uses additive cancellation in N.
+hypotheses: []
+preconditions: []
+dependencies: [natural_number, cartesian_product, quotient_set, integer_relation_equivalence]
+proof:
+  technique: >-
+    form N x N; verify ~ is reflexive (a+b = b+a), symmetric, and transitive
+    (a+d=b+c and c+f=d+e give a+f=b+e after adding and cancelling c+d); take Z to
+    be the set of classes.
+  derives_from: integer_relation_equivalence
+  lean_status: core-arith
+  lean_ref: 'validation/proof-checks.lean §1 (transitivity, omega, universal)'
+uses_choice: false
+constructive: true
+well_definedness: >-
+  every subsequent operation on Z (integer_addition, _multiplication, _negation,
+  _order) is defined via representatives and separately shown to respect ~
+  (integer_operations_well_defined).
+solving_for: null
+specialization_cases:
+  - '[(n,0)] is the image of n in N ; [(0,n)] is its negative'
+  - '[(a,b)] = [(a+k, b+k)] for every k -- the class is a whole diagonal'
+  - '[(5,2)] = [(8,5)] since 5+5 = 2+8 (instance-checks.bc)'
+counterexamples_when_dropped:
+  relation_is_transitive: 'a non-transitive relation does not partition N x N; "the set of classes" is ill-defined'
+  additive_cancellation_in_N: 'transitivity of ~ fails without it -- N must be a cancellative monoid'
+common_misuse:
+  - 'treating [(a,b)] as the literal pair rather than its class'
+  - 'writing a - b before negation/subtraction has been defined on Z'
+related:
+  generalizes: 'the Grothendieck group of any commutative cancellative monoid'
+  enables: [rational_number, integer_is_ordered_integral_domain]
+sources: [landau, enderton, tao_analysis_I]
+status: reviewed
+checks:
+  type: validation/type-checks.md#integer
+  specialization: validation/specialization-cases.md#integer
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

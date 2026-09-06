@@ -1,0 +1,57 @@
+id: reals.lub_property
+node: lub_property
+status_label: constructive_result
+display: 'Every nonempty $S\subseteq\mathbb{R}$ that is bounded above has a supremum in $\mathbb{R}$, namely $\sup S = \bigcup_{A\in S} A$.'
+parseable: 'nonempty(S) and boundedAbove(S) -> isLUB(union S, S)'
+symbols:
+  S: { meaning: a set of reals, i.e. a set of cuts, type: subset of R }
+  'union S': { meaning: the union of all the cuts in S, type: cut (= a real) }
+type_check_status: well_formed
+type_check_note: >-
+  the content is that the union of the cuts is AGAIN a cut (objects.md rule 3):
+  nonempty (S nonempty), proper (S bounded above by some cut B, so the union is
+  a subset of B != Q), downward closed (union of downward-closed sets), no
+  greatest element (if q were greatest it would be greatest in some A in S).
+hypotheses: [S_nonempty, S_bounded_above]
+preconditions: []
+dependencies: [real_number, dedekind_cut, real_order, rational_is_ordered_field]
+proof:
+  technique: >-
+    let U = union of the cuts in S. Show U is a cut (four clauses, each one line).
+    U contains every A in S, so U is an upper bound. Any upper bound B contains
+    every A, hence contains U, so U <= B. Thus U = sup S.
+  derives_from: real_number
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+constructive_note: >-
+  no choice, no non-constructive step: the supremum is EXHIBITED as a specific
+  set of rationals. This is the sharpest contrast with math-real-analysis, where
+  the same statement is the axiom `lub_axiom` and its consequences are labelled
+  nonconstructive_result.
+solving_for:
+  infimum: 'inf S = -(sup(-S)) ; equivalently the interior of the intersection of the cuts'
+specialization_cases:
+  - 'S = { q* : q in Q, q < 1 } has sup = 1* (the union is { p : p < 1 })'
+  - 'S = { q* : q in Q, q^2 < 2 } has sup = the sqrt(2) cut'
+  - 'a single cut A has sup { A } = A'
+counterexamples_when_dropped:
+  S_nonempty: 'sup of the empty set would be the smallest cut, which does not exist (no least real)'
+  S_bounded_above: 'the union of an unbounded family is all of Q, which is not a cut -- no supremum'
+  ambient_field_is_R: 'the identical statement for Q is FALSE (rational_incomplete_lub) -- this theorem is what R was built to provide'
+common_misuse:
+  - 'assuming sup S in S'
+  - 'importing it into Q'
+  - 'calling it an axiom -- here it is proved'
+related:
+  equivalent_to: 'real_dedekind_completeness, nested-interval + Archimedean (in math-real-analysis)'
+  contrasts_with: rational_incomplete_lub
+  discharges: 'math-real-analysis node `lub_axiom` (there an axiom, here a theorem)'
+sources: [rudin_principles, landau, dedekind_1872]
+status: reviewed
+checks:
+  type: validation/type-checks.md#lub_property
+  specialization: validation/specialization-cases.md#lub_property
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

@@ -1,0 +1,44 @@
+id: rationals.rational_incomplete_lub
+node: rational_incomplete_lub
+status_label: proved_theorem
+display: 'The set $A=\{x\in\mathbb{Q}:x^2<2\}$ is nonempty and bounded above but has no least upper bound in $\mathbb{Q}$.'
+parseable: 'nonempty(A) and boundedAbove(A) and not exists s : Q, isLUB(s, A)'
+symbols:
+  A: { meaning: '{ x in Q : x^2 < 2 }', type: subset of Q }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [sqrt2_irrational, rational_is_ordered_field, rational_order_dense, rational_archimedean]
+proof:
+  technique: >-
+    A is nonempty (1 in A) and bounded above (by 2). Let p in Q be any upper
+    bound. If p^2 < 2, the rational p + (2-p^2)/(2p+2) is larger and still in A,
+    so p is not an upper bound. If p^2 > 2, a slightly smaller rational is still
+    an upper bound, so p is not least. p^2 = 2 is impossible (sqrt2_irrational).
+    So no rational is a least upper bound.
+  derives_from: sqrt2_irrational
+  lean_status: instance
+  lean_ref: 'validation/instance-checks.bc (decimal search: square < 2 forever, next tick > 2)'
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'in R the same A has a least upper bound, namely sqrt(2) (lub_property + nth_root_exists)'
+  - 'the decimal truncations 1, 1.4, 1.41, ... are rational upper-bound approximations that never reach a rational sup (instance-checks.bc)'
+counterexamples_when_dropped:
+  ambient_field_is_Q: 'move to R and A acquires a supremum -- completeness is exactly what is missing'
+  A_bounded_above: 'if A were unbounded there would trivially be no sup, but that is not why Q fails here -- A IS bounded'
+common_misuse:
+  - 'stating it as "sqrt(2) is irrational" -- that is the tool, not the theorem'
+  - 'thinking a countable dense ordered field could still be complete -- it cannot (R is uncountable, cantor)'
+related:
+  special_case_of: rational_incomplete_cauchy
+  commonly_confused_with: sqrt2_irrational
+  motivates: real_number
+sources: [rudin_principles, landau, abbott_understanding]
+status: reviewed
+checks:
+  type: validation/type-checks.md#rational_incomplete_lub
+  specialization: validation/specialization-cases.md#rational_incomplete_lub
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

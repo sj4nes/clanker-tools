@@ -45,22 +45,21 @@ hypothesis-dropped counterexamples**, **`lean` → primary verification tool**.
 
 ## Principles
 
-- **Scope before content.** Every release states: included areas, excluded
-  areas, target level, required background, the **foundational stance** (what is
-  taken as primitive — ZFC, a type theory, "the reals as a complete ordered
-  field, construction assumed", naive set theory for the working level),
-  notation conventions, whether proofs are included / sketched / cited, and the
-  epistemic-status policy. A concentrated capsule earns value from *selection and
-  dependency clarity*, not theorem count.
+- **Scope before content.** Every release states: included / excluded areas,
+  target level, required background, the **foundational stance** (what is
+  primitive — ZFC, a type theory, "reals as a complete ordered field,
+  construction assumed"), notation conventions, whether proofs are included /
+  sketched / cited, and the epistemic-status policy. A capsule earns value from
+  *selection and dependency clarity*, not theorem count.
 - **Every node has one primary type** (primitive, notation_convention,
   definition, axiom, structure, hypothesis, theorem, lemma, proposition,
   corollary, identity, construction, algorithm, counterexample, example,
   regime, bridge, diagnostic). Document any secondary role.
 - **An edge `A B` means exactly one thing:** node `A` is a *necessary
   prerequisite* for correctly stating, proving, interpreting, or applying `B`
-  within the declared scope. It never means "related to", "often used with",
-  "historically earlier", "easier", "taught first", "generalizes", "equivalent
-  to", or "special case of" — keep those as separate metadata relations.
+  within scope. Never "related to", "often used with", "historically earlier",
+  "easier", "taught first", "generalizes", "equivalent to", or "special case
+  of" — those are separate metadata relations.
 - **Hypotheses and structures are nodes, not prose.** `compactness`,
   `continuity`, `measurability`, `commutativity`, `finite_dimensional`,
   `hausdorff`, `completeness`, `lipschitz`, `convexity`, `axiom_of_choice`,
@@ -69,15 +68,14 @@ hypothesis-dropped counterexamples**, **`lean` → primary verification tool**.
   visible in the graph.
 - **The structure is a DAG, not a tree.** One canonical node per concept, reused
   by many parents. Equivalent definitions of one concept are **one node**, the
-  equivalences recorded as metadata (plus, where in scope, an `equivalent_to`
-  relation and a proved equivalence lemma). Preserve the DAG; `tsort` only
-  linearizes it for presentation.
-- **Minimum direct prerequisites only.** Do not attach every field axiom to
-  every manipulation, nor every possible proof route. Store optional proof
-  routes as `proof_routes` metadata; attach only what the *stated* proof and the
+  equivalences as metadata (plus, in scope, an `equivalent_to` relation and a
+  proved equivalence lemma). Preserve the DAG; `tsort` only linearizes it.
+- **Minimum direct prerequisites only.** Not every field axiom on every
+  manipulation, not every possible proof route. Store optional routes as
+  `proof_routes` metadata; attach only what the *stated* proof and the
   *statement itself* need.
-- **One canonical statement per result.** The contrapositive, the "solved for"
-  form, and trivial rephrasings are one node with metadata — not many nodes.
+- **One canonical statement per result.** Contrapositive, "solved for", and
+  trivial rephrasings are one node with metadata — not many nodes.
 - **Every result carries:** every symbol named and **typed** (which set / space
   / structure each object lives in); the statement's well-formedness (type)
   check; one **epistemic status** label (`axiom`, `definition`,
@@ -90,11 +88,11 @@ hypothesis-dropped counterexamples**, **`lean` → primary verification tool**.
   **proof provenance** (technique, what it derives from, Lean status); ≥1
   authoritative source.
 - **A well-typed statement can still be false.** The type check is necessary,
-  not sufficient — record it that way. A plausible statement can fail on a
-  constant, a strictness, a quantifier order, or a missing hypothesis.
-- **A passing numerical or finite example never proves a theorem.** `bc` worked
+  not sufficient. A plausible statement can fail on a constant, a strictness, a
+  quantifier order, or a missing hypothesis.
+- **A passing numerical or finite example never proves a theorem.** `bc`
   instances and small finite cases are sanity checks and counterexample-hunts;
-  only `lean` (or a cited, checked proof) discharges a `proved_*` status.
+  only `lean` (or a cited checked proof) discharges a `proved_*` status.
 - **Never state a theorem without its hypotheses, and never claim more
   generality than is proved.** "Continuous ⇒ integrable" needs "on a compact
   interval"; "every vector space has a basis" needs choice — label and edge them
@@ -109,14 +107,14 @@ hypothesis-dropped counterexamples**, **`lean` → primary verification tool**.
 ## Pure vs applied
 
 Both use this method; the emphasis shifts. **Pure**: `lean` is the workhorse
-(machine-check the theorems where feasible; `bc` hunts counterexamples and checks
+(machine-check theorems where feasible; `bc` hunts counterexamples and checks
 specializations); foundational stance matters most; hypothesis-dropped
-counterexample nodes are high-value. **Applied**: add modeling assumptions as
-hypothesis nodes (`well_posed`, `smooth_data`); add discretization ladders (Euler
-vs RK4) as `approximates` relations with truncation-error metadata; add
-stability / convergence conditions (CFL, spectral radius < 1) as `valid_when`
-edges; `bc` carries error-bound and convergence-rate checks; `lean` checks the
-exact identities behind a scheme (consistency order, error recursion).
+counterexample nodes are high-value. **Applied**: modeling assumptions become
+hypothesis nodes (`well_posed`, `smooth_data`); discretization ladders (Euler vs
+RK4) become `approximates` relations with truncation-error metadata; stability /
+convergence conditions (CFL, spectral radius < 1) become `valid_when` edges;
+`bc` carries error-bound and convergence-rate checks; `lean` checks the exact
+identities behind a scheme.
 
 ## Workflow
 
@@ -165,10 +163,9 @@ status and provenance, specialization checks, hypothesis-dropped
 counterexamples, common misuse, related nodes, sources. Do not mark a node
 `reviewed` until every applicable validation in step 7 passes.
 
-When importing long source material (a textbook chapter, lecture notes, a
-paper), **use the `csplit` skill** to break it into reviewable sections in an
-isolated directory, with its reconstruction check — never edit the connected
-original.
+When importing long source material, **use the `csplit` skill** to break it into
+reviewable sections in an isolated directory with its reconstruction check —
+never edit the connected original.
 
 ### 5. Derive prerequisite edges — delegate to the `tsort` skill
 
@@ -312,9 +309,13 @@ and pedagogical order.
   slice (the **Bolzano–Weierstrass theorem** and its prerequisites) through
   every stage.
 - [`../math-real-analysis/`](../math-real-analysis/SKILL.md) — the first full
-  capsule and proof-of-method (Real Analysis I, 109-node graph, 247 edges): the
-  machinery at scale, five would-be cycles designed out via `conventions.md`,
-  and the `omega`/induction-vs-`decide` split in a Mathlib-free `lean` file.
+  capsule (Real Analysis I, 109 nodes, 247 edges): the machinery at scale, five
+  would-be cycles designed out, the `omega`/induction-vs-`decide` split in a
+  Mathlib-free `lean` file.
+- [`../math-number-systems/`](../math-number-systems/SKILL.md) — the second
+  capsule (ℕ→ℤ→ℚ→ℝ constructed, 100 nodes, one root `set`): the method on
+  *constructions* (well-definedness-on-a-quotient is the type check), and a
+  capsule that discharges another's roots.
 - [`../physics-formula-tree/`](../physics-formula-tree/SKILL.md) — the parent
   meta skill this was adapted from; its `references/` carry the shared `tsort` /
   package / cycle discipline in the original physics framing.

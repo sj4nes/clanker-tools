@@ -1,0 +1,15 @@
+source_key	title	edition	sections	conventions
+landau	Foundations of Analysis	1951 Chelsea	all	N from 1; Z,Q as pairs; R via cuts
+rudin_principles	Principles of Mathematical Analysis	3	ch 1 + appendix, ch 2	R via Dedekind cuts; open-cover compactness
+tao_analysis_I	Analysis I	4	ch 2-5	N from 0; R via Cauchy sequences; explicit AC/CC
+enderton	Elements of Set Theory	1977	ch 4-5	von Neumann N; N from 0
+spivak_calculus	Calculus	4	epilogue	R via cuts; uniqueness
+dedekind_1872	Stetigkeit und irrationale Zahlen	1872	-	the original cut construction
+dedekind_1888	Was sind und was sollen die Zahlen	1888	-	recursion theorem; categoricity of N
+cantor_1874	Ueber eine Eigenschaft des Inbegriffes	1874	-	first uncountability proof
+cantor_1891	Ueber eine elementare Frage der Mannigfaltigkeitslehre	1891	-	the diagonal argument
+peano_1889	Arithmetices principia	1889	-	the axioms
+hardy_wright	An Introduction to the Theory of Numbers	6	-	irrationality; unique factorisation
+jech_set_theory	Set Theory	3	-	Feferman-Levy model
+hewitt_stromberg	Real and Abstract Analysis	1965	ch 1	uniqueness of R
+abbott_understanding	Understanding Analysis	2	ch 1	lub as an axiom (contrast)

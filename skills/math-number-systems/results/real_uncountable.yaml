@@ -1,0 +1,44 @@
+id: cardinality.real_uncountable
+node: real_uncountable
+status_label: proved_theorem
+display: 'There is no surjection $\mathbb{N}\to\mathbb{R}$; equivalently, $|\mathbb{N}|<|\mathbb{R}|$.'
+parseable: 'not exists f : N -> R, Surjective f'
+symbols:
+  f: { meaning: a candidate enumeration, type: 'N -> R' }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [cantor_diagonal_argument, countable_set, real_number, rational_dense_in_real]
+proof:
+  technique: >-
+    suppose f : N -> R is a surjection. Then f restricted to a bijection with a
+    subinterval [a,b] enumerates [a,b] cap R; apply cantor_diagonal_argument to
+    that list to get a real in [a,b] missing from the enumeration, contradicting
+    surjectivity.
+  derives_from: cantor_diagonal_argument
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §6 (cantor, the abstract core)'
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - '|R| = |P(N)| = 2^aleph0 (the "continuum"); |[0,1]| = |R|'
+  - 'the irrationals are uncountable (R = Q union irrationals, Q countable)'
+  - 'any interval (a,b) with a < b is uncountable'
+counterexamples_when_dropped:
+  ambient_set_is_R_not_Q: 'Q IS countable (rational_countable) -- the diagonal of a list of rationals escapes Q, not the list, so the argument needs R'
+common_misuse:
+  - 'concluding a SPECIFIC real is "non-computable" -- the theorem is about the whole set'
+  - 'thinking countability is about "size you can write down" rather than "bijection with N"'
+  - 'assuming the continuum hypothesis (|R| is the next cardinal after aleph0) -- independent of ZFC, out of scope'
+related:
+  generalizes_from: cantor_theorem
+  contrasts_with: rational_countable
+  proved_using: 'binary-expansion bijection R ~ P(N) then cantor_theorem (alt route)'
+sources: [cantor_1874, cantor_1891, rudin_principles]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md#real_uncountable
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

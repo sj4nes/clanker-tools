@@ -1,0 +1,45 @@
+id: rationals.sqrt2_irrational
+node: sqrt2_irrational
+status_label: proved_theorem
+display: 'No rational number $x$ satisfies $x^2 = 2$.'
+parseable: 'not exists x : Q, x*x = 2'
+symbols:
+  x: { meaning: a candidate rational, type: rat }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [rational_lowest_terms, gcd_bezout, nat_division_with_remainder]
+proof:
+  technique: >-
+    suppose x = p/q in lowest terms, gcd(p,q) = 1, with p^2 = 2 q^2. Then 2 | p^2,
+    and (division with remainder mod 2) 2 | p, say p = 2k. Then 4k^2 = 2 q^2, so
+    q^2 = 2 k^2, so 2 | q. Then 2 | gcd(p,q) = 1, contradiction. (Equivalently:
+    infinite descent -- (p,q) -> (p/2 ... ) has no minimal solution.)
+  derives_from: rational_lowest_terms
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §9 (no p,q < 50 with p^2 = 2q^2); the parity/descent argument is cited'
+uses_choice: false
+constructive: true
+constructive_note: 'a direct refutation -- from any putative p/q it produces the contradiction effectively.'
+solving_for: null
+specialization_cases:
+  - 'same argument: sqrt(n) is irrational for any n that is not a perfect square'
+  - 'p^2 = 2 q^2 has no solution in N with q > 0 (instance-checks.bc: none with q <= 2000)'
+  - 'the golden ratio, sqrt(3), and e are irrational -- by other arguments'
+counterexamples_when_dropped:
+  lowest_terms: 'the argument needs a minimal representative; without "gcd(p,q)=1" you only get an infinite descent, which still works but is the same content'
+  n_not_a_perfect_square: 'sqrt(4) = 2 IS rational -- the theorem is specifically about non-squares'
+common_misuse:
+  - 'concluding "sqrt(2) does not exist" -- it exists in R (nth_root_exists), just not in Q'
+  - 'thinking this alone shows Q is incomplete -- it is the ingredient; rational_incomplete_lub is the statement'
+related:
+  commonly_confused_with: rational_incomplete_lub
+  proved_using: 'unique_factorization (alt route) -- edges/relations.tsv'
+  historically_precedes: real_number
+sources: [landau, rudin_principles, hardy_wright]
+status: reviewed
+checks:
+  type: validation/type-checks.md
+  specialization: validation/specialization-cases.md#sqrt2_irrational
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

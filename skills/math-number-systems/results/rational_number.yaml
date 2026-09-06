@@ -1,0 +1,50 @@
+id: rationals.rational_number
+node: rational_number
+status_label: constructive_result
+display: '$\mathbb{Q} = (\mathbb{Z}\times\mathbb{Z}^*)/\sim$, where $(a,b)\sim(c,d)$ iff $ad=bc$. The class $[(a,b)]$ represents "$a/b$".'
+parseable: 'Q = (Z x Z*) / {(a,b) ~ (c,d) iff a*d = b*c}'
+symbols:
+  '(a,b)': { meaning: 'a pair, b != 0', type: 'element of Z x Z*' }
+  '[(a,b)]': { meaning: its class, a rational, type: rat }
+type_check_status: well_formed
+type_check_note: >-
+  the second coordinate ranges over Z* = Z \ {0} (rule 8). ~_Q is an equivalence
+  relation before Q is formed; transitivity of ad = bc needs Z to be an integral
+  domain -- cancel the common nonzero factor.
+hypotheses: []
+preconditions: []
+dependencies: [integer, integer_is_integral_domain, cartesian_product, quotient_set, rational_relation_equivalence]
+proof:
+  technique: >-
+    form Z x Z*; ~ reflexive/symmetric are immediate, transitivity: from ad=bc
+    and cf=de get adf = bcf = bde, so d(af) = d(be); cancel d != 0 (Z a domain)
+    to get af = be. Q is the set of classes.
+  derives_from: rational_relation_equivalence
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §8 (transitivity chain, instance)'
+uses_choice: false
+constructive: true
+well_definedness: >-
+  rational_addition/_multiplication/_inverse/_order each defined on
+  representatives and shown to respect ~_Q (rational_operations_well_defined).
+solving_for: null
+specialization_cases:
+  - '[(a,1)] is the image of a in Z'
+  - '[(2,4)] = [(1,2)] since 2*2 = 4*1 (instance-checks.bc)'
+  - 'every class has a unique lowest-terms representative a/b, gcd(a,b)=1, b>0'
+counterexamples_when_dropped:
+  Z_is_an_integral_domain: 'if the base ring has zero divisors, transitivity of ~ fails and Frac is not a field -- e.g. localising Z/6 at {1,2,4} collapses'
+  second_coordinate_nonzero: 'allowing b = 0 makes [(a,0)] ~ [(c,0)] for all a,c and breaks the field structure (division by 0)'
+common_misuse:
+  - 'reducing to lowest terms and forgetting it is still a class'
+  - 'using ad = bc without the b, d != 0 side conditions'
+related:
+  generalizes: 'field of fractions Frac(R) of any integral domain R'
+  enables: [dedekind_cut, cauchy_completion, rational_is_ordered_field]
+sources: [landau, tao_analysis_I, enderton]
+status: reviewed
+checks:
+  type: validation/type-checks.md#rational_number
+  specialization: validation/specialization-cases.md#rational_number
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

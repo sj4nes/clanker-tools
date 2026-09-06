@@ -1,0 +1,46 @@
+id: reals.real_uniqueness
+node: real_uniqueness
+status_label: proved_theorem
+display: 'Any two Dedekind-complete ordered fields are order-isomorphic, and the isomorphism is unique.'
+parseable: 'F, F'' complete ordered fields -> exists! order-field iso F -> F'''
+symbols:
+  F, "F'": { meaning: complete ordered fields, type: structure }
+type_check_status: well_formed
+hypotheses: [both_are_ordered_fields, both_are_dedekind_complete]
+preconditions: []
+dependencies: [real_is_ordered_field, lub_property, rational_dense_in_real, real_archimedean, recursion_theorem]
+proof:
+  technique: >-
+    every ordered field contains a canonical copy of Q (prime field, ordered).
+    Both F and F' are Archimedean (from completeness), so Q is dense in each.
+    Define phi(x) = sup { q in Q : q < x } computed in F'. Show phi preserves
+    +, *, < using density and continuity of the field operations; phi is a
+    bijection with inverse defined symmetrically. Uniqueness: any order-field
+    homomorphism fixes Q pointwise and is determined on all of F by density.
+  derives_from: lub_property
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: false
+constructive_note: 'the map uses a sup at every point; effective given a modulus but not a finite computation.'
+solving_for: null
+specialization_cases:
+  - 'the Dedekind and Cauchy constructions of R are isomorphic (dedekind_cauchy_equivalent is the instance F = cuts, F'' = Cauchy classes)'
+  - 'there is essentially ONE real number system -- "the reals" is well-posed'
+counterexamples_when_dropped:
+  dedekind_complete: 'Q and the field of real algebraic numbers are both Archimedean ordered fields, not isomorphic to R (both countable)'
+  ordered: 'C is a field with the same cardinality as R but is not order-isomorphic to anything (it has no order); "field isomorphism" alone is a different, choice-dependent question'
+  archimedean_hence_from_completeness: 'non-Archimedean ordered fields (hyperreals, rational functions with a suitable order) are not covered and are not isomorphic to R'
+common_misuse:
+  - 'claiming uniqueness of R as a mere field (that needs choice and is false without extra structure)'
+  - 'forgetting the isomorphism is forced to fix Q'
+related:
+  strengthens: real_is_ordered_field
+  instance: dedekind_cauchy_equivalent
+sources: [rudin_principles, spivak_calculus, hewitt_stromberg]
+status: reviewed
+checks:
+  type: validation/type-checks.md#real_uniqueness
+  specialization: validation/specialization-cases.md#real_uniqueness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

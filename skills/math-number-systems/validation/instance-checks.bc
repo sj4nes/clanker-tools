@@ -1,0 +1,93 @@
+/* Release 0.1 instance checks: the constructions computed concretely, and the
+   incompleteness of Q exhibited.
+   Run:  bc -q -l validation/instance-checks.bc
+   Every identifier is lowercase and starts with a letter (bc rule).
+   These are INSTANCES -- they make the definitions concrete and disprove the
+   "Q is complete" claim.  They are not proofs of the general theorems. */
+
+scale = 0        /* the Z and Q construction arithmetic is all integer */
+print "=== integer: Z = (N x N)/~ ,  (a,b) ~ (c,d) iff a+d = b+c ===\n"
+print "[(5,2)] vs [(8,5)]:  5+5 = ", 5+5, " ,  2+8 = ", 2+8, "  -> equal (both name +3)\n"
+print "[(2,7)] names  2 - 7 = ", 2-7, "\n"
+/* addition: (a,b)+(c,d) = (a+c, b+d) */
+print "[(5,2)] + [(1,4)] = [(6,6)] :  6-6 = ", 6-6, "   (3 + (-3) = 0)\n"
+/* multiplication: (a,b)*(c,d) = (ac+bd, ad+bc) */
+ac = 5*4 + 2*1 ; bd = 5*1 + 2*4
+print "[(5,2)] * [(4,1)] = [(", ac, ",", bd, ")] :  ", ac-bd, "   (3 * 3 = 9)\n\n"
+
+print "=== rational: Q = (Z x Z*)/~ ,  (a,b) ~ (c,d) iff a*d = b*c ===\n"
+print "[(2,4)] vs [(1,2)]:  2*2 = ", 2*2, " ,  4*1 = ", 4*1, "  -> equal\n"
+/* (a,b)+(c,d) = (ad+bc, bd) */
+print "[(1,2)] + [(1,3)] = [(", 1*3+2*1, ",", 2*3, ")] = [(5,6)]\n"
+/* lowest terms via gcd */
+define g(a,b) { if (b == 0) return a; return g(b, a - b*(a/b)) }
+gg = g(6,8)
+print "[(6,8)] in lowest terms: gcd = ", gg, " -> [(", 6/gg, ",", 8/gg, ")]\n\n"
+
+print "=== division with remainder in Z:  a = b*q + r ,  0 <= r < |b| ===\n"
+a = 17; b = 5; q = 3; r = 17 - 5*3
+print "17 = 5*", q, " + ", r, "\n"
+/* negative dividend */
+a = -17; q = -4; r = -17 - 5*(-4)
+print "-17 = 5*", q, " + ", r, "   (r = ", r, " in [0,5))\n\n"
+
+print "=== sqrt2_irrational: no p/q with q <= 2000 has p^2 = 2 q^2 ===\n"
+found = 0
+q = 1
+while (q <= 2000) {
+  p = sqrt(2*q*q); p = p/1        /* p/1 at scale 0 truncates to floor */
+  if (p*p == 2*q*q) found = 1
+  if ((p+1)*(p+1) == 2*q*q) found = 1
+  q += 1
+}
+print "  p/q with q<=2000 and (p/q)^2 = 2 : ", found, "   (want 0)\n\n"
+
+print "=== rational_archimedean: every rational is below some natural ===\n"
+scale = 20
+x = 22/7
+print "  x = 22/7 = ", x, "  ->  n = 4 > x\n\n"
+
+print "=== rational_order_dense: a third rational strictly between two ===\n"
+print "  between 1/3 and 1/2:  (1/3 + 1/2)/2 = ", (1/3 + 1/2)/2, "  = 5/12\n\n"
+
+print "=== rational_incomplete_lub: {x in Q : x^2 < 2} has no supremum IN Q ===\n"
+scale = 30
+x = 1; step = 1
+for (k = 1; k <= 25; k++) {
+  step = step/10
+  while ((x + step)^2 <= 2) x = x + step
+}
+print "  largest 25-decimal rational with square <= 2 : ", x, "\n"
+print "    its square             : ", x*x, "   (< 2)\n"
+print "    (x + 10^-25) squared   : ", (x + 1/10^25)^2, "   (> 2)\n"
+print "  every rational candidate is either not an upper bound (square < 2, room\n"
+print "  above by density) or not the LEAST one (square > 2, room below).  The\n"
+print "  boundary has square exactly 2 -- not rational (sqrt2_irrational).\n\n"
+
+print "=== nat_pairing_bijection: pi(m,n) = (m+n)(m+n+1)/2 + n ===\n"
+scale = 0
+define pp(m,n) { return (m+n)*(m+n+1)/2 + n }
+for (s = 0; s <= 3; s++) {
+  for (n = 0; n <= s; n++) {
+    m = s - n
+    print "  pi(", m, ",", n, ") = ", pp(m,n), "\n"
+  }
+}
+print "  -> 0,1,2,3,4,5,6,7,8,9 with no gaps and no repeats (a bijection)\n\n"
+
+print "=== cantor_diagonal_argument: a real in [0,1] missing from a given list ===\n"
+scale = 12
+/* five reals as decimal digit strings; take digit k of real k, add 1 mod 8 (avoid 0,9) */
+print "  list:  0.1*****   0.24****   0.417***  0.3141**  0.9999*\n"
+print "  diagonal digits: 1, 4, 7, 1, 9  ->  bump each to 2, 5, 8, 2, 1\n"
+print "  d = 0.25821...  differs from real k at digit k, so d is not in the list.\n\n"
+
+print "=== nth_root_exists: y = sup { t > 0 : t^n < x } , by bisection ===\n"
+scale = 30
+lo = 1; hi = 2
+for (i = 1; i <= 100; i++) { mid = (lo+hi)/2; if (mid^3 < 2) lo = mid else hi = mid }
+print "  2^(1/3) ~ ", lo, "   check ^3 = ", lo^3, "\n"
+lo = 2; hi = 3
+for (i = 1; i <= 100; i++) { mid = (lo+hi)/2; if (mid*mid < 7) lo = mid else hi = mid }
+print "  7^(1/2) ~ ", lo, "   check ^2 = ", lo*lo, "\n"
+quit

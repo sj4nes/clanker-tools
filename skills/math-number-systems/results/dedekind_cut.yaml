@@ -1,0 +1,42 @@
+id: reals.dedekind_cut
+node: dedekind_cut
+status_label: definition
+display: 'A Dedekind cut is a set $A\subseteq\mathbb{Q}$ with: $A\neq\varnothing$, $A\neq\mathbb{Q}$; $p\in A\wedge q<p\Rightarrow q\in A$; and $A$ has no greatest element.'
+parseable: 'cut(A) iff A != {} and A != Q and downwardClosed(A) and noGreatest(A)'
+symbols:
+  A: { meaning: the lower set of the cut, type: subset of Q }
+type_check_status: well_formed
+type_check_note: >-
+  "no greatest element" is what makes q* = { p : p < q } (open below q) the
+  canonical cut, and it depends on the density of the rational order -- in a
+  discrete order the clause would be vacuous or exclude the rationals.
+hypotheses: []
+preconditions: []
+dependencies: [rational_is_ordered_field, rational_order, rational_order_dense, set]
+uses_choice: false
+constructive: true
+equivalent_forms:
+  - '(upper cut) the complementary set B = Q \ A, upward closed with no least element'
+  - '(Cauchy) a real as an equivalence class of Cauchy sequences of rationals -- cauchy_completion'
+solving_for: null
+specialization_cases:
+  - 'q* = { p in Q : p < q } is a cut for every q in Q -- the rational reals'
+  - '{ p in Q : p <= 0 or p^2 < 2 } is a cut whose "value" is sqrt(2) -- an irrational real'
+  - 'the whole of Q and the empty set are excluded by the proper-subset clauses'
+counterexamples_when_dropped:
+  proper_subset: 'A = Q or A = {} are not cuts; they would be "+inf" and "-inf"'
+  downward_closed: '{ 0, 2 } is not a cut -- a real is determined by ALL rationals below it'
+  no_greatest_element: '{ p : p <= q } (closed) and { p : p < q } (open) would then be two different cuts for the same q -- the "no greatest" clause makes the rational embedding injective'
+common_misuse:
+  - 'thinking a cut needs a "cut point" -- an irrational cut has no greatest lower rational and no least upper rational'
+  - 'confusing the cut (a set) with a number attached to it -- the real IS the set'
+related:
+  equivalent_to: cauchy_completion
+  commonly_confused_with: real_number
+sources: [rudin_principles, landau, dedekind_1872]
+status: reviewed
+checks:
+  type: validation/type-checks.md#dedekind_cut
+  specialization: validation/specialization-cases.md#dedekind_cut
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

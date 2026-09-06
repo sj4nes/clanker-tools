@@ -1,0 +1,40 @@
+id: reals.real_number
+node: real_number
+status_label: constructive_result
+display: '$\mathbb{R}$ is the set of all Dedekind cuts of $\mathbb{Q}$, ordered by inclusion.'
+parseable: 'R = { A subset Q : cut(A) } ; A <= B iff A subset B'
+symbols:
+  A, B: { meaning: cuts (= reals), type: 'subset of Q' }
+type_check_status: well_formed
+hypotheses: []
+preconditions: []
+dependencies: [dedekind_cut, set]
+proof:
+  technique: 'collect all cuts into a set; the order, +, *, and the field/completeness properties are added by the nodes downstream.'
+  derives_from: dedekind_cut
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+equivalent_forms:
+  - 'cauchy_completion: Cauchy sequences of rationals modulo null sequences (dedekind_cauchy_equivalent)'
+  - 'the Eudoxus / "almost homomorphism" construction (out of scope)'
+solving_for: null
+specialization_cases:
+  - 'the map q -> q* embeds Q as the "rational reals" (rational_embeds_in_real)'
+  - 'irrational reals are cuts with no greatest lower rational and no least upper rational'
+counterexamples_when_dropped:
+  cut_axioms: 'dropping "proper subset" admits +-infinity; dropping "no greatest element" doubles every rational'
+common_misuse:
+  - 'thinking a real is a number the cut "points to" -- it is the cut'
+  - 'assuming R is countable because Q is (real_uncountable)'
+related:
+  equivalent_to: cauchy_completion
+  enables: [lub_property, real_is_ordered_field, real_uncountable]
+sources: [rudin_principles, landau, dedekind_1872]
+status: reviewed
+checks:
+  type: validation/type-checks.md#real_number
+  specialization: validation/specialization-cases.md#dedekind_cut
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

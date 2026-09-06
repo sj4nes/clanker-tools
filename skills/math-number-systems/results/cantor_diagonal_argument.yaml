@@ -1,0 +1,48 @@
+id: cardinality.cantor_diagonal_argument
+node: cantor_diagonal_argument
+status_label: proved_theorem
+display: 'Given any sequence $(x_k)$ of reals in $[0,1]$, one can construct a real $d\in[0,1]$ with $d\neq x_k$ for every $k$.'
+parseable: 'forall (x : N -> [0,1]) exists d in [0,1], forall k, d != x_k'
+symbols:
+  x_k: { meaning: the kth real of the given list, type: real in [0,1] }
+  d: { meaning: the constructed missing real, type: real in [0,1] }
+type_check_status: well_formed
+type_check_note: >-
+  the construction must produce, from any candidate list, an EXPLICIT d (rule 7).
+  The 0.999... = 1.000... ambiguity is handled by choosing each digit of d from
+  { 1, ..., 8 } (never 0 or 9), so d has a unique decimal expansion and the
+  digitwise difference is genuine.
+hypotheses: []
+preconditions: []
+dependencies: [real_number, rational_dense_in_real, countable_set, real_order, nat_division_with_remainder]
+proof:
+  technique: >-
+    write each x_k in decimal, x_k = 0.a_{k1} a_{k2} .... Set the kth digit of d
+    to 5 if a_{kk} != 5, else 6 (any rule landing in {1..8} and differing from
+    a_{kk}). Then d and x_k differ at digit k, and since d avoids 0/9 tails the
+    difference is real, so d != x_k. d in [0,1].
+  derives_from: real_number
+  lean_status: instance
+  lean_ref: 'validation/proof-checks.lean §6 (the abstract diagonal, cantor); §instance-checks.bc (a worked 5-element list)'
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'a worked instance: list of 5 decimals -> a 6th differing on the diagonal (instance-checks.bc)'
+  - 'same argument on binary strings shows 2^N is uncountable (= Cantor''s theorem for X = N)'
+counterexamples_when_dropped:
+  avoid_0_and_9_digits: 'if d is allowed a 9-tail, d = 0.4999... = 0.5 = x_k = 0.5000... digitwise-different but equal as reals -- the proof breaks'
+  reals_not_rationals: 'the diagonal of a list of RATIONALS need not be rational, so this shows R (not Q) is uncountable -- consistent, since Q IS countable'
+common_misuse:
+  - 'the "diagonal real is not on the list because we built it to differ" is the whole content -- do not also require it to be irrational'
+  - 'thinking it needs the list to be given by a formula -- it works for ANY function N -> R'
+related:
+  generalizes_from: cantor_theorem
+  enables: real_uncountable
+sources: [cantor_1891, rudin_principles, enderton]
+status: reviewed
+checks:
+  type: validation/type-checks.md#cantor_diagonal_argument
+  specialization: validation/specialization-cases.md#cantor_diagonal_argument
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md

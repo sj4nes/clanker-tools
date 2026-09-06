@@ -1,0 +1,394 @@
+# =============================================================================
+# Release 0.1 prerequisite edges.  "A B" means A is a necessary prerequisite for
+# correctly stating / proving / using B (the method's edge test).  The preceding
+# `#` comment is the evidence.  validation/graph-check.sh strips comments to
+# edges/dependencies.edges.  Equivalences / alternative constructions live in
+# edges/relations.tsv.
+# =============================================================================
+
+# --- Foundations -----------------------------------------------------------
+
+# A product is a set of ordered pairs.
+set cartesian_product
+# A relation is a subset of a Cartesian product.
+cartesian_product relation
+# A function is a single-valued total relation.
+relation function
+# Injections / surjections are functions with an extra property.
+function injection
+function surjection
+# A bijection is both.
+injection bijection
+surjection bijection
+# Composition and inverse.
+function composition
+function inverse_function
+bijection inverse_function
+# An equivalence relation is a relation with three properties.
+relation equivalence_relation
+# Classes, then the quotient set of classes.
+equivalence_relation equivalence_class
+equivalence_class quotient_set
+# Partitions correspond to equivalence relations; needs both notions.
+equivalence_relation partition_equiv
+quotient_set partition_equiv
+# The well-definedness principle is about functions out of a quotient.
+quotient_set well_defined_on_quotient
+function well_defined_on_quotient
+# Countable choice is a weakening of full choice.
+set axiom_of_choice
+axiom_of_choice countable_choice
+
+# --- The natural numbers --------------------------------------------------
+
+# The Peano axioms talk about 0, a successor function, and subsets of N.
+set peano_axioms
+function peano_axioms
+# N is a system satisfying them.
+peano_axioms natural_number
+# Induction is Peano axiom 5.
+peano_axioms induction_principle
+natural_number induction_principle
+# The recursion theorem is proved from the Peano axioms using induction;
+# it is stated for an arbitrary target set and function.
+peano_axioms recursion_theorem
+function recursion_theorem
+induction_principle recursion_theorem
+# Strong induction and well-ordering are proved from ordinary induction.
+induction_principle strong_induction
+induction_principle well_ordering_principle
+# Addition, multiplication, exponentiation are each defined by recursion.
+recursion_theorem nat_addition
+recursion_theorem nat_multiplication
+nat_addition nat_multiplication
+recursion_theorem nat_exponentiation
+nat_multiplication nat_exponentiation
+# Order is defined from addition: a <= b iff exists c, a + c = b.
+nat_addition nat_order
+# The semiring laws are proved by induction on the recursive definitions.
+nat_addition nat_semiring_laws
+nat_multiplication nat_semiring_laws
+induction_principle nat_semiring_laws
+# Cancellation is an induction using the semiring laws.
+nat_semiring_laws nat_cancellation
+induction_principle nat_cancellation
+# No zero divisors follows from cancellation and trichotomy.
+nat_cancellation nat_no_zero_divisors
+nat_order_trichotomy nat_no_zero_divisors
+# Trichotomy is an induction on the order.
+nat_order nat_order_trichotomy
+induction_principle nat_order_trichotomy
+# Order compatibility with + and * uses the semiring laws.
+nat_order nat_order_compatible
+nat_semiring_laws nat_order_compatible
+# Division with remainder: least element of { a - bq >= 0 } via well-ordering.
+well_ordering_principle nat_division_with_remainder
+nat_order_compatible nat_division_with_remainder
+nat_order_trichotomy nat_division_with_remainder
+
+# --- Algebraic structures (definitional tower) --------------------------
+
+set commutative_monoid
+function commutative_monoid
+commutative_monoid commutative_semiring
+commutative_semiring commutative_ring
+commutative_ring integral_domain
+integral_domain field
+# An ordered ring adds a compatible total order.
+commutative_ring ordered_ring
+relation ordered_ring
+ordered_ring ordered_integral_domain
+integral_domain ordered_integral_domain
+field ordered_field
+ordered_ring ordered_field
+
+# --- The integers -------------------------------------------------------
+
+# The defining relation on N x N: (a,b) ~ (c,d) iff a + d = b + c.  Transitivity
+# needs additive cancellation and the semiring laws in N.
+cartesian_product integer_relation_equivalence
+nat_addition integer_relation_equivalence
+nat_semiring_laws integer_relation_equivalence
+nat_cancellation integer_relation_equivalence
+# Z is the quotient of N x N by that (verified) equivalence relation.
+natural_number integer
+cartesian_product integer
+quotient_set integer
+integer_relation_equivalence integer
+# The operations are defined on representatives.
+integer integer_addition
+nat_addition integer_addition
+integer integer_multiplication
+nat_multiplication integer_multiplication
+nat_semiring_laws integer_multiplication
+integer integer_negation
+# Well-definedness: each operation respects ~_Z.
+well_defined_on_quotient integer_operations_well_defined
+integer_addition integer_operations_well_defined
+integer_multiplication integer_operations_well_defined
+integer_negation integer_operations_well_defined
+nat_semiring_laws integer_operations_well_defined
+# Order on Z, well-defined on classes.
+integer integer_order
+nat_order integer_order
+integer_operations_well_defined integer_order
+# Z is a commutative ring: check the axioms on representatives.
+integer_operations_well_defined integer_is_commutative_ring
+commutative_ring integer_is_commutative_ring
+nat_semiring_laws integer_is_commutative_ring
+# Integral domain: no zero divisors, lifted from N.
+integer_is_commutative_ring integer_is_integral_domain
+integral_domain integer_is_integral_domain
+nat_no_zero_divisors integer_is_integral_domain
+nat_cancellation integer_is_integral_domain
+# Ordered integral domain: the order is total and compatible.
+integer_is_integral_domain integer_is_ordered_integral_domain
+integer_order integer_is_ordered_integral_domain
+ordered_integral_domain integer_is_ordered_integral_domain
+nat_order_trichotomy integer_is_ordered_integral_domain
+nat_order_compatible integer_is_ordered_integral_domain
+# N embeds via n -> [(n,0)], preserving +, *, <=.
+integer nat_embeds_in_integer
+integer_addition nat_embeds_in_integer
+integer_multiplication nat_embeds_in_integer
+integer_order nat_embeds_in_integer
+injection nat_embeds_in_integer
+# Cancellation in Z is the integral-domain property.
+integer_is_integral_domain integer_cancellation
+# Bounded-below subsets of Z are well-ordered (shift into N, apply well-ordering).
+integer_is_ordered_integral_domain integer_well_ordering
+well_ordering_principle integer_well_ordering
+nat_embeds_in_integer integer_well_ordering
+# Division with remainder in Z from the N version plus signs.
+nat_division_with_remainder integer_division_with_remainder
+integer_is_ordered_integral_domain integer_division_with_remainder
+integer_well_ordering integer_division_with_remainder
+# gcd via the least positive Z-combination (well-ordering); Bezout falls out.
+integer_division_with_remainder gcd_bezout
+integer_well_ordering gcd_bezout
+integer_is_integral_domain gcd_bezout
+
+# --- The rationals -----------------------------------------------------
+
+# The relation on Z x Z*: (a,b) ~ (c,d) iff a*d = b*c.  Transitivity needs Z to
+# be a domain (cancel the common nonzero factor).
+cartesian_product rational_relation_equivalence
+integer_is_integral_domain rational_relation_equivalence
+integer_cancellation rational_relation_equivalence
+# Q is the quotient of Z x Z* by that equivalence.
+integer rational_number
+integer_is_integral_domain rational_number
+cartesian_product rational_number
+quotient_set rational_number
+rational_relation_equivalence rational_number
+# Operations on representatives.
+rational_number rational_addition
+integer_addition rational_addition
+integer_multiplication rational_addition
+rational_number rational_multiplication
+integer_multiplication rational_multiplication
+rational_number rational_inverse
+# Well-definedness on ~_Q.
+well_defined_on_quotient rational_operations_well_defined
+rational_addition rational_operations_well_defined
+rational_multiplication rational_operations_well_defined
+rational_inverse rational_operations_well_defined
+integer_is_commutative_ring rational_operations_well_defined
+# Order on Q (put denominators positive first), well-defined.
+rational_number rational_order
+integer_order rational_order
+integer_is_ordered_integral_domain rational_order
+rational_operations_well_defined rational_order
+# Q is a field.
+rational_operations_well_defined rational_is_field
+field rational_is_field
+rational_inverse rational_is_field
+integer_is_commutative_ring rational_is_field
+# Q is an ordered field.
+rational_is_field rational_is_ordered_field
+rational_order rational_is_ordered_field
+ordered_field rational_is_ordered_field
+integer_is_ordered_integral_domain rational_is_ordered_field
+# Z embeds via a -> [(a,1)].
+rational_number integer_embeds_in_rational
+rational_addition integer_embeds_in_rational
+rational_multiplication integer_embeds_in_rational
+rational_order integer_embeds_in_rational
+injection integer_embeds_in_rational
+# Q is the field of fractions of Z (smallest field containing Z).
+rational_is_field field_of_fractions
+integer_is_integral_domain field_of_fractions
+integer_embeds_in_rational field_of_fractions
+# Lowest-terms canonical representative via gcd.
+gcd_bezout rational_lowest_terms
+rational_relation_equivalence rational_lowest_terms
+rational_number rational_lowest_terms
+# Archimedean: every rational is below some natural number.
+rational_is_ordered_field rational_archimedean
+integer_well_ordering rational_archimedean
+nat_embeds_in_integer rational_archimedean
+# The order on Q is dense.
+rational_is_ordered_field rational_order_dense
+rational_order rational_order_dense
+# Absolute value and its triangle inequality.
+rational_order rational_absolute_value
+rational_is_ordered_field rational_absolute_value
+# sqrt(2) irrational: lowest terms + (2 | p^2 => 2 | p), an infinite-descent
+# / parity argument using division with remainder.
+rational_lowest_terms sqrt2_irrational
+gcd_bezout sqrt2_irrational
+nat_division_with_remainder sqrt2_irrational
+# A Cauchy sequence of rationals: a function N -> Q with the eps-N property.
+rational_is_ordered_field cauchy_sequence_rational
+function cauchy_sequence_rational
+natural_number cauchy_sequence_rational
+rational_absolute_value cauchy_sequence_rational
+# Q is not order-complete: {x : x^2 < 2} has rational upper bounds but no least
+# one -- density lets you shrink any candidate, and no rational squares to 2.
+sqrt2_irrational rational_incomplete_lub
+rational_is_ordered_field rational_incomplete_lub
+rational_order_dense rational_incomplete_lub
+rational_archimedean rational_incomplete_lub
+# Q is not Cauchy-complete: the truncations of sqrt(2) are Cauchy, no Q-limit.
+rational_incomplete_lub rational_incomplete_cauchy
+cauchy_sequence_rational rational_incomplete_cauchy
+sqrt2_irrational rational_incomplete_cauchy
+
+# --- The reals (Dedekind cuts) --------------------------------------------
+
+# A cut is a subset of Q with order properties; "no greatest element" leans on
+# density of the rational order.
+rational_is_ordered_field dedekind_cut
+rational_order dedekind_cut
+rational_order_dense dedekind_cut
+set dedekind_cut
+# R is the set of all cuts.
+dedekind_cut real_number
+set real_number
+# Order = inclusion; totality of that order uses trichotomy in Q.
+real_number real_order
+dedekind_cut real_order
+rational_is_ordered_field real_order
+# A + B = { a + b }, shown to be a cut.
+real_number real_addition
+real_order real_addition
+rational_addition real_addition
+dedekind_cut real_addition
+# Additive inverse of a cut.
+real_addition real_additive_inverse
+dedekind_cut real_additive_inverse
+rational_is_ordered_field real_additive_inverse
+# Multiplication: positive cuts, then sign extension (needs the order).
+real_number real_multiplication
+real_addition real_multiplication
+real_order real_multiplication
+rational_multiplication real_multiplication
+# R is an ordered field: verify the axioms for cuts.
+real_addition real_is_ordered_field
+real_additive_inverse real_is_ordered_field
+real_multiplication real_is_ordered_field
+real_order real_is_ordered_field
+ordered_field real_is_ordered_field
+rational_is_ordered_field real_is_ordered_field
+# Q embeds via q -> q* = { p : p < q }.
+real_number rational_embeds_in_real
+dedekind_cut rational_embeds_in_real
+rational_order rational_embeds_in_real
+real_addition rational_embeds_in_real
+real_multiplication rational_embeds_in_real
+injection rational_embeds_in_real
+# THE PAYOFF: sup S = union of the cuts in S, itself a cut.
+real_number lub_property
+dedekind_cut lub_property
+real_order lub_property
+rational_is_ordered_field lub_property
+# R is Archimedean: from lub_property + Q Archimedean (else N* would be a
+# bounded set whose sup gives a contradiction).
+lub_property real_archimedean
+rational_archimedean real_archimedean
+real_is_ordered_field real_archimedean
+# Q is dense in R.
+real_archimedean rational_dense_in_real
+rational_embeds_in_real rational_dense_in_real
+real_order rational_dense_in_real
+lub_property rational_dense_in_real
+# nth roots: y = sup { t > 0 : t^n < x }.  Uses lub + recursion for t^n.
+lub_property nth_root_exists
+real_is_ordered_field nth_root_exists
+real_order nth_root_exists
+recursion_theorem nth_root_exists
+real_multiplication nth_root_exists
+# Absolute value on R.
+real_order real_absolute_value
+real_is_ordered_field real_absolute_value
+# The Cauchy completion: an alternative construction.
+cauchy_sequence_rational cauchy_completion
+quotient_set cauchy_completion
+equivalence_relation cauchy_completion
+rational_is_ordered_field cauchy_completion
+# The two constructions give isomorphic ordered fields.
+cauchy_completion dedekind_cauchy_equivalent
+real_number dedekind_cauchy_equivalent
+lub_property dedekind_cauchy_equivalent
+real_is_ordered_field dedekind_cauchy_equivalent
+# Uniqueness: any two Dedekind-complete ordered fields are uniquely
+# order-isomorphic (build the iso on Q by density; extend by suprema).
+real_is_ordered_field real_uniqueness
+lub_property real_uniqueness
+rational_dense_in_real real_uniqueness
+real_archimedean real_uniqueness
+recursion_theorem real_uniqueness
+
+# --- Cardinality --------------------------------------------------------
+
+# Finite = bijective with an initial segment of N.
+bijection finite_set
+natural_number finite_set
+nat_order finite_set
+# Countable = injects into N.
+injection countable_set
+natural_number countable_set
+nat_order countable_set
+# The Cantor pairing is a bijection N x N -> N; evenness of (m+n)(m+n+1) and
+# bijectivity are inductions.
+nat_addition nat_pairing_bijection
+nat_multiplication nat_pairing_bijection
+nat_division_with_remainder nat_pairing_bijection
+induction_principle nat_pairing_bijection
+bijection nat_pairing_bijection
+# A countable union of countable sets is countable -- choose an enumeration of
+# each piece (countable choice), then diagonalise via the pairing.
+countable_set countable_union_countable
+nat_pairing_bijection countable_union_countable
+countable_choice countable_union_countable
+# Z is countable: a countable union of finite sets.
+countable_set integer_countable
+integer integer_countable
+finite_set integer_countable
+countable_union_countable integer_countable
+# Q is countable: injects into Z x Z*, which is countable.
+countable_set rational_countable
+rational_number rational_countable
+nat_pairing_bijection rational_countable
+integer_countable rational_countable
+rational_lowest_terms rational_countable
+# Cantor's theorem: the set { x : x not in f(x) } is missed by any f : X -> P(X).
+set cantor_theorem
+function cantor_theorem
+surjection cantor_theorem
+# The diagonal argument: from a list of reals in [0,1], change digit n of real n.
+real_number cantor_diagonal_argument
+rational_dense_in_real cantor_diagonal_argument
+countable_set cantor_diagonal_argument
+real_order cantor_diagonal_argument
+nat_division_with_remainder cantor_diagonal_argument
+# Schroeder-Bernstein: injections both ways give a bijection (a fixed-point
+# construction, no choice).
+injection schroeder_bernstein
+bijection schroeder_bernstein
+function schroeder_bernstein
+# R is uncountable: the diagonal argument defeats every enumeration.
+cantor_diagonal_argument real_uncountable
+countable_set real_uncountable
+real_number real_uncountable
+rational_dense_in_real real_uncountable
