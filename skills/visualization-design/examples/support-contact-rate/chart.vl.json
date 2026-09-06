@@ -16,27 +16,33 @@
   "height": 320,
   "data": {
     "values": [
-      {"period": "2024-01-01", "contact_rate": 92.0,  "received": 920,  "customers": 1000, "status": "observed"},
-      {"period": "2024-02-01", "contact_rate": 91.67, "received": 990,  "customers": 1080, "status": "observed"},
-      {"period": "2024-03-01", "contact_rate": 89.22, "received": 1035, "customers": 1160, "status": "observed"},
-      {"period": "2024-04-01", "contact_rate": 86.4,  "received": 1080, "customers": 1250, "status": "observed"},
-      {"period": "2024-05-01", "contact_rate": null,  "received": null, "customers": 1330, "status": "missing"},
-      {"period": "2024-06-01", "contact_rate": 82.98, "received": 1170, "customers": 1410, "status": "observed"},
-      {"period": "2024-07-01", "contact_rate": 80.67, "received": 1210, "customers": 1500, "status": "observed"},
-      {"period": "2024-08-01", "contact_rate": 79.25, "received": 1260, "customers": 1590, "status": "observed"},
-      {"period": "2024-09-01", "contact_rate": 77.68, "received": 1305, "customers": 1680, "status": "observed"},
-      {"period": "2024-10-01", "contact_rate": 76.84, "received": 1360, "customers": 1770, "status": "observed"},
-      {"period": "2024-11-01", "contact_rate": 75.54, "received": 1405, "customers": 1860, "status": "observed"},
-      {"period": "2024-12-01", "contact_rate": 48.21, "received": 940,  "customers": 1950, "status": "partial"},
-      {"period": "2024-12-01", "contact_rate": 74.7,  "note": "pro-rated to 31 days", "status": "prorated"}
+      {"month": 1,  "period": "Jan", "contact_rate": 92.0,  "received": 920,  "customers": 1000, "status": "observed"},
+      {"month": 2,  "period": "Feb", "contact_rate": 91.67, "received": 990,  "customers": 1080, "status": "observed"},
+      {"month": 3,  "period": "Mar", "contact_rate": 89.22, "received": 1035, "customers": 1160, "status": "observed"},
+      {"month": 4,  "period": "Apr", "contact_rate": 86.4,  "received": 1080, "customers": 1250, "status": "observed"},
+      {"month": 5,  "period": "May", "contact_rate": null,  "received": null, "customers": 1330, "status": "missing"},
+      {"month": 6,  "period": "Jun", "contact_rate": 82.98, "received": 1170, "customers": 1410, "status": "observed"},
+      {"month": 7,  "period": "Jul", "contact_rate": 80.67, "received": 1210, "customers": 1500, "status": "observed"},
+      {"month": 8,  "period": "Aug", "contact_rate": 79.25, "received": 1260, "customers": 1590, "status": "observed"},
+      {"month": 9,  "period": "Sep", "contact_rate": 77.68, "received": 1305, "customers": 1680, "status": "observed"},
+      {"month": 10, "period": "Oct", "contact_rate": 76.84, "received": 1360, "customers": 1770, "status": "observed"},
+      {"month": 11, "period": "Nov", "contact_rate": 75.54, "received": 1405, "customers": 1860, "status": "observed"},
+      {"month": 12, "period": "Dec", "contact_rate": 48.21, "received": 940,  "customers": 1950, "status": "partial"},
+      {"month": 12, "period": "Dec", "contact_rate": 74.7,  "note": "pro-rated to 31 days", "status": "prorated"}
     ]
   },
   "encoding": {
     "x": {
-      "field": "period",
-      "type": "temporal",
-      "timeUnit": "yearmonth",
-      "axis": {"title": null, "format": "%b", "labelFontSize": 11, "grid": false, "tickCount": 12}
+      "field": "month",
+      "type": "ordinal",
+      "scale": {"domain": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]},
+      "axis": {
+        "title": null,
+        "labelExpr": "['','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][datum.value]",
+        "labelFontSize": 11,
+        "labelAngle": 0,
+        "grid": false
+      }
     },
     "y": {
       "field": "contact_rate",
@@ -54,7 +60,7 @@
     {
       "description": "Observed monthly trend, Jan-Nov. May is null so the line breaks there.",
       "transform": [{"filter": "datum.status === 'observed' || datum.status === 'missing'"}],
-      "mark": {"type": "line", "strokeWidth": 2.5, "color": "#1f5fa8", "point": false}
+      "mark": {"type": "line", "strokeWidth": 2.5, "color": "#1f5fa8"}
     },
     {
       "transform": [{"filter": "datum.status === 'observed'"}],
@@ -62,21 +68,21 @@
     },
     {
       "description": "Direct value labels on the first and last observed months.",
-      "transform": [{"filter": "datum.period === '2024-01-01' || datum.period === '2024-11-01'"}],
-      "mark": {"type": "text", "dy": -12, "fontSize": 11, "color": "#1f5fa8", "fontWeight": "bold"},
+      "transform": [{"filter": "datum.month === 1 || datum.month === 11"}],
+      "mark": {"type": "text", "dy": -14, "fontSize": 11, "color": "#1f5fa8", "fontWeight": "bold"},
       "encoding": {"text": {"field": "contact_rate", "type": "quantitative", "format": ".1f"}}
     },
     {
-      "description": "May: vertical rule + note. The gap is made explicit, not smoothed over.",
-      "data": {"values": [{"period": "2024-05-01"}]},
+      "description": "May: dashed rule marking the gap, not smoothed over.",
+      "data": {"values": [{"month": 5}]},
       "mark": {"type": "rule", "strokeDash": [3, 3], "color": "#6f6f6f"},
-      "encoding": {"x": {"field": "period", "type": "temporal", "timeUnit": "yearmonth"}}
+      "encoding": {"x": {"field": "month", "type": "ordinal"}}
     },
     {
-      "data": {"values": [{"period": "2024-05-01", "y": 20, "label": "May: not recorded (system migration)"}]},
-      "mark": {"type": "text", "align": "center", "angle": 0, "dy": 0, "fontSize": 10, "color": "#666"},
+      "data": {"values": [{"month": 5, "y": 18, "label": "May: not recorded (system migration)"}]},
+      "mark": {"type": "text", "align": "center", "fontSize": 10, "color": "#666"},
       "encoding": {
-        "x": {"field": "period", "type": "temporal", "timeUnit": "yearmonth"},
+        "x": {"field": "month", "type": "ordinal"},
         "y": {"field": "y", "type": "quantitative"},
         "text": {"field": "label"}
       }
@@ -89,13 +95,16 @@
     {
       "description": "December pro-rated to a full month: open square, shown as an estimate.",
       "transform": [{"filter": "datum.status === 'prorated'"}],
-      "mark": {"type": "point", "shape": "square", "filled": false, "size": 70, "strokeWidth": 1.5, "color": "#1f5fa8", "opacity": 0.7}
+      "mark": {"type": "point", "shape": "square", "filled": false, "size": 70, "strokeWidth": 1.5, "color": "#1f5fa8", "opacity": 0.8}
     },
     {
-      "data": {"values": [{"period": "2024-12-01", "y": 34, "label": "Dec: partial month (20/31 days)."}, {"period": "2024-12-01", "y": 27, "label": "Open square = pro-rated estimate (74.7)."}]},
-      "mark": {"type": "text", "align": "right", "dx": 4, "fontSize": 10, "color": "#666"},
+      "data": {"values": [
+        {"month": 12, "y": 40, "label": "Dec: partial month (20/31 days)"},
+        {"month": 12, "y": 33, "label": "□ = pro-rated estimate (74.7)"}
+      ]},
+      "mark": {"type": "text", "align": "right", "dx": -6, "fontSize": 10, "color": "#666"},
       "encoding": {
-        "x": {"field": "period", "type": "temporal", "timeUnit": "yearmonth"},
+        "x": {"field": "month", "type": "ordinal"},
         "y": {"field": "y", "type": "quantitative"},
         "text": {"field": "label"}
       }

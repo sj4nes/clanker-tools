@@ -146,9 +146,10 @@ def main() -> int:
           bool(spec.get("description")) and len(spec["description"]) > 120)
     check("chart.vl.json y-scale starts at zero",
           spec["encoding"]["y"]["scale"]["domain"][0] == 0)
-    embedded = {r["period"]: r for r in spec["data"]["values"] if r.get("status") == "observed"}
+    embedded = {r["month"]: r for r in spec["data"]["values"]
+                if r.get("status") == "observed"}
     check("spec's embedded rates match the computed series",
-          all(approx(embedded[r["period"][:7] + "-01"]["contact_rate"],
+          all(approx(embedded[int(r["period"][5:7])]["contact_rate"],
                      r["contact_rate"], 0.01)
               for r in series
               if r["status"] == "observed"))

@@ -5,8 +5,10 @@ A messy monthly dataset and a loaded request, taken through every step of the
 recomputed by [`check.py`](check.py) (`python3 check.py`, exit 0).
 
 Files: [`data.csv`](data.csv) (raw) · [`brief.md`](brief.md) (step 1) ·
-[`chart.vl.json`](chart.vl.json) (step 7) · [`check.py`](check.py) /
-[`chart_data.json`](chart_data.json).
+[`chart.vl.json`](chart.vl.json) (step 7) · [`chart.png`](chart.png) (rendered,
+`vl-convert`) · [`check.py`](check.py) / [`chart_data.json`](chart_data.json).
+
+![Rendered chart](chart.png)
 
 ---
 
@@ -50,7 +52,7 @@ the graphical-integrity fix for the changing denominator (step 5).
 
 | Channel | Variable | Scale / transform |
 |---|---|---|
-| x | `period` | temporal, month (`%b`) |
+| x | `month` (1–12) | ordinal, relabelled `Jan`…`Dec` |
 | y | `contact_rate` | linear, **zero baseline**, domain 0–100 |
 | (no colour / size / facet) | one series | single accent `#1f5fa8` |
 
@@ -118,6 +120,12 @@ zero, `description` carrying the alt text, one accent colour, layered so the
 missing/partial periods are explicit marks rather than silent gaps. Provenance
 (ticketing export + billing, 2024, cutoff 2024-12-20) is stated in the subtitle
 and method note.
+
+Rendered with `vl-convert` to [`chart.png`](chart.png). Rendering caught a bug in
+the first draft: a `temporal` x-axis with `timeUnit: yearmonth` shifted every
+point one month under the renderer's timezone, landing the December markers on
+November. Fixed by encoding `month` as an ordinal 1–12 with a `labelExpr`
+relabel — a reminder that a spec is not verified until it is rendered.
 
 ## 8. Critique against the rubric
 
