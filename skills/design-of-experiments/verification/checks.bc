@@ -1,0 +1,47 @@
+/* Sample-size and adjustment arithmetic prescribed by the design-of-experiments
+ * SKILL (references/power-and-sample-size.md).
+ * Run:  bc -q skills/design-of-experiments/verification/checks.bc
+ * bc truncates; scale set explicitly per the `bc` skill. Lowercase identifiers,
+ * no `_`, no single uppercase letters (Gavin Howard bc 7.x rejects those).
+ */
+scale = 10
+
+/* --- power-based two-arm comparison of means ------------------------------ */
+zalpha = 1.9599640           /* z_{1-0.025} */
+zbeta  = 0.8416212           /* z_{0.80}    */
+sigma  = 20                  /* outcome SD, from pilot data */
+delta  = 5                   /* minimum practical effect */
+
+nraw = 2*(zalpha + zbeta)^2 * sigma^2 / delta^2
+print "n per arm (raw)          = ", nraw, "\n"
+scale = 0
+nceil = (nraw + 0.9999999)/1
+print "n per arm (ceil)         = ", nceil, "\n"
+print "total (balanced)         = ", 2*nceil, "\n"
+scale = 10
+
+/* halving delta must quadruple n */
+nhalf = 2*(zalpha + zbeta)^2 * sigma^2 / (delta/2)^2
+print "n at delta/2 (want 4x)   = ", nhalf, "  ratio = ", nhalf/nraw, "\n"
+
+/* --- cluster adjustment: design effect ---------------------------------- */
+m   = 50                     /* mean cluster size */
+rho = 0.05                   /* intraclass correlation */
+de  = 1 + (m - 1)*rho
+print "design effect DE         = ", de, "\n"
+print "n per arm with clustering= ", nraw*de, "\n"
+scale = 0
+print "clusters per arm (size m)= ", ((nraw*de)/m + 0.9999999)/1, "\n"
+scale = 10
+
+/* --- unequal allocation r:1 penalty ------------------------------------- */
+r = 2
+pen = (1 + r)^2 / (4*r)
+print "allocation 2:1 penalty   = ", pen, "  (total ", nraw*2*pen, " vs ", 2*nraw, ")\n"
+
+/* --- ANCOVA / CUPED variance reduction --------------------------------- */
+rsq = 0.36                   /* R^2 of a pre-period covariate with the outcome */
+print "ANCOVA factor (1 - R^2)  = ", 1 - rsq, "\n"
+print "n per arm with ANCOVA    = ", nraw*(1 - rsq), "\n"
+
+quit
