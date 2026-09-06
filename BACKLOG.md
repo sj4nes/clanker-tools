@@ -39,6 +39,72 @@ capsules — organised by domain, low confidence, no commitments — see
 
 ## Mathematics
 
+### math-probability  (new capsule — planned)
+
+The missing foundational floor under `design-of-experiments`, `simulation`,
+`unknown-discovery` (forecast ledger + calibration), and any future statistics /
+ML skill. Built with [`math-theorem-tree`](skills/math-theorem-tree/SKILL.md);
+sits on top of `math-sets-functions-cardinality` (σ-algebras, measures) and
+`math-real-analysis` (limits, integration).
+
+- [ ] **math-probability:** `scope.md` — Kolmogorov axioms; σ-algebras and
+      probability measures (discharge from `math-sets-functions-cardinality`);
+      random variables, distribution / density / CDF; expectation, variance,
+      moments, MGF/characteristic function; independence and conditional
+      probability; **Bayes' theorem** as a node; joint / marginal / conditional
+      distributions; covariance and correlation; key families (Bernoulli,
+      binomial, Poisson, geometric, uniform, normal, exponential, gamma, beta);
+      transformations and the change-of-variables formula; **inequalities**
+      (Markov, Chebyshev, Jensen, Cauchy–Schwarz, Hoeffding); **limit theorems**
+      (WLLN, SLLN, CLT, continuity theorem); conditional expectation as a
+      projection; a stated-not-proved boundary node for martingales / stochastic
+      processes (out of scope for 0.1).  Exclude: measure-theoretic
+      probability *beyond* the σ-algebra/measure entry, stochastic processes,
+      statistical inference (its own skill).
+- [ ] **math-probability:** graph + `tsort` — target ~90–110 nodes; roots
+      discharged into `math-sets-functions-cardinality` / `math-real-analysis`;
+      watch the independence ↔ conditional-probability and
+      expectation ↔ integral would-be cycles.
+- [ ] **math-probability:** Lean validation — kernel-checked cores for the
+      discrete inequalities (Markov, Chebyshev from Markov, Jensen for a convex
+      combination), Bayes' theorem as an identity, linearity of expectation,
+      `Var(X) = E[X²] − E[X]²`, binomial mean/variance; `bc` worksheets for the
+      distribution moment formulas and a CLT convergence demonstration.
+- [ ] **math-probability:** `every_choice_grade` analogue — tag each limit
+      theorem with the mode of convergence it uses (almost-sure / in-probability
+      / in-distribution / L²) the way the `math-*` capsules tag `choice_grade` /
+      `constructive_grade`.
+
+### statistics  (follows math-probability — planned)
+
+Analysis-methodology skill (sibling of `design-of-experiments`,
+`unknown-discovery`), **not** a capsule: the disciplined workflow for inference
+on data *already collected* — the gap `design-of-experiments` explicitly
+refuses. Estimator choice and properties (bias / consistency / efficiency /
+sufficiency), sampling distributions, confidence and credible intervals,
+hypothesis testing and its misuse, likelihood, the bootstrap, regression, model
+checking, multiplicity. Rests on `math-probability`.
+
+- [ ] **statistics:** `SKILL.md` skeleton + `verification/` first — Monte Carlo
+      of estimator coverage / error rates / the assumption-violation failures
+      (mirrors the `design-of-experiments` verification pattern).
+
+### bayes-bridge  (sidebar — planned, needs both endpoints)
+
+A `bridge`-archetype connector once `math-probability` **and** `statistics`
+exist: the Bayesian inferential apparatus as the link between the probability
+capsule's Bayes' theorem and the statistics skill's estimation — priors /
+likelihood / posterior, conjugacy, credible vs confidence intervals, posterior
+predictive, Bayesian model comparison (Bayes factors, marginal likelihood), and
+the decision-theory / calibration tie-in to `unknown-discovery`'s forecast
+ledger. Named for the *correspondence*, not for "Bayes". See the "Cross-domain
+bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
+
+- [ ] **bayes-bridge:** hold until `math-probability` and `statistics` are both
+      in `skills/`; `bc` for conjugate-update closed forms and a
+      credible-vs-confidence-interval contrast, Lean for the
+      posterior ∝ prior × likelihood identity.
+
 ### math-logic-and-proof
 
 - [ ] **math-logic-and-proof:** Mathlib-backed completeness formalisation — connect

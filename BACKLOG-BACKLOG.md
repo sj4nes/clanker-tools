@@ -85,7 +85,7 @@ floors** under almost everything applied.
 | Candidate | One line | Verify | Confidence |
 |---|---|---|---|
 | `math-linear-algebra` | vector spaces → linear maps → eigen-theory → spectral theorem → SVD; the floor under real-analysis, control, DOE, simulation, forecasting | Lean cores for the finite-dim identities; `bc` worked factorisations | near |
-| `math-probability` | σ-algebras → measure → random variables → expectation → LLN / CLT → conditional expectation; the floor under DOE / simulation / forecasting / `unknown-discovery` | Lean for the discrete cores; Monte Carlo vs limit theorems in `bc`/Python | near |
+| `math-probability` | **promoted to near-term — see [`BACKLOG.md`](BACKLOG.md).** σ-algebras → measure → random variables → expectation → LLN / CLT → conditional expectation; the floor under DOE / simulation / forecasting / `unknown-discovery` | Lean for the discrete cores; Monte Carlo vs limit theorems in `bc`/Python | promoted |
 | `math-numerical-analysis` | conditioning, stability, floating point, quadrature, root-finding, linear-solver error bounds | `bc` exact vs float; known error-bound cases | plausible |
 | `math-ode-pde` | existence/uniqueness, linear systems, stability, separation of variables, weak solutions | closed-form benchmarks vs numerical integration | plausible |
 | `math-group-theory` | groups → homomorphisms → quotients → Sylow → classification of finite abelian groups | Lean cores; `bc`/enumeration for small groups | plausible |
@@ -150,7 +150,7 @@ guardrails and a `verification/` run whose claims are recomputed.
 
 | Candidate | One line | Verify | Confidence |
 |---|---|---|---|
-| `statistical-analysis` | inference on data **already collected** — the gap `design-of-experiments` explicitly refuses; estimator choice, assumptions, multiplicity, effect sizes over p-values | Monte Carlo: coverage, error rates, the assumption-violation failures | near |
+| `statistics` (`statistical-analysis`) | **promoted to near-term (follows `math-probability`) — see [`BACKLOG.md`](BACKLOG.md).** Inference on data **already collected** — the gap `design-of-experiments` explicitly refuses; estimator choice, assumptions, multiplicity, effect sizes over p-values | Monte Carlo: coverage, error rates, the assumption-violation failures | promoted |
 | `causal-inference` (observational) | DAGs → backdoor/frontdoor → IV → diff-in-diff → RDD → propensity; completes the causal-claims story `design-of-experiments` starts | simulated SCMs where the true effect is known; bias with/without adjustment | near |
 | `forecasting` | time-series method behind `unknown-discovery`'s forecast ledger — decomposition, ARIMA/ETS, backtesting, drift, proper scoring | backtest vs held-out; calibration and CRPS/Brier checks | plausible |
 | `optimization-modelling` | formulate → choose LP/MIP/convex/heuristic → *when not to trust the solver* (mirrors `control-systems`' "simulation ≠ proof") | known-optimum benchmarks; duality-gap and feasibility checks | plausible |
@@ -221,6 +221,7 @@ domain).
 
 | Candidate | One line | Verify | Confidence |
 |---|---|---|---|
+| `bayes-bridge` | **queued in [`BACKLOG.md`](BACKLOG.md)** (needs `math-probability` + `statistics`). The Bayesian inferential apparatus linking the probability capsule's Bayes' theorem to the statistics skill's estimation — priors/likelihood/posterior, conjugacy, credible vs confidence intervals, Bayes factors, and the calibration tie-in to `unknown-discovery`'s forecast ledger | `bc` conjugate-update closed forms + a credible-vs-confidence contrast; Lean for `posterior ∝ prior × likelihood` | needs-endpoints |
 | `entropy-bridge` | Clausius ↔ Boltzmann/Gibbs ↔ Shannon entropy: `S = k_B ln Ω`, the Gibbs/Shannon shared form, **Landauer's principle** (`k_B T ln 2` per bit), Maxwell's demon / Szilard engine, fluctuation theorems, the second law as an information statement — with each identity's assumptions (equilibrium, equal a priori probabilities) explicit | `bc` for Shannon `H`, `KL ≥ 0`, Sackur–Tetrode, Landauer energy; Lean instance checks for the Gibbs/Jensen concavity core | needs-endpoints (wait for `math-probability` / `math-information-theory` / `physics-statistical-mechanics`) |
 | `least-action-bridge` | the variational thread across `physics-newtonian` (F=ma) → Lagrangian → Hamiltonian → optics (Fermat) → (later) field theory; `δS = 0` as the common root | `bc` on the Euler–Lagrange reduction for the pendulum / projectile; Lean for the `d/dt (∂L/∂q̇) − ∂L/∂q = 0 ⇔ F = ma` algebra | needs-endpoints (wait for a Lagrangian-mechanics capsule) |
 | `symmetry-conservation-bridge` | Noether's theorem as the link between `physics-newtonian`'s conservation laws and continuous symmetries (time → energy, translation → momentum, rotation → angular momentum) | `bc` on the explicit invariance → conserved-quantity computation for each; instance checks in Lean | needs-endpoints |
