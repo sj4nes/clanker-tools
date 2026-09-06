@@ -14,7 +14,7 @@ description: >-
   reporting a decision with its limits. NOT for generic numerical computation
   with a known closed form, and not a licence to state that a simulation proves
   reality.
-version: 0.1.0
+version: 0.2.0
 author: Simon Janes
 tags: [simulation, modeling, monte-carlo, discrete-event, agent-based, uncertainty, verification-validation, decision-analysis]
 ---
@@ -64,7 +64,8 @@ also fails.
 - **Enforce unit and dimensional consistency.** Flag mismatched units, ambiguous
   time bases, mixed nominal/real currency, and accidental mixing of per-item /
   per-batch / per-hour / cumulative quantities. Use the [`bc`](../bc/SKILL.md)
-  skill for the arithmetic. `F = ma` must hold in N, kg, m/s².
+  skill for the arithmetic (and its identifier rules — `bc` 7.x rejects `_` and
+  single uppercase letters in variable names). `F = ma` must hold in N, kg, m/s².
 - **One run is not evidence for a stochastic system.** Use independent
   replications (or controlled common random numbers across alternatives), a
   warm-up period, and a stopping rule. Standard error falls like `1/√n`, not `1/n`.

@@ -45,12 +45,11 @@ Format:
 
 ## simulation
 
-- [ ] Verify against real tooling — the skill is methodology-only (no bespoke
-      CLI), but the worked example and any emitted `bc` unit checks should be run
-      end-to-end and findings folded back, matching the pattern in README's
-      Verification table. Currently `version: 0.1.0`, unverified.
 - [ ] Consider a `templates/` charter + reporting skeleton the skill can emit
       (currently the templates live inline in `references/workflow.md`).
+- [ ] Extend `verification/` beyond the M/M/1 DES case — one continuous-time
+      (analytic ODE benchmark) and one Monte Carlo (dependence / tail-risk)
+      worked check would cover more of the paradigm table.
 
 ## Done
 

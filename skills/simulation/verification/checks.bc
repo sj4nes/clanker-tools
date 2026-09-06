@@ -1,0 +1,32 @@
+/* Analytic benchmarks and a dimensional check for the M/M/1 verification.
+ * Run:  bc -q skills/simulation/verification/checks.bc
+ * bc truncates; scale set explicitly per the `bc` skill.
+ */
+scale = 6
+
+lam = 0.8      /* arrivals per unit time,  [T^-1] */
+mu  = 1.0      /* service completions per unit time, [T^-1] */
+rho = lam / mu /* dimensionless utilization, [1] */
+
+print "rho          = ", rho, "\n"
+print "L  = rho/(1-rho)      = ", rho / (1 - rho), "\n"
+print "Lq = rho^2/(1-rho)    = ", (rho * rho) / (1 - rho), "\n"
+print "W  = 1/(mu-lam)       = ", 1 / (mu - lam), "\n"
+print "Wq = rho/(mu-lam)     = ", rho / (mu - lam), "\n"
+
+/* Little's law must hold: L (dimensionless count) == lam [T^-1] * W [T].
+ * Residual should be 0 to displayed scale. */
+ll = rho / (1 - rho)
+ww = 1 / (mu - lam)
+print "Little residual  L - lam*W = ", ll - lam * ww, "\n"
+
+/* Dimensional check, [T] basis: lam*W has dimension [T^-1]*[T] = [1],
+ * matching L. Encode exponents as integers and require the sum to be 0. */
+dimlam = -1
+dimw   =  1
+dimsum = dimlam + dimw
+print "dim(lam)+dim(W) (want 0) = ", dimsum, "\n"
+
+/* Degenerate case: lam = 0 -> rho = 0 -> L = 0. */
+print "lam=0 => L = ", 0 / (1 - 0), "\n"
+quit
