@@ -53,6 +53,20 @@ Format:
       continuous-time (analytic ODE benchmark) and one Monte Carlo (dependence /
       tail-risk) worked check would cover more of the paradigm table.
 
+## visualization-design
+
+- [ ] **visualization-design:** worked end-to-end example — take one messy
+      dataset + brief through brief → job → spec → integrity audit → a11y
+      package → Vega-Lite source → critique, and commit it under
+      `skills/visualization-design/verification/` or a new `examples/` dir.
+- [ ] **visualization-design:** cross-link with `simulation` and
+      `design-of-experiments` — their reporting steps could point at
+      `references/evidence-and-domains.md` for the plot catalogue instead of
+      restating it.
+- [ ] **visualization-design:** extend `verification/` with a diagram-grammar
+      check (parse a Mermaid/DOT source, confirm every edge style has a declared
+      meaning in a legend node).
+
 ## design-of-experiments
 
 - [ ] **design-of-experiments:** Cross-link with `simulation` — the simulation
@@ -60,6 +74,13 @@ Format:
       `references/simulation-doe.md` instead of restating.
 
 ## Done
+
+- [x] **visualization-design:** new skill — SKILL.md + 7 references
+      (visual-selection, graphical-integrity, perception-and-hierarchy,
+      accessibility, diagrams, evidence-and-domains, critique-engine) + 3
+      templates + `verification/` (WCAG contrast + Tufte lie factor in `bc`,
+      Okabe–Ito vs bad-palette CVD/grayscale check, rainbow-ramp failure);
+      `sh run.sh` green.  (2026-09-06)
 
 - [x] **design-of-experiments:** `verification/` worked check — `bc` sample-size
       + adjustments, Monte Carlo power / design-effect / pseudoreplication-FPR /
