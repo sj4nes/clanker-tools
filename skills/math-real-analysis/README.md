@@ -11,6 +11,19 @@ field), and its proof-of-method.
 - Views: [`indexes/`](indexes/) — topic, hypothesis, status, counterexample, prerequisite-path, symbol, equivalent-definitions, common-misuse, generalization
 - Verification: [`validation/consistency-audit.md`](validation/consistency-audit.md)
 
+## Tutorials
+
+- [`tutorial/hole-in-the-rationals.md`](tutorial/hole-in-the-rationals.md) —
+  **"The Hole in the Rationals"**: an interactive walk from the Babylonian
+  `√2` sequence through `lub_axiom` → monotone convergence → nested intervals →
+  Bolzano–Weierstrass → the Cauchy criterion, each shown working in ℝ and then
+  **failing** in ℚ. 13 runnable blocks: `bc` for the numeric beats (from
+  `validation/instance-checks.bc`), Lean-via-shell for two algebraic cores (the
+  AM–GM instance and the universal triangle inequality, from
+  `validation/proof-checks.lean`). Run:
+  `upmd skills/math-real-analysis/tutorial/hole-in-the-rationals.md`
+  (or `upmd --ci --all …` to run every calculation).
+
 ## Build
 
 ```sh
