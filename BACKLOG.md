@@ -232,6 +232,36 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       cards → VoI-ranked backlog → forecast ledger → monitoring plan; `check.py`
       recomputes the EVPI / Brier / diagnosticity claims, wired into `run.sh`.
 
+## Tutorials
+
+### theorem-tree-tutorial  (new meta skill — started 2026-09-06)
+
+Math analogue of `formula-tree-tutorial`. `skills/theorem-tree-tutorial/`:
+SKILL.md + `references/{upmd-mechanics,authoring-from-nodes,document-structure}.md`
+drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
+`lean` + exit check + `SKIP` guard — `upmd` has no Lean runner), the
+**hypothesis-dropped-counterexample beat** (`cx_<id>` from each result YAML's
+`counterexamples_when_dropped`), and **grade surfacing**
+(`choice_grade` / `constructive_grade` / `convergence_mode`).
+
+- [ ] **theorem-tree-tutorial:** VERIFY by generating a first tutorial. Suggested
+      target: `math-probability` "Kolmogorov's three axioms → `boole_inequality`"
+      (closure of 10, every check a Lean core or one-line `bc`). Gate:
+      `upmd --ci --all` green, capstone + one middle `chk_` + one `lean_` beat
+      run standalone. Fold fixes back into `references/`; add a README
+      Verification-status row; write to `skills/math-probability/tutorial/`.
+- [ ] **theorem-tree-tutorial:** decide the "one skill or two" question
+      (`docs/tutorial-map.md` §7) — whether to merge with `formula-tree-tutorial`
+      into `capsule-tutorial` once both are exercised.
+- [ ] **theorem-tree-tutorial:** settle the cross-capsule `deps:` convention
+      before any Tier-4 (discharge-chain) tutorial — `docs/tutorial-map.md` §7.
+
+### physics-thermodynamics
+
+- [ ] **physics-thermodynamics:** `upmd` tutorial "Why heat engines have a
+      ceiling" (`zeroth_law` → `carnot_efficiency`) via `formula-tree-tutorial` —
+      also listed under that capsule above; buildable today, no new infra.
+
 ## Cross-cutting
 
 - [ ] **verification harnesses:** every methodology skill's `verification/` re-solves

@@ -69,7 +69,7 @@ every concept the reader meets comes with a calculation they run.
 | Builder | Covers | Status |
 |---|---|---|
 | [`formula-tree-tutorial`](../skills/formula-tree-tutorial/SKILL.md) | physics capsules → `upmd` `.md` | **exists**, verified via `pendulum.md` |
-| `theorem-tree-tutorial` (planned) | math capsules → `upmd` `.md` — the `bc`+`Lean-via-bash` variant `hole-in-the-rationals.md` was hand-built with | roadmap (`BACKLOG-BACKLOG.md` → Meta/builders) |
+| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, and grade surfacing over the physics version | **drafted** (SKILL.md + references); not yet exercised to generate a tutorial — see `BACKLOG.md` → Tutorials |
 | `explain-a-capsule` (planned) | any capsule → a linear reader's path, one check per concept (the Tier-3 rows) | roadmap (`BACKLOG-BACKLOG.md` → Human-facing lane) |
 | cross-capsule convention (none yet) | tutorials that span two capsule dirs — `deps:` across directories, citing two `validation/` sets | needs a first example |
 
@@ -259,10 +259,10 @@ capsule × infrastructure readiness):
 5. **What counts as a proof** (`math-logic-and-proof`, the `proof_methods` block) — the most broadly useful lesson in the repo; needs `theorem-tree-tutorial` or a hand build in the `hole-in-the-rationals` style.
 6. **From the empty set to the real line** (cross-capsule: sets → numbers → analysis) — the flagship that shows why the *stack* exists; needs the cross-capsule convention (Tier 4) sorted out first.
 
-Items 1, 2, 4 need the `theorem-tree-tutorial` skill (or a hand build); item 3
-is buildable now; items 5–6 need new infrastructure. **The highest-leverage
-single move is building `theorem-tree-tutorial`** — it unlocks every Tier-1 math
-row.
+Items 1, 2, 4 need the [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md)
+skill — **drafted 2026-09-06**, now needs a first generated tutorial to verify
+it (target: item 1). Item 3 is buildable now with `formula-tree-tutorial`; items
+5–6 need new infrastructure (the cross-capsule `deps:` convention).
 
 ---
 
