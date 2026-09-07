@@ -231,6 +231,13 @@ domain).
 `formula-tree-tutorial` already crossed the line from "instruct an agent" to
 "teach a person". If that lane grows it deserves its own conventions.
 
+See [`docs/tutorial-map.md`](docs/tutorial-map.md) for the full survey of
+tutorials cuttable from the eight capsules (815 nodes) — single-target,
+thematic-band, whole-capsule, and cross-capsule — with a coverage estimate and a
+recommended first six. Headline finding: **building `theorem-tree-tutorial` (the
+math analogue of `formula-tree-tutorial`) is the highest-leverage single move**
+— it unlocks every math Tier-1 row.
+
 | Candidate | One line | Verify | Confidence |
 |---|---|---|---|
 | `explain-a-capsule` | generate a linear reader's path through any capsule — prerequisites first, one runnable check per concept | `upmd --ci` green; every concept's check executes | plausible |

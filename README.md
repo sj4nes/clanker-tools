@@ -78,6 +78,12 @@ below — skip to the section that interests you.
 |---|---|
 | [`formula-tree-tutorial`](skills/formula-tree-tutorial/SKILL.md) | **Meta skill.** Turn a `physics-formula-tree` capsule into a tutorial for people — a plain-Markdown document that runs under [`upmd`](https://upmd.dev) so the reader executes each formula's dimensional check, limiting case, and worked example interactively in a real terminal. Linearizes the capsule's `tsort` order into a lesson, one runnable `bc` block per concept wired by `deps:`, verified by `upmd --ci --all`. upmd mechanics, node→section authoring, and the document skeleton in [`references/`](skills/formula-tree-tutorial/references/). |
 
+[`docs/tutorial-map.md`](docs/tutorial-map.md) surveys every tutorial that could
+be cut from the eight capsules (815 nodes) — single-target, thematic-band,
+whole-capsule, and cross-capsule — with a coverage estimate and a recommended
+first six. Two ship today: [`hole-in-the-rationals.md`](skills/math-real-analysis/tutorial/hole-in-the-rationals.md)
+and [`pendulum.md`](skills/physics-newtonian/tutorial/pendulum.md).
+
 ### Modelling and analysis methodology
 
 | Skill | Purpose |
