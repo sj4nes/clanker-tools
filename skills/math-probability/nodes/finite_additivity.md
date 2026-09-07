@@ -38,6 +38,9 @@ the finite case of countable additivity: pad the finite family with A_{n+1} = A_
 - applying it to non-disjoint events
 - extending to a countably infinite family (that is the axiom, not this proposition)
 
+## In the wild
+- the Bonferroni correction in multiple hypothesis testing: P(any of m tests falsely significant) <= sum of the per-test levels -- the finitely-additive union bound, used to set genome-wide significance at 5e-8 in GWAS
+
 ## Related nodes (non-prerequisite)
 - special_case_of: kolmogorov_axioms
 - generalizes_to: inclusion_exclusion

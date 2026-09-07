@@ -56,6 +56,10 @@ every concept the reader meets comes with a calculation they run.
 - **Every concept gets a runnable check**, reused from the capsule's own
   `validation/`: a `bc` numeric beat, a limiting/specialization case, a Lean
   instance check. No new mathematics in the tutorial.
+- **After each milestone, an "In the wild" beat** — prose from the node's
+  `applications` field (a named deployed system + the mechanism), plus a
+  runnable `app_<id>` block where the application is the node's own formula at
+  real parameters (the PAC sample size, the polling half-width).
 - **Prose is compressed from the node entry** — what it says, what the symbols
   mean, when it is valid, what must be known first, what breaks it.
 - **Delivery is `upmd`** (`upmd.dev`): named fenced blocks with `deps:` mirroring
@@ -69,7 +73,7 @@ every concept the reader meets comes with a calculation they run.
 | Builder | Covers | Status |
 |---|---|---|
 | [`formula-tree-tutorial`](../skills/formula-tree-tutorial/SKILL.md) | physics capsules → `upmd` `.md` | **exists**, verified via `pendulum.md` |
-| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, and grade surfacing over the physics version | **verified 2026-09-06** — generated `three-axioms.md` and `concentration-ladder.md` (both `math-probability`), `upmd --ci --all` green; each build surfaced a real capsule fix |
+| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, grade surfacing, and the "In the wild" milestone beat over the physics version | **verified** (2026-09-06/07) — generated `three-axioms.md` and `concentration-ladder.md`, `upmd --ci --all` green; each build surfaced a real capsule fix. The `applications` field it renders was added to the `math-theorem-tree` result schema and backfilled for 24 `math-probability` headline nodes. |
 | `explain-a-capsule` (planned) | any capsule → a linear reader's path, one check per concept (the Tier-3 rows) | roadmap (`BACKLOG-BACKLOG.md` → Human-facing lane) |
 | cross-capsule convention (none yet) | tutorials that span two capsule dirs — `deps:` across directories, citing two `validation/` sets | needs a first example |
 
@@ -89,8 +93,8 @@ missing); `bc` numeric beats carry the `bc`-identifier rules; `upmd` runs
 |---|---|---|---|---|
 | [`hole-in-the-rationals.md`](../skills/math-real-analysis/tutorial/hole-in-the-rationals.md) | `math-real-analysis` | `lub_axiom` → `cauchy_convergence_criterion` (the completeness thread), each step shown failing in ℚ | 13 (`bc` + Lean-via-bash) | hand-built (the method) |
 | [`pendulum.md`](../skills/physics-newtonian/tutorial/pendulum.md) | `physics-newtonian` | `newton_second_law` → `simple_pendulum` | 9 (`bc`) | `formula-tree-tutorial` |
-| [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md) | `math-probability` | Kolmogorov axioms → `boole_inequality` (the union bound), on a fair die; a runnable counterexample for each theorem | 17 (`bc` + 2 Lean-via-bash) | **`theorem-tree-tutorial`** (its first) |
-| [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md) | `math-probability` | `markov_inequality` → Chebyshev → Jensen → Chernoff → Hoeffding — each rung Markov applied to a cleverer function; capstone = the Hoeffding sample-size bound | 17 (`bc` + 3 Lean-via-bash) | `theorem-tree-tutorial` |
+| [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md) | `math-probability` | Kolmogorov axioms → `boole_inequality`, on a fair die; a runnable counterexample per theorem + an "In the wild" beat | 18 (`bc` + 2 Lean-via-bash) | **`theorem-tree-tutorial`** (its first) |
+| [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md) | `math-probability` | Markov → Chebyshev → Jensen → Chernoff → Hoeffding; each rung + an "In the wild" beat (KL≥0, JL, PAC, UCB); capstone + "where it bites back" | 21 (`bc` + 3 Lean + 4 `app_`) | `theorem-tree-tutorial` |
 
 ### Tier 1 — single-target tutorials (one headline, its minimal prerequisite path)
 

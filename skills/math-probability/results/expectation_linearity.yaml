@@ -35,6 +35,10 @@ common_misuse:
   - 'believing independence is required (it is not -- this is the single most useful fact in the capsule)'
   - 'applying it to E[XY] or E[g(X)] -- linearity is in the argument, not through nonlinear functions'
   - 'using it when a summand fails to be integrable even though the sum is'
+applications:
+  - 'linearity of expectation as an algorithm-analysis technique: write the quantity of interest as a sum of indicators, take E of each -- expected number of hash collisions, expected cycle length in a random permutation, expected size of a random cut (the 1/2-approximation for MAX-CUT), expected comparisons in randomized QuickSort'
+  - 'the "no independence needed" point is what makes it usable: the summands in these arguments are almost always dependent, yet the mean still adds'
+  - 'estimator design: an unbiased estimator of a sum is the sum of unbiased estimators -- the basis of Horvitz-Thompson estimation in survey sampling and of importance-sampling estimators in Monte Carlo'
 related:
   used_by: [variance, covariance, variance_of_sum, jensen_inequality, weak_law_large_numbers, binomial_distribution]
   generalizes: []

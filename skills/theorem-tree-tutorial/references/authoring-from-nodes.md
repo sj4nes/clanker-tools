@@ -21,7 +21,42 @@ parts — compress, do not transcribe.
 | `counterexamples_when_dropped` | a `cx_<id>` block | **always**, for a theorem — see below |
 | `proof.technique` / `proof.derives_from` | one sentence — "the proof is just <prior result> wearing a hat" | the runnable Lean core or `bc` instance is the evidence, not a re-derivation |
 | `common_misuse` | "Where it breaks" — 1 sentence | the single failure most likely to bite |
+| `applications` | a `### In the wild` beat *after a milestone section* | see below — 1 short paragraph, optionally a runnable `app_<id>` block |
 | `sources` | a citation in parentheses at section end | `(Billingsley §2)` |
+
+## The "In the wild" beat (`### In the wild` + optional `app_<id>`)
+
+A **milestone** is a `role: headline` node (check `nodes/nodes.tsv`), any
+section the tutorial frames as a named rung, or the capstone. After a milestone
+section, if the node's YAML carries an `applications` field:
+
+1. **Prose:** one short paragraph compressed from the field — 2–4 named systems
+   or results and the *mechanism* (how this exact statement is used). Do not
+   list all of them; pick the ones a reader will recognise.
+2. **`bash [name:app_<id>, deps:chk_<id>]`** — *only* when an application is the
+   node's own formula at real parameters. Compute it, print it labelled, name
+   the system. Examples:
+   - `hoeffding_inequality`: the PAC sample complexity `n >= ln(|H|/delta)/(2 eps^2)`
+     and the UCB radius `sqrt(2 ln t / n_i)`;
+   - `central_limit_theorem`: the polling half-width `1.96 / sqrt(n)`;
+   - `chernoff_bound`: the Gaussian tail `e^{-a^2 / 2 sigma^2}`;
+   - `jensen_inequality`: KL divergence `>= 0` (Gibbs) on two concrete pmfs.
+
+   The guard: the block uses **only the node's stated formula** and parameters
+   drawn from an `applications` entry. It is a specialization — no new
+   mathematics. `bc -l` for `log`/`exp`/`sqrt`; these values are genuinely
+   transcendental, so compare with a tolerance, never `=`.
+
+**Do not invent applications.** If the capsule's `applications` field is thin or
+absent, the beat is one sentence or is skipped — and consider adding to the
+capsule's field first (it is reviewed content, same standard as `sources`:
+name a paper or a real system).
+
+The **capstone's** version is a *synthesis* — the chain of deployed systems the
+whole path underlies — and may close with a **"where it bites back"** note when
+the capsule's `counterexamples_when_dropped` map onto a real failure (2008 =
+the CLT's finite-variance hypothesis violated; a replication failure = a CLT
+approximation trusted into the tail).
 
 ## The counterexample beat (`cx_<id>`)
 

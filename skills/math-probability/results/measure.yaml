@@ -29,6 +29,9 @@ common_misuse:
   - 'assuming finite additivity is enough'
   - 'forgetting sigma-finiteness for Radon-Nikodym / Fubini'
   - 'treating mu(A) = inf results carelessly in subtractions'
+applications:
+  - 'measure-theoretic probability is the foundation under empirical process theory and the modern analysis of stochastic gradient descent (a.s. convergence, rates) -- Bottou-Curtis-Nocedal 2018'
+  - 'the pushforward / change-of-variables machinery is what normalising flows (RealNVP, Glow) exploit to turn a simple base measure into a complex learned density'
 related:
   specializes_to: ['probability_measure']
   generalizes: ['finitely additive set function']

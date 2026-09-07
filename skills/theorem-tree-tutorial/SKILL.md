@@ -82,6 +82,20 @@ shape. What changes, following `math-theorem-tree`'s own adaptation of
   `convergence_mode: in_distribution`), make it a one-sentence teaching beat:
   *which assumption does this rest on, and what is the weaker thing that is not
   enough.* This is the capsule's distinctive payload — do not drop it.
+- **After each milestone, an "In the wild" beat.** A milestone is a
+  `role: headline` node, any section the tutorial frames as a named rung/result,
+  or the capstone. If the node's YAML has an `applications` field, render it as
+  a short `### In the wild` paragraph — a named deployed system or published
+  result, and the mechanism. Where an application is literally the node's own
+  formula at real-world parameters (the PAC sample-complexity bound, the polling
+  margin of error, the UCB radius), add a runnable **`app_<id>` block** that
+  computes it — that is a *specialization*, not new mathematics. Invent no
+  application the capsule does not list; if the `applications` field is thin,
+  the beat is one sentence or is skipped. The capstone's version is a
+  *synthesis* ("the chain of deployed systems this whole path underlies") and
+  may close with a **"where it bites back"** note when the capsule's
+  counterexamples map onto a real failure (a market crash, a replication
+  failure).
 - **Prose is compressed from the node entry, not copied.** Each section answers
   the capsule's questions — what it says (the statement, quoted once), what the
   typed symbols mean, its hypotheses (named as the nodes they are), what must be
@@ -171,6 +185,13 @@ For concept `X` (capsule node id `x`):
   `command -v lean || { echo "SKIP: lean not on PATH"; exit 0; }` first. Echo
   precisely what the kernel confirmed. See
   [`references/upmd-mechanics.md`](references/upmd-mechanics.md#lean-beats).
+- **`bash [name:app_x, deps:chk_x]`** — *milestone nodes only.* Where the node's
+  `applications` field lists an application that is its own formula at real
+  parameters, compute it: the PAC bound `sqrt(ln(|H|/delta)/(2n))` at
+  `|H| = 1e6`, the polling half-width `1.96/sqrt(n)` at `n = 1000`, the Chernoff
+  `e^{-a^2/2sigma^2}` Gaussian-tail. Print it labelled, naming the system it
+  comes from. This is a specialization — the guard is that it uses **only the
+  node's stated formula** and parameters cited in the `applications` entry.
 
 Keep every block **idempotent** and independent of run order beyond its declared
 `deps`. Reuse the capsule's numbers verbatim.
@@ -229,10 +250,12 @@ read-only header.
 
 Report: the source capsule and release; the tutorial's scope (target result /
 band / whole) and the ordered node list it covers; the number of sections and of
-runnable blocks, broken down as `chk_` / `cx_` / `lean_`; the `upmd --ci --all`
-result (all blocks exit 0) and that the capstone plus at least one middle check
-and one Lean beat were run standalone; which capsule material was reused
-(Lean sections, `bc` lines, YAML specializations/counterexamples) and
+runnable blocks, broken down as `chk_` / `cx_` / `lean_` / `app_`; which
+milestones got an "In the wild" beat and which of those got a runnable `app_`
+block; the `upmd --ci --all` result (all blocks exit 0) and that the capstone
+plus at least one middle check and one Lean beat were run standalone; which
+capsule material was reused (Lean sections, `bc` lines, YAML
+specializations/counterexamples/applications) and
 confirmation that no new mathematics was introduced; for every Lean beat, the
 kernel-vs-cited status echoed; where the file was written and the command to run
 it; whether a static Artifact companion was produced; the `docs/tutorial-map.md`

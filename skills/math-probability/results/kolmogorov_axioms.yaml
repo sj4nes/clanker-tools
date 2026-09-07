@@ -31,6 +31,10 @@ common_misuse:
   - 'assuming only finite additivity, then invoking continuity of probability or Borel-Cantelli (which need the countable form)'
   - 'treating every subset of Omega as an event when Omega is uncountable (non-measurable sets exist; F cannot be 2^[0,1])'
   - 'forgetting the disjointness hypothesis in countable additivity'
+applications:
+  - 'the measure-theoretic axiomatisation (Kolmogorov 1933) is what made a rigorous theory of stochastic processes possible -- Ito calculus, and hence the Black-Scholes model and the ~600-trillion-dollar derivatives market, are built on a probability space with a filtration'
+  - 'countable additivity (not merely finite) is the load-bearing choice: continuity of probability, the Borel-Cantelli lemmas, and every convergence theorem need it -- a finitely-additive "probability" (a Banach limit / density on N) satisfies the other two axioms but supports none of the limit theory'
+  - 'the same axioms underlie Kalman filtering, Monte Carlo, and the cross-entropy training objective of modern ML -- probability is the shared language'
 related:
   generalizes: [measure]
   specializes_to: [finite_additivity, complement_rule]

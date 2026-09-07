@@ -42,6 +42,13 @@ Chernoff on S - E[S]: P(S - E[S] >= s) <= e^{-ts} prod_i E[e^{t(X_i - E X_i)}] <
 - forgetting the factor 2 in the two-sided version
 - ignoring that it can be very loose when the variances are much smaller than the ranges (Bernstein is tighter then)
 
+## In the wild
+- statistical learning theory / PAC learning (Valiant 1984, Turing Award 2010): a union bound over a finite hypothesis class H plus Hoeffding per hypothesis gives generalisation gap <= sqrt(ln(|H|/delta) / (2n)) with probability 1 - delta -- the founding guarantee of ML
+- the UCB1 multi-armed bandit (Auer-Cesa-Bianchi-Fischer 2002): the exploration bonus sqrt(2 ln t / n_i) added to each arm's empirical mean is a Hoeffding confidence radius -- deployed for ad selection and Yahoo front-page news recommendation (LinUCB, Li et al. 2010), adaptive clinical trials
+- Monte Carlo Tree Search / UCT (Kocsis-Szepesvari 2006): the same confidence bound is the tree-search selection rule -- the exploration mechanism inside AlphaGo
+- Hoeffding trees / VFDT (Domingos-Hulten 2000): a streaming decision tree splits a node once a Hoeffding bound certifies the best-looking attribute really is best -- real-time data-stream mining
+- differential privacy: the accuracy of a private mechanism (RAPPOR at Google, Apple's iOS telemetry, the 2020 US Census) is stated as a Hoeffding/Chernoff-type bound on the noise
+
 ## Related nodes (non-prerequisite)
 - derives_from: hoeffding_lemma, chernoff_bound
 - sharpens: chebyshev_inequality

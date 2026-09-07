@@ -262,9 +262,16 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       featuring it. README Verification-status row updated. (2026-09-06)
 - [x] **theorem-tree-tutorial:** 2nd tutorial —
       `skills/math-probability/tutorial/concentration-ladder.md` (Markov →
-      Chebyshev → Jensen → Chernoff → Hoeffding; 17 blocks, `upmd --ci --all`
+      Chebyshev → Jensen → Chernoff → Hoeffding; now 21 blocks, `upmd --ci --all`
       green). Surfaced + fixed a missing `Prob.markov_finite` in the capsule
       Lean file. (2026-09-06)
+- [x] **theorem-tree-tutorial + math-theorem-tree + math-probability:**
+      `applications` field added to the result schema; "In the wild" milestone
+      beat (`### In the wild` + optional runnable `app_<id>`) added to the skill;
+      backfilled for 24 `math-probability` headline nodes (each cited); both
+      shipped tutorials gained the beats. Fold-back: `bc` multiplication
+      truncates intermediate products to `scale` (compute `app_` formulas at
+      high scale, truncate at the end). (2026-09-07)
 - [ ] **theorem-tree-tutorial:** next — exercise a *different capsule shape*:
       "√2 is irrational and that's a crisis" from `math-number-systems`
       (→ `rational_incomplete_lub`; constructions + well-definedness), or "What

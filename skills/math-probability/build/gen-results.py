@@ -72,13 +72,15 @@ class N:
                  welldef=None, equiv=None, proof=None,
                  choice=False, constructive=True, conv_mode=None,
                  solving_for=None, spec=None, cxd=None, misuse=None,
-                 related=None, sources=None, status="draft", tcs="well_formed"):
+                 related=None, sources=None, status="draft", tcs="well_formed",
+                 apps=None):
         self.__dict__.update(locals())
         self.hyps = hyps or []
         self.pre = pre or []
         self.spec = spec or []
         self.cxd = cxd or {}
         self.misuse = misuse or []
+        self.apps = apps or APPS.get(nid, [])
         self.related = related or {}
         self.sources = sources or ["billingsley_probability_measure", "durrett_pte"]
         self.symbols = symbols or {}
@@ -135,6 +137,8 @@ class N:
         else:
             o += "counterexamples_when_dropped:\n  none_all_hypotheses_essential: 'every listed hypothesis is used in the proof; see the block above'\n"
         o += block_list("common_misuse", self.misuse)
+        if self.apps:
+            o += block_list("applications", self.apps)
         if self.related:
             o += "related:\n"
             for k, v in self.related.items():
@@ -177,6 +181,8 @@ class N:
             o += "\n## Hypothesis-dropped counterexamples\n" + "".join(f"- **{k}**: {v}\n" for k, v in self.cxd.items())
         if self.misuse:
             o += "\n## Common misuse\n" + "".join(f"- {m}\n" for m in self.misuse)
+        if self.apps:
+            o += "\n## In the wild\n" + "".join(f"- {a}\n" for a in self.apps)
         if self.related:
             o += "\n## Related nodes (non-prerequisite)\n"
             for k, v in self.related.items():
@@ -222,6 +228,102 @@ M = ["billingsley_probability_measure", "folland_real_analysis"]
 P = ["billingsley_probability_measure", "durrett_pte"]
 W = ["williams_probability_martingales", "durrett_pte"]
 G = ["grimmett_stirzaker", "durrett_pte"]
+
+# ============================================================================
+#  APPLICATIONS  —  where each result is actually deployed (mechanism + a
+#  named system or paper).  Rendered as the "In the wild" beat by
+#  theorem-tree-tutorial and in each node's detail page.  Same evidentiary
+#  standard as `sources`: name a real system or publication, never "used in
+#  industry".  Keyed by node id; merged in by N.__init__.
+# ============================================================================
+APPS = {
+  "sigma_algebra": [
+    "stochastic calculus: the filtration (F_t) is an increasing family of sigma-algebras modelling information over time -- the object Ito integration and the Black-Scholes derivation are built on (Karatzas-Shreve 1991)",
+    "the reason a probability model on [0,1] cannot use every subset: the Vitali / Banach-Tarski constructions force F = B(R), and every rigorous statement about a continuous random variable is implicitly relative to it",
+  ],
+  "measure": [
+    "measure-theoretic probability is the foundation under empirical process theory and the modern analysis of stochastic gradient descent (a.s. convergence, rates) -- Bottou-Curtis-Nocedal 2018",
+    "the pushforward / change-of-variables machinery is what normalising flows (RealNVP, Glow) exploit to turn a simple base measure into a complex learned density",
+  ],
+  "finite_additivity": [
+    "the Bonferroni correction in multiple hypothesis testing: P(any of m tests falsely significant) <= sum of the per-test levels -- the finitely-additive union bound, used to set genome-wide significance at 5e-8 in GWAS",
+  ],
+  "measure_monotonicity": [
+    "the union bound P(bad_1 or ... or bad_n) <= sum P(bad_i) is the single most-used step in randomized-algorithm analysis: bounding the failure probability of a hashing scheme, a randomized rounding, a sketch",
+    "reliability engineering: a system fails if any component fails, so P(system failure) <= sum of component failure rates -- the standard conservative bound in an FMEA",
+  ],
+  "boole_inequality": [
+    "the probabilistic method (Erdos): to show an object with no 'bad' feature exists, bound P(some bad feature) <= sum P(bad_i) < 1 -- first lower bounds on Ramsey numbers, existence of good error-correcting codes and expanders",
+    "the Bonferroni / family-wise error rate control in multiple testing -- clinical trials with several endpoints, A/B platforms running many metrics",
+    "load balancing: 'n balls in n bins, max load O(log n / log log n) w.h.p.' is a union bound over bins of a per-bin Chernoff estimate -- hash tables, consistent hashing (Akamai, Chord)",
+  ],
+  "borel_cantelli_first": [
+    "the standard route from a convergence RATE to almost-sure convergence: if sum_n P(|X_n - X| > eps) < inf then X_n -> X a.s. -- used to prove a.s. convergence of stochastic gradient descent and of stochastic approximation (Robbins-Monro)",
+    "the proof of the strong law of large numbers (Etemadi) and of the law of the iterated logarithm",
+    "metric number theory: 'almost every real is normal in every base' (Borel 1909) is a Borel-Cantelli argument",
+  ],
+  "jensen_inequality": [
+    "information theory: Gibbs' inequality (KL divergence >= 0) IS Jensen applied to -log -- the source-coding theorem (the entropy bound behind every ZIP, PNG, FLAC) and channel capacity rest on it",
+    "the EM algorithm: the E-step maximises a Jensen lower bound on the log-likelihood -- how Gaussian mixture models, HMMs for speech recognition, and LDA topic models are trained (Dempster-Laird-Rubin 1977; Neal-Hinton 1998)",
+    "variational inference / the ELBO: the objective that trains variational autoencoders and Bayesian neural nets is a Jensen bound on log p(x) (Kingma-Welling 2013; Blei-Kucukelbir-McAuliffe 2017)",
+    "finance: 'volatility drag', E[log(1+R)] <= log(1+E[R]), is why a volatile asset compounds slower than its arithmetic mean suggests; and concave utility => a risk-averse agent prefers the mean to the gamble, which is why insurance markets exist",
+  ],
+  "chernoff_bound": [
+    "randomized rounding (Raghavan-Thompson 1987): solve an LP relaxation, round each variable independently, Chernoff shows the integral solution is within (1+eps) of optimal w.h.p. -- approximation algorithms for routing, scheduling, VLSI",
+    "the Johnson-Lindenstrauss lemma: k = O(eps^-2 log n) random projections preserve all pairwise distances among n points -- the proof is a Chernoff bound on a chi-squared; used in nearest-neighbour search, LSH, compressed sensing",
+    "information theory: the Chernoff / Cramer exponent IS the error exponent -- how fast decoding-error probability decays with block length (Shannon's coding theorems)",
+    "committee-based blockchains (Algorand, Ouroboros Praos): Chernoff bounds the probability that an adversary controlling a fraction of the stake wins a majority of a randomly-sampled committee",
+  ],
+  "hoeffding_lemma": [
+    "the single ingredient between Chernoff and Hoeffding's inequality: it says a bounded random variable is sub-Gaussian, which is the hypothesis of essentially all of high-dimensional statistics and the analysis of stochastic optimisation (Wainwright 2019; Boucheron-Lugosi-Massart 2013)",
+  ],
+  "hoeffding_inequality": [
+    "statistical learning theory / PAC learning (Valiant 1984, Turing Award 2010): a union bound over a finite hypothesis class H plus Hoeffding per hypothesis gives generalisation gap <= sqrt(ln(|H|/delta) / (2n)) with probability 1 - delta -- the founding guarantee of ML",
+    "the UCB1 multi-armed bandit (Auer-Cesa-Bianchi-Fischer 2002): the exploration bonus sqrt(2 ln t / n_i) added to each arm's empirical mean is a Hoeffding confidence radius -- deployed for ad selection and Yahoo front-page news recommendation (LinUCB, Li et al. 2010), adaptive clinical trials",
+    "Monte Carlo Tree Search / UCT (Kocsis-Szepesvari 2006): the same confidence bound is the tree-search selection rule -- the exploration mechanism inside AlphaGo",
+    "Hoeffding trees / VFDT (Domingos-Hulten 2000): a streaming decision tree splits a node once a Hoeffding bound certifies the best-looking attribute really is best -- real-time data-stream mining",
+    "differential privacy: the accuracy of a private mechanism (RAPPOR at Google, Apple's iOS telemetry, the 2020 US Census) is stated as a Hoeffding/Chernoff-type bound on the noise",
+  ],
+  "probability_integral_transform": [
+    "inverse-transform sampling: F^-1(U) with U ~ Uniform(0,1) draws from ANY distribution given only a uniform RNG -- the default method in every simulation library (numpy.random, R, Boost.Random) for exponential, Cauchy, discrete, and empirical distributions (Devroye 1986)",
+    "goodness-of-fit: if the model F is correct, the transformed data F(x_i) are Uniform(0,1) -- the basis of PP-plots and the Kolmogorov-Smirnov / Anderson-Darling tests",
+    "copula models in quantitative finance and hydrology: separate the marginals (via the PIT) from the dependence structure",
+  ],
+  "weak_law_large_numbers": [
+    "the theoretical basis of opinion polling and survey sampling: the sample proportion converges to the population value, and Chebyshev on the sample mean gives the margin of error",
+    "Monte Carlo integration: (1/n) sum g(U_i) -> integral g -- option pricing, path-traced rendering (every CG film), CERN detector simulation, Bayesian posterior expectations",
+    "Bernoulli's theorem (1713), the original: the relative frequency of an event converges to its probability -- the frequentist definition of probability, and the arithmetic behind casino and insurance solvency",
+  ],
+  "strong_law_large_numbers": [
+    "the almost-sure guarantee behind Monte Carlo: not just 'the average is probably close' but 'for almost every infinite run, the average converges' -- and Borel's normal-number theorem is the p=1/2 base-2 case",
+    "renewal theory: N(t)/t -> 1/E[interarrival time] a.s. -- the long-run rate of a queue, a replacement schedule, a Poisson-process sensor",
+    "the a.s. convergence of stochastic gradient descent to a stationary point under the Robbins-Monro step-size conditions",
+  ],
+  "convergence_in_distribution": [
+    "every asymptotic confidence interval and hypothesis test in classical statistics is a convergence-in-distribution statement about a test statistic (t, Wald, likelihood-ratio, score) -- FDA drug trials, econometrics, quality control, A/B testing",
+    "the continuous-mapping and Slutsky theorems that make this mode composable are the daily tools for deriving the asymptotic distribution of an estimator (van der Vaart 1998)",
+  ],
+  "normal_distribution": [
+    "thermal (Johnson-Nyquist) noise in every electronic receiver is Gaussian by the CLT -- the assumption that sets the design of all digital communication (Wi-Fi, LTE/5G, deep-space links) and the Shannon capacity formula",
+    "measurement-error theory: Gauss derived the normal density (1809) as the error law making the arithmetic mean the maximum-likelihood estimate of a star's position",
+    "the Black-Scholes model assumes log-returns are Gaussian; its systematic failure in market crashes is exactly where the CLT's finite-variance hypothesis breaks -- a textbook case of the capsule's cauchy_no_mean warning",
+    "the diffusion limit: a rescaled random walk converges to Brownian motion (Donsker's theorem), the bridge to the heat equation, population genetics, and the Black-Scholes PDE",
+  ],
+  "conditional_expectation_abstract": [
+    "E[X | features] is the target of all regression: the L^2-best predictor of X from the features -- least squares, random forests, and neural-net regression are all estimating this object",
+    "the Kalman filter and its nonlinear descendants (EKF, particle filters) recursively compute E[state | observations so far] -- GPS, aircraft/spacecraft navigation, robot SLAM, sensor fusion",
+    "risk-neutral pricing: the arbitrage-free price of a derivative is E_Q[discounted payoff | information now], a conditional expectation under the martingale measure",
+  ],
+  "tower_property": [
+    "the law of total expectation E[X] = E[E[X | Y]] is 'first-step analysis' -- computing an expected hitting time, a gambler's-ruin probability, an expected number of comparisons in a randomized algorithm, by conditioning on the first step",
+    "credit and actuarial models: expected loss = E[ E[loss | default scenario] ] -- iterate the conditioning over rating states, macro scenarios",
+    "the martingale property E[X_{n+1} | F_n] = X_n plus the tower gives E[X_m | F_n] = X_n for all m > n -- the backbone of optional-stopping and derivative pricing",
+  ],
+  "independence_random_variables": [
+    "naive Bayes classifiers assume the features are conditionally independent given the label -- the classic spam-filter deployment, and still a strong baseline for text classification",
+    "the whole toolkit for sums of independent variables (MGF/CF factorise, variances add, the CLT) rests on this definition -- risk aggregation, the bootstrap, randomized algorithm analysis",
+  ],
+}
 
 # ---------------------------------------------------------------- roots (logic)
 N("set_algebra", "primitive", "logic",

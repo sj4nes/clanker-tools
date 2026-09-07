@@ -41,6 +41,11 @@ convergence mode: ALMOST SURELY -- strictly stronger than the WLLN. A finite mea
 - believing the SLLN needs a finite variance (it does not -- only a finite mean)
 - the gambler's fallacy again
 
+## In the wild
+- the almost-sure guarantee behind Monte Carlo: not just 'the average is probably close' but 'for almost every infinite run, the average converges' -- and Borel's normal-number theorem is the p=1/2 base-2 case
+- renewal theory: N(t)/t -> 1/E[interarrival time] a.s. -- the long-run rate of a queue, a replacement schedule, a Poisson-process sensor
+- the a.s. convergence of stochastic gradient descent to a stationary point under the Robbins-Monro step-size conditions
+
 ## Related nodes (non-prerequisite)
 - strengthens: weak_law_large_numbers
 - uses: borel_cantelli_first

@@ -55,9 +55,11 @@ exit status) and on any supplied edge the emitted order violates.
 ## Interactive tutorials
 
 Both built with the [`theorem-tree-tutorial`](../theorem-tree-tutorial/SKILL.md)
-skill; a runnable check for each node and a runnable **counterexample** for each
-theorem; `upmd --ci --all` green (each has 17 blocks; the `lean_` beats need
-`lean` on `PATH` or they `SKIP`).
+skill; a runnable check for each node, a runnable **counterexample** for each
+theorem, and an **"In the wild"** beat after each milestone (prose from the
+node's `applications` field + a runnable `app_` block computing the real formula
+— the Bonferroni threshold, the PAC sample size, a Chernoff tail). `upmd --ci
+--all` green; the `lean_` beats need `lean` on `PATH` or they `SKIP`.
 
 - [`tutorial/three-axioms.md`](tutorial/three-axioms.md) — "Three axioms, and
   everything before random variables". The minimal path to `boole_inequality`

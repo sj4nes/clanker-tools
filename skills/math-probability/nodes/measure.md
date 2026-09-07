@@ -38,6 +38,10 @@ countable additivity is over a COUNTABLE disjoint family; the sum is a series in
 - forgetting sigma-finiteness for Radon-Nikodym / Fubini
 - treating mu(A) = inf results carelessly in subtractions
 
+## In the wild
+- measure-theoretic probability is the foundation under empirical process theory and the modern analysis of stochastic gradient descent (a.s. convergence, rates) -- Bottou-Curtis-Nocedal 2018
+- the pushforward / change-of-variables machinery is what normalising flows (RealNVP, Glow) exploit to turn a simple base measure into a complex learned density
+
 ## Related nodes (non-prerequisite)
 - specializes_to: probability_measure
 - generalizes: finitely additive set function

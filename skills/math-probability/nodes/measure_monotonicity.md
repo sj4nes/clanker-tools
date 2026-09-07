@@ -38,6 +38,10 @@ monotonicity uses mu(B) = mu(A) + mu(B \ A) >= mu(A); subadditivity disjointifie
 - expecting equality in the union bound (usually strict)
 - using it for mu(A \ B) = mu(A) - mu(B) without mu(B) < inf and B subset A
 
+## In the wild
+- the union bound P(bad_1 or ... or bad_n) <= sum P(bad_i) is the single most-used step in randomized-algorithm analysis: bounding the failure probability of a hashing scheme, a randomized rounding, a sketch
+- reliability engineering: a system fails if any component fails, so P(system failure) <= sum of component failure rates -- the standard conservative bound in an FMEA
+
 ## Related nodes (non-prerequisite)
 - used_by: boole_inequality, borel_cantelli_first
 

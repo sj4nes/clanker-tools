@@ -1,7 +1,7 @@
 # Symbol / keyword index (ptx discovery + rg confirmation)
 
 ptx -A -W over a cleaned concatenation of results/*.yaml + notation.md
-(`build/_ptx.raw`, 37480 rotations). Per the ptx skill this is a
+(`build/_ptx.raw`, 39712 rotations). Per the ptx skill this is a
 DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 
 ## sup
@@ -26,6 +26,7 @@ DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 - holder_inequality
 - independence_factorization
 - jensen_inequality
+- kolmogorov_axioms
 - limsup_liminf
 - lp_space
 - markov_inequality
@@ -116,6 +117,7 @@ DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 - random_variable
 - real_field
 - series_convergence
+- sigma_algebra
 - standard_normal
 - stochastic_process
 - strong_law_large_numbers
@@ -168,6 +170,8 @@ DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 - lotus
 - memorylessness
 - mgf
+- normal_distribution
+- probability_integral_transform
 - real_field
 - standard_normal
 - strong_law_large_numbers
@@ -215,10 +219,13 @@ DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 
 ## derivative
 - characteristic_function
+- conditional_expectation_abstract
 - convex_function
 - delta_method
 - hoeffding_lemma
+- kolmogorov_axioms
 - pdf
+- tower_property
 - transformation_univariate
 
 ## integrable

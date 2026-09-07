@@ -42,6 +42,12 @@ take a supporting line L(x) = phi(E[X]) + m(x - E[X]) <= phi(x) at the point E[X
 - assuming strict inequality without strict convexity AND a non-degenerate X
 - applying to phi convex only on part of the range of X
 
+## In the wild
+- information theory: Gibbs' inequality (KL divergence >= 0) IS Jensen applied to -log -- the source-coding theorem (the entropy bound behind every ZIP, PNG, FLAC) and channel capacity rest on it
+- the EM algorithm: the E-step maximises a Jensen lower bound on the log-likelihood -- how Gaussian mixture models, HMMs for speech recognition, and LDA topic models are trained (Dempster-Laird-Rubin 1977; Neal-Hinton 1998)
+- variational inference / the ELBO: the objective that trains variational autoencoders and Bayesian neural nets is a Jensen bound on log p(x) (Kingma-Welling 2013; Blei-Kucukelbir-McAuliffe 2017)
+- finance: 'volatility drag', E[log(1+R)] <= log(1+E[R]), is why a volatile asset compounds slower than its arithmetic mean suggests; and concave utility => a risk-averse agent prefers the mean to the gamble, which is why insurance markets exist
+
 ## Related nodes (non-prerequisite)
 - requires: convex_function
 - generalizes: variance >= 0, the moment ladder, AM-GM

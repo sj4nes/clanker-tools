@@ -37,6 +37,12 @@ common_misuse:
   - 'omitting the prior P(B_j) / using an implausible uniform prior by default'
   - 'forgetting the partition must be exhaustive -- a missing hypothesis silently absorbs probability'
   - 'iterating with correlated evidence as if it were conditionally independent (naive Bayes error)'
+applications:
+  - 'spam filtering: the naive-Bayes classifier (Sahami et al. 1998; Paul Graham "A Plan for Spam" 2002) ranks P(spam | words) by Bayes'' theorem with a conditional-independence assumption on the words -- the deployment that made statistical spam filtering standard'
+  - 'recursive Bayesian estimation: the Kalman filter and particle filters compute the posterior over a hidden state as each observation arrives -- GPS receivers, aircraft and spacecraft navigation, robot localisation and SLAM, sensor fusion in self-driving cars'
+  - 'medical screening: the base-rate correction P(disease | positive test) = sensitivity * prevalence / P(positive) -- the calculation clinicians (and juries: the prosecutor''s fallacy) routinely get wrong'
+  - 'codebreaking: Turing''s Banburismus at Bletchley Park scored Enigma rotor hypotheses by sequential Bayesian updating (log-odds "bans"), a direct ancestor of sequential analysis'
+  - 'Bayesian A/B testing and the forecast-calibration ledger in unknown-discovery -- posterior odds = likelihood ratio * prior odds, updated as evidence arrives'
 related:
   generalizes: [conditional_probability]
   special_case_of: [conditional_expectation_abstract]

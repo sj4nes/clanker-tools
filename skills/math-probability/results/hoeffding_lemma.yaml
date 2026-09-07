@@ -31,6 +31,8 @@ counterexamples_when_dropped:
 common_misuse:
   - 'applying it to unbounded variables'
   - 'forgetting to center first'
+applications:
+  - 'the single ingredient between Chernoff and Hoeffding''s inequality: it says a bounded random variable is sub-Gaussian, which is the hypothesis of essentially all of high-dimensional statistics and the analysis of stochastic optimisation (Wainwright 2019; Boucheron-Lugosi-Massart 2013)'
 related:
   requires: ['convex_function', 'mgf']
   used_by: ['hoeffding_inequality']

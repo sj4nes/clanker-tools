@@ -84,6 +84,17 @@ the one dropped-hypothesis failure>
 hypothesis but one, run the object, show the conclusion fail>
 ```
 
+### In the wild                       <!-- milestone nodes only -->
+
+<one paragraph from the node's `applications` field: 2-4 named systems/results
+and the mechanism>
+
+```bash [name:app_<node2>, deps:chk_<node2>]
+<the node's OWN formula at parameters from an applications entry -- e.g. the PAC
+bound at |H| = 1e6, the polling half-width at n = 1000; print it labelled,
+name the system. bc -l; tolerance comparisons, never `=`>
+```
+
 ## 3. <a result with a machine-checked core>
 
 <prose; one sentence on genuine-vs-instance>
@@ -138,6 +149,7 @@ code blocks.
 | `chk_<node_id>` | the "it works" beat — instance check, specialization, or a `bc` line from the capsule's worksheet |
 | `cx_<node_id>` | the hypothesis-dropped counterexample — one per theorem/lemma/proposition section |
 | `lean_<node_id>` | the kernel beat — for nodes with `lean_status: core`; heredoc + `lean` + exit check + `SKIP` guard |
+| `app_<node_id>` | the "In the wild" beat — *milestone nodes only*; the node's own formula at parameters from an `applications` entry, `deps:chk_<node_id>` |
 | `try_<node_id>` | optional parameterised "change an input" block, `deps:chk_<node_id>` |
 | `capstone` | end-to-end on the tutorial's single object |
 
@@ -152,6 +164,12 @@ hypothesis, it breaks), and — if `lean_status: core` — `lean_` (the kernel
 confirms the algebraic heart). A definition section is usually **one** `chk_`
 (the object made concrete). A `notation_convention` or `bridge` node folds into
 the next real section or gets a one-line `echo` block.
+
+**Milestone sections** (a `role: headline` node, a named rung, or the capstone)
+add, after the `cx_`/`lean_` blocks, a `### In the wild` heading with a short
+paragraph from the node's `applications` field, and — when an application is the
+node's own formula at real parameters — an `app_<node_id>` block that computes
+it. See [`references/authoring-from-nodes.md`](authoring-from-nodes.md#the-in-the-wild-beat-in-the-wild--optional-app_id).
 
 ## Static Artifact companion (only if requested)
 

@@ -187,6 +187,14 @@ builds on it.
 - **`bc`'s `n % 2` is scale-dependent** (from the `math-theorem-tree` fixes): at
   `scale > 0` it is not integer parity. Use a sign-flip variable or `scale=0`
   for parity.
+- **`bc` multiplication truncates *intermediate* products to `scale`.** A chain
+  like `2 * eps * eps` at `scale=0` collapses: `2 * 0.02 = 0.04`, then
+  `0.04 * 0.02 = 0.0008` truncated to scale 2 gives `0.00` → a later divide is
+  a divide-by-zero. This bites the `app_<id>` blocks (real formulas with small
+  parameters like `eps = 0.02`). Compute the whole expression at a high scale,
+  then truncate the final answer:
+  `echo "scale=8; x = ln($h/$delta) / (2 * $eps * $eps); scale=0; x/1 + 1" | bc -l`.
+  `l()`, `e()`, `sqrt()` also need `scale > 0` to produce anything.
 - **`awk` is available** and is the right tool for a counterexample that needs a
   real loop with floats (e.g. scanning `sin n`), as in `hole-in-the-rationals`
   §9 — `bash`+`bc` in a `while` is fine for bisection but slow for `10^6`

@@ -38,6 +38,11 @@ no independence needed. P(limsup A_n) = P(bigcap_N bigcup_{n>=N} A_n) <= P(bigcu
 - thinking it needs independence (it does not)
 - concluding P(A_n i.o.) > 0 from sum P(A_n) = inf without independence
 
+## In the wild
+- the standard route from a convergence RATE to almost-sure convergence: if sum_n P(|X_n - X| > eps) < inf then X_n -> X a.s. -- used to prove a.s. convergence of stochastic gradient descent and of stochastic approximation (Robbins-Monro)
+- the proof of the strong law of large numbers (Etemadi) and of the law of the iterated logarithm
+- metric number theory: 'almost every real is normal in every base' (Borel 1909) is a Borel-Cantelli argument
+
 ## Related nodes (non-prerequisite)
 - dual_of: borel_cantelli_second
 - used_by: strong_law_large_numbers, convergence_implications

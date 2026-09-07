@@ -31,6 +31,10 @@ counterexamples_when_dropped:
 common_misuse:
   - 'expecting near-equality when the A_n overlap a lot'
   - 'applying to an uncountable family'
+applications:
+  - 'the probabilistic method (Erdos): to show an object with no ''bad'' feature exists, bound P(some bad feature) <= sum P(bad_i) < 1 -- first lower bounds on Ramsey numbers, existence of good error-correcting codes and expanders'
+  - 'the Bonferroni / family-wise error rate control in multiple testing -- clinical trials with several endpoints, A/B platforms running many metrics'
+  - 'load balancing: ''n balls in n bins, max load O(log n / log log n) w.h.p.'' is a union bound over bins of a per-bin Chernoff estimate -- hash tables, consistent hashing (Akamai, Chord)'
 related:
   generalizes: ['finite_additivity (as a bound)']
   used_by: ['borel_cantelli_first', 'convergence_implications']

@@ -40,6 +40,12 @@ common_misuse:
   - 'applying it to a fixed n as if mean_n were exactly normal'
   - 'using it for the maximum or the sum of heavy-tailed variables (extreme-value / stable laws govern those)'
   - 'reading -->^{d} as almost-sure or in-probability convergence of the standardized sum -- it is neither (the standardized sum has no a.s. limit)'
+applications:
+  - 'the polling margin of error +-1.96/sqrt(n) and every asymptotic z-/t-test and confidence interval in classical statistics -- FDA clinical trials, econometrics, industrial quality control, and the "reached significance" claim on an A/B platform'
+  - 'signal processing: thermal (Johnson-Nyquist) noise, quantisation error, and shot noise are sums of many small independent contributions and are modelled as Gaussian -- this fixes the design of radio receivers, ADCs, Kalman filters, and the Shannon capacity formula'
+  - 'the delta method (CLT + Slutsky) delivers the standard error of a sample correlation, an odds ratio, an R^2 -- the everyday calculation of applied statistics (van der Vaart 1998)'
+  - 'the diffusion limit: Donsker''s theorem upgrades the CLT to "a rescaled random walk converges to Brownian motion", the bridge to the heat equation, population genetics, and the Black-Scholes PDE'
+  - 'its failure is equally consequential: Berry-Esseen bounds the CDF error at O(1/sqrt n), worst in the tails, so a 5-sigma claim from a finite or heavy-tailed sample (financial returns, network latency) is exactly where the finite-variance hypothesis should be distrusted -- see cauchy_no_mean'
 related:
   strengthened_by: [lindeberg_clt, berry_esseen]
   uses: [levy_continuity_theorem]

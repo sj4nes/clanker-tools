@@ -40,6 +40,11 @@ the smaller sigma-algebra wins: conditioning on more then less information equal
 - applying it to non-nested conditioning sigma-algebras
 - writing E[E[X|G]|H] = E[X|G] (wrong -- the OUTER, smaller one wins)
 
+## In the wild
+- the law of total expectation E[X] = E[E[X | Y]] is 'first-step analysis' -- computing an expected hitting time, a gambler's-ruin probability, an expected number of comparisons in a randomized algorithm, by conditioning on the first step
+- credit and actuarial models: expected loss = E[ E[loss | default scenario] ] -- iterate the conditioning over rating states, macro scenarios
+- the martingale property E[X_{n+1} | F_n] = X_n plus the tower gives E[X_m | F_n] = X_n for all m > n -- the backbone of optional-stopping and derivative pricing
+
 ## Related nodes (non-prerequisite)
 - generalizes: law_of_total_probability
 - used_by: law_of_total_variance, martingale

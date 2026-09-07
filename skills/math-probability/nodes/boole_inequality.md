@@ -38,6 +38,11 @@ the countable subadditivity of P; disjointify B_n = A_n minus (A_1 cup ... cup A
 - expecting near-equality when the A_n overlap a lot
 - applying to an uncountable family
 
+## In the wild
+- the probabilistic method (Erdos): to show an object with no 'bad' feature exists, bound P(some bad feature) <= sum P(bad_i) < 1 -- first lower bounds on Ramsey numbers, existence of good error-correcting codes and expanders
+- the Bonferroni / family-wise error rate control in multiple testing -- clinical trials with several endpoints, A/B platforms running many metrics
+- load balancing: 'n balls in n bins, max load O(log n / log log n) w.h.p.' is a union bound over bins of a per-bin Chernoff estimate -- hash tables, consistent hashing (Akamai, Chord)
+
 ## Related nodes (non-prerequisite)
 - generalizes: finite_additivity (as a bound)
 - used_by: borel_cantelli_first, convergence_implications

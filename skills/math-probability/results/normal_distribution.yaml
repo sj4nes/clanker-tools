@@ -34,6 +34,11 @@ common_misuse:
   - 'assuming normality for skewed or heavy-tailed data'
   - 'using sigma where sigma^2 is the parameter'
   - 'treating a large-sample CLT approximation as exact in the tails (Berry-Esseen: the error is O(1/sqrt n) and worst in the tails)'
+applications:
+  - 'thermal (Johnson-Nyquist) noise in every electronic receiver is Gaussian by the CLT -- the assumption that sets the design of all digital communication (Wi-Fi, LTE/5G, deep-space links) and the Shannon capacity formula'
+  - 'measurement-error theory: Gauss derived the normal density (1809) as the error law making the arithmetic mean the maximum-likelihood estimate of a star''s position'
+  - 'the Black-Scholes model assumes log-returns are Gaussian; its systematic failure in market crashes is exactly where the CLT''s finite-variance hypothesis breaks -- a textbook case of the capsule''s cauchy_no_mean warning'
+  - 'the diffusion limit: a rescaled random walk converges to Brownian motion (Donsker''s theorem), the bridge to the heat equation, population genetics, and the Black-Scholes PDE'
 related:
   standardizes_to: ['standard_normal']
   closed_under: ['normal_affine_closure']

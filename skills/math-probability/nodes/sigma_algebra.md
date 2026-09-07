@@ -36,6 +36,10 @@ closure is under COUNTABLE unions, not arbitrary; the three axioms give closure 
 - assuming closure under arbitrary unions
 - treating every subset of an uncountable Omega as an event
 
+## In the wild
+- stochastic calculus: the filtration (F_t) is an increasing family of sigma-algebras modelling information over time -- the object Ito integration and the Black-Scholes derivation are built on (Karatzas-Shreve 1991)
+- the reason a probability model on [0,1] cannot use every subset: the Vitali / Banach-Tarski constructions force F = B(R), and every rigorous statement about a continuous random variable is implicitly relative to it
+
 ## Related nodes (non-prerequisite)
 - generalizes: algebra of sets (finite closure only)
 - special_case_of: Dynkin lambda-system + closure under intersection

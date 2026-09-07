@@ -326,6 +326,28 @@ fi
 rm -rf "$d"
 ```
 
+### In the wild
+
+The union bound is the **first-moment method** (Erdős): to prove an object with
+no bad feature exists, bound `P(some bad feature) ≤ Σ P(bad_i) < 1` — the first
+lower bounds on Ramsey numbers, and the existence of good error-correcting codes
+and expander graphs. As the **Bonferroni correction** it controls the
+family-wise error rate when many hypotheses are tested at once; and "n balls in
+n bins, max load `O(log n / log log n)` w.h.p." — the analysis behind hash
+tables and consistent hashing — is a union bound over bins.
+
+```bash [name:app_boole_inequality, deps:chk_boole_inequality]
+# Bonferroni: to keep the chance of ANY false positive below alpha across m tests,
+# test each at alpha / m.  Genome-wide association studies run ~1e6 SNP tests.
+alpha="0.05"; m=1000000
+per_test=$(echo "scale=12; $alpha / $m" | bc -l)
+echo "family-wise alpha = $alpha  across  m = $m  independent tests:"
+echo "  Bonferroni per-test threshold = alpha/m = $per_test"
+echo "  (this is the 5e-8 'genome-wide significance' line in GWAS)"
+# and the union-bound guarantee it buys:
+echo "  P(>= 1 false positive) <= m * (alpha/m) = $alpha   (union bound, any dependence)"
+```
+
 ```bash [name:tight_boole_inequality, deps:chk_boole_inequality]
 # the boundary case: DISJOINT events => the bound is an equality  (exact sixths)
 p_a=2; p_b=2; p_c=2                              # A={1,2}, B={3,4}, C={5,6}
@@ -343,7 +365,7 @@ echo "  P(A)+P(B)+P(C) = $p_sum/6   ==   P(A cup B cup C) = $p_union/6"
 One die, one question: *what is the chance a single roll lands in
 `A = {1,2,3}`, `B = {3,4}`, or `C = {4,5,6}`?*
 
-```bash [name:capstone, deps:"chk_boole_inequality | cx_kolmogorov_axioms | lean_boole_inequality"]
+```bash [name:capstone, deps:"chk_boole_inequality | cx_kolmogorov_axioms | lean_boole_inequality | app_boole_inequality"]
 echo "================================================================"
 echo "  Omega = {1..6},  F = 2^Omega,  P({k}) = 1/6"
 echo "================================================================"
@@ -370,6 +392,10 @@ echo "  drops out -- no random variable, no expectation, no independence needed.
 echo "  Countable additivity did no work here (Omega is finite) -- but strip it"
 echo "  [cx_kolmogorov_axioms] and the theory past this point collapses."
 echo "  Every step above is choice_free and constructive."
+echo
+echo "  IN THE WILD: this exact bound, P(union) <= sum, is the first-moment method"
+echo "  (existence proofs for codes and expanders), the Bonferroni correction"
+echo "  [app_boole_inequality], and the balls-in-bins analysis behind hash tables."
 ```
 
 ## Where to go next

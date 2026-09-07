@@ -178,6 +178,10 @@ counterexamples_when_dropped:
 common_misuse:
   - 'claiming the whole sequence converges'
   - 'applying in infinite dimensions'
+applications:            # OPTIONAL. Where the result is deployed in practice.
+  - 'named system or paper: the mechanism, i.e. HOW this exact result is used'
+  - 'e.g. "UCB1 bandit (Auer et al. 2002): the exploration radius sqrt(2 ln t / n_i)
+     is a Hoeffding confidence interval -- ad selection, Yahoo news (LinUCB)"'
 sources: [rudin_principles_3e, tao_analysis_I]
 status: reviewed
 checks:
@@ -193,6 +197,17 @@ For a **definition** or **axiom** node, `status_label` is `definition` /
 representative, existence and uniqueness of the object defined) and
 `equivalent_forms` (other definitions of the same concept, each with a pointer
 to the equivalence lemma node).
+
+**`applications`** (optional, most valuable on `headline`-role nodes): a short
+list of places the result is *actually deployed* — a named system, algorithm, or
+published result, plus the **mechanism** (how this exact statement is used).
+Same evidentiary standard as `sources`: name a paper or a real system, never
+"used in industry". This is operational knowledge about the result, in the same
+category as `common_misuse`; it also lets `theorem-tree-tutorial` render an
+"In the wild" beat after each milestone. Where an application is literally the
+node's own formula at real-world parameters (the PAC sample-complexity bound,
+the polling margin of error), that is a *specialization* and a tutorial may make
+it a runnable block.
 
 ## `validation/graph-check.sh`
 

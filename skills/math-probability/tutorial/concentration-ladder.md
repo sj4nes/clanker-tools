@@ -145,6 +145,16 @@ echo "  for a signed X you must centre and take |.|  (that is the next rung)."
 ok=$(echo "$p_tail > $e_over_a" | bc -l); [ "$ok" = 1 ] || { echo "FAIL"; exit 1; }
 ```
 
+### In the wild
+
+Markov is rarely quoted raw, but it is the base of everything above it and of
+the **probabilistic method** (Erdős): to prove an object with no bad feature
+exists, show `E[# bad features] < 1`, so `P(≥1 bad) < 1` by Markov — the first
+lower bounds on Ramsey numbers and the existence proofs for good
+error-correcting codes and expander graphs. In algorithm analysis, "expected
+time `T`" plus Markov gives "time `≤ 2T` with probability `≥ ½`", then
+independent repetition amplifies.
+
 ## 2. Chebyshev — Markov on the squared deviation
 
 **`chebyshev_inequality`**: if `Var(X) < ∞` and `k > 0`, then
@@ -210,6 +220,26 @@ echo "The Cauchy tail is 1/k, not 1/k^2. No finite variance => no Chebyshev boun
 c10=$(echo "scale=6; 10 * $p10" | bc -l)
 echo "  k * P(|X| >= k) at k=10 : $c10   (-> 2/pi = $(echo "scale=6; 2/$PI" | bc -l), a constant)"
 ok=$(echo "$r < 3" | bc -l); [ "$ok" = 1 ] || { echo "FAIL: expected ~1/k, not ~1/k^2"; exit 1; }
+```
+
+### In the wild
+
+Chebyshev on the sample mean *is* the weak law of large numbers, so the **margin
+of error in every opinion poll** traces back to this inequality. It also powers
+one-pass **streaming algorithms**: the AMS frequency-moment sketch (Alon–Matias–
+Szegedy, 2005 Gödel Prize) bounds its estimator with Chebyshev, then "median of
+means" boosts confidence — HyperLogLog, the unique-visitor counter in Redis,
+BigQuery, and Presto, is a descendant.
+
+```bash [name:app_chebyshev_inequality, deps:chk_chebyshev_inequality]
+# Chebyshev sample size for a poll: P(|Xbar - p| >= eps) <= Var(Xbar)/eps^2
+#   <= (1/4)/(n eps^2) <= delta   =>   n >= 1/(4 delta eps^2)
+eps="0.03"; delta="0.05"
+# NB: compute at high scale (bc truncates intermediate products), round up at the end
+n=$(echo "scale=8; x = 1 / (4 * $delta * $eps * $eps); scale=0; x/1 + 1" | bc -l)
+echo "poll to within eps = $eps at 95% confidence, distribution-free (Chebyshev):"
+echo "  n >= 1/(4 delta eps^2) = $n respondents"
+echo "  (the CLT / Hoeffding refine this by ~10x -- see the capstone)"
 ```
 
 ## 3. Jensen — the convexity that makes Chernoff possible
@@ -285,6 +315,31 @@ echo "  for concave phi you get phi(E[X]) >= E[phi(X)]."
 ok=$(echo "$lhs > $rhs" | bc -l); [ "$ok" = 1 ] || { echo "FAIL"; exit 1; }
 ```
 
+### In the wild
+
+Jensen on `−log` is **Gibbs' inequality** — the KL divergence is `≥ 0` — which is
+the entropy bound behind every ZIP, PNG, and FLAC, and the reason the **EM
+algorithm** (Gaussian mixtures, speech HMMs, topic models) and the **ELBO** that
+trains variational autoencoders both work: each maximises a Jensen lower bound
+on a log-likelihood. In finance, `E[log(1+R)] ≤ log(1+E[R])` is "volatility
+drag"; concave utility is why risk-averse agents buy insurance.
+
+```bash [name:app_jensen_inequality, deps:chk_jensen_inequality]
+# Gibbs' inequality: KL(p || q) = sum p_i log(p_i / q_i) >= 0, with equality iff p = q.
+# p = true letter frequencies (toy), q = a wrong model.
+echo "KL(p || q) = sum p_i ln(p_i / q_i)  for two 4-symbol distributions:"
+kl=$(echo "scale=8
+  p[0]=0.4; p[1]=0.3; p[2]=0.2; p[3]=0.1
+  q[0]=0.25; q[1]=0.25; q[2]=0.25; q[3]=0.25
+  s = 0
+  for (i = 0; i < 4; i++) s += p[i] * l(p[i]/q[i])
+  s" | bc -l)
+echo "  KL(p || uniform) = $kl  nats   (>= 0, and > 0 since p != uniform)"
+echo "  => you cannot compress p-distributed data below H(p); a wrong model q costs"
+echo "     exactly KL(p||q) extra nats per symbol."
+ok=$(echo "$kl > 0" | bc -l); [ "$ok" = 1 ] || { echo "FAIL: KL must be >= 0"; exit 1; }
+```
+
 ## 4. Chernoff — Markov on `e^{tX}`, then optimise
 
 **`chernoff_bound`**: for any `X` with an MGF and any `a`,
@@ -336,6 +391,29 @@ echo "   only the polynomial bounds (Markov/Chebyshev/moment) can say anything."
 big=$(echo "$prev > 5" | bc -l); [ "$big" = 1 ] || { echo "FAIL: expected divergence"; exit 1; }
 ```
 
+### In the wild
+
+Chernoff bounds are *the* tool of randomized-algorithm analysis: **randomized
+rounding** (LP relaxation → round → Chernoff shows near-optimality) for routing
+and scheduling; the **Johnson–Lindenstrauss lemma** (`k = O(ε⁻² log n)` random
+projections preserve all pairwise distances — a Chernoff bound on a χ²) behind
+nearest-neighbour search and compressed sensing; the **error exponent** in
+Shannon's coding theorems; and committee-based blockchains (Algorand, Ouroboros)
+bounding an adversary's chance of capturing a random committee.
+
+```bash [name:app_chernoff_bound, deps:chk_chernoff_bound]
+# Johnson-Lindenstrauss: to embed n points into R^k with all pairwise distances
+# within (1 +- eps), it suffices that k >= (8 / eps^2) * ln(n)  (a Chernoff bound).
+for npts in 1000 1000000; do
+  for eps in 0.1 0.3; do
+    k=$(echo "scale=8; x = (8 / ($eps * $eps)) * l($npts); scale=0; x/1 + 1" | bc -l)
+    echo "  n = $npts points, eps = $eps :  k >= (8/eps^2) ln n = $k dimensions"
+  done
+done
+echo "  ^ independent of the original dimension -- 1e6 points compress to a few"
+echo "    thousand coordinates with distances essentially intact."
+```
+
 ## 5. Hoeffding's lemma — a bounded, centred variable is sub-Gaussian
 
 **`hoeffding_lemma`**: if `a ≤ X ≤ b` almost surely and `E[X] = 0`, then
@@ -360,6 +438,13 @@ done
 echo "(b-a)^2 / 8 = 4/8 = 1/2, so the sub-Gaussian parameter is (b-a)/2 = 1 -- exact"
 echo "for this symmetric law."
 ```
+
+### In the wild
+
+"Bounded ⇒ sub-Gaussian" is the hypothesis under essentially all of
+high-dimensional statistics and the analysis of stochastic optimisation
+(Wainwright 2019). It is the single ingredient added between the Chernoff bound
+and Hoeffding's inequality below.
 
 ```bash [name:cx_hoeffding_lemma, deps:chk_hoeffding_lemma]
 # drop boundedness: X = Y - 1 with Y ~ Exponential(1).  E[X] = 0, but X in [-1, infinity).
@@ -427,6 +512,34 @@ echo "  without independence; Azuma / McDiarmid handle bounded-difference depend
 ok=$(echo "$actual > $hoeff" | bc -l); [ "$ok" = 1 ] || { echo "FAIL"; exit 1; }
 ```
 
+### In the wild
+
+Hoeffding's inequality is the bound of machine learning: the **PAC generalisation
+guarantee** (Valiant, Turing Award) — a union bound over a hypothesis class plus
+Hoeffding per hypothesis — and the confidence radius in the **UCB bandit**
+(ad selection, Yahoo front-page news via LinUCB), which is also the selection
+rule in the **Monte Carlo Tree Search inside AlphaGo** (UCT). Streaming
+**Hoeffding trees** split a decision-tree node once the bound certifies the
+winning attribute; **differential privacy** (RAPPOR, Apple telemetry, the 2020
+US Census) states its accuracy this way.
+
+```bash [name:app_hoeffding_inequality, deps:chk_hoeffding_inequality]
+# PAC: how many labelled examples to pick the best of |H| candidate rules,
+# to within eps error, with confidence 1 - delta?   n >= ln(|H|/delta) / (2 eps^2)
+eps="0.02"; delta="0.05"
+for h in 1000 1000000; do
+  n=$(echo "scale=8; x = l($h / $delta) / (2 * $eps * $eps); scale=0; x/1 + 1" | bc -l)
+  echo "  |H| = $h , eps = $eps , 95% conf :  n >= ln(|H|/delta)/(2 eps^2) = $n examples"
+done
+# the UCB exploration radius as a bandit run progresses (arm pulled n_i of t rounds):
+echo
+for t in 100 10000 1000000; do
+  ni=$(( t / 10 ))
+  radius=$(echo "scale=4; sqrt(2 * l($t) / $ni)" | bc -l)
+  echo "  UCB radius at t = $t, arm pulled $ni times :  sqrt(2 ln t / n_i) = $radius"
+done
+```
+
 ---
 
 ## Capstone — how many samples?
@@ -434,7 +547,7 @@ ok=$(echo "$actual > $hoeff" | bc -l); [ "$ok" = 1 ] || { echo "FAIL"; exit 1; }
 *You want to estimate a coin's bias `p` to within `ε = 0.05`, with 99%
 confidence (`δ = 0.01`). How many flips?*
 
-```bash [name:capstone, deps:"chk_hoeffding_inequality | cx_hoeffding_inequality | lean_markov_inequality"]
+```bash [name:capstone, deps:"chk_hoeffding_inequality | cx_hoeffding_inequality | lean_markov_inequality | app_hoeffding_inequality"]
 eps="0.05"; delta="0.01"
 echo "================================================================"
 echo "  estimate p to within eps = $eps at confidence 1 - delta = 0.99"
@@ -464,6 +577,18 @@ echo
 echo "  VERDICT: every rung is Markov wearing a different coat. The first three"
 echo "  have a kernel-checked core in the capsule; the exponential rungs are"
 echo "  cited (they need exp/log). All six are choice_free."
+echo
+echo "  IN THE WILD, all six rungs at once: the same sample-size arithmetic sets"
+echo "  n for an A/B test, the width of a bandit's confidence interval (ad"
+echo "  selection, AlphaGo's tree search), the target dimension of a random"
+echo "  projection (nearest-neighbour search), and the PAC guarantee that a"
+echo "  trained model generalises."
+echo
+echo "  WHERE IT BITES BACK: every rung needs its hypothesis. Recommender bandits"
+echo "  misbehave when arms are not independent [cx_hoeffding_inequality]; a"
+echo "  Chebyshev/CLT bound on financial losses is worthless when the loss has no"
+echo "  finite variance [cx_chebyshev_inequality -- the 2008 tail]; and a"
+echo "  concentration bound on a heavy-tailed metric is a false promise."
 ```
 
 ## Where to go next

@@ -38,6 +38,10 @@ the sets { X_i in B_i } for B_i Borel form a generating pi-system for sigma(X_i)
 - inferring independence from zero correlation (uncorrelated_not_independent)
 - assuming a function of ALL the X_i stays independent of another such function
 
+## In the wild
+- naive Bayes classifiers assume the features are conditionally independent given the label -- the classic spam-filter deployment, and still a strong baseline for text classification
+- the whole toolkit for sums of independent variables (MGF/CF factorise, variances add, the CLT) rests on this definition -- risk aggregation, the bootstrap, randomized algorithm analysis
+
 ## Related nodes (non-prerequisite)
 - special_case: iid
 - checked_by: independence_factorization

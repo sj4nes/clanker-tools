@@ -30,6 +30,10 @@ counterexamples_when_dropped:
 common_misuse:
   - 'thinking it needs independence (it does not)'
   - 'concluding P(A_n i.o.) > 0 from sum P(A_n) = inf without independence'
+applications:
+  - 'the standard route from a convergence RATE to almost-sure convergence: if sum_n P(|X_n - X| > eps) < inf then X_n -> X a.s. -- used to prove a.s. convergence of stochastic gradient descent and of stochastic approximation (Robbins-Monro)'
+  - 'the proof of the strong law of large numbers (Etemadi) and of the law of the iterated logarithm'
+  - 'metric number theory: ''almost every real is normal in every base'' (Borel 1909) is a Borel-Cantelli argument'
 related:
   dual_of: ['borel_cantelli_second']
   used_by: ['strong_law_large_numbers', 'convergence_implications']

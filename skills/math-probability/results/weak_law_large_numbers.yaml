@@ -37,6 +37,10 @@ common_misuse:
   - 'claiming a.s. convergence (that is the SLLN, which also only needs a finite mean)'
   - 'a rate: the WLLN gives no explicit n; use Chebyshev/Hoeffding for that'
   - 'the gambler''s fallacy: Xbar_n -> mu does NOT mean the SUM sum(X_i - mu) stays bounded (it grows like sqrt(n))'
+applications:
+  - 'the theoretical basis of opinion polling and survey sampling: the sample proportion converges to the population value, and Chebyshev on the sample mean gives the margin of error'
+  - 'Monte Carlo integration: (1/n) sum g(U_i) -> integral g -- option pricing, path-traced rendering (every CG film), CERN detector simulation, Bayesian posterior expectations'
+  - 'Bernoulli''s theorem (1713), the original: the relative frequency of an event converges to its probability -- the frequentist definition of probability, and the arithmetic behind casino and insurance solvency'
 related:
   strengthened_by: ['strong_law_large_numbers']
   uses: ['chebyshev_inequality']

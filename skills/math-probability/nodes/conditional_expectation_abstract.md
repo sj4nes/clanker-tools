@@ -41,6 +41,11 @@ the defining property is (i) measurability + (ii) matching integrals on G-sets; 
 - computing integral_A Z = integral_A X only for A generating G, without checking it is a pi-system (then pi-lambda is needed)
 - treating E[X | G] as defined pointwise (it is an a.s. equivalence class)
 
+## In the wild
+- E[X | features] is the target of all regression: the L^2-best predictor of X from the features -- least squares, random forests, and neural-net regression are all estimating this object
+- the Kalman filter and its nonlinear descendants (EKF, particle filters) recursively compute E[state | observations so far] -- GPS, aircraft/spacecraft navigation, robot SLAM, sensor fusion
+- risk-neutral pricing: the arbitrage-free price of a derivative is E_Q[discounted payoff | information now], a conditional expectation under the martingale measure
+
 ## Related nodes (non-prerequisite)
 - exists_by: conditional_expectation_existence
 - generalizes: conditional_expectation_elementary, law_of_total_probability

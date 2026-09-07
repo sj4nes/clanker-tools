@@ -40,6 +40,12 @@ for fixed t > 0, { X >= a } = { e^{tX} >= e^{ta} }; apply Markov to the nonnegat
 - applying it when the MGF does not exist
 - using t <= 0 for an upper-tail bound
 
+## In the wild
+- randomized rounding (Raghavan-Thompson 1987): solve an LP relaxation, round each variable independently, Chernoff shows the integral solution is within (1+eps) of optimal w.h.p. -- approximation algorithms for routing, scheduling, VLSI
+- the Johnson-Lindenstrauss lemma: k = O(eps^-2 log n) random projections preserve all pairwise distances among n points -- the proof is a Chernoff bound on a chi-squared; used in nearest-neighbour search, LSH, compressed sensing
+- information theory: the Chernoff / Cramer exponent IS the error exponent -- how fast decoding-error probability decays with block length (Shannon's coding theorems)
+- committee-based blockchains (Algorand, Ouroboros Praos): Chernoff bounds the probability that an adversary controlling a fraction of the stake wins a majority of a randomly-sampled committee
+
 ## Related nodes (non-prerequisite)
 - derives_from: markov_inequality
 - sharpens: chebyshev_inequality

@@ -32,6 +32,11 @@ common_misuse:
   - 'using it when a sharper bound (Chernoff / Hoeffding, needing more than 2 moments or boundedness) is available -- Chebyshev gives only polynomial tails'
   - 'forgetting it is two-sided; the one-sided version is Cantelli''s inequality, Var/(Var + k^2)'
   - 'applying it to a variable whose variance is infinite or undefined'
+applications:
+  - 'the weak law of large numbers is proved by Chebyshev on the sample mean -- so the margin of error in every opinion poll and survey traces back to this inequality (Chebyshev 1867; Bienayme 1853)'
+  - 'streaming / sketching algorithms: the AMS frequency-moment sketch (Alon-Matias-Szegedy 1996, 2005 Godel Prize) bounds its estimator error with Chebyshev, then "median of means" boosts the confidence -- HyperLogLog (unique-visitor counts in Redis, BigQuery, Presto) is a descendant'
+  - 'distribution-free quality control (Six Sigma): when normality cannot be assumed, "at least 1 - 1/c^2 of the mass is within c standard deviations" is the guarantee that still holds'
+  - 'the Chebyshev-Cantelli one-sided form Var/(Var+k^2) is a standard conservative bound on the probability of a large portfolio loss from the variance alone'
 related:
   special_case_of: [markov_inequality]
   strengthened_by: [chernoff_bound, hoeffding_inequality]

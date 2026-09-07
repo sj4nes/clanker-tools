@@ -40,6 +40,11 @@ the inverse direction (F^{-1}(U) ~ F) needs NO continuity and is the basis of si
 - applying the forward direction to a discrete or mixed X
 - forgetting to use the generalized inverse for non-invertible F
 
+## In the wild
+- inverse-transform sampling: F^-1(U) with U ~ Uniform(0,1) draws from ANY distribution given only a uniform RNG -- the default method in every simulation library (numpy.random, R, Boost.Random) for exponential, Cauchy, discrete, and empirical distributions (Devroye 1986)
+- goodness-of-fit: if the model F is correct, the transformed data F(x_i) are Uniform(0,1) -- the basis of PP-plots and the Kolmogorov-Smirnov / Anderson-Darling tests
+- copula models in quantitative finance and hydrology: separate the marginals (via the PIT) from the dependence structure
+
 ## Related nodes (non-prerequisite)
 - used_by: simulation (inversion sampling)
 - requires: quantile_function

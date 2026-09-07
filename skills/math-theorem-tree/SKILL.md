@@ -85,7 +85,10 @@ hypothesis-dropped counterexamples**, **`lean` → primary verification tool**.
   nonzero divisor, well-definedness, convergence); ≥1 specialization / boundary
   check; ≥1 counterexample showing a named hypothesis cannot be dropped; a
   **proof provenance** (technique, what it derives from, Lean status); ≥1
-  authoritative source.
+  authoritative source; and — optionally, most valuable on `headline` nodes —
+  an **`applications`** list: where the result is *deployed* (a named system,
+  algorithm, or published result, plus the mechanism), held to the same
+  evidentiary standard as `sources`.
 - **A well-typed statement can still be false.** The type check is necessary,
   not sufficient. A plausible statement can fail on a constant, a strictness, a
   quantifier order, or a missing hypothesis.

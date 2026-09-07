@@ -26,6 +26,9 @@ common_misuse:
   - 'expecting F_{X_n}(x) -> F_X(x) at jump points of F_X'
   - 'concluding X_n -> X in probability (only true when X is a constant)'
   - 'reading ''X_n -> X in distribution'' as any statement about X_n(omega)'
+applications:
+  - 'every asymptotic confidence interval and hypothesis test in classical statistics is a convergence-in-distribution statement about a test statistic (t, Wald, likelihood-ratio, score) -- FDA drug trials, econometrics, quality control, A/B testing'
+  - 'the continuous-mapping and Slutsky theorems that make this mode composable are the daily tools for deriving the asymptotic distribution of an estimator (van der Vaart 1998)'
 related:
   implied_by: ['convergence_in_probability']
   characterized_by: ['portmanteau_theorem', 'levy_continuity_theorem']

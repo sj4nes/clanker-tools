@@ -39,6 +39,9 @@ by convexity of x |-> e^{tx} on [a, b], e^{tX} <= (b - X)/(b - a) e^{ta} + (X - 
 - applying it to unbounded variables
 - forgetting to center first
 
+## In the wild
+- the single ingredient between Chernoff and Hoeffding's inequality: it says a bounded random variable is sub-Gaussian, which is the hypothesis of essentially all of high-dimensional statistics and the analysis of stochastic optimisation (Wainwright 2019; Boucheron-Lugosi-Massart 2013)
+
 ## Related nodes (non-prerequisite)
 - requires: convex_function, mgf
 - used_by: hoeffding_inequality

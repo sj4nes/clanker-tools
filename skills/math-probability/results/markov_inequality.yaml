@@ -33,6 +33,10 @@ common_misuse:
   - 'applying it to a signed variable without centring or taking absolute values'
   - 'expecting tightness -- Markov is usually very loose; it is tight only for two-point {0, a} distributions'
   - 'reading it as a lower bound'
+applications:
+  - 'the first-moment method / probabilistic method (Erdos): to prove an object with no bad feature exists, show E[number of bad features] < 1, so P(>=1 bad feature) < 1 by Markov -- the first lower bounds on Ramsey numbers, and existence proofs for good error-correcting codes and expander graphs'
+  - 'the base case of essentially every concentration argument: Chebyshev is Markov on (X-mu)^2, Chernoff is Markov on e^{tX} -- so Markov is (indirectly) behind PAC learning, bandits, and randomized-algorithm analysis'
+  - 'randomized algorithm runtime: "expected time T" + Markov => "time <= 2T with probability >= 1/2", then independent repetition amplifies the confidence'
 related:
   generalizes: [chebyshev_inequality, chernoff_bound]
   strengthens: []
