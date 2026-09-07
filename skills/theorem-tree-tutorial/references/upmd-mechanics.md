@@ -72,6 +72,14 @@ that have a block.
 - Use `bash` calling `bc`. For `sqrt`, `s()`, `c()`, `a()` (atan), `l()`,
   `e()`, or `pi` via `4*a(1)`, invoke **`bc -l`**.
 - `bc` truncates; it does not round. Set `scale=` explicitly. See the `bc` skill.
+- **Probabilities and rationals: work in integer counts ("k out of N"), not
+  decimals.** `echo "scale=6; 1/6" | bc` gives `.166666`, and `6 * .166666`
+  gives `.999996` — an equality guard against `1` then fails. This is the same
+  "k out of N" convention the capsule's Lean file uses (`P(A)` as an integer
+  numerator over a fixed `N`). Compare numerators with bash `$(( ))` or
+  `[ "$a" -le "$b" ]`; show the fraction (`$n/6`) only in the echo text. Reach
+  for `bc` decimals only where the quantity is genuinely irrational (a `√2`
+  bisection, a normal-CDF value) — and then compare with a tolerance, never `=`.
 - **uppercase and leading-`_` identifiers break `bc`**: `A`, `Pr`, `_x` fail;
   `amp`, `pr`, `x_1` are fine. Keep block code ASCII — `delta_kappa`, not `δ_κ`;
   put pretty symbols in the prose.
@@ -145,6 +153,15 @@ Rules for a Lean beat:
 7. One Lean beat per node with `lean_status: core`. Skip `cited` nodes (mention
    in prose). Do not batch several capsule sections into one Lean file — one
    idea per block.
+8. **Read the snippet the `lean_ref` points to before you feature it.** Some
+   capsule cores are near-vacuous — an identity of the shape
+   `(h : s = f a b) ⊢ s = f a b` proves nothing mathematical, it just
+   type-checks. (In `math-probability`, `Prob.incl_excl_2/3` are like this.) If
+   the `lean_ref` is not substantive, give that node a `bc` + counterexample
+   treatment instead and note it in the completion report — it may be a capsule
+   fix (a weak core, or a `lean_ref` that should point elsewhere). A *substantive*
+   core has real hypotheses doing work (`Prob.union_bound`:
+   `0 ≤ pAB ⊢ pA + pB - pAB ≤ pA + pB`).
 
 `lean_<id>` blocks usually `deps:setup` only (they are self-contained). Wire a
 `deps:` to an earlier `lean_` or `chk_` block only when the prose genuinely

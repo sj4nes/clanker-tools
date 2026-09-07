@@ -88,10 +88,15 @@ New `build/gen-validation-md.py` renders `validation/{type-checks,
 specialization-cases,instance-checks}.md` (131 `## <node>` sections each) from
 the YAMLs, so every `checks:` anchor resolves; wired into `build/all.sh`.
 
-**Remaining for 0.1 / 0.2:** `upmd` tutorial via a probability analogue of
-`formula-tree-tutorial`; a `math-measure-and-integration` capsule as the floor
-below (would discharge the 6 cited integration bridges); Release 0.2 martingales
-+ stochastic processes (the 3 boundary nodes).
+**Remaining for 0.1 / 0.2:** a `math-measure-and-integration` capsule as the
+floor below (would discharge the 6 cited integration bridges); Release 0.2
+martingales + stochastic processes (the 3 boundary nodes). *(The `upmd` tutorial
+shipped: `tutorial/three-axioms.md`, 2026-09-06.)*
+
+- [ ] **math-probability:** `Prob.incl_excl_2/3` in `validation/proof-checks.lean`
+      are near-vacuous (`h : s = f a b ⊢ s = f a b` — just type-checks). Either
+      strengthen them to a real core or re-point `finite_additivity` /
+      `inclusion_exclusion`'s `lean_ref`. (surfaced building `three-axioms.md`)
 
 **Target ~130 nodes** (2026-09-06, user): probability at this level is a
 naturally high concept-load domain; 131 stays. No trim.
@@ -244,12 +249,15 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
 `counterexamples_when_dropped`), and **grade surfacing**
 (`choice_grade` / `constructive_grade` / `convergence_mode`).
 
-- [ ] **theorem-tree-tutorial:** VERIFY by generating a first tutorial. Suggested
-      target: `math-probability` "Kolmogorov's three axioms → `boole_inequality`"
-      (closure of 10, every check a Lean core or one-line `bc`). Gate:
-      `upmd --ci --all` green, capstone + one middle `chk_` + one `lean_` beat
-      run standalone. Fold fixes back into `references/`; add a README
-      Verification-status row; write to `skills/math-probability/tutorial/`.
+- [x] **theorem-tree-tutorial:** VERIFIED by generating
+      `skills/math-probability/tutorial/three-axioms.md` (Kolmogorov axioms →
+      `boole_inequality`, 17 blocks, `upmd --ci --all` green, standalone runs
+      confirmed). Fixes folded into `references/`: `bc` fractions truncate → use
+      integer "k out of N" counts; check a `lean_ref` is substantive before
+      featuring it. README Verification-status row updated. (2026-09-06)
+- [ ] **theorem-tree-tutorial:** next tutorial — "√2 is irrational and that's a
+      crisis" from `math-number-systems` (→ `rational_incomplete_lub`); a second
+      exercise on a different capsule shape (constructions, well-definedness).
 - [ ] **theorem-tree-tutorial:** decide the "one skill or two" question
       (`docs/tutorial-map.md` §7) — whether to merge with `formula-tree-tutorial`
       into `capsule-tutorial` once both are exercised.

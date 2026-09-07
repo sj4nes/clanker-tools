@@ -67,6 +67,12 @@ sh build/build-tree.sh   # graph-check + tsort (BSD-safe) + reverse deps
 sh build/all.sh          # + index views + lean proof cores + bc worksheets
 ```
 
+## Interactive tutorial
+
+[`tutorial/three-axioms.md`](tutorial/three-axioms.md) — the minimal path to the
+union bound (`boole_inequality`), walked on a fair die, one runnable check and
+one runnable counterexample per node. `upmd --ci --all` green.
+
 ## Downstream
 
 `design-of-experiments` (power, estimands, randomization inference),

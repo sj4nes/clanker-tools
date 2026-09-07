@@ -52,6 +52,19 @@ sh build/all.sh            # the above + all index views + lean + bc
 `build-tree.sh` fails loudly on a cycle (checks `tsort` **stderr**, not just the
 exit status) and on any supplied edge the emitted order violates.
 
+## Interactive tutorial
+
+[`tutorial/three-axioms.md`](tutorial/three-axioms.md) — "Three axioms, and
+everything before random variables". Walks the minimal prerequisite path to
+`boole_inequality` (the union bound) on one worked object, a fair die, with a
+runnable check for each node and a runnable **counterexample** for each theorem.
+Built with the [`theorem-tree-tutorial`](../theorem-tree-tutorial/SKILL.md)
+skill.
+
+- `upmd skills/math-probability/tutorial/three-axioms.md` — the interactive walk.
+- `upmd --ci --all skills/math-probability/tutorial/three-axioms.md` — the gate
+  (17 blocks, all exit 0; the two `lean_` beats need `lean` on `PATH` or `SKIP`).
+
 ## Headline results
 
 `kolmogorov_axioms` · `boole_inequality` · `borel_cantelli_first` ·

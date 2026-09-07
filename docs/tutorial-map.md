@@ -69,7 +69,7 @@ every concept the reader meets comes with a calculation they run.
 | Builder | Covers | Status |
 |---|---|---|
 | [`formula-tree-tutorial`](../skills/formula-tree-tutorial/SKILL.md) | physics capsules → `upmd` `.md` | **exists**, verified via `pendulum.md` |
-| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, and grade surfacing over the physics version | **drafted** (SKILL.md + references); not yet exercised to generate a tutorial — see `BACKLOG.md` → Tutorials |
+| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, and grade surfacing over the physics version | **verified 2026-09-06** — generated [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md), `upmd --ci --all` green |
 | `explain-a-capsule` (planned) | any capsule → a linear reader's path, one check per concept (the Tier-3 rows) | roadmap (`BACKLOG-BACKLOG.md` → Human-facing lane) |
 | cross-capsule convention (none yet) | tutorials that span two capsule dirs — `deps:` across directories, citing two `validation/` sets | needs a first example |
 
@@ -85,10 +85,11 @@ missing); `bc` numeric beats carry the `bc`-identifier rules; `upmd` runs
 
 ### Tier 0 — shipped
 
-| Tutorial | Capsule | Target | Blocks |
-|---|---|---|---|
-| [`hole-in-the-rationals.md`](../skills/math-real-analysis/tutorial/hole-in-the-rationals.md) | `math-real-analysis` | `lub_axiom` → `cauchy_convergence_criterion` (the completeness thread), each step shown failing in ℚ | 13 (`bc` + Lean-via-bash) |
-| [`pendulum.md`](../skills/physics-newtonian/tutorial/pendulum.md) | `physics-newtonian` | `newton_second_law` → `simple_pendulum` | 9 (`bc`) |
+| Tutorial | Capsule | Target | Blocks | Built with |
+|---|---|---|---|---|
+| [`hole-in-the-rationals.md`](../skills/math-real-analysis/tutorial/hole-in-the-rationals.md) | `math-real-analysis` | `lub_axiom` → `cauchy_convergence_criterion` (the completeness thread), each step shown failing in ℚ | 13 (`bc` + Lean-via-bash) | hand-built (the method) |
+| [`pendulum.md`](../skills/physics-newtonian/tutorial/pendulum.md) | `physics-newtonian` | `newton_second_law` → `simple_pendulum` | 9 (`bc`) | `formula-tree-tutorial` |
+| [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md) | `math-probability` | Kolmogorov axioms → `boole_inequality` (the union bound), on a fair die; a runnable counterexample for each theorem | 17 (`bc` + 2 Lean-via-bash) | **`theorem-tree-tutorial`** (its first) |
 
 ### Tier 1 — single-target tutorials (one headline, its minimal prerequisite path)
 
@@ -143,7 +144,7 @@ first candidate (accessible hook, small closure, checks ready).
 
 | Working title | Target | Hook |
 |---|---|---|
-| **Three axioms, ten lines of consequences** ★ | `kolmogorov_axioms` (7) → `boole_inequality` (10) | complement, monotonicity, inclusion–exclusion, the union bound — everything before random variables |
+| **Three axioms, ten lines of consequences** — ✅ [SHIPPED](../skills/math-probability/tutorial/three-axioms.md) | `kolmogorov_axioms` (7) → `boole_inequality` (10) | complement, monotonicity, inclusion–exclusion, the union bound — everything before random variables |
 | Bayes' theorem, properly ★ | `conditional_probability` (11) → `law_of_total_probability` → `bayes_theorem` (14) | the partition must be exhaustive; `P(A\|B)` vs `P(B\|A)`; the odds form |
 | How to sample any distribution ★ | `probability_integral_transform` (32) | `F(X) ~ Uniform`, and `F⁻¹(U) ~ F` — the inversion-sampling bridge to `simulation` |
 | Expectation is linear (independence not required) | `expectation` (16) → `lotus` (24) → `expectation_linearity` (17) | LOTUS, then linearity — the single most useful fact; mean of a count with no combinatorics |
@@ -252,17 +253,19 @@ well-chosen **4–6 targets per capsule covers ~70–85% of its nodes.**
 Ranked by (reader value × small prerequisite closure × checks already in the
 capsule × infrastructure readiness):
 
-1. **Three axioms, ten lines of consequences** (`math-probability`, → `boole_inequality`) — closure of 10, every check is a Lean core or a one-line `bc`, immediately useful.
-2. **√2 is irrational — and that's a crisis** (`math-number-systems`, → `rational_incomplete_lub`) — the best hook in the whole stack; `bc` exhibits the incompleteness directly.
+1. ~~**Three axioms, ten lines of consequences**~~ — ✅ **shipped 2026-09-06** as
+   [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md), the
+   first `theorem-tree-tutorial` output. 17 blocks, `upmd --ci --all` green.
+2. **√2 is irrational — and that's a crisis** (`math-number-systems`, → `rational_incomplete_lub`) — the best hook in the whole stack; `bc` exhibits the incompleteness directly. **Next up.**
 3. **Why heat engines have a ceiling** (`physics-thermodynamics`, → `carnot_efficiency`) — already wanted in `BACKLOG.md`; `formula-tree-tutorial` builds it today, no new infrastructure.
 4. **The concentration ladder** (`math-probability`, Markov → … → Hoeffding) — one idea (Markov) applied four times; the Lean file already has the Markov and Chebyshev cores.
 5. **What counts as a proof** (`math-logic-and-proof`, the `proof_methods` block) — the most broadly useful lesson in the repo; needs `theorem-tree-tutorial` or a hand build in the `hole-in-the-rationals` style.
 6. **From the empty set to the real line** (cross-capsule: sets → numbers → analysis) — the flagship that shows why the *stack* exists; needs the cross-capsule convention (Tier 4) sorted out first.
 
-Items 1, 2, 4 need the [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md)
-skill — **drafted 2026-09-06**, now needs a first generated tutorial to verify
-it (target: item 1). Item 3 is buildable now with `formula-tree-tutorial`; items
-5–6 need new infrastructure (the cross-capsule `deps:` convention).
+Items 2 and 4 use the [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md)
+skill — **verified 2026-09-06** by item 1. Item 3 is buildable now with
+`formula-tree-tutorial`; items 5–6 need new infrastructure (the cross-capsule
+`deps:` convention).
 
 ---
 
