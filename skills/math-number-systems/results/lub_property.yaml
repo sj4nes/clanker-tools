@@ -44,6 +44,10 @@ common_misuse:
   - 'assuming sup S in S'
   - 'importing it into Q'
   - 'calling it an axiom -- here it is proved'
+applications:
+  - 'this is the property `math-real-analysis` takes as its completeness AXIOM (`lub_axiom`); every theorem of first-year analysis -- EVT, IVT, the mean value theorem, the fundamental theorem of calculus -- is downstream of it'
+  - 'the "sup = union of the cuts" construction is exact real arithmetic in miniature: a real is the set of rationals below it, and the supremum of a bounded family is computed, not postulated (bisection realises it to any precision)'
+  - 'optimisation and economics: the existence of a least upper bound is what guarantees a supremum/infimum of a bounded objective exists -- the starting point for "does this optimum exist?" before any algorithm looks for it'
 related:
   equivalent_to: 'real_dedekind_completeness, nested-interval + Archimedean (in math-real-analysis)'
   contrasts_with: rational_incomplete_lub

@@ -34,6 +34,10 @@ counterexamples_when_dropped:
 common_misuse:
   - 'assuming a real nth root of a negative for even n'
   - 'expecting a closed form -- it is an existence (and computability) statement'
+applications:
+  - 'the `sqrt`, `cbrt`, and `pow(x, 1.0/n)` in every math library compute exactly this supremum -- by Newton''s method or bisection, which are the "t slightly above / slightly below y" steps of the proof made into an algorithm'
+  - 'the proof is the template for "solve f(y) = x by y = sup { t : f(t) < x }" -- the intermediate value theorem and the existence of inverse functions (log, arcsin) run the same argument'
+  - 'constructive: the sup is a specific cut and bisection converges linearly, so this doubles as a correctness proof for the library routine'
 related:
   depends_on: lub_property
   resolves: 'the motivating gap of rational_incomplete_lub'

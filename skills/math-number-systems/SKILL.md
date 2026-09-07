@@ -99,6 +99,14 @@ bc -q -l validation/instance-checks.bc # the constructions computed; Q's incompl
 
 Full results: [`validation/consistency-audit.md`](validation/consistency-audit.md).
 
+## Interactive tutorial
+
+[`tutorial/building-the-number.md`](tutorial/building-the-number.md) — the path
+to `√2` existing: `integer → rational_number → sqrt2_irrational →
+rational_incomplete_lub → dedekind_cut → real_is_ordered_field → lub_property →
+nth_root_exists`, with a runnable well-definedness check (and a broken-operation
+counterexample) for each quotient. `upmd --ci --all` green.
+
 ## Method verification (Release 0.1)
 
 Built with the `math-theorem-tree` method — the **second capsule** (after

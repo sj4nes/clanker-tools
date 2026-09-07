@@ -38,6 +38,10 @@ counterexamples_when_dropped:
 common_misuse:
   - 'reducing to lowest terms and forgetting it is still a class'
   - 'using ad = bc without the b, d != 0 side conditions'
+applications:
+  - 'exact rational arithmetic in every computer algebra system (SageMath, Mathematica, Maple) and in Python''s stdlib `fractions.Fraction` -- a rational IS a normalised (numerator, denominator) pair with equality tested by cross-multiplication, exactly this quotient'
+  - 'the field-of-fractions construction Frac(R) is the same pattern used to build function fields in algebraic geometry and the localisation of a ring at a multiplicative set'
+  - 'the "check every operation respects the relation" obligation is the archetype of well-definedness -- the same discipline every quotient type in a proof assistant (Lean `Quotient`, Coq setoids) forces on you'
 related:
   generalizes: 'field of fractions Frac(R) of any integral domain R'
   enables: [dedekind_cut, cauchy_completion, rational_is_ordered_field]

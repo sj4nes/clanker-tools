@@ -32,6 +32,10 @@ counterexamples_when_dropped:
 common_misuse:
   - 'concluding "sqrt(2) does not exist" -- it exists in R (nth_root_exists), just not in Q'
   - 'thinking this alone shows Q is incomplete -- it is the ingredient; rational_incomplete_lub is the statement'
+applications:
+  - 'the historical rupture: the Pythagorean discovery that the diagonal of a unit square is incommensurable with its side ended the "all is number (= ratio)" programme and forced Eudoxus'' theory of proportion -- the direct ancestor of Dedekind cuts 2000 years later'
+  - 'exact real arithmetic libraries (iRRAM, Haskell AERN, Boost.Multiprecision intervals) exist precisely because irrationals cannot be stored as fractions -- they represent a real as a program producing rational approximations to any requested precision'
+  - 'the parity/2-adic-valuation argument generalises: the p-adic valuation is the tool that decides which roots and logarithms are rational, used throughout number theory'
 related:
   commonly_confused_with: rational_incomplete_lub
   proved_using: 'unique_factorization (alt route) -- edges/relations.tsv'

@@ -31,6 +31,10 @@ counterexamples_when_dropped:
 common_misuse:
   - 'stating it as "sqrt(2) is irrational" -- that is the tool, not the theorem'
   - 'thinking a countable dense ordered field could still be complete -- it cannot (R is uncountable, cantor)'
+applications:
+  - 'this is the concrete failure every completeness axiom is designed to rule out: "bounded + monotone => convergent", the nested-interval theorem, Bolzano-Weierstrass, and the Cauchy criterion are all equivalent ways of asserting Q''s gap is filled (see math-real-analysis and its hole-in-the-rationals tutorial)'
+  - 'numerical analysis lives on the consequence: a bisection or Newton iteration produces a Cauchy sequence of rationals or floats, and only completeness guarantees the thing it converges to exists'
+  - 'IEEE 754 floating point is a finite approximation of a complete field; the gaps here are why "did my iteration converge?" is a real question, not a given'
 related:
   special_case_of: rational_incomplete_cauchy
   commonly_confused_with: sqrt2_irrational

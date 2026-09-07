@@ -73,7 +73,7 @@ every concept the reader meets comes with a calculation they run.
 | Builder | Covers | Status |
 |---|---|---|
 | [`formula-tree-tutorial`](../skills/formula-tree-tutorial/SKILL.md) | physics capsules → `upmd` `.md` | **exists**, verified via `pendulum.md` |
-| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, grade surfacing, and the "In the wild" milestone beat over the physics version | **verified** (2026-09-06/07) — generated `three-axioms.md` and `concentration-ladder.md`, `upmd --ci --all` green; each build surfaced a real capsule fix. The `applications` field it renders was added to the `math-theorem-tree` result schema and backfilled for 24 `math-probability` headline nodes. |
+| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, grade surfacing, and the "In the wild" milestone beat over the physics version | **verified** (2026-09-06/07) — 3 tutorials generated across 2 capsule shapes (`three-axioms`, `concentration-ladder` on `math-probability`; `building-the-number` on `math-number-systems` — the *constructions* shape, where `cx_` = a broken operation on classes). Each build surfaced a real capsule fix. The `applications` field it renders was added to the `math-theorem-tree` schema and backfilled for 24 `math-probability` + 5 `math-number-systems` headline nodes. |
 | `explain-a-capsule` (planned) | any capsule → a linear reader's path, one check per concept (the Tier-3 rows) | roadmap (`BACKLOG-BACKLOG.md` → Human-facing lane) |
 | cross-capsule convention (none yet) | tutorials that span two capsule dirs — `deps:` across directories, citing two `validation/` sets | needs a first example |
 
@@ -95,6 +95,7 @@ missing); `bc` numeric beats carry the `bc`-identifier rules; `upmd` runs
 | [`pendulum.md`](../skills/physics-newtonian/tutorial/pendulum.md) | `physics-newtonian` | `newton_second_law` → `simple_pendulum` | 9 (`bc`) | `formula-tree-tutorial` |
 | [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md) | `math-probability` | Kolmogorov axioms → `boole_inequality`, on a fair die; a runnable counterexample per theorem + an "In the wild" beat | 18 (`bc` + 2 Lean-via-bash) | **`theorem-tree-tutorial`** (its first) |
 | [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md) | `math-probability` | Markov → Chebyshev → Jensen → Chernoff → Hoeffding; each rung + an "In the wild" beat (KL≥0, JL, PAC, UCB); capstone + "where it bites back" | 21 (`bc` + 3 Lean + 4 `app_`) | `theorem-tree-tutorial` |
+| [`building-the-number.md`](../skills/math-number-systems/tutorial/building-the-number.md) | `math-number-systems` | `integer` → `rational_number` → `sqrt2_irrational` → `rational_incomplete_lub` → `dedekind_cut` → `real_is_ordered_field` → `lub_property` → `nth_root_exists`; a well-definedness check + broken-operation counterexample per quotient; `ℚ`'s gap exhibited, then filled | 23 (`bc` + 3 Lean + 2 `app_`) | `theorem-tree-tutorial` |
 
 ### Tier 1 — single-target tutorials (one headline, its minimal prerequisite path)
 
@@ -129,7 +130,7 @@ first candidate (accessible hook, small closure, checks ready).
 
 | Working title | Target | Hook |
 |---|---|---|
-| **√2 is irrational — and that's a crisis** ★ | `sqrt2_irrational` → `rational_incomplete_lub` (59) | a bounded set of rationals with no rational least upper bound |
+| **√2 is irrational — and that's a crisis** — ✅ [SHIPPED](../skills/math-number-systems/tutorial/building-the-number.md) as "Building the number that isn't there" | `sqrt2_irrational` → `rational_incomplete_lub` → `lub_property` → `nth_root_exists` | a bounded set of rationals with no rational lub; then `ℝ` built to supply one |
 | ℤ and ℚ as quotients | `integer` → `rational_number` → `rational_is_ordered_field` (47) | pairs mod an equivalence, with every well-definedness obligation discharged |
 | Dedekind cuts fill the holes ★ | `dedekind_cut` → `real_number` → `real_is_ordered_field` → `lub_property` (52) | ℝ as downward-closed sets of rationals; the lub property proved as a **theorem** |
 | ℝ is essentially unique | `real_uniqueness` (65) | any two complete ordered fields are isomorphic |
@@ -261,7 +262,7 @@ capsule × infrastructure readiness):
 1. ~~**Three axioms, ten lines of consequences**~~ — ✅ **shipped 2026-09-06** as
    [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md), the
    first `theorem-tree-tutorial` output. 17 blocks, `upmd --ci --all` green.
-2. **√2 is irrational — and that's a crisis** (`math-number-systems`, → `rational_incomplete_lub`) — the best hook in the whole stack; `bc` exhibits the incompleteness directly. **Next up.**
+2. ~~**√2 is irrational — and that's a crisis**~~ — ✅ **shipped 2026-09-07** as [`building-the-number.md`](../skills/math-number-systems/tutorial/building-the-number.md). 23 blocks; exercised the skill on a *constructions* capsule — the well-definedness beat (`cx_` = a broken operation on classes) is the new pattern. Fixed a pre-existing parse bug in `cantor_diagonal_argument.yaml`.
 3. **Why heat engines have a ceiling** (`physics-thermodynamics`, → `carnot_efficiency`) — already wanted in `BACKLOG.md`; `formula-tree-tutorial` builds it today, no new infrastructure.
 4. ~~**The concentration ladder**~~ — ✅ **shipped 2026-09-06** as [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md). 17 blocks, 3 genuine Lean cores; surfaced (and fixed) a missing `markov_finite` in the capsule's Lean file.
 5. **What counts as a proof** (`math-logic-and-proof`, the `proof_methods` block) — the most broadly useful lesson in the repo; needs `theorem-tree-tutorial` or a hand build in the `hole-in-the-rationals` style.

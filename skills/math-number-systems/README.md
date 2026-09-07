@@ -22,6 +22,18 @@ lean validation/proof-checks.lean      # 10 kernel checks incl. Cantor's diagona
 bc -q -l validation/instance-checks.bc  # the constructions computed; Q's incompleteness exhibited
 ```
 
+## Interactive tutorial
+
+[`tutorial/building-the-number.md`](tutorial/building-the-number.md) — "Building
+the number that isn't there". Walks `integer → rational_number → sqrt2_irrational
+→ rational_incomplete_lub → dedekind_cut → real_is_ordered_field → lub_property →
+nth_root_exists` (the path to `√2` existing in `ℝ`), with a runnable
+**well-definedness** check for each quotient construction (and a counterexample
+where an operation on classes is *not* a function), the incompleteness of `ℚ`
+exhibited, and the supremum of `{x² < 2}` computed as a union of cuts. Built with
+[`theorem-tree-tutorial`](../theorem-tree-tutorial/SKILL.md); 23 blocks,
+`upmd --ci --all` green.
+
 ## Release 0.1 at a glance
 
 100 nodes (32 definitions, 26 theorems, 22 propositions, 9 structures, 5

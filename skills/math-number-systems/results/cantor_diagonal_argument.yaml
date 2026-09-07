@@ -4,8 +4,8 @@ status_label: proved_theorem
 display: 'Given any sequence $(x_k)$ of reals in $[0,1]$, one can construct a real $d\in[0,1]$ with $d\neq x_k$ for every $k$.'
 parseable: 'forall (x : N -> [0,1]) exists d in [0,1], forall k, d != x_k'
 symbols:
-  x_k: { meaning: the kth real of the given list, type: real in [0,1] }
-  d: { meaning: the constructed missing real, type: real in [0,1] }
+  x_k: { meaning: 'the kth real of the given list', type: 'real in [0,1]' }
+  d: { meaning: 'the constructed missing real', type: 'real in [0,1]' }
 type_check_status: well_formed
 type_check_note: >-
   the construction must produce, from any candidate list, an EXPLICIT d (rule 7).

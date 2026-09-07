@@ -193,6 +193,20 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       result YAMLs point at: `type-checks.md`, `specialization-cases.md`,
       `instance-checks.md` (only `proof-checks.md` and the `.lean` / `.bc` exist so far).
 
+### math-number-systems
+
+- [x] **math-number-systems:** fixed a pre-existing YAML parse bug —
+      `results/cantor_diagonal_argument.yaml` had unquoted `[0,1]` inside a flow
+      mapping (`type: real in [0,1]`). Quoted it. (2026-09-07, surfaced building
+      the √2 tutorial)
+- [ ] **math-number-systems:** the other 14 `results/*.yaml` parse, but audit
+      for the same class of flow-scalar bug elsewhere (`[`, `(`, `{` unquoted in
+      `{ ... }` values); this capsule predates the `gen-results.py` emitter that
+      quotes automatically.
+- [ ] **math-number-systems:** `tutorial/building-the-number.md` shipped
+      (2026-09-07) — consider a `bc`/`lean` `## In the wild` `app_` block for
+      `sqrt2_irrational` (the 2-adic valuation deciding rationality of roots).
+
 ### math-sets-functions-cardinality
 
 - [ ] **math-sets-functions-cardinality:** Release 0.2 — replace its five logic
@@ -272,10 +286,17 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       shipped tutorials gained the beats. Fold-back: `bc` multiplication
       truncates intermediate products to `scale` (compute `app_` formulas at
       high scale, truncate at the end). (2026-09-07)
-- [ ] **theorem-tree-tutorial:** next — exercise a *different capsule shape*:
-      "√2 is irrational and that's a crisis" from `math-number-systems`
-      (→ `rational_incomplete_lub`; constructions + well-definedness), or "What
-      counts as a proof" from `math-logic-and-proof` (the proof-methods block).
+- [x] **theorem-tree-tutorial:** 3rd tutorial, different capsule shape —
+      `skills/math-number-systems/tutorial/building-the-number.md` ("Building the
+      number that isn't there": `integer` → … → `nth_root_exists`; 23 blocks,
+      `upmd --ci --all` green). The `cx_` beat became "a broken operation on
+      classes"; `applications` backfilled for 5 number-systems nodes; fixed a
+      pre-existing parse bug in `cantor_diagonal_argument.yaml`. (2026-09-07)
+- [ ] **theorem-tree-tutorial:** next — "What counts as a proof" from
+      `math-logic-and-proof` (the proof-methods block: contradiction /
+      contrapositive / cases / induction, each with its constructive grade).
+      A third shape: proof *techniques*, where the runnable check is a tiny Lean
+      proof USING that method.
 - [ ] **theorem-tree-tutorial:** decide the "one skill or two" question
       (`docs/tutorial-map.md` §7) — whether to merge with `formula-tree-tutorial`
       into `capsule-tutorial` once both are exercised.
