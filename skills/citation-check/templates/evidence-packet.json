@@ -1,0 +1,41 @@
+{
+  "citation_id": "ref-27",
+  "status": "verified_metadata_correction_needed",
+  "confidence": 0.95,
+  "frbr_level_verified": "manifestation",
+  "checked_at": "2026-09-07T00:20:00-05:00",
+  "input": {
+    "raw": "Doe, A. & Roe, B. (2020). A study of things. Journal of Things, 12(3), 44-58. https://doi.org/10.1234/jot.2021.0044"
+  },
+  "candidate_record": { "see": "candidate-record.json shape" },
+  "canonical_record": {
+    "title": "A study of things",
+    "authors": [{ "family": "Doe", "given": "A" }, { "family": "Roe", "given": "B" }],
+    "container": "Journal of Things",
+    "volume": "12",
+    "issue": "3",
+    "pages": "44-58",
+    "doi": "10.1234/jot.2021.0044",
+    "year": 2021
+  },
+  "queries": [
+    { "step": 1, "action": "resolve", "url": "https://doi.org/10.1234/jot.2021.0044", "result": "redirect to publisher landing page" },
+    { "step": 2, "source": "crossref", "endpoint": "https://api.crossref.org/works/10.1234/jot.2021.0044", "retrieved_at": "2026-09-07T00:20:04-05:00" },
+    { "step": 3, "source": "openalex", "endpoint": "https://api.openalex.org/works/doi:10.1234/jot.2021.0044", "retrieved_at": "2026-09-07T00:20:07-05:00" }
+  ],
+  "evidence": [
+    { "source": "crossref", "record_id": "10.1234/jot.2021.0044", "fields_matched": ["doi", "title", "authors", "container", "volume", "issue", "pages"], "fields_conflicted": ["year"] },
+    { "source": "publisher", "url": "https://publisher.example/jot/12/3/44", "fields_matched": ["title", "pages", "year"], "fields_conflicted": [] }
+  ],
+  "match_score": 0.97,
+  "independent_source_count": 2,
+  "hard_conflicts": [],
+  "field_corrections": [
+    { "field": "year", "cited": 2020, "authoritative": 2021, "authority": "crossref + publisher landing page" }
+  ],
+  "status_flags": [],
+  "claim_support": { "assessed": false, "reason": "not requested" },
+  "recommended_citation": "Doe, A. & Roe, B. (2021). A study of things. Journal of Things, 12(3), 44-58. https://doi.org/10.1234/jot.2021.0044",
+  "rationale": "DOI resolves and Crossref returns an exact identifier match on all fields except year; the publisher landing page independently gives 2021. The cited year 2020 appears to be an online-first date; issue year is 2021.",
+  "routed_to_human": false
+}

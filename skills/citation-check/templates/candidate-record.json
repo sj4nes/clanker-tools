@@ -1,0 +1,31 @@
+{
+  "raw": "Smith, J. (2019). Example Book: A Study. 2nd ed. Northstar Press. ISBN 978-1-234-56789-0.",
+  "type_guess": "book",
+  "title": "Example Book",
+  "subtitle": "A Study",
+  "authors": [{ "family": "Smith", "given": "J", "original": "Smith, J." }],
+  "year": 2019,
+  "month": null,
+  "day": null,
+  "edition": "2",
+  "publisher": "Northstar Press",
+  "container": null,
+  "volume": null,
+  "issue": null,
+  "pages": null,
+  "article_number": null,
+  "report_number": null,
+  "series": null,
+  "identifiers": {
+    "doi": [],
+    "isbn": [{ "original": "978-1-234-56789-0", "isbn13": "9781234567890", "isbn10": null, "checksum_valid": true }],
+    "pmid": [],
+    "arxiv": [],
+    "oclc": [],
+    "lccn": [],
+    "issn": []
+  },
+  "url": null,
+  "suspicious_flags": [],
+  "normalization_notes": []
+}
