@@ -97,6 +97,11 @@ shipped: `tutorial/three-axioms.md`, 2026-09-06.)*
       are near-vacuous (`h : s = f a b ⊢ s = f a b` — just type-checks). Either
       strengthen them to a real core or re-point `finite_additivity` /
       `inclusion_exclusion`'s `lean_ref`. (surfaced building `three-axioms.md`)
+- [x] **math-probability:** `Prob.markov_finite` was referenced in
+      `proof-checks.lean`'s header + `proof-checks.md` but the theorem body was
+      missing (dropped in the 0.1 polish rewrite) — restored the genuine
+      list-induction proof; `sh build/all.sh` green. (surfaced building
+      `concentration-ladder.md`, 2026-09-06)
 
 **Target ~130 nodes** (2026-09-06, user): probability at this level is a
 naturally high concept-load domain; 131 stays. No trim.
@@ -255,9 +260,15 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       confirmed). Fixes folded into `references/`: `bc` fractions truncate → use
       integer "k out of N" counts; check a `lean_ref` is substantive before
       featuring it. README Verification-status row updated. (2026-09-06)
-- [ ] **theorem-tree-tutorial:** next tutorial — "√2 is irrational and that's a
-      crisis" from `math-number-systems` (→ `rational_incomplete_lub`); a second
-      exercise on a different capsule shape (constructions, well-definedness).
+- [x] **theorem-tree-tutorial:** 2nd tutorial —
+      `skills/math-probability/tutorial/concentration-ladder.md` (Markov →
+      Chebyshev → Jensen → Chernoff → Hoeffding; 17 blocks, `upmd --ci --all`
+      green). Surfaced + fixed a missing `Prob.markov_finite` in the capsule
+      Lean file. (2026-09-06)
+- [ ] **theorem-tree-tutorial:** next — exercise a *different capsule shape*:
+      "√2 is irrational and that's a crisis" from `math-number-systems`
+      (→ `rational_incomplete_lub`; constructions + well-definedness), or "What
+      counts as a proof" from `math-logic-and-proof` (the proof-methods block).
 - [ ] **theorem-tree-tutorial:** decide the "one skill or two" question
       (`docs/tutorial-map.md` §7) — whether to merge with `formula-tree-tutorial`
       into `capsule-tutorial` once both are exercised.

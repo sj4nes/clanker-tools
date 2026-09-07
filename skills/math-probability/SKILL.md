@@ -67,11 +67,16 @@ sh build/build-tree.sh   # graph-check + tsort (BSD-safe) + reverse deps
 sh build/all.sh          # + index views + lean proof cores + bc worksheets
 ```
 
-## Interactive tutorial
+## Interactive tutorials
 
-[`tutorial/three-axioms.md`](tutorial/three-axioms.md) — the minimal path to the
-union bound (`boole_inequality`), walked on a fair die, one runnable check and
-one runnable counterexample per node. `upmd --ci --all` green.
+Both `upmd --ci --all` green; one runnable check per node, one runnable
+counterexample per theorem.
+
+- [`tutorial/three-axioms.md`](tutorial/three-axioms.md) — the minimal path to
+  the union bound (`boole_inequality`), on a fair die.
+- [`tutorial/concentration-ladder.md`](tutorial/concentration-ladder.md) —
+  Markov → Chebyshev → Jensen → Chernoff → Hoeffding, each rung Markov applied
+  to a cleverer function; capstone is the Hoeffding sample-size bound.
 
 ## Downstream
 

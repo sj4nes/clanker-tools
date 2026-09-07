@@ -85,6 +85,37 @@ theorem wsum_const (c : Int) : ∀ L, wsum (L.map (fun q => (q.1, c))) = c * wpr
   | nil => simp [wsum, wprob]
   | cons hd tl ih => obtain ⟨p, x⟩ := hd; simp only [List.map_cons, wsum, wprob, ih]; grind
 
+/-- **Markov's inequality, finite support** — GENUINE, universal (list induction).
+    `tailmass a X` = Σ of the weights pᵢ with value xᵢ ≥ a (the mass of the tail
+    `{X ≥ a}`).  For nonnegative integer weights and values and `a ≥ 1`,
+    `a · P(X ≥ a) ≤ E[X]`, i.e. `P(X ≥ a) ≤ E[X] / a`. -/
+def tailmass (a : Int) : List (Int × Int) → Int
+  | []          => 0
+  | (p, x) :: t => (if a ≤ x then p else 0) + tailmass a t
+
+theorem markov_finite (a : Int) (ha : 1 ≤ a) :
+    ∀ (X : List (Int × Int)), (∀ q ∈ X, 0 ≤ q.1 ∧ 0 ≤ q.2) →
+      a * tailmass a X ≤ wsum X := by
+  intro X
+  induction X with
+  | nil => simp [tailmass, wsum]
+  | cons hd tl ih =>
+    intro hpos
+    obtain ⟨p, x⟩ := hd
+    have hp : 0 ≤ p := (hpos (p, x) (by simp)).1
+    have hx : 0 ≤ x := (hpos (p, x) (by simp)).2
+    have htl : a * tailmass a tl ≤ wsum tl :=
+      ih (fun q hq => hpos q (by simp [hq]))
+    simp only [tailmass, wsum, Int.mul_add]
+    by_cases hc : a ≤ x
+    · simp only [hc, if_true]
+      have h1 : a * p ≤ x * p := Int.mul_le_mul_of_nonneg_right hc hp
+      have h2 : x * p = p * x := Int.mul_comm x p
+      omega
+    · simp only [hc, if_false, Int.mul_zero]
+      have h3 : 0 ≤ p * x := Int.mul_nonneg hp hx
+      omega
+
 def emap (a b : Int) : List (Int × Int) → List (Int × Int) → List (Int × Int)
   | (p, x) :: s, (_, y) :: t => (p, a * x + b * y) :: emap a b s t
   | _, _ => []

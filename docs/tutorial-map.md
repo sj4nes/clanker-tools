@@ -69,7 +69,7 @@ every concept the reader meets comes with a calculation they run.
 | Builder | Covers | Status |
 |---|---|---|
 | [`formula-tree-tutorial`](../skills/formula-tree-tutorial/SKILL.md) | physics capsules → `upmd` `.md` | **exists**, verified via `pendulum.md` |
-| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, and grade surfacing over the physics version | **verified 2026-09-06** — generated [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md), `upmd --ci --all` green |
+| [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md) | math capsules → `upmd` `.md` — adds the Lean-beat wrapper, the hypothesis-dropped-counterexample beat, and grade surfacing over the physics version | **verified 2026-09-06** — generated `three-axioms.md` and `concentration-ladder.md` (both `math-probability`), `upmd --ci --all` green; each build surfaced a real capsule fix |
 | `explain-a-capsule` (planned) | any capsule → a linear reader's path, one check per concept (the Tier-3 rows) | roadmap (`BACKLOG-BACKLOG.md` → Human-facing lane) |
 | cross-capsule convention (none yet) | tutorials that span two capsule dirs — `deps:` across directories, citing two `validation/` sets | needs a first example |
 
@@ -90,6 +90,7 @@ missing); `bc` numeric beats carry the `bc`-identifier rules; `upmd` runs
 | [`hole-in-the-rationals.md`](../skills/math-real-analysis/tutorial/hole-in-the-rationals.md) | `math-real-analysis` | `lub_axiom` → `cauchy_convergence_criterion` (the completeness thread), each step shown failing in ℚ | 13 (`bc` + Lean-via-bash) | hand-built (the method) |
 | [`pendulum.md`](../skills/physics-newtonian/tutorial/pendulum.md) | `physics-newtonian` | `newton_second_law` → `simple_pendulum` | 9 (`bc`) | `formula-tree-tutorial` |
 | [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md) | `math-probability` | Kolmogorov axioms → `boole_inequality` (the union bound), on a fair die; a runnable counterexample for each theorem | 17 (`bc` + 2 Lean-via-bash) | **`theorem-tree-tutorial`** (its first) |
+| [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md) | `math-probability` | `markov_inequality` → Chebyshev → Jensen → Chernoff → Hoeffding — each rung Markov applied to a cleverer function; capstone = the Hoeffding sample-size bound | 17 (`bc` + 3 Lean-via-bash) | `theorem-tree-tutorial` |
 
 ### Tier 1 — single-target tutorials (one headline, its minimal prerequisite path)
 
@@ -148,7 +149,7 @@ first candidate (accessible hook, small closure, checks ready).
 | Bayes' theorem, properly ★ | `conditional_probability` (11) → `law_of_total_probability` → `bayes_theorem` (14) | the partition must be exhaustive; `P(A\|B)` vs `P(B\|A)`; the odds form |
 | How to sample any distribution ★ | `probability_integral_transform` (32) | `F(X) ~ Uniform`, and `F⁻¹(U) ~ F` — the inversion-sampling bridge to `simulation` |
 | Expectation is linear (independence not required) | `expectation` (16) → `lotus` (24) → `expectation_linearity` (17) | LOTUS, then linearity — the single most useful fact; mean of a count with no combinatorics |
-| The concentration ladder ★ | `markov_inequality` (21) → `chebyshev_inequality` (25) → `chernoff_bound` → `hoeffding_inequality` (47), plus `jensen_inequality` (22) | polynomial tails → exponential tails; each step is the previous one applied to a cleverer function |
+| The concentration ladder — ✅ [SHIPPED](../skills/math-probability/tutorial/concentration-ladder.md) | `markov_inequality` (21) → `chebyshev_inequality` (25) → `chernoff_bound` → `hoeffding_inequality` (47), plus `jensen_inequality` (22) | polynomial tails → exponential tails; each step is the previous one applied to a cleverer function |
 | The four modes of convergence ★ | `convergence_implications` (48) | a.s. / in probability / in `L^p` / in distribution — the lattice, and the counterexample that separates each pair |
 | The Law of Large Numbers, weak and strong | `weak_law_large_numbers` (46) vs `strong_law_large_numbers` (44) | same finite-mean hypothesis, different convergence mode; Cauchy breaks both |
 | The Central Limit Theorem | `characteristic_function` → `levy_continuity_theorem` (35) → `central_limit_theorem` (52) | the CF of the standardized sum → `e^{-t²/2}`; deep, a capstone lesson |
@@ -258,7 +259,7 @@ capsule × infrastructure readiness):
    first `theorem-tree-tutorial` output. 17 blocks, `upmd --ci --all` green.
 2. **√2 is irrational — and that's a crisis** (`math-number-systems`, → `rational_incomplete_lub`) — the best hook in the whole stack; `bc` exhibits the incompleteness directly. **Next up.**
 3. **Why heat engines have a ceiling** (`physics-thermodynamics`, → `carnot_efficiency`) — already wanted in `BACKLOG.md`; `formula-tree-tutorial` builds it today, no new infrastructure.
-4. **The concentration ladder** (`math-probability`, Markov → … → Hoeffding) — one idea (Markov) applied four times; the Lean file already has the Markov and Chebyshev cores.
+4. ~~**The concentration ladder**~~ — ✅ **shipped 2026-09-06** as [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md). 17 blocks, 3 genuine Lean cores; surfaced (and fixed) a missing `markov_finite` in the capsule's Lean file.
 5. **What counts as a proof** (`math-logic-and-proof`, the `proof_methods` block) — the most broadly useful lesson in the repo; needs `theorem-tree-tutorial` or a hand build in the `hole-in-the-rationals` style.
 6. **From the empty set to the real line** (cross-capsule: sets → numbers → analysis) — the flagship that shows why the *stack* exists; needs the cross-capsule convention (Tier 4) sorted out first.
 
