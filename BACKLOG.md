@@ -418,11 +418,20 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       `upmd --ci --all` green). The `cx_` beat became "a broken operation on
       classes"; `applications` backfilled for 5 number-systems nodes; fixed a
       pre-existing parse bug in `cantor_diagonal_argument.yaml`. (2026-09-07)
-- [ ] **theorem-tree-tutorial:** next — "What counts as a proof" from
-      `math-logic-and-proof` (the proof-methods block: contradiction /
-      contrapositive / cases / induction, each with its constructive grade).
-      A third shape: proof *techniques*, where the runnable check is a tiny Lean
-      proof USING that method.
+- [x] **theorem-tree-tutorial:** "What counts as a proof" from
+      `math-logic-and-proof` — shipped 2026-09-08 as
+      `tutorial/what-counts-as-a-proof.md` (597bece). 17 blocks (8 `lean_`,
+      4 `chk_`, 3 `cx_`); `upmd --ci --all` green, standalone runs pass.
+      **New beat pattern:** `lean_` runs `#print axioms` and greps for
+      `Classical.choice` to *show* each method's `constructive_grade` — the
+      kernel as referee (direct / cases / induction → constructive;
+      contrapositive / contradiction / "a counterexample must exist" /
+      well-ordering-for-arbitrary-P → classical). Building it added a
+      `§10 Proof methods` section to the capsule's `proof-checks.lean`
+      (`direct_example`, `parity_dichotomy`, `sq_parity` + `#print axioms`
+      battery) and a `proof_methods` worksheet to `instance-checks.bc`, and
+      caught two stale `lean_status` overclaims (`post_completeness_theorem`,
+      `compactness_prop` → `cited`).
 - [ ] **theorem-tree-tutorial:** decide the "one skill or two" question
       (`docs/tutorial-map.md` §7) — whether to merge with `formula-tree-tutorial`
       into `capsule-tutorial` once both are exercised.
