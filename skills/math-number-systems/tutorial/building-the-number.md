@@ -226,6 +226,47 @@ echo "The theorem is specifically about NON-squares. For a square, the descent"
 echo "terminates at the exact root instead of contradicting."
 ```
 
+### In the wild
+
+The step "`2 ∣ p²` ⇒ `2 ∣ p`" is a statement about the **2-adic valuation**
+`v₂(n)` — the exponent of 2 in `n`. Written that way the proof is one line:
+`p² = 2q²` gives `2·v₂(p) = 1 + 2·v₂(q)`, an even number equal to an odd one.
+The same tool, one prime at a time, decides *every* such question:
+**`√n` is rational ⟺ `vₚ(n)` is even for every prime `p`** (i.e. `n` is a
+perfect square); `log₂ 3` is irrational because `2^a = 3^b` forces
+`v₂` and `v₃` to disagree. The `p`-adic valuation and its completion `ℚ_p` are
+built from exactly this observation and run through all of number theory —
+Hensel's lemma, the local–global principle, elliptic-curve arithmetic. The
+block below runs the criterion at `p = 2, 3` and checks it against brute
+square-testing.
+
+```bash [name:app_sqrt2_irrational, deps:chk_sqrt2_irrational]
+# vp(n): exponent of prime p in n
+vp() { n=$1; p=$2; c=0; while [ $(( n % p )) -eq 0 ]; do n=$(( n / p )); c=$(( c + 1 )); done; echo "$c"; }
+echo "  n   v2  v3   all-valuations-even?   perfect square?   sqrt(n) rational?"
+mismatch=0
+for n in 2 3 4 8 9 12 16 18 25 36; do
+  v2=$(vp "$n" 2); v3=$(vp "$n" 3)
+  # strip the 2- and 3-parts; whatever remains must itself be a perfect square
+  rest=$n
+  i=0; while [ $i -lt "$v2" ]; do rest=$(( rest / 2 )); i=$(( i + 1 )); done
+  i=0; while [ $i -lt "$v3" ]; do rest=$(( rest / 3 )); i=$(( i + 1 )); done
+  rs=$(echo "scale=0; sqrt($rest)/1" | bc -l)
+  even_all=$([ $(( v2 % 2 )) -eq 0 ] && [ $(( v3 % 2 )) -eq 0 ] && [ $(( rs*rs )) -eq "$rest" ] && echo yes || echo no)
+  r=$(echo "scale=0; sqrt($n)/1" | bc -l)
+  is_sq=$([ $(( r*r )) -eq "$n" ] && echo yes || echo no)
+  printf "  %-3s %-3s %-3s  %-20s  %-15s   %s\n" "$n" "$v2" "$v3" "$even_all" "$is_sq" "$even_all"
+  [ "$even_all" = "$is_sq" ] || mismatch=1
+done
+echo
+echo "valuation-parity criterion agrees with brute square-testing on every n: \
+$([ $mismatch -eq 0 ] && echo yes || echo NO)   (want yes)"
+[ "$mismatch" -eq 0 ] || { echo "FAIL: criterion disagreed"; exit 1; }
+echo "n = 2:  v2 = 1 (odd)      -> sqrt(2) irrational   <- this is sqrt2_irrational"
+echo "n = 4:  v2 = 2 (even)     -> sqrt(4) = 2 rational  <- the section-3 counterexample"
+echo "n = 12: v2 = 2, v3 = 1    -> sqrt(12) irrational   (the 3-part is the obstruction)"
+```
+
 ## 4. The crisis, made precise — ℚ has a bounded set with no supremum
 
 **`rational_incomplete_lub`**: `A = {x ∈ ℚ : x² < 2}` is nonempty (`1 ∈ A`) and

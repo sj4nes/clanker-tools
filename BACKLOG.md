@@ -314,9 +314,15 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       `lub_property.yaml` (`a set of reals, i.e. a set of cuts`). Quoted all three
       `meaning`/`type` values; `sh build/all.sh` green. Node pages are
       hand-authored and were unaffected. (2026-09-08)
-- [ ] **math-number-systems:** `tutorial/building-the-number.md` shipped
-      (2026-09-07) — consider a `bc`/`lean` `## In the wild` `app_` block for
-      `sqrt2_irrational` (the 2-adic valuation deciding rationality of roots).
+- [x] **math-number-systems:** `tutorial/building-the-number.md` — added
+      `### In the wild` + `app_sqrt2_irrational` to §3 (2026-09-08). The block
+      runs the p-adic valuation criterion — `√n ∈ ℚ ⟺ vₚ(n) even for every
+      prime p` — at p = 2, 3 over a sample of n and checks it against brute
+      square-testing (agrees on every n); calls out n=2 (v₂=1, odd), n=4
+      (v₂=2), n=12 (v₃=1). Pure-shell `bc`, no new mathematics — it is the
+      `sqrt2_irrational` proof's `2|p² ⇒ 2|p` step read as a valuation-parity
+      statement, and the YAML's third `applications` bullet. 24 blocks now;
+      `upmd --ci --all` green.
 
 ### math-sets-functions-cardinality
 

@@ -31,7 +31,7 @@ nth_root_exists` (the path to `√2` existing in `ℝ`), with a runnable
 **well-definedness** check for each quotient construction (and a counterexample
 where an operation on classes is *not* a function), the incompleteness of `ℚ`
 exhibited, and the supremum of `{x² < 2}` computed as a union of cuts. Built with
-[`theorem-tree-tutorial`](../theorem-tree-tutorial/SKILL.md); 23 blocks,
+[`theorem-tree-tutorial`](../theorem-tree-tutorial/SKILL.md); 24 blocks (2 `app_`: bisection-step count, and the p-adic valuation criterion for rational roots),
 `upmd --ci --all` green.
 
 ## Release 0.1 at a glance
