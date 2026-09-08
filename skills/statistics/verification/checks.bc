@@ -1,0 +1,63 @@
+/* Exact-arithmetic checks for the `statistics` skill.
+ * Run:  bc -lq skills/statistics/verification/checks.bc   (needs -l for l(), e())
+ * bc truncates; scale is set explicitly per the `bc` skill. Lowercase
+ * identifiers only, no `_`, no single uppercase letters.
+ *
+ * Backs SKILL Principles "Know the best achievable variance" and
+ * "Handle multiplicity explicitly", and workflow steps 4 and 6.
+ * math-statistics nodes: cramer_rao_lower_bound, crlb_attainment,
+ * multiple_testing_fwer, bonferroni_correction, benjamini_hochberg_fdr.
+ */
+scale = 12
+
+/* --- CRLB efficiency: attained iff exponential family (right parametrization) */
+n = 10
+
+/* Bernoulli(p): I1(p) = 1/(p(1-p)); Var(phat) = p(1-p)/n; CRLB = 1/(n I1) */
+p    = 0.3
+crlbbern = p*(1-p)/n
+varbern  = p*(1-p)/n
+print "Bernoulli mean : Var/CRLB = ", varbern/crlbbern, "  (want 1 = attained)\n"
+
+/* Poisson(lam): I1 = 1/lam; Var(xbar) = lam/n; CRLB = lam/n */
+lam = 2.5
+print "Poisson mean   : Var/CRLB = ", (lam/n)/(lam/n), "  (want 1 = attained)\n"
+
+/* Normal variance, mean known: CRLB = 2 sig^4 / n; Var(mlevar) = 2 sig^4 / n
+ * but the UNBIASED estimator s^2 (divide by n-1) has Var = 2 sig^4 / (n-1),
+ * efficiency CRLB/Var = (n-1)/n < 1  -- NOT attained. */
+sig = 1
+crlbvar = 2*sig^4/n
+varunb  = 2*sig^4/(n-1)
+print "Normal variance: CRLB/Var = ", crlbvar/varunb, "  (want (n-1)/n = ", (n-1)/n, ", NOT attained)\n"
+print "\n"
+
+/* --- family-wise error rate and the corrections that bound it --------------- */
+alpha = 0.05
+m     = 20
+
+fwer = 1 - (1 - alpha)^m
+print "FWER, ", m, " independent nulls at alpha=", alpha, " : ", fwer, "\n"
+
+/* Bonferroni: test each at alpha/m -> FWER <= alpha */
+bonf = alpha/m
+fwerbonf = 1 - (1 - bonf)^m
+print "Bonferroni per-test alpha = ", bonf, " -> FWER = ", fwerbonf, "  (<= ", alpha, ")\n"
+
+/* Sidak (exact under independence): 1-(1-alpha)^(1/m) */
+scale = 12
+sidak = 1 - e( l(1-alpha)/m )
+fwersidak = 1 - (1 - sidak)^m
+print "Sidak per-test alpha      = ", sidak, " -> FWER = ", fwersidak, "  (= ", alpha, ")\n"
+print "\n"
+
+/* --- Benjamini-Hochberg step-up thresholds  k*q/m -------------------------- */
+q = 0.05
+print "BH thresholds k*q/m for m=", m, ", q=", q, " :\n"
+scale = 6
+for (k = 1; k <= 5; k++) {
+    print "  k=", k, "  threshold=", k*q/m, "\n"
+}
+print "  k=", m, "  threshold=", m*q/m, "  (largest p can be as big as q)\n"
+
+quit

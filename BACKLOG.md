@@ -218,10 +218,17 @@ disciplined workflow for inference on data *already collected*. Will cite
 `math-statistics` for the theorems and keep only the workflow + a
 `verification/` Monte Carlo harness.
 
-- [ ] **statistics:** hold until `math-statistics` Release 0.1 is in `skills/`.
-      `SKILL.md` skeleton + `verification/` first — Monte Carlo of estimator
-      coverage / error rates / the assumption-violation failures (mirrors the
-      `design-of-experiments` verification pattern).
+- [x] **statistics:** (2026-09-08) `SKILL.md` + `verification/` + 3 templates.
+      `verification/run.sh` (7 sections, exit 0): `bc` CRLB efficiency +
+      multiplicity arithmetic; Monte Carlo of t-vs-z interval coverage, Wald-vs-
+      Wilson proportion coverage, bootstrap regular-vs-non-regular, FWER
+      unadjusted-vs-Bonferroni, Rao–Blackwell variance drop, normal-variance MLE
+      bias. Every theorem cited to a `math-statistics` node. Mirrors the
+      `design-of-experiments` verification pattern.
+- [ ] **statistics:** `references/` split (regime deep-dive, estimator choice,
+      interval methods, testing + multiplicity, model checking, Bayesian track) —
+      SKILL currently inlines the method-selection table and links no
+      `references/` files yet.
 
 ### bayes-bridge  (sidebar — planned, needs both endpoints)
 
