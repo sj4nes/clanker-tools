@@ -1,0 +1,66 @@
+{
+  "governing_structure": "beginner->advanced",
+  "structure_rationale": "Skill-building: the graph model is the foundation, then each command is a harder question answered with the same model.",
+  "concept_edges": [
+    ["commit-object", "commit-graph"],
+    ["commit-graph", "log"],
+    ["log", "pickaxe-S"],
+    ["log", "line-log-L"],
+    ["commit-graph", "blame"],
+    ["blame", "reverse-blame"],
+    ["pickaxe-S", "command-choice"],
+    ["line-log-L", "command-choice"],
+    ["reverse-blame", "command-choice"]
+  ],
+  "chapters_that_fight_the_pattern": [],
+  "chapters": [
+    {
+      "number": 1,
+      "working_title": "What a commit records",
+      "entering_question": "What is git actually storing when I commit?",
+      "central_claim_or_skill": "A commit is a full snapshot plus parent pointers, so history is a directed graph of snapshots.",
+      "why_it_matters_now": "Every later question is 'which node in the graph changed this line', which only makes sense once history is a graph, not a list.",
+      "key_evidence": ["C-01", "C-05"],
+      "running_example_or_scene": "A developer opens GitHub blame on a config line, clicks through six 'previous blame' views, and loses the thread.",
+      "framework_or_process": "Draw the commit graph for a 4-commit repo; show a commit as snapshot + parent(s).",
+      "likely_objection": "'I was told git stores diffs.' Answer: it presents diffs, it stores snapshots; the diff is computed on demand.",
+      "practical_takeaway": "Run git cat-file -p HEAD on your own repo and read the tree and parent lines.",
+      "reader_can_now": "explain what a commit snapshot contains and why git history is a graph rather than a list",
+      "distinct_from_neighbours": "This chapter builds no query skill; it only installs the model the other two chapters use.",
+      "through_line_transition": "Once history is a graph of snapshots, the first real question is which snapshot changed a line's content, and one command is built exactly for that.",
+      "ingredients_present": {"idea_or_framework": true, "story_or_case": true, "reasoning": true, "proof_points": true, "actionable_guidance": true}
+    },
+    {
+      "number": 2,
+      "working_title": "Finding when a line's content changed",
+      "entering_question": "This line has a bug. When did it get this way, and why?",
+      "central_claim_or_skill": "git log -S finds commits that add or remove a token; git log -L follows a line range through history.",
+      "why_it_matters_now": "This is the question that sends developers to click-through GUI blame; it is answerable in one command.",
+      "key_evidence": ["C-02", "C-03", "C-06"],
+      "running_example_or_scene": "A timeout constant is wrong; git log -S'TIMEOUT_MS' shows the two commits that ever touched it and the PR reasoning in the messages.",
+      "framework_or_process": "Pickaxe for 'when did this token appear/disappear'; -L for 'show me this line's whole life with diffs'.",
+      "likely_objection": "'-S missed my change.' Answer: -S counts occurrences; use -G for a regex match on any change to the line.",
+      "practical_takeaway": "Pick a suspicious line in your repo and run both git log -S and git log -L on it.",
+      "reader_can_now": "use git log -S and git log -L to find the commit that introduced or removed a specific line and read its reasoning",
+      "distinct_from_neighbours": "Chapter 1 gave no query; chapter 3 answers a different question (who last touched it, and what was there before) using a different command.",
+      "through_line_transition": "log -S and -L tell you when a line changed, but not cleanly who owns its current form or what the line looked like just before; blame does both.",
+      "ingredients_present": {"idea_or_framework": true, "story_or_case": true, "reasoning": true, "proof_points": true, "actionable_guidance": true}
+    },
+    {
+      "number": 3,
+      "working_title": "Finding who last touched a line and what came before",
+      "entering_question": "Who wrote this line as it stands, and what did it replace?",
+      "central_claim_or_skill": "git blame gives the last commit per line; blame --reverse finds the last commit a line survived into, which locates when a line was removed.",
+      "why_it_matters_now": "Attribution and 'what was here before' are the follow-up questions once you know a line is suspect.",
+      "key_evidence": ["C-04"],
+      "running_example_or_scene": "A log line vanished from production; git blame --reverse on the old commit shows the exact commit that deleted it.",
+      "framework_or_process": "blame for current ownership; blame --reverse for 'when did this disappear'; -w/-M/-C to see through noise.",
+      "likely_objection": "'Blame just shows a formatting commit.' Answer: add -w to ignore whitespace and -M/-C to see through moves.",
+      "practical_takeaway": "Run git blame -w on a file you know was reformatted, with and without -w, and compare.",
+      "reader_can_now": "use git blame and git blame --reverse to trace a line backward to its author and forward to the commit that removed it",
+      "distinct_from_neighbours": "Chapter 2 answered 'when did the content change'; this answers 'who owns it now' and 'when did it leave', which -S and -L do not do directly.",
+      "through_line_transition": "With all three commands in hand, the last step is choosing among them quickly, which the closing checklist makes mechanical.",
+      "ingredients_present": {"idea_or_framework": true, "story_or_case": true, "reasoning": true, "proof_points": true, "actionable_guidance": true}
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "working_title": "When Did This Line Change?",
+  "working_subtitle": "A three-command system for reading git history",
+  "one_sentence_promise": "For developers who can commit but freeze when asked 'when did this line get here and why', this book helps them trace any line of code backward and forward through history by learning three git commands and the graph model underneath them.",
+  "promise_check": {
+    "who_is_it_for": "Working developers who use git daily for commit/push/pull but have never used log -S, log -L, or reverse blame.",
+    "what_problem": "Confusing and time-wasting: a bug points at a line, they need to know when and why it changed, and they resort to scrolling GitHub blame one click at a time.",
+    "what_outcome": "They can answer 'when did this line change and what was the reasoning' for any line in under two minutes.",
+    "unique_angle": "Teaches the commit-graph model first, then three commands as views onto it, instead of a command cookbook.",
+    "why_a_book": "The graph model needs sustained explanation with worked examples; scattered blog posts teach the commands without the model."
+  },
+  "book_type": "prescriptive",
+  "secondary_modes": ["explanatory"],
+  "mode_mixing_risk": "Could drift into a git internals explainer; kept prescriptive by ending every chapter with a command the reader runs on their own repo.",
+  "target_reader": {
+    "description": "2-6 years experience, comfortable in a terminal, uses a GUI for history.",
+    "starting_state": "Knows commit, push, pull, branch, merge. Thinks of history as a list.",
+    "desired_end_state": "Thinks of history as a graph; reaches for log -S / log -L / blame by reflex."
+  },
+  "core_problem_and_stakes": "Not knowing when a line changed means debugging by guesswork and re-introducing fixed bugs.",
+  "central_thesis_or_framework": "History is a graph of snapshots; every history question is 'which node changed this', and three commands answer it.",
+  "comparable_titles": ["Pro Git (Chacon & Straub)", "Git from the Bottom Up (Wiegley)", "Oh My Git! (interactive game)"],
+  "differentiation_sentence": "Pro Git documents every command; this book teaches the smallest set that answers the one question developers actually get stuck on, model first.",
+  "author_credibility": "Maintains a 12-year-old repository and has taught git history reading in three teams.",
+  "provisional_toc": ["What a commit records", "Finding when a line's content changed", "Finding who last touched a line and what came before"],
+  "will_not_cover": ["rebasing and history rewriting", "submodules", "git internals below the commit object", "GUI tools", "bisect"],
+  "publishing_route": "self-publishing",
+  "assumptions_made": ["Reader has git 2.30 or newer installed."],
+  "blocking_questions": []
+}
