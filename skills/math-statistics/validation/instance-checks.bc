@@ -1,0 +1,227 @@
+/* math-statistics Release 0.1 -- instance checks.
+   Run:  bc -q -l validation/instance-checks.bc
+
+   Every identifier is lowercase and starts with a letter (bc rule).
+   bc TRUNCATES; it does not round.  scale is set high; reported digits past
+   ~12 are noise from truncating division / series tails.
+
+   These are INSTANCES.  They evaluate the capsule's formulas at specific
+   parameters and show the stated numerical relationships.  They do NOT prove
+   the general theorems -- the Lean cores (validation/proof-checks.lean) carry
+   the universal algebra; the deep results are cited. */
+
+scale = 24
+
+define fact(k)   { auto r, i; r = 1; for (i = 2; i <= k; i++) r *= i; return r }
+define choose(a,b) { return fact(a) / (fact(b) * fact(a-b)) }
+define absv(x)   { if (x < 0) return -x; return x }
+/* standard normal CDF via the erf series (from math-probability's file) */
+define phi(z) {
+  auto s, term, k, x
+  x = z / sqrt(2)
+  s = x; term = x
+  for (k = 1; k <= 120; k++) { term *= -(x*x)/k; s += term/(2*k+1) }
+  return 0.5 + s / sqrt(4*a(1))
+}
+define npdf(x) { return e(-(x*x)/2) / sqrt(8*a(1)) }   /* a(1) = pi/4, 8*a(1) = 2 pi */
+
+print "=================================================================\n"
+print " 1.  Cramer-Rao lower bound at named models  (node: cramer_rao_lower_bound)\n"
+print "=================================================================\n"
+print "  CRLB for an unbiased estimator of theta:  Var >= 1 / (n I(theta)).\n\n"
+
+n = 25
+/* Bernoulli(p): I(p) = 1/(p(1-p)); CRLB = p(1-p)/n; attained by Xbar. */
+p = 0.3
+ip = 1 / (p*(1-p))
+crlb_bern = 1 / (n * ip)
+var_xbar_bern = p*(1-p) / n
+print "  Bernoulli(p=0.3), n=25 :  I(p) = ", ip, "\n"
+print "     CRLB      = p(1-p)/n = ", crlb_bern, "\n"
+print "     Var(Xbar) = p(1-p)/n = ", var_xbar_bern, "   -> attained (Xbar is efficient)\n\n"
+
+/* Poisson(lambda): I(lambda) = 1/lambda; CRLB = lambda/n; attained by Xbar. */
+lam = 4
+il = 1 / lam
+crlb_pois = 1 / (n * il)
+print "  Poisson(lambda=4), n=25 :  I(lambda) = ", il, "\n"
+print "     CRLB = lambda/n = ", crlb_pois, "   Var(Xbar) = lambda/n = ", lam/n, "  -> attained\n\n"
+
+/* Normal(mu, sigma^2 known): I(mu) = 1/sigma^2; CRLB = sigma^2/n. */
+sig2 = 9
+crlb_norm = sig2 / n
+print "  Normal mean (sigma^2 = 9 known), n=25 :  CRLB = sigma^2/n = ", crlb_norm, "\n\n"
+
+/* Normal VARIANCE (mu known): CRLB = 2 sigma^4 / n ; S^2 (about known mu) has
+   variance 2 sigma^4 / n and attains it; S^2 about Xbar has 2 sigma^4/(n-1) > CRLB. */
+crlb_var_muknown = 2 * sig2*sig2 / n
+var_s2_muunknown = 2 * sig2*sig2 / (n-1)
+print "  Normal variance :  CRLB (mu known)      = 2 sigma^4 / n     = ", crlb_var_muknown, "\n"
+print "                     Var(S^2) (mu unknown) = 2 sigma^4 /(n-1)  = ", var_s2_muunknown, "\n"
+print "     -> strictly ABOVE the CRLB: no unbiased estimator of sigma^2 attains it\n"
+print "        when mu is unknown (crlb_attainment: only the exp-family natural parameter).\n\n"
+
+print "=================================================================\n"
+print " 2.  The n-1 divisor  (node: bias_of_sample_variance)\n"
+print "=================================================================\n"
+print "  E[ (1/(n-1)) sum (X_i - Xbar)^2 ] = sigma^2  for ANY finite-variance law.\n"
+print "  Check by full enumeration for n=3 fair-die rolls (uniform on {1..6}).\n\n"
+mu = 3.5
+sigma2 = 0
+for (v = 1; v <= 6; v++) sigma2 += (v - mu)^2 / 6      /* population variance = 35/12 */
+print "  population sigma^2 (uniform 1..6) = ", sigma2, "   (= 35/12)\n"
+es2n1 = 0; es2n = 0; tot = 0
+for (i = 1; i <= 6; i++) for (j = 1; j <= 6; j++) for (k = 1; k <= 6; k++) {
+  xb = (i+j+k)/3
+  ss = (i-xb)^2 + (j-xb)^2 + (k-xb)^2
+  es2n1 += (ss/2) / 216            /* divisor n-1 = 2 */
+  es2n  += (ss/3) / 216            /* divisor n   = 3 (the MLE) */
+  tot += 1/216
+}
+print "  E[S^2] with divisor n-1 = ", es2n1, "   -> equals sigma^2  (unbiased)\n"
+print "  E[S^2] with divisor n   = ", es2n,  "   -> (n-1)/n * sigma^2 = ", (2.0/3)*sigma2, "  (biased low)\n\n"
+
+print "=================================================================\n"
+print " 3.  t / chi^2 / F reference values and t -> Normal\n"
+print "     (nodes: students_t_distribution, chi_squared_distribution, f_distribution)\n"
+print "=================================================================\n"
+/* t_k density at 0 is  Gamma((k+1)/2) / ( sqrt(k pi) Gamma(k/2) )  ->  1/sqrt(2 pi).
+   Gamma at half-integers:  Gamma(m + 1/2) = (2m)! / (4^m m!) * sqrt(pi). */
+define ghalf(m) { return fact(2*m) / (4^m * fact(m)) * sqrt(4*a(1)) }   /* Gamma(m + 1/2) */
+target0 = 1 / sqrt(8*a(1))
+print "  t_k density at 0 -> 1/sqrt(2 pi) = ", target0, "\n"
+for (k = 2; k <= 64; k *= 2) {
+  /* k even: (k+1)/2 = k/2 + 1/2 = ghalf(k/2) ; k/2 integer: Gamma(k/2) = (k/2 - 1)! */
+  num = ghalf(k/2)
+  den = sqrt(k * 4*a(1)) * fact(k/2 - 1)
+  print "  k = ", k, " : t_k(0) = ", num/den, "\n"
+}
+print "  -> the t density at 0 rises to the standard-normal value as k grows (Slutsky).\n\n"
+
+/* chi^2 additivity: chi^2_3 + chi^2_5 = chi^2_8  -- check means (3+5 = 8) and
+   variances (2*3 + 2*5 = 2*8) of the constructed law. */
+print "  chi^2 d.o.f. add:  mean(chi^2_3) + mean(chi^2_5) = ", 3+5, " = mean(chi^2_8)\n"
+print "                     var (chi^2_3) + var (chi^2_5) = ", 2*3 + 2*5, " = var(chi^2_8) = ", 2*8, "\n\n"
+
+/* F_{1,k} = t_k^2 : check E[F_{1,k}] = k/(k-2) equals E[t_k^2] = Var(t_k) = k/(k-2). */
+k = 10
+print "  F_{1,10}: mean d2/(d2-2) = ", 10.0/8, " ; = Var(t_10) = k/(k-2) = ", 10.0/8, "  (F_{1,k} = t_k^2)\n\n"
+
+/* reference two-sided 0.975 quantiles (from tables) -- shown converging z <- t */
+print "  0.975 quantiles (tables):  z = 1.959964,  t_5 = 2.570582,  t_10 = 2.228139,\n"
+print "                             t_30 = 2.042272,  t_120 = 1.979930   -> z\n\n"
+
+print "=================================================================\n"
+print " 4.  Neyman-Pearson threshold, N(0,1) vs N(1,1)  (node: neyman_pearson_lemma)\n"
+print "=================================================================\n"
+print "  LR = f1/f0 = exp(x - 1/2).  Reject when LR > k  <=>  x > c, c = ln(k) + 1/2.\n"
+print "  Size alpha = 0.05 one-sided  =>  c = z_0.95.\n\n"
+c = 1.6448536269514722       /* z_0.95 */
+kthr = e(c - 0.5)
+size = 1 - phi(c)
+power = 1 - phi(c - 1)       /* P(X > c | X ~ N(1,1)) = P(Z > c - 1) */
+print "  c = z_0.95            = ", c, "\n"
+print "  LR threshold k        = exp(c - 1/2) = ", kthr, "\n"
+print "  size  = P(X > c | H0) = ", size, "   (target 0.05)\n"
+print "  power = P(X > c | H1) = ", power, "   (this is the MOST powerful level-0.05 test)\n"
+c2 = 1.959963984540054       /* z_0.975, the two-sided level-0.05 cutoff */
+pow2 = (1 - phi(c2 - 1)) + phi(-c2 - 1)
+print "  a two-sided level-0.05 test {|x| > z_0.975} has power ", pow2, " -- LOWER than the\n"
+print "  one-sided NP test, because it spends half its size guarding against a < 0.\n\n"
+
+print "=================================================================\n"
+print " 5.  Rao-Blackwell variance drop  (node: rao_blackwell_theorem)\n"
+print "=================================================================\n"
+print "  Bernoulli(p), estimate g(p) = p^2.\n"
+print "  Crude unbiased estimator  d0 = X_1 X_2   (uses 2 of n observations).\n"
+print "  Rao-Blackwell onto T = sum X_i :  d1 = T(T-1) / (n(n-1)).\n\n"
+p = 0.4; n = 8
+var_d0 = p*p - p*p*p*p                       /* E[X1^2 X2^2] - (p^2)^2 = p^2 - p^4 */
+/* Var(d1): d1 = T(T-1)/(n(n-1)), T ~ Binom(n,p) -- by summation */
+ed1 = 0; ed1sq = 0
+for (t = 0; t <= n; t++) {
+  pt = choose(n,t) * (p^t) * ((1-p)^(n-t))
+  g  = (t*(t-1)) / (n*(n-1))
+  ed1 += g * pt
+  ed1sq += g*g * pt
+}
+var_d1 = ed1sq - ed1*ed1
+print "  E[d1] = ", ed1, "   (target p^2 = ", p*p, ")  -> unbiased\n"
+print "  Var(d0) = p^2 - p^4              = ", var_d0, "\n"
+print "  Var(d1) = Var(RB estimator)      = ", var_d1, "\n"
+print "  ratio Var(d1)/Var(d0)           = ", var_d1/var_d0, "   ( < 1 : conditioning on the\n"
+print "        sufficient statistic strictly reduced the variance )\n\n"
+
+print "=================================================================\n"
+print " 6.  OLS on a 3-point design  (nodes: normal_equations, ols_is_projection,\n"
+print "     unbiased_error_variance_estimator, r_squared)\n"
+print "=================================================================\n"
+print "  X rows (1,0),(1,1),(1,2) ; y = (1, 2, 2).  XtX = [[3,3],[3,5]], det 6.\n\n"
+/* beta_hat = (1/6)[[5,-3],[-3,3]] . Xt y ,  Xt y = (5, 6) */
+b0 = (5*5 + (-3)*6) / 6
+b1 = ((-3)*5 + 3*6) / 6
+print "  beta_hat = ( intercept, slope ) = ( ", b0, ", ", b1, " )   (= 7/6, 1/2)\n"
+y1 = 1; y2 = 2; y3 = 2
+f1 = b0 + b1*0; f2 = b0 + b1*1; f3 = b0 + b1*2
+rss = (y1-f1)^2 + (y2-f2)^2 + (y3-f3)^2
+print "  fitted   = ( ", f1, ", ", f2, ", ", f3, " )\n"
+print "  residuals sum to (should be 0)  = ", (y1-f1)+(y2-f2)+(y3-f3), "\n"
+print "  residuals . x  (orthogonality)  = ", (y1-f1)*0 + (y2-f2)*1 + (y3-f3)*2, "\n"
+print "  RSS = ", rss, "   sigma_hat^2 = RSS/(n-p) = RSS/1 = ", rss/1, "\n"
+yb = (y1+y2+y3)/3
+tss = (y1-yb)^2 + (y2-yb)^2 + (y3-yb)^2
+print "  TSS = ", tss, "   R^2 = 1 - RSS/TSS = ", 1 - rss/tss, "\n\n"
+
+print "=================================================================\n"
+print " 7.  Wald interval coverage for a binomial proportion  (node: wald_interval)\n"
+print "=================================================================\n"
+print "  p = 0.2, n = 20, nominal 95%.  Enumerate k = 0..20, weight by Binom pmf,\n"
+print "  interval p_hat +- 1.96 sqrt(p_hat(1-p_hat)/n).\n\n"
+p = 0.2; n = 20; z = 1.959963984540054
+cov = 0
+for (k = 0; k <= n; k++) {
+  ph = k / n
+  se = sqrt(ph*(1-ph) / n)
+  lo = ph - z*se
+  hi = ph + z*se
+  pk = choose(n,k) * (p^k) * ((1-p)^(n-k))
+  if (lo <= p && p <= hi) cov += pk
+}
+print "  actual coverage of the nominal-95% Wald interval = ", cov, "\n"
+print "  -> BELOW 0.95: the Wald interval undercovers for p near the boundary / small n\n"
+print "     (Brown-Cai-DasGupta 2001; the score / Wilson interval fixes this).\n\n"
+
+print "=================================================================\n"
+print " 8.  Benjamini-Hochberg step-up vs Bonferroni  (nodes: benjamini_hochberg_fdr,\n"
+print "     bonferroni_correction)\n"
+print "=================================================================\n"
+print "  m = 10 ordered p-values, alpha = 0.05.\n\n"
+alpha = 0.05; m = 10
+/* ordered p-values */
+define pv(i) {
+  if (i == 1) return 0.001
+  if (i == 2) return 0.008
+  if (i == 3) return 0.012
+  if (i == 4) return 0.020
+  if (i == 5) return 0.030
+  if (i == 6) return 0.040
+  if (i == 7) return 0.060
+  if (i == 8) return 0.200
+  if (i == 9) return 0.500
+  return 0.700
+}
+kbh = 0
+for (i = 1; i <= m; i++) {
+  thr = (i / m) * alpha
+  if (pv(i) <= thr) kbh = i
+  print "  i = ", i, " : p_(i) = ", pv(i), "   BH threshold i/m*alpha = ", thr, "\n"
+}
+print "\n  BH rejects the ", kbh, " smallest p-values (largest i with p_(i) <= i/m*alpha).\n"
+kbonf = 0
+for (i = 1; i <= m; i++) if (pv(i) <= alpha/m) kbonf = i
+print "  Bonferroni (p_(i) <= alpha/m = ", alpha/m, ") rejects ", kbonf, ".\n"
+print "  -> BH is more powerful: it tolerates a controlled FALSE DISCOVERY fraction,\n"
+print "     Bonferroni controls the family-wise error and is stricter.\n\n"
+
+print "=== all instance checks evaluated ===\n"
+quit

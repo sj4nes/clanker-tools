@@ -21,13 +21,20 @@ on top of [`math-probability`](../math-probability/SKILL.md).
 | `sources/bibliography.md` | done — ~90 references |
 | `indexes/` | done — tsort-order, hypothesis, regime, counterexample, status, symbol (KWIC), prerequisite-paths, reverse-dependencies |
 | `validation/proof-checks.lean` + `.md` | **done (Stage 3)** — Lean 4.33, no Mathlib, exit 0: 26 genuine universal cores + 8 `decide` instance checks; `lean_status` 38 core / 6 instance / 103 cited |
-| `validation/instance-checks.bc` | **not started (Stage 4)** |
+| `validation/instance-checks.bc` | **done (Stage 4)** — `bc -l`, exit 0, 8 sections (CRLB at named models, n−1 divisor, t/χ²/F, Neyman–Pearson threshold, Rao–Blackwell drop, OLS 3-point, Wald coverage, BH step-up) |
 | `SKILL.md` | written last, once the release is `reviewed` |
 
 Regenerate all node pages + YAMLs after editing a spec:
 `python3 build/gen-results.py`  (then `sh validation/graph-check.sh`).
 
 ## Remaining stages
+
+5. Discovery views polish; write `SKILL.md`; promote node statuses `draft`→`reviewed`
+   where validation passes; changelog; publish Release 0.1.
+
+---
+
+## Historical stage notes
 
 3. `validation/proof-checks.lean` — the finitary algebraic / inequality cores
    (bias–variance decomposition, score identity, information equality,

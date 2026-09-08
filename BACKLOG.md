@@ -187,8 +187,18 @@ linear model with Gauss–Markov. Per-result `regime:` tag
       `lean_status: instance` value for decide-instance-backed nodes.
       `proof-checks.md` written with the genuine-vs-instance table keyed to nodes.
       `build/all.sh` green end to end. (2026-09-08)
-- [ ] **math-statistics:** Stage 4 — `validation/instance-checks.bc`; Stage 5 —
-      `SKILL.md` + Release 0.1 publish + changelog.
+- [x] **math-statistics:** Stage 4 — `validation/instance-checks.bc` (bc -l, exit 0,
+      8 sections): CRLB at Bernoulli/Poisson/Normal-mean (attained) vs Normal-variance
+      (not attained); the n-1 divisor by full n=3 die enumeration (E[S^2] = 35/12);
+      t-density-at-0 -> 1/sqrt(2pi), chi^2 d.o.f. additivity, F_{1,k} = t_k^2;
+      Neyman-Pearson threshold N(0,1) vs N(1,1) (size 0.05, one-sided power 0.2595 >
+      two-sided); Rao-Blackwell variance drop (ratio 0.158 < 1); OLS on the 3-point
+      design (beta_hat = 7/6, 1/2; residuals orthogonal; R^2); Wald-interval coverage
+      for Binom(20, 0.2) = 0.921 < 0.95 (undercoverage); Benjamini-Hochberg step-up
+      rejects 4 vs Bonferroni 1. `build/all.sh` green (lean + bc). (2026-09-08)
+- [ ] **math-statistics:** Stage 5 — `SKILL.md` + promote node statuses
+      `draft`->`reviewed` + Release 0.1 publish + changelog; then the `statistics`
+      methodology skill (cites this capsule).
 - [ ] **math-statistics:** acknowledged gap — no `math-linear-algebra` capsule;
       `linear_algebra_background` is a single cited `bridge` node. Candidate for
       a future capsule below this one.
