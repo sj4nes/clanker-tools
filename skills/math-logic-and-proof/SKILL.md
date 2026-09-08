@@ -180,4 +180,13 @@ first-order-logic axiom nodes); each node's detail page carries the
 math-theorem-tree step-7 elements (typed statement, type-check status, ≥1
 specialization, ≥1 hypothesis-dropped counterexample, Lean/`bc` status,
 constructive grade, sources), audited by `build/audit-pages.py`.
+
+**Tutorial.** [`tutorial/what-counts-as-a-proof.md`](tutorial/what-counts-as-a-proof.md)
+— an `upmd`-executable walk through the `proof_methods` block: each method run
+on a concrete object, then `#print axioms` in the Lean kernel to show **which
+classical principle it needs** (the `constructive_grade`, refereed by the
+kernel). 17 runnable blocks from `validation/proof-checks.lean` §2/6/9/10 and
+`validation/instance-checks.bc`. Run:
+`upmd skills/math-logic-and-proof/tutorial/what-counts-as-a-proof.md`.
+
 To do: a Mathlib-backed completeness formalisation.

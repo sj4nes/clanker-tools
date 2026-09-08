@@ -15,6 +15,21 @@ primitives that `math-sets-functions-cardinality` cites but does not build:
 - Views: [`indexes/`](indexes/) — tsort order, hypothesis, status, constructive-grade, counterexample, prerequisite-paths, reverse-deps, [`symbol-index.md`](indexes/symbol-index.md)
 - Verification: [`validation/`](validation/) — Lean `proof-checks.lean` (+`.md`), `bc` `instance-checks.bc`, and the generated worksheets `type-checks.md` / `specialization-cases.md` / `instance-checks.md`
 
+## Tutorials
+
+- [`tutorial/what-counts-as-a-proof.md`](tutorial/what-counts-as-a-proof.md) —
+  **"What counts as a proof"**: an interactive walk through the `proof_methods`
+  block — `direct_proof` → `proof_by_contrapositive` → `proof_by_contradiction`
+  → `proof_by_cases` → `disproof_by_counterexample` → weak / strong / structural
+  induction → `well_ordering_principle` → `induction_equivalence`. For each
+  method you run the move on a concrete object (parity, primes, `ℤ/6ℤ`), then
+  ask the Lean kernel via `#print axioms` **which classical axiom it needs** —
+  the `constructive_grade` of each, refereed by the kernel. 17 runnable blocks
+  (8 `lean_`, 4 `chk_`, 3 `cx_`, setup, capstone), all from
+  `validation/proof-checks.lean` §2/6/9/10 and `validation/instance-checks.bc`.
+  Run: `upmd skills/math-logic-and-proof/tutorial/what-counts-as-a-proof.md`
+  (or `upmd --ci --all …` to run every check).
+
 ## Build
 
 ```sh

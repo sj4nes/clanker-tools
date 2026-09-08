@@ -131,6 +131,69 @@ print "  least n with n^2 > 30 : ", least, "   (check ", least, "^2 = ", least*l
 print "  well-ordering: every nonempty subset of N has such a least element;\n"
 print "  equivalent to weak and to strong induction (proof-checks.lean, strong_of_weak).\n\n"
 
+print "=== proof_methods: direct_proof / proof_by_contrapositive -- n odd => n^2 odd ===\n"
+print "  direct: n = 2k+1  =>  n^2 = 4k^2+4k+1 = 2(2k^2+2k)+1, odd.  Check n = 1,3,5,7,9:\n"
+allodd = 1
+for (k = 0; k <= 4; k++) {
+  n = 2*k + 1
+  sq = n*n
+  par = sq % 2
+  alg = 2*(2*k*k + 2*k) + 1
+  print "    n=", n, "  n^2=", sq, "  n^2 % 2=", par, "  2(2k^2+2k)+1=", alg, "\n"
+  if (par != 1) allodd = 0
+  if (sq != alg) allodd = 0
+}
+print "  all odd, and the algebra matches: ", allodd, "  (want 1)\n"
+print "  contrapositive of 'n^2 even => n even' is exactly 'n odd => n^2 odd' -- proved above.\n\n"
+
+print "=== proof_methods: proof_by_cases -- exhaustiveness is the obligation ===\n"
+print "  claim: n^2 > n for ALL n in N.  Split on {n >= 2} only (the tempting case):\n"
+holds2 = 1
+for (n = 2; n <= 6; n++) { if (n*n <= n) holds2 = 0 }
+print "    n >= 2 sub-case holds: ", holds2, "\n"
+print "  but {n >= 2} is NOT exhaustive -- the uncovered cases n = 0, 1:\n"
+print "    n=0: 0 > 0 ? ", (0 > 0), "     n=1: 1 > 1 ? ", (1 > 1), "\n"
+bad = 0
+for (n = 0; n <= 1; n++) { if (n*n <= n) bad = bad + 1 }
+print "  uncovered cases where the claim FAILS: ", bad, "  (want 2)\n"
+print "  a case split that omits a case proves nothing.  (The true statement is n^2 >= n.)\n\n"
+
+print "=== proof_methods: disproof_by_counterexample -- one witness kills a universal ===\n"
+print "  claim: every prime is odd.  Test n = 2:\n"
+ndiv = 0
+for (d = 2; d < 2; d++) { if (2 % d == 0) ndiv = ndiv + 1 }
+print "    2 has no divisor strictly between 1 and itself (count=", ndiv, ") -> 2 is prime\n"
+print "    2 % 2 = ", (2 % 2), " -> 2 is even\n"
+print "  so 2 is a prime that is not odd: the universal 'every prime is odd' is FALSE.\n"
+print "  (exhibiting the witness is constructive; see cap_not_forall_of_exists_not.)\n\n"
+
+print "=== proof_methods: well_ordering_principle -- nonemptiness and the carrier matter ===\n"
+print "  N: { n : n*n > 30 } has least element 6 (computed in induction_equivalence above).\n"
+print "  Z (integers): pick any candidate least m; m-1 < m is also in Z.  m = -3..3:\n"
+zleast = 1
+for (m = -3; m <= 3; m++) { if ((m - 1) >= m) zleast = 0 }
+print "    every m has a smaller m-1 in Z: ", zleast, "  -> Z has NO least element\n"
+print "  Q>0 : candidate least 1/n; then 1/(2n) is positive and smaller (cross-multiply\n"
+print "        1*(2n) vs 1*n  =>  n < 2n).  n = 1..5:\n"
+qleast = 1
+for (n = 1; n <= 5; n++) { if (n >= 2*n) qleast = 0 }
+print "    1/(2n) < 1/n for every n: ", qleast, "  -> {q in Q : q > 0} has NO least element\n"
+print "  drop 'nonempty' or leave N and the principle fails (well_ordering_theorem needs AC).\n\n"
+
+print "=== proof_methods: induction_equivalence -- weak reaches all, cyclic carrier has no least ===\n"
+print "  Z/6Z with successor +1 mod 6, starting from 0:\n"
+x = 0
+reached = 1
+for (i = 1; i <= 5; i++) { x = (x + 1) % 6; if (x != i) reached = 0 }
+print "    walk 0->1->2->3->4->5 by successor: all six reached? ", reached, "\n"
+print "  so a weak-induction-style walk covers the whole carrier.  But in the cycle every\n"
+print "  element has a predecessor (m-1 mod 6), so there is NO least element:\n"
+noleast = 1
+for (m = 0; m <= 5; m++) { p = (m + 5) % 6; if (p == m) noleast = 0 }
+print "    every m in Z/6Z has a distinct predecessor: ", noleast, "\n"
+print "  => weak_induction can hold where well_ordering_principle fails: the equivalence\n"
+print "     (induction_equivalence) is RELATIVE to the Peano structure of N.\n\n"
+
 print "=== boundary: propositional validity IS decidable (2^n table); first-order is NOT ===\n"
 print "  propositional: a wff with n atoms -> 2^n rows -> decidable (this file, row-by-row)\n"
 print "  first-order: no such bound; validity is only semi-decidable (undecidability_fol_validity)\n"

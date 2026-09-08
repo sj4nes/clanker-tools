@@ -491,9 +491,42 @@ theorem well_ordering (P : Nat → Prop) (w : Nat) (hw : P w) :
     exact ih k hk hkP
   exact hno w hw
 
+/-! ## 10. Proof methods (`proof_methods` block): concrete cores, and the
+    CONSTRUCTIVE-GRADE SPLIT read straight off `#print axioms`.
+
+    Each proof method the capsule names carries a `constructive_grade`; the
+    kernel is the referee.  `-> none` means the method (or this direction of it)
+    is intuitionistic; `-> [Classical.choice, …]` means it genuinely needs a
+    classical principle, exactly as the node page claims. -/
+
+/-- `direct_proof`: a `fun h => …` — assume the antecedent, build the consequent.
+    Intuitionistic; computes. -/
+theorem direct_example (p q : Prop) : (p ∧ q) → (q ∧ p) := fun h => ⟨h.2, h.1⟩
+
+/-- `proof_by_cases`: an **exhaustive, decidable** disjunction, then settle each
+    case.  Constructive — parity is decidable, `omega` produces the split. -/
+theorem parity_dichotomy (n : Nat) : n % 2 = 0 ∨ n % 2 = 1 := by omega
+
+/-- The case analysis actually used: `n²` has the same parity as `n`
+    (`(n·n) % 2 = n % 2`), by cases on `parity_dichotomy n`.  This is the engine
+    of "if `n²` is even then `n` is even" — `proof_by_contrapositive`. -/
+theorem sq_parity (n : Nat) : (n * n) % 2 = n % 2 := by
+  rcases parity_dichotomy n with h | h <;> simp [Nat.mul_mod, h]
+
 #print axioms soundness
 #print axioms deduction
 #print axioms deriv_iff_H
 #print axioms Deriv.weaken
-#print axioms strong_of_weak
-#print axioms not_forall_iff
+-- proof_methods: the grade of each method, per the kernel
+#print axioms direct_example            -- direct_proof             -> none  (intuitionistic)
+#print axioms dni                       -- direct_proof (p → ¬¬p)   -> none
+#print axioms contrapose_weak           -- contrapositive, forward  -> none  (intuitionistic)
+#print axioms contrapose_iff            -- proof_by_contrapositive  -> Classical  (needs_DNE)
+#print axioms dne                       -- proof_by_contradiction   -> Classical  (needs_DNE)
+#print axioms parity_dichotomy          -- proof_by_cases           -> none  (decidable split)
+#print axioms sq_parity                 -- proof_by_cases (applied) -> none
+#print axioms cap_not_forall_of_exists_not  -- disproof_by_counterexample (∃¬ → ¬∀)  -> none
+#print axioms not_forall_iff            -- the CONVERSE habit (¬∀ → ∃¬)  -> Classical  (needs_LEM)
+#print axioms strong_of_weak            -- weak_induction / strong_induction  -> none  (intuitionistic)
+#print axioms well_ordering             -- well_ordering_principle (arbitrary P)  -> Classical  (needs_DNE)
+#print axioms binary_dnf                -- structural_induction (over Wff / Bool)  -> none

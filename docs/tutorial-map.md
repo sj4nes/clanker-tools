@@ -96,6 +96,7 @@ missing); `bc` numeric beats carry the `bc`-identifier rules; `upmd` runs
 | [`three-axioms.md`](../skills/math-probability/tutorial/three-axioms.md) | `math-probability` | Kolmogorov axioms → `boole_inequality`, on a fair die; a runnable counterexample per theorem + an "In the wild" beat | 18 (`bc` + 2 Lean-via-bash) | **`theorem-tree-tutorial`** (its first) |
 | [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md) | `math-probability` | Markov → Chebyshev → Jensen → Chernoff → Hoeffding; each rung + an "In the wild" beat (KL≥0, JL, PAC, UCB); capstone + "where it bites back" | 21 (`bc` + 3 Lean + 4 `app_`) | `theorem-tree-tutorial` |
 | [`building-the-number.md`](../skills/math-number-systems/tutorial/building-the-number.md) | `math-number-systems` | `integer` → `rational_number` → `sqrt2_irrational` → `rational_incomplete_lub` → `dedekind_cut` → `real_is_ordered_field` → `lub_property` → `nth_root_exists`; a well-definedness check + broken-operation counterexample per quotient; `ℚ`'s gap exhibited, then filled | 23 (`bc` + 3 Lean + 2 `app_`) | `theorem-tree-tutorial` |
+| [`what-counts-as-a-proof.md`](../skills/math-logic-and-proof/tutorial/what-counts-as-a-proof.md) | `math-logic-and-proof` | `direct_proof` → `proof_by_contrapositive` → `contradiction` → `cases` → `disproof_by_counterexample` → weak/strong/structural induction → `well_ordering_principle` → `induction_equivalence`; each method run on a concrete object, then `#print axioms` in the kernel for its `constructive_grade` | 17 (8 Lean + 4 `bc` + 3 `cx_`) | `theorem-tree-tutorial` |
 
 ### Tier 1 — single-target tutorials (one headline, its minimal prerequisite path)
 
@@ -107,7 +108,7 @@ first candidate (accessible hook, small closure, checks ready).
 
 | Working title | Target node(s) | Hook |
 |---|---|---|
-| **What counts as a proof** ★ | the 15-node `proof_methods` block → `induction_equivalence` | direct / contrapositive / contradiction / cases / weak-strong-structural induction / well-ordering — with the constructive grade on each |
+| **What counts as a proof** ★ — ✅ [SHIPPED](../skills/math-logic-and-proof/tutorial/what-counts-as-a-proof.md) | the `proof_methods` block → `induction_equivalence` | direct / contrapositive / contradiction / cases / weak-strong-structural induction / well-ordering — with the constructive grade on each, refereed by the Lean kernel |
 | Truth tables to functional completeness | `functional_completeness` | every Boolean function is `{¬,∧,∨}` — and `{NAND}` alone suffices |
 | Two calculi, one theorem | `nd_hilbert_equivalence` | natural deduction vs a Hilbert system + the deduction theorem, proved equivalent |
 | Why the rules don't lie | `soundness_prop`, `soundness_fol` | every derivable sequent is valid — the easy half of the metatheory |
@@ -265,7 +266,7 @@ capsule × infrastructure readiness):
 2. ~~**√2 is irrational — and that's a crisis**~~ — ✅ **shipped 2026-09-07** as [`building-the-number.md`](../skills/math-number-systems/tutorial/building-the-number.md). 23 blocks; exercised the skill on a *constructions* capsule — the well-definedness beat (`cx_` = a broken operation on classes) is the new pattern. Fixed a pre-existing parse bug in `cantor_diagonal_argument.yaml`.
 3. **Why heat engines have a ceiling** (`physics-thermodynamics`, → `carnot_efficiency`) — already wanted in `BACKLOG.md`; `formula-tree-tutorial` builds it today, no new infrastructure.
 4. ~~**The concentration ladder**~~ — ✅ **shipped 2026-09-06** as [`concentration-ladder.md`](../skills/math-probability/tutorial/concentration-ladder.md). 17 blocks, 3 genuine Lean cores; surfaced (and fixed) a missing `markov_finite` in the capsule's Lean file.
-5. **What counts as a proof** (`math-logic-and-proof`, the `proof_methods` block) — the most broadly useful lesson in the repo; needs `theorem-tree-tutorial` or a hand build in the `hole-in-the-rationals` style.
+5. ~~**What counts as a proof**~~ — ✅ **shipped 2026-09-08** as [`what-counts-as-a-proof.md`](../skills/math-logic-and-proof/tutorial/what-counts-as-a-proof.md). 17 blocks (8 Lean-via-shell). New pattern: the `lean_` beat runs `#print axioms` and greps for `Classical.choice` to *show* each method's `constructive_grade` — the kernel as referee. Surfaced + added a `§10 Proof methods` section to the capsule's `proof-checks.lean` (`direct_example`, `parity_dichotomy`, `sq_parity` + a `#print axioms` battery) and a `proof_methods` worksheet to `instance-checks.bc`; also caught two stale `lean_status` overclaims (`post_completeness_theorem`, `compactness_prop`).
 6. **From the empty set to the real line** (cross-capsule: sets → numbers → analysis) — the flagship that shows why the *stack* exists; needs the cross-capsule convention (Tier 4) sorted out first.
 
 Items 2 and 4 use the [`theorem-tree-tutorial`](../skills/theorem-tree-tutorial/SKILL.md)

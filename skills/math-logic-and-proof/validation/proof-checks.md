@@ -54,6 +54,7 @@ Mathlib**. `#print axioms` at the end of the file confirms:
 | `quantifier_negation` | `not_exists_iff`, `cap_not_forall_of_exists_not`, `not_forall_iff` | 3 of 4 directions intuitionistic; `not_forall_iff` = `Classical.not_forall` |
 | `quantifier_order` | `forall_exists_of_exists_forall` | `∃∀ → ∀∃` genuine |
 | `induction_equivalence` | `strong_of_weak`, `well_ordering` | weak → strong → well-ordering, over `Nat`, plain Lean |
+| `proof_methods` block (§10) | `direct_example`, `parity_dichotomy`, `sq_parity` + a `#print axioms` battery | the constructive-grade split, refereed by the kernel: `direct_example` / `dni` / `contrapose_weak` / `parity_dichotomy` / `sq_parity` / `cap_not_forall_of_exists_not` / `strong_of_weak` / `binary_dnf` → no `Classical.choice` (intuitionistic); `contrapose_iff` / `dne` / `not_forall_iff` / `well_ordering` → `Classical.choice` (`needs_DNE` / `needs_LEM`) |
 
 ## Instance checks (`decide` / concrete model — necessary, not sufficient)
 
@@ -86,5 +87,10 @@ hypothetical syllogism (tautology confirmed); the De Morgan truth-table
 agreement with the constructive-grade note; NAND reconstruction of ¬/∧/∨ and the
 count `2^(2^2)=16`; `∀x∃y` vs `∃y∀x` on `y ≡ x+1 (mod 4)` over a 4-element
 domain (`1` vs `0`); the `free_for` capture bug (`phi(3)=1`, captured `=0`);
-the structural shape of a negated ε–δ statement; and least-element search as
-well-ordering (`least n with n² > 30` is `6`).
+the structural shape of a negated ε–δ statement; least-element search as
+well-ordering (`least n with n² > 30` is `6`); and the **`proof_methods`**
+worksheet — `n` odd ⇒ `n²` odd (direct / contrapositive), a non-exhaustive case
+split leaving two failing cases, `2` as a prime that is not odd
+(disproof-by-counterexample), no-least-element on `ℤ` and `ℚ₊`, and `ℤ/6ℤ` where
+a successor walk reaches every element but there is no least (so
+`induction_equivalence` is Peano-structure-relative).
