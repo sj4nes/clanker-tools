@@ -146,7 +146,14 @@ also fails.
     evidence; uncertainty interval or output distribution; key sensitivity
     drivers; conditions under which the recommendation reverses; reproducibility
     metadata; explicit non-claims. Template in
-    [`references/workflow.md`](references/workflow.md).
+    [`references/workflow.md`](references/workflow.md). For the result figures —
+    output histogram / ECDF, fan chart, tornado sensitivity plot,
+    exceedance-probability curve, warm-up diagnostic, observed-vs-predicted
+    validation scatter — see [`visualization-design`](../visualization-design/SKILL.md)
+    §"Simulation and DOE visualization" in
+    [`references/evidence-and-domains.md`](../visualization-design/references/evidence-and-domains.md),
+    which also gives the labelling rules (replications, Monte Carlo error,
+    prediction interval vs scenario envelope, observed vs simulated).
 
 ## Paradigm selection
 

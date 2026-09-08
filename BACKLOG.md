@@ -324,10 +324,13 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 
 ### visualization-design
 
-- [ ] **visualization-design:** cross-link with `simulation` and
-      `design-of-experiments` — their reporting steps could point at
-      `references/evidence-and-domains.md` for the plot catalogue instead of
-      restating it.
+- [x] **visualization-design:** cross-link with `simulation` and
+      `design-of-experiments` — their report steps (simulation step 10, DOE
+      step 7 visualization plan) now point at
+      `visualization-design/references/evidence-and-domains.md`
+      §"Simulation and DOE visualization" for the figure catalogue + labelling
+      rules instead of restating. The reference already declares it "pairs with"
+      both skills. (2026-09-08)
 - [ ] **visualization-design:** extend `verification/` with a diagram-grammar
       check (parse a Mermaid/DOT source, confirm every edge style has a declared
       meaning in a legend node).

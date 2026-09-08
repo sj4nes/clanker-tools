@@ -173,7 +173,12 @@ assignment also fails.
    rationale; random / fixed effects and clustering; pre-planned interactions;
    missing-data assumptions; outlier and data-quality rules; multiplicity /
    hierarchical testing; interim analyses and stopping rules; sensitivity
-   analyses; subgroup plan; effect sizes with intervals; visualization plan;
+   analyses; subgroup plan; effect sizes with intervals; visualization plan
+   (for the figure forms — effect-size-with-interval plots, interaction
+   matrices, predicted-vs-observed, run-order drift plots — see
+   [`visualization-design`](../visualization-design/SKILL.md) §"Simulation and
+   DOE visualization" in
+   [`references/evidence-and-domains.md`](../visualization-design/references/evidence-and-domains.md));
    decision rule; reproducibility requirements.
 8. **Audit instrumentation and data quality.** Event-logging completeness;
    stable identifiers and assignment records; assignment-to-exposure linkage;
