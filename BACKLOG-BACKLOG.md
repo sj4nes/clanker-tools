@@ -76,6 +76,19 @@ footguns, its portability traps, a verification run that exercises the traps.
 | `sqlite3` (CLI) | transactions, `.mode`, `EXPLAIN QUERY PLAN`, `.dump` fidelity | fixture DBs; query results vs hand-computed | speculative |
 | `ffmpeg` | filter-graph and codec discipline — when the defaults lie | tiny synthetic clips; assert on `ffprobe` output | speculative |
 
+## Reference / conventions
+
+A **new archetype**: not a methodology and not a single-tool skill, but a
+distilled *spec + curated data + validator* — a lookup the agent generates
+_from_, with a mechanical check that every entry still renders. The first
+candidate motivates the archetype; `docs/tutorial-map.md` is the closest
+existing precedent (a curated reference artifact), and `notation-and-units`
+below is adjacent.
+
+| Candidate | One line | Verify | Confidence |
+|---|---|---|---|
+| `math-notation-rosetta` | a canonical math-notation layer with three renderings — KaTeX (TeX-dialect), Typst-native math, and plain/portable Markdown — plus portability tiers (portable · markdown+katex · typst-native · extended-nonportable) and **one hard rule: generate from the canonical form into the requested target, never textually substitute between KaTeX and Typst** (Typst math is not "LaTeX with shorter commands"). v0.1 = the ~20-construct safe core (superscript, subscript, fraction, root, sum, integral, matrix, set-builder, function-map, blackboard-bold, …) as `entries/*.yaml` with per-entry `requires_grouping_when` and support-status fields; a spoken/accessibility reading per entry; defer the full precedence-aware canonical-AST emitter to v0.2. Absorbs the LaTeX-math→Typst-math map now in `skills/typst/references/markdown-migration.md`. Pairs with the `typst` skill and a future `katex` skill; feeds the `upmd` tutorial skills (math in Markdown). | every KaTeX example compiles under a pinned `katex` (needs Node); every Typst example compiles under `typst compile` (strong — binary already in use); a differential asserts the three targets of one entry are declared equivalent. **Gap:** the plain-Markdown fallback tier has no mechanical check — "legible as literal text" stays judgment, so the kernel is strong for 2 of 3 targets. | plausible |
+
 ## Mathematics — capsules
 
 Complete the dependency towers. `math-theorem-tree` is the proven builder; Lean

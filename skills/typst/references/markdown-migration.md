@@ -36,6 +36,10 @@ Pick A unless something external still needs the Markdown.
 
 Typst math is **not** LaTeX. This is where auto-conversion breaks most often.
 
+> A cross-renderer canonical notation layer (`math-notation-rosetta`, KaTeX ·
+> Typst · plain Markdown) is a candidate in `BACKLOG-BACKLOG.md`; if built it
+> subsumes this table. Until then, this map is the reference.
+
 | LaTeX | Typst | |
 |---|---|---|
 | `x^2 + y_i` | `x^2 + y_i` | same |
