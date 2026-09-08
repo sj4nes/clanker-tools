@@ -7,6 +7,8 @@ Mathlib**. `#print axioms` at the end of the file confirms:
 |---|---|---|
 | `soundness` (`soundness_prop`) | `propext` | genuine universal proof |
 | `deduction` (`deduction_theorem`) | `propext` | genuine universal proof |
+| `deriv_iff_H` (`nd_hilbert_equivalence`) | `propext` | genuine universal proof — the full `Deriv ↔ H` round trip, both directions by induction |
+| `Deriv.weaken` (weakening for `nd_derivation`) | `propext` | genuine universal proof |
 | `strong_of_weak` (`induction_equivalence`) | *(none)* | genuine, fully constructive |
 | `not_forall_iff` (`quantifier_negation`, classical dir.) | `propext, Classical.choice, Quot.sound` | **correctly** classical — this is the `needs_LEM` law |
 
@@ -40,15 +42,15 @@ Mathlib**. `#print axioms` at the end of the file confirms:
 | `structural_induction_wff` / `recursion_on_wff` | `induction φ` / `def eval` | the recursor of the `Wff` inductive type |
 | `true_false_constants` | `Wff.fls` + `Deriv.falseE` | ⊥ constructor + ⊥E |
 | `soundness_prop` | `soundness` | induction on `Deriv` (ax, →I, →E, ∧I, ∧E, ⊥E, RAA); `raa`/`falseE` cases handled by `Bool.noConfusion` |
-| `deduction_theorem` | `deduction` | induction on the Hilbert derivation `H`; the `mp` case uses the `S` schema |
+| `deduction_theorem` | `deduction` | induction on the Hilbert derivation `H`; the `mp` case uses the `S` schema, every axiom case is `K`-prefixed |
 | `nd_rules_propositional` | `Deriv` constructors | `ax`, `impI` (→I / discharge), `impE` (→E), `andI`, `andEl`, `andEr`, `falseE` (⊥E), `raa` — a representative fragment |
-| `nd_derivation` / `assumption_discharge` | `Deriv` / `Deriv.impI` | `impI : Deriv (p :: Γ) q → Deriv Γ (p → q)` is discharge |
+| `nd_derivation` / `assumption_discharge` | `Deriv` / `Deriv.impI` | `impI : Deriv (p :: Γ) q → Deriv Γ (p → q)` is discharge; `Deriv.weaken` (context monotone under `⊆`) proved by induction |
 | `modus_ponens` | `Deriv.impE`, `H.mp` | |
 | `raa_rule` | `Deriv.raa` + `dne` | classical; `#print axioms` shows `Classical.choice` on `dne` |
 | `explosion_ex_falso` | `Deriv.falseE`, `Deriv.explosion` | ⊥E constructor |
-| `hilbert_system_prop` / `hilbert_derivation` | `inductive H` (`k`, `s`, `mp`), `H.self` | `→`-fragment; schema 3 not included |
+| `hilbert_system_prop` / `hilbert_derivation` | `inductive H` (`k`, `s`, `mp`, `andI`, `andEl`, `andEr`, `efq`, `raaAx`), `H.self` | classical calculus matching the `Deriv` fragment rule for rule (`¬` primitive, enters only via `raaAx : (¬p → ⊥) → p`) |
 | `derived_rules` | `Deriv.cut`, `Deriv.and_comm`, `Deriv.explosion` | short compositions of primitive rules |
-| `nd_hilbert_equivalence` | `deduction`, `H.self` | **partial** — the substantive ND⇒H ingredient (deduction theorem) is proved; the full `Deriv ↔ H` round trip is stated, not formalised (needs `Deriv` weakening + Hilbert ∧/RAA schemas) |
+| `nd_hilbert_equivalence` | `deriv_iff_H` (`= ⟨H_of_deriv, deriv_of_H⟩`), `deduction`, `Deriv.weaken` | **genuine, universal.** `H_of_deriv`: induction on `Deriv`, the `impI` case *is* the deduction theorem, the `∧`/`⊥E`/`RAA` cases use the matching `H` schemas. `deriv_of_H`: induction on `H`, each axiom schema a short `impI`-built `Deriv` theorem. `#print axioms deriv_iff_H` → `propext` only |
 | `quantifier_negation` | `not_exists_iff`, `cap_not_forall_of_exists_not`, `not_forall_iff` | 3 of 4 directions intuitionistic; `not_forall_iff` = `Classical.not_forall` |
 | `quantifier_order` | `forall_exists_of_exists_forall` | `∃∀ → ∀∃` genuine |
 | `induction_equivalence` | `strong_of_weak`, `well_ordering` | weak → strong → well-ordering, over `Nat`, plain Lean |

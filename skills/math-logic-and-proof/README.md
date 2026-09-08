@@ -20,7 +20,7 @@ primitives that `math-sets-functions-cardinality` cites but does not build:
 ```sh
 sh build/all.sh                        # graph -> tsort -> views -> lean -> bc -> yaml check
 sh build/build-tree.sh                 # 130 nodes, 312 edges, acyclic, 7 roots
-lean validation/proof-checks.lean      # exit 0, no sorry: soundness + deduction theorem (propext only)
+lean validation/proof-checks.lean      # exit 0, no sorry: soundness, deduction thm, Deriv<->H round trip (propext only)
 bc -q -l validation/instance-checks.bc # truth tables, NAND completeness, forall-exists vs exists-forall
 ```
 
@@ -63,9 +63,10 @@ specialization / boundary cases, hypothesis-dropped counterexamples, common
 misuse, related nodes, and sources; every page's stated prerequisites are
 machine-checked against the graph edges;
 **`validation/proof-checks.lean`** (Lean 4.33, no
-Mathlib, exit 0, no `sorry` — `soundness_prop` and `deduction_theorem` genuine
-universal proofs on `propext` alone, the equivalence-catalogue constructive
-split, `induction_equivalence`; the Henkin/completeness/compactness/LS layer and
+Mathlib, exit 0, no `sorry` — `soundness_prop`, `deduction_theorem`, the full
+`nd_hilbert_equivalence` round trip (`Deriv ↔ H`) and `Deriv` weakening as
+genuine universal proofs on `propext` alone, the equivalence-catalogue
+constructive split, `induction_equivalence`; the Henkin/completeness/compactness/LS layer and
 every boundary node are `cited`, tracked in
 [`validation/proof-checks.md`](validation/proof-checks.md));
 **`validation/instance-checks.bc`**; and the generated

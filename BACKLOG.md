@@ -273,10 +273,16 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       + `equality_axioms`), **122 `reviewed`**, 0 `draft`; the 21 `results/*.yaml`
       likewise. `gen-indexes.sh` now emits a "by review status" block. README +
       SKILL "draft" wording dropped. `sh build/all.sh` green. (2026-09-08)
-- [ ] **math-logic-and-proof:** Formalise the `Deriv ↔ H` round trip (currently
-      `nd_hilbert_equivalence` is `lean_status: partial` — only the deduction
-      theorem + `H.self` are checked). Needs a weakening lemma for `Deriv` and
-      Hilbert derivations of the `∧`/`RAA` schemas.  (`validation/proof-checks.lean`)
+- [x] **math-logic-and-proof:** Formalise the `Deriv ↔ H` round trip
+      (`validation/proof-checks.lean` §5–5b). Extended `H` to a classical
+      calculus matching the `Deriv` fragment rule for rule (added `andI`/`andEl`/
+      `andEr`/`efq`/`raaAx`, the last `(¬p→⊥)→p`); proved `Deriv.weaken`
+      (context monotone under `⊆`), `H_of_deriv` (→I case = the deduction
+      theorem; ∧/⊥E/RAA cases one `H.mp` each), `deriv_of_H` (each axiom a short
+      `impI`-built `Deriv` theorem), and `deriv_iff_H : Deriv Γ φ ↔ H Γ φ`.
+      All genuine/universal; `#print axioms deriv_iff_H` → `propext` only.
+      `nd_hilbert_equivalence` + `derivability` bumped `lean_status: partial` →
+      `core`. `sh build/all.sh` green. (2026-09-08)
 - [ ] **math-logic-and-proof:** Add the remaining `validation/` worksheet files the
       result YAMLs point at: `type-checks.md`, `specialization-cases.md`,
       `instance-checks.md` (only `proof-checks.md` and the `.lean` / `.bc` exist so far).

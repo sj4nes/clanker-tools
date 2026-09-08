@@ -14,8 +14,8 @@ dependencies: [nd_derivation, hilbert_derivation, deduction_theorem, assumption_
 proof:
   technique: 'H => ND: each Hilbert axiom schema is a short ND theorem, MP is ->E; induction on the Hilbert derivation. ND => H: induction on the structure of the ND derivation; the ->I (discharge) case is handled by the deduction theorem; or-E, not-I, RAA via Hilbert-provable schemas.'
   derives_from: deduction_theorem
-  lean_status: partial
-  lean_ref: 'validation/proof-checks.lean -- Deriv (ND fragment) and H (Hilbert ->-fragment) as separate inductive predicates; the substantive ND=>H ingredient, the DEDUCTION THEOREM, is proved by induction on H (theorem `deduction`), and H.self proves |- p->p. The full Deriv <-> H round trip is STATED, not formalised here (it needs a weakening lemma for Deriv and Hilbert derivations of the and/RAA schemas). See validation/proof-checks.md.'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean §5-5b -- Deriv (ND fragment) and H (a classical Hilbert calculus matching it rule for rule: K, S, MP, the three conj schemas, ex falso, and the classical reductio axiom (neg p -> bot) -> p) as separate inductive predicates over Wff. `deriv_iff_H : Deriv Γ φ ↔ H Γ φ` proved GENUINELY, both directions by induction: H_of_deriv (the ->I case IS the deduction theorem; conj/botE/RAA cases one H.mp each), deriv_of_H (each axiom schema a short impI-built Deriv theorem). Deriv.weaken (context monotone under subset) also proved. `#print axioms deriv_iff_H` -> propext only.'
 uses_choice: false
 constructive: false
 constructive_grade: needs_DNE

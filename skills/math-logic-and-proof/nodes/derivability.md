@@ -37,12 +37,12 @@ derivation is intuitionistic depends on whether it uses `raa_rule` / schema 3.
 does not — e.g. `⊢ p ∨ ¬p`.
 
 ## Lean status
-`lean_status: partial`. `validation/proof-checks.lean` has `Deriv` (`⊢_ND`,
-fragment) and `H` (`⊢_H`, `→`-fragment) as **separate** inductives, with
-`soundness` over `Deriv` and `deduction` over `H`. The **`Deriv ↔ H` round
-trip** that would justify a single calculus-free `⊢` is **stated, not
-formalised** here (see `nd_hilbert_equivalence`). So `derivability` as
-*calculus-independent* is `partial`; each calculus individually is `core`.
+`lean_status: core`. `validation/proof-checks.lean` has `Deriv` (`⊢_ND`,
+fragment) and `H` (`⊢_H`, the matching classical Hilbert calculus) as
+**separate** inductives, with `soundness` over `Deriv`, `deduction` over `H`,
+and the **`Deriv ↔ H` round trip** `deriv_iff_H` proved genuinely in both
+directions (see `nd_hilbert_equivalence`) — so a single calculus-free `⊢` is
+justified for the formalised fragment. `#print axioms deriv_iff_H` → `propext`.
 
 ## Type / well-formedness check
 `well_formed`. `Γ` and `φ` in one language. `Γ ⊢ φ` is a **metastatement**, not

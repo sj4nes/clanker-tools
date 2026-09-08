@@ -46,14 +46,27 @@ first two schema groups + `⊥E` gives **intuitionistic** calculi that coincide
 grade of every downstream law be read off either calculus.
 
 ## Lean status
-`lean_status: partial`. `validation/proof-checks.lean` defines `Deriv` (the ND
-fragment) and `H` (the Hilbert `→`-fragment) as **separate** inductive
-predicates over `Wff`. The substantive `ND ⇒ H` ingredient — the **deduction
-theorem** — is proved outright (`theorem deduction`, induction on `H`), and
-`H.self` derives `⊢ φ → φ`. The full `Deriv ↔ H` round trip is **stated, not
-formalised** here: it needs a weakening lemma for `Deriv` and Hilbert
-derivations of the `∧`/`RAA` schemas. Recorded in
-`validation/proof-checks.md`; the epistemic label is not upgraded past this.
+`lean_status: core`. `validation/proof-checks.lean` (§5–5b) defines `Deriv` (the
+ND fragment) and `H` (a classical Hilbert calculus matching it rule for rule:
+`K`, `S`, MP, the three `∧` schemas, ex falso `⊥→φ`, and the classical reductio
+axiom `(¬φ→⊥)→φ`; `¬` is primitive and enters only through that axiom, exactly
+as in `Deriv`) as **separate** inductive predicates over `Wff`, then proves the
+**full round trip** `deriv_iff_H : Deriv Γ φ ↔ H Γ φ`, both directions genuine
+and universal:
+
+- **`H_of_deriv`** (`Deriv ⇒ H`): induction on the ND derivation; the `→I`
+  (discharge) case *is* the **deduction theorem** (`theorem deduction`, proved
+  by induction on `H`), and the `∧I`/`∧E`/`⊥E`/`RAA` cases are one `H.mp` each
+  against the matching schema.
+- **`deriv_of_H`** (`H ⇒ Deriv`): induction on the Hilbert derivation; each
+  axiom schema is a short `impI`-built ND theorem (generic in `Γ`), MP is `→E`.
+- **`Deriv.weaken`**: context monotone under `⊆` — the weakening lemma, proved
+  by induction (`impI`/`raa` push the extra context under the discharged
+  assumption).
+
+`#print axioms deriv_iff_H` → `propext` only: the meta-level proof is
+constructive even though both calculi are classical. Recorded in
+`validation/proof-checks.md`.
 
 ## Type / well-formedness check
 `well_formed`. Both sides range over the **same** `Wff` type and the **same**

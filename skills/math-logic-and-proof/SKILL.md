@@ -135,7 +135,10 @@ bc -q -l validation/instance-checks.bc
 
 **Lean (4.33, no Mathlib, exit 0, no `sorry`).** Genuine universal proofs on
 `propext` alone: `soundness_prop` (induction on a natural-deduction calculus),
-`deduction_theorem` (induction on a Hilbert calculus), `induction_equivalence`
+`deduction_theorem` (induction on a Hilbert calculus), `nd_hilbert_equivalence`
+(the full `Deriv ↔ H` round trip — `H` a classical Hilbert calculus matching the
+ND fragment rule for rule; both directions by induction; `Deriv` weakening also
+proved), `induction_equivalence`
 (weak → strong → well-ordering, zero axioms). The equivalence catalogue with the
 **constructive-grade split** made explicit — intuitionistic directions in term
 mode, `needs_LEM` / `needs_DNE` directions flagged with `Classical`. Instance
@@ -174,5 +177,4 @@ first-order-logic axiom nodes); each node's detail page carries the
 math-theorem-tree step-7 elements (typed statement, type-check status, ≥1
 specialization, ≥1 hypothesis-dropped counterexample, Lean/`bc` status,
 constructive grade, sources), audited by `build/audit-pages.py`.
-To do: a Mathlib-backed completeness formalisation; the `Deriv ↔ H` round trip
-(`nd_hilbert_equivalence` is `lean_status: partial`).
+To do: a Mathlib-backed completeness formalisation.

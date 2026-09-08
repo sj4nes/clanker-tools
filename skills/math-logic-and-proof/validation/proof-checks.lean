@@ -17,7 +17,10 @@ WHAT THE KERNEL VERIFIES (genuine + universal, unless marked INSTANCE):
      {not,and,or} normal forms -- INSTANCE.
   4. A natural-deduction calculus `Deriv` and its SOUNDNESS -- genuine, by
      induction on the derivation.
-  5. The DEDUCTION THEOREM for a Hilbert calculus `H` -- genuine.
+  5. A classical Hilbert calculus `H` matching the `Deriv` fragment rule for
+     rule; the DEDUCTION THEOREM -- genuine; `Deriv` WEAKENING -- genuine; and
+     the full `Deriv ↔ H` ROUND TRIP (`deriv_iff_H`) -- genuine, both directions
+     by induction (`nd_hilbert_equivalence`).
   6. Quantifier negation: the 4-way split (`quantifier_negation`).
   7. Quantifier order: `∃∀ → ∀∃` genuine; converse fails -- INSTANCE countermodel.
   8. The capture bug behind `free_for` -- INSTANCE.
@@ -305,20 +308,30 @@ theorem Deriv.cut {Γ : Ctx} {p q : Wff} (h1 : Deriv Γ p) (h2 : Deriv (p :: Γ)
 theorem Deriv.and_comm {Γ : Ctx} {p q : Wff} (h : Deriv Γ (Wff.conj p q)) :
     Deriv Γ (Wff.conj q p) := Deriv.andI (Deriv.andEr h) (Deriv.andEl h)
 
-/-! ## 5. Deduction theorem for a Hilbert calculus -/
+/-! ## 5. Hilbert calculus, the deduction theorem, and the `Deriv ↔ H` round trip -/
 
+/-- A classical propositional Hilbert calculus matching the `Deriv` fragment
+    rule for rule: `K`/`S` + modus ponens for `→`, the three `∧` schemas,
+    ex falso (`efq`), and the classical reductio axiom (`raaAx`,
+    `(¬p → ⊥) → p`).  `¬` is primitive and — as in `Deriv` — enters only through
+    `raaAx`. -/
 inductive H : Ctx → Wff → Prop where
-  | ax {Γ p}     : p ∈ Γ → H Γ p
-  | k  {Γ p q}   : H Γ (Wff.impl p (Wff.impl q p))
-  | s  {Γ p q r} : H Γ (Wff.impl (Wff.impl p (Wff.impl q r))
-                                 (Wff.impl (Wff.impl p q) (Wff.impl p r)))
-  | mp {Γ p q}   : H Γ (Wff.impl p q) → H Γ p → H Γ q
+  | ax   {Γ p}     : p ∈ Γ → H Γ p
+  | k    {Γ p q}   : H Γ (Wff.impl p (Wff.impl q p))
+  | s    {Γ p q r} : H Γ (Wff.impl (Wff.impl p (Wff.impl q r))
+                                   (Wff.impl (Wff.impl p q) (Wff.impl p r)))
+  | mp   {Γ p q}   : H Γ (Wff.impl p q) → H Γ p → H Γ q
+  | andI {Γ p q}   : H Γ (Wff.impl p (Wff.impl q (Wff.conj p q)))
+  | andEl {Γ p q}  : H Γ (Wff.impl (Wff.conj p q) p)
+  | andEr {Γ p q}  : H Γ (Wff.impl (Wff.conj p q) q)
+  | efq  {Γ p}     : H Γ (Wff.impl Wff.fls p)
+  | raaAx {Γ p}    : H Γ (Wff.impl (Wff.impl (Wff.neg p) Wff.fls) p)
 
 theorem H.self (Γ : Ctx) (p : Wff) : H Γ (Wff.impl p p) :=
   H.mp (H.mp (H.s (p := p) (q := Wff.impl p p) (r := p)) H.k) H.k
 
 /-- DEDUCTION THEOREM (`deduction_theorem`).  Genuine, universal, by induction on
-    the Hilbert derivation. -/
+    the Hilbert derivation.  Every axiom case is `K`-prefixed; `mp` uses `S`. -/
 theorem deduction {Γ : Ctx} {p q : Wff} (h : H (p :: Γ) q) : H Γ (Wff.impl p q) := by
   induction h with
   | @ax r hr =>
@@ -328,6 +341,82 @@ theorem deduction {Γ : Ctx} {p q : Wff} (h : H (p :: Γ) q) : H Γ (Wff.impl p 
   | k => exact H.mp H.k H.k
   | s => exact H.mp H.k H.s
   | @mp r t _ _ ih1 ih2 => exact H.mp (H.mp H.s ih1) ih2
+  | andI => exact H.mp H.k H.andI
+  | andEl => exact H.mp H.k H.andEl
+  | andEr => exact H.mp H.k H.andEr
+  | efq => exact H.mp H.k H.efq
+  | raaAx => exact H.mp H.k H.raaAx
+
+/-! ### 5b. The round trip (`nd_hilbert_equivalence`) -- genuine, universal. -/
+
+/-- `a :: ·` is monotone under `⊆` (helper for `Deriv.weaken`). -/
+private theorem cons_sub_cons {a : Wff} {l₁ l₂ : Ctx} (h : l₁ ⊆ l₂) :
+    a :: l₁ ⊆ a :: l₂ := by
+  intro x hx
+  rcases List.mem_cons.1 hx with rfl | hx
+  · exact List.mem_cons.2 (Or.inl rfl)
+  · exact List.mem_cons.2 (Or.inr (h hx))
+
+/-- WEAKENING for natural deduction: enlarging the context (in particular adding
+    unused hypotheses) preserves derivability.  Genuine, by induction on the
+    derivation; `impI` / `raa` push the extra context under the discharged
+    assumption via `cons_sub_cons`.  (The `H ⟹ Deriv` axiom translations below
+    are built context-generically and do not need this, but it is the structural
+    lemma the round trip is classically stated with.) -/
+theorem Deriv.weaken {Γ Γ' : Ctx} {p : Wff} (d : Deriv Γ p) : Γ ⊆ Γ' → Deriv Γ' p := by
+  induction d generalizing Γ' with
+  | @ax Γ p hmem => intro hsub; exact Deriv.ax (hsub hmem)
+  | @impI Γ p q _ ih => intro hsub; exact Deriv.impI (ih (cons_sub_cons hsub))
+  | @impE Γ p q _ _ ih1 ih2 => intro hsub; exact Deriv.impE (ih1 hsub) (ih2 hsub)
+  | @andI Γ p q _ _ ih1 ih2 => intro hsub; exact Deriv.andI (ih1 hsub) (ih2 hsub)
+  | @andEl Γ p q _ ih => intro hsub; exact Deriv.andEl (ih hsub)
+  | @andEr Γ p q _ ih => intro hsub; exact Deriv.andEr (ih hsub)
+  | @falseE Γ p _ ih => intro hsub; exact Deriv.falseE (ih hsub)
+  | @raa Γ p _ ih => intro hsub; exact Deriv.raa (ih (cons_sub_cons hsub))
+
+/-- `H ⟹ Deriv`.  Each Hilbert axiom schema is a short natural-deduction theorem
+    (built from `impI` + assumptions, generic in `Γ`); `mp` is `→E`.  Genuine,
+    by induction on the Hilbert derivation. -/
+theorem deriv_of_H {Γ : Ctx} {p : Wff} (h : H Γ p) : Deriv Γ p := by
+  induction h with
+  | @ax p hmem => exact Deriv.ax hmem
+  | k => exact Deriv.impI (Deriv.impI (Deriv.ax (.tail _ (.head _))))
+  | s =>
+      refine Deriv.impI (Deriv.impI (Deriv.impI ?_))
+      exact Deriv.impE
+        (Deriv.impE (Deriv.ax (.tail _ (.tail _ (.head _)))) (Deriv.ax (.head _)))
+        (Deriv.impE (Deriv.ax (.tail _ (.head _))) (Deriv.ax (.head _)))
+  | @mp p q _ _ ih1 ih2 => exact Deriv.impE ih1 ih2
+  | andI =>
+      exact Deriv.impI (Deriv.impI
+        (Deriv.andI (Deriv.ax (.tail _ (.head _))) (Deriv.ax (.head _))))
+  | andEl => exact Deriv.impI (Deriv.andEl (Deriv.ax (.head _)))
+  | andEr => exact Deriv.impI (Deriv.andEr (Deriv.ax (.head _)))
+  | efq => exact Deriv.impI (Deriv.falseE (Deriv.ax (.head _)))
+  | raaAx =>
+      exact Deriv.impI (Deriv.raa
+        (Deriv.impE (Deriv.ax (.tail _ (.head _))) (Deriv.ax (.head _))))
+
+/-- `Deriv ⟹ H`.  Genuine, by induction on the natural-deduction derivation.
+    The `impI` (discharge) case is exactly the DEDUCTION THEOREM; the `∧`, `⊥E`
+    and `RAA` cases use the matching Hilbert schemas from §5. -/
+theorem H_of_deriv {Γ : Ctx} {p : Wff} (d : Deriv Γ p) : H Γ p := by
+  induction d with
+  | @ax Γ p hmem => exact H.ax hmem
+  | @impI Γ p q _ ih => exact deduction ih
+  | @impE Γ p q _ _ ih1 ih2 => exact H.mp ih1 ih2
+  | @andI Γ p q _ _ ih1 ih2 => exact H.mp (H.mp H.andI ih1) ih2
+  | @andEl Γ p q _ ih => exact H.mp H.andEl ih
+  | @andEr Γ p q _ ih => exact H.mp H.andEr ih
+  | @falseE Γ p _ ih => exact H.mp H.efq ih
+  | @raa Γ p _ ih => exact H.mp H.raaAx (deduction ih)
+
+
+/-- THE ROUND TRIP: the natural-deduction fragment `Deriv` and the Hilbert
+    calculus `H` derive exactly the same consequences from the same context --
+    so `derivability` is calculus-independent (`nd_hilbert_equivalence`). -/
+theorem deriv_iff_H {Γ : Ctx} {p : Wff} : Deriv Γ p ↔ H Γ p :=
+  ⟨H_of_deriv, deriv_of_H⟩
 
 /-! ## 6. Quantifier negation -- the 4-way split (`quantifier_negation`) -/
 
@@ -404,5 +493,7 @@ theorem well_ordering (P : Nat → Prop) (w : Nat) (hw : P w) :
 
 #print axioms soundness
 #print axioms deduction
+#print axioms deriv_iff_H
+#print axioms Deriv.weaken
 #print axioms strong_of_weak
 #print axioms not_forall_iff
