@@ -1,0 +1,49 @@
+id: testing.bonferroni_correction
+node: bonferroni_correction
+status_label: proposition
+display: 'Testing each of m hypotheses at level alpha/m controls the family-wise error rate at alpha, for ANY dependence structure among the tests.'
+parseable: 'test each H_{0,i} at level alpha/m   =>   FWER <= alpha   (no independence assumption)'
+regime: exact
+symbols:
+  'alpha/m': 'the per-comparison level'
+  'equivalently': 'reject H_{0,i} if its p-value p_i <= alpha/m; or adjust p_i -> min(1, m p_i)'
+type_check_status: well_formed
+type_check_note: 'A finite-sample FWER bound. Proof: Boole''s inequality (the union bound) -- FWER = P(union of false rejections) <= sum P(false rejection_i) <= m_0 (alpha/m) <= alpha, where m_0 <= m is the number of true nulls.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'multiple_testing_fwer'
+  - 'prob_markov_ineq'
+proof:
+  technique: 'Boole / union bound over the true nulls: P(any true null rejected) <= sum_{i true null} P(reject H_{0,i}) <= m_0 alpha/m <= alpha'
+  derives_from: 'prob_markov_ineq'
+  lean_status: core
+  lean_ref: 'the union bound P(union A_i) <= sum P(A_i) is cited to math-probability:boole_inequality; the arithmetic m_0 alpha/m <= alpha is proof-checks.lean Stat.bonferroni_bound'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Holm''s step-down procedure uniformly improves on Bonferroni at no cost (also FWER, any dependence) -- always prefer it'
+  - 'm = 2 (co-primary endpoints): test each at 0.025'
+  - 'for POSITIVELY dependent tests Bonferroni is conservative; Sidak (1 - (1-alpha)^{1/m}) is slightly tighter under independence'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'the bound holds unconditionally; its weakness is conservatism (low power) when m is large or tests are positively dependent, not invalidity'
+common_misuse:
+  - 'using raw Bonferroni when Holm is strictly better'
+  - 'applying it to 10^6 genomic tests -- valid but essentially no power; use FDR'
+  - 'correcting for tests you happened to run but that were not part of the pre-specified family (over-correction)'
+applications:
+  - 'the standard adjustment for a small number of pre-specified secondary endpoints in clinical trials'
+  - '''genome-wide significance'' p < 5e-8 is Bonferroni for ~1e6 independent common variants'
+related:
+  uses: ['multiple_testing_fwer', 'prob_markov_ineq']
+  improved_by: []
+sources:
+  - 'bonferroni_1936'
+  - 'holm_1979'
+  - 'lehmann_romano_tsh'
+status: draft
+checks:
+  type: validation/type-checks.md#bonferroni_correction
+  specialization: validation/specialization-cases.md#bonferroni_correction
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bonferroni_correction

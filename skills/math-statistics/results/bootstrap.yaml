@@ -1,0 +1,52 @@
+id: nonparametric.bootstrap
+node: bootstrap
+status_label: constructive_result
+display: 'The (nonparametric) bootstrap approximates the sampling distribution of a statistic T_n = T(X_1,...,X_n) by the distribution of T_n* = T(X_1*, ..., X_n*), where X_1*, ..., X_n* are drawn iid from the empirical distribution P_hat_n (i.e. resampled with replacement from the data); this is estimated by Monte Carlo over B resamples.'
+parseable: 'approx  law( T_n - theta )   by   law( T_n* - T_n | X_1..X_n ),   X_i* iid ~ P_hat_n'
+regime: distribution_free
+symbols:
+  'T_n*': 'the statistic recomputed on a resample'
+  'B': 'the number of Monte Carlo resamples (500-10000 typically)'
+  'the plug-in idea': 'replace the unknown P by P_hat_n in ''the sampling distribution of T under P'''
+type_check_status: well_formed
+type_check_note: 'A resampling algorithm. Two error sources: the statistical approximation (P_hat_n for P) and the Monte Carlo approximation (B < inf). It works when T is a smooth functional of P (Hadamard-differentiable); it FAILS for non-smooth functionals (the max, a parameter on a boundary) and for statistics whose limit law depends on unknown nuisance parameters.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'empirical_cdf'
+  - 'plug_in_estimator'
+proof:
+  technique: 'bootstrap_consistency (below): for Hadamard-differentiable T, the conditional law of sqrt(n)(T_n* - T_n) converges to the same limit as sqrt(n)(T_n - theta)'
+  derives_from: 'bootstrap_consistency'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'bootstrap SE: the sample standard deviation of the B values T_n*'
+  - 'percentile CI: the alpha/2 and 1 - alpha/2 empirical quantiles of the T_n* -- simple but first-order; BCa and bootstrap-t are second-order accurate'
+  - 'the parametric bootstrap resamples from F(.; theta_hat) instead of P_hat_n -- useful when a model is trusted'
+counterexamples_when_dropped:
+  smooth_functional: 'the maximum of a uniform(0, theta) sample: the bootstrap distribution of n(theta_hat - theta_hat*) does NOT converge to the true Exponential limit -- P(X_(n)* = X_(n)) -> 1 - 1/e, an atom that should not be there. The m-out-of-n bootstrap or subsampling fixes it.'
+  limit_free_of_nuisance: 'bootstrapping a non-studentized statistic when the limit variance is unknown gives poor coverage -- bootstrap the STUDENTIZED (pivotal) statistic (bootstrap-t)'
+common_misuse:
+  - 'percentile bootstrap CIs for a skewed statistic at small n (undercover) -- use BCa or bootstrap-t'
+  - 'bootstrapping time-series or clustered data by resampling individual observations (destroys the dependence) -- use the block / cluster bootstrap'
+  - 'too few resamples B for a tail quantile (B = 200 for a 95% CI endpoint is marginal)'
+applications:
+  - 'standard errors and CIs for statistics with no closed-form variance: medians, ratios, correlations, indirect effects in mediation analysis, complex survey estimators'
+  - 'random forests and bagging ARE the bootstrap applied to prediction; out-of-bag error is a bootstrap cross-validation'
+related:
+  uses: ['plug_in_estimator', 'empirical_cdf']
+  required_by: ['bootstrap_consistency']
+  historically_precedes: []
+sources:
+  - 'efron_1979'
+  - 'efron_tibshirani_bootstrap'
+  - 'davison_hinkley_bootstrap'
+status: draft
+checks:
+  type: validation/type-checks.md#bootstrap
+  specialization: validation/specialization-cases.md#bootstrap
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bootstrap

@@ -1,0 +1,31 @@
+id: foundations.prob_covariance
+node: prob_covariance
+status_label: proved_theorem
+display: 'Cov(X,Y) = E[XY] - E[X]E[Y]; bilinear, symmetric, Cov(X,X) = Var(X).'
+parseable: 'Cov(X,Y) = E[XY] - E[X]E[Y]; bilinear, symmetric, Cov(X,X) = Var(X).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:covariance'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:covariance'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:covariance'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_covariance
+  specialization: validation/specialization-cases.md#prob_covariance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_covariance

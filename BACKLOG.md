@@ -139,19 +139,63 @@ naturally high concept-load domain; 131 stays. No trim.
       table in `conventions.md`; each limit-theorem YAML carries
       `convergence_mode:` (see `central_limit_theorem.yaml`). (2026-09-06)
 
-### statistics  (follows math-probability — planned)
+### math-statistics + statistics  (follows math-probability)
 
-Analysis-methodology skill (sibling of `design-of-experiments`,
-`unknown-discovery`), **not** a capsule: the disciplined workflow for inference
-on data *already collected* — the gap `design-of-experiments` explicitly
-refuses. Estimator choice and properties (bias / consistency / efficiency /
-sufficiency), sampling distributions, confidence and credible intervals,
-hypothesis testing and its misuse, likelihood, the bootstrap, regression, model
-checking, multiplicity. Rests on `math-probability`.
+**Decision 2026-09-08: build both, the theorem-tree capsule FIRST, the
+methodology skill second (it will cite the capsule).**
 
-- [ ] **statistics:** `SKILL.md` skeleton + `verification/` first — Monte Carlo
-      of estimator coverage / error rates / the assumption-violation failures
-      (mirrors the `design-of-experiments` verification pattern).
+**`math-statistics`** — a `math-theorem-tree` capsule: mathematical statistics
+as a dependency graph rooted in `math-probability`'s primitives (the
+inference-layer analogue of `math-real-analysis` on `math-number-systems`). The
+model / likelihood / regularity block; exponential families; sufficiency –
+completeness – Basu; the optimality theorems (Cramér–Rao, Rao–Blackwell,
+Lehmann–Scheffé); MLE / MoM / M-estimators / Bayes estimators; decision theory
+(admissibility, minimax, James–Stein); the exact Gaussian core (`t`/`χ²`/`F`
+constructed here, the sampling-distribution theorems); interval estimation and
+the test/CI duality; Neyman–Pearson / Karlin–Rubin / LRT / Wald / score / Wilks;
+the nonparametric glue (ECDF, Glivenko–Cantelli, bootstrap, KDE); the Gaussian
+linear model with Gauss–Markov. Per-result `regime:` tag
+{exact | asymptotic | distribution_free | bayesian}.
+
+- [x] **math-statistics:** Stage 1 — `scope.md`, `conventions.md`,
+      `nodes/nodes.tsv` (205 nodes: 58 cited roots + 147 capsule nodes),
+      `edges/dependencies.plan` (394 evidence-commented edges),
+      `edges/relations.tsv`, `edges/cycles.md` (acyclic, BSD stderr-checked),
+      `indexes/tsort-order.txt`. `graph-check` clean. (2026-09-08)
+- [x] **math-statistics:** Stage 2 — all 206 `nodes/<id>.md` + `results/<id>.yaml`
+      authored via `build/specs/spec_*.py` -> `build/gen-results.py` (dependency
+      lists pulled from the graph so they cannot drift). `notation.md`,
+      `objects.md`, `sources/bibliography.md` (~90 refs), and the generated
+      indexes (regime, hypothesis, counterexample, status, symbol-KWIC,
+      prerequisite-paths, reverse-deps) done. (2026-09-08)
+- [ ] **math-statistics:** Stage 3 — `validation/proof-checks.lean` finitary
+      cores. ~25 YAMLs carry `lean_ref: ...Stat.<name>` placeholders to fill:
+      mse_decomp, score_mean_zero, information_equality, crlb_cauchy_schwarz,
+      rao_blackwell_var, neyman_pearson_swap, bias_sample_var, chisq_mgf_add,
+      normal_equations_stationary, hat_matrix_idempotent, gauss_markov_cross_term,
+      rss_expectation, posterior_mean_completes_square, bayes_rule_pointwise,
+      pivot_coverage, ci_test_duality, bonferroni_bound, cochran_idempotent,
+      anova_cross_term_zero, kde_amise_optimal_h, fwl_block_elimination,
+      expfam_grad_A, sample_mean_linear, interior_max_stationary,
+      mle_invariance_monotone, gaussian_orthogonal_independent,
+      centering_projection_rank, consistency_chebyshev, mlr_power_monotone,
+      sandwich_reduces_when_info_equality. Deep asymptotics stay `lean_status: cited`.
+- [ ] **math-statistics:** Stage 4 — `validation/instance-checks.bc`; Stage 5 —
+      `SKILL.md` + Release 0.1 publish + changelog.
+- [ ] **math-statistics:** acknowledged gap — no `math-linear-algebra` capsule;
+      `linear_algebra_background` is a single cited `bridge` node. Candidate for
+      a future capsule below this one.
+
+**`statistics`** — analysis-methodology skill (sibling of
+`design-of-experiments`, `unknown-discovery`), **not** a capsule: the
+disciplined workflow for inference on data *already collected*. Will cite
+`math-statistics` for the theorems and keep only the workflow + a
+`verification/` Monte Carlo harness.
+
+- [ ] **statistics:** hold until `math-statistics` Release 0.1 is in `skills/`.
+      `SKILL.md` skeleton + `verification/` first — Monte Carlo of estimator
+      coverage / error rates / the assumption-violation failures (mirrors the
+      `design-of-experiments` verification pattern).
 
 ### bayes-bridge  (sidebar — planned, needs both endpoints)
 

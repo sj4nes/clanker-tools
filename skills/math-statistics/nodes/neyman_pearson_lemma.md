@@ -1,0 +1,53 @@
+# neyman_pearson_lemma
+
+## Type
+theorem
+
+## Statement
+For testing a simple null H0: X ~ f0 against a simple alternative H1: X ~ f1, the likelihood-ratio test phi*(x) = 1{ f1(x) > k f0(x) } (with randomization on the boundary to reach exact size alpha) is the most powerful level-alpha test; and any most powerful level-alpha test has this form a.e.
+
+## Symbols
+- `f1/f0` — the likelihood ratio -- the optimal test statistic
+- `k` — the critical value chosen so the size is exactly alpha
+- `phi*` — the (possibly randomized) NP test
+
+## Epistemic status
+proved_theorem  ·  regime: exact
+
+## Prerequisites (tsort edges into this node)
+likelihood_function, power_function, size_of_test, test_function
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: the pointwise inequality (phi*(x) - phi(x))(f1(x) - k f0(x)) >= 0 for every x, then integrate against the dominating measure
+derives_from: size_of_test
+lean_status: core — validation/proof-checks.lean Stat.neyman_pearson_swap -- (phi* - phi)(f1 - k f0) >= 0 as a case split on sign, checked over a grid of (phi, phi', f0, f1) in {0,1}x{0,1}xNat, plus the universal integration step
+
+## Type / well-formedness check
+An optimality theorem, exact and finite-sample. Proof (sufficiency): for any other level-alpha test phi, the function (phi* - phi)(f1 - k f0) is >= 0 pointwise (check the two cases f1 > k f0 and f1 < k f0); integrate: E_{f1}[phi*] - E_{f1}[phi] >= k ( E_{f0}[phi*] - E_{f0}[phi] ) >= 0.
+
+## Specialization / boundary cases
+- N(0,1) vs N(mu_1, 1), mu_1 > 0: f1/f0 is increasing in x, so the MP test is 1{ Xbar > c } -- the one-sided z-test; the SAME test is MP for every mu_1 > 0, which is why it is UMP one-sided
+- the ROC curve of a diagnostic test is exactly the NP power-vs-size trade-off as k varies
+- simple-vs-simple is the ONLY case with a clean 'most powerful' test; composite alternatives need MLR (Karlin-Rubin) or unbiasedness restrictions
+
+## Hypothesis-dropped counterexamples
+- **simple_hypotheses**: for a composite two-sided alternative H1: mu != 0 there is NO uniformly most powerful test -- the MP test against mu_1 > 0 (reject for large Xbar) has power BELOW alpha against mu_1 < 0. One must add an unbiasedness or invariance restriction.
+- **known_f0_and_f1**: if f0 or f1 has an unknown nuisance parameter the ratio is not a statistic and the lemma does not directly apply
+
+## Common misuse
+- expecting a 'most powerful test' for a composite alternative without a restriction
+- using the LR test statistic's threshold k from the lemma when the hypotheses are actually composite (then it is the GLR statistic, with a different -- often chi^2 -- reference distribution)
+
+## In the wild
+- signal detection theory: the LR test IS the optimal detector (matched filter for Gaussian noise) -- radar, sonar, digital communications (the maximum-likelihood receiver)
+- the ROC-AUC criterion for classifiers is the NP framework; the Bayes-optimal classifier thresholds the likelihood ratio (= posterior odds)
+
+## Related nodes (non-prerequisite)
+- required_by: karlin_rubin_theorem, likelihood_ratio_test
+- uses: likelihood_function, size_of_test
+
+## Sources
+neyman_pearson_1933, lehmann_romano_tsh

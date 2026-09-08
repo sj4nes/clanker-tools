@@ -1,0 +1,40 @@
+# admissibility
+
+## Type
+definition
+
+## Statement
+A decision rule delta is admissible if no rule delta' has R(theta, delta') <= R(theta, delta) for all theta with strict inequality for some theta; otherwise delta is inadmissible (dominated).
+
+## Symbols
+- `'delta' dominates delta'` — R(., delta') <= R(., delta) with strict somewhere -- a free lunch
+
+## Epistemic status
+definition
+
+## Prerequisites (tsort edges into this node)
+risk_function
+
+## Hypotheses
+(none — unconditional within scope)
+## Type / well-formedness check
+A minimal-competence criterion: an inadmissible rule can be strictly improved everywhere at no cost, so it should not be used. Admissibility does NOT single out a good rule (silly rules like delta = c are often admissible).
+
+## Specialization / boundary cases
+- Xbar is admissible for a 1- or 2-dimensional normal mean under squared-error loss
+- every unique Bayes rule is admissible; a Bayes rule with continuous risk is admissible
+- a constant estimator delta = c is admissible (nothing beats it at theta = c) -- admissibility alone is weak
+
+## Hypothesis-dropped counterexamples
+- **dimension**: Xbar is INADMISSIBLE for a normal mean in dimension d >= 3 -- the James-Stein estimator dominates it everywhere (james_stein). This is the famous Stein paradox.
+
+## Common misuse
+- treating admissibility as a strong endorsement -- it rules out the obviously-wasteful, nothing more
+- assuming the MLE / UMVUE is admissible -- it often is not in multiparameter problems
+
+## Related nodes (non-prerequisite)
+- required_by: complete_class, james_stein
+- uses: risk_function
+
+## Sources
+berger_statistical_decision_theory, lehmann_casella_tpe

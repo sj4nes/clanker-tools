@@ -1,0 +1,56 @@
+# overall_f_test
+
+## Type
+proposition
+
+## Statement
+To test H0: the reduced model (q linear restrictions R beta = r) against the full model, the statistic F = [ (RSS_0 - RSS) / q ] / [ RSS / (n - p) ] ~ F_{q, n-p} exactly under the Gaussian linear model and H0. The 'overall F' is the special case H0: all non-intercept coefficients are 0.
+
+## Symbols
+- `RSS_0` — residual SS of the reduced (restricted) model
+- `RSS` — residual SS of the full model
+- `q` — number of restrictions (numerator df)
+- `n - p` — full-model error df (denominator df)
+
+## Epistemic status
+proposition  ·  regime: exact
+
+## Prerequisites (tsort edges into this node)
+cochran_theorem, f_distribution, ols_distribution_under_normal_errors, residual_sum_of_squares
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: Cochran decomposition: chi^2_q (extra SS explained by relaxing the restriction) _||_ chi^2_{n-p} (full residual); ratio of independent scaled chi-squares is F
+derives_from: cochran_theorem
+lean_status: cited
+
+## Type / well-formedness check
+Exact under normality. RSS_0 - RSS and RSS are, after dividing by sigma^2, independent chi^2_q and chi^2_{n-p} (Cochran: the restriction subspace and the full residual space are orthogonal), so their scaled ratio is F_{q, n-p}. It is the LRT for the linear restriction (special_case_of likelihood_ratio_test).
+
+## Specialization / boundary cases
+- q = 1: F_{1, n-p} = (t_{n-p})^2 -- the F-test of one coefficient is the square of its t-test
+- overall F (all slopes 0): F = [ (TSS - RSS)/(p-1) ] / [ RSS/(n-p) ] = [R^2/(p-1)] / [(1-R^2)/(n-p)]
+- nested model comparison / analysis of variance / ANCOVA all use this statistic
+
+## Hypothesis-dropped counterexamples
+- **gaussian_errors**: non-normal errors: F is only asymptotically q^{-1} chi^2_q (i.e. approximately F); robust or bootstrap versions exist
+- **the_restriction_is_linear_and_pre-specified**: a data-driven restriction (testing the predictors that looked promising) invalidates the F null distribution -- selective inference
+- **homoskedasticity**: heteroskedasticity distorts the F null distribution; use a heteroskedasticity-robust Wald test of R beta = r
+
+## Common misuse
+- reading a significant overall F as 'the model is good' -- it only says at least one predictor has non-zero coefficient; R^2 and residual diagnostics speak to fit
+- running an F-test after stepwise selection with the naive null distribution
+- an overall F that is significant while no individual t is -- a collinearity signature, not a contradiction
+
+## In the wild
+- the 'F-statistic' line at the bottom of every regression summary; the ANOVA table's F column; the standard test for dropping a block of predictors
+
+## Related nodes (non-prerequisite)
+- uses: ols_distribution_under_normal_errors, f_distribution, residual_sum_of_squares, cochran_theorem
+- special_case_of: likelihood_ratio_test
+- generalizes_from: one_way_anova_identity
+
+## Sources
+seber_lee_linear_regression, casella_berger_2e

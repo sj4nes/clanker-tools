@@ -1,0 +1,50 @@
+# likelihood_function
+
+## Type
+definition
+
+## Statement
+The likelihood function is L(theta) = L(theta; x) = prod_{i=1}^n f(x_i; theta), the joint density evaluated at the observed data and read as a function of theta for fixed x.
+
+## Symbols
+- `L(theta)` — the likelihood, type: nonnegative function on Theta (NOT a density in theta -- it need not integrate to 1)
+- `f(x_i; theta)` — the density of one observation
+- `x = (x_1,...,x_n)` — the observed (now fixed) data
+
+## Epistemic status
+definition
+
+## Prerequisites (tsort edges into this node)
+dominated_family, iid_sample, prob_joint_distribution
+
+## Hypotheses
+(none — unconditional within scope)
+## Well-definedness
+Requires the dominated_family condition so the f(.; theta) are densities against one mu. L is defined up to the theta-free multiplicative constant coming from the choice of mu.
+
+## Type / well-formedness check
+L: Theta -> [0, inf). It is a function of theta, not a probability distribution over theta. Two data sets with proportional likelihoods (same L up to a theta-free constant) carry the same likelihood information.
+
+## Specialization / boundary cases
+- n iid Bernoulli(p): L(p) = p^{sum x_i} (1-p)^{n - sum x_i}
+- n iid N(mu, sigma^2): L(mu, sigma^2) = (2 pi sigma^2)^{-n/2} exp(- sum (x_i - mu)^2 / 2 sigma^2)
+- uniform(0, theta): L(theta) = theta^{-n} 1{ theta >= max x_i } -- not differentiable at the MLE
+
+## Hypothesis-dropped counterexamples
+- **dominated_family**: without a common dominating measure the products f(x_i; theta) for different theta are not comparable and 'maximize the likelihood' is meaningless
+
+## Common misuse
+- reading L(theta) as a posterior density -- it becomes one only after multiplying by a prior and normalizing (Bayes)
+- reading L(theta_1)/L(theta_2) as odds on theta without a prior
+- dropping the indicator / support factor (uniform, shifted exponential) and getting the wrong MLE
+
+## In the wild
+- the single object the likelihood principle says all inference should depend on
+- every MLE, LRT, Wald and score procedure, and every Bayesian posterior is built from it
+
+## Related nodes (non-prerequisite)
+- required_by: log_likelihood, maximum_likelihood_estimator, neyman_pearson_lemma, likelihood_ratio_test
+- commonly_confused_with: prob_pdf
+
+## Sources
+casella_berger_2e, cox_hinkley_theoretical_statistics

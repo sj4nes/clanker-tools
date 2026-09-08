@@ -1,0 +1,45 @@
+id: estimation.umvue
+node: umvue
+status_label: definition
+display: 'A uniformly minimum-variance unbiased estimator (UMVUE) of g(theta) is an unbiased estimator whose variance is <= that of every other unbiased estimator, for every theta.'
+parseable: 'theta_hat unbiased for g(theta),  and  Var_theta(theta_hat) <= Var_theta(theta_tilde)  for every unbiased theta_tilde and every theta'
+regime: exact
+symbols:
+  '''uniformly''': 'the variance domination holds for all theta at once'
+type_check_status: well_formed
+type_check_note: 'A global optimality statement within the unbiased class. It need not exist; when a complete sufficient statistic is available, Lehmann-Scheffe both constructs it and proves uniqueness.'
+hypotheses:
+  - 'unbiased_estimator'
+preconditions: []
+dependencies:
+  - 'prob_variance'
+  - 'unbiased_estimator'
+proof:
+  technique: 'Rao-Blackwell (condition on a sufficient statistic) then Lehmann-Scheffe (completeness gives uniqueness)'
+  derives_from: 'lehmann_scheffe_theorem'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'N(mu, sigma^2): Xbar is UMVUE of mu; S^2 is UMVUE of sigma^2 (both are unbiased functions of the complete sufficient (Xbar, S^2))'
+  - 'uniform(0, theta): (n+1)/n * X_(n) is the UMVUE of theta (unbiased function of the complete sufficient X_(n))'
+  - 'Bernoulli: Xbar is UMVUE of p; Xbar(1-Xbar) n/(n-1) is UMVUE of p(1-p)'
+counterexamples_when_dropped:
+  exists: 'for a curved exponential family the sufficient statistic is not complete and a UMVUE may fail to exist -- there can be two unbiased estimators neither dominating the other'
+  unbiased_class_is_the_right_one: 'the UMVUE can be beaten in MSE by a biased estimator (James-Stein beats the UMVUE Xbar for a >=3-dim normal mean)'
+common_misuse:
+  - 'treating UMVUE as ''the best estimator'' -- it is best only among unbiased ones, and only in variance'
+  - 'assuming UMVUE = MLE (they differ at finite n: MLE of sigma^2 divides by n, UMVUE by n-1)'
+related:
+  required_by: ['lehmann_scheffe_theorem']
+  commonly_confused_with: ['asymptotic_efficiency']
+sources:
+  - 'lehmann_casella_tpe'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#umvue
+  specialization: validation/specialization-cases.md#umvue
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#umvue

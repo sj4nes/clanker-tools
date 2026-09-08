@@ -1,0 +1,31 @@
+id: foundations.ra_interchange_limit_integral
+node: ra_interchange_limit_integral
+status_label: proved_theorem
+display: 'If |d/dtheta f(x; theta)| <= g(x) with int g < inf, then d/dtheta int f(x; theta) dx = int d/dtheta f(x; theta) dx (dominated convergence).'
+parseable: 'If |d/dtheta f(x; theta)| <= g(x) with int g < inf, then d/dtheta int f(x; theta) dx = int d/dtheta f(x; theta) dx (dominated convergence).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-real-analysis:interchange_limit_integral'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-real-analysis:interchange_limit_integral'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-real-analysis:interchange_limit_integral'
+sources:
+  - 'math-real-analysis'
+status: draft
+checks:
+  type: validation/type-checks.md#ra_interchange_limit_integral
+  specialization: validation/specialization-cases.md#ra_interchange_limit_integral
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#ra_interchange_limit_integral

@@ -1,0 +1,31 @@
+id: foundations.prob_characteristic_function
+node: prob_characteristic_function
+status_label: proved_theorem
+display: 'phi_X(t) = E[e^{itX}]; always exists, |phi_X| <= 1, determines the law, phi_{X+Y} = phi_X phi_Y for independent X, Y.'
+parseable: 'phi_X(t) = E[e^{itX}]; always exists, |phi_X| <= 1, determines the law, phi_{X+Y} = phi_X phi_Y for independent X, Y.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:characteristic_function'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:characteristic_function'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:characteristic_function'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_characteristic_function
+  specialization: validation/specialization-cases.md#prob_characteristic_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_characteristic_function

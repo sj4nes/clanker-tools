@@ -1,0 +1,51 @@
+id: methods.bayes_estimator
+node: bayes_estimator
+status_label: definition
+display: 'Given a prior pi on Theta and a loss L(theta, a), the Bayes estimator is the decision rule delta_pi(x) = argmin_a E[ L(theta, a) | X = x ] = argmin_a int L(theta, a) pi(theta | x) dtheta: it minimizes the posterior expected loss for each observed x.'
+parseable: 'delta_pi(x)  in  argmin_a  E_{theta | x}[ L(theta, a) ]'
+regime: bayesian
+symbols:
+  'pi(theta)': 'the prior density on Theta (a modeling input)'
+  'pi(theta | x) proportional to L(x; theta) pi(theta)': 'the posterior'
+  'delta_pi': 'the Bayes rule / Bayes estimator'
+type_check_status: well_formed
+type_check_note: 'An argmin over actions of the posterior risk. Well-posed whenever the posterior exists (proper, or improper with a finite normalizer) and the posterior loss is finite. It is automatically a function of a sufficient statistic.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'loss_function'
+  - 'prob_conditional_distribution'
+  - 'risk_function'
+proof:
+  technique: 'minimize the Bayes risk r(pi, delta) = E_X E_{theta|X}[L] by minimizing the inner (posterior) expectation for each x -- see bayes_rule_minimizes_bayes_risk'
+  derives_from: 'bayes_rule_minimizes_bayes_risk'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'squared-error loss: delta_pi(x) = posterior mean E[theta | x] (posterior_mean_rule)'
+  - 'absolute-error loss: delta_pi(x) = a posterior median (posterior_median_rule)'
+  - '0-1 loss on a discrete Theta: delta_pi(x) = the posterior mode (MAP estimate)'
+counterexamples_when_dropped:
+  proper_posterior: 'an improper prior can yield an improper posterior (e.g. pi(sigma) = 1/sigma with n = 0, or the Bayes/Neyman-Scott hierarchical models) -- then no Bayes estimator exists and reported ''posterior summaries'' are meaningless'
+  finite_posterior_loss: 'squared-error loss with a Cauchy posterior: E[theta | x] does not exist; use the posterior median'
+common_misuse:
+  - 'reporting a Bayes estimate without stating the prior -- the prior is part of the answer'
+  - 'using a ''flat'' prior on an unbounded parameter and assuming it is uninformative -- it is often improper and can be strongly informative after a nonlinear reparametrization'
+applications:
+  - 'Bayesian hierarchical shrinkage (small-area estimation, sports analytics, the ''James-Stein as empirical Bayes'' story) -- the posterior mean pools information across units'
+  - 'Kalman filtering is exact Bayesian estimation for the linear-Gaussian state-space model'
+  - 'Thompson sampling for bandits draws from the posterior and acts greedily'
+related:
+  specializes_from: ['estimator', 'decision_rule']
+  required_by: ['posterior_mean_rule', 'posterior_median_rule', 'conjugate_prior', 'bernstein_von_mises']
+sources:
+  - 'berger_statistical_decision_theory'
+  - 'robert_bayesian_choice'
+status: draft
+checks:
+  type: validation/type-checks.md#bayes_estimator
+  specialization: validation/specialization-cases.md#bayes_estimator
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bayes_estimator

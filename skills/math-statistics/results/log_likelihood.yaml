@@ -1,0 +1,36 @@
+id: model.log_likelihood
+node: log_likelihood
+status_label: definition
+display: 'The log-likelihood is ell(theta) = log L(theta) = sum_{i=1}^n log f(x_i; theta).'
+parseable: 'ell(theta) = sum_{i=1}^n log f(x_i; theta)'
+symbols:
+  'ell(theta)': 'the log-likelihood, type: function Theta -> [-inf, inf)'
+  'ell_i(theta) = log f(x_i; theta)': 'the i-th contribution'
+type_check_status: well_formed
+type_check_note: 'ell is well defined (possibly -inf) wherever L >= 0; the product becoming a SUM is the point -- it makes the score a sum of iid terms and hands the CLT its hypothesis.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'likelihood_function'
+well_definedness: 'Same theta-free additive constant ambiguity as L (from the choice of mu). Differences ell(theta_1) - ell(theta_2) are unambiguous.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Bernoulli: ell(p) = (sum x_i) log p + (n - sum x_i) log(1 - p)'
+  - 'the maximizer of ell is the maximizer of L (log is increasing) -- this is why one always works with ell'
+  - 'at a data point with f(x_i; theta) = 0, ell(theta) = -inf: theta is excluded'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'differentiating L instead of ell and drowning in product rule'
+  - 'forgetting ell can be -inf on part of Theta (support constraints)'
+related:
+  required_by: ['score_function', 'likelihood_ratio_test']
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#log_likelihood
+  specialization: validation/specialization-cases.md#log_likelihood
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#log_likelihood

@@ -1,0 +1,31 @@
+id: foundations.prob_lotus
+node: prob_lotus
+status_label: proved_theorem
+display: 'Law of the unconscious statistician: E[g(X)] = int g(x) dF_X(x).'
+parseable: 'Law of the unconscious statistician: E[g(X)] = int g(x) dF_X(x).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:lotus'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:lotus'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:lotus'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_lotus
+  specialization: validation/specialization-cases.md#prob_lotus
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_lotus

@@ -1,0 +1,31 @@
+id: foundations.prob_delta_method
+node: prob_delta_method
+status_label: proved_theorem
+display: 'If sqrt(n)(T_n - theta) -> N(0, v) and g is differentiable at theta, then sqrt(n)(g(T_n) - g(theta)) -> N(0, g''(theta)^2 v).'
+parseable: 'If sqrt(n)(T_n - theta) -> N(0, v) and g is differentiable at theta, then sqrt(n)(g(T_n) - g(theta)) -> N(0, g''(theta)^2 v).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:delta_method'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:delta_method'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:delta_method'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_delta_method
+  specialization: validation/specialization-cases.md#prob_delta_method
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_delta_method

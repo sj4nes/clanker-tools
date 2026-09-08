@@ -1,0 +1,37 @@
+id: decision_theory.bayes_risk
+node: bayes_risk
+status_label: definition
+display: 'The Bayes risk of a rule delta under a prior pi is r(pi, delta) = int R(theta, delta) pi(dtheta) = E_pi E_theta[ L(theta, delta(X)) ]: the risk averaged over theta with weight pi.'
+parseable: 'r(pi, delta) = int_Theta R(theta, delta) pi(dtheta)'
+regime: bayesian
+symbols:
+  'pi': 'the prior (a probability measure on Theta, or an improper measure with finite r)'
+  'r(pi, delta)': 'a single number -- so Bayes risk TOTALLY orders the rules (unlike the risk function)'
+type_check_status: well_formed
+type_check_note: 'A scalar summary of the risk function against a weighting pi. Minimizing it is what makes the Bayes rule well-defined and unique (a.s.). Different priors give different orderings.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'risk_function'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'r(pi, delta) = E_X[ posterior expected loss at X ] -- the two-way expectation can be taken in either order (Fubini)'
+  - 'the minimizer over delta is delta_pi, the Bayes rule (posterior-loss minimizer)'
+  - 'sup_pi inf_delta r(pi, delta) = the minimax risk when a saddle point exists (minimax theorem)'
+counterexamples_when_dropped:
+  prior_proper_or_r_finite: 'an improper prior with infinite Bayes risk gives no minimizer; ''generalized Bayes'' rules (formal posterior mean) may still be admissible but are not Bayes in this sense'
+common_misuse:
+  - 'comparing Bayes risks computed under different priors as if on the same scale'
+  - 'reporting the Bayes risk as the actual error -- it is an average over a hypothetical prior draw of theta'
+related:
+  required_by: ['bayes_rule_minimizes_bayes_risk']
+  uses: ['risk_function']
+sources:
+  - 'berger_statistical_decision_theory'
+status: draft
+checks:
+  type: validation/type-checks.md#bayes_risk
+  specialization: validation/specialization-cases.md#bayes_risk
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bayes_risk

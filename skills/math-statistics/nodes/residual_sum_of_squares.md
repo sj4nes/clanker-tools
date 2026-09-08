@@ -1,0 +1,48 @@
+# residual_sum_of_squares
+
+## Type
+definition
+
+## Statement
+The residual sum of squares is RSS = || y - X beta_hat ||^2 = y^T (I - H) y = sum_i e_i^2, where e = (I - H) y are the OLS residuals.
+
+## Symbols
+- `e_i = y_i - x_i^T beta_hat` — the i-th residual (an estimate of eps_i, but with variance sigma^2(1 - h_ii) < sigma^2)
+- `RSS/sigma^2 ~ chi^2_{n-p}` — under the Gaussian linear model
+
+## Epistemic status
+definition  ·  regime: exact
+
+## Prerequisites (tsort edges into this node)
+ols_is_projection
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: RSS/sigma^2 = (eps/sigma)^T (I - H) (eps/sigma) with (I - H) idempotent of rank n - p; Cochran => chi^2_{n-p}
+derives_from: cochran_theorem
+lean_status: cited
+
+## Type / well-formedness check
+A statistic. RSS is a quadratic form in y with the idempotent matrix I - H of rank n - p; under normal errors RSS/sigma^2 ~ chi^2_{n-p}, independent of beta_hat (Cochran), which is the engine of the t- and F-tests.
+
+## Specialization / boundary cases
+- RSS is nonincreasing as predictors are added (more columns can only reduce the projection residual) -- why RSS alone cannot select a model
+- RSS/(n-p) = sigma_hat^2, the unbiased error-variance estimate
+- the F-test compares RSS of nested models: (RSS_0 - RSS)/(RSS/(n-p))
+
+## Hypothesis-dropped counterexamples
+- **gaussian_errors_for_the_chi2_law**: non-normal errors: E[RSS] = (n-p) sigma^2 still holds (it is a trace identity), but RSS/sigma^2 is not chi^2_{n-p}
+- **correct_mean_model**: if E[y] is not X beta (omitted nonlinearity) then E[RSS] > (n-p) sigma^2 -- RSS is inflated by the model bias (the basis of the lack-of-fit F-test)
+
+## Common misuse
+- comparing RSS across models with different numbers of parameters without a penalty (use adjusted R^2, AIC, or the F-test)
+- using raw residuals e_i for diagnostics without standardizing by sqrt(1 - h_ii)
+
+## Related nodes (non-prerequisite)
+- required_by: unbiased_error_variance_estimator, overall_f_test, r_squared
+- uses: ols_is_projection
+
+## Sources
+seber_lee_linear_regression, casella_berger_2e

@@ -1,0 +1,46 @@
+# complete_class
+
+## Type
+theorem
+
+## Statement
+A class C of decision rules is complete if for every rule not in C there is a rule in C that dominates it. Under convexity of the loss and compactness/continuity conditions, the Bayes rules (together with their pointwise limits, the 'generalized Bayes' rules) form a complete class; every admissible rule is a (generalized) Bayes rule.
+
+## Symbols
+- `complete class` — a set of rules you can restrict to without loss
+- `essentially complete` — the weaker 'dominate or tie' version
+
+## Epistemic status
+proved_theorem  ·  regime: exact
+
+## Prerequisites (tsort edges into this node)
+admissibility, bayes_rule_minimizes_bayes_risk
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: Wald's complete class theorem / Le Cam; separating-hyperplane arguments on the risk set
+derives_from: bayes_rule_minimizes_bayes_risk
+lean_status: cited — CITED -- Wald 1950; Ferguson Mathematical Statistics Ch. 2; Le Cam. Not formalized.
+
+## Type / well-formedness check
+A structural result reducing the search for a good rule to the Bayes rules. The precise hypotheses (compact Theta, continuous risk, convex loss -- Wald / Le Cam) are technical; this capsule states the theorem and cites the proof.
+
+## Specialization / boundary cases
+- consequence: if you want an admissible rule, look among (generalized) Bayes rules -- e.g. James-Stein is a generalized (empirical) Bayes rule
+- in the normal-mean problem the admissible estimators are exactly the generalized Bayes ones (Brown 1971)
+- for one-sided testing, the complete class is the set of monotone tests (Karlin-Rubin's structural half)
+
+## Hypothesis-dropped counterexamples
+- **convex_loss_compact_Theta**: without convexity of the loss, randomized rules can be admissible and not Bayes; without compactness the closure operation is essential and 'generalized Bayes' rules that are not proper Bayes appear (Xbar itself is one)
+
+## Common misuse
+- reading it as 'only use Bayes rules' -- generalized/limiting Bayes rules are included, and these can look nothing like a posterior summary
+- assuming the frequentist-optimal rule is a PROPER Bayes rule
+
+## Related nodes (non-prerequisite)
+- uses: admissibility, bayes_rule_minimizes_bayes_risk
+
+## Sources
+ferguson_mathematical_statistics, berger_statistical_decision_theory, brown_1971

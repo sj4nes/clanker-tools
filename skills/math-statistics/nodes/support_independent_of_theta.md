@@ -1,0 +1,44 @@
+# support_independent_of_theta
+
+## Type
+hypothesis
+
+## Statement
+The set { x : f(x; theta) > 0 } is the same for every theta in Theta.
+
+## Symbols
+- `supp f(.; theta)` — the support of the density, type: measurable subset of the sample space
+
+## Epistemic status
+definition
+
+## Prerequisites (tsort edges into this node)
+dominated_family
+
+## Hypotheses
+(none — unconditional within scope)
+## Well-definedness
+A property of the model as parametrized.
+
+## Type / well-formedness check
+A statement that a theta-indexed family of sets is constant. It is what lets d/dtheta and int_{supp} commute without a boundary (Leibniz) term.
+
+## Specialization / boundary cases
+- N(mu, sigma^2): support is all of R for every (mu, sigma^2) -- holds
+- Poisson(lambda): support is {0,1,2,...} for every lambda -- holds
+- exponential(rate): support (0, inf) for every rate -- holds
+
+## Hypothesis-dropped counterexamples
+- **support_independent_of_theta**: uniform(0, theta): support (0, theta) depends on theta. Consequences: the score identity fails, the CRLB does not bind (the MLE max X_i beats it), the MLE converges at rate n and its limit is Exponential-not-Normal. The whole 'regular' theory is replaced by 'non-regular' (boundary) theory.
+- **also fails for**: shifted exponential f(x; theta) = e^{-(x - theta)} 1{x >= theta}; and for uniform(theta, theta + 1)
+
+## Common misuse
+- computing a Fisher information for uniform(0, theta) and quoting sqrt(n)-rate confidence intervals
+- assuming it holds because the density formula 'looks smooth' -- check the indicator
+
+## Related nodes (non-prerequisite)
+- required_by: score_identity, cramer_rao_lower_bound
+- commonly_confused_with: log_likelihood_smooth
+
+## Sources
+casella_berger_2e, lehmann_casella_tpe

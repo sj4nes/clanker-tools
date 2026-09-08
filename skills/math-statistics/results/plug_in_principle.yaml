@@ -1,0 +1,39 @@
+id: methods.plug_in_principle
+node: plug_in_principle
+status_label: definition
+display: 'The plug-in principle estimates a functional T(P) of the unknown law P by T(P_hat_n), where P_hat_n is the empirical distribution (mass 1/n at each observation).'
+parseable: 'theta_hat = T( P_hat_n )   for an estimand  theta = T(P)'
+regime: distribution_free
+symbols:
+  'T(.)': 'a statistical functional, type: map from laws to R^k (the mean, a quantile, the variance, a correlation)'
+  'P_hat_n': 'the empirical measure'
+type_check_status: well_formed
+type_check_note: 'Requires the estimand to be expressed as a functional of P. Consistency comes from P_hat_n -> P (Glivenko-Cantelli) plus continuity of T; asymptotic normality from the functional delta method when T is Hadamard-differentiable.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'empirical_cdf'
+  - 'statistic'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T(P) = E_P[X] => plug-in is Xbar; T(P) = Var_P(X) => plug-in is the /n sample variance'
+  - 'T(P) = F^{-1}(1/2) => plug-in is the sample median'
+  - 'T(P) = P(X in A) => plug-in is the sample proportion'
+counterexamples_when_dropped:
+  T_continuous: 'the density value f(x_0) is NOT a continuous functional of P in the sup metric -- there is no sqrt(n) plug-in estimator; density estimation is a genuinely nonparametric (slower-rate) problem (see kde_bias_variance_tradeoff)'
+common_misuse:
+  - 'plugging into a functional that is not smooth (a density, a mode, the number of modes) and expecting sqrt(n) behaviour'
+  - 'forgetting the plug-in variance estimator (/n) is biased -- it is the MLE, not the UMVUE'
+related:
+  required_by: ['plug_in_estimator']
+  uses: ['empirical_cdf']
+sources:
+  - 'wasserman_all_of_statistics'
+  - 'van_der_vaart_asymptotic'
+status: draft
+checks:
+  type: validation/type-checks.md#plug_in_principle
+  specialization: validation/specialization-cases.md#plug_in_principle
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#plug_in_principle

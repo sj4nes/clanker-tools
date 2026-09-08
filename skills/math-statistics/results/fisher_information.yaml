@@ -1,0 +1,45 @@
+id: model.fisher_information
+node: fisher_information
+status_label: definition
+display: 'The (per-observation) Fisher information is I(theta) = Var_theta(U_1(theta)) = E_theta[(d/dtheta log f(X_1; theta))^2]; the sample information is n I(theta).'
+parseable: 'I(theta) = Var_theta( d/dtheta log f(X_1; theta) )'
+symbols:
+  'I(theta)': 'Fisher information, type: nonnegative real (scalar theta)'
+  'U_1(theta)': 'the single-observation score'
+  'n I(theta)': 'the information in an iid sample of size n (scores add, variances of independent sums add)'
+type_check_status: well_formed
+type_check_note: 'I(theta) >= 0 real; equals E[U_1^2] because E[U_1] = 0 (score identity). Additivity n I(theta) over an iid sample is Var of a sum of iid. Under regularity also I(theta) = -E[d^2/dtheta^2 log f] (information_equality).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'prob_variance'
+  - 'score_function'
+well_definedness: 'Finite and positive under regularity; can be 0 (parameter locally invisible) or +inf.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Bernoulli(p): I(p) = 1 / (p(1-p)) -- largest near p = 0 or 1, smallest at p = 1/2'
+  - 'Poisson(lambda): I(lambda) = 1/lambda'
+  - 'N(mu, sigma^2): I(mu) = 1/sigma^2 (with sigma^2 known); the information about mu does not depend on mu'
+  - 'location family f(x - theta): I(theta) = int (f''/f)^2 f dx does not depend on theta'
+counterexamples_when_dropped:
+  interchange_derivative_integral: 'if int f can''t be differentiated under the integral sign, E[U_1] != 0 and I(theta) = Var(U_1) != E[U_1^2]; the CRLB denominator and the information equality both fail'
+  log_likelihood_smooth: 'uniform(0, theta): the naive I(theta) = 1/theta^2 gives the WRONG rate -- the MLE converges at rate n, not sqrt(n), so ''Var >= 1/(n I)'' is not the operative bound'
+common_misuse:
+  - 'quoting 1/(n I(theta)) as the variance of an estimator that is biased or not the MLE'
+  - 'using per-observation I where sample information n I is meant (or vice versa) -- a factor-of-n error in every standard error'
+applications:
+  - 'the standard error of a fitted parameter in every statistics package is sqrt of a diagonal entry of the inverse observed information'
+  - 'optimal experimental design maximizes a scalar function of the information matrix (D-, A-, E-optimality)'
+related:
+  required_by: ['cramer_rao_lower_bound', 'mle_asymptotic_normality', 'wald_test', 'score_test', 'wald_interval']
+  equivalent_to: ['information_equality']
+sources:
+  - 'casella_berger_2e'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#fisher_information
+  specialization: validation/specialization-cases.md#fisher_information
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#fisher_information

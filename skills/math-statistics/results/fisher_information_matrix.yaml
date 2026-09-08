@@ -1,0 +1,41 @@
+id: model.fisher_information_matrix
+node: fisher_information_matrix
+status_label: definition
+display: 'For a d-dimensional parameter, I(theta) = Cov_theta(grad log f(X_1; theta)) = E_theta[grad log f (grad log f)^T], a symmetric positive-semidefinite d x d matrix; = -E_theta[Hessian of log f] under regularity.'
+parseable: 'I(theta) = E_theta[ (grad log f(X_1;theta)) (grad log f(X_1;theta))^T ]'
+symbols:
+  'I(theta)': 'the d x d Fisher information matrix, type: symmetric PSD matrix'
+  'grad log f': 'the score vector, type: R^d'
+  'I(theta)^{-1}': 'the asymptotic covariance of the MLE (when I is positive definite)'
+type_check_status: well_formed
+type_check_note: 'Symmetric PSD by construction (a covariance matrix). Requires the vector score to exist (log_likelihood_smooth). Positive-DEFINITE is the separate hypothesis fisher_information_positive_definite. Uses linear_algebra_background for ''PSD'', ''inverse'', ''eigenvalues''.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'linear_algebra_background'
+  - 'prob_covariance'
+  - 'score_function'
+well_definedness: 'A covariance matrix, hence symmetric PSD; the matrix analogue of the scalar I(theta).'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'N(mu, sigma^2), theta = (mu, sigma^2): I = diag(1/sigma^2, 1/(2 sigma^4)) -- mu and sigma^2 are ''information-orthogonal'''
+  - 'a full-rank exponential family: I(eta) = Hess A(eta), the Hessian of the cumulant function (always PD on the interior)'
+  - 'block structure: a zero off-diagonal block means the blocks'' MLEs are asymptotically independent'
+counterexamples_when_dropped:
+  fisher_information_positive_definite: 'the non-identified model N(alpha + beta, 1): I(alpha, beta) = [[1,1],[1,1]], singular -- not invertible, so I^{-1} does not exist and MLE-normality fails along the ridge'
+common_misuse:
+  - 'inverting a near-singular information matrix (collinear covariates) and reporting the resulting huge, unstable standard errors as if reliable'
+  - 'ignoring off-diagonal terms and treating each coordinate''s information as 1 / I_jj instead of (I^{-1})_jj'
+related:
+  required_by: ['fisher_information_positive_definite', 'mle_asymptotic_normality']
+  specializes_from: ['fisher_information']
+sources:
+  - 'lehmann_casella_tpe'
+  - 'van_der_vaart_asymptotic'
+status: draft
+checks:
+  type: validation/type-checks.md#fisher_information_matrix
+  specialization: validation/specialization-cases.md#fisher_information_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#fisher_information_matrix

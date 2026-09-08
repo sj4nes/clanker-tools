@@ -1,0 +1,49 @@
+id: intervals.large_sample_wald_interval
+node: large_sample_wald_interval
+status_label: proposition
+display: 'From the MLE, theta_hat_MLE +- z_{1-alpha/2} / sqrt(n I(theta_hat_MLE)) (or using the observed information -d^2 ell(theta_hat)) is a confidence interval with coverage -> 1 - alpha.'
+parseable: 'C(X) = theta_hat_MLE +- z_{1-alpha/2} / sqrt( n I(theta_hat) )'
+regime: asymptotic
+symbols:
+  'n I(theta_hat)': 'the estimated sample Fisher information -- or the observed information J(theta_hat) = -d^2 ell(theta_hat)'
+  'observed vs expected information': 'the observed version has slightly better finite-sample properties (Efron-Hinkley 1978)'
+type_check_status: well_formed
+type_check_note: 'The Wald interval specialized to the MLE, using mle_asymptotic_normality''s variance I(theta_0)^{-1}. Asymptotic; shares the Wald interval''s boundary weaknesses.'
+hypotheses:
+  - 'true_parameter_interior'
+  - 'fisher_information_positive_definite'
+  - 'log_likelihood_smooth'
+preconditions: []
+dependencies:
+  - 'fisher_information'
+  - 'mle_asymptotic_normality'
+  - 'wald_interval'
+proof:
+  technique: 'mle_asymptotic_normality gives sqrt(n)(theta_hat - theta) -> N(0, I^{-1}); I(theta_hat) -> I(theta) consistently; Slutsky; invert'
+  derives_from: 'mle_asymptotic_normality'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Poisson rate: lambda_hat +- z sqrt(lambda_hat / n) since I(lambda) = 1/lambda'
+  - 'logistic regression coefficients: the standard reported CI, beta_hat_j +- z se_j with se_j from the inverse observed information'
+  - 'prefer the profile-likelihood (LR) interval when the log-likelihood is visibly asymmetric'
+counterexamples_when_dropped:
+  true_parameter_interior: 'near a boundary the interval extends past the parameter space and undercovers -- use the LR interval, which respects the likelihood''s shape'
+  log_likelihood_smooth: 'non-regular model: the interval is invalid (wrong rate / wrong shape)'
+common_misuse:
+  - 'reporting it for a small sample where the log-likelihood is far from quadratic (use LR / profile intervals)'
+  - 'using expected information I(theta_hat) when the model may be misspecified -- then the sandwich SE is right'
+related:
+  uses: ['mle_asymptotic_normality', 'wald_interval']
+  approximates: []
+sources:
+  - 'casella_berger_2e'
+  - 'efron_hinkley_1978'
+status: draft
+checks:
+  type: validation/type-checks.md#large_sample_wald_interval
+  specialization: validation/specialization-cases.md#large_sample_wald_interval
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#large_sample_wald_interval

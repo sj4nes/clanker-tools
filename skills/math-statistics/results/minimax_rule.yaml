@@ -1,0 +1,36 @@
+id: decision_theory.minimax_rule
+node: minimax_rule
+status_label: definition
+display: 'A rule delta* is minimax if it minimizes the worst-case risk: sup_theta R(theta, delta*) = inf_delta sup_theta R(theta, delta).'
+parseable: 'delta* in argmin_delta  sup_{theta in Theta}  R(theta, delta)'
+symbols:
+  'sup_theta R(theta, delta)': 'the maximum risk of delta -- its worst case over Theta'
+type_check_status: well_formed
+type_check_note: 'The rule with the best guarantee against an adversarial Nature. Often found as a Bayes rule against a ''least favorable'' prior (the prior that makes the Bayes risk largest); minimax = Bayes vs least-favorable prior when a saddle point exists.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'risk_function'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'N(theta, 1) known variance, Theta = R: Xbar is minimax (constant risk 1/n, and it is Bayes vs the flat improper prior limit)'
+  - 'Bernoulli(p), Theta = [0,1], squared-error loss: the minimax estimator is (sum X_i + sqrt(n)/2) / (n + sqrt(n)) -- a Beta(sqrt(n)/2, sqrt(n)/2) Bayes rule, with constant risk'
+  - 'bounded normal mean |theta| <= tau: the minimax rule is nonlinear and shrinks toward 0'
+counterexamples_when_dropped:
+  Theta_bounded_or_risk_controlled: 'if Theta is unbounded and risk is unbounded, sup_theta R can be infinite for every rule and ''minimax'' is degenerate -- restrict Theta or the loss'
+common_misuse:
+  - 'choosing minimax when the worst case is implausible -- it can be very conservative, paying everywhere to protect against a corner of Theta'
+  - 'assuming the minimax rule has constant risk -- it need not, though many do'
+related:
+  uses: ['risk_function', 'bayes_risk']
+  commonly_confused_with: ['local_asymptotic_minimax']
+sources:
+  - 'berger_statistical_decision_theory'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#minimax_rule
+  specialization: validation/specialization-cases.md#minimax_rule
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#minimax_rule

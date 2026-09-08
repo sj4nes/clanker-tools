@@ -1,0 +1,546 @@
+# edges/dependencies.plan  --  math-statistics Release 0.1
+# Format: one "A B" edge per non-comment line; A is a necessary prerequisite for
+# correctly stating / proving / interpreting / applying B, within scope.
+# Non-prerequisite relations (generalizes, equivalent_to, special_case_of, ...)
+# live in edges/relations.tsv, NOT here.
+#
+# Roots (no incoming edges): every prob_*, ra_*, and linear_algebra_background
+# node -- cited into math-probability / math-real-analysis (see conventions.md).
+
+# ===========================================================================
+# 1. The statistical model and the likelihood
+# ===========================================================================
+# a model is a family of probability laws; needs the notion of a law.
+prob_probability_space statistical_model
+# parametric = the index set is finite-dimensional.
+statistical_model parametric_model
+parametric_model parameter_space
+# identifiability is a property of the map theta -> P_theta.
+parametric_model identifiability
+# a dominated family is defined via densities against a common measure.
+prob_pdf dominated_family
+statistical_model dominated_family
+# an iid sample is n independent draws from one member of the model.
+prob_iid iid_sample
+statistical_model iid_sample
+# a statistic is a function of the sample.
+iid_sample statistic
+# the likelihood is the joint density read as a function of theta.
+dominated_family likelihood_function
+iid_sample likelihood_function
+prob_joint_distribution likelihood_function
+# log-likelihood, score, information are successive derivatives of L.
+likelihood_function log_likelihood
+log_likelihood score_function
+ra_differentiability score_function
+# Fisher information is the variance of the score.
+score_function fisher_information
+prob_variance fisher_information
+score_function fisher_information_matrix
+prob_covariance fisher_information_matrix
+linear_algebra_background fisher_information_matrix
+# the score identity: differentiate int f = 1 under the integral sign.
+score_function score_identity
+interchange_derivative_integral score_identity
+support_independent_of_theta score_identity
+prob_expectation score_identity
+# information equality: differentiate the score identity once more.
+score_identity information_equality
+fisher_information information_equality
+interchange_derivative_integral information_equality
+log_likelihood_smooth information_equality
+# regularity hypotheses attach to the results that need them (below); they are
+# themselves defined against the density and the parameter space.
+dominated_family support_independent_of_theta
+dominated_family interchange_derivative_integral
+parameter_space true_parameter_interior
+fisher_information_matrix fisher_information_positive_definite
+log_likelihood log_likelihood_smooth
+parametric_model identifiability
+
+# ===========================================================================
+# 2. Exponential families
+# ===========================================================================
+dominated_family exponential_family
+statistic exponential_family
+prob_expectation exponential_family
+exponential_family natural_parameter_space
+ra_convex_function natural_parameter_space
+exponential_family cumulant_function
+natural_parameter_space cumulant_function
+# A(eta) derivatives are the cumulants of T.
+cumulant_function exponential_family_moment_identities
+ra_differentiability exponential_family_moment_identities
+prob_covariance exponential_family_moment_identities
+exponential_family_moment_identities mean_value_parametrization
+# T is sufficient in an exp family -- by the factorization theorem.
+exponential_family exponential_family_sufficient_statistic
+neyman_fisher_factorization exponential_family_sufficient_statistic
+# full-rank exp family is complete.
+exponential_family exponential_family_completeness
+natural_parameter_space exponential_family_completeness
+completeness_statistic exponential_family_completeness
+
+# ===========================================================================
+# 3. Sufficiency, ancillarity, completeness
+# ===========================================================================
+statistic sufficiency
+prob_conditional_distribution sufficiency
+# factorization theorem characterizes sufficiency via the density.
+sufficiency neyman_fisher_factorization
+likelihood_function neyman_fisher_factorization
+prob_pmf neyman_fisher_factorization
+sufficiency minimal_sufficiency
+statistic ancillary_statistic
+prob_cdf ancillary_statistic
+statistic completeness_statistic
+prob_expectation completeness_statistic
+completeness_statistic bounded_completeness
+# Basu: complete + sufficient => independent of any ancillary.
+sufficiency basu_theorem
+completeness_statistic basu_theorem
+ancillary_statistic basu_theorem
+prob_independence_rv basu_theorem
+
+# ===========================================================================
+# 4. Point estimation and optimality
+# ===========================================================================
+statistic estimator
+parameter_space estimator
+estimator bias
+prob_expectation bias
+estimator mean_squared_error
+prob_expectation mean_squared_error
+# bias-variance decomposition: expand the square.
+bias mse_bias_variance_decomposition
+mean_squared_error mse_bias_variance_decomposition
+prob_variance mse_bias_variance_decomposition
+prob_expectation_linearity mse_bias_variance_decomposition
+bias unbiased_estimator
+# consistency = convergence in probability of the estimator sequence.
+estimator consistency
+prob_conv_p consistency
+iid_sample consistency
+# asymptotic normality / variance / efficiency.
+estimator asymptotic_normality_estimator
+prob_conv_d asymptotic_normality_estimator
+prob_standard_normal asymptotic_normality_estimator
+asymptotic_normality_estimator asymptotic_variance
+asymptotic_variance relative_efficiency
+asymptotic_variance asymptotic_efficiency
+cramer_rao_lower_bound asymptotic_efficiency
+fisher_information asymptotic_efficiency
+# UMVUE.
+unbiased_estimator umvue
+prob_variance umvue
+# Cramer-Rao: Cauchy-Schwarz on (theta_hat, score).
+unbiased_estimator cramer_rao_lower_bound
+score_identity cramer_rao_lower_bound
+fisher_information cramer_rao_lower_bound
+prob_cauchy_schwarz cramer_rao_lower_bound
+prob_covariance cramer_rao_lower_bound
+interchange_derivative_integral cramer_rao_lower_bound
+# Rao-Blackwell: condition on a sufficient statistic; law of total variance.
+sufficiency rao_blackwell_theorem
+prob_conditional_expectation rao_blackwell_theorem
+prob_law_total_variance rao_blackwell_theorem
+unbiased_estimator rao_blackwell_theorem
+# Lehmann-Scheffe: Rao-Blackwell + completeness => unique UMVUE.
+rao_blackwell_theorem lehmann_scheffe_theorem
+completeness_statistic lehmann_scheffe_theorem
+umvue lehmann_scheffe_theorem
+# CRLB attainment iff exponential family.
+cramer_rao_lower_bound crlb_attainment
+exponential_family crlb_attainment
+exponential_family_sufficient_statistic crlb_attainment
+
+# ===========================================================================
+# 5. Methods of estimation
+# ===========================================================================
+prob_moment method_of_moments
+iid_sample method_of_moments
+parameter_space method_of_moments
+empirical_cdf plug_in_principle
+statistic plug_in_principle
+# MLE.
+likelihood_function maximum_likelihood_estimator
+ra_compactness maximum_likelihood_estimator
+maximum_likelihood_estimator mle_score_equation
+score_function mle_score_equation
+true_parameter_interior mle_score_equation
+maximum_likelihood_estimator mle_invariance
+# MLE consistency (cited): identifiability + uniform LLN.
+maximum_likelihood_estimator mle_consistency
+identifiability mle_consistency
+identifiability mle_consistency
+prob_slln mle_consistency
+prob_wlln mle_consistency
+# MLE asymptotic normality (cited): Taylor-expand the score at theta_hat.
+mle_score_equation mle_asymptotic_normality
+mle_consistency mle_asymptotic_normality
+ra_taylor_theorem mle_asymptotic_normality
+information_equality mle_asymptotic_normality
+prob_clt mle_asymptotic_normality
+prob_slutsky mle_asymptotic_normality
+fisher_information_positive_definite mle_asymptotic_normality
+true_parameter_interior mle_asymptotic_normality
+log_likelihood_smooth mle_asymptotic_normality
+# M-estimators generalize the MLE.
+score_function m_estimator
+maximum_likelihood_estimator m_estimator
+m_estimator sandwich_variance
+mle_asymptotic_normality sandwich_variance
+# Bayes estimation.
+prob_conditional_distribution bayes_estimator
+loss_function bayes_estimator
+risk_function bayes_estimator
+bayes_estimator posterior_mean_rule
+loss_function posterior_mean_rule
+prob_conditional_expectation posterior_mean_rule
+bayes_estimator posterior_median_rule
+prob_beta conjugate_prior
+prob_binomial conjugate_prior
+bayes_estimator conjugate_prior
+# Bernstein-von Mises: posterior ~ N(theta_hat, (nI)^-1).
+bayes_estimator bernstein_von_mises
+mle_asymptotic_normality bernstein_von_mises
+credible_interval bernstein_von_mises
+fisher_information bernstein_von_mises
+
+# ===========================================================================
+# 6. Decision theory
+# ===========================================================================
+parameter_space loss_function
+decision_rule risk_function
+loss_function risk_function
+prob_expectation risk_function
+estimator decision_rule
+test_function decision_rule
+risk_function admissibility
+risk_function minimax_rule
+risk_function bayes_risk
+# Bayes rule minimizes Bayes risk by minimizing posterior loss for each x.
+bayes_risk bayes_rule_minimizes_bayes_risk
+posterior_mean_rule bayes_rule_minimizes_bayes_risk
+prob_tower_property bayes_rule_minimizes_bayes_risk
+bayes_rule_minimizes_bayes_risk complete_class
+admissibility complete_class
+# James-Stein: MLE of a >=3-dim normal mean is inadmissible.
+admissibility james_stein
+risk_function james_stein
+prob_normal james_stein
+maximum_likelihood_estimator james_stein
+mean_squared_error james_stein
+
+# ===========================================================================
+# 7. The exact Gaussian core
+# ===========================================================================
+# chi^2 = Gamma(k/2, 1/2) = sum of squared standard normals.
+prob_gamma chi_squared_distribution
+prob_standard_normal chi_squared_distribution
+# t = Z / sqrt(V/k).
+prob_standard_normal students_t_distribution
+chi_squared_distribution students_t_distribution
+prob_independence_rv students_t_distribution
+# F = (U/d1)/(V/d2).
+chi_squared_distribution f_distribution
+prob_independence_rv f_distribution
+# chi^2 df add -- Gamma shape additivity.
+chi_squared_distribution chi_squared_additivity
+prob_gamma chi_squared_additivity
+# sample mean, sample variance.
+iid_sample sample_mean
+prob_expectation_linearity sample_mean
+iid_sample sample_variance
+sample_mean sample_variance
+# E[S^2] = sigma^2 (any finite-variance law).
+sample_variance bias_of_sample_variance
+prob_variance bias_of_sample_variance
+prob_expectation_linearity bias_of_sample_variance
+prob_covariance bias_of_sample_variance
+# Xbar _||_ S^2 for a normal sample -- Basu, or the orthogonal decomposition.
+sample_mean normal_sample_mean_variance_independence
+sample_variance normal_sample_mean_variance_independence
+prob_normal normal_sample_mean_variance_independence
+basu_theorem normal_sample_mean_variance_independence
+linear_algebra_background normal_sample_mean_variance_independence
+# (n-1)S^2/sigma^2 ~ chi^2_{n-1}.
+normal_sample_mean_variance_independence scaled_sample_variance_chi_squared
+chi_squared_distribution scaled_sample_variance_chi_squared
+cochran_theorem scaled_sample_variance_chi_squared
+prob_normal scaled_sample_variance_chi_squared
+# the t-statistic.
+scaled_sample_variance_chi_squared t_statistic_distribution
+normal_sample_mean_variance_independence t_statistic_distribution
+students_t_distribution t_statistic_distribution
+prob_normal_affine_closure t_statistic_distribution
+# Cochran's theorem -- quadratic forms in standard normals.
+prob_standard_normal cochran_theorem
+chi_squared_distribution cochran_theorem
+linear_algebra_background cochran_theorem
+prob_independence_rv cochran_theorem
+# ANOVA decomposition.
+cochran_theorem one_way_anova_identity
+sample_mean one_way_anova_identity
+linear_algebra_background one_way_anova_identity
+
+# ===========================================================================
+# 8. Interval estimation
+# ===========================================================================
+parameter_space confidence_set
+prob_probability_space confidence_set
+confidence_set coverage_probability
+parameter_space pivotal_quantity
+prob_cdf pivotal_quantity
+pivotal_quantity pivot_method
+confidence_set pivot_method
+# duality with tests.
+confidence_set confidence_set_test_duality
+size_of_test confidence_set_test_duality
+test_function confidence_set_test_duality
+# exact normal intervals.
+pivot_method normal_mean_ci_known_variance
+sample_mean normal_mean_ci_known_variance
+prob_standard_normal normal_mean_ci_known_variance
+prob_normal normal_mean_ci_known_variance
+t_statistic_distribution normal_mean_ci_unknown_variance
+pivot_method normal_mean_ci_unknown_variance
+scaled_sample_variance_chi_squared normal_variance_ci
+pivot_method normal_variance_ci
+# Wald interval.
+asymptotic_normality_estimator wald_interval
+confidence_set wald_interval
+fisher_information wald_interval
+prob_standard_normal wald_interval
+# delta-method SE.
+prob_delta_method delta_method_standard_error
+wald_interval delta_method_standard_error
+ra_differentiability delta_method_standard_error
+# large-sample Wald from the MLE.
+mle_asymptotic_normality large_sample_wald_interval
+wald_interval large_sample_wald_interval
+fisher_information large_sample_wald_interval
+
+# ===========================================================================
+# 9. Hypothesis testing
+# ===========================================================================
+parameter_space null_hypothesis
+null_hypothesis alternative_hypothesis
+parameter_space alternative_hypothesis
+statistic test_function
+null_hypothesis test_function
+test_function size_of_test
+null_hypothesis size_of_test
+prob_expectation size_of_test
+test_function power_function
+alternative_hypothesis power_function
+prob_expectation power_function
+size_of_test type_i_error
+power_function type_i_error
+# Neyman-Pearson.
+likelihood_function neyman_pearson_lemma
+test_function neyman_pearson_lemma
+size_of_test neyman_pearson_lemma
+power_function neyman_pearson_lemma
+# MLR and Karlin-Rubin.
+likelihood_function monotone_likelihood_ratio
+neyman_pearson_lemma karlin_rubin_theorem
+monotone_likelihood_ratio karlin_rubin_theorem
+power_function karlin_rubin_theorem
+# LRT.
+likelihood_function likelihood_ratio_test
+maximum_likelihood_estimator likelihood_ratio_test
+null_hypothesis likelihood_ratio_test
+# Wilks.
+likelihood_ratio_test wilks_theorem
+mle_asymptotic_normality wilks_theorem
+chi_squared_distribution wilks_theorem
+ra_taylor_theorem wilks_theorem
+fisher_information_positive_definite wilks_theorem
+# Wald / score tests.
+mle_asymptotic_normality wald_test
+fisher_information wald_test
+chi_squared_distribution wald_test
+score_function score_test
+fisher_information score_test
+chi_squared_distribution score_test
+information_equality score_test
+# three-tests equivalence.
+wald_test three_tests_asymptotically_equivalent
+score_test three_tests_asymptotically_equivalent
+wilks_theorem three_tests_asymptotically_equivalent
+# p-value.
+size_of_test p_value
+test_function p_value
+p_value p_value_uniform_under_null
+prob_cdf p_value_uniform_under_null
+prob_uniform_continuous p_value_uniform_under_null
+# Pearson chi-squared GOF.
+prob_binomial pearson_chi_squared_gof
+prob_clt pearson_chi_squared_gof
+chi_squared_distribution pearson_chi_squared_gof
+likelihood_ratio_test pearson_chi_squared_gof
+# multiplicity.
+size_of_test multiple_testing_fwer
+null_hypothesis multiple_testing_fwer
+multiple_testing_fwer bonferroni_correction
+prob_markov_ineq bonferroni_correction
+multiple_testing_fwer benjamini_hochberg_fdr
+p_value benjamini_hochberg_fdr
+# the exact-normal tests use the t / F sampling distributions.
+t_statistic_distribution one_sample_t_test
+size_of_test one_sample_t_test
+power_function one_sample_t_test
+t_statistic_distribution two_sample_t_test
+prob_normal_affine_closure two_sample_t_test
+size_of_test two_sample_t_test
+f_distribution f_test_equality_of_variances
+scaled_sample_variance_chi_squared f_test_equality_of_variances
+size_of_test f_test_equality_of_variances
+
+# ===========================================================================
+# 10. Nonparametric glue
+# ===========================================================================
+prob_cdf empirical_cdf
+iid_sample empirical_cdf
+prob_bernoulli empirical_cdf
+iid_sample order_statistic
+order_statistic sample_quantile
+empirical_cdf sample_quantile
+# Glivenko-Cantelli (cited): uniform SLLN over half-lines.
+empirical_cdf glivenko_cantelli
+prob_slln glivenko_cantelli
+# DKW.
+empirical_cdf dvoretzky_kiefer_wolfowitz
+prob_hoeffding dvoretzky_kiefer_wolfowitz
+# plug-in + bootstrap.
+empirical_cdf plug_in_estimator
+plug_in_principle plug_in_estimator
+plug_in_estimator bootstrap
+empirical_cdf bootstrap
+bootstrap bootstrap_consistency
+prob_conv_d bootstrap_consistency
+glivenko_cantelli bootstrap_consistency
+ra_differentiability bootstrap_consistency
+# KDE.
+prob_pdf kernel_density_estimator
+iid_sample kernel_density_estimator
+kernel_density_estimator kde_bias_variance_tradeoff
+ra_taylor_theorem kde_bias_variance_tradeoff
+prob_variance kde_bias_variance_tradeoff
+# Donsker (boundary).
+empirical_cdf donsker_theorem
+prob_clt donsker_theorem
+glivenko_cantelli donsker_theorem
+
+# ===========================================================================
+# 11. Linear regression (Gaussian noise, fixed design)
+# ===========================================================================
+prob_normal linear_model
+linear_algebra_background linear_model
+prob_random_vector linear_model
+linear_model ordinary_least_squares
+ra_differentiability ordinary_least_squares
+ordinary_least_squares normal_equations
+linear_algebra_background normal_equations
+normal_equations ols_is_projection
+linear_algebra_background ols_is_projection
+ols_is_projection residual_sum_of_squares
+residual_sum_of_squares unbiased_error_variance_estimator
+prob_expectation_linearity unbiased_error_variance_estimator
+linear_algebra_background unbiased_error_variance_estimator
+# Gauss-Markov.
+ordinary_least_squares gauss_markov_theorem
+linear_algebra_background gauss_markov_theorem
+prob_covariance gauss_markov_theorem
+unbiased_estimator gauss_markov_theorem
+# distribution of beta_hat under normal errors.
+normal_equations ols_distribution_under_normal_errors
+prob_normal_affine_closure ols_distribution_under_normal_errors
+normal_sample_mean_variance_independence ols_distribution_under_normal_errors
+cochran_theorem ols_distribution_under_normal_errors
+linear_algebra_background ols_distribution_under_normal_errors
+# coefficient t-test, overall F-test.
+ols_distribution_under_normal_errors coefficient_t_test
+students_t_distribution coefficient_t_test
+unbiased_error_variance_estimator coefficient_t_test
+ols_distribution_under_normal_errors overall_f_test
+f_distribution overall_f_test
+residual_sum_of_squares overall_f_test
+cochran_theorem overall_f_test
+residual_sum_of_squares r_squared
+sample_variance r_squared
+ordinary_least_squares partitioned_regression
+ols_is_projection partitioned_regression
+
+# ===========================================================================
+# 12. Principles and boundary nodes
+# ===========================================================================
+sufficiency sufficiency_principle
+neyman_fisher_factorization sufficiency_principle
+iid_sample conditionality_principle
+ancillary_statistic conditionality_principle
+likelihood_function likelihood_principle
+sufficiency_principle likelihood_principle
+conditionality_principle likelihood_principle
+# LAN / convolution / LAM.
+mle_asymptotic_normality le_cam_lan_theory
+information_equality le_cam_lan_theory
+prob_clt le_cam_lan_theory
+le_cam_lan_theory hajek_convolution_theorem
+asymptotic_efficiency hajek_convolution_theorem
+le_cam_lan_theory local_asymptotic_minimax
+cramer_rao_lower_bound local_asymptotic_minimax
+# minimax rates.
+kde_bias_variance_tradeoff minimax_rate
+local_asymptotic_minimax minimax_rate
+
+# ===========================================================================
+# 13. Remaining cited-prerequisite edges (roots into the results that use them)
+# ===========================================================================
+# Chebyshev drives the elementary consistency argument (via the WLLN) and MoM.
+prob_chebyshev_ineq consistency
+prob_chebyshev_ineq method_of_moments
+# conditional Jensen is the engine of Rao-Blackwell's variance drop.
+prob_jensen_ineq rao_blackwell_theorem
+# continuous mapping: g(theta_hat) inherits consistency / the chi^2 limit.
+prob_continuous_mapping mle_invariance
+prob_continuous_mapping three_tests_asymptotically_equivalent
+prob_continuous_mapping delta_method_standard_error
+# a.s. convergence: the SLLN form of MLE consistency and Glivenko-Cantelli.
+prob_conv_as glivenko_cantelli
+prob_conv_as mle_consistency
+# LOTUS: population moments E_theta[X^k] as integrals against the model density.
+prob_lotus method_of_moments
+prob_lotus exponential_family_moment_identities
+# MGF proof of chi^2 shape-additivity and of the chi^2 = Gamma identity.
+prob_mgf chi_squared_additivity
+prob_mgf chi_squared_distribution
+# the CF-based Gaussian-shift limit behind LAN.
+prob_characteristic_function le_cam_lan_theory
+prob_levy_continuity le_cam_lan_theory
+# a mixture-of-experiments is a marginal over which experiment was drawn.
+prob_marginal_distribution conditionality_principle
+# an estimator / statistic is a random variable / random vector.
+prob_random_variable statistic
+# Gamma-Poisson conjugacy; Poisson counts feed the GOF statistic.
+prob_poisson conjugate_prior
+prob_poisson pearson_chi_squared_gof
+# the exponential family's canonical instance (rate/scale) and MoM failure.
+prob_exponential exponential_family
+prob_cauchy_no_mean method_of_moments
+# correlation is the population quantity R^2 estimates in simple regression.
+prob_correlation r_squared
+# uncorrelated-but-dependent errors: what Gauss-Markov's Cov(eps)=sigma^2 I rules out.
+prob_independence_factorization bias_of_sample_variance
+prob_independence_factorization normal_sample_mean_variance_independence
+# continuity of the log-likelihood for the argmax to exist on a compact set.
+ra_continuity maximum_likelihood_estimator
+# the cited analytic theorem that licenses the interchange-of-d-and-integral hypothesis.
+ra_interchange_limit_integral interchange_derivative_integral
+# the MVT/Taylor step in the score expansion.
+ra_mean_value_theorem mle_asymptotic_normality
+
+# --- credible interval: a posterior-probability region -----------------------
+prob_conditional_distribution credible_interval
+bayes_estimator credible_interval

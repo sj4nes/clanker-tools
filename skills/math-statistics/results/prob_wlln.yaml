@@ -1,0 +1,31 @@
+id: foundations.prob_wlln
+node: prob_wlln
+status_label: proved_theorem
+display: 'For iid X_i with E|X_1| < inf, the sample mean converges to E[X_1] in probability.'
+parseable: 'For iid X_i with E|X_1| < inf, the sample mean converges to E[X_1] in probability.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:weak_law_large_numbers'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:weak_law_large_numbers'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:weak_law_large_numbers'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_wlln
+  specialization: validation/specialization-cases.md#prob_wlln
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_wlln

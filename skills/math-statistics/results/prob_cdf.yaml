@@ -1,0 +1,31 @@
+id: foundations.prob_cdf
+node: prob_cdf
+status_label: proved_theorem
+display: 'F_X(x) = P(X <= x): nondecreasing, right-continuous, limits 0 and 1; determines the law.'
+parseable: 'F_X(x) = P(X <= x): nondecreasing, right-continuous, limits 0 and 1; determines the law.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:cdf'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:cdf'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:cdf'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_cdf
+  specialization: validation/specialization-cases.md#prob_cdf
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_cdf

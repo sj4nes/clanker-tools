@@ -1,0 +1,36 @@
+id: estimation.unbiased_estimator
+node: unbiased_estimator
+status_label: definition
+display: 'theta_hat is unbiased for g(theta) if E_theta[theta_hat] = g(theta) for every theta in Theta.'
+parseable: 'E_theta[theta_hat] = g(theta)  for all theta'
+symbols:
+  'g(theta)': 'the estimand (often theta itself)'
+type_check_status: well_formed
+type_check_note: 'A statement holding for ALL theta simultaneously. Unbiasedness is a convenient constraint that makes ''minimum variance'' a well-posed optimality target, but it is not sacred (it can force large variance or absurd estimates).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'bias'
+well_definedness: 'Requires a finite mean at every theta.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Xbar unbiased for the mean; S^2 (n-1 divisor) unbiased for the variance'
+  - 'there is NO unbiased estimator of 1/p in Bernoulli sampling (any function of the sufficient statistic is a polynomial in the count, of bounded degree)'
+  - 'the unique unbiased estimator of e^{-2 lambda} in Poisson sampling is (-1)^X -- unbiased but absurd (it is +-1)'
+counterexamples_when_dropped:
+  exists_at_all: 'e^{-2 lambda} Poisson: the (-1)^X estimator shows unbiasedness can pick out a ridiculous rule; the MLE e^{-2 Xbar} is biased but sensible'
+common_misuse:
+  - 'insisting on unbiasedness when it forces a nonsensical or high-variance estimator'
+  - 'assuming an unbiased estimator exists -- for many g(theta) none does'
+related:
+  required_by: ['umvue', 'cramer_rao_lower_bound', 'rao_blackwell_theorem', 'gauss_markov_theorem']
+sources:
+  - 'casella_berger_2e'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#unbiased_estimator
+  specialization: validation/specialization-cases.md#unbiased_estimator
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#unbiased_estimator

@@ -1,0 +1,42 @@
+id: intervals.normal_variance_ci
+node: normal_variance_ci
+status_label: proposition
+display: 'For X_1..X_n iid N(mu, sigma^2), the interval ( (n-1)S^2 / chi^2_{n-1, 1-alpha/2},  (n-1)S^2 / chi^2_{n-1, alpha/2} ) has coverage exactly 1 - alpha for sigma^2. It is asymmetric about S^2.'
+parseable: 'C(X) = ( (n-1)S^2 / chi^2_{n-1,1-alpha/2},  (n-1)S^2 / chi^2_{n-1,alpha/2} )'
+regime: exact
+symbols:
+  'chi^2_{n-1, q}': 'the q-quantile of chi^2_{n-1}'
+  'asymmetry': 'the chi^2 distribution is right-skewed, so the interval is not S^2 +- something'
+type_check_status: well_formed
+type_check_note: 'Exact under normality. Invert the pivot (n-1)S^2/sigma^2 ~ chi^2_{n-1}. Equal-tailed is conventional but far from shortest for small n.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'pivot_method'
+  - 'scaled_sample_variance_chi_squared'
+proof:
+  technique: 'pivot method with Q = (n-1)S^2/sigma^2 ~ chi^2_{n-1}'
+  derives_from: 'scaled_sample_variance_chi_squared'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'take sqrt of the endpoints for a CI on sigma (the SD)'
+  - 'n = 10, alpha = 0.05: the interval spans roughly (0.47 S^2, 3.3 S^2) -- variance is hard to pin down'
+  - 'the shortest 1 - alpha interval uses unequal tail probabilities chosen to minimize length'
+counterexamples_when_dropped:
+  normality: 'THIS PROCEDURE HAS NO ROBUSTNESS. For data with kurtosis != 3 (any non-normal shape) the coverage can be far from 1 - alpha even for large n, because (n-1)S^2/sigma^2 is not chi^2_{n-1} and its shape depends on the 4th moment. Use a bootstrap or a kurtosis-corrected interval.'
+common_misuse:
+  - 'using it for a variance CI with visibly non-normal data -- unlike the t-interval for the mean, this one does not self-correct via the CLT at usual n'
+  - 'reporting a symmetric S^2 +- interval'
+related:
+  uses: ['pivot_method', 'scaled_sample_variance_chi_squared']
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#normal_variance_ci
+  specialization: validation/specialization-cases.md#normal_variance_ci
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#normal_variance_ci

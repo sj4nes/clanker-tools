@@ -1,0 +1,52 @@
+# benjamini_hochberg_fdr
+
+## Type
+proposition
+
+## Statement
+The false discovery rate is FDR = E[ (false rejections) / max(1, total rejections) ]. The Benjamini-Hochberg step-up procedure -- order p_(1) <= ... <= p_(m), find the largest k with p_(k) <= (k/m) alpha, reject H_(1), ..., H_(k) -- controls FDR <= (m_0/m) alpha <= alpha under independence (and under positive regression dependence, PRDS).
+
+## Symbols
+- `FDR` — expected fraction of rejections that are false (0 if no rejections)
+- `(k/m) alpha` — the rising BH threshold on the ordered p-values
+
+## Epistemic status
+proposition  ·  regime: distribution_free
+
+## Prerequisites (tsort edges into this node)
+multiple_testing_fwer, p_value
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: Benjamini-Hochberg 1995 (independence); Benjamini-Yekutieli 2001 (PRDS, and a log-factor-corrected version for arbitrary dependence)
+derives_from: p_value_uniform_under_null
+lean_status: cited — CITED -- Benjamini-Hochberg 1995; Storey 2002 (the martingale proof). The step-up threshold arithmetic is checked on a fixed p-value vector in instance-checks.bc.
+
+## Type / well-formedness check
+A weaker, more powerful error criterion than FWER: it tolerates a controlled FRACTION of false positives among the discoveries, which is the right notion for large-scale screening. FDR = FWER when all nulls are true; otherwise FDR <= FWER, so FDR procedures reject more.
+
+## Specialization / boundary cases
+- m = 100, alpha = 0.05, if 10 p-values are below 0.005: BH rejects them -- expected ~0.5 false among the 10
+- the adaptive (Storey) version estimates m_0 and is less conservative
+- q-values (Storey) are the FDR analogue of p-values -- the minimum FDR at which a given test is called significant
+
+## Hypothesis-dropped counterexamples
+- **independence_or_PRDS**: under arbitrary (e.g. negative) dependence the plain BH procedure can exceed alpha; the Benjamini-Yekutieli correction divides alpha by sum_{i=1}^m 1/i (~ log m), restoring control at a power cost
+- **many_true_nulls**: if m_0 = m (all null) FDR control coincides with weak FWER control -- BH does not waste power there
+
+## Common misuse
+- reporting BH-adjusted p-values but interpreting an individual 'discovery' as if FWER-controlled (it is not -- a specific finding still has a real chance of being false)
+- using plain BH under strong negative dependence
+
+## In the wild
+- the default multiplicity control in genomics (differential expression, GWAS secondary analyses), neuroimaging (fMRI voxel maps), and proteomics -- BH 1995 is one of the most-cited statistics papers ever
+- large-scale A/B testing platforms use FDR control across simultaneously-running experiments
+
+## Related nodes (non-prerequisite)
+- uses: multiple_testing_fwer, p_value
+- generalizes_from: 
+
+## Sources
+benjamini_hochberg_1995, benjamini_yekutieli_2001, storey_2002

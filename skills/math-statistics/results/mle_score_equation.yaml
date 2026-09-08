@@ -1,0 +1,45 @@
+id: methods.mle_score_equation
+node: mle_score_equation
+status_label: proposition
+display: 'If the MLE theta_hat lies in the interior of Theta and ell is differentiable there, then it solves the score equation U(theta_hat) = 0.'
+parseable: 'theta_hat in int(Theta),  ell differentiable  =>  U(theta_hat) = grad ell(theta_hat) = 0'
+regime: exact
+symbols:
+  'U(theta_hat) = 0': 'the first-order stationarity condition'
+type_check_status: well_formed
+type_check_note: 'Fermat''s stationarity condition, nothing more. It is NECESSARY, not sufficient -- a root of U can be a minimum or a saddle; and a boundary MLE need not be a root at all.'
+hypotheses:
+  - 'true_parameter_interior'
+preconditions: []
+dependencies:
+  - 'maximum_likelihood_estimator'
+  - 'score_function'
+  - 'true_parameter_interior'
+proof:
+  technique: 'first-order condition for an interior maximum of a differentiable function'
+  derives_from: 'ra_mean_value_theorem'
+  lean_status: core
+  lean_ref: 'the 1-D statement (interior max => derivative zero) is proof-checks.lean Stat.interior_max_stationary via the MVT'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Bernoulli: U(p) = (sum x_i)/p - (n - sum x_i)/(1-p) = 0  =>  p_hat = xbar'
+  - 'exponential family: U(eta) = sum T(x_i) - n grad A(eta) = 0  =>  grad A(eta_hat) = Tbar  (moment matching)'
+  - 'uniform(0, theta): U(theta) = -n/theta, never 0 -- the MLE max x_i is NOT found this way'
+counterexamples_when_dropped:
+  true_parameter_interior: 'boundary MLE (uniform endpoint; a variance component estimated at 0; a probability estimated at exactly 0 or 1 in a small sample) -- U(theta_hat) != 0 and the score equation is the wrong tool'
+  differentiability: 'non-smooth log-likelihood (Laplace location -> sample median): U is a step function, 0 is ''crossed'' not ''hit'''
+common_misuse:
+  - 'solving U(theta) = 0 and stopping -- must verify it is a maximum (check the Hessian is negative definite) and that no boundary point does better'
+  - 'iterating Newton from a bad start into a saddle point'
+related:
+  required_by: ['mle_asymptotic_normality']
+  uses: ['score_function']
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#mle_score_equation
+  specialization: validation/specialization-cases.md#mle_score_equation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#mle_score_equation

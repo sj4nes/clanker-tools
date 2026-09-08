@@ -1,0 +1,38 @@
+id: model.parametric_model
+node: parametric_model
+status_label: definition
+display: 'A parametric model is a statistical model whose index set Theta is a subset of R^d for a fixed finite d; theta is the parameter.'
+parseable: 'statistical_model with Theta subset R^d, d fixed and finite'
+symbols:
+  'd': 'the (fixed, finite) dimension of the parameter, type: positive integer'
+  'theta': 'a parameter value, type: point of Theta subset R^d'
+type_check_status: well_formed
+type_check_note: 'Theta must be a subset of a fixed R^d; ''finite-dimensional'' is the whole content. Models with d growing with n, or infinite-dimensional nuisance parts, are semi-/non-parametric and out of scope.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'statistical_model'
+well_definedness: 'd is fixed in advance and does not depend on the sample size n.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'd = 1: a scalar parameter (Bernoulli p, Poisson lambda, exponential rate)'
+  - 'd = 2: N(mu, sigma^2), Gamma(shape, rate), the simple linear model''s (slope, intercept) with sigma^2 known'
+  - 'Theta open: needed for the interior-point regularity condition later'
+counterexamples_when_dropped:
+  finite_fixed_dimension: 'a location model with an unknown error density f is nonparametric in f; the CRLB and MLE-normality theory below does not apply to f without extra structure'
+common_misuse:
+  - 'counting the sample size or the number of observed categories as part of d'
+  - 'treating a nonparametric functional (a density value, a quantile) as a ''parameter'' with a Fisher information'
+related:
+  generalizes_from: ['statistical_model']
+  historically_precedes: ['kernel_density_estimator']
+sources:
+  - 'casella_berger_2e'
+  - 'van_der_vaart_asymptotic'
+status: draft
+checks:
+  type: validation/type-checks.md#parametric_model
+  specialization: validation/specialization-cases.md#parametric_model
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#parametric_model

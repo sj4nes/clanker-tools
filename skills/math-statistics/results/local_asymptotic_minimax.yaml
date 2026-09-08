@@ -1,0 +1,45 @@
+id: principles.local_asymptotic_minimax
+node: local_asymptotic_minimax
+status_label: proved_theorem
+display: 'The local asymptotic minimax (LAM / Hajek-Le Cam) theorem: in a LAN model, for any estimator sequence and any bowl-shaped loss l, liminf_n sup_{|h| <= c} E_{theta_0 + h/sqrt n}[ l( sqrt(n)(theta_hat_n - theta_0 - h/sqrt n) ) ] >= E[ l(Z) ], where Z ~ N(0, I(theta_0)^{-1}), and the bound is attained by the MLE. No estimator can beat the Fisher-information risk locally, in a minimax sense, without any regularity assumption on the estimator.'
+parseable: 'liminf_n  sup_{|h| <= c}  E_{theta_0 + h/sqrt n}[ l( sqrt n (theta_hat_n - theta_n) ) ]   >=   E[ l(Z) ],   Z ~ N(0, I^{-1})'
+regime: asymptotic
+symbols:
+  'bowl-shaped loss': 'l(x) = l(-x), sublevel sets convex (squared error, absolute error, 0-1)'
+  'the local minimax over |h| <= c': 'shrinking neighbourhoods, then c -> inf'
+type_check_status: well_formed
+type_check_note: 'The strongest and cleanest optimality statement in the classical theory: no regularity on the estimator at all, and it rules out ALL superefficiency (Hodges'' estimator has local minimax risk that BLOWS UP as c grows). Boundary node: stated, cited.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'cramer_rao_lower_bound'
+  - 'le_cam_lan_theory'
+proof:
+  technique: 'reduce to the Gaussian shift limit experiment (LAN) and apply the minimax property of the Gaussian location estimator for bowl-shaped loss (Anderson''s lemma)'
+  derives_from: 'le_cam_lan_theory'
+  lean_status: cited
+  lean_ref: 'CITED -- Hajek 1972; van der Vaart Ch. 8. Not formalized.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'squared-error loss: the local minimax risk bound is tr(I(theta_0)^{-1}), matched by the MLE'
+  - 'Hodges'' superefficient estimator: efficient at theta_0 but its local minimax risk over |h| <= c tends to infinity as c grows -- superefficiency is paid for by terrible risk nearby'
+  - 'the semiparametric LAM bound governs efficient estimation of a functional in the presence of a nonparametric nuisance'
+counterexamples_when_dropped:
+  bowl_shaped_loss: 'for non-bowl-shaped (asymmetric) loss the bound changes and Anderson''s lemma does not apply directly'
+  LAN: 'non-regular models have their own (different, often faster or slower) minimax rates -- see minimax_rate'
+common_misuse:
+  - 'reading it as a statement about a fixed theta (it is local / minimax over shrinking neighbourhoods)'
+  - 'assuming attainment implies the MLE is best at every finite n'
+related:
+  uses: ['le_cam_lan_theory', 'cramer_rao_lower_bound']
+  required_by: ['minimax_rate']
+sources:
+  - 'hajek_1972'
+  - 'van_der_vaart_asymptotic'
+status: draft
+checks:
+  type: validation/type-checks.md#local_asymptotic_minimax
+  specialization: validation/specialization-cases.md#local_asymptotic_minimax
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#local_asymptotic_minimax

@@ -1,0 +1,31 @@
+id: foundations.prob_exponential
+node: prob_exponential
+status_label: proved_theorem
+display: 'Exponential(lambda): density lambda e^{-lambda x} on x >= 0; mean 1/lambda; the unique memoryless continuous law.'
+parseable: 'Exponential(lambda): density lambda e^{-lambda x} on x >= 0; mean 1/lambda; the unique memoryless continuous law.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:exponential_distribution'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:exponential_distribution'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:exponential_distribution'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_exponential
+  specialization: validation/specialization-cases.md#prob_exponential
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_exponential

@@ -1,0 +1,46 @@
+id: methods.conjugate_prior
+node: conjugate_prior
+status_label: definition
+display: 'A family of priors F is conjugate to a likelihood model if for every prior in F and every dataset the posterior is again in F; the update is then a closed-form change of the family''s hyperparameters.'
+parseable: 'pi in F  =>  pi(. | x) in F   for every x'
+regime: bayesian
+symbols:
+  'F': 'the conjugate family (Beta, Gamma, Normal-inverse-Gamma, Dirichlet, ...)'
+  'hyperparameters': 'the parameters of the prior, updated by simple sufficient-statistic arithmetic'
+type_check_status: well_formed
+type_check_note: 'A closure property of a prior family under Bayesian updating for a given likelihood. Every exponential family has a conjugate prior (the exp-family prior on the natural parameter with T-plus-count hyperparameters).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'bayes_estimator'
+  - 'prob_beta'
+  - 'prob_binomial'
+  - 'prob_poisson'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Beta is conjugate to Bernoulli/binomial: Beta(a, b) + s successes in n => Beta(a + s, b + n - s)'
+  - 'Gamma is conjugate to Poisson: Gamma(a, b) + counts summing to S in n obs => Gamma(a + S, b + n)'
+  - 'Normal-inverse-Gamma is conjugate to the normal with unknown mean and variance'
+  - 'Dirichlet is conjugate to the multinomial'
+counterexamples_when_dropped:
+  exists_and_is_flexible_enough: 'conjugate priors can be too rigid -- e.g. the Beta cannot be bimodal, the Gamma cannot have a heavy left tail; a genuinely different prior belief forces non-conjugate computation (MCMC)'
+common_misuse:
+  - 'choosing a conjugate prior for computational convenience and then interpreting it as ''objective'''
+  - 'reading the pseudo-count hyperparameters as data when reporting the effective sample size'
+applications:
+  - 'Latent Dirichlet Allocation (topic models): Dirichlet-multinomial conjugacy is what makes the collapsed Gibbs sampler tractable'
+  - 'Thompson sampling for Bernoulli bandits uses the Beta-Bernoulli conjugate update per arm'
+  - 'Bayesian A/B testing dashboards update Beta posteriors in closed form in real time'
+related:
+  uses: ['prob_beta', 'prob_binomial', 'bayes_estimator']
+  illustrated_by: ['exponential_family']
+sources:
+  - 'gelman_bda3'
+  - 'robert_bayesian_choice'
+status: draft
+checks:
+  type: validation/type-checks.md#conjugate_prior
+  specialization: validation/specialization-cases.md#conjugate_prior
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#conjugate_prior

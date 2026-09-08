@@ -1,0 +1,40 @@
+id: testing.test_function
+node: test_function
+status_label: definition
+display: 'A test is a function phi: X^n -> [0, 1] giving the probability of rejecting H0 when the data are x; a nonrandomized test takes values in {0, 1} with rejection region { x : phi(x) = 1 }.'
+parseable: 'phi: X^n -> [0, 1];   reject H0 with probability phi(x)'
+symbols:
+  'phi(x) = 1': 'reject'
+  'phi(x) = 0': 'do not reject'
+  'phi(x) in (0,1)': 'reject with that probability (randomized -- needed for exact size on discrete data)'
+type_check_status: well_formed
+type_check_note: 'A [0,1]-valued statistic. Randomization matters only for discrete data where no nonrandomized region has exactly the target size; in practice one reports the p-value instead.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'null_hypothesis'
+  - 'statistic'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'phi(x) = 1{ T(x) > c } -- reject for large values of a test statistic T'
+  - 'two-sided: phi(x) = 1{ |T(x)| > c }'
+  - 'randomized: phi(x) = gamma when T(x) = c, to hit an exact size on a lattice'
+counterexamples_when_dropped:
+  measurable: 'a non-measurable rejection region has no size -- excluded'
+common_misuse:
+  - 'treating a randomized test''s coin flip as scientifically meaningful (report the p-value)'
+  - 'choosing the rejection region''s shape to reject the observed data'
+related:
+  specializes_from: ['statistic']
+  required_by: ['size_of_test', 'power_function', 'neyman_pearson_lemma']
+  dual_of: ['confidence_set']
+sources:
+  - 'lehmann_romano_tsh'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#test_function
+  specialization: validation/specialization-cases.md#test_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#test_function

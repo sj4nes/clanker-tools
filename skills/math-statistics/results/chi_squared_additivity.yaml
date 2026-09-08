@@ -1,0 +1,43 @@
+id: gaussian_core.chi_squared_additivity
+node: chi_squared_additivity
+status_label: mathematical_identity
+display: 'If U ~ chi^2_a and V ~ chi^2_b are independent, then U + V ~ chi^2_{a+b}: degrees of freedom add.'
+parseable: 'U ~ chi^2_a  _||_  V ~ chi^2_b   =>   U + V ~ chi^2_{a+b}'
+regime: exact
+symbols:
+  'a, b': 'degrees of freedom of the summands'
+type_check_status: well_formed
+type_check_note: 'An identity of laws. Immediate from chi^2_k = Gamma(k/2, 1/2) and the fact that independent Gammas with a common rate add in the shape parameter (MGF (1 - 2t)^{-a/2} (1 - 2t)^{-b/2} = (1 - 2t)^{-(a+b)/2}).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'chi_squared_distribution'
+  - 'prob_gamma'
+  - 'prob_mgf'
+proof:
+  technique: 'multiply the MGFs: (1-2t)^{-a/2} . (1-2t)^{-b/2} = (1-2t)^{-(a+b)/2}, the chi^2_{a+b} MGF; MGF determines the law'
+  derives_from: 'prob_mgf'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Stat.chisq_mgf_add -- the exponent arithmetic -a/2 - b/2 = -(a+b)/2'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k independent chi^2_1''s sum to chi^2_k -- recovers the sum-of-squared-normals definition'
+  - 'partition the residual sum of squares in a two-factor ANOVA: the component df add to n - 1'
+  - 'sequential model building: each added block of q predictors contributes an independent chi^2_q to the explained sum of squares (orthogonal design)'
+counterexamples_when_dropped:
+  independence: 'U and V = c U dependent: U + V = (1+c) U ~ (1+c) chi^2_a, NOT chi^2_{2a} -- df do not add without independence'
+common_misuse:
+  - 'adding df of dependent sums of squares (non-orthogonal designs) -- the cross term is nonzero'
+  - 'assuming subtraction works unconditionally: chi^2_a - chi^2_b is not chi^2_{a-b} in general (it can be negative); it holds only when the smaller is a component of the larger via an idempotent projection (Cochran)'
+related:
+  required_by: ['cochran_theorem', 'one_way_anova_identity']
+  uses: ['chi_squared_distribution']
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#chi_squared_additivity
+  specialization: validation/specialization-cases.md#chi_squared_additivity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#chi_squared_additivity

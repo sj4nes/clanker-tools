@@ -1,0 +1,31 @@
+id: foundations.prob_gamma
+node: prob_gamma
+status_label: proved_theorem
+display: 'Gamma(k, theta): density proportional to x^{k-1} e^{-x/theta}; additive in the shape k for a common rate.'
+parseable: 'Gamma(k, theta): density proportional to x^{k-1} e^{-x/theta}; additive in the shape k for a common rate.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:gamma_distribution'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:gamma_distribution'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:gamma_distribution'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_gamma
+  specialization: validation/specialization-cases.md#prob_gamma
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_gamma

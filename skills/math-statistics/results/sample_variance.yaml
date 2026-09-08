@@ -1,0 +1,43 @@
+id: gaussian_core.sample_variance
+node: sample_variance
+status_label: definition
+display: 'The sample variance is S^2 = (1/(n - 1)) sum_{i=1}^n (X_i - Xbar)^2; its square root S is the sample standard deviation.'
+parseable: 'S^2 = (n - 1)^{-1} sum_{i=1}^n (X_i - Xbar_n)^2'
+regime: exact
+symbols:
+  'S^2': 'the sample variance, type: nonnegative statistic'
+  'the n - 1 divisor': '''Bessel''s correction'' -- makes S^2 unbiased for sigma^2 (bias_of_sample_variance)'
+type_check_status: well_formed
+type_check_note: 'A statistic. The n - 1 comes from one degree of freedom being spent estimating the mean: sum (X_i - Xbar)^2 has only n - 1 free deviations (they sum to 0).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'iid_sample'
+  - 'sample_mean'
+proof:
+  technique: 'the divisor n - 1 is justified by E[sum (X_i - Xbar)^2] = (n-1) sigma^2 -- see bias_of_sample_variance'
+  derives_from: 'bias_of_sample_variance'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'N(mu, sigma^2): (n - 1) S^2 / sigma^2 ~ chi^2_{n-1} exactly (scaled_sample_variance_chi_squared)'
+  - 'S^2 is the UMVUE of sigma^2 for a normal sample; the MLE uses divisor n and is biased low'
+  - 'S (not S^2) is a biased estimator of sigma even though S^2 is unbiased for sigma^2 (Jensen: E[S] < sigma)'
+counterexamples_when_dropped:
+  finite_fourth_moment: 'Var(S^2) = (1/n)(mu_4 - (n-3)/(n-1) sigma^4); if E X^4 = inf then S^2 has infinite variance and is an unstable estimator (t_3, t_4 data)'
+common_misuse:
+  - 'using the n divisor and calling the result ''the sample variance'' (it is the MLE / population-formula, biased)'
+  - 'reporting S as ''the standard error'' -- the SE of the mean is S/sqrt(n)'
+  - 'assuming (n-1)S^2/sigma^2 ~ chi^2_{n-1} for non-normal data'
+related:
+  required_by: ['bias_of_sample_variance', 'normal_sample_mean_variance_independence', 'r_squared']
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#sample_variance
+  specialization: validation/specialization-cases.md#sample_variance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#sample_variance

@@ -1,0 +1,38 @@
+id: decision_theory.risk_function
+node: risk_function
+status_label: definition
+display: 'The risk of a decision rule delta at theta is R(theta, delta) = E_theta[ L(theta, delta(X)) ]: the expected loss over repeated sampling under P_theta.'
+parseable: 'R(theta, delta) = E_theta[ L(theta, delta(X)) ]'
+symbols:
+  'delta': 'a decision rule, type: map data -> action'
+  'R(., delta)': 'the risk function, type: nonnegative function on Theta'
+type_check_status: well_formed
+type_check_note: 'A frequentist average (over the data) of the loss, for each fixed theta. Two rules are compared by their whole risk FUNCTIONS -- which usually cross, so there is no universally best rule (hence admissibility, minimax, Bayes as ways to break the tie).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'decision_rule'
+  - 'loss_function'
+  - 'prob_expectation'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'squared-error loss: R(theta, delta) = MSE(theta) = Var + bias^2'
+  - '0-1 loss in testing: R(theta, delta) = P_theta(wrong decision) -- the error probability'
+  - 'the constant rule delta = c has R(theta) = L(theta, c), typically 0 at theta = c and large elsewhere'
+counterexamples_when_dropped:
+  expectation_exists: 'a rule whose loss has infinite expectation under some theta (an estimator with infinite MSE) has undefined risk there and cannot be compared by risk'
+common_misuse:
+  - 'summarizing a risk FUNCTION by a single number without saying how (max? average against which weight?) -- that choice IS the minimax-vs-Bayes decision'
+  - 'comparing risks at the observed data''s implied theta_hat rather than as functions'
+related:
+  required_by: ['admissibility', 'minimax_rule', 'bayes_risk', 'james_stein']
+  specializes_to: ['mean_squared_error', 'power_function']
+sources:
+  - 'berger_statistical_decision_theory'
+status: draft
+checks:
+  type: validation/type-checks.md#risk_function
+  specialization: validation/specialization-cases.md#risk_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#risk_function

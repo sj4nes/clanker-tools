@@ -1,0 +1,40 @@
+id: model.statistical_model
+node: statistical_model
+status_label: definition
+display: 'A statistical model is a family P = { P_theta : theta in Theta } of candidate probability laws for the observed data on a common sample space.'
+parseable: 'P = { P_theta : theta in Theta }, each P_theta a law on (X, A)'
+symbols:
+  'P': 'the model (a set of probability laws)'
+  'P_theta': 'the law indexed by theta, type: probability measure on the sample space'
+  'Theta': 'the index set, type: an arbitrary set (parametric if a subset of R^d)'
+  '(X, A)': 'the sample space and its sigma-algebra'
+type_check_status: well_formed
+type_check_note: 'P_theta is a probability measure for each theta; Theta is a set; the map theta -> P_theta need not be injective (that is identifiability) or continuous.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'prob_probability_space'
+well_definedness: 'Nothing to check beyond: each P_theta is a genuine probability measure. The model is an assumption about the data-generating mechanism, not a derived object.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Theta a single point: the model is fully specified, no inference to do'
+  - 'Theta = all laws on X: the fully nonparametric model'
+  - 'Theta a subset of R^d: a parametric model (next node)'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'conflating the model with the truth -- ''all models are wrong''; the true law need not lie in P (misspecification)'
+  - 'letting a statistic or the data enter the definition of P_theta'
+related:
+  specializes_to: ['parametric_model']
+  commonly_confused_with: ['identifiability']
+sources:
+  - 'casella_berger_2e'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#statistical_model
+  specialization: validation/specialization-cases.md#statistical_model
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#statistical_model

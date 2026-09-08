@@ -1,0 +1,38 @@
+id: decision_theory.decision_rule
+node: decision_rule
+status_label: definition
+display: 'A decision rule delta maps the data to an action: delta: X^n -> A. Estimators (A = Theta) and tests (A = {accept, reject}) are decision rules; a randomized rule maps data to a distribution over A.'
+parseable: 'delta: X^n -> A   (nonrandomized)   or   delta: X^n -> P(A)   (randomized)'
+symbols:
+  'A': 'the action space'
+  'randomized delta': 'outputs a probability distribution over actions (needed for exact-size tests on discrete data)'
+type_check_status: well_formed
+type_check_note: 'The abstract object the whole theory optimizes. Placed AFTER estimator and test_function in the graph because those concrete instances motivate it (see conventions.md -- this is tsort order, not teaching order).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'estimator'
+  - 'test_function'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'an estimator theta_hat(.) is a decision rule with A = Theta'
+  - 'a test phi(.) in [0,1] is a randomized decision rule with A = {0,1}'
+  - '''always report 5'' and ''flip a coin'' are (bad) decision rules'
+counterexamples_when_dropped:
+  measurable: 'a non-measurable rule has no well-defined risk -- excluded'
+common_misuse:
+  - 'restricting attention to nonrandomized rules when an exact-size test on discrete data requires randomization'
+  - 'conflating the rule (a function) with its output on one dataset'
+related:
+  specializes_from: ['estimator', 'test_function']
+  required_by: ['risk_function']
+sources:
+  - 'berger_statistical_decision_theory'
+  - 'lehmann_romano_tsh'
+status: draft
+checks:
+  type: validation/type-checks.md#decision_rule
+  specialization: validation/specialization-cases.md#decision_rule
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#decision_rule

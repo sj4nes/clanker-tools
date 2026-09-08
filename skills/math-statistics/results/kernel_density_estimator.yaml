@@ -1,0 +1,51 @@
+id: nonparametric.kernel_density_estimator
+node: kernel_density_estimator
+status_label: definition
+display: 'The kernel density estimator of f from X_1, ..., X_n is f_hat_h(x) = (1/(n h)) sum_{i=1}^n K( (x - X_i) / h ), where K is a kernel (a symmetric density, e.g. Gaussian or Epanechnikov) and h > 0 is the bandwidth.'
+parseable: 'f_hat_h(x) = (n h)^{-1} sum_{i=1}^n K( (x - X_i)/h )'
+regime: distribution_free
+symbols:
+  'K': 'the kernel, type: symmetric probability density with int u^2 K(u) du = kappa_2 < inf'
+  'h': 'the bandwidth / smoothing parameter -- the crucial tuning knob'
+  'f_hat_h': 'a genuine density (integrates to 1) if K is'
+type_check_status: well_formed
+type_check_note: 'A statistic-valued function; a smoothed version of the empirical measure. It is biased for f (unlike the ECDF for F) -- density estimation is genuinely nonparametric, with a bias-variance tradeoff controlled by h (kde_bias_variance_tradeoff).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'iid_sample'
+  - 'prob_pdf'
+proof:
+  technique: 'E[f_hat_h(x)] = (K_h * f)(x), a convolution smoothing of f; Var[f_hat_h(x)] = (n h)^{-1} f(x) R(K) + O(1/n)'
+  derives_from: 'kde_bias_variance_tradeoff'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'h -> 0 with n h -> inf: f_hat_h(x) -> f(x) in probability at each continuity point'
+  - 'the choice of K barely matters (efficiency within a few %); the choice of h matters enormously'
+  - 'multivariate KDE suffers the curse of dimensionality -- the rate degrades to n^{-2/(4+d)}'
+counterexamples_when_dropped:
+  h_chosen_well: 'h too small: f_hat is a spiky mess (n bumps); h too large: f_hat is oversmoothed and hides real features (bimodality). There is no h that is right everywhere if f has varying curvature -- adaptive bandwidths address this.'
+  f_smooth: 'if f has a discontinuity or a kink (uniform density''s edges, an exponential at 0) the KDE smears it and the bias there is O(1), not O(h^2) -- boundary bias'
+common_misuse:
+  - 'using the default bandwidth (often Silverman''s rule, optimal only for near-Gaussian f) on a clearly multimodal or skewed sample'
+  - 'reading small wiggles in a KDE as real structure'
+  - 'KDE near a hard boundary (nonnegative data at 0) without a boundary correction'
+applications:
+  - 'exploratory data visualization (the smooth alternative to a histogram); the violin plot is a KDE'
+  - 'naive Bayes classifiers with continuous features; density-ratio estimation; the Parzen-window classifier'
+related:
+  required_by: ['kde_bias_variance_tradeoff']
+  uses: ['prob_pdf']
+sources:
+  - 'silverman_density_estimation'
+  - 'wand_jones_kernel_smoothing'
+  - 'tsybakov_nonparametric'
+status: draft
+checks:
+  type: validation/type-checks.md#kernel_density_estimator
+  specialization: validation/specialization-cases.md#kernel_density_estimator
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#kernel_density_estimator

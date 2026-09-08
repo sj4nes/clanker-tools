@@ -1,0 +1,48 @@
+# mle_consistency
+
+## Type
+theorem
+
+## Statement
+Under identifiability, a dominated model, and standard regularity (a compact Theta or a suitable uniform LLN / bracketing condition on the log-likelihood), the MLE is consistent: theta_hat_n -> theta_0 in P_{theta_0}-probability for every theta_0.
+
+## Symbols
+- `theta_0` — the true parameter
+- `the Kullback-Leibler divergence K(theta_0, theta)` — which identifiability makes uniquely zero at theta = theta_0
+
+## Epistemic status
+proved_theorem  ·  regime: asymptotic
+
+## Prerequisites (tsort edges into this node)
+identifiability, maximum_likelihood_estimator, prob_conv_as, prob_slln, prob_wlln
+
+## Hypotheses
+identifiability
+
+## Proof provenance
+technique: Wald (1949): uniform LLN for the normalized log-likelihood + unique maximizer of the KL-divergence limit at theta_0
+derives_from: prob_slln
+lean_status: cited — CITED -- Wald 1949; van der Vaart Asymptotic Statistics Thm 5.7. The identifiability => unique KL minimizer step is elementary; the uniform LLN is the analytic content.
+
+## Type / well-formedness check
+An asymptotic guarantee. Wald's argument: (1/n) ell(theta) -> -K(theta_0, theta) + const uniformly; the limit is uniquely maximized at theta_0 (identifiability); so its argmax theta_hat_n -> theta_0. The 'uniformly' step needs a compactness / bracketing condition and is where proofs differ.
+
+## Specialization / boundary cases
+- all exponential families on the interior: consistent
+- N, Gamma, Poisson, logistic regression (with non-degenerate design): consistent
+- well-separated mixture models: the consistent ROOT of the likelihood equation exists even when the global MLE does not
+
+## Hypothesis-dropped counterexamples
+- **identifiability**: N(alpha + beta, 1): (alpha_hat, beta_hat) is NOT consistent -- it wanders along the ridge alpha + beta = Xbar. Only the identified function alpha + beta is consistently estimated.
+- **regularity_uniform_LLN**: Neyman-Scott problem: N(mu_i, sigma^2) with one mu_i per observation and n -> inf. The number of parameters grows with n; the MLE of sigma^2 converges to sigma^2/2, NOT sigma^2 -- inconsistent. Fixed finite d is essential.
+
+## Common misuse
+- assuming consistency for a model with a growing parameter dimension (Neyman-Scott, high-dimensional regression with p ~ n)
+- citing consistency as evidence the estimate at your actual n is close to the truth
+
+## Related nodes (non-prerequisite)
+- required_by: mle_asymptotic_normality
+- strengthened_by: mle_asymptotic_normality
+
+## Sources
+wald_1949, van_der_vaart_asymptotic, neyman_scott_1948

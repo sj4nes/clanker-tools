@@ -1,0 +1,31 @@
+id: foundations.prob_normal
+node: prob_normal
+status_label: proved_theorem
+display: 'Normal(mu, sigma^2): density (2 pi sigma^2)^{-1/2} exp(-(x-mu)^2 / 2 sigma^2); a two-parameter exponential family.'
+parseable: 'Normal(mu, sigma^2): density (2 pi sigma^2)^{-1/2} exp(-(x-mu)^2 / 2 sigma^2); a two-parameter exponential family.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:normal_distribution'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:normal_distribution'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:normal_distribution'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_normal
+  specialization: validation/specialization-cases.md#prob_normal
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_normal

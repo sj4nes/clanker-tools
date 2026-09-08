@@ -1,0 +1,51 @@
+# linear_model
+
+## Type
+structure
+
+## Statement
+The Gaussian linear model is y = X beta + eps, where y in R^n is the response, X in R^{n x p} is a FIXED design matrix of full column rank p < n, beta in R^p is the unknown coefficient vector, and eps ~ N(0, sigma^2 I_n).
+
+## Symbols
+- `X` — the design / model matrix, type: fixed real n x p matrix, rank p
+- `beta` — the coefficient vector, type: point of R^p (the parameter)
+- `eps` — the error vector, type: N(0, sigma^2 I_n) -- iid, mean 0, common variance, uncorrelated
+- `sigma^2` — the error variance (a second parameter)
+
+## Epistemic status
+definition
+
+## Prerequisites (tsort edges into this node)
+linear_algebra_background, prob_normal, prob_random_vector
+
+## Hypotheses
+(none — unconditional within scope)
+## Type / well-formedness check
+A structure. Key modelling assumptions, each a potential failure point: (1) linearity of E[y|X] in beta; (2) X fixed / exogenous (or inference is conditional on X); (3) full rank (no exact collinearity); (4) errors mean-zero, (5) homoskedastic, (6) uncorrelated, (7) Gaussian (needed only for EXACT small-sample inference, not for OLS's Gauss-Markov optimality). Uses linear_algebra_background throughout.
+
+## Specialization / boundary cases
+- simple linear regression: p = 2, X columns (1, x_i)
+- polynomial / spline / dummy-variable regression: still linear IN beta, X holds the transformed features
+- one-way ANOVA is the linear model with X a matrix of group indicators
+
+## Hypothesis-dropped counterexamples
+- **full_column_rank**: exact collinearity (a redundant dummy, x_2 = 2 x_1): X^T X is singular, beta is not identified, OLS has no unique solution
+- **errors_uncorrelated_homoskedastic**: heteroskedasticity or autocorrelation: OLS stays unbiased but is no longer BLUE and the usual SEs are wrong (need GLS or robust SEs)
+- **gaussian_errors**: only needed for EXACT t / F inference; drop it and the t/F statistics are asymptotically valid by the CLT (if n - p is large and the design is not too leveraged)
+
+## Common misuse
+- reading regression coefficients as causal effects without a design or identification argument
+- trusting exact t/F p-values with small n and clearly non-normal, heteroskedastic residuals
+- extrapolating the fitted line outside the range of X
+
+## In the wild
+- the most widely used statistical model in existence -- econometrics, epidemiology, psychometrics, quantitative finance, A/B test analysis with covariate adjustment
+- the computational and conceptual template for GLMs, mixed models, and much of supervised learning
+
+## Related nodes (non-prerequisite)
+- required_by: ordinary_least_squares, gauss_markov_theorem, ols_distribution_under_normal_errors
+- uses: prob_normal, linear_algebra_background
+- generalizes_from: one_way_anova_identity
+
+## Sources
+rao_linear_statistical_inference, seber_lee_linear_regression, weisberg_applied_linear_regression

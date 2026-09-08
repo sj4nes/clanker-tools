@@ -1,0 +1,45 @@
+id: methods.sandwich_variance
+node: sandwich_variance
+status_label: proposition
+display: 'An M-estimator solving (1/n) sum psi(X_i; theta) = 0 has asymptotic covariance A(theta)^{-1} B(theta) A(theta)^{-T} with A = -E_theta[grad_theta psi(X; theta)] and B = E_theta[psi(X; theta) psi(X; theta)^T]; it reduces to I(theta)^{-1} when psi is the true score (information equality: A = B = I).'
+parseable: 'AVar(theta_hat) = A^{-1} B A^{-T},   A = -E[grad psi],  B = E[psi psi^T]'
+regime: asymptotic
+symbols:
+  'the ''bread'' A^{-1}': 'from the derivative of the estimating equation'
+  'the ''meat'' B': 'the variance of the estimating function'
+  'the estimated version': 'A_hat = -(1/n) sum grad psi(X_i; theta_hat), B_hat = (1/n) sum psi psi^T at theta_hat -- the Huber-White / robust standard error'
+type_check_status: well_formed
+type_check_note: 'A covariance formula, asymptotic. The reduction A^{-1} B A^{-1} -> I^{-1} needs the information equality (correct model). Under misspecification A != B and the sandwich is the only correct large-sample variance.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'm_estimator'
+  - 'mle_asymptotic_normality'
+proof:
+  technique: 'linearize the estimating equation: sqrt(n)(theta_hat - theta) = A^{-1} (1/sqrt n) sum psi(X_i; theta) + o_p(1); apply the CLT to the sum (covariance B)'
+  derives_from: 'm_estimator'
+  lean_status: core
+  lean_ref: 'the reduction A = B = I(theta) under the information equality is proof-checks.lean Stat.sandwich_reduces_when_info_equality'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'OLS with heteroskedastic errors: the HC0-HC3 ''robust'' / ''Huber-White'' standard errors are the sandwich with psi = x(y - x^T beta)'
+  - 'GEE (longitudinal data): the sandwich gives valid SEs even if the working correlation is wrong'
+  - 'a correctly specified GLM: sandwich SE approx model-based SE (they diverge => evidence of misspecification -- an informal specification test)'
+counterexamples_when_dropped:
+  finite_meat_and_bread: 'if B = E[psi psi^T] is infinite (heavy-tailed influence) the sandwich variance is infinite and no sqrt(n) normal limit holds'
+common_misuse:
+  - 'using robust SEs to ''fix'' a model whose POINT estimates are inconsistent -- the sandwich only fixes the variance, not the bias from a wrong mean model'
+  - 'applying sandwich SEs at small n, where they are downward biased (hence the HC2/HC3 finite-sample corrections)'
+related:
+  uses: ['m_estimator', 'information_equality']
+sources:
+  - 'huber_robust_statistics'
+  - 'white_1982'
+  - 'stefanski_boos_2002'
+status: draft
+checks:
+  type: validation/type-checks.md#sandwich_variance
+  specialization: validation/specialization-cases.md#sandwich_variance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#sandwich_variance

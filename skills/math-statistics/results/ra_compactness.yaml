@@ -1,0 +1,31 @@
+id: foundations.ra_compactness
+node: ra_compactness
+status_label: proved_theorem
+display: 'A continuous real function on a nonempty compact set attains its maximum and minimum (extreme value theorem).'
+parseable: 'A continuous real function on a nonempty compact set attains its maximum and minimum (extreme value theorem).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-real-analysis:compactness'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-real-analysis:compactness'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-real-analysis:compactness'
+sources:
+  - 'math-real-analysis'
+status: draft
+checks:
+  type: validation/type-checks.md#ra_compactness
+  specialization: validation/specialization-cases.md#ra_compactness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#ra_compactness

@@ -1,0 +1,40 @@
+id: testing.size_of_test
+node: size_of_test
+status_label: definition
+display: 'The size of a test phi is alpha(phi) = sup_{theta in Theta_0} E_theta[phi(X)], the largest Type I error probability over the null; phi has level alpha if its size is <= alpha.'
+parseable: 'size(phi) = sup_{theta in Theta_0} E_theta[ phi(X) ];   phi is level-alpha if size(phi) <= alpha'
+regime: exact
+symbols:
+  'E_theta[phi(X)] = P_theta(reject H0)': 'the rejection probability at theta'
+  'sup over Theta_0': 'the worst-case Type I rate -- what ''level alpha'' bounds'
+type_check_status: well_formed
+type_check_note: 'A supremum over the null set. ''Size'' is the exact worst-case Type I rate; ''level'' is any upper bound one is willing to claim. For a simple null Theta_0 = {theta_0} the sup is just E_{theta_0}[phi].'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'null_hypothesis'
+  - 'prob_expectation'
+  - 'test_function'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'one-sample t-test, H0: mu = mu_0: size exactly alpha (the t-statistic is pivotal under the whole null since it does not depend on sigma^2)'
+  - 'a composite null H0: mu <= 0: the size is attained at the boundary mu = 0'
+  - 'discrete data (binomial test): the achievable sizes form a lattice; a nonrandomized test is conservative (size < nominal alpha)'
+counterexamples_when_dropped:
+  sup_attained_or_controlled: 'if the null contains a nuisance parameter over which the rejection probability is not maximized at a computable point (Behrens-Fisher), the exact size is unknown and one uses an approximately-similar test'
+common_misuse:
+  - 'quoting ''level 0.05'' when the actual size under a composite null exceeds 0.05 at some nuisance value'
+  - 'confusing size (a pre-data property of the procedure) with the p-value (a post-data statistic)'
+related:
+  uses: ['test_function', 'null_hypothesis']
+  required_by: ['neyman_pearson_lemma', 'p_value', 'confidence_set_test_duality', 'type_i_error']
+sources:
+  - 'lehmann_romano_tsh'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#size_of_test
+  specialization: validation/specialization-cases.md#size_of_test
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#size_of_test

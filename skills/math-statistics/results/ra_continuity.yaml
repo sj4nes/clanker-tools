@@ -1,0 +1,31 @@
+id: foundations.ra_continuity
+node: ra_continuity
+status_label: proved_theorem
+display: 'f is continuous at x_0 if for every eps > 0 there is delta > 0 with |f(x) - f(x_0)| < eps whenever |x - x_0| < delta.'
+parseable: 'f is continuous at x_0 if for every eps > 0 there is delta > 0 with |f(x) - f(x_0)| < eps whenever |x - x_0| < delta.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-real-analysis:continuity'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-real-analysis:continuity'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-real-analysis:continuity'
+sources:
+  - 'math-real-analysis'
+status: draft
+checks:
+  type: validation/type-checks.md#ra_continuity
+  specialization: validation/specialization-cases.md#ra_continuity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#ra_continuity

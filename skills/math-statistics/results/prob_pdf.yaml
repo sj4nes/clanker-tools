@@ -1,0 +1,31 @@
+id: foundations.prob_pdf
+node: prob_pdf
+status_label: proved_theorem
+display: 'For absolutely continuous X, a density f_X >= 0 with P(X in A) = int_A f_X dx (Radon-Nikodym).'
+parseable: 'For absolutely continuous X, a density f_X >= 0 with P(X in A) = int_A f_X dx (Radon-Nikodym).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:pdf'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:pdf'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:pdf'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_pdf
+  specialization: validation/specialization-cases.md#prob_pdf
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_pdf

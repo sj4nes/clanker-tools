@@ -1,0 +1,31 @@
+id: foundations.prob_expectation
+node: prob_expectation
+status_label: proved_theorem
+display: 'E[X] = int X dP = int x dF_X(x), defined when E|X| < inf.'
+parseable: 'E[X] = int X dP = int x dF_X(x), defined when E|X| < inf.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:expectation'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:expectation'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:expectation'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_expectation
+  specialization: validation/specialization-cases.md#prob_expectation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_expectation

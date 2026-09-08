@@ -1,0 +1,31 @@
+id: foundations.prob_standard_normal
+node: prob_standard_normal
+status_label: proved_theorem
+display: 'N(0,1): mean 0, variance 1; CDF Phi, density phi; quantiles z_p = Phi^{-1}(p).'
+parseable: 'N(0,1): mean 0, variance 1; CDF Phi, density phi; quantiles z_p = Phi^{-1}(p).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:standard_normal'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:standard_normal'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:standard_normal'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_standard_normal
+  specialization: validation/specialization-cases.md#prob_standard_normal
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_standard_normal

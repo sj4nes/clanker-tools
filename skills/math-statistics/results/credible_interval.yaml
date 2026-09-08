@@ -1,0 +1,45 @@
+id: intervals.credible_interval
+node: credible_interval
+status_label: definition
+display: 'A 1 - alpha credible interval (region) for theta is a set C(x) with posterior probability P(theta in C(x) | X = x) = 1 - alpha; common choices are the equal-tailed interval (alpha/2 in each posterior tail) and the highest-posterior-density (HPD) region { theta : pi(theta | x) >= k }.'
+parseable: 'P( theta in C(x) | X = x ) = 1 - alpha'
+regime: bayesian
+symbols:
+  'pi(theta | x)': 'the posterior density'
+  'HPD region': 'the shortest such set for a unimodal posterior'
+  '1 - alpha': 'a posterior probability -- a statement about theta given THIS data and the prior'
+type_check_status: well_formed
+type_check_note: 'A posterior-probability statement, conditional on the observed x and the prior. Fundamentally different from a confidence interval: here theta is random (posterior) and the interval is fixed given x; there theta is fixed and the interval is random. They coincide asymptotically for regular models (bernstein_von_mises).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'bayes_estimator'
+  - 'prob_conditional_distribution'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Beta(a+s, b+n-s) posterior: the equal-tailed 95% credible interval is (Beta quantile 0.025, Beta quantile 0.975)'
+  - 'Normal-Normal: the credible interval is posterior mean +- 1.96 posterior SD (posterior is Gaussian)'
+  - 'HPD vs equal-tailed: identical for a symmetric posterior; HPD is shorter and can be disjoint for a bimodal posterior'
+counterexamples_when_dropped:
+  proper_posterior: 'an improper posterior (from an improper prior with no finite normalizer) has no credible interval -- reported intervals are then meaningless'
+  prior_is_defensible: 'a 95% credible interval inherits the prior; with a strong prior and little data it mostly reflects the prior, which must be disclosed'
+common_misuse:
+  - 'reporting a credible interval as if it had frequentist coverage without invoking Bernstein-von Mises (valid only for regular parametric models, large n)'
+  - 'using a vague / improper prior and calling the credible interval ''objective'''
+  - 'HPD regions are not parametrization-invariant -- reparametrize and the HPD set changes (the equal-tailed interval transforms cleanly under monotone maps)'
+applications:
+  - 'the standard interval summary in Bayesian data analysis, from clinical trials (Bayesian adaptive designs) to cosmology (parameter constraints from the CMB)'
+related:
+  uses: ['bayes_estimator', 'prob_conditional_distribution']
+  commonly_confused_with: ['confidence_set']
+  approximated_by: ['bernstein_von_mises']
+sources:
+  - 'gelman_bda3'
+  - 'robert_bayesian_choice'
+status: draft
+checks:
+  type: validation/type-checks.md#credible_interval
+  specialization: validation/specialization-cases.md#credible_interval
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#credible_interval

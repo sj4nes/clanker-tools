@@ -1,0 +1,55 @@
+id: methods.bernstein_von_mises
+node: bernstein_von_mises
+status_label: proved_theorem
+display: 'Under the same regularity as MLE asymptotic normality and any prior with positive continuous density near theta_0, the posterior distribution of sqrt(n)(theta - theta_hat_n) converges (in total variation, in P_{theta_0}-probability) to N(0, I(theta_0)^{-1}); consequently Bayesian credible sets have frequentist coverage 1 - alpha asymptotically.'
+parseable: 'regular model + smooth positive prior  =>  || pi( sqrt(n)(theta - theta_hat_n) in . | X ) - N(0, I(theta_0)^{-1}) ||_TV  -->^p  0'
+regime: bayesian
+symbols:
+  'pi(. | X)': 'the posterior'
+  'TV': 'total variation distance'
+  'consequence': 'a 95% credible interval is asymptotically a 95% confidence interval'
+type_check_status: well_formed
+type_check_note: 'A convergence-of-measures statement about the posterior, holding in P_{theta_0}-probability (a frequentist statement about a Bayesian object). The prior washes out at rate 1/sqrt(n).'
+hypotheses:
+  - 'true_parameter_interior'
+  - 'fisher_information_positive_definite'
+  - 'log_likelihood_smooth'
+  - 'identifiability'
+preconditions: []
+dependencies:
+  - 'bayes_estimator'
+  - 'credible_interval'
+  - 'fisher_information'
+  - 'mle_asymptotic_normality'
+proof:
+  technique: 'Taylor-expand the log-posterior about theta_hat_n; the quadratic term dominates, the prior contributes O(1/n), the remainder is o_p(1) uniformly on sqrt(n)-neighbourhoods'
+  derives_from: 'mle_asymptotic_normality'
+  lean_status: cited
+  lean_ref: 'CITED -- van der Vaart Asymptotic Statistics Ch. 10; Le Cam. Not formalized.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Beta(a,b)-Bernoulli: the Beta(a + s, b + n - s) posterior is asymptotically N(p_hat, p_hat(1-p_hat)/n) -- matches the Wald interval'
+  - 'the prior choice affects only the O(1/n) correction for large n'
+  - 'the practical upshot: for regular parametric models, large-sample Bayesian and frequentist intervals agree'
+counterexamples_when_dropped:
+  true_parameter_interior: 'boundary parameter (a variance component at 0): the posterior piles up against the boundary and is NOT asymptotically normal; credible intervals do NOT have frequentist coverage'
+  fixed_finite_dimension: 'in nonparametric / high-dimensional models Bernstein-von Mises can FAIL -- credible bands can badly under- or over-cover (Cox 1993, Freedman 1999); this is an active research area'
+  identifiability: 'non-identified parameter: the posterior does not concentrate and coverage is prior-driven'
+common_misuse:
+  - 'citing it to claim Bayesian and frequentist intervals ''always'' agree -- it is parametric, regular, large-n only'
+  - 'assuming a credible interval has frequentist coverage in a hierarchical or nonparametric model'
+related:
+  approximates: ['mle_asymptotic_normality']
+  required_by: []
+  uses: ['credible_interval']
+sources:
+  - 'van_der_vaart_asymptotic'
+  - 'le_cam_asymptotic_methods'
+  - 'freedman_1999'
+status: draft
+checks:
+  type: validation/type-checks.md#bernstein_von_mises
+  specialization: validation/specialization-cases.md#bernstein_von_mises
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bernstein_von_mises

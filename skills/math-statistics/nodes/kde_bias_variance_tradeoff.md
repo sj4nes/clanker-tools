@@ -1,0 +1,54 @@
+# kde_bias_variance_tradeoff
+
+## Type
+regime
+
+## Statement
+For a KDE with a second-order kernel and twice-differentiable f, at a fixed x: bias(f_hat_h(x)) approx (h^2 / 2) kappa_2 f''(x) and Var(f_hat_h(x)) approx (n h)^{-1} R(K) f(x). The mean integrated squared error is minimized at h* proportional to n^{-1/5}, giving MISE = O(n^{-4/5}) -- strictly slower than the parametric n^{-1}.
+
+## Symbols
+- `kappa_2 = int u^2 K(u) du` — the kernel's second moment
+- `R(K) = int K(u)^2 du` — the kernel roughness
+- `h* = ( R(K) / (kappa_2^2 int f''^2) )^{1/5} n^{-1/5}` — the MISE-optimal bandwidth
+
+## Epistemic status
+definition  ·  regime: asymptotic
+
+## Prerequisites (tsort edges into this node)
+kernel_density_estimator, prob_variance, ra_taylor_theorem
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: Taylor-expand E[f_hat_h(x)] = int K(u) f(x - hu) du = f(x) + (h^2/2) kappa_2 f''(x) + o(h^2); the variance is a direct computation; minimize AMISE(h) = (h^4/4) kappa_2^2 int f''^2 + R(K)/(nh)
+derives_from: ra_taylor_theorem
+lean_status: core — validation/proof-checks.lean Stat.kde_amise_optimal_h -- minimizing a h^4 + b/(nh) over h gives h ~ (b/(4an))^{1/5}, and the minimized value ~ n^{-4/5} (the exponent arithmetic)
+
+## Type / well-formedness check
+An asymptotic rate statement -- the canonical nonparametric bias-variance tradeoff. Balancing h^4 (squared bias) against 1/(nh) (variance) gives h ~ n^{-1/5}. The n^{-4/5} rate is minimax-optimal over the class of twice-differentiable densities (matches the lower bound, minimax_rate).
+
+## Specialization / boundary cases
+- the same 2nd-order-vs-4th-order rate logic governs local polynomial regression, spline smoothing, and every nonparametric-regression method
+- higher-order kernels (allowing negative lobes) push the bias to O(h^4) and the rate to n^{-8/9} -- at the cost of a possibly-negative density estimate
+- d dimensions: h ~ n^{-1/(4+d)}, MISE ~ n^{-4/(4+d)} -- the curse of dimensionality
+
+## Hypothesis-dropped counterexamples
+- **f_twice_differentiable**: if f is only Lipschitz (one derivative) the best rate drops to n^{-2/3}; if f has a jump, to n^{-1/2} away from the jump and O(1) at it
+- **interior_x**: at the boundary of the support the bias is O(h) not O(h^2) unless a boundary kernel is used -- boundary bias dominates the MISE if untreated
+
+## Common misuse
+- expecting parametric-rate (n^{-1/2}) confidence-interval width from a density estimate
+- plugging an estimate of int f''^2 into h* and ignoring that this is itself a harder problem (needs a pilot bandwidth)
+- comparing KDEs at the same h across samples of very different size
+
+## In the wild
+- the theoretical reason nonparametric methods 'need a lot of data' -- and the basis for choosing between a parametric model (fast rate, risk of bias) and a nonparametric one (slow rate, flexible)
+- cross-validation bandwidth selection targets exactly this MISE
+
+## Related nodes (non-prerequisite)
+- uses: ra_taylor_theorem, mse_bias_variance_decomposition
+- required_by: minimax_rate
+
+## Sources
+silverman_density_estimation, tsybakov_nonparametric, wand_jones_kernel_smoothing

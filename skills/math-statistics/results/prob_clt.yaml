@@ -1,0 +1,31 @@
+id: foundations.prob_clt
+node: prob_clt
+status_label: proved_theorem
+display: 'For iid X_i with mean mu and variance sigma^2 in (0, inf), sqrt(n)(Xbar_n - mu)/sigma -> N(0,1) in distribution.'
+parseable: 'For iid X_i with mean mu and variance sigma^2 in (0, inf), sqrt(n)(Xbar_n - mu)/sigma -> N(0,1) in distribution.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:central_limit_theorem'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:central_limit_theorem'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:central_limit_theorem'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_clt
+  specialization: validation/specialization-cases.md#prob_clt
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_clt

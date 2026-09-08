@@ -1,0 +1,35 @@
+id: sufficiency.bounded_completeness
+node: bounded_completeness
+status_label: definition
+display: 'T is boundedly complete if E_theta[g(T)] = 0 for all theta implies g(T) = 0 a.s. whenever g is bounded.'
+parseable: 'same as completeness but quantified only over BOUNDED g'
+symbols:
+  'g': 'a bounded measurable function'
+type_check_status: well_formed
+type_check_note: 'Weaker than completeness. It is exactly what is needed for the identifiability of a structural function in some econometric models, and it suffices for one direction of Basu''s theorem.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'completeness_statistic'
+well_definedness: 'A property of the family of laws of T.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'complete => boundedly complete (trivially)'
+  - 'there exist boundedly-complete-but-not-complete families (Lehmann-Scheffe example)'
+  - 'used in nonparametric IV: bounded completeness of the instrument given the endogenous regressor identifies the structural function'
+counterexamples_when_dropped:
+  bounded_completeness: 'a family rich enough to kill bounded unbiased-of-zero g but not unbounded ones -- rare in the parametric models here, central in nonparametric identification'
+common_misuse:
+  - 'treating bounded completeness as equivalent to completeness in general -- it is strictly weaker'
+related:
+  generalizes_from: ['completeness_statistic']
+sources:
+  - 'lehmann_romano_tsh'
+  - 'newey_powell_2003'
+status: draft
+checks:
+  type: validation/type-checks.md#bounded_completeness
+  specialization: validation/specialization-cases.md#bounded_completeness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bounded_completeness

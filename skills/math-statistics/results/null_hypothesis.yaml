@@ -1,0 +1,36 @@
+id: testing.null_hypothesis
+node: null_hypothesis
+status_label: definition
+display: 'The null hypothesis H0: theta in Theta_0 is the statement about theta put on trial; it is retained unless the data provide strong evidence against it. Theta_0 subset Theta.'
+parseable: 'H0: theta in Theta_0    (Theta_0 a specified subset of Theta)'
+symbols:
+  'Theta_0': 'the null parameter set (a point for a ''simple'' null, a set for a ''composite'' null)'
+  '''on trial''': 'the asymmetry -- Type I error (wrongly rejecting H0) is controlled, Type II is not'
+type_check_status: well_formed
+type_check_note: 'A subset of Theta, chosen before seeing the data. The test controls the probability of rejecting H0 when it is true; it does NOT control the probability of accepting a false H0. ''Fail to reject'' is not ''accept''.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'parameter_space'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'simple: H0: mu = 0 (Theta_0 a single point)'
+  - 'composite one-sided: H0: mu <= 0'
+  - 'composite with nuisance: H0: mu = 0, sigma^2 > 0 arbitrary'
+counterexamples_when_dropped:
+  specified_in_advance: 'choosing Theta_0 after seeing the data (testing the hypothesis the data suggest) invalidates the Type I error control -- ''the garden of forking paths'''
+common_misuse:
+  - 'interpreting ''fail to reject H0'' as ''H0 is true'' -- it may just be low power'
+  - 'testing a point null (mu exactly 0) that is known a priori to be false, then declaring ''significance'' at large n as if it were news'
+related:
+  required_by: ['alternative_hypothesis', 'test_function', 'size_of_test', 'neyman_pearson_lemma']
+sources:
+  - 'lehmann_romano_tsh'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#null_hypothesis
+  specialization: validation/specialization-cases.md#null_hypothesis
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#null_hypothesis

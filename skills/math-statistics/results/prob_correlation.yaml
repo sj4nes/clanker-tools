@@ -1,0 +1,31 @@
+id: foundations.prob_correlation
+node: prob_correlation
+status_label: proved_theorem
+display: 'rho(X,Y) = Cov(X,Y) / sqrt(Var X Var Y) in [-1, 1]; |rho| = 1 iff an a.s. affine relation.'
+parseable: 'rho(X,Y) = Cov(X,Y) / sqrt(Var X Var Y) in [-1, 1]; |rho| = 1 iff an a.s. affine relation.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:correlation'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:correlation'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:correlation'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_correlation
+  specialization: validation/specialization-cases.md#prob_correlation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_correlation

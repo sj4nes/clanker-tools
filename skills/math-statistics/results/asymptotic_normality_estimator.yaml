@@ -1,0 +1,44 @@
+id: estimation.asymptotic_normality_estimator
+node: asymptotic_normality_estimator
+status_label: definition
+display: 'theta_hat_n is asymptotically normal with rate sqrt(n) if sqrt(n)(theta_hat_n - theta) -> N(0, Sigma(theta)) in distribution, for every theta.'
+parseable: 'sqrt(n)( theta_hat_n - theta ) -->^d N( 0, Sigma(theta) )'
+regime: asymptotic
+symbols:
+  'Sigma(theta)': 'the asymptotic covariance, type: PSD matrix depending on theta'
+  '-->^d': 'convergence in distribution (prob_conv_d)'
+type_check_status: well_formed
+type_check_note: 'An asymptotic distributional statement. The centering is the true theta and the scaling is sqrt(n); other rates (n for uniform(0,theta), n^{1/3} for a mode / isotonic estimator) give non-normal limits and are excluded from ''asymptotically normal''.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'estimator'
+  - 'prob_conv_d'
+  - 'prob_standard_normal'
+proof:
+  technique: 'delta method / Taylor expansion of an estimating equation, then the CLT for the sum of iid influence-function terms'
+  derives_from: 'prob_clt'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Xbar: sqrt(n)(Xbar - mu) -> N(0, sigma^2) whenever sigma^2 < inf (CLT)'
+  - 'the MLE under regularity: Sigma(theta) = I(theta)^{-1} (efficient)'
+  - 'a method-of-moments estimator: Sigma from the delta method applied to the moment map'
+counterexamples_when_dropped:
+  sqrt_n_rate: 'uniform(0, theta): n(theta - X_(n)) -> Exponential(1/theta), NOT a sqrt(n) normal limit -- ''asymptotic normality'' as defined here simply does not hold'
+common_misuse:
+  - 'quoting a symmetric Wald interval when the true rate or limit law is not sqrt(n)-normal'
+  - 'using the asymptotic variance at a sample size where the sampling distribution is visibly skewed'
+related:
+  required_by: ['asymptotic_variance', 'wald_interval']
+  strengthens: ['consistency']
+sources:
+  - 'van_der_vaart_asymptotic'
+status: draft
+checks:
+  type: validation/type-checks.md#asymptotic_normality_estimator
+  specialization: validation/specialization-cases.md#asymptotic_normality_estimator
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#asymptotic_normality_estimator

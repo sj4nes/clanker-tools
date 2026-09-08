@@ -1,0 +1,37 @@
+id: sufficiency.minimal_sufficiency
+node: minimal_sufficiency
+status_label: definition
+display: 'A sufficient statistic T is minimal sufficient if it is a function of every other sufficient statistic: the coarsest sufficient reduction of the data.'
+parseable: 'T sufficient, and for every sufficient T'' there is a function phi with T = phi(T'')'
+symbols:
+  'T': 'the minimal sufficient statistic (unique up to bijection)'
+type_check_status: well_formed
+type_check_note: 'A minimality statement. Lehmann-Scheffe test: T(x) = T(y) iff the likelihood ratio f(x; theta)/f(y; theta) is constant in theta.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'sufficiency'
+well_definedness: 'Exists for the dominated models in scope; unique up to a one-to-one transformation.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'exponential family (minimal representation): sum_i T(X_i) is minimal sufficient'
+  - 'iid Cauchy(theta, 1): the full order statistic is minimal sufficient -- no finite-dimensional reduction'
+  - 'uniform(theta, theta+1): (X_(1), X_(n)) is minimal sufficient, 2-dimensional for a 1-dim parameter'
+counterexamples_when_dropped:
+  minimality: 'sum_i T(X_i) for a CURVED exponential family: still minimal sufficient but its dimension exceeds dim(theta) -- ''minimal'' does not mean ''dimension = dim theta'''
+common_misuse:
+  - 'assuming minimal sufficient has the same dimension as the parameter'
+  - 'confusing minimal sufficiency (coarsest sufficient) with completeness (a different property entirely)'
+related:
+  commonly_confused_with: ['completeness_statistic']
+  generalizes_from: ['sufficiency']
+sources:
+  - 'lehmann_casella_tpe'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#minimal_sufficiency
+  specialization: validation/specialization-cases.md#minimal_sufficiency
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#minimal_sufficiency

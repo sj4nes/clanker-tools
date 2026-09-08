@@ -1,0 +1,37 @@
+id: model.true_parameter_interior
+node: true_parameter_interior
+status_label: definition
+display: 'The true parameter theta_0 lies in the interior of Theta, not on its boundary.'
+parseable: 'theta_0 in int(Theta)'
+symbols:
+  'theta_0': 'the (unknown) data-generating parameter'
+  'int(Theta)': 'the topological interior of the parameter space'
+type_check_status: well_formed
+type_check_note: 'A location statement about theta_0 relative to Theta. It is what allows a two-sided Taylor expansion of the score around theta_0 and guarantees the MLE is eventually an interior stationary point.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'parameter_space'
+well_definedness: 'An assumption about the truth; unverifiable from data but often defensible (a variance is not exactly 0, a probability is not exactly 1).'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'theta_0 = 1/2 for a Bernoulli p in (0,1): interior, holds'
+  - 'theta_0 on the boundary: p = 0, a variance component = 0, a correlation = 1'
+counterexamples_when_dropped:
+  true_parameter_interior: 'testing H0: sigma^2_between = 0 in a random-effects model -- the null is on the boundary of [0, inf). The LRT statistic -2 log Lambda is NOT chi^2_1 under H0; it is a 50:50 mixture of chi^2_0 and chi^2_1 (Self-Liang / Chernoff). Using the chi^2_1 critical value makes the test conservative.'
+  also: 'p_hat for a truly-degenerate coin (p = 0): sqrt(n)(p_hat - 0) does not converge to a two-sided normal'
+common_misuse:
+  - 'using standard chi^2 critical values for a variance-component or a one-sided boundary test'
+  - 'reporting a symmetric Wald interval for a parameter whose true value is at the edge of its range'
+related:
+  required_by: ['mle_score_equation', 'mle_asymptotic_normality', 'wilks_theorem']
+sources:
+  - 'van_der_vaart_asymptotic'
+  - 'self_liang_1987'
+status: draft
+checks:
+  type: validation/type-checks.md#true_parameter_interior
+  specialization: validation/specialization-cases.md#true_parameter_interior
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#true_parameter_interior

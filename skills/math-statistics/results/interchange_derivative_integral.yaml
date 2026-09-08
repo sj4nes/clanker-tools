@@ -1,0 +1,39 @@
+id: model.interchange_derivative_integral
+node: interchange_derivative_integral
+status_label: definition
+display: 'd/dtheta int f(x; theta) dmu(x) = int d/dtheta f(x; theta) dmu(x), and likewise for int g(x) f(x; theta): the theta-derivative passes under the integral sign.'
+parseable: 'd/dtheta int f(.;theta) = int d/dtheta f(.;theta)  (and the same with a test function g)'
+symbols:
+  'f(x; theta)': 'the density'
+  'the dominating condition': '|d/dtheta f(x; theta)| <= h(x) locally, with int h dmu < inf'
+type_check_status: well_formed
+type_check_note: 'The hypothesis of the measure-theoretic ''differentiation under the integral'' theorem (ra_interchange_limit_integral supplies the sufficient condition). Needed twice: once for the score identity, once more for the information equality.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'dominated_family'
+  - 'ra_interchange_limit_integral'
+well_definedness: 'A regularity condition on the model; typically verified once via a dominating function.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'exponential families on their natural parameter''s interior: holds automatically (analyticity of A)'
+  - 'N, Poisson, Gamma, Beta in their standard parametrizations: holds'
+  - 'the sufficient condition (ra_interchange_limit_integral): a local integrable envelope for the theta-derivative'
+counterexamples_when_dropped:
+  interchange_derivative_integral: 'combine with a moving support (uniform(0, theta)) or heavy tails and the swap introduces a boundary term or diverges: E[score] != 0, so score_identity, information_equality, cramer_rao_lower_bound all fail. The robust replacement is the sandwich variance.'
+common_misuse:
+  - 'treating it as automatic -- it is the single most-skipped hypothesis in applied derivations'
+  - 'assuming that because the MLE ''worked'' the interchange was valid'
+related:
+  required_by: ['score_identity', 'information_equality', 'cramer_rao_lower_bound']
+  licensed_by: ['ra_interchange_limit_integral']
+sources:
+  - 'lehmann_casella_tpe'
+  - 'schervish_theory_of_statistics'
+status: draft
+checks:
+  type: validation/type-checks.md#interchange_derivative_integral
+  specialization: validation/specialization-cases.md#interchange_derivative_integral
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#interchange_derivative_integral

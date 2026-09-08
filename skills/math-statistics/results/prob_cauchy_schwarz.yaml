@@ -1,0 +1,31 @@
+id: foundations.prob_cauchy_schwarz
+node: prob_cauchy_schwarz
+status_label: proved_theorem
+display: 'E[XY]^2 <= E[X^2] E[Y^2]; equality iff X and Y are a.s. proportional.'
+parseable: 'E[XY]^2 <= E[X^2] E[Y^2]; equality iff X and Y are a.s. proportional.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:cauchy_schwarz_expectation'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:cauchy_schwarz_expectation'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:cauchy_schwarz_expectation'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_cauchy_schwarz
+  specialization: validation/specialization-cases.md#prob_cauchy_schwarz
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_cauchy_schwarz

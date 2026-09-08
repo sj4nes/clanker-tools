@@ -1,0 +1,50 @@
+id: intervals.normal_mean_ci_unknown_variance
+node: normal_mean_ci_unknown_variance
+status_label: proposition
+display: 'For X_1..X_n iid N(mu, sigma^2) with sigma^2 UNKNOWN, the interval Xbar +- t_{n-1, 1-alpha/2} S / sqrt(n) has coverage exactly 1 - alpha for every (mu, sigma^2). This is ''the'' confidence interval for a mean.'
+parseable: 'C(X) = Xbar +- t_{n-1, 1-alpha/2} S/sqrt(n);   P_{mu,sigma^2}(mu in C(X)) = 1 - alpha'
+regime: exact
+symbols:
+  't_{n-1, 1-alpha/2}': 'the upper alpha/2 quantile of t_{n-1} (> z, converging to it as n grows)'
+  'the width 2 t S/sqrt(n)': 'now RANDOM through S'
+type_check_status: well_formed
+type_check_note: 'Exact. Invert the pivot sqrt(n)(Xbar - mu)/S ~ t_{n-1} (t_statistic_distribution). The t quantile (wider than z) is the exact price of estimating sigma.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'pivot_method'
+  - 't_statistic_distribution'
+proof:
+  technique: 'pivot method with Q = sqrt(n)(Xbar - mu)/S ~ t_{n-1}'
+  derives_from: 't_statistic_distribution'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2, alpha = 0.05: t_{1, 0.975} = 12.7 -- the interval is enormous, honestly reflecting near-zero information about sigma'
+  - 'n >= 30: t_{n-1} approx z, the t- and z-intervals nearly coincide'
+  - 'paired data: apply to the within-pair differences'
+counterexamples_when_dropped:
+  normality: 'for skewed data at small n coverage departs from 1 - alpha (the t-interval is more robust than the chi^2 variance interval but not immune); a bootstrap-t or BCa interval can do better'
+  iid: 'positively correlated observations => S underestimates Var(Xbar) => the interval is too narrow => undercoverage'
+common_misuse:
+  - 'using z instead of t at small n (undercoverage)'
+  - 'applying it to a proportion with small np (use Wilson / Clopper-Pearson)'
+  - 'reporting it after choosing the outcome variable based on which gave the smallest p-value'
+applications:
+  - 'the default ''mean +- CI'' in every statistics package, spreadsheet, and scientific paper'
+  - 'dual to the one-sample t-test (confidence_set_test_duality)'
+related:
+  uses: ['pivot_method', 't_statistic_distribution']
+  approximates: ['wald_interval']
+  commonly_confused_with: ['normal_mean_ci_known_variance']
+sources:
+  - 'student_1908'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#normal_mean_ci_unknown_variance
+  specialization: validation/specialization-cases.md#normal_mean_ci_unknown_variance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#normal_mean_ci_unknown_variance

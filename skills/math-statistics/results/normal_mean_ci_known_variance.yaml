@@ -1,0 +1,45 @@
+id: intervals.normal_mean_ci_known_variance
+node: normal_mean_ci_known_variance
+status_label: proposition
+display: 'For X_1..X_n iid N(mu, sigma^2) with sigma^2 KNOWN, the interval Xbar +- z_{1-alpha/2} sigma / sqrt(n) has coverage exactly 1 - alpha for every mu.'
+parseable: 'C(X) = Xbar +- z_{1-alpha/2} sigma/sqrt(n);   P_mu(mu in C(X)) = 1 - alpha'
+regime: exact
+symbols:
+  'z_{1-alpha/2}': 'the upper alpha/2 quantile of N(0,1) (1.96 for alpha = 0.05)'
+type_check_status: well_formed
+type_check_note: 'Exact. Invert the pivot sqrt(n)(Xbar - mu)/sigma ~ N(0,1). Width 2 z sigma/sqrt(n) is NON-random (sigma known) -- the only randomness is the center.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'pivot_method'
+  - 'prob_normal'
+  - 'prob_standard_normal'
+  - 'sample_mean'
+proof:
+  technique: 'pivot method with Q = sqrt(n)(Xbar - mu)/sigma ~ N(0,1)'
+  derives_from: 'pivot_method'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'alpha = 0.05: Xbar +- 1.96 sigma/sqrt(n)'
+  - 'the ''margin of error'' of a poll (with sigma^2 = p(1-p) plugged in) -- a slight abuse since sigma^2 is then estimated'
+  - 'sample size for a target width w: n = (2 z sigma / w)^2'
+counterexamples_when_dropped:
+  sigma_known: 'sigma is essentially never known; using an estimate S in the z-interval undercovers at small n -- that is exactly why the t-interval exists (normal_mean_ci_unknown_variance)'
+  normality: 'for non-normal data the coverage is approximate (1 - alpha + O(n^{-1/2}) by the CLT), reasonable for large n'
+common_misuse:
+  - 'plugging S for sigma and keeping z (rather than t) at small n'
+  - 'treating the realized interval''s endpoints as a 95%-probable range for mu'
+related:
+  uses: ['pivot_method', 'sample_mean']
+  approximated_by: []
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#normal_mean_ci_known_variance
+  specialization: validation/specialization-cases.md#normal_mean_ci_known_variance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#normal_mean_ci_known_variance

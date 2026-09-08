@@ -1,0 +1,38 @@
+id: estimation.mean_squared_error
+node: mean_squared_error
+status_label: definition
+display: 'The mean squared error of theta_hat at theta is MSE(theta) = E_theta[(theta_hat - theta)^2] (for a vector, E_theta||theta_hat - theta||^2).'
+parseable: 'MSE(theta) = E_theta[ (theta_hat - theta)^2 ]'
+symbols:
+  'MSE(theta)': 'mean squared error, type: nonnegative function of theta'
+type_check_status: well_formed
+type_check_note: 'The risk function under squared-error loss L(theta, a) = (a - theta)^2. Requires a finite second moment of theta_hat. Decomposes as variance plus squared bias (next node).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'estimator'
+  - 'prob_expectation'
+well_definedness: 'Defined wherever theta_hat has a finite second moment.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'MSE of Xbar for a population mean: sigma^2 / n (unbiased, so MSE = variance)'
+  - 'MSE of a shrinkage estimator c Xbar: c^2 sigma^2/n + (1-c)^2 mu^2 -- minimized at c < 1, beating Xbar at that mu'
+  - 'root-MSE is the natural scale; it has the units of theta'
+counterexamples_when_dropped:
+  finite_second_moment: 'estimators with infinite variance (Cauchy-scale MLE at small n, ratio estimators near a zero denominator) have infinite MSE though they may be perfectly usable (finite median absolute error)'
+common_misuse:
+  - 'comparing MSE across estimands on different scales without standardizing'
+  - 'using MSE when the loss is genuinely asymmetric (over- vs under-estimating a dose) -- then a tailored loss and its Bayes rule are right'
+related:
+  required_by: ['mse_bias_variance_decomposition', 'james_stein']
+  special_case_of: ['risk_function']
+sources:
+  - 'casella_berger_2e'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#mean_squared_error
+  specialization: validation/specialization-cases.md#mean_squared_error
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#mean_squared_error

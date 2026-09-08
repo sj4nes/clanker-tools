@@ -1,0 +1,32 @@
+# prob_pmf
+
+## Type
+bridge
+
+## Statement
+For discrete X, p_X(x) = P(X = x); sums to 1 over the countable support.
+
+## Symbols
+(none beyond the statement)
+
+## Epistemic status
+proved_theorem
+
+## Prerequisites (tsort edges into this node)
+(root — cited, see conventions.md)
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: cited from math-probability:pmf
+lean_status: cited — math-probability:pmf
+
+## Type / well-formedness check
+cited; well-formedness established upstream
+
+## Common misuse
+- treating this as proved here — it is imported from math-probability:pmf
+
+## Sources
+math-probability

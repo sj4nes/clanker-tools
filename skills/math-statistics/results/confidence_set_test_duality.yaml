@@ -1,0 +1,48 @@
+id: intervals.confidence_set_test_duality
+node: confidence_set_test_duality
+status_label: proved_theorem
+display: 'Confidence sets and hypothesis tests are equivalent: if { phi_{theta_0} } is a family of level-alpha tests of H0: theta = theta_0, then C(x) = { theta_0 : phi_{theta_0}(x) does not reject } is a 1 - alpha confidence set; conversely, from a 1 - alpha confidence set C, the test ''reject H0: theta = theta_0 iff theta_0 not in C(x)'' has level alpha.'
+parseable: 'C(x) = { theta_0 : test of H0: theta = theta_0 accepts at x }   <==>   reject theta_0  iff  theta_0 not in C(x)'
+regime: exact
+symbols:
+  'the acceptance region A(theta_0) = { x : phi_{theta_0}(x) = 0 }': 'and C(x) = { theta_0 : x in A(theta_0) } -- a ''horizontal slice'' vs ''vertical slice'' of the same set in (x, theta) space'
+type_check_status: well_formed
+type_check_note: 'An exact equivalence, holding at finite n. Proof: P_{theta_0}(theta_0 in C(X)) = P_{theta_0}(X in A(theta_0)) = 1 - (size of the test) >= 1 - alpha.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'confidence_set'
+  - 'size_of_test'
+  - 'test_function'
+proof:
+  technique: 'the event { theta_0 in C(X) } equals { X in A(theta_0) } by definition; its probability under theta_0 is 1 - size(phi_{theta_0}) >= 1 - alpha'
+  derives_from: 'size_of_test'
+  lean_status: core
+  lean_ref: 'the slice/transpose identity {theta_0 in C(x)} = {x in A(theta_0)} and the probability transfer is proof-checks.lean Stat.ci_test_duality'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the t-interval Xbar +- t S/sqrt(n) is exactly the set of mu_0 NOT rejected by the two-sided one-sample t-test'
+  - 'inverting the LRT gives the likelihood-ratio confidence interval; inverting the score test gives the score interval (Wilson, for a proportion)'
+  - 'a UMP test inverts to a uniformly most accurate (shortest expected length among unbiased) confidence set'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'the duality is a definitional equivalence; the only requirement is that the test have level alpha (or the CI have coverage 1 - alpha)'
+common_misuse:
+  - 'reporting BOTH a p-value and a CI as if independent evidence -- for the same procedure they carry the same information'
+  - 'inverting a test with poor properties (the Wald test for a proportion) and being surprised the interval also has poor coverage'
+applications:
+  - '''is 0 in the 95% CI?'' as a visual significance test in every forest plot and regression table'
+  - 'profile-likelihood confidence intervals in nonlinear models are the LRT inverted'
+related:
+  dual_of: ['test_function']
+  uses: ['size_of_test']
+  required_by: []
+sources:
+  - 'casella_berger_2e'
+  - 'lehmann_romano_tsh'
+status: draft
+checks:
+  type: validation/type-checks.md#confidence_set_test_duality
+  specialization: validation/specialization-cases.md#confidence_set_test_duality
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#confidence_set_test_duality

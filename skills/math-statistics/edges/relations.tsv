@@ -1,0 +1,25 @@
+relation	a	b	note
+generalizes	m_estimator	maximum_likelihood_estimator	MLE is the m-estimator with m = log f
+generalizes	cramer_rao_lower_bound	local_asymptotic_minimax	LAM is the asymptotic, estimator-free strengthening of the CRLB
+special_case_of	one_sample_t_test	likelihood_ratio_test	the t-test is the LRT for a normal mean
+special_case_of	overall_f_test	likelihood_ratio_test	the regression F-test is the LRT for a linear submodel
+special_case_of	chi_squared_distribution	prob_gamma	chi^2_k = Gamma(k/2, 1/2)
+special_case_of	pearson_chi_squared_gof	wilks_theorem	Pearson's statistic is asymptotically the multinomial LRT
+equivalent_to	sufficiency_principle	likelihood_principle	with the conditionality principle (Birnbaum's theorem)
+strengthens	lehmann_scheffe_theorem	rao_blackwell_theorem	adds completeness to get uniqueness and global optimality
+strengthens	mle_asymptotic_normality	mle_consistency	consistency is the 0th-order term of the same expansion
+strengthens	hajek_convolution_theorem	cramer_rao_lower_bound	removes the unbiasedness / regularity-of-estimator assumption
+dual_of	confidence_set	test_function	confidence_set_test_duality makes this precise
+approximates	wald_interval	normal_mean_ci_unknown_variance	the Wald z-interval is the large-sample limit of the exact t-interval
+special_case_of	large_sample_wald_interval	wald_interval	the MLE-based Wald interval is the generic Wald interval with se from the inverse information
+approximates	bernstein_von_mises	mle_asymptotic_normality	the posterior and the sampling distribution of the MLE share a limit
+proof_route	neyman_fisher_factorization	sufficiency	factorization is how sufficiency is checked in practice
+proof_route	basu_theorem	normal_sample_mean_variance_independence	Basu gives Xbar _||_ S^2 without a Jacobian computation
+commonly_confused_with	confidence_set	credible_interval	frequentist coverage vs posterior probability
+commonly_confused_with	p_value	posterior_mean_rule	a p-value is not P(H0 | data)
+commonly_confused_with	size_of_test	p_value	size is fixed in advance; the p-value is a data statistic
+illustrated_by	exponential_family	prob_normal	N(mu, sigma^2) is a two-parameter exponential family
+illustrated_by	exponential_family	prob_bernoulli	Bernoulli(p) is a one-parameter exponential family with T(x) = x
+illustrated_by	cramer_rao_lower_bound	prob_poisson	Var(lambda_hat) >= lambda / n, attained by the sample mean
+illustrated_by	james_stein	prob_normal	X ~ N(theta, I_d), d >= 3
+historically_precedes	method_of_moments	maximum_likelihood_estimator	Pearson (1894) before Fisher (1922)

@@ -1,0 +1,38 @@
+id: exponential_family.mean_value_parametrization
+node: mean_value_parametrization
+status_label: definition
+display: 'The mean-value (expectation) parametrization replaces eta by mu = E_eta[T(X)] = grad A(eta); the map eta -> mu is a diffeomorphism from int(H) onto the interior of the convex hull of T''s support.'
+parseable: 'mu = grad A(eta);  eta = (grad A)^{-1}(mu)  on int(H)'
+symbols:
+  'mu': 'the mean parameter, type: point of int(conv(supp T))'
+  'grad A': 'the mean map, a bijection on the interiors by strict convexity of A'
+type_check_status: well_formed
+type_check_note: 'A reparametrization, well-posed because grad A is injective (Hess A = Cov(T) PD in the minimal representation). The Fisher information transforms as I(mu) = (Hess A)^{-1} = Cov_eta(T)^{-1}.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'exponential_family_moment_identities'
+well_definedness: 'Bijective on the interiors; the inverse is the gradient of the Legendre dual A*(mu) = sup_eta (eta.mu - A(eta)) (negative entropy).'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Bernoulli: mu = p (the natural sufficient statistic''s mean); eta = logit(p)'
+  - 'N: mu = (E X, E X^2); the moment parametrization'
+  - 'the MLE in the mean parametrization is simply mu_hat = Tbar = (1/n) sum T(x_i) -- always unbiased for mu'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'forgetting the Jacobian when moving a variance or an interval between the eta and mu parametrizations'
+  - 'assuming mu_hat = Tbar is the MLE of a FUNCTION of mu -- it is, by invariance, only for the identity'
+related:
+  dual_of: ['cumulant_function']
+  required_by: []
+sources:
+  - 'brown_exponential_families'
+  - 'wainwright_jordan_graphical_models'
+status: draft
+checks:
+  type: validation/type-checks.md#mean_value_parametrization
+  specialization: validation/specialization-cases.md#mean_value_parametrization
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#mean_value_parametrization

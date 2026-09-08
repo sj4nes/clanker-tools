@@ -1,0 +1,31 @@
+id: foundations.ra_convex_function
+node: ra_convex_function
+status_label: proved_theorem
+display: 'f is convex if f(t x + (1-t) y) <= t f(x) + (1-t) f(y) for all x, y and t in [0,1]; twice-differentiable iff f'''' >= 0.'
+parseable: 'f is convex if f(t x + (1-t) y) <= t f(x) + (1-t) f(y) for all x, y and t in [0,1]; twice-differentiable iff f'''' >= 0.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-real-analysis:convex_function'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-real-analysis:convex_function'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-real-analysis:convex_function'
+sources:
+  - 'math-real-analysis'
+status: draft
+checks:
+  type: validation/type-checks.md#ra_convex_function
+  specialization: validation/specialization-cases.md#ra_convex_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#ra_convex_function

@@ -1,0 +1,47 @@
+id: estimation.consistency
+node: consistency
+status_label: definition
+display: 'A sequence of estimators theta_hat_n is (weakly) consistent for theta if theta_hat_n -> theta in P_theta-probability as n -> inf, for every theta; strongly consistent if the convergence is almost sure.'
+parseable: 'for every theta and every eps > 0:  P_theta( |theta_hat_n - theta| > eps ) -> 0'
+regime: asymptotic
+symbols:
+  'theta_hat_n': 'the estimator based on a sample of size n'
+  '-> in probability': 'the mode of convergence (prob_conv_p)'
+type_check_status: well_formed
+type_check_note: 'An asymptotic (n -> inf) property; says nothing about any fixed n. ''For every theta'' matters -- an estimator can be consistent at some theta and not others.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'estimator'
+  - 'iid_sample'
+  - 'prob_chebyshev_ineq'
+  - 'prob_conv_p'
+proof:
+  technique: 'typically: a law of large numbers for the estimating equation plus continuity (or: Var -> 0 and bias -> 0, via Chebyshev)'
+  derives_from: 'prob_wlln'
+  lean_status: cited
+  lean_ref: 'the Chebyshev route (Var -> 0, bias -> 0 => consistency) is the finitary core in proof-checks.lean Stat.consistency_chebyshev'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'Xbar is (strongly) consistent for the mean whenever E|X_1| < inf (SLLN)'
+  - 'S^2 is consistent for sigma^2 when E X_1^4 < inf'
+  - 'the sample maximum is consistent for theta in uniform(0, theta), at rate n'
+counterexamples_when_dropped:
+  finite_mean: 'Xbar for iid Cauchy: NOT consistent for the median theta -- Xbar is again Cauchy(theta, 1) for every n and never concentrates. The sample median IS consistent.'
+  for_every_theta: 'an estimator hard-coded to return theta_0 is consistent AT theta_0 only; it is inconsistent everywhere else'
+common_misuse:
+  - 'treating consistency as a finite-sample guarantee -- it bounds nothing at the n you have'
+  - 'confusing consistency (concentration at theta) with unbiasedness (correct mean); neither implies the other'
+related:
+  strengthened_by: ['asymptotic_normality_estimator']
+  required_by: ['mle_asymptotic_normality']
+sources:
+  - 'van_der_vaart_asymptotic'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#consistency
+  specialization: validation/specialization-cases.md#consistency
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#consistency

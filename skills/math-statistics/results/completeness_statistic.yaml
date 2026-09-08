@@ -1,0 +1,39 @@
+id: sufficiency.completeness_statistic
+node: completeness_statistic
+status_label: definition
+display: 'A statistic T is complete if E_theta[g(T)] = 0 for every theta implies g(T) = 0 almost surely (for every theta); bounded completeness restricts to bounded g.'
+parseable: '( E_theta[g(T)] = 0  for all theta )  =>  g(T) = 0 a.s.  for all theta'
+symbols:
+  'g': 'an arbitrary (measurable, or bounded) function on the range of T'
+  'the family of laws of T': 'must be ''rich enough'' to kill every unbiased-of-zero g'
+type_check_status: well_formed
+type_check_note: 'A property of the FAMILY of distributions of T, not of a single distribution. It says the only unbiased estimator of 0 based on T is 0 -- which forces uniqueness of unbiased estimators that are functions of T.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'prob_expectation'
+  - 'statistic'
+well_definedness: 'A property of { law of T under P_theta : theta }.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'full-rank exponential family: the natural sufficient statistic is complete (Laplace-transform uniqueness)'
+  - 'uniform(0, theta): X_(n) is complete -- E_theta[g(X_(n))] = 0 for all theta forces g = 0 by differentiating in theta'
+  - 'Bernoulli count sum X_i in {0,...,n}: complete (a degree-n polynomial with n+1 roots is zero)'
+counterexamples_when_dropped:
+  completeness: 'N(theta, theta^2) curved family: T = (sum X_i, sum X_i^2) is sufficient but E_theta[2(sum X_i)^2 - (n+1) sum X_i^2] = 0 for all theta with the bracket not identically 0 -- not complete. Lehmann-Scheffe then cannot certify a UMVUE.'
+common_misuse:
+  - 'asserting completeness for a curved or parameter-restricted family'
+  - 'confusing completeness (about the family of laws of T) with sufficiency (about conditional laws given T)'
+related:
+  required_by: ['basu_theorem', 'lehmann_scheffe_theorem', 'exponential_family_completeness']
+  commonly_confused_with: ['minimal_sufficiency']
+sources:
+  - 'lehmann_casella_tpe'
+  - 'lehmann_romano_tsh'
+status: draft
+checks:
+  type: validation/type-checks.md#completeness_statistic
+  specialization: validation/specialization-cases.md#completeness_statistic
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#completeness_statistic

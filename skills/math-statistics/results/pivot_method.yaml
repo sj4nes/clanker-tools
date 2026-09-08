@@ -1,0 +1,45 @@
+id: intervals.pivot_method
+node: pivot_method
+status_label: constructive_result
+display: 'Given a pivot Q(X, theta) with known distribution, pick constants a, b with P(a <= Q(X, theta) <= b) = 1 - alpha, then C(X) = { theta : a <= Q(X, theta) <= b } is an exact 1 - alpha confidence set.'
+parseable: 'C(X) = { theta : a <= Q(X, theta) <= b },  where P( a <= Q <= b ) = 1 - alpha'
+regime: exact
+symbols:
+  'a, b': 'quantiles of the pivot''s known distribution (e.g. +- t_{n-1, 1-alpha/2})'
+  '''invert the pivot''': 'solve the double inequality in theta'
+type_check_status: well_formed
+type_check_note: 'An exact construction: coverage is 1 - alpha BY CONSTRUCTION because {theta in C(X)} = {a <= Q(X, theta) <= b} as events, and the latter has probability 1 - alpha for every theta (pivotality). The set is an interval iff Q is monotone in theta.'
+hypotheses:
+  - 'pivotal_quantity'
+preconditions: []
+dependencies:
+  - 'confidence_set'
+  - 'pivotal_quantity'
+proof:
+  technique: 'event identity { theta in C(X) } = { a <= Q(X, theta) <= b }; take P_theta of both sides; the right side has probability 1 - alpha independent of theta'
+  derives_from: 'pivotal_quantity'
+  lean_status: core
+  lean_ref: 'the event-identity / probability-transfer step is proof-checks.lean Stat.pivot_coverage -- P{theta in C} = P{a <= Q <= b} = 1 - alpha'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'normal mean, sigma known: invert -z <= sqrt(n)(Xbar - mu)/sigma <= z  =>  Xbar +- z sigma/sqrt(n)'
+  - 'normal variance: invert chi^2_{lo} <= (n-1)S^2/sigma^2 <= chi^2_{hi}  =>  ( (n-1)S^2/chi^2_{hi}, (n-1)S^2/chi^2_{lo} ) -- asymmetric'
+  - 'the choice of (a, b) is free; equal-tailed is conventional, shortest-interval is an alternative'
+counterexamples_when_dropped:
+  pivotal_quantity: 'with only an asymptotic pivot the coverage is 1 - alpha + O(n^{-1/2}) -- the method still ''works'' but is no longer exact'
+  monotone_in_theta: 'if Q is not monotone in theta the inverted set can be a union of intervals or empty'
+common_misuse:
+  - 'inverting an asymptotic pivot and calling the interval ''exact'''
+  - 'always using equal-tailed quantiles when the pivot''s distribution is very skewed (chi^2 with small df) -- the equal-tailed interval is far from shortest'
+related:
+  required_by: ['normal_mean_ci_known_variance', 'normal_mean_ci_unknown_variance', 'normal_variance_ci']
+  uses: ['pivotal_quantity']
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#pivot_method
+  specialization: validation/specialization-cases.md#pivot_method
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#pivot_method

@@ -1,0 +1,45 @@
+id: gaussian_core.chi_squared_distribution
+node: chi_squared_distribution
+status_label: constructive_result
+display: 'The chi-squared distribution with k degrees of freedom is chi^2_k := Gamma(shape k/2, rate 1/2); equivalently the law of Z_1^2 + ... + Z_k^2 for independent Z_i ~ N(0,1). Mean k, variance 2k.'
+parseable: 'chi^2_k := Gamma(k/2, 1/2) = law of sum_{i=1}^k Z_i^2,  Z_i iid N(0,1)'
+regime: exact
+symbols:
+  'k': 'degrees of freedom, type: positive real (integer in the sum-of-squares view)'
+  'chi^2_k': 'the distribution; density x^{k/2 - 1} e^{-x/2} / (2^{k/2} Gamma(k/2)) on x > 0'
+type_check_status: well_formed
+type_check_note: 'A construction from math-probability''s Gamma and standard normal, NOT a cited primitive. Well-defined because Gamma(k/2, 1/2) is a genuine law for every k > 0, and the sum-of-squares equivalence is a change-of-variables computation (Z^2 ~ Gamma(1/2, 1/2), then Gamma shape-additivity).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'prob_gamma'
+  - 'prob_mgf'
+  - 'prob_standard_normal'
+well_definedness: 'Gamma(k/2, 1/2) is a probability law for all k > 0; the two definitions agree by Z^2 ~ chi^2_1 = Gamma(1/2, 1/2) and additivity of independent Gammas in the shape.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k = 1: the law of Z^2, density (2 pi x)^{-1/2} e^{-x/2}'
+  - 'k = 2: Exponential(rate 1/2)'
+  - 'large k: chi^2_k approx N(k, 2k) (CLT on the sum of squares); sqrt(2 chi^2_k) - sqrt(2k-1) approx N(0,1) is more accurate'
+counterexamples_when_dropped:
+  independence_of_the_Z_i: 'if the Z_i are correlated, sum Z_i^2 is a quadratic form Z^T Z with Z ~ N(0, Sigma); its law is a weighted sum of chi^2_1''s (eigenvalues of Sigma), not chi^2_k'
+  standard_normal_summands: 'sum of squares of N(mu_i, 1) is NONCENTRAL chi^2_k(lambda), lambda = sum mu_i^2 -- the distribution under a testing alternative'
+common_misuse:
+  - 'using chi^2_{n} instead of chi^2_{n-1} for the sample variance (one df is lost to estimating the mean)'
+  - 'treating a sum of squared correlated residuals as chi^2 without the projection/idempotency argument (Cochran)'
+applications:
+  - 'the reference distribution for the sample variance, the LRT statistic (Wilks), Pearson''s goodness-of-fit, and the F numerator/denominator'
+  - 'chi^2 confidence intervals for a normal variance; the chi^2 test of independence in a contingency table'
+related:
+  special_case_of: ['prob_gamma']
+  required_by: ['students_t_distribution', 'f_distribution', 'scaled_sample_variance_chi_squared', 'wilks_theorem']
+sources:
+  - 'casella_berger_2e'
+  - 'rao_linear_statistical_inference'
+status: draft
+checks:
+  type: validation/type-checks.md#chi_squared_distribution
+  specialization: validation/specialization-cases.md#chi_squared_distribution
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#chi_squared_distribution

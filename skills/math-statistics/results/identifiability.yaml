@@ -1,0 +1,38 @@
+id: model.identifiability
+node: identifiability
+status_label: definition
+display: 'The model is identifiable if theta != theta'' implies P_theta != P_theta'': the map theta -> P_theta is injective.'
+parseable: 'for all theta, theta'' in Theta: theta != theta'' => P_theta != P_theta'''
+symbols:
+  'theta, theta''': 'distinct candidate parameter values'
+  'P_theta': 'the law they index'
+type_check_status: well_formed
+type_check_note: 'An injectivity statement about theta -> P_theta. Equivalent (dominated case): f(x; theta) = f(x; theta'') for a.e. x implies theta = theta''.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'parametric_model'
+well_definedness: 'Identifiability is a property of the PARAMETRIZATION, not the data. A non-identifiable model can be repaired by quotienting Theta or adding a constraint.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'a full-rank exponential family in its natural parametrization is identifiable'
+  - 'N(mu, sigma^2) is identifiable in (mu, sigma^2); it is NOT identifiable in (mu, sigma) vs (mu, -sigma) if sigma is allowed negative'
+  - 'a two-component mixture is identifiable only up to permutation of the labels (''label switching'')'
+counterexamples_when_dropped:
+  identifiability: 'the model X ~ N(alpha + beta, 1) with theta = (alpha, beta): alpha and beta are not separately identifiable -- only their sum is. The MLE of (alpha, beta) is not consistent (it wanders along the ridge alpha + beta = const); the Fisher information matrix is singular. This is exactly why fisher_information_positive_definite is a separate hypothesis.'
+common_misuse:
+  - 'assuming the MLE is consistent without checking identifiability (mle_consistency requires it)'
+  - 'reading a tight confidence interval for a non-identified parameter as informative -- it reflects the prior / penalty, not the data'
+related:
+  commonly_confused_with: ['fisher_information_positive_definite']
+  required_by: ['mle_consistency']
+sources:
+  - 'van_der_vaart_asymptotic'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#identifiability
+  specialization: validation/specialization-cases.md#identifiability
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#identifiability

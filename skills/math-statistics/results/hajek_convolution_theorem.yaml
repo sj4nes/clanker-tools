@@ -1,0 +1,45 @@
+id: principles.hajek_convolution_theorem
+node: hajek_convolution_theorem
+status_label: proved_theorem
+display: 'In a LAN model, the limit distribution of ANY regular estimator sequence theta_hat_n (one whose local limit law does not depend on the local parameter h) can be written as a convolution N(0, I(theta_0)^{-1}) * M for some distribution M; the efficient (minimum-dispersion) regular estimator has M = delta_0 and limit exactly N(0, I(theta_0)^{-1}).'
+parseable: 'regular estimator  =>  its local limit law  =  N(0, I(theta_0)^{-1})  *  M   (M some noise distribution)'
+regime: asymptotic
+symbols:
+  'regular': 'the local limit law is the same for every local parameter h (rules out Hodges superefficiency)'
+  '* M': 'an extra independent ''noise'' term -- so the efficient estimator''s limit is a lower bound in the convolution order'
+type_check_status: well_formed
+type_check_note: 'The rigorous, estimator-free statement of ''you cannot beat the Fisher-information bound'' -- replacing the CRLB''s unbiasedness assumption with regularity. Boundary node: stated, cited. It is why ''asymptotically efficient'' = ''asymptotic variance I^{-1}'' is the right definition.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'asymptotic_efficiency'
+  - 'le_cam_lan_theory'
+proof:
+  technique: 'Hajek 1970 / Le Cam; the LAN structure + the regularity of the estimator force the convolution representation via a characteristic-function argument in the Gaussian shift experiment'
+  derives_from: 'le_cam_lan_theory'
+  lean_status: cited
+  lean_ref: 'CITED -- Hajek 1970; van der Vaart Ch. 8. Not formalized.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the MLE (M = delta_0) is efficient; a regular but inefficient estimator has M nondegenerate, i.e. strictly more spread'
+  - 'removes the Hodges superefficiency loophole: superefficient estimators are NOT regular (their local limit law depends on h)'
+  - 'the semiparametric analogue bounds regular estimators of a finite-dimensional functional in a model with an infinite-dimensional nuisance'
+counterexamples_when_dropped:
+  regularity_of_the_estimator: 'drop it and Hodges'' estimator formally ''beats'' I^{-1} at a point -- but only by being non-regular (badly behaved just off that point), which the theorem''s hypothesis excludes'
+  LAN_model: 'in LAMN models the bound involves a random information and the statement changes (mixed-normal limits)'
+common_misuse:
+  - 'citing it to claim no estimator can have smaller asymptotic variance than I^{-1} anywhere -- superefficiency on a null set IS possible, it just cannot be regular'
+  - 'applying it in non-LAN settings'
+related:
+  uses: ['le_cam_lan_theory', 'asymptotic_efficiency']
+  strengthens: ['cramer_rao_lower_bound']
+sources:
+  - 'hajek_1970'
+  - 'van_der_vaart_asymptotic'
+status: draft
+checks:
+  type: validation/type-checks.md#hajek_convolution_theorem
+  specialization: validation/specialization-cases.md#hajek_convolution_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#hajek_convolution_theorem

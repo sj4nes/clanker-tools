@@ -1,0 +1,43 @@
+id: nonparametric.order_statistic
+node: order_statistic
+status_label: definition
+display: 'The order statistics of X_1, ..., X_n are the sorted values X_(1) <= X_(2) <= ... <= X_(n); X_(1) = min, X_(n) = max, and X_((n+1)/2) is the median (n odd).'
+parseable: 'X_(1) <= X_(2) <= ... <= X_(n),  the sorted sample'
+regime: distribution_free
+symbols:
+  'X_(k)': 'the k-th smallest observation, type: statistic'
+  'the full order statistic': '(X_(1),...,X_(n)) -- always sufficient, and minimal sufficient for a nonparametric family'
+type_check_status: well_formed
+type_check_note: 'A statistic (permutation of the data). For a continuous parent, X_(k) has density n C(n-1, k-1) F(x)^{k-1} (1 - F(x))^{n-k} f(x); F(X_(k)) ~ Beta(k, n - k + 1).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'iid_sample'
+proof:
+  technique: 'the event {X_(k) <= x} = {at least k of the X_i are <= x} ~ Binomial(n, F(x)) tail'
+  derives_from: 'prob_binomial'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'X_(n) for uniform(0, theta): the sufficient statistic and (after bias correction) the UMVUE of theta'
+  - 'F(X_(k)) ~ Beta(k, n-k+1): distribution-free, the basis of nonparametric quantile confidence intervals'
+  - 'the range X_(n) - X_(1) and the interquartile range are functions of order statistics'
+counterexamples_when_dropped:
+  continuous_parent_for_the_clean_Beta_result: 'with ties (discrete data) the Beta-distribution results for F(X_(k)) fail; mid-rank corrections are needed'
+common_misuse:
+  - 'using extreme order statistics (min, max) for inference about the center -- they are driven by the tails and converge at non-standard rates (extreme value theory)'
+  - 'assuming order statistics are independent -- they are strongly dependent (X_(k) <= X_(k+1) always)'
+related:
+  required_by: ['sample_quantile']
+  uses: ['prob_binomial']
+sources:
+  - 'david_nagaraja_order_statistics'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#order_statistic
+  specialization: validation/specialization-cases.md#order_statistic
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#order_statistic

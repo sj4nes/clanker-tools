@@ -1,0 +1,31 @@
+id: foundations.prob_conv_d
+node: prob_conv_d
+status_label: proved_theorem
+display: 'X_n -> X in distribution: F_{X_n}(x) -> F_X(x) at every continuity point of F_X.'
+parseable: 'X_n -> X in distribution: F_{X_n}(x) -> F_X(x) at every continuity point of F_X.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:convergence_in_distribution'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:convergence_in_distribution'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:convergence_in_distribution'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_conv_d
+  specialization: validation/specialization-cases.md#prob_conv_d
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_conv_d

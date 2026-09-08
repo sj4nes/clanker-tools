@@ -1,0 +1,37 @@
+id: model.statistic
+node: statistic
+status_label: definition
+display: 'A statistic is a measurable function T = T(X_1, ..., X_n) of the sample that does not depend on theta.'
+parseable: 'T: X^n -> Y measurable, no theta in its definition'
+symbols:
+  'T': 'the statistic, type: measurable map X^n -> Y (some measurable space)'
+  'T(X)': 'its value on the sample, type: random element of Y'
+type_check_status: well_formed
+type_check_note: 'Measurability is the only formal requirement. The ''no theta'' clause is what makes T computable from data alone -- an estimator, a test statistic, a sufficient statistic are all statistics.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'iid_sample'
+  - 'prob_random_variable'
+well_definedness: 'T(X) is a random variable because T is measurable and X is; its law depends on theta through the law of X.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the sample mean, sample variance, order statistics, the maximum -- all statistics'
+  - 'the sample itself, X = (X_1,...,X_n), is the trivial (always sufficient) statistic'
+  - 'a constant map is a (useless, always ancillary) statistic'
+counterexamples_when_dropped:
+  no_theta_dependence: 'sum_i (X_i - mu_0)^2 with a KNOWN mu_0 is a statistic; sum_i (X_i - mu)^2 with the unknown true mu is NOT a statistic -- it cannot be computed'
+common_misuse:
+  - 'calling a quantity a statistic when it secretly uses the unknown parameter (e.g. ''standardize by the true sigma'')'
+  - 'forgetting that the LAW of a statistic still depends on theta -- ''statistic'' does not mean ''pivotal'''
+related:
+  specializes_to: ['estimator', 'test_function', 'sufficiency', 'ancillary_statistic']
+sources:
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#statistic
+  specialization: validation/specialization-cases.md#statistic
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#statistic

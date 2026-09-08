@@ -1,0 +1,38 @@
+id: sufficiency.ancillary_statistic
+node: ancillary_statistic
+status_label: definition
+display: 'A statistic A is ancillary for theta if its distribution does not depend on theta.'
+parseable: 'the law of A(X) is the same for every theta in Theta'
+symbols:
+  'A(X)': 'the ancillary statistic, type: statistic with a theta-free law'
+type_check_status: well_formed
+type_check_note: 'A statistic carrying no MARGINAL information about theta. It can still carry information about the PRECISION of an estimate (an ancillary configuration statistic) -- the basis of conditional inference.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'prob_cdf'
+  - 'statistic'
+well_definedness: 'A property of the statistic''s marginal law under the model.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'location family f(x - theta): the residuals (X_i - Xbar), or the range X_(n) - X_(1), are ancillary'
+  - 'N(mu, 1): S^2 is ancillary for mu'
+  - 'the sample size n itself, if random but theta-free, is ancillary'
+counterexamples_when_dropped:
+  theta_free_law: 'S^2 is NOT ancillary for sigma^2 in N(mu, sigma^2) -- its law (scaled chi-squared) depends on sigma^2. Ancillarity is always relative to a specified parameter.'
+common_misuse:
+  - 'conditioning on a statistic that is only APPROXIMATELY ancillary and ignoring the approximation error'
+  - 'treating an ancillary statistic as ignorable -- it should often be conditioned on (conditionality principle)'
+related:
+  required_by: ['basu_theorem', 'conditionality_principle']
+  dual_of: ['sufficiency']
+sources:
+  - 'cox_hinkley_theoretical_statistics'
+  - 'casella_berger_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#ancillary_statistic
+  specialization: validation/specialization-cases.md#ancillary_statistic
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#ancillary_statistic

@@ -1,0 +1,31 @@
+id: foundations.prob_cauchy_no_mean
+node: prob_cauchy_no_mean
+status_label: proved_theorem
+display: 'The Cauchy law has no mean; the sample mean of n iid Cauchy variables has the same Cauchy law for every n.'
+parseable: 'The Cauchy law has no mean; the sample mean of n iid Cauchy variables has the same Cauchy law for every n.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:cauchy_no_mean'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:cauchy_no_mean'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:cauchy_no_mean'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_cauchy_no_mean
+  specialization: validation/specialization-cases.md#prob_cauchy_no_mean
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_cauchy_no_mean

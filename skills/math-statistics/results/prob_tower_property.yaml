@@ -1,0 +1,31 @@
+id: foundations.prob_tower_property
+node: prob_tower_property
+status_label: proved_theorem
+display: 'E[E[X | G]] = E[X]; more generally E[E[X | G] | H] = E[X | H] for H subset G.'
+parseable: 'E[E[X | G]] = E[X]; more generally E[E[X | G] | H] = E[X | H] for H subset G.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:tower_property'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:tower_property'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:tower_property'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_tower_property
+  specialization: validation/specialization-cases.md#prob_tower_property
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_tower_property

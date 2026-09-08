@@ -1,0 +1,31 @@
+id: foundations.prob_variance
+node: prob_variance
+status_label: proved_theorem
+display: 'Var(X) = E[(X - E X)^2] = E[X^2] - (E X)^2 >= 0; Var(aX + b) = a^2 Var(X).'
+parseable: 'Var(X) = E[(X - E X)^2] = E[X^2] - (E X)^2 >= 0; Var(aX + b) = a^2 Var(X).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:variance'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:variance'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:variance'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_variance
+  specialization: validation/specialization-cases.md#prob_variance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_variance

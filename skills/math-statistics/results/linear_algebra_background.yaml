@@ -1,0 +1,31 @@
+id: foundations.linear_algebra_background
+node: linear_algebra_background
+status_label: proved_theorem
+display: 'Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. FLAGGED for a future math-linear-algebra capsule.'
+parseable: 'Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. FLAGGED for a future math-linear-algebra capsule.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from linear-algebra:background-assumed'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'linear-algebra:background-assumed'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from linear-algebra:background-assumed'
+sources:
+  - 'linear-algebra'
+status: draft
+checks:
+  type: validation/type-checks.md#linear_algebra_background
+  specialization: validation/specialization-cases.md#linear_algebra_background
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#linear_algebra_background

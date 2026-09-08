@@ -1,0 +1,36 @@
+id: intervals.coverage_probability
+node: coverage_probability
+status_label: definition
+display: 'The coverage probability of a confidence procedure C(.) at theta is beta_C(theta) = P_theta( theta in C(X) ); the procedure has confidence level 1 - alpha if inf_theta beta_C(theta) >= 1 - alpha.'
+parseable: 'beta_C(theta) = P_theta( theta in C(X) );   level = inf_theta beta_C(theta)'
+regime: exact
+symbols:
+  'beta_C(theta)': 'coverage as a function of theta -- ideally flat at 1 - alpha'
+type_check_status: well_formed
+type_check_note: 'A function of theta, the CI analogue of a test''s power function. ''Exact'' procedures have beta_C(theta) = 1 - alpha for all theta; discrete data usually force beta_C(theta) > 1 - alpha somewhere (conservative) and it oscillates in theta.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'confidence_set'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'normal mean t-interval: beta_C(theta) = 1 - alpha exactly, for all (mu, sigma^2)'
+  - 'binomial Clopper-Pearson: beta_C(p) >= 1 - alpha always, with sawtooth over-coverage'
+  - 'binomial Wald: beta_C(p) oscillates and undershoots badly near the boundary'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'coverage is defined for any procedure; the content is whether inf_theta beta_C >= 1 - alpha'
+common_misuse:
+  - 'reporting the nominal level without checking actual coverage for discrete / small-sample / boundary problems'
+  - 'averaging coverage over a prior and reporting that as ''the coverage'' (that is a Bayesian, not frequentist, quantity)'
+related:
+  uses: ['confidence_set']
+sources:
+  - 'casella_berger_2e'
+  - 'brown_cai_dasgupta_2001'
+status: draft
+checks:
+  type: validation/type-checks.md#coverage_probability
+  specialization: validation/specialization-cases.md#coverage_probability
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#coverage_probability

@@ -1,0 +1,45 @@
+id: testing.f_test_equality_of_variances
+node: f_test_equality_of_variances
+status_label: proposition
+display: 'For independent normal samples of sizes n and m, S_X^2 / S_Y^2 ~ F_{n-1, m-1} under H0: sigma_X^2 = sigma_Y^2; reject when the ratio is outside [F_{n-1,m-1,alpha/2}, F_{n-1,m-1,1-alpha/2}]. Exact under normality, but highly non-robust to non-normality.'
+parseable: 'S_X^2 / S_Y^2  ~  F_{n-1, m-1}   under H0: sigma_X^2 = sigma_Y^2'
+regime: exact
+symbols:
+  'the ratio of sample variances': 'each S^2 scaled to a chi^2, the ratio is an F'
+type_check_status: well_formed
+type_check_note: 'Exact under normality (ratio of independent scaled chi-squares). Its Achilles heel: the F-test for variances is extremely sensitive to kurtosis -- far more than the t-test for means. Levene''s and Brown-Forsythe tests are robust alternatives.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'f_distribution'
+  - 'scaled_sample_variance_chi_squared'
+  - 'size_of_test'
+proof:
+  technique: '(n-1)S_X^2/sigma_X^2 ~ chi^2_{n-1} _||_ (m-1)S_Y^2/sigma_Y^2 ~ chi^2_{m-1}; under H0 the sigma^2''s cancel in the ratio, giving F_{n-1,m-1} by definition'
+  derives_from: 'f_distribution'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'used as a (poor) preliminary check before a pooled two-sample t-test -- this two-stage procedure is now discouraged; just use Welch'
+  - 'one-sided: test whether a new process REDUCES variance'
+  - 'k-sample generalization: Bartlett''s test (also non-robust) or Levene''s test (robust)'
+counterexamples_when_dropped:
+  normality: 'with heavy-tailed data (kurtosis > 3) the F-test for variances has true size FAR above nominal -- e.g. 0.20 at nominal 0.05 for t_5 data. This is the textbook example of a procedure that must not be used without near-exact normality.'
+  independence: 'paired or correlated samples invalidate the chi^2 factorization'
+common_misuse:
+  - 'using it to ''justify'' pooling in a two-sample t-test (the two-stage procedure has poor overall properties)'
+  - 'applying it to non-normal data -- prefer Levene / Brown-Forsythe'
+related:
+  uses: ['f_distribution', 'scaled_sample_variance_chi_squared']
+  robust_alternative: []
+sources:
+  - 'casella_berger_2e'
+  - 'box_1953'
+status: draft
+checks:
+  type: validation/type-checks.md#f_test_equality_of_variances
+  specialization: validation/specialization-cases.md#f_test_equality_of_variances
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#f_test_equality_of_variances

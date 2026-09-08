@@ -1,0 +1,50 @@
+# minimax_rate
+
+## Type
+regime
+
+## Statement
+For a nonparametric estimation problem (estimating a function f in a smoothness class F, e.g. densities or regression functions with beta bounded derivatives), the minimax risk inf_{f_hat} sup_{f in F} E ||f_hat - f||^2 decays at a rate SLOWER than n^{-1}: typically n^{-2 beta / (2 beta + d)} for beta-smooth functions in d dimensions. The rate is a property of the problem, achieved (up to constants / logs) by an appropriately tuned estimator and unimprovable by any estimator.
+
+## Symbols
+- `beta` — the assumed smoothness (number of derivatives / Holder exponent) of the target function
+- `d` — the dimension of the function's domain
+- `the exponent 2 beta/(2 beta + d)` — < 1, approaching 1 as beta -> inf (smoother => closer to parametric rate)
+
+## Epistemic status
+proved_theorem  ·  regime: asymptotic
+
+## Prerequisites (tsort edges into this node)
+kde_bias_variance_tradeoff, local_asymptotic_minimax
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: upper bound: bias-variance analysis of a kernel / spline / wavelet estimator at the optimal bandwidth (kde_bias_variance_tradeoff); lower bound: reduce to a many-hypothesis testing problem and apply Fano's inequality or Assouad's lemma
+derives_from: kde_bias_variance_tradeoff
+lean_status: cited — CITED -- Stone 1980, 1982; Tsybakov Introduction to Nonparametric Estimation. The h ~ n^{-1/(2 beta + d)} balancing is the KDE-node computation; the lower bound is the cited analytic content.
+
+## Type / well-formedness check
+An asymptotic minimax RATE statement, with matching upper (a constructive estimator) and lower (Fano / Assouad / Le Cam two-point) bounds. It quantifies 'nonparametric problems need more data' and pins the price of dimension (the curse: rate collapses as d grows) and the reward of smoothness. Boundary node: stated, cited.
+
+## Specialization / boundary cases
+- density estimation, twice-differentiable (beta = 2), d = 1: rate n^{-4/5} -- matches the KDE MISE (kde_bias_variance_tradeoff)
+- nonparametric regression with beta-smooth mean, d covariates: n^{-2 beta/(2 beta + d)}
+- d = 10, beta = 2: rate n^{-4/14} approx n^{-0.29} -- to halve the error you need ~11x the data (the curse of dimensionality); this is why structure (additivity, sparsity, single-index) is imposed
+
+## Hypothesis-dropped counterexamples
+- **the_smoothness_class_is_correct**: if f is actually rougher than assumed (fewer derivatives) the tuned estimator is inconsistent at the claimed rate; adaptive estimators (Lepski, wavelet thresholding) achieve the right rate WITHOUT knowing beta, at a log-factor cost
+- **no_extra_structure**: under sparsity or a low-dimensional structure the effective d is much smaller and near-parametric rates return -- the entire premise of high-dimensional statistics
+
+## Common misuse
+- expecting parametric-rate confidence intervals from a nonparametric fit
+- comparing a parametric model's n^{-1/2} and a nonparametric model's n^{-2/5} error as if the models were estimating the same thing (the parametric one also risks bias from misspecification)
+- ignoring the curse of dimensionality when d is more than 3-4
+
+## Related nodes (non-prerequisite)
+- uses: kde_bias_variance_tradeoff, local_asymptotic_minimax
+- generalizes_from: cramer_rao_lower_bound
+
+## Sources
+stone_1980, tsybakov_nonparametric, gine_nickl_mathematical_foundations

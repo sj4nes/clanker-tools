@@ -1,0 +1,35 @@
+id: estimation.asymptotic_variance
+node: asymptotic_variance
+status_label: definition
+display: 'The asymptotic variance of an asymptotically normal estimator is the covariance Sigma(theta) in its limit law sqrt(n)(theta_hat_n - theta) -> N(0, Sigma(theta)); the estimator''s approximate variance at finite n is Sigma(theta)/n.'
+parseable: 'AVar(theta_hat) = Sigma(theta)  where  sqrt(n)(theta_hat_n - theta) -> N(0, Sigma(theta))'
+regime: asymptotic
+symbols:
+  'Sigma(theta)/n': 'the finite-n variance approximation used for standard errors'
+type_check_status: well_formed
+type_check_note: 'Defined only for sqrt(n)-asymptotically-normal estimators. It is NOT in general the limit of n Var(theta_hat_n) (that can differ or be infinite); it is the variance of the limiting law.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'asymptotic_normality_estimator'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'MLE: Sigma = I(theta)^{-1}'
+  - 'sample median of iid f: Sigma = 1 / (4 f(m)^2) where m is the population median'
+  - 'delta method: AVar(g(theta_hat)) = g''(theta)^T Sigma g''(theta)'
+counterexamples_when_dropped:
+  limit_of_scaled_variance: 'an estimator can be asymptotically N(0, Sigma) yet have Var(theta_hat_n) = inf for every n (a small-probability heavy tail that vanishes in the limit) -- report the asymptotic variance, not the (infinite) exact one'
+common_misuse:
+  - 'reporting Sigma(theta_hat)/n as if exact -- it is a large-n approximation'
+  - 'plugging a very rough theta_hat into a steep Sigma(theta) and trusting the SE'
+related:
+  required_by: ['relative_efficiency', 'asymptotic_efficiency']
+sources:
+  - 'van_der_vaart_asymptotic'
+status: draft
+checks:
+  type: validation/type-checks.md#asymptotic_variance
+  specialization: validation/specialization-cases.md#asymptotic_variance
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#asymptotic_variance

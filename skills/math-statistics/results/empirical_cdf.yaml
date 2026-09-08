@@ -1,0 +1,48 @@
+id: nonparametric.empirical_cdf
+node: empirical_cdf
+status_label: definition
+display: 'The empirical CDF of X_1, ..., X_n is F_hat_n(x) = (1/n) sum_{i=1}^n 1{X_i <= x}: the CDF of the empirical distribution P_hat_n that puts mass 1/n at each observation.'
+parseable: 'F_hat_n(x) = (1/n) sum_{i=1}^n 1{X_i <= x}'
+regime: distribution_free
+symbols:
+  'F_hat_n': 'the ECDF, a random right-continuous step function'
+  'P_hat_n': 'the empirical measure'
+type_check_status: well_formed
+type_check_note: 'A statistic-valued function. For each fixed x, n F_hat_n(x) ~ Binomial(n, F(x)), so E[F_hat_n(x)] = F(x) (unbiased) and Var(F_hat_n(x)) = F(x)(1 - F(x))/n. As a process it is the basis of all distribution-free inference.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'iid_sample'
+  - 'prob_bernoulli'
+  - 'prob_cdf'
+proof:
+  technique: 'pointwise: n F_hat_n(x) is a sum of iid Bernoulli(F(x)) indicators'
+  derives_from: 'prob_bernoulli'
+  lean_status: core
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'F_hat_n(x) -> F(x) a.s. pointwise (SLLN) and uniformly (Glivenko-Cantelli)'
+  - 'sqrt(n)(F_hat_n(x) - F(x)) -> N(0, F(x)(1-F(x))) pointwise (CLT), -> a Brownian bridge as a process (Donsker)'
+  - 'the inverse F_hat_n^{-1} gives sample quantiles'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'the ECDF is defined for any sample; its consistency (Glivenko-Cantelli) needs only iid -- no moment or smoothness assumption'
+common_misuse:
+  - 'over-interpreting the jagged steps of F_hat_n at small n as features of F'
+  - 'using pointwise CLT bands as if they were simultaneous (they undercover as a band -- use DKW)'
+applications:
+  - 'Q-Q plots, P-P plots, and the Kolmogorov-Smirnov / Cramer-von Mises goodness-of-fit tests are all built on F_hat_n'
+  - 'survival analysis: the Kaplan-Meier estimator is the ECDF generalized to censored data'
+related:
+  required_by: ['glivenko_cantelli', 'dvoretzky_kiefer_wolfowitz', 'plug_in_estimator', 'bootstrap', 'sample_quantile']
+  uses: ['prob_bernoulli']
+sources:
+  - 'van_der_vaart_asymptotic'
+  - 'wasserman_all_of_statistics'
+status: draft
+checks:
+  type: validation/type-checks.md#empirical_cdf
+  specialization: validation/specialization-cases.md#empirical_cdf
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#empirical_cdf

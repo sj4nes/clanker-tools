@@ -1,0 +1,31 @@
+id: foundations.prob_conditional_expectation
+node: prob_conditional_expectation
+status_label: proved_theorem
+display: 'E[X | G]: the a.s.-unique G-measurable random variable with E[(X - E[X|G]) 1_A] = 0 for every A in G; the L^2 projection of X onto L^2(G).'
+parseable: 'E[X | G]: the a.s.-unique G-measurable random variable with E[(X - E[X|G]) 1_A] = 0 for every A in G; the L^2 projection of X onto L^2(G).'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:conditional_expectation_abstract'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:conditional_expectation_abstract'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:conditional_expectation_abstract'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_conditional_expectation
+  specialization: validation/specialization-cases.md#prob_conditional_expectation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_conditional_expectation

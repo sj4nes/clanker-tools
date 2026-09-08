@@ -1,0 +1,37 @@
+id: testing.alternative_hypothesis
+node: alternative_hypothesis
+status_label: definition
+display: 'The alternative hypothesis H1: theta in Theta_1 is the set of parameter values the test is designed to detect; usually Theta_1 = Theta \ Theta_0.'
+parseable: 'H1: theta in Theta_1    (typically Theta \ Theta_0)'
+symbols:
+  'Theta_1': 'the alternative set -- one-sided (mu > 0) or two-sided (mu != 0)'
+  'the direction of H1': 'determines whether a one- or two-tailed test is used'
+type_check_status: well_formed
+type_check_note: 'A subset of Theta disjoint from (the closure of) Theta_0. The alternative is where POWER is measured; the choice of one- vs two-sided must be made before seeing the data.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'null_hypothesis'
+  - 'parameter_space'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'two-sided: H1: mu != 0 -- detect an effect in either direction'
+  - 'one-sided: H1: mu > 0 -- more powerful against positive effects, blind to negative ones'
+  - 'restricted: H1: theta in a cone (order-restricted alternatives)'
+counterexamples_when_dropped:
+  chosen_in_advance: 'switching from two-sided to one-sided after seeing a positive Xbar doubles the effective alpha'
+common_misuse:
+  - 'choosing a one-sided alternative post hoc to cross the 0.05 threshold'
+  - 'a one-sided test that would not reject even for an enormous effect in the unanticipated direction'
+related:
+  uses: ['null_hypothesis']
+  required_by: ['power_function']
+sources:
+  - 'lehmann_romano_tsh'
+status: draft
+checks:
+  type: validation/type-checks.md#alternative_hypothesis
+  specialization: validation/specialization-cases.md#alternative_hypothesis
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#alternative_hypothesis

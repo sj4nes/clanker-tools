@@ -1,0 +1,38 @@
+id: model.fisher_information_positive_definite
+node: fisher_information_positive_definite
+status_label: definition
+display: 'I(theta_0) is finite and positive definite (positive and finite in the scalar case).'
+parseable: '0 < I(theta_0) < inf  (scalar);  I(theta_0) symmetric PD  (vector)'
+symbols:
+  'I(theta_0)': 'the Fisher information at the truth'
+  'PD': 'positive definite: x^T I x > 0 for all x != 0'
+type_check_status: well_formed
+type_check_note: 'A nondegeneracy statement. PD => invertible => I(theta_0)^{-1} exists and is the MLE''s asymptotic covariance. Uses linear_algebra_background for ''positive definite'' and ''invertible''.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'fisher_information_matrix'
+well_definedness: 'Finiteness rules out heavy-tailed scores; positive-definiteness rules out a locally flat / non-identified direction.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'any full-rank exponential family on the interior: I(eta) = Hess A(eta) is PD (A strictly convex)'
+  - 'N(mu, sigma^2): I = diag(1/sigma^2, 1/(2 sigma^4)) PD for every sigma^2 > 0'
+counterexamples_when_dropped:
+  fisher_information_positive_definite: 'the non-identified N(alpha + beta, 1): I = [[1,1],[1,1]] has eigenvalue 0 along (1, -1). The MLE is not consistent for (alpha, beta) and I^{-1} does not exist. This hypothesis is the local (2nd-order) counterpart of the global identifiability hypothesis.'
+  singular in the limit: 'a model at a parameter where a component''s information -> 0 (e.g. a mixture weight at 0 or 1): near-singular I, unstable inversion, wide/unreliable intervals'
+common_misuse:
+  - 'inverting a singular or near-singular information matrix from collinear regressors and trusting the standard errors'
+  - 'conflating this with global identifiability -- a model can be identified yet have singular information at one point (a ''non-regular'' point)'
+related:
+  required_by: ['mle_asymptotic_normality', 'wilks_theorem']
+  commonly_confused_with: ['identifiability']
+sources:
+  - 'van_der_vaart_asymptotic'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#fisher_information_positive_definite
+  specialization: validation/specialization-cases.md#fisher_information_positive_definite
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#fisher_information_positive_definite

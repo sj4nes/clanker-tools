@@ -1,0 +1,31 @@
+id: foundations.prob_levy_continuity
+node: prob_levy_continuity
+status_label: proved_theorem
+display: 'phi_{X_n}(t) -> phi(t) pointwise with phi continuous at 0 iff X_n converges in distribution to the law with CF phi.'
+parseable: 'phi_{X_n}(t) -> phi(t) pointwise with phi continuous at 0 iff X_n converges in distribution to the law with CF phi.'
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-probability:levy_continuity_theorem'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-probability:levy_continuity_theorem'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-probability:levy_continuity_theorem'
+sources:
+  - 'math-probability'
+status: draft
+checks:
+  type: validation/type-checks.md#prob_levy_continuity
+  specialization: validation/specialization-cases.md#prob_levy_continuity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#prob_levy_continuity

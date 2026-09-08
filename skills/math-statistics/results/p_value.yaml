@@ -1,0 +1,46 @@
+id: testing.p_value
+node: p_value
+status_label: definition
+display: 'The p-value is the smallest level alpha at which the observed data would lead to rejection; for a test rejecting for large T, p(x) = sup_{theta in Theta_0} P_theta( T(X) >= T(x) ). It is a statistic, computed after seeing the data.'
+parseable: 'p(x) = sup_{theta in Theta_0} P_theta( T(X) >= T(x_obs) )'
+regime: exact
+symbols:
+  'T(x_obs)': 'the observed test statistic'
+  'P_theta(T >= T(x_obs))': 'the null tail probability at least as extreme as observed'
+type_check_status: well_formed
+type_check_note: 'A [0,1]-valued statistic (a random variable before the data are seen). Under a simple continuous null it is Uniform(0,1) (p_value_uniform_under_null). Reject at level alpha iff p <= alpha. It is NOT P(H0 true | data) and NOT the probability the result is a fluke.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'size_of_test'
+  - 'test_function'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'one-sample t-test: p = 2 P(t_{n-1} >= |t_obs|)'
+  - 'a p-value of 0.03 means: IF H0 held, data this extreme or more would occur 3% of the time'
+  - 'the p-value curve over candidate null values traces out (one minus) the confidence-interval coverage -- p > alpha exactly for theta_0 in the 1 - alpha CI'
+counterexamples_when_dropped:
+  simple_null_or_sup_taken: 'with a composite null and a non-pivotal statistic the sup is intractable; one uses a plug-in or a similar test, and the p-value is only approximately calibrated'
+  T_continuous: 'for discrete data the p-value is not Uniform under H0 -- it is stochastically larger (the test is conservative)'
+common_misuse:
+  - 'reporting p as the probability H0 is true, or as 1 minus the probability the finding replicates'
+  - 'treating p = 0.049 and p = 0.051 as categorically different'
+  - '''p > 0.05 therefore no effect'' -- ignores power and the confidence interval'
+  - 'p-hacking: trying analyses until p < 0.05 (inflates the true Type I rate far above 0.05)'
+applications:
+  - 'the near-universal (and heavily criticized) summary of evidence in the experimental literature; the ASA 2016 statement and ''moving to a world beyond p < 0.05'' are the field''s response'
+  - 'genome-wide association studies use p < 5e-8 (Bonferroni for ~1e6 independent tests)'
+related:
+  uses: ['size_of_test', 'test_function']
+  required_by: ['p_value_uniform_under_null', 'benjamini_hochberg_fdr']
+  commonly_confused_with: ['posterior_mean_rule']
+sources:
+  - 'casella_berger_2e'
+  - 'wasserstein_lazar_2016'
+status: draft
+checks:
+  type: validation/type-checks.md#p_value
+  specialization: validation/specialization-cases.md#p_value
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#p_value

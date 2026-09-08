@@ -1,0 +1,50 @@
+id: nonparametric.glivenko_cantelli
+node: glivenko_cantelli
+status_label: proved_theorem
+display: 'The empirical CDF converges uniformly to the true CDF almost surely: sup_x | F_hat_n(x) - F(x) | -> 0 a.s. as n -> inf, for EVERY distribution F. (The ''fundamental theorem of statistics''.)'
+parseable: 'sup_x | F_hat_n(x) - F(x) |  -->  0   almost surely,   for every F'
+regime: distribution_free
+symbols:
+  'the sup over all x': 'uniform, not merely pointwise, convergence -- this is the strengthening over the pointwise SLLN'
+type_check_status: well_formed
+type_check_note: 'An almost-sure uniform-convergence statement, distribution-free. Proof: pointwise SLLN at a fixed grid of quantile levels, monotonicity of F and F_hat_n to fill in between grid points, then let the grid refine. It is the archetype of a ''uniform law of large numbers'' over a class of sets (here, half-lines).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'empirical_cdf'
+  - 'prob_conv_as'
+  - 'prob_slln'
+proof:
+  technique: 'pointwise SLLN at finitely many quantiles + monotonicity sandwiching to control the sup between them; refine the partition'
+  derives_from: 'prob_slln'
+  lean_status: cited
+  lean_ref: 'CITED -- Glivenko 1933, Cantelli 1933; van der Vaart Thm 19.1. The monotonicity-sandwich reduction to finitely many pointwise SLLNs is the elementary content.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'justifies the plug-in principle: T(F_hat_n) -> T(F) for any sup-norm-continuous functional T'
+  - 'the basis of the bootstrap''s first-order validity (resampling from F_hat_n approximates resampling from F)'
+  - 'generalizes to VC classes (Vapnik-Chervonenkis): uniform convergence over any class of sets with finite VC dimension -- the foundation of statistical learning theory'
+counterexamples_when_dropped:
+  iid: 'for dependent data (a time series) F_hat_n still converges pointwise under ergodicity but the uniform / rate results need mixing conditions'
+  the_class_is_not_too_rich: 'uniform convergence FAILS over an arbitrary class of sets -- e.g. over all finite sets, sup |P_hat_n(A) - P(A)| = 1 always (A = the sample). Half-lines (VC dim 1) are simple enough; this is why VC dimension matters.'
+common_misuse:
+  - 'invoking ''Glivenko-Cantelli'' to claim uniform convergence of the empirical measure over a class richer than a Donsker/VC class'
+  - 'assuming it gives a RATE -- it is a qualitative a.s. statement; DKW gives the rate'
+applications:
+  - 'the theoretical license for the entire bootstrap and for empirical risk minimization in machine learning (uniform convergence of training error to test error over the hypothesis class)'
+  - 'M-estimation consistency proofs (uniform LLN for the criterion function) are Glivenko-Cantelli over a function class'
+related:
+  required_by: ['bootstrap_consistency', 'donsker_theorem']
+  strengthened_by: ['dvoretzky_kiefer_wolfowitz', 'donsker_theorem']
+  uses: ['empirical_cdf', 'prob_slln']
+sources:
+  - 'glivenko_1933'
+  - 'van_der_vaart_asymptotic'
+  - 'vapnik_statistical_learning_theory'
+status: draft
+checks:
+  type: validation/type-checks.md#glivenko_cantelli
+  specialization: validation/specialization-cases.md#glivenko_cantelli
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#glivenko_cantelli

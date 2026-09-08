@@ -1,0 +1,45 @@
+id: regression.ols_is_projection
+node: ols_is_projection
+status_label: proved_theorem
+display: 'The OLS fitted values are the orthogonal projection of y onto the column space of X: y_hat = X beta_hat = H y, where H = X (X^T X)^{-1} X^T is the hat matrix -- symmetric, idempotent (H^2 = H), with rank(H) = trace(H) = p. The residual vector e = (I - H) y is orthogonal to col(X).'
+parseable: 'y_hat = H y,   H = X(X^T X)^{-1} X^T,   H = H^T = H^2,   rank(H) = p'
+regime: exact
+symbols:
+  'H': 'the ''hat'' matrix (it puts the hat on y), an orthogonal projector onto col(X)'
+  'I - H': 'the residual-maker / annihilator matrix, projector onto col(X)^perp, rank n - p'
+  'h_ii': 'the leverage of observation i -- its influence on its own fitted value; sum h_ii = p'
+type_check_status: well_formed
+type_check_note: 'A geometric statement: least squares IS orthogonal projection. Uses linear_algebra_background (projection matrices, idempotency, rank = trace for idempotents). H and I - H being complementary orthogonal projectors of ranks p and n - p is what drives every distributional result below (via Cochran).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'linear_algebra_background'
+  - 'normal_equations'
+proof:
+  technique: 'H = X(X^T X)^{-1} X^T: check H^T = H and H^2 = X(X^T X)^{-1}(X^T X)(X^T X)^{-1} X^T = H; rank = trace = tr((X^T X)^{-1} X^T X) = tr(I_p) = p'
+  derives_from: 'linear_algebra_background'
+  lean_status: core
+  lean_ref: 'validation/proof-checks.lean Stat.hat_matrix_idempotent -- H^2 = H and tr(H) = p for a fixed integer 3x2 design via decide'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'one predictor = the constant: H = (1/n) J, y_hat_i = ybar for all i -- ''regression on an intercept'' is just the mean'
+  - 'leverage h_ii in [1/n, 1]; h_ii > 2p/n flags a high-leverage point'
+  - 'the Pythagorean decomposition ||y||^2 = ||Hy||^2 + ||(I-H)y||^2 is the ANOVA / R^2 identity'
+counterexamples_when_dropped:
+  X_full_rank: 'rank-deficient X: H is still the (unique) projector onto col(X), of rank rank(X) < p; beta_hat is non-unique but y_hat = Hy is unique'
+common_misuse:
+  - 'interpreting a coefficient without checking leverage / influence diagnostics (a single high-leverage point can determine beta_hat)'
+  - 'forgetting sum of leverages = p when judging whether a design spreads influence well'
+related:
+  required_by: ['residual_sum_of_squares', 'partitioned_regression']
+  uses: ['normal_equations', 'linear_algebra_background']
+sources:
+  - 'seber_lee_linear_regression'
+  - 'hoaglin_welsch_1978'
+status: draft
+checks:
+  type: validation/type-checks.md#ols_is_projection
+  specialization: validation/specialization-cases.md#ols_is_projection
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#ols_is_projection

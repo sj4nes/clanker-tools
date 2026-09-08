@@ -1,0 +1,42 @@
+id: principles.sufficiency_principle
+node: sufficiency_principle
+status_label: heuristic
+display: 'The sufficiency principle: if T is a sufficient statistic for theta and T(x) = T(y) for two data sets x, y, then x and y must lead to the same inference about theta.'
+parseable: 'T sufficient  and  T(x) = T(y)   =>   inference from x  =  inference from y'
+regime: exact
+symbols:
+  '''the same inference''': 'the same point estimate, interval, test decision, posterior -- whatever the inferential output is'
+type_check_status: well_formed
+type_check_note: 'A normative principle, not a theorem. It is very widely accepted (nearly all standard methods obey it) and follows from the factorization of the likelihood through T.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'neyman_fisher_factorization'
+  - 'sufficiency'
+proof:
+  technique: 'the likelihood function depends on the data only through T (Neyman-Fisher factorization), and most inference schools agree inference should depend on the data only through the likelihood-relevant part'
+  derives_from: 'neyman_fisher_factorization'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'obeyed by MLE, Bayes, UMVUE, LRT -- all are functions of any sufficient statistic'
+  - 'the basis for reducing a whole sample to (Xbar, S^2) in normal-theory inference with no loss'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'the principle is a stance; there is nothing to ''drop''. A method violating it (e.g. one depending on the order in which iid data arrived) would be regarded as defective.'
+common_misuse:
+  - 'confusing it with the (much stronger, more contested) likelihood principle'
+  - 'assuming a method is ''good'' merely because it obeys sufficiency -- it is a minimal requirement'
+related:
+  uses: ['neyman_fisher_factorization', 'sufficiency']
+  required_by: ['likelihood_principle']
+sources:
+  - 'birnbaum_1962'
+  - 'berger_wolpert_likelihood_principle'
+status: draft
+checks:
+  type: validation/type-checks.md#sufficiency_principle
+  specialization: validation/specialization-cases.md#sufficiency_principle
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#sufficiency_principle

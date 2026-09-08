@@ -1,0 +1,45 @@
+id: intervals.confidence_set
+node: confidence_set
+status_label: definition
+display: 'A 1 - alpha confidence set for theta is a data-dependent set C(X) subset Theta with P_theta( theta in C(X) ) >= 1 - alpha for every theta (an interval, in one dimension).'
+parseable: 'P_theta( theta in C(X) ) >= 1 - alpha   for every theta in Theta'
+regime: exact
+symbols:
+  'C(X)': 'the confidence set, type: random subset of Theta'
+  '1 - alpha': 'the confidence LEVEL (a property of the procedure, not of one realized interval)'
+  'coverage': 'theta -> P_theta(theta in C(X)), which should be >= 1 - alpha throughout'
+type_check_status: well_formed
+type_check_note: 'A frequentist coverage guarantee about the RANDOM set C(X), holding for all theta. A realized interval [l, u] either contains the fixed unknown theta or not -- the ''95%'' describes the long-run behaviour of the rule, not a probability about theta.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'parameter_space'
+  - 'prob_probability_space'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'exact: Xbar +- t_{n-1, 1-alpha/2} S/sqrt(n) for a normal mean -- coverage exactly 1 - alpha'
+  - 'asymptotic: theta_hat +- z_{1-alpha/2} SE -- coverage -> 1 - alpha'
+  - 'conservative: a Bonferroni-adjusted simultaneous set has coverage >= 1 - alpha, often strictly'
+counterexamples_when_dropped:
+  coverage_for_every_theta: 'the Wald interval for a binomial p has coverage that DIPS well below 1 - alpha for p near 0 or 1 and small n (down to ~0.8 for a nominal 0.95) -- the Clopper-Pearson or Wilson interval fixes it'
+  the_set_is_pre-specified: 'choosing which parameter to bracket after seeing the data (selective inference) destroys the coverage guarantee'
+common_misuse:
+  - 'saying ''there is a 95% probability that theta is in [l, u]'' for a realized interval -- theta is not random'
+  - 'comparing two 95% intervals by whether they overlap as a test (the overlap test is conservative and low-powered)'
+applications:
+  - 'every reported ''95% CI'' in a clinical trial, poll, or physics measurement'
+  - 'the CI is the dual of the hypothesis test (confidence_set_test_duality) -- reporting the interval subsumes the test'
+related:
+  required_by: ['coverage_probability', 'pivot_method', 'confidence_set_test_duality', 'wald_interval']
+  dual_of: ['test_function']
+  commonly_confused_with: ['credible_interval']
+sources:
+  - 'casella_berger_2e'
+  - 'neyman_1937'
+status: draft
+checks:
+  type: validation/type-checks.md#confidence_set
+  specialization: validation/specialization-cases.md#confidence_set
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#confidence_set

@@ -1,0 +1,36 @@
+id: decision_theory.loss_function
+node: loss_function
+status_label: definition
+display: 'A loss function L(theta, a) >= 0 gives the cost of taking action a when the true parameter is theta; L(theta, theta) is usually 0.'
+parseable: 'L: Theta x A -> [0, inf)'
+symbols:
+  'a': 'an action / decision, type: element of the action space A (an estimate, or ''reject''/''accept'')'
+  'L(theta, a)': 'the loss, type: nonnegative real'
+type_check_status: well_formed
+type_check_note: 'A user-supplied function encoding the consequences of error. Squared error (theta - a)^2, absolute error |theta - a|, 0-1 loss 1{a != theta}, and the check (pinball) loss are the standard choices; the whole theory is relative to it.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'parameter_space'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'estimation: A = Theta, L = (theta - a)^2 or |theta - a|'
+  - 'testing: A = {0, 1}, L(theta, a) = 1{a wrongly rejects/accepts} -- possibly weighted by how wrong'
+  - 'asymmetric: newsvendor loss L(theta, a) = c_o (a - theta)_+ + c_u (theta - a)_+ for over/under-stocking'
+counterexamples_when_dropped:
+  loss_reflects_real_consequences: 'using squared-error loss when the real cost is a step function (a dam either overtops or not) gives a Bayes rule optimizing the wrong thing'
+common_misuse:
+  - 'defaulting to squared-error loss without asking whether errors really cost the square of their size'
+  - 'comparing procedures under one loss and deploying them where a different loss applies'
+related:
+  required_by: ['risk_function', 'bayes_estimator', 'posterior_mean_rule']
+sources:
+  - 'berger_statistical_decision_theory'
+  - 'lehmann_casella_tpe'
+status: draft
+checks:
+  type: validation/type-checks.md#loss_function
+  specialization: validation/specialization-cases.md#loss_function
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#loss_function

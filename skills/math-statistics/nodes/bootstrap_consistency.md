@@ -1,0 +1,49 @@
+# bootstrap_consistency
+
+## Type
+theorem
+
+## Statement
+If T(.) is Hadamard-differentiable at P (tangentially to a suitable set) with nondegenerate influence function, then conditionally on the data the bootstrap distribution of sqrt(n)(T(P_hat_n*) - T(P_hat_n)) converges (in probability, in a metric for weak convergence) to the same limit N(0, E[IF^2]) as sqrt(n)(T(P_hat_n) - T(P)). Hence bootstrap SEs and studentized-bootstrap CIs are asymptotically valid.
+
+## Symbols
+- `P*` — probability over the resampling, conditional on X_1..X_n
+- `IF` — the influence function of T at P
+
+## Epistemic status
+proved_theorem  ·  regime: asymptotic
+
+## Prerequisites (tsort edges into this node)
+bootstrap, glivenko_cantelli, prob_conv_d, ra_differentiability
+
+## Hypotheses
+(none — unconditional within scope)
+
+## Proof provenance
+technique: functional delta method for the bootstrap empirical process (van der Vaart-Wellner Thm 3.6.1): the bootstrapped empirical process converges conditionally to the same Gaussian limit as the empirical process (Donsker), then apply the Hadamard derivative
+derives_from: glivenko_cantelli
+lean_status: cited — CITED -- Bickel-Freedman 1981 (the mean); van der Vaart-Wellner 1996 Ch. 3.6 (general). Not formalized.
+
+## Type / well-formedness check
+An asymptotic conditional-convergence statement -- the theoretical justification for the bootstrap. The functional delta method for the bootstrap (van der Vaart-Wellner). For the SAMPLE MEAN and smooth functions of means it holds under a finite second moment.
+
+## Specialization / boundary cases
+- smooth functions of sample moments (correlation, R^2, ratio of means): bootstrap-consistent under moment conditions
+- the bootstrap-t (studentized) interval has coverage 1 - alpha + O(1/n) -- one order better than the normal approximation's O(1/sqrt n)
+- empirical-process functionals (KS statistic, Cramer-von Mises): bootstrap-consistent (Donsker class)
+
+## Hypothesis-dropped counterexamples
+- **Hadamard_differentiability**: the sample maximum / extreme quantiles (not differentiable), a parameter on the boundary of the space, the number of components in a mixture -- the ordinary n-out-of-n bootstrap is INCONSISTENT; subsampling or m-out-of-n is needed
+- **nondegenerate_influence_function**: at a point where IF = 0 (e.g. g(theta_hat) with g'(theta) = 0) the sqrt(n) scaling is wrong and the bootstrap distribution degenerates
+- **iid**: the ordinary bootstrap is inconsistent for dependent data -- block bootstrap under mixing
+
+## Common misuse
+- assuming the bootstrap 'always works' -- it has well-catalogued failure cases (Bickel-Gotze-van Zwet 1997)
+- using the ordinary bootstrap for the max, for superefficient estimators, or on the boundary
+
+## Related nodes (non-prerequisite)
+- uses: glivenko_cantelli, prob_conv_d
+- required_by: 
+
+## Sources
+bickel_freedman_1981, van_der_vaart_wellner, bickel_gotze_vanzwet_1997
