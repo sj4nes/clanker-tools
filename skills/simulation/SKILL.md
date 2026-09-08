@@ -91,7 +91,9 @@ also fails.
    / operational); causal structure (diagram, stock-and-flow, process map,
    equations); time and spatial scale; data provenance (source, method, coverage,
    cleaning, limitations, rights); validity domain and high-consequence failure
-   modes. See [`references/workflow.md`](references/workflow.md).
+   modes. Skeleton in [`templates/model-charter.md`](templates/model-charter.md);
+   the fidelity ladder and specification checklist in
+   [`references/workflow.md`](references/workflow.md).
 3. **Select the paradigm** from the system's dominant causal structure, not the
    preferred package — see the table below and
    [`references/paradigms.md`](references/paradigms.md). Justify the choice and
@@ -130,7 +132,9 @@ also fails.
    only in named factors; controlled randomization / common random numbers;
    replication count and convergence criterion; output metrics and decision
    thresholds; stopping rules; retention and audit requirements; statistical
-   comparison method. Report operationally relevant outcomes (percentile cycle
+   comparison method. Skeleton in
+   [`templates/experiment-design.md`](templates/experiment-design.md). Report
+   operationally relevant outcomes (percentile cycle
    time, deadline-miss probability, queue-size percentiles, utilization
    distribution, starvation / blocking, backlog tail risk, cost distribution) —
    not just mean throughput. When the study is a designed comparison across many
@@ -145,8 +149,9 @@ also fails.
     model scope and validity domain; scenario definition and assumptions; V&V
     evidence; uncertainty interval or output distribution; key sensitivity
     drivers; conditions under which the recommendation reverses; reproducibility
-    metadata; explicit non-claims. Template in
-    [`references/workflow.md`](references/workflow.md). For the result figures —
+    metadata; explicit non-claims. Skeleton in
+    [`templates/reporting.md`](templates/reporting.md); a filled-in worked
+    example in [`references/workflow.md`](references/workflow.md). For the result figures —
     output histogram / ECDF, fan chart, tornado sensitivity plot,
     exceedance-probability curve, warm-up diagnostic, observed-vs-predicted
     validation scatter — see [`visualization-design`](../visualization-design/SKILL.md)
@@ -189,10 +194,20 @@ simulator / emulator / digital-twin distinction: see
   discrimination, targeting, or safety-critical behavior without governance and
   human oversight.
 
+## Templates
+
+- [`templates/model-charter.md`](templates/model-charter.md) — decision,
+  boundary, model, data provenance, validity domain.
+- [`templates/experiment-design.md`](templates/experiment-design.md) — baseline,
+  alternatives, randomization, replications, warm-up, comparison method.
+- [`templates/reporting.md`](templates/reporting.md) — the decision report with
+  uncertainty, sensitivity drivers, reversal conditions, and non-claims.
+
 ## References
 
-- [`references/workflow.md`](references/workflow.md) — model-charter template,
-  fidelity ladder, experiment-design and reporting templates, a worked example.
+- [`references/workflow.md`](references/workflow.md) — the fidelity ladder, the
+  pre-code specification checklist, the reproducibility manifest, and a worked
+  discrete-event example that fills in all three templates.
 - [`references/paradigms.md`](references/paradigms.md) — each paradigm's
   mechanics, core concepts, and common modeling mistakes.
 - [`references/verification-validation.md`](references/verification-validation.md)

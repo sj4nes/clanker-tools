@@ -1,4 +1,11 @@
-# Simulation workflow — templates and a worked example
+# Simulation workflow — the fidelity ladder, the spec discipline, and a worked example
+
+The three emit-ready skeletons live in [`../templates/`](../templates/):
+[`model-charter.md`](../templates/model-charter.md),
+[`experiment-design.md`](../templates/experiment-design.md),
+[`reporting.md`](../templates/reporting.md). This file keeps the fidelity
+ladder, the pre-code specification checklist, the reproducibility manifest, and
+the worked example.
 
 ## Fidelity ladder
 
@@ -14,48 +21,6 @@ bound its uncertainty tightly enough to justify the cost of the next rung.
 
 At each rung ask: does the added detail change the decision, or shrink the
 decision-relevant uncertainty enough to be worth its cost and maintenance burden?
-
-## Model charter template
-
-```
-DECISION
-  question          : <the choice / forecast / explanation at stake>
-  owner             : <who acts on the result>
-  action            : <what they may do differently>
-  outputs           : <metric, units, aggregation level, reporting cadence>
-  horizon / scope   : <time span, spatial extent, operating regimes>
-  acceptable uncert.: <e.g. ±3 pp on a probability; rank-order only>
-  counterfactuals   : <the alternatives being compared>
-  asymmetry         : <cost of false confidence vs cost of conservatism>
-
-BOUNDARY
-  in scope          : <entities, processes, interfaces modeled>
-  out of scope      : <deliberately excluded — each is a scientific claim>
-
-MODEL
-  entities / states : <what exists; what can change; minimal state>
-  inputs            : controllable = <...>   exogenous = <...>
-  parameters        : <name, value, source, fixed-from-theory | estimated>
-  initial conditions: <state at t0>
-  boundary conditions: <spatial / interface constraints>
-  random variables  : <name, fitted distribution, rationale>
-  dependencies      : <correlations / copulas that matter>
-  causal structure  : <diagram | stock-and-flow | process map | equations>
-  invariants        : <conservation / positivity / bounds checked every run>
-  time / space scale: <seconds vs years; meters vs regions>
-
-DATA PROVENANCE
-  source            : <system of record, sensor, survey, vendor>
-  collection method : <how sampled; period covered>
-  coverage / gaps   : <what is missing; known bias>
-  cleaning          : <steps applied; assumptions made>
-  rights            : <licence / privacy / retention constraints>
-
-VALIDITY DOMAIN
-  applies for       : <regimes where conclusions hold>
-  does NOT apply for : <extrapolation the result must not be used for>
-  failure modes     : <high-consequence ways the model could mislead>
-```
 
 ## Formal specification checklist (before writing code)
 
@@ -85,40 +50,11 @@ independent streams, or **common random numbers** paired across alternatives, an
 state which. Paired CRN sharpens the comparison of alternatives; it does not make
 a single realization representative.
 
-## Experiment-design template
+## Experiment design and reporting
 
-```
-BASELINE      : <scenario, and why it is the reference>
-ALTERNATIVES  : <each differs from baseline only in: factor = value>
-FACTORS       : <full-factorial | fractional | one-at-a-time | Latin hypercube>
-RANDOMIZATION : <independent streams | common random numbers>  seed log: <path>
-REPLICATIONS  : n = <...>   convergence criterion : <half-width < X on metric M>
-WARM-UP       : <duration discarded; how chosen>
-TERMINATION   : <horizon | completion count | steady-state test>
-METRICS       : <primary + secondary, each with units and decision threshold>
-COMPARISON    : <paired t / Welch / bootstrap CI / ranking + probability best>
-STOPPING RULE : <fixed n | sequential with error control>
-RETENTION     : <what is kept for audit; for how long>
-```
-
-## Reporting template
-
-```
-DECISION QUESTION   : <restated>
-MAIN RESULT         : <plain language, one or two sentences>
-RESULT WITH UNITS   : <distribution or interval, not a bare point>
-MODEL SCOPE         : <boundary; validity domain>
-SCENARIO + ASSUMPTIONS : <baseline and alternatives; key assumptions>
-VERIFICATION        : <checks run; which passed; which failed and impact>
-VALIDATION          : <evidence; data compared against; gaps>
-UNCERTAINTY         : <aleatory / epistemic / numerical / scenario / model-form;
-                       intervals; what dominates>
-SENSITIVITY DRIVERS : <ranked; the 1–3 inputs that move the metric most>
-REVERSAL CONDITIONS : <what assumption change flips the recommendation>
-REPRODUCIBILITY     : <commit, config, seeds, environment>
-NON-CLAIMS          : <what this analysis does NOT establish>
-NEXT MEASUREMENT    : <the data collection / test that most reduces decision risk>
-```
+The [`experiment-design.md`](../templates/experiment-design.md) and
+[`reporting.md`](../templates/reporting.md) skeletons are in
+[`../templates/`](../templates/). The worked example below fills them in.
 
 Avoid: "The simulation proves option B is best."
 

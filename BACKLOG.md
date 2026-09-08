@@ -305,8 +305,14 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 
 ### simulation
 
-- [ ] **simulation:** Consider a `templates/` charter + reporting skeleton the skill
-      can emit (currently the templates live inline in `references/workflow.md`).
+- [x] **simulation:** `templates/` extracted — `model-charter.md`,
+      `experiment-design.md`, `reporting.md` lifted from `references/workflow.md`
+      into an emit-ready `templates/` dir (matches `design-of-experiments` /
+      `unknown-discovery` layout). SKILL.md steps 2 / 9 / 10 link the skeletons;
+      `workflow.md` keeps the fidelity ladder, spec checklist, reproducibility
+      manifest, and the worked example (which now fills in the templates). README
+      row + `## Templates` section updated. `sh verification/run.sh` exit 0.
+      (2026-09-08)
 - [ ] **simulation:** Extend `verification/` beyond the M/M/1 DES case — one
       continuous-time (analytic ODE benchmark) and one Monte Carlo (dependence /
       tail-risk) worked check would cover more of the paradigm table.
