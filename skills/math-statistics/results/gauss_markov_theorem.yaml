@@ -21,7 +21,7 @@ dependencies:
 proof:
   technique: 'decompose a competing linear unbiased estimator as OLS plus d^T y with X^T d = 0; the variance is Var(OLS) + sigma^2 ||d||^2, cross term killed by X^T d = 0'
   derives_from: 'linear_algebra_background'
-  lean_status: core
+  lean_status: instance
   lean_ref: 'validation/proof-checks.lean Stat.gauss_markov_cross_term -- the cross term c^T (X^T X)^{-1} X^T d = 0 given X^T d = 0, and Var = Var_OLS + sigma^2 ||d||^2 >= Var_OLS, for a fixed integer design via decide'
 uses_choice: false
 constructive: true

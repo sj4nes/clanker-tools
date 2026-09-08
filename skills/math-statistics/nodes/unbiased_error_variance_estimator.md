@@ -22,7 +22,7 @@ linear_algebra_background, prob_expectation_linearity, residual_sum_of_squares
 ## Proof provenance
 technique: E[eps^T A eps] = sigma^2 tr(A) for Cov(eps) = sigma^2 I; here A = I - H, tr(I - H) = n - p
 derives_from: prob_expectation_linearity
-lean_status: core — validation/proof-checks.lean Stat.rss_expectation -- E[eps^T(I-H)eps] = sigma^2 tr(I-H); the trace identity tr(I - H) = n - p for a fixed integer design via decide, reusing Stat.bias_sample_var's E[quadratic form] algebra
+lean_status: instance — validation/proof-checks.lean Stat.rss_expectation -- E[eps^T(I-H)eps] = sigma^2 tr(I-H); the trace identity tr(I - H) = n - p for a fixed integer design via decide, reusing Stat.bias_sample_var's E[quadratic form] algebra
 
 ## Type / well-formedness check
 An exact identity, distribution-free (only E[eps]=0, Cov(eps) = sigma^2 I needed). Proof: E[RSS] = E[eps^T (I - H) eps] = sigma^2 tr(I - H) = sigma^2 (n - p). The regression generalization of bias_of_sample_variance (which is the p = 1, X = 1 case, giving n - 1).

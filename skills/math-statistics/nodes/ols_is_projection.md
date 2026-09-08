@@ -23,7 +23,7 @@ linear_algebra_background, normal_equations
 ## Proof provenance
 technique: H = X(X^T X)^{-1} X^T: check H^T = H and H^2 = X(X^T X)^{-1}(X^T X)(X^T X)^{-1} X^T = H; rank = trace = tr((X^T X)^{-1} X^T X) = tr(I_p) = p
 derives_from: linear_algebra_background
-lean_status: core — validation/proof-checks.lean Stat.hat_matrix_idempotent -- H^2 = H and tr(H) = p for a fixed integer 3x2 design via decide
+lean_status: instance — validation/proof-checks.lean Stat.hat_matrix_idempotent -- H^2 = H and tr(H) = p for a fixed integer 3x2 design via decide
 
 ## Type / well-formedness check
 A geometric statement: least squares IS orthogonal projection. Uses linear_algebra_background (projection matrices, idempotency, rank = trace for idempotents). H and I - H being complementary orthogonal projectors of ranks p and n - p is what drives every distributional result below (via Cochran).

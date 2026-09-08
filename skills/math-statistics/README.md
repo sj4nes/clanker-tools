@@ -20,7 +20,8 @@ on top of [`math-probability`](../math-probability/SKILL.md).
 | `results/<id>.yaml` | **done — 206**, dependency lists pulled from the graph |
 | `sources/bibliography.md` | done — ~90 references |
 | `indexes/` | done — tsort-order, hypothesis, regime, counterexample, status, symbol (KWIC), prerequisite-paths, reverse-dependencies |
-| `validation/proof-checks.lean` + `.bc` | **not started (Stage 3-4)** — many YAMLs carry `lean_ref: validation/proof-checks.lean Stat.*` placeholders |
+| `validation/proof-checks.lean` + `.md` | **done (Stage 3)** — Lean 4.33, no Mathlib, exit 0: 26 genuine universal cores + 8 `decide` instance checks; `lean_status` 38 core / 6 instance / 103 cited |
+| `validation/instance-checks.bc` | **not started (Stage 4)** |
 | `SKILL.md` | written last, once the release is `reviewed` |
 
 Regenerate all node pages + YAMLs after editing a spec:

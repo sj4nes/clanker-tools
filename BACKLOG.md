@@ -168,18 +168,25 @@ linear model with Gauss–Markov. Per-result `regime:` tag
       `objects.md`, `sources/bibliography.md` (~90 refs), and the generated
       indexes (regime, hypothesis, counterexample, status, symbol-KWIC,
       prerequisite-paths, reverse-deps) done. (2026-09-08)
-- [ ] **math-statistics:** Stage 3 — `validation/proof-checks.lean` finitary
-      cores. ~25 YAMLs carry `lean_ref: ...Stat.<name>` placeholders to fill:
-      mse_decomp, score_mean_zero, information_equality, crlb_cauchy_schwarz,
-      rao_blackwell_var, neyman_pearson_swap, bias_sample_var, chisq_mgf_add,
-      normal_equations_stationary, hat_matrix_idempotent, gauss_markov_cross_term,
-      rss_expectation, posterior_mean_completes_square, bayes_rule_pointwise,
-      pivot_coverage, ci_test_duality, bonferroni_bound, cochran_idempotent,
-      anova_cross_term_zero, kde_amise_optimal_h, fwl_block_elimination,
-      expfam_grad_A, sample_mean_linear, interior_max_stationary,
-      mle_invariance_monotone, gaussian_orthogonal_independent,
-      centering_projection_rank, consistency_chebyshev, mlr_power_monotone,
-      sandwich_reduces_when_info_equality. Deep asymptotics stay `lean_status: cited`.
+- [x] **math-statistics:** Stage 3 — `validation/proof-checks.lean` (Lean 4.33,
+      no Mathlib, exit 0, no `sorry`/`axiom`/warnings): **26 GENUINE universal
+      cores** (`score_mean_zero`, `information_equality`, `centid`, `mse_decomp`
+      = `posterior_mean_completes_square`, `ssq_expand`/`bias_sample_var`,
+      `anova_cross_term_zero`, `crlb_cauchy_schwarz`, `neyman_pearson_swap`,
+      `rao_blackwell_var`, `factorization_discrete`, `basu_step`,
+      `bonferroni_bound`, `consistency_chebyshev`, `chisq_mgf_add`,
+      `interior_max_stationary`, `mle_invariance_monotone`, `pivot_coverage`,
+      `ci_test_duality`, `sandwich_reduces_when_info_equality`,
+      `kde_amise_optimal_h`, `mlr_power_monotone`, `expfam_grad_A`,
+      `sample_mean_linear`, `bayes_rule_pointwise` + support lemmas) plus **8
+      `decide` INSTANCE checks** over one fixed 3×2 design (`hat_matrix_idempotent`,
+      `rss_expectation`, `centering_projection_rank`, `cochran_idempotent`,
+      `normal_equations_stationary`, `gauss_markov_cross_term`,
+      `fwl_block_elimination`, `gaussian_orthogonal_independent`).
+      `lean_status` reconciled: 38 `core`, 6 `instance`, 103 `cited`; new
+      `lean_status: instance` value for decide-instance-backed nodes.
+      `proof-checks.md` written with the genuine-vs-instance table keyed to nodes.
+      `build/all.sh` green end to end. (2026-09-08)
 - [ ] **math-statistics:** Stage 4 — `validation/instance-checks.bc`; Stage 5 —
       `SKILL.md` + Release 0.1 publish + changelog.
 - [ ] **math-statistics:** acknowledged gap — no `math-linear-algebra` capsule;

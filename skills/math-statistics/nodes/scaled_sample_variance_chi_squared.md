@@ -22,7 +22,7 @@ chi_squared_distribution, cochran_theorem, normal_sample_mean_variance_independe
 ## Proof provenance
 technique: Cochran: decompose chi^2_n = Q_1 + Q_2 with Q_2 = squared standardized Xbar ~ chi^2_1 independent of Q_1 = (n-1)S^2/sigma^2; ranks 1 + (n-1) = n force Q_1 ~ chi^2_{n-1}
 derives_from: cochran_theorem
-lean_status: core — the rank/idempotency bookkeeping (projection I - (1/n) J has rank n-1, is idempotent) is proof-checks.lean Stat.centering_projection_rank for fixed n via trace = rank for a symmetric idempotent
+lean_status: instance — the rank/idempotency bookkeeping (projection I - (1/n) J has rank n-1, is idempotent) is proof-checks.lean Stat.centering_projection_rank for fixed n via trace = rank for a symmetric idempotent
 
 ## Type / well-formedness check
 An exact distributional identity. Proof: write sum ((X_i - mu)/sigma)^2 = sum ((X_i - Xbar)/sigma)^2 + ((Xbar - mu)/(sigma/sqrt n))^2. The left side is chi^2_n; the last term is chi^2_1 and (by the independence theorem) independent of the first; so the first is chi^2_{n-1} by the subtractive form of chi-squared additivity (Cochran).

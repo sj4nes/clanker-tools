@@ -23,7 +23,7 @@ linear_algebra_background, ordinary_least_squares
 ## Proof provenance
 technique: set the gradient of || y - X b ||^2 to zero: -2 X^T (y - X b) = 0
 derives_from: linear_algebra_background
-lean_status: core — validation/proof-checks.lean Stat.normal_equations_stationary -- grad || y - X b ||^2 = -2 X^T(y - Xb), checked for a fixed 2x2 design via decide on integer matrices
+lean_status: instance — validation/proof-checks.lean Stat.normal_equations_stationary -- grad || y - X b ||^2 = -2 X^T(y - Xb), checked for a fixed 2x2 design via decide on integer matrices
 
 ## Type / well-formedness check
 The stationarity condition for the least-squares objective: grad_b || y - X b ||^2 = -2 X^T (y - X b) = 0. An exact algebraic identity. Numerically one solves it via QR or Cholesky of X, not by forming (X^T X)^{-1}.

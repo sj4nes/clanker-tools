@@ -21,7 +21,7 @@ basu_theorem, linear_algebra_background, prob_independence_factorization, prob_n
 ## Proof provenance
 technique: orthogonal (Helmert) transformation of a spherical Gaussian: Xbar and the residual vector lie in orthogonal subspaces, hence are independent; S^2 is a function of the residual vector alone
 derives_from: basu_theorem
-lean_status: core — the Basu route is one line given completeness+ancillarity; the Helmert-rotation route's key fact (orthogonal linear images of N(0, sigma^2 I) are independent) is proof-checks.lean Stat.gaussian_orthogonal_independent for a fixed small n via the covariance being zero + joint normality
+lean_status: instance — the Basu route is one line given completeness+ancillarity; the Helmert-rotation route's key fact (orthogonal linear images of N(0, sigma^2 I) are independent) is proof-checks.lean Stat.gaussian_orthogonal_independent for a fixed small n via the covariance being zero + joint normality
 
 ## Type / well-formedness check
 An independence conclusion, exact and finite-sample. Three routes: (a) Basu -- Xbar is complete sufficient for mu (sigma^2 known), S^2 is ancillary for mu, so independent; (b) the orthogonal transformation of (X_1,...,X_n) whose first coordinate is sqrt(n) Xbar and whose remaining n-1 are independent N(0, sigma^2), with S^2 a function of only the latter; (c) geometry: Xbar is the projection onto the 1-vector, the residual vector is orthogonal, and orthogonal components of a spherical Gaussian are independent.

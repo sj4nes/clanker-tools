@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'H = X(X^T X)^{-1} X^T: check H^T = H and H^2 = X(X^T X)^{-1}(X^T X)(X^T X)^{-1} X^T = H; rank = trace = tr((X^T X)^{-1} X^T X) = tr(I_p) = p'
   derives_from: 'linear_algebra_background'
-  lean_status: core
+  lean_status: instance
   lean_ref: 'validation/proof-checks.lean Stat.hat_matrix_idempotent -- H^2 = H and tr(H) = p for a fixed integer 3x2 design via decide'
 uses_choice: false
 constructive: true

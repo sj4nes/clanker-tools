@@ -700,12 +700,12 @@ not re-checked here.
 
 ## normal_sample_mean_variance_independence
 
-- **lean_status:** `core` — the Basu route is one line given completeness+ancillarity; the Helmert-rotation route's key fact (orthogonal linear images of N(0, sigma^2 I) are independent) is proof-checks.lean Stat.gaussian_orthogonal_independent for a fixed small n via the covariance being zero + joint normality
+- **lean_status:** `instance` — the Basu route is one line given completeness+ancillarity; the Helmert-rotation route's key fact (orthogonal linear images of N(0, sigma^2 I) are independent) is proof-checks.lean Stat.gaussian_orthogonal_independent for a fixed small n via the covariance being zero + joint normality
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## scaled_sample_variance_chi_squared
 
-- **lean_status:** `core` — the rank/idempotency bookkeeping (projection I - (1/n) J has rank n-1, is idempotent) is proof-checks.lean Stat.centering_projection_rank for fixed n via trace = rank for a symmetric idempotent
+- **lean_status:** `instance` — the rank/idempotency bookkeeping (projection I - (1/n) J has rank n-1, is idempotent) is proof-checks.lean Stat.centering_projection_rank for fixed n via trace = rank for a symmetric idempotent
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## t_statistic_distribution
@@ -964,12 +964,12 @@ not re-checked here.
 
 ## normal_equations
 
-- **lean_status:** `core` — validation/proof-checks.lean Stat.normal_equations_stationary -- grad || y - X b ||^2 = -2 X^T(y - Xb), checked for a fixed 2x2 design via decide on integer matrices
+- **lean_status:** `instance` — validation/proof-checks.lean Stat.normal_equations_stationary -- grad || y - X b ||^2 = -2 X^T(y - Xb), checked for a fixed 2x2 design via decide on integer matrices
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## ols_is_projection
 
-- **lean_status:** `core` — validation/proof-checks.lean Stat.hat_matrix_idempotent -- H^2 = H and tr(H) = p for a fixed integer 3x2 design via decide
+- **lean_status:** `instance` — validation/proof-checks.lean Stat.hat_matrix_idempotent -- H^2 = H and tr(H) = p for a fixed integer 3x2 design via decide
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## residual_sum_of_squares
@@ -980,12 +980,12 @@ not re-checked here.
 
 ## unbiased_error_variance_estimator
 
-- **lean_status:** `core` — validation/proof-checks.lean Stat.rss_expectation -- E[eps^T(I-H)eps] = sigma^2 tr(I-H); the trace identity tr(I - H) = n - p for a fixed integer design via decide, reusing Stat.bias_sample_var's E[quadratic form] algebra
+- **lean_status:** `instance` — validation/proof-checks.lean Stat.rss_expectation -- E[eps^T(I-H)eps] = sigma^2 tr(I-H); the trace identity tr(I - H) = n - p for a fixed integer design via decide, reusing Stat.bias_sample_var's E[quadratic form] algebra
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## gauss_markov_theorem
 
-- **lean_status:** `core` — validation/proof-checks.lean Stat.gauss_markov_cross_term -- the cross term c^T (X^T X)^{-1} X^T d = 0 given X^T d = 0, and Var = Var_OLS + sigma^2 ||d||^2 >= Var_OLS, for a fixed integer design via decide
+- **lean_status:** `instance` — validation/proof-checks.lean Stat.gauss_markov_cross_term -- the cross term c^T (X^T X)^{-1} X^T d = 0 given X^T d = 0, and Var = Var_OLS + sigma^2 ||d||^2 >= Var_OLS, for a fixed integer design via decide
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## ols_distribution_under_normal_errors

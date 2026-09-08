@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'set the gradient of || y - X b ||^2 to zero: -2 X^T (y - X b) = 0'
   derives_from: 'linear_algebra_background'
-  lean_status: core
+  lean_status: instance
   lean_ref: 'validation/proof-checks.lean Stat.normal_equations_stationary -- grad || y - X b ||^2 = -2 X^T(y - Xb), checked for a fixed 2x2 design via decide on integer matrices'
 uses_choice: false
 constructive: true

@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'E[eps^T A eps] = sigma^2 tr(A) for Cov(eps) = sigma^2 I; here A = I - H, tr(I - H) = n - p'
   derives_from: 'prob_expectation_linearity'
-  lean_status: core
+  lean_status: instance
   lean_ref: 'validation/proof-checks.lean Stat.rss_expectation -- E[eps^T(I-H)eps] = sigma^2 tr(I-H); the trace identity tr(I - H) = n - p for a fixed integer design via decide, reusing Stat.bias_sample_var''s E[quadratic form] algebra'
 uses_choice: false
 constructive: true

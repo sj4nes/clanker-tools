@@ -23,7 +23,7 @@ unbiased_estimator
 ## Proof provenance
 technique: decompose a competing linear unbiased estimator as OLS plus d^T y with X^T d = 0; the variance is Var(OLS) + sigma^2 ||d||^2, cross term killed by X^T d = 0
 derives_from: linear_algebra_background
-lean_status: core — validation/proof-checks.lean Stat.gauss_markov_cross_term -- the cross term c^T (X^T X)^{-1} X^T d = 0 given X^T d = 0, and Var = Var_OLS + sigma^2 ||d||^2 >= Var_OLS, for a fixed integer design via decide
+lean_status: instance — validation/proof-checks.lean Stat.gauss_markov_cross_term -- the cross term c^T (X^T X)^{-1} X^T d = 0 given X^T d = 0, and Var = Var_OLS + sigma^2 ||d||^2 >= Var_OLS, for a fixed integer design via decide
 
 ## Type / well-formedness check
 An exact, finite-sample optimality result within the linear-unbiased class, requiring only first and second moments of eps. Proof: write any linear unbiased estimator as c^T beta_hat + d^T y with d^T X = 0 (unbiasedness); then Var = Var(c^T beta_hat) + sigma^2 ||d||^2 + 2 sigma^2 c^T (X^T X)^{-1} X^T d, and the cross term is 0 because X^T d = 0; so Var = Var(c^T beta_hat) + sigma^2 ||d||^2 >= Var(c^T beta_hat).

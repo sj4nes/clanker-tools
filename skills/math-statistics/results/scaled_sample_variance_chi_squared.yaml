@@ -19,7 +19,7 @@ dependencies:
 proof:
   technique: 'Cochran: decompose chi^2_n = Q_1 + Q_2 with Q_2 = squared standardized Xbar ~ chi^2_1 independent of Q_1 = (n-1)S^2/sigma^2; ranks 1 + (n-1) = n force Q_1 ~ chi^2_{n-1}'
   derives_from: 'cochran_theorem'
-  lean_status: core
+  lean_status: instance
   lean_ref: 'the rank/idempotency bookkeeping (projection I - (1/n) J has rank n-1, is idempotent) is proof-checks.lean Stat.centering_projection_rank for fixed n via trace = rank for a symmetric idempotent'
 uses_choice: false
 constructive: true
