@@ -13,7 +13,8 @@ description: >-
   hierarchy, one distinct job per chapter, revision in separate passes, and
   subject-matter-expert review where accuracy matters. This is a META skill: it
   orchestrates citation-check, visualization-design, simple-technical-english,
-  unknown-discovery, tsort, csplit, ed, and bc. NOT a ghostwriter (voice stays
+  unknown-discovery, tsort, csplit, ed, bc, and typst (typesetting a
+  self-published interior or a formatted sample). NOT a ghostwriter (voice stays
   the author's), and not a book-marketing or distribution skill.
 version: 0.1.0
 author: Simon Janes
@@ -271,6 +272,14 @@ a drafting discovery can reopen positioning — but the gate must be re-passed.
     contents for the traditional route and the self-publishing production chain.
     Marketing, pricing, cover design execution, and distribution are out of
     scope for this skill.
+25. **Typeset the interior (self-publishing route, or a formatted sample).** When
+    the manuscript must become a laid-out PDF — a self-published book block, a
+    proposal sample chapter, an agent submission package — hand the finished
+    text to [`typst`](../typst/SKILL.md): it owns the compile loop, the
+    content/formatting separation (a preamble, not inline styling), semantic
+    figures and cross-references, and the bibliography. This skill still owns the
+    words; `typst` only lays them out. Skip it if the publisher typesets from a
+    Word manuscript.
 
 ## Guardrails — refuse or escalate when
 
