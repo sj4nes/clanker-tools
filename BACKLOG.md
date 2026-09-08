@@ -283,9 +283,22 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       All genuine/universal; `#print axioms deriv_iff_H` → `propext` only.
       `nd_hilbert_equivalence` + `derivability` bumped `lean_status: partial` →
       `core`. `sh build/all.sh` green. (2026-09-08)
-- [ ] **math-logic-and-proof:** Add the remaining `validation/` worksheet files the
-      result YAMLs point at: `type-checks.md`, `specialization-cases.md`,
-      `instance-checks.md` (only `proof-checks.md` and the `.lean` / `.bc` exist so far).
+- [x] **math-logic-and-proof:** Add the remaining `validation/` worksheet files
+      the result YAMLs point at — `build/gen-validation-md.py` (adapted from the
+      math-probability sibling, wired into `build/all.sh`) renders
+      `type-checks.md` / `specialization-cases.md` / `instance-checks.md` from
+      `results/*.yaml`, one `## <node>` section per headline result so every
+      `checks:` anchor resolves. Surfaced + fixed two `lean_status` overclaims:
+      `post_completeness_theorem` and `compactness_prop` claimed `core`/`partial`
+      Lean proofs that don't exist in the Mathlib-free `.lean` (their own node
+      pages already said `cited`) — corrected to `cited`. `sh build/all.sh`
+      green. (2026-09-08)
+- [ ] **math-logic-and-proof:** Audit the FOL-metatheory `lean_status: partial`
+      YAMLs (`soundness_fol`, `godel_completeness_theorem`, `compactness_fol`,
+      `lowenheim_skolem_down`, `substitution_lemma_semantic`) — `proof-checks.lean`
+      is Mathlib-free with **no first-order content**, so `partial` overclaims;
+      the honest label is `cited` / `stated` until the FOL layer is formalised.
+      Decide per node (some node pages describe an aspirational Mathlib plan).
 
 ### math-number-systems
 

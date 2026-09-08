@@ -13,8 +13,8 @@ dependencies: [lindenbaum_lemma_prop, truth_lemma_prop, soundness_prop, semantic
 proof:
   technique: 'model existence form. Given Gamma consistent: extend to a maximal consistent Delta (lindenbaum_lemma_prop). Define v(atom) = T iff atom in Delta. Truth lemma (truth_lemma_prop): for every wff psi, v |= psi iff psi in Delta -- by induction on psi using that Delta is deductively closed and complete (contains psi or not psi). So v |= Delta hence v |= Gamma. For the |= => |- form: Gamma |= phi and Gamma not|- phi => Gamma, not phi consistent => has a model => contradicts Gamma |= phi.'
   derives_from: lindenbaum_lemma_prop
-  lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- full plain-Lean proof for a countable atom set: Lindenbaum by enumerating wffs, truth lemma by structural induction, no Mathlib.'
+  lean_status: cited
+  lean_ref: 'validation/proof-checks.lean proves soundness (the converse) outright; the completeness direction is CITED ([enderton_logic_2e] §2.2, [vandalen_5e] §1.5). A plain-Lean proof for a countable atom set is feasible (Lindenbaum by Nat-recursion + LEM, truth lemma by structural_induction_wff, no Mathlib) and is the next Lean target -- see proof-checks.md and BACKLOG.'
 uses_choice: false
 constructive: false
 constructive_grade: needs_full_classical

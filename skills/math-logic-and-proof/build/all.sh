@@ -11,6 +11,7 @@ echo
 echo "== discovery views =="
 sh build/gen-indexes.sh
 sh build/gen-symbol-index.sh
+python3 build/gen-validation-md.py
 echo
 echo "== Lean proof-core checks =="
 lean validation/proof-checks.lean && echo "lean: ok (exit 0, no sorry)"

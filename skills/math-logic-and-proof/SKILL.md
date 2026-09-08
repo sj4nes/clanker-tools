@@ -167,7 +167,10 @@ stderr-checked), [`edges/cycles.md`](edges/cycles.md),
 YAMLs**, **a detail page for all 130 nodes** (`nodes/*.md`; prerequisites
 machine-checked against the graph),
 `validation/proof-checks.lean` (+`.md`),
-`validation/instance-checks.bc`, and the generated
+`validation/instance-checks.bc`, the generated worksheets
+`validation/{type-checks,specialization-cases,instance-checks}.md` (one
+`## <node>` section per headline result, from the YAMLs — so every `checks:`
+anchor resolves), and the generated
 [`indexes/`](indexes/) (status, constructive-grade, counterexample, hypothesis,
 prerequisite-paths, and [`symbol-index.md`](indexes/symbol-index.md) — a `ptx`
 discovery pass over `results/*.yaml` + `notation.md`, each keyword bucket

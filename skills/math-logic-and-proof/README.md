@@ -13,7 +13,7 @@ primitives that `math-sets-functions-cardinality` cites but does not build:
 - Start: [`SKILL.md`](SKILL.md) · [`scope.md`](scope.md) · [`conventions.md`](conventions.md) · [`objects.md`](objects.md) · [`notation.md`](notation.md)
 - Graph: [`nodes/nodes.tsv`](nodes/nodes.tsv) · [`edges/dependencies.plan`](edges/dependencies.plan) · [`edges/cycles.md`](edges/cycles.md) · [`edges/relations.tsv`](edges/relations.tsv) · [`edges/cross-capsule.md`](edges/cross-capsule.md)
 - Views: [`indexes/`](indexes/) — tsort order, hypothesis, status, constructive-grade, counterexample, prerequisite-paths, reverse-deps, [`symbol-index.md`](indexes/symbol-index.md)
-- Verification: [`validation/`](validation/) — Lean proof-checks, `bc` instance-checks, type-checks
+- Verification: [`validation/`](validation/) — Lean `proof-checks.lean` (+`.md`), `bc` `instance-checks.bc`, and the generated worksheets `type-checks.md` / `specialization-cases.md` / `instance-checks.md`
 
 ## Build
 

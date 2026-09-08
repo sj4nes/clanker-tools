@@ -13,8 +13,8 @@ dependencies: [post_completeness_theorem, derivability, satisfiability, soundnes
 proof:
   technique: 'contrapositive via completeness: if Gamma is unsatisfiable then (completeness) Gamma |- bottom; a derivation of bottom uses only finitely many premises Gamma0 subset Gamma; (soundness) Gamma0 is unsatisfiable. Alternative direct proofs: Koenig''s lemma on the binary tree of partial assignments, or an ultrafilter / Tychonoff argument on 2^Atom.'
   derives_from: post_completeness_theorem
-  lean_status: partial
-  lean_ref: 'validation/proof-checks.lean -- via the completeness proof for countable atom sets; the Koenig-lemma route sketched.'
+  lean_status: cited
+  lean_ref: 'inherits the status of propositional completeness (cited). validation/proof-checks.lean proves soundness; the Koenig-lemma route is the more Lean-tractable one for a countable atom set and is not yet formalised.'
 uses_choice: false
 constructive: false
 constructive_grade: needs_full_classical
