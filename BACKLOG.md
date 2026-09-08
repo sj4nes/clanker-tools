@@ -225,10 +225,12 @@ disciplined workflow for inference on data *already collected*. Will cite
       unadjusted-vs-Bonferroni, Rao–Blackwell variance drop, normal-variance MLE
       bias. Every theorem cited to a `math-statistics` node. Mirrors the
       `design-of-experiments` verification pattern.
-- [ ] **statistics:** `references/` split (regime deep-dive, estimator choice,
-      interval methods, testing + multiplicity, model checking, Bayesian track) —
-      SKILL currently inlines the method-selection table and links no
-      `references/` files yet.
+- [x] **statistics:** (2026-09-08) `references/` split — six files
+      (`regime-and-assumptions`, `estimators-and-optimality`, `interval-estimation`,
+      `hypothesis-testing-and-multiplicity`, `model-checking`, `bayesian-track`),
+      each cited to `math-statistics` nodes; SKILL.md gains a "References"
+      section and per-step links. The at-a-glance tables stay inline (matches
+      `design-of-experiments`).
 
 ### bayes-bridge  (sidebar — planned, needs both endpoints)
 

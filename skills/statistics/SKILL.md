@@ -240,6 +240,7 @@ Source: [`indexes/regime-index.md`](../math-statistics/indexes/regime-index.md).
    **checkable** (distributional shape, variance structure, functional form) or
    **untestable** (missingness mechanism, no unmeasured confounding, the model
    is correctly specified).
+   [`references/regime-and-assumptions.md`](references/regime-and-assumptions.md).
 4. **Choose the estimator and defend it.** Method of moments
    (`method_of_moments`), maximum likelihood (`maximum_likelihood_estimator`,
    `mle_score_equation`, `mle_invariance`), an M-estimator (`m_estimator`), a
@@ -250,14 +251,17 @@ Source: [`indexes/regime-index.md`](../math-statistics/indexes/regime-index.md).
    Rao–Blackwell / Lehmann–Scheffé improvement to the `umvue`. Compare
    candidates on `mean_squared_error` or the decision-relevant
    `risk_function`, not on unbiasedness. Tag the regime.
+   [`references/estimators-and-optimality.md`](references/estimators-and-optimality.md).
 5. **Quantify uncertainty and name the regime.** Use an exact pivot if the
    model provides one (`pivot_method` → the t, χ², F intervals of the Gaussian
    core). Otherwise an asymptotic interval (`large_sample_wald_interval`,
    `delta_method_standard_error` for a transformed parameter, or a
-   profile-likelihood / `likelihood_ratio_interval`), stating that coverage is
+   or a profile-likelihood interval from inverting `likelihood_ratio_test`),
+   stating that coverage is
    `n → ∞`. Otherwise a distribution-free interval (`bootstrap` — note its
    failure modes — or a `dvoretzky_kiefer_wolfowitz` band). Every interval ships
    with its regime label and its nominal level.
+   [`references/interval-estimation.md`](references/interval-estimation.md).
 6. **Test only pre-specified hypotheses.** State `null_hypothesis` and
    `alternative_hypothesis`, `size_of_test`, and the `power_function` at the
    minimum meaningful effect. Pick the test from optimality theory
@@ -268,6 +272,7 @@ Source: [`indexes/regime-index.md`](../math-statistics/indexes/regime-index.md).
    `benjamini_hochberg_fdr` for FDR) and report both adjusted and unadjusted.
    Anything not pre-specified is labelled exploratory and needs a confirmatory
    follow-up.
+   [`references/hypothesis-testing-and-multiplicity.md`](references/hypothesis-testing-and-multiplicity.md).
 7. **Check the model.** Residual plots and, for a distributional fit,
    `pearson_chi_squared_gof` (cited limiting χ², so watch small expected
    counts). Influence and leverage for a regression. Re-fit under weaker
@@ -275,12 +280,14 @@ Source: [`indexes/regime-index.md`](../math-statistics/indexes/regime-index.md).
    parametric interval for a `bootstrap` one — and report whether the
    conclusion moves. A conclusion that survives only under the strongest
    assumption set is a fragile conclusion.
+   [`references/model-checking.md`](references/model-checking.md).
 8. **Bayesian track, if a prior is in play.** State and justify the prior; use
    `conjugate_prior` structure where available; compute or approximate the
    posterior; summarise with `posterior_mean_rule` / `posterior_median_rule`
    and a `credible_interval`; run a prior-sensitivity analysis; note the
    `bernstein_von_mises` caveat that frequentist agreement is a large-sample
    property.
+   [`references/bayesian-track.md`](references/bayesian-track.md).
 9. **Report with limits.** The estimand; the estimate; the interval **with its
    regime and level**; the assumptions and which are untestable; the model
    checks and the robustness comparison; the multiplicity handling; the
@@ -300,7 +307,7 @@ Source: [`indexes/regime-index.md`](../math-statistics/indexes/regime-index.md).
 | A proportion | binary, moderate `n` | score (Wilson) interval, **not** Wald | `wald_interval` (+ its counterexample) | asymptotic |
 | A transformed parameter (log-odds, ratio) | any | delta-method SE | `delta_method_standard_error` | asymptotic |
 | A parametric model's parameter | likelihood available, regularity holds | MLE + observed-information interval | `maximum_likelihood_estimator`, `mle_asymptotic_normality` | asymptotic |
-| Same, small `n` or boundary | — | profile-likelihood interval; check finite-sample bias | `likelihood_ratio_interval`, `wilks_theorem` | asymptotic |
+| Same, small `n` or boundary | — | profile-likelihood interval; check finite-sample bias | `likelihood_ratio_test`, `wilks_theorem` | asymptotic |
 | Best unbiased estimator | complete sufficient statistic exists | Rao–Blackwell then Lehmann–Scheffé | `rao_blackwell_theorem`, `lehmann_scheffe_theorem`, `umvue` | exact |
 | A CDF or a quantile | any continuous sample | ECDF + DKW band; sample quantile | `empirical_cdf`, `dvoretzky_kiefer_wolfowitz`, `sample_quantile` | distribution-free |
 | A smooth functional, no model | moderate `n`, not at a boundary | bootstrap interval | `bootstrap`, `bootstrap_consistency` | distribution-free |
@@ -347,6 +354,34 @@ Source: [`indexes/regime-index.md`](../math-statistics/indexes/regime-index.md).
   depends on the outcome.
 - A regression's exact t / F tests are being reported when the residuals are
   clearly non-normal or heteroscedastic and no robust alternative was checked.
+
+## References
+
+- [`references/regime-and-assumptions.md`](references/regime-and-assumptions.md)
+  — the four regimes in depth, the six regularity conditions with their
+  canonical failures, and the data-provenance audit (sampling, selection,
+  missingness mechanism, clustering and weights).
+- [`references/estimators-and-optimality.md`](references/estimators-and-optimality.md)
+  — method of moments / MLE / M-estimators / Bayes / plug-in; MSE over
+  unbiasedness; the Cramér–Rao bound and its exponential-family attainment;
+  sufficiency, Rao–Blackwell, Lehmann–Scheffé, the UMVUE recipe; the sandwich
+  variance.
+- [`references/interval-estimation.md`](references/interval-estimation.md) — the
+  test/CI duality; the exact Gaussian intervals; Wald / score / profile-likelihood
+  / delta method; the bootstrap and its failure modes; the DKW band and exact
+  quantile intervals.
+- [`references/hypothesis-testing-and-multiplicity.md`](references/hypothesis-testing-and-multiplicity.md)
+  — size / level / power; Neyman–Pearson, Karlin–Rubin, the LRT with Wilks, the
+  Wald / score / LRT trio; the p-value and its uniform-null property;
+  equivalence testing; FWER (Bonferroni, Holm, Šidák) vs FDR (Benjamini–Hochberg).
+- [`references/model-checking.md`](references/model-checking.md) — diagnostics
+  by assumption, the regression assumption ladder (Gauss–Markov vs the exact
+  t / F tests), and the mandatory robustness comparison.
+- [`references/bayesian-track.md`](references/bayesian-track.md) — prior
+  specification and sensitivity, the conjugacy table, posterior summaries,
+  credible vs confidence, the Bernstein–von Mises caveat, and the
+  decision-theory scaffold (loss, risk, admissibility, minimax, Bayes risk,
+  complete class).
 
 ## Templates
 
