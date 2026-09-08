@@ -1,0 +1,75 @@
+/* Exact-arithmetic checks for the `hypergraph-reasoning` skill.
+ * Run:  bc -lq skills/hypergraph-reasoning/verification/checks.bc
+ *
+ * bc truncates -- it does not round. scale is set explicitly below.
+ * Lowercase identifiers only: no `_`, no single uppercase letters.
+ * See docs/verifying-skills.md.
+ *
+ * Backs two SKILL principles:
+ *   - retrieval ranking score with the structural-fit term
+ *     (references/retrieval-and-reasoning.md): a role-complete edge must
+ *     outrank a lexically-closer role-poor edge.
+ *   - precondition conjunction (references/planning-and-governance.md):
+ *     an action is Allowed only when every conjunct holds; the naive
+ *     single-conjunct check wrongly admits it.
+ */
+scale = 12
+
+/* --- 1. retrieval score: score = a*rr + b*aa + g*cc + d*tt + e*ss --- */
+a = 0.40   /* query relevance     */
+b = 0.15   /* source authority    */
+g = 0.15   /* edge confidence     */
+d = 0.10   /* temporal overlap    */
+e = 0.20   /* structural fit      */
+
+/* edge x: an Event edge, lexically very close, but missing approver/scope/budget roles */
+rrx = 0.90
+aax = 0.60
+ccx = 0.70
+ttx = 0.80
+ssx = 0.10
+scorex = a*rrx + b*aax + g*ccx + d*ttx + e*ssx
+
+/* edge y: a Decision edge, lower text similarity, but role-complete for an
+   authorization question (approver + scope + budget present) */
+rry = 0.55
+aay = 0.85
+ccy = 0.80
+tty = 0.80
+ssy = 0.95
+scorey = a*rry + b*aay + g*ccy + d*tty + e*ssy
+
+print "1. retrieval score\n"
+print "   score(event, role-poor)  = ", scorex, "\n"
+print "   score(decision, role-cpl)= ", scorey, "\n"
+if (scorey > scorex) print "   PASS: role-complete edge outranks lexically-closer role-poor edge\n"
+if (scorey <= scorex) print "   FAIL\n"
+
+/* contrast: text-similarity-only ranking picks the wrong edge */
+print "   (text-only: ", rrx, " vs ", rry, " -> would wrongly pick the Event edge)\n"
+
+/* --- 2. precondition conjunction --- */
+/* DeployAllowed = testspass & securityok & windowopen & permission & noincident */
+testspass  = 1
+securityok = 1
+windowopen = 0    /* Wednesday 18:00, window is Tue/Thu 10-16 */
+permission = 1
+noincident = 1
+
+allowed = testspass * securityok * windowopen * permission * noincident
+naive   = testspass    /* "release note says 4.2 is ready" */
+
+print "\n2. precondition conjunction\n"
+print "   Allowed (all 5 conjuncts) = ", allowed, "  (want 0: window closed)\n"
+print "   naive (tests-pass only)   = ", naive, "  (wrongly admits)\n"
+if (allowed == 0 && naive == 1) print "   PASS: conjunction blocks, single-conjunct check does not\n"
+if (allowed != 0 || naive != 1) print "   FAIL\n"
+
+/* all conjuncts true -> allowed */
+windowopen = 1
+allowed2 = testspass * securityok * windowopen * permission * noincident
+print "   with window open: Allowed = ", allowed2, "  (want 1)\n"
+if (allowed2 == 1) print "   PASS: conjunction admits when every conjunct holds\n"
+if (allowed2 != 1) print "   FAIL\n"
+
+quit
