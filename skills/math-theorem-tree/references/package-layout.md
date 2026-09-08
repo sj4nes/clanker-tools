@@ -269,6 +269,14 @@ comm -23 build/node-ids.txt build/edge-node-ids.txt > build/isolated-nodes.txt
 echo "build-tree: ok ($(wc -l < indexes/tsort-order.txt) ordered nodes)"
 ```
 
+The two scripts above are identical across capsules, so the shipped capsules in
+this repo carry a **two-line shim** at `validation/graph-check.sh` and
+`build/build-tree.sh` that `exec`s a shared copy in
+`skills/math-theorem-tree/lib/`. The listings here are the canonical source for
+that copy — a new stand-alone capsule can inline them instead. The shared
+`build-tree.sh` also writes `build/node-deps.txt` (per-node incoming-edge list)
+for `gen-results.py` / `check-consistency.py`.
+
 Isolated/root nodes are merged into presentation views by a controlled append —
 never by adding a fake prerequisite edge to force them into `tsort` output. A
 hypothesis or axiom node showing up isolated usually means a real missing edge —

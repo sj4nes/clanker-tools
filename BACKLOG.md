@@ -393,10 +393,20 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
 
 ## Cross-cutting
 
-- [ ] **verification harnesses:** every methodology skill's `verification/` re-solves
-      the same BSD-vs-GNU / `bc`-flags / Python-stdlib portability problem. Consider a
-      shared `templates/verification/` harness or a short `docs/verifying-skills.md`
-      capturing the fixes already discovered (see the Verification table in the README).
+- [x] **verification harnesses:** `docs/verifying-skills.md` written — the shared
+      `verification/` contract (run.sh shape, the "re-solve a known-answer case
+      with the skill's own workflow + negative-contrast guardrail" bar) plus the
+      `bc` / Python / `tsort` / `lean` / `upmd` / `ptx` portability rules distilled
+      from the 16 README Verification rows. Skeletons in `templates/verification/`
+      (`run.sh`, `checks.bc`, `README.md`). README Verification section links both.
+      (2026-09-08)
+- [x] **capsule build dedup:** hoisted the identical `validation/graph-check.sh`
+      + `build/build-tree.sh` (canonical variants: the comment-stripping
+      graph-check from `math-logic-and-proof`, the `node-deps.txt` build-tree
+      from `math-statistics`) into `skills/math-theorem-tree/lib/`. All 6 math
+      capsules now carry a two-line `exec` shim; `build/all.sh` green for each.
+      `references/package-layout.md` notes the shim/canonical split.
+      (2026-09-08)
 
 ---
 

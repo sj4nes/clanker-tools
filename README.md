@@ -107,6 +107,12 @@ The runnable examples were exercised on macOS (BSD userland: `ed`, `tsort`,
 `csplit`) with GNU `bc` 7.x, GNU `ptx` 9.11, `tla` 0.6.11, and Lean 4.33.1. Every
 skill has now been run against its real tool. Findings folded back into the skills:
 
+[`docs/verifying-skills.md`](docs/verifying-skills.md) is the shared contract for
+a skill's `verification/` directory — the `run.sh` shape, the "re-solve a
+known-answer case with the skill's own workflow" bar, and the `bc` / Python /
+`tsort` / `lean` / `upmd` portability rules that each row below rediscovered
+once. Skeletons in [`templates/verification/`](templates/verification/).
+
 | Skill | Status | Notes |
 |---|---|---|
 | `ed` | verified | All `SKILL.md` and `references/` examples run as written on BSD `ed`. |

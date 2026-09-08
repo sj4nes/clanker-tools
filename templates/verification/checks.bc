@@ -1,0 +1,24 @@
+/* Exact-arithmetic checks for the `<SKILL>` skill.
+ * Run:  bc -lq skills/<SKILL>/verification/checks.bc   (needs -l for l(), e())
+ *
+ * bc truncates -- it does not round. scale is set explicitly below.
+ * Lowercase identifiers only: no `_`, no single uppercase letters
+ * (`L`, `Pr`, `dim_sum` all error on bc 7.x). Sink bare define() calls into
+ * an assignment or they print a stray 0. See docs/verifying-skills.md.
+ */
+scale = 12
+
+/* --- 1. <what this backs: SKILL principle / workflow step / capsule node> --- */
+n = 10
+a = 0.05
+
+result = 1 - (1 - a)^n
+print "example bound: ", result, "  (want <= ", a*n, ")\n"
+
+/* integer section: -l made scale=20, so `%` is fractional -- drop to scale 0 */
+scale = 0
+r = 17 - 5*(17/5)
+scale = 12
+print "17 mod 5 = ", r, "  (want 2)\n"
+
+quit
