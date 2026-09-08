@@ -5,7 +5,7 @@ display: '$\mathbb{Q} = (\mathbb{Z}\times\mathbb{Z}^*)/\sim$, where $(a,b)\sim(c
 parseable: 'Q = (Z x Z*) / {(a,b) ~ (c,d) iff a*d = b*c}'
 symbols:
   '(a,b)': { meaning: 'a pair, b != 0', type: 'element of Z x Z*' }
-  '[(a,b)]': { meaning: its class, a rational, type: rat }
+  '[(a,b)]': { meaning: 'its class, a rational', type: rat }
 type_check_status: well_formed
 type_check_note: >-
   the second coordinate ranges over Z* = Z \ {0} (rule 8). ~_Q is an equivalence

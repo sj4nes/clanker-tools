@@ -281,10 +281,14 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       `results/cantor_diagonal_argument.yaml` had unquoted `[0,1]` inside a flow
       mapping (`type: real in [0,1]`). Quoted it. (2026-09-07, surfaced building
       the √2 tutorial)
-- [ ] **math-number-systems:** the other 14 `results/*.yaml` parse, but audit
-      for the same class of flow-scalar bug elsewhere (`[`, `(`, `{` unquoted in
-      `{ ... }` values); this capsule predates the `gen-results.py` emitter that
-      quotes automatically.
+- [x] **math-number-systems:** audited the other 14 `results/*.yaml` for the same
+      flow-scalar bug class. Found 3 more — an **unquoted comma** inside a `{ ... }`
+      symbol value split the scalar into a spurious null key, silently truncating
+      `meaning`: `integer.yaml` (`its equivalence class, an integer` → key
+      `an integer: null`), `rational_number.yaml` (`its class, a rational`),
+      `lub_property.yaml` (`a set of reals, i.e. a set of cuts`). Quoted all three
+      `meaning`/`type` values; `sh build/all.sh` green. Node pages are
+      hand-authored and were unaffected. (2026-09-08)
 - [ ] **math-number-systems:** `tutorial/building-the-number.md` shipped
       (2026-09-07) — consider a `bc`/`lean` `## In the wild` `app_` block for
       `sqrt2_irrational` (the 2-adic valuation deciding rationality of roots).

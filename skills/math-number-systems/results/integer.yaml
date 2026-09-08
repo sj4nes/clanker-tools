@@ -4,8 +4,8 @@ status_label: constructive_result
 display: '$\mathbb{Z} = (\mathbb{N}\times\mathbb{N})/\sim$, where $(a,b)\sim(c,d)$ iff $a+d=b+c$. The class $[(a,b)]$ represents "$a-b$".'
 parseable: 'Z = (N x N) / {(a,b) ~ (c,d) iff a + d = b + c}'
 symbols:
-  '(a,b)': { meaning: a pair of naturals, type: element of 'N x N' }
-  '[(a,b)]': { meaning: its equivalence class, an integer, type: int }
+  '(a,b)': { meaning: 'a pair of naturals', type: 'element of N x N' }
+  '[(a,b)]': { meaning: 'its equivalence class, an integer', type: int }
 type_check_status: well_formed
 type_check_note: >-
   the relation is stated with + only (subtraction does not exist yet). It is an

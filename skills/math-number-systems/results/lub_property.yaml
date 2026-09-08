@@ -4,7 +4,7 @@ status_label: constructive_result
 display: 'Every nonempty $S\subseteq\mathbb{R}$ that is bounded above has a supremum in $\mathbb{R}$, namely $\sup S = \bigcup_{A\in S} A$.'
 parseable: 'nonempty(S) and boundedAbove(S) -> isLUB(union S, S)'
 symbols:
-  S: { meaning: a set of reals, i.e. a set of cuts, type: subset of R }
+  S: { meaning: 'a set of reals, i.e. a set of cuts', type: 'subset of R' }
   'union S': { meaning: the union of all the cuts in S, type: cut (= a real) }
 type_check_status: well_formed
 type_check_note: >-
