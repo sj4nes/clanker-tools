@@ -37,7 +37,7 @@ related:
   strengthens: godel_incompleteness_first
   historically_precedes: 'Loeb''s theorem, provability logic (GL)'
 sources: [smith_godel_2e, bbj_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#godel_incompleteness_second
   specialization: validation/specialization-cases.md#godel_incompleteness_second

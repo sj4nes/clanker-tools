@@ -34,7 +34,7 @@ related:
   enables: 'recursion_on_wff, structural_induction_wff, and through them every semantic and proof-theoretic node'
   mentioned_alternative: 'Polish notation, de Bruijn indices'
 sources: [enderton_logic_2e, vandalen_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#wff_unique_readability
   specialization: validation/specialization-cases.md#wff_unique_readability

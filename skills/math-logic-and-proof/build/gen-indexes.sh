@@ -14,6 +14,11 @@ out=indexes/status-index.md
   echo
   awk -F'\t' 'NR>1{c[$2]++} END{for(t in c) printf "- %-22s %d\n", t, c[t]}' "$T" | sort
   echo
+  echo "## Node registry by review \`status\`"
+  echo
+  awk -F'\t' 'NR>1{c[$5]++} END{for(s in c) printf "- %-22s %d\n", s, c[s]}' "$T" | sort
+  echo "  (\`active\` = primitives + axioms; \`reviewed\` = step-7 audited, \`build/audit-pages.py\`)"
+  echo
   echo "## Headline result YAMLs by \`status_label\`"
   echo
   for f in results/*.yaml; do

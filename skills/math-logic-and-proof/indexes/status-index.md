@@ -20,6 +20,12 @@
 - regime                 1
 - theorem                21
 
+## Node registry by review `status`
+
+- active                 8
+- reviewed               122
+  (`active` = primitives + axioms; `reviewed` = step-7 audited, `build/audit-pages.py`)
+
 ## Headline result YAMLs by `status_label`
 
 

@@ -40,7 +40,7 @@ related:
   implies: [compactness_fol, lowenheim_skolem_down]
   equivalent_to: 'the model-existence (Henkin) form'
 sources: [enderton_logic_2e, vandalen_5e, chiswell_hodges, mathlib_firstorder]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#godel_completeness_theorem
   specialization: validation/specialization-cases.md#godel_completeness_theorem

@@ -39,7 +39,7 @@ related:
   generalised_by: 'transfinite_induction (math-sets-functions-cardinality)'
   used_by: 'every proof by induction in the whole capsule stack'
 sources: [velleman_3e, hammack_bop, enderton_logic_2e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#induction_equivalence
   specialization: validation/specialization-cases.md#induction_equivalence

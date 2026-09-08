@@ -44,7 +44,7 @@ related:
   shares_machinery_with: tarski_undefinability
   historically_precedes: 'Turing 1936, Rosser 1936, Chaitin'
 sources: [smith_godel_2e, bbj_5e, enderton_logic_2e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#godel_incompleteness_first
   specialization: validation/specialization-cases.md#godel_incompleteness_first

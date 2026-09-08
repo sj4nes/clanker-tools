@@ -264,11 +264,15 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       compactness, Löwenheim, Gödel, Tarski, …). Wired into `build/all.sh`;
       SKILL.md + README point at it. This was the last math capsule without a
       symbol index. `sh build/all.sh` green. (2026-09-08)
-- [ ] **math-logic-and-proof:** Promote `draft` nodes to `reviewed` — most of the
-      130 registry rows are still `status: draft`. Walk the math-theorem-tree
-      step-7 validations per node (type check, ≥1 specialisation, ≥1
-      hypothesis-dropped counterexample, Lean/bc cross-check) and bump `status` in
-      `nodes/nodes.tsv` + `results/*.yaml` as each passes.  (`nodes/nodes.tsv`)
+- [x] **math-logic-and-proof:** Promote `draft` nodes to `reviewed` — added
+      `build/audit-pages.py` (wired into `build/all.sh`): checks every node page
+      for the step-7 elements (typed statement, type-check status, ≥1
+      specialisation, ≥1 hypothesis-dropped counterexample/limits, Lean status,
+      sources) — all 130 pass. Bumped `nodes/nodes.tsv` to the sibling-capsule
+      vocab: **8 `active`** (6 syntax primitives + `first_order_logic_with_equality`
+      + `equality_axioms`), **122 `reviewed`**, 0 `draft`; the 21 `results/*.yaml`
+      likewise. `gen-indexes.sh` now emits a "by review status" block. README +
+      SKILL "draft" wording dropped. `sh build/all.sh` green. (2026-09-08)
 - [ ] **math-logic-and-proof:** Formalise the `Deriv ↔ H` round trip (currently
       `nd_hilbert_equivalence` is `lean_status: partial` — only the deduction
       theorem + `H.self` are checked). Needs a weakening lemma for `Deriv` and

@@ -53,8 +53,10 @@ relation — and linearised in neither capsule's `tsort` graph.
 
 ## Status
 
-**Draft, fully built and self-checking.** Complete: foundational docs; 130-node
-registry; acyclic evidence-backed dependency graph; **21 headline result YAMLs**;
+**Release 0.1 — fully built and self-checking.** All 130 registry rows are
+`reviewed` (122) or `active` (8: the 6 syntax primitives + 2 first-order-logic
+axiom nodes); every node page is step-7 audited by `build/audit-pages.py`.
+Complete: foundational docs; 130-node registry; acyclic evidence-backed dependency graph; **21 headline result YAMLs**;
 **a detail page for every one of the 130 nodes** (`nodes/*.md`) — each with
 typed symbols, a well-formedness check, its constructive grade and Lean status,
 specialization / boundary cases, hypothesis-dropped counterexamples, common

@@ -39,7 +39,7 @@ related:
   used_by: [model, validity, semantic_consequence_fol, coincidence_lemma, substitution_lemma_semantic, quantifier_negation, soundness_fol, truth_lemma_fol]
   named_for: 'Tarski 1933/1936 (the definition of truth in formalised languages)'
 sources: [enderton_logic_2e, chiswell_hodges, vandalen_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#tarski_satisfaction
   specialization: validation/specialization-cases.md#tarski_satisfaction

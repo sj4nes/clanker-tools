@@ -36,7 +36,7 @@ related:
   equivalent_to: 'the ->I rule of nd_derivation'
   enables: 'nd_hilbert_equivalence, derived_rules, most Hilbert-style completeness proofs'
 sources: [mendelson_6e, enderton_logic_2e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#deduction_theorem
   specialization: validation/specialization-cases.md#deduction_theorem

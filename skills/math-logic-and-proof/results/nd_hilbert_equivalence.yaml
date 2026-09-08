@@ -38,7 +38,7 @@ related:
   enables: 'every downstream |- statement read calculus-free: soundness_prop, post_completeness_theorem, derived_rules, derivability_fol'
   mentioned_alternative: 'sequent calculus, semantic tableaux'
 sources: [mendelson_6e, vandalen_5e, enderton_logic_2e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#nd_hilbert_equivalence
   specialization: validation/specialization-cases.md#nd_hilbert_equivalence

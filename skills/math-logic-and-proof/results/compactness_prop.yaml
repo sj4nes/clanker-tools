@@ -36,7 +36,7 @@ related:
   generalised_by: compactness_fol
   equivalent_to: 'Boolean prime ideal theorem (for arbitrary atom sets)'
 sources: [enderton_logic_2e, chiswell_hodges]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#compactness_prop
   specialization: validation/specialization-cases.md#compactness_prop

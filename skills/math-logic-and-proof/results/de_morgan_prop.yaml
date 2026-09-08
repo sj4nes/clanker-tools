@@ -33,7 +33,7 @@ related:
   dual_of: de_morgan_prop
   used_by: 'negation_normal_form, conjunctive_normal_form, sheffer_stroke, proof_by_cases, quantifier_negation'
 sources: [enderton_logic_2e, vandalen_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#de_morgan_prop
   specialization: validation/specialization-cases.md#de_morgan_prop

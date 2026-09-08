@@ -36,7 +36,7 @@ related:
   generalised_by: godel_completeness_theorem
   implies: compactness_prop
 sources: [enderton_logic_2e, vandalen_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#post_completeness_theorem
   specialization: validation/specialization-cases.md#post_completeness_theorem

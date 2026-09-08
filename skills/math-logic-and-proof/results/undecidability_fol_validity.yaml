@@ -37,7 +37,7 @@ related:
   uses: [godel_completeness_theorem, halting_problem]
   historically_precedes: 'consequences in group theory (word problem), Diophantine equations (Hilbert 10th, MRDP)'
 sources: [bbj_5e, enderton_logic_2e, smith_godel_2e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#undecidability_fol_validity
   specialization: validation/specialization-cases.md#undecidability_fol_validity

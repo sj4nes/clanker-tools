@@ -36,7 +36,7 @@ related:
   generalises: compactness_prop
   used_by: [lowenheim_skolem_up, non_categoricity, non_finite_axiomatizability]
 sources: [enderton_logic_2e, chiswell_hodges, vandalen_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#compactness_fol
   specialization: validation/specialization-cases.md#compactness_fol

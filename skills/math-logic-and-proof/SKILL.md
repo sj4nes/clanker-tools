@@ -151,7 +151,7 @@ past the kernel. A Mathlib release would connect completeness to
 grade split, NAND reconstruction + the `2^(2^2)=16` count, `∀x∃y` vs `∃y∀x` on
 `y ≡ x+1 (mod 4)`, the capture bug, well-ordering as least-element search.
 
-## Status (Release 0.1, draft)
+## Status (Release 0.1)
 
 Complete: [`scope.md`](scope.md), [`conventions.md`](conventions.md),
 [`objects.md`](objects.md), [`notation.md`](notation.md), the 130-node registry
@@ -168,6 +168,11 @@ machine-checked against the graph),
 [`indexes/`](indexes/) (status, constructive-grade, counterexample, hypothesis,
 prerequisite-paths, and [`symbol-index.md`](indexes/symbol-index.md) — a `ptx`
 discovery pass over `results/*.yaml` + `notation.md`, each keyword bucket
-`rg`-confirmed). `sh build/all.sh` is green end to end.
-To do: a Mathlib-backed completeness formalisation; promote more `draft` nodes
-to `reviewed`.
+`rg`-confirmed). `sh build/all.sh` is green end to end. All 130 registry rows
+are `reviewed` (122) or `active` (8 — the 6 syntax primitives plus the two
+first-order-logic axiom nodes); each node's detail page carries the
+math-theorem-tree step-7 elements (typed statement, type-check status, ≥1
+specialization, ≥1 hypothesis-dropped counterexample, Lean/`bc` status,
+constructive grade, sources), audited by `build/audit-pages.py`.
+To do: a Mathlib-backed completeness formalisation; the `Deriv ↔ H` round trip
+(`nd_hilbert_equivalence` is `lean_status: partial`).

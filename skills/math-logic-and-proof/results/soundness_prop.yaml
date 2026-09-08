@@ -35,7 +35,7 @@ related:
   used_by: 'post_completeness_theorem, compactness_prop, and the "unprovability" arguments in godel_incompleteness (a sentence with a countermodel is not a theorem)'
   first_order_twin: soundness_fol
 sources: [enderton_logic_2e, vandalen_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#soundness_prop
   specialization: validation/specialization-cases.md#soundness_prop

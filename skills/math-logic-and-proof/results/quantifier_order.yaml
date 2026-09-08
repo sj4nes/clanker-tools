@@ -37,7 +37,7 @@ related:
   strengthens: 'exists y forall x is the "uniform" form'
   used_by: 'the uniform_convergence and uniform_continuity nodes of math-real-analysis; this is the quantifier_order primitive that capsule cites'
 sources: [enderton_logic_2e, velleman_3e, vandalen_5e]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#quantifier_order
   specialization: validation/specialization-cases.md#quantifier_order

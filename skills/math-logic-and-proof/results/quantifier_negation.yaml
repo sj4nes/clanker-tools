@@ -38,7 +38,7 @@ related:
   generalises: de_morgan_prop
   used_by: 'every counterexample node in math-real-analysis, math-number-systems, math-sets-functions-cardinality (each "not continuous/compact/complete/countable"); this is the quantifier_negation primitive those capsules cite (edges/cross-capsule.md)'
 sources: [enderton_logic_2e, vandalen_5e, chiswell_hodges]
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#quantifier_negation
   specialization: validation/specialization-cases.md#quantifier_negation
