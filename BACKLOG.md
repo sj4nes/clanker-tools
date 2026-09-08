@@ -257,11 +257,13 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       `post_completeness_theorem` for a countable atom set is feasible in plain
       Lean (Lindenbaum by `Nat`-recursion + LEM, truth lemma by structural
       induction — no Mathlib).  (`validation/proof-checks.lean`, `validation/proof-checks.md`)
-- [ ] **math-logic-and-proof:** `ptx` symbol / KWIC index — a keyword-in-context
-      index over the corpus so every result mentioning `sup`, `epsilon`,
-      `sigma_algebra`, … is findable; confirm every lead with `rg`.  (would live at
-      `indexes/symbol-index.md`; see the sibling
-      `math-sets-functions-cardinality/build/gen-symbol-index.sh`)
+- [x] **math-logic-and-proof:** `ptx` symbol / KWIC index — `build/gen-symbol-index.sh`
+      (adapted from the sibling capsules) does a `ptx -A` discovery pass over
+      `results/*.yaml` + `notation.md` and emits `indexes/symbol-index.md` with
+      27 `rg`-confirmed keyword buckets (tautology, satisfiab, Henkin, Lindenbaum,
+      compactness, Löwenheim, Gödel, Tarski, …). Wired into `build/all.sh`;
+      SKILL.md + README point at it. This was the last math capsule without a
+      symbol index. `sh build/all.sh` green. (2026-09-08)
 - [ ] **math-logic-and-proof:** Promote `draft` nodes to `reviewed` — most of the
       130 registry rows are still `status: draft`. Walk the math-theorem-tree
       step-7 validations per node (type check, ≥1 specialisation, ≥1

@@ -82,7 +82,8 @@ and linearised in neither capsule's `tsort` graph.
 ## How to use this capsule
 
 1. **Find the result** — [`nodes/nodes.tsv`](nodes/nodes.tsv) (full registry);
-   [`indexes/`](indexes/) once built.
+   [`indexes/symbol-index.md`](indexes/symbol-index.md) by notation / keyword;
+   the other [`indexes/`](indexes/) by status, grade, hypothesis, counterexample.
 2. **Read its entry** — [`nodes/<id>.md`](nodes/) (**every one of the 130 nodes
    has a detail page**); [`results/<id>.yaml`](results/) for the 21 headline
    nodes carries the same content as a structured record.
@@ -165,6 +166,8 @@ machine-checked against the graph),
 `validation/proof-checks.lean` (+`.md`),
 `validation/instance-checks.bc`, and the generated
 [`indexes/`](indexes/) (status, constructive-grade, counterexample, hypothesis,
-prerequisite-paths). `sh build/all.sh` is green end to end.
-To do: a Mathlib-backed completeness formalisation; the symbol/KWIC index via
-`ptx`; promote more `draft` nodes to `reviewed`.
+prerequisite-paths, and [`symbol-index.md`](indexes/symbol-index.md) — a `ptx`
+discovery pass over `results/*.yaml` + `notation.md`, each keyword bucket
+`rg`-confirmed). `sh build/all.sh` is green end to end.
+To do: a Mathlib-backed completeness formalisation; promote more `draft` nodes
+to `reviewed`.

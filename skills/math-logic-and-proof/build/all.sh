@@ -7,6 +7,7 @@ sh build/build-tree.sh
 echo
 echo "== discovery views =="
 sh build/gen-indexes.sh
+sh build/gen-symbol-index.sh
 echo
 echo "== Lean proof-core checks =="
 lean validation/proof-checks.lean && echo "lean: ok (exit 0, no sorry)"
