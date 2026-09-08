@@ -310,15 +310,17 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 - [ ] **simulation:** Extend `verification/` beyond the M/M/1 DES case — one
       continuous-time (analytic ODE benchmark) and one Monte Carlo (dependence /
       tail-risk) worked check would cover more of the paradigm table.
-- [ ] **simulation:** Cross-link with `design-of-experiments` — step-9 "design the
-      experiment" could point at `design-of-experiments/references/simulation-doe.md`
-      instead of restating.
+- [x] **simulation:** Cross-link with `design-of-experiments` — step-9 "design the
+      experiment" now points at `design-of-experiments/SKILL.md` +
+      `references/simulation-doe.md` for designed multi-factor comparisons /
+      power / pre-registered analysis, instead of restating. Reciprocal link
+      (DOE step-6 → `simulation`) already existed. (2026-09-08)
 
 ### design-of-experiments
 
-- [ ] **design-of-experiments:** Cross-link with `simulation` — the simulation
-      skill's step-9 "design the experiment" could point at this skill's
-      `references/simulation-doe.md` instead of restating.
+- [x] **design-of-experiments:** Cross-link with `simulation` — done from the
+      `simulation` side (step-9 → `simulation-doe.md`); DOE step-6 →
+      `simulation` link already present. (2026-09-08)
 
 ### visualization-design
 

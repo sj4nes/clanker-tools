@@ -133,7 +133,14 @@ also fails.
    comparison method. Report operationally relevant outcomes (percentile cycle
    time, deadline-miss probability, queue-size percentiles, utilization
    distribution, starvation / blocking, backlog tail risk, cost distribution) —
-   not just mean throughput.
+   not just mean throughput. When the study is a designed comparison across many
+   factors — screening, a factorial or fractional-factorial sweep, a
+   response-surface or robustness design, a formal power / run-count
+   calculation, or a pre-registered analysis plan — use
+   [`design-of-experiments`](../design-of-experiments/SKILL.md) and its
+   [`references/simulation-doe.md`](../design-of-experiments/references/simulation-doe.md)
+   (design factors vs uncertain parameters vs noise; common random numbers as
+   blocking) rather than restating that machinery here.
 10. **Report with limits.** Decision question; main result in plain language;
     model scope and validity domain; scenario definition and assumptions; V&V
     evidence; uncertainty interval or output distribution; key sensitivity
