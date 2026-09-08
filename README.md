@@ -51,6 +51,7 @@ below — skip to the section that interests you.
 | [`ptx`](skills/ptx/SKILL.md) | Building a keyword-in-context index of curated project text for terminology mapping and exact-word discovery, then confirming every lead with `rg`/`grep`. Corpus design, discovery workflow, and command patterns in [`references/`](skills/ptx/references/). |
 | [`csplit`](skills/csplit/SKILL.md) | Splitting text files into context-defined sections (line number, regex boundary, repeated marker) into an isolated directory, with mandatory piece verification and lossless-reconstruction checks. Boundary semantics, format guidance, and a transactional template in [`references/`](skills/csplit/references/). |
 | [`tla-checker`](skills/tla-checker/SKILL.md) | Modelling bounded concurrent/distributed/transactional systems in a TLA+ subset with `tla-checker` — exhaustive state exploration, safety invariants, deadlock and bounded-liveness checks, and counterexample traces as debugging evidence. Analytics/modes and modeling guidance with worked examples in [`references/`](skills/tla-checker/references/). |
+| [`uv`](skills/uv/SKILL.md) | Managing Python interpreters, environments, dependencies, locked projects, one-file scripts, and CLI tools with Astral's `uv` as declarative, convergent commands (`uv sync` / `uv lock` / `uv run`) — no `venv` activation. The project vs pip-compat vs script vs tool decision, command side-effect classes, and gating lockfile regeneration / `uv pip sync` / cache clean / `uv publish`. Command reference and worked agent playbooks in [`references/`](skills/uv/references/); a real-`uv` workflow run in [`verification/`](skills/uv/verification/). |
 | [`lean`](skills/lean/SKILL.md) | Stating, developing, and checking machine-verified proofs with Lean 4 / Lake / Mathlib — clarify claim, formalize definitions, search existing results, prove incrementally, check narrowly, report scope. Distinguishes what the kernel verified from what remains to establish about the real system. Tactic/diagnostic discipline and stateful-modeling examples in [`references/`](skills/lean/references/). |
 
 ### Physics — builder and capsules
@@ -104,7 +105,7 @@ and [`pendulum.md`](skills/physics-newtonian/tutorial/pendulum.md).
 ## Verification
 
 The runnable examples were exercised on macOS (BSD userland: `ed`, `tsort`,
-`csplit`) with GNU `bc` 7.x, GNU `ptx` 9.11, `tla` 0.6.11, and Lean 4.33.1. Every
+`csplit`) with GNU `bc` 7.x, GNU `ptx` 9.11, `tla` 0.6.11, `uv` 0.12.3, and Lean 4.33.1. Every
 skill has now been run against its real tool. Findings folded back into the skills:
 
 [`docs/verifying-skills.md`](docs/verifying-skills.md) is the shared contract for
@@ -116,6 +117,7 @@ once. Skeletons in [`templates/verification/`](templates/verification/).
 | Skill | Status | Notes |
 |---|---|---|
 | `ed` | verified | All `SKILL.md` and `references/` examples run as written on BSD `ed`. |
+| `uv` | verified | `sh verification/run.sh` exercises the prescribed workflow against real `uv 0.12.3` (macOS `/bin/sh`, Python 3.11 / 3.12): `uv init` → `uv add` → `uv lock` → `uv sync --locked` → `uv run` in project mode; `uv add --script` writing a PEP 723 block; `uvx` running `pycowsay` in a throwaway env with the project `uv.lock` byte-identical before/after; `uv run --python 3.11` vs the `.python-version` pin. Negative contrast fires: a lockfile diverging from `pyproject.toml` makes `uv sync --locked` fail, and `uv lock` + re-sync converges. Fold-back: `uv init` derives `requires-python` from the interpreter it is handed, so the run pins the project floor with `uv init --bare --python 3.11`; no correctness fix needed in the skill body. |
 | `bc` | verified, **fixed** | The `x / 1` truncation idiom does **not** truncate on the macOS/FreeBSD `bc`; rounding helpers rewritten to drop to `scale = 0` for the division only. Base-conversion example corrected — after `ibase = 16`, `obase = 10` means base-16 ten, so set `obase` first or use `obase = A`. |
 | `tsort` | verified, **fixed** | BSD `tsort` exits `0` on a cycle (writes `cycle in data` to stderr); cycle detection now checks stderr, not just exit status. |
 | `csplit` | verified, **fixed** | BSD/macOS `csplit` lacks `{*}`, `-b`, `--`, `--suppress-matched`, `-z`, `--version`. Added a GNU-vs-BSD table and a portable numeric-split recipe (`grep -n` → line-number args); transactional template rewritten to run on both. |
