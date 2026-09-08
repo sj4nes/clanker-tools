@@ -13,7 +13,7 @@ finite-support law is a `List (Int × Int)` of (weight, value) pairs.
 |---|---|---|
 | `sq_nonneg'` | `0 ≤ z·z` over ℤ (sign cases) | support lemma |
 | `union_bound` | `P(A)+P(B)−P(A∩B) ≤ P(A)+P(B)` | `boole_inequality`, `measure_monotonicity`, `borel_cantelli_first` |
-| `incl_excl_2`, `incl_excl_3` | 2- and 3-event inclusion–exclusion identities | `inclusion_exclusion`, `finite_additivity`, `complement_rule` |
+| `incl_excl_2`, `incl_excl_3` | 2- and 3-event inclusion–exclusion, **derived** from finite additivity on the 3 (resp. 7) disjoint Venn regions — the alternating-sum identity is the conclusion, not a hypothesis | `inclusion_exclusion`, `finite_additivity`, `complement_rule` |
 | `bayes_denominator` | denominator `= P(A)` via total probability | `bayes_theorem`, `law_of_total_probability`, `multiplication_rule` |
 | `ind_and`, `ind_or`, `ind_compl` | `1_{A∩B}=1_A·1_B`, `1_{A∪B}=1_A+1_B−1_A1_B`, `1_{Aᶜ}=1−1_A` | `indicator_rv` |
 | `wsum_const` | `Σ pᵢ·c = c·Σ pᵢ` (list induction) | `expectation` (E[c]=c), `expectation_monotonicity` |

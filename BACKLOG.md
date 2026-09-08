@@ -93,10 +93,13 @@ floor below (would discharge the 6 cited integration bridges); Release 0.2
 martingales + stochastic processes (the 3 boundary nodes). *(The `upmd` tutorial
 shipped: `tutorial/three-axioms.md`, 2026-09-06.)*
 
-- [ ] **math-probability:** `Prob.incl_excl_2/3` in `validation/proof-checks.lean`
-      are near-vacuous (`h : s = f a b ⊢ s = f a b` — just type-checks). Either
-      strengthen them to a real core or re-point `finite_additivity` /
-      `inclusion_exclusion`'s `lean_ref`. (surfaced building `three-axioms.md`)
+- [x] **math-probability:** `Prob.incl_excl_2/3` in `validation/proof-checks.lean`
+      were near-vacuous (`h : s = f a b ⊢ s = f a b` — just type-checks).
+      Rewritten as genuine derivations: 2- and 3-event inclusion–exclusion now
+      follow (by `omega`) from finite additivity on the 3 / 7 disjoint Venn
+      regions, with the alternating-sum identity as the conclusion, not a
+      hypothesis. `proof-checks.md` table updated; `lean_ref`s still valid.
+      Lean file checks clean (exit 0, no `sorry`/warnings). (2026-09-08)
 - [x] **math-probability:** `Prob.markov_finite` was referenced in
       `proof-checks.lean`'s header + `proof-checks.md` but the theorem body was
       missing (dropped in the 0.1 polish rewrite) — restored the genuine

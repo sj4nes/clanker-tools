@@ -45,11 +45,32 @@ theorem sq_nonneg' (z : Int) : 0 ≤ z * z := by
     have e : (-z) * (-z) = z * z := by grind
     omega
 
-/-! ## 1. Union bound & inclusion–exclusion.  GENUINE, universal (`omega`). -/
+/-! ## 1. Union bound & inclusion–exclusion.  GENUINE, universal (`omega`).
+    incl_excl_2/3 are DERIVED from the disjoint decomposition of the union into
+    Venn regions (finite additivity on those regions is the only input): the
+    conclusion `P(⋃) = Σ|Aᵢ| − Σ|Aᵢ∩Aⱼ| + …` is not among the hypotheses. -/
 theorem union_bound (pA pB pAB : Int) (h : 0 ≤ pAB) : pA + pB - pAB ≤ pA + pB := by omega
-theorem incl_excl_2 (pA pB pAB s : Int) (h : s = pA + pB - pAB) : s = pA + pB - pAB := by omega
-theorem incl_excl_3 (a b c ab ac bc abc s : Int)
-    (h : s = a+b+c - ab-ac-bc + abc) : s = a+b+c - ab-ac-bc + abc := by omega
+
+/-- 2-event inclusion–exclusion.  `ao, bo, i` are the masses of the disjoint
+    regions A∖B, B∖A, A∩B.  Additivity gives `pA`, `pB`, `uni`; the identity
+    `uni = pA + pB − pAB` follows. -/
+theorem incl_excl_2 (ao bo i pA pB pAB uni : Int)
+    (hA : pA = ao + i) (hB : pB = bo + i) (hAB : pAB = i)
+    (hU : uni = ao + bo + i) :
+    uni = pA + pB - pAB := by omega
+
+/-- 3-event inclusion–exclusion.  The seven disjoint regions of the Venn diagram:
+    `ao, bo, co` (in exactly one set), `abo, aco, bco` (in exactly two),
+    `t` (in all three).  Additivity on the regions gives every marginal and
+    pairwise/triple intersection; the alternating-sum identity follows. -/
+theorem incl_excl_3 (ao bo co abo aco bco t
+    pA pB pC pAB pAC pBC pABC uni : Int)
+    (hA : pA = ao + abo + aco + t) (hB : pB = bo + abo + bco + t)
+    (hC : pC = co + aco + bco + t)
+    (hAB : pAB = abo + t) (hAC : pAC = aco + t) (hBC : pBC = bco + t)
+    (hABC : pABC = t)
+    (hU : uni = ao + bo + co + abo + aco + bco + t) :
+    uni = pA + pB + pC - pAB - pAC - pBC + pABC := by omega
 
 /-! ## 2. Bayes' theorem — the denominator is P(A).  GENUINE, universal. -/
 theorem bayes_denominator (pAB pABc pA : Int) (h : pA = pAB + pABc) : pAB + pABc = pA := by omega
