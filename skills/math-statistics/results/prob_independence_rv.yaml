@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:independence_random_variables'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_independence_rv
   specialization: validation/specialization-cases.md#prob_independence_rv

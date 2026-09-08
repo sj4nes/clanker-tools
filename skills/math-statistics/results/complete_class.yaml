@@ -36,7 +36,7 @@ sources:
   - 'ferguson_mathematical_statistics'
   - 'berger_statistical_decision_theory'
   - 'brown_1971'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#complete_class
   specialization: validation/specialization-cases.md#complete_class

@@ -44,7 +44,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'hansen_gmm_1982'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#method_of_moments
   specialization: validation/specialization-cases.md#method_of_moments

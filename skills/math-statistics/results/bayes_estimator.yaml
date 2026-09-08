@@ -43,7 +43,7 @@ related:
 sources:
   - 'berger_statistical_decision_theory'
   - 'robert_bayesian_choice'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#bayes_estimator
   specialization: validation/specialization-cases.md#bayes_estimator

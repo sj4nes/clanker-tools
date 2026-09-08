@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:normal_affine_closure'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_normal_affine_closure
   specialization: validation/specialization-cases.md#prob_normal_affine_closure

@@ -30,7 +30,7 @@ related:
 sources:
   - 'cox_hinkley_theoretical_statistics'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#ancillary_statistic
   specialization: validation/specialization-cases.md#ancillary_statistic

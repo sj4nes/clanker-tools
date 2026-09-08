@@ -28,7 +28,7 @@ related:
   required_by: ['score_function', 'likelihood_ratio_test']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#log_likelihood
   specialization: validation/specialization-cases.md#log_likelihood

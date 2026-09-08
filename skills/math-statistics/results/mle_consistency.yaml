@@ -42,7 +42,7 @@ sources:
   - 'wald_1949'
   - 'van_der_vaart_asymptotic'
   - 'neyman_scott_1948'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#mle_consistency
   specialization: validation/specialization-cases.md#mle_consistency

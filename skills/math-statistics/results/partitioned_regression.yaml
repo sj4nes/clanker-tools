@@ -39,7 +39,7 @@ sources:
   - 'frisch_waugh_1933'
   - 'lovell_1963'
   - 'seber_lee_linear_regression'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#partitioned_regression
   specialization: validation/specialization-cases.md#partitioned_regression

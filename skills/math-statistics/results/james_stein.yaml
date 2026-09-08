@@ -46,7 +46,7 @@ sources:
   - 'james_stein_1961'
   - 'stein_1981'
   - 'efron_large_scale_inference'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#james_stein
   specialization: validation/specialization-cases.md#james_stein

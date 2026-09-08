@@ -37,7 +37,7 @@ related:
   uses: ['score_function']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#mle_score_equation
   specialization: validation/specialization-cases.md#mle_score_equation

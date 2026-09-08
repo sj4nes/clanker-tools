@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:chebyshev_inequality'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_chebyshev_ineq
   specialization: validation/specialization-cases.md#prob_chebyshev_ineq

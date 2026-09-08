@@ -36,7 +36,7 @@ related:
 sources:
   - 'lehmann_casella_tpe'
   - 'brown_exponential_families'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#exponential_family_sufficient_statistic
   specialization: validation/specialization-cases.md#exponential_family_sufficient_statistic

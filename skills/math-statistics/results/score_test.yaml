@@ -43,7 +43,7 @@ related:
 sources:
   - 'rao_1948'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#score_test
   specialization: validation/specialization-cases.md#score_test

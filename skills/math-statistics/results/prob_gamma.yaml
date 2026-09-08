@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:gamma_distribution'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_gamma
   specialization: validation/specialization-cases.md#prob_gamma

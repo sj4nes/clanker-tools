@@ -38,7 +38,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'cochran_1934'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#scaled_sample_variance_chi_squared
   specialization: validation/specialization-cases.md#scaled_sample_variance_chi_squared

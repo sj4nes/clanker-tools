@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:characteristic_function'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_characteristic_function
   specialization: validation/specialization-cases.md#prob_characteristic_function

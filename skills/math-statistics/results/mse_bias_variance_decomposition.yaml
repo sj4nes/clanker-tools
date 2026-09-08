@@ -41,7 +41,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'hastie_tibshirani_friedman_esl'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#mse_bias_variance_decomposition
   specialization: validation/specialization-cases.md#mse_bias_variance_decomposition

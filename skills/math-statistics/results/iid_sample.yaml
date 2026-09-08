@@ -31,7 +31,7 @@ related:
   required_by: ['likelihood_function', 'sample_mean', 'empirical_cdf']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#iid_sample
   specialization: validation/specialization-cases.md#iid_sample

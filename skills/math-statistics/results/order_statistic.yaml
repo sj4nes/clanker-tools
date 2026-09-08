@@ -35,7 +35,7 @@ related:
 sources:
   - 'david_nagaraja_order_statistics'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#order_statistic
   specialization: validation/specialization-cases.md#order_statistic

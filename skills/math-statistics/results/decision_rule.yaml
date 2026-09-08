@@ -30,7 +30,7 @@ related:
 sources:
   - 'berger_statistical_decision_theory'
   - 'lehmann_romano_tsh'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#decision_rule
   specialization: validation/specialization-cases.md#decision_rule

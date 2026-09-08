@@ -1,10 +1,12 @@
-# math-statistics — build in progress
+# math-statistics — Release 0.1
 
 Mathematical statistics as a curated, dependency-ordered knowledge capsule,
 built with the [`math-theorem-tree`](../math-theorem-tree/SKILL.md) method. Sits
-on top of [`math-probability`](../math-probability/SKILL.md).
+on top of [`math-probability`](../math-probability/SKILL.md). See
+**[`SKILL.md`](SKILL.md)** for what the capsule is for, and
+**[`CHANGELOG.md`](CHANGELOG.md)** for the release summary.
 
-## Status: Stages 1-2 complete (graph + all node entries authored)
+## Status: Release 0.1 — all stages complete
 
 | Artifact | State |
 |---|---|
@@ -22,15 +24,21 @@ on top of [`math-probability`](../math-probability/SKILL.md).
 | `indexes/` | done — tsort-order, hypothesis, regime, counterexample, status, symbol (KWIC), prerequisite-paths, reverse-dependencies |
 | `validation/proof-checks.lean` + `.md` | **done (Stage 3)** — Lean 4.33, no Mathlib, exit 0: 26 genuine universal cores + 8 `decide` instance checks; `lean_status` 38 core / 6 instance / 103 cited |
 | `validation/instance-checks.bc` | **done (Stage 4)** — `bc -l`, exit 0, 8 sections (CRLB at named models, n−1 divisor, t/χ²/F, Neyman–Pearson threshold, Rao–Blackwell drop, OLS 3-point, Wald coverage, BH step-up) |
-| `SKILL.md` | written last, once the release is `reviewed` |
+| `SKILL.md`, `CHANGELOG.md` | **done (Stage 5)** — 201 nodes `reviewed`, 5 boundary nodes kept `draft` |
 
 Regenerate all node pages + YAMLs after editing a spec:
-`python3 build/gen-results.py`  (then `sh validation/graph-check.sh`).
+`python3 build/gen-results.py`  (then `sh build/all.sh`). Node status is
+authoritative in `nodes/nodes.tsv`; the YAML `status:` field mirrors it.
 
-## Remaining stages
+## Release 0.2 territory
 
-5. Discovery views polish; write `SKILL.md`; promote node statuses `draft`→`reviewed`
-   where validation passes; changelog; publish Release 0.1.
+- A `math-linear-algebra` capsule below this one (would discharge
+  `linear_algebra_background`).
+- The LAN / Hájek / LAM machinery proved rather than stated (the 5 `draft`
+  boundary nodes); martingale and sequential methods; a deeper empirical-process
+  layer; GLMs beyond the exponential-family + MLE mention.
+- The `statistics` analysis-methodology skill (sibling of `design-of-experiments`),
+  citing this capsule.
 
 ---
 

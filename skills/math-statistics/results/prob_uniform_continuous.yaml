@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:continuous_uniform_distribution'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_uniform_continuous
   specialization: validation/specialization-cases.md#prob_uniform_continuous

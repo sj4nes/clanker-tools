@@ -41,7 +41,7 @@ related:
 sources:
   - 'seber_lee_linear_regression'
   - 'rao_linear_statistical_inference'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#ols_distribution_under_normal_errors
   specialization: validation/specialization-cases.md#ols_distribution_under_normal_errors

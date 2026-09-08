@@ -32,7 +32,7 @@ related:
 sources:
   - 'lehmann_romano_tsh'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#size_of_test
   specialization: validation/specialization-cases.md#size_of_test

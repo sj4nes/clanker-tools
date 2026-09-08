@@ -27,7 +27,7 @@ related:
   required_by: ['relative_efficiency', 'asymptotic_efficiency']
 sources:
   - 'van_der_vaart_asymptotic'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#asymptotic_variance
   specialization: validation/specialization-cases.md#asymptotic_variance

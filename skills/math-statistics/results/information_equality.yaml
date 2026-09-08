@@ -45,7 +45,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'cox_hinkley_theoretical_statistics'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#information_equality
   specialization: validation/specialization-cases.md#information_equality

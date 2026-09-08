@@ -41,7 +41,7 @@ related:
 sources:
   - 'engle_1984'
   - 'van_der_vaart_asymptotic'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#three_tests_asymptotically_equivalent
   specialization: validation/specialization-cases.md#three_tests_asymptotically_equivalent

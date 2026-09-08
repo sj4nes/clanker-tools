@@ -41,7 +41,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'efron_hinkley_1978'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#large_sample_wald_interval
   specialization: validation/specialization-cases.md#large_sample_wald_interval

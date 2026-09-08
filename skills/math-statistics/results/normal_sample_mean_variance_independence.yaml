@@ -43,7 +43,7 @@ sources:
   - 'casella_berger_2e'
   - 'student_1908'
   - 'lukacs_1942'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#normal_sample_mean_variance_independence
   specialization: validation/specialization-cases.md#normal_sample_mean_variance_independence

@@ -31,7 +31,7 @@ related:
   specializes_to: ['unbiased_estimator', 'maximum_likelihood_estimator', 'bayes_estimator']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#estimator
   specialization: validation/specialization-cases.md#estimator

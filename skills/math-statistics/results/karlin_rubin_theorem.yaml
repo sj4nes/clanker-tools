@@ -39,7 +39,7 @@ related:
 sources:
   - 'karlin_rubin_1956'
   - 'lehmann_romano_tsh'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#karlin_rubin_theorem
   specialization: validation/specialization-cases.md#karlin_rubin_theorem

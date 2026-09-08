@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:cauchy_no_mean'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_cauchy_no_mean
   specialization: validation/specialization-cases.md#prob_cauchy_no_mean

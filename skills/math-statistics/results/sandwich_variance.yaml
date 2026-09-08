@@ -37,7 +37,7 @@ sources:
   - 'huber_robust_statistics'
   - 'white_1982'
   - 'stefanski_boos_2002'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#sandwich_variance
   specialization: validation/specialization-cases.md#sandwich_variance

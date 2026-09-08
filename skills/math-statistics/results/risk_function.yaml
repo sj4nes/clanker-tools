@@ -30,7 +30,7 @@ related:
   specializes_to: ['mean_squared_error', 'power_function']
 sources:
   - 'berger_statistical_decision_theory'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#risk_function
   specialization: validation/specialization-cases.md#risk_function

@@ -44,7 +44,7 @@ sources:
   - 'efron_1979'
   - 'efron_tibshirani_bootstrap'
   - 'davison_hinkley_bootstrap'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#bootstrap
   specialization: validation/specialization-cases.md#bootstrap

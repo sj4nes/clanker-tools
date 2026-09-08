@@ -32,7 +32,7 @@ related:
 sources:
   - 'seber_lee_linear_regression'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#ordinary_least_squares
   specialization: validation/specialization-cases.md#ordinary_least_squares

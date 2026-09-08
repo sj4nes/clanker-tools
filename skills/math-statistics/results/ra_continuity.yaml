@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-real-analysis:continuity'
 sources:
   - 'math-real-analysis'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#ra_continuity
   specialization: validation/specialization-cases.md#ra_continuity

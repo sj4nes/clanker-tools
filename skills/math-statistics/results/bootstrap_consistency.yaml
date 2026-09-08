@@ -41,7 +41,7 @@ sources:
   - 'bickel_freedman_1981'
   - 'van_der_vaart_wellner'
   - 'bickel_gotze_vanzwet_1997'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#bootstrap_consistency
   specialization: validation/specialization-cases.md#bootstrap_consistency

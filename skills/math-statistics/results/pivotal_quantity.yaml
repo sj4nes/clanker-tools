@@ -32,7 +32,7 @@ related:
   uses: []
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#pivotal_quantity
   specialization: validation/specialization-cases.md#pivotal_quantity

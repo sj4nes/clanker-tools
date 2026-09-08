@@ -36,7 +36,7 @@ related:
 sources:
   - 'lehmann_casella_tpe'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#crlb_attainment
   specialization: validation/specialization-cases.md#crlb_attainment

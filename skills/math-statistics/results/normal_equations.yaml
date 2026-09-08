@@ -37,7 +37,7 @@ related:
 sources:
   - 'seber_lee_linear_regression'
   - 'golub_van_loan_matrix_computations'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#normal_equations
   specialization: validation/specialization-cases.md#normal_equations

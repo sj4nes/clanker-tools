@@ -41,7 +41,7 @@ sources:
   - 'benjamini_hochberg_1995'
   - 'benjamini_yekutieli_2001'
   - 'storey_2002'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#benjamini_hochberg_fdr
   specialization: validation/specialization-cases.md#benjamini_hochberg_fdr

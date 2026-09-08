@@ -38,7 +38,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'lehmann_romano_tsh'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#likelihood_ratio_test
   specialization: validation/specialization-cases.md#likelihood_ratio_test

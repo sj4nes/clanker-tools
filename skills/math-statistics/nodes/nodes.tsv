@@ -1,205 +1,205 @@
 id	type	title	area	status	role	primary_statement
-prob_probability_space	bridge	Probability space (cited)	foundations	draft	foundation	(Omega, F, P) with P a probability measure -- math-probability:probability_space
-prob_random_variable	bridge	Random variable (cited)	foundations	draft	foundation	a measurable map X: Omega -> R -- math-probability:random_variable
-prob_random_vector	bridge	Random vector (cited)	foundations	draft	foundation	a measurable map into R^k -- math-probability:random_variable
-prob_cdf	bridge	CDF (cited)	foundations	draft	foundation	F_X(x) = P(X <= x) -- math-probability:cdf
-prob_pmf	bridge	pmf (cited)	foundations	draft	foundation	p_X(x) = P(X = x) for discrete X -- math-probability:pmf
-prob_pdf	bridge	pdf (cited)	foundations	draft	foundation	density f_X with P(X in A) = int_A f_X -- math-probability:pdf
-prob_joint_distribution	bridge	Joint distribution (cited)	foundations	draft	foundation	the law of (X_1,...,X_n) on R^n -- math-probability:joint_distribution
-prob_marginal_distribution	bridge	Marginal distribution (cited)	foundations	draft	foundation	the law of a coordinate obtained by integrating out the rest -- math-probability:marginal_distribution
-prob_conditional_distribution	bridge	Conditional distribution (cited)	foundations	draft	foundation	the law of X given Y = y -- math-probability:conditional_distribution
-prob_expectation	bridge	Expectation (cited)	foundations	draft	foundation	E[X] = int X dP -- math-probability:expectation
-prob_lotus	bridge	LOTUS (cited)	foundations	draft	foundation	E[g(X)] = int g dF_X -- math-probability:lotus
-prob_expectation_linearity	bridge	Linearity of expectation (cited)	foundations	draft	foundation	E[aX + bY] = a E[X] + b E[Y] -- math-probability:expectation_linearity
-prob_variance	bridge	Variance (cited)	foundations	draft	foundation	Var(X) = E[(X - E X)^2] = E[X^2] - (E X)^2 -- math-probability:variance
-prob_covariance	bridge	Covariance (cited)	foundations	draft	foundation	Cov(X,Y) = E[XY] - E[X]E[Y] -- math-probability:covariance
-prob_correlation	bridge	Correlation (cited)	foundations	draft	foundation	rho = Cov(X,Y)/sqrt(Var X Var Y), |rho| <= 1 -- math-probability:correlation
-prob_mgf	bridge	Moment generating function (cited)	foundations	draft	foundation	M_X(t) = E[e^{tX}]; MGFs of independent sums multiply -- math-probability:mgf
-prob_characteristic_function	bridge	Characteristic function (cited)	foundations	draft	foundation	phi_X(t) = E[e^{itX}] -- math-probability:characteristic_function
-prob_moment	bridge	Moment (cited)	foundations	draft	foundation	the k-th moment E[X^k] -- math-probability:moment
-prob_independence_rv	bridge	Independence of random variables (cited)	foundations	draft	foundation	joint law factorizes -- math-probability:independence_random_variables
-prob_iid	bridge	i.i.d. sequence (cited)	foundations	draft	foundation	independent and identically distributed -- math-probability:iid
-prob_independence_factorization	bridge	Factorization / E[XY]=E[X]E[Y] (cited)	foundations	draft	foundation	independent => E[g(X)h(Y)] = E[g(X)]E[h(Y)] -- math-probability:independence_factorization
-prob_conditional_expectation	bridge	Conditional expectation E[X|G] (cited)	foundations	draft	foundation	the G-measurable L^2 projection of X -- math-probability:conditional_expectation_abstract
-prob_tower_property	bridge	Tower property (cited)	foundations	draft	foundation	E[E[X|G]] = E[X] -- math-probability:tower_property
-prob_law_total_variance	bridge	Law of total variance (cited)	foundations	draft	foundation	Var(X) = E[Var(X|T)] + Var(E[X|T]) -- math-probability:law_of_total_variance
-prob_bernoulli	bridge	Bernoulli(p) (cited)	foundations	draft	foundation	P(X=1)=p; mean p, variance p(1-p) -- math-probability:bernoulli_distribution
-prob_binomial	bridge	Binomial(n,p) (cited)	foundations	draft	foundation	sum of n iid Bernoulli(p) -- math-probability:binomial_distribution
-prob_poisson	bridge	Poisson(lambda) (cited)	foundations	draft	foundation	mean = variance = lambda -- math-probability:poisson_distribution
-prob_uniform_continuous	bridge	Uniform(a,b) (cited)	foundations	draft	foundation	constant density on [a,b] -- math-probability:continuous_uniform_distribution
-prob_exponential	bridge	Exponential(lambda) (cited)	foundations	draft	foundation	memoryless; density lambda e^{-lambda x} -- math-probability:exponential_distribution
-prob_gamma	bridge	Gamma(k, theta) (cited)	foundations	draft	foundation	sum of k iid Exponential; additive in shape -- math-probability:gamma_distribution
-prob_beta	bridge	Beta(a,b) (cited)	foundations	draft	foundation	conjugate density on [0,1] -- math-probability:beta_distribution
-prob_normal	bridge	Normal(mu, sigma^2) (cited)	foundations	draft	foundation	Gaussian density -- math-probability:normal_distribution
-prob_standard_normal	bridge	Standard normal N(0,1) (cited)	foundations	draft	foundation	mean 0, variance 1; CDF Phi -- math-probability:standard_normal
-prob_normal_affine_closure	bridge	Normal affine/sum closure (cited)	foundations	draft	foundation	aX + b and independent sums of normals are normal -- math-probability:normal_affine_closure
-prob_cauchy_no_mean	bridge	Cauchy: no mean (cited)	foundations	draft	foundation	the sample mean of iid Cauchy is again Cauchy -- math-probability:cauchy_no_mean
-prob_conv_as	bridge	Convergence almost surely (cited)	foundations	draft	foundation	X_n -> X with probability 1 -- math-probability:convergence_almost_sure
-prob_conv_p	bridge	Convergence in probability (cited)	foundations	draft	foundation	P(|X_n - X| > eps) -> 0 -- math-probability:convergence_in_probability
-prob_conv_d	bridge	Convergence in distribution (cited)	foundations	draft	foundation	F_{X_n}(x) -> F_X(x) at continuity points -- math-probability:convergence_in_distribution
-prob_wlln	bridge	Weak law of large numbers (cited)	foundations	draft	foundation	sample mean of iid L^1 -> mean in probability -- math-probability:weak_law_large_numbers
-prob_slln	bridge	Strong law of large numbers (cited)	foundations	draft	foundation	sample mean of iid L^1 -> mean almost surely -- math-probability:strong_law_large_numbers
-prob_clt	bridge	Central limit theorem (cited)	foundations	draft	foundation	sqrt(n)(mean_n - mu)/sigma -> N(0,1) in distribution -- math-probability:central_limit_theorem
-prob_levy_continuity	bridge	Levy continuity theorem (cited)	foundations	draft	foundation	pointwise CF convergence <=> convergence in distribution -- math-probability:levy_continuity_theorem
-prob_slutsky	bridge	Slutsky's theorem (cited)	foundations	draft	foundation	X_n -> X in d, Y_n -> c in p => X_n + Y_n -> X + c, X_n Y_n -> cX -- math-probability:slutsky_theorem
-prob_continuous_mapping	bridge	Continuous mapping theorem (cited)	foundations	draft	foundation	g continuous a.s., X_n -> X => g(X_n) -> g(X) in the same mode -- math-probability:continuous_mapping_theorem
-prob_delta_method	bridge	Delta method (cited)	foundations	draft	foundation	sqrt(n)(theta_n - theta) -> N(0,v) => sqrt(n)(g(theta_n) - g(theta)) -> N(0, g'(theta)^2 v) -- math-probability:delta_method
-prob_markov_ineq	bridge	Markov's inequality (cited)	foundations	draft	foundation	P(X >= a) <= E[X]/a for X >= 0, a > 0 -- math-probability:markov_inequality
-prob_chebyshev_ineq	bridge	Chebyshev's inequality (cited)	foundations	draft	foundation	P(|X - mu| >= k sigma) <= 1/k^2 -- math-probability:chebyshev_inequality
-prob_jensen_ineq	bridge	Jensen's inequality (cited)	foundations	draft	foundation	phi convex => phi(E X) <= E[phi(X)] -- math-probability:jensen_inequality
-prob_cauchy_schwarz	bridge	Cauchy-Schwarz for expectation (cited)	foundations	draft	foundation	E[XY]^2 <= E[X^2] E[Y^2] -- math-probability:cauchy_schwarz_expectation
-prob_hoeffding	bridge	Hoeffding's inequality (cited)	foundations	draft	foundation	bounded iid: P(mean - E mean >= t) <= exp(-2 n t^2 / range^2) -- math-probability:hoeffding_inequality
-ra_continuity	bridge	Continuity (cited)	foundations	draft	foundation	epsilon-delta continuity of a real function -- math-real-analysis:continuity
-ra_differentiability	bridge	Differentiability (cited)	foundations	draft	foundation	existence of the derivative / gradient -- math-real-analysis:differentiation
-ra_taylor_theorem	bridge	Taylor's theorem with remainder (cited)	foundations	draft	foundation	f(x) = f(a) + f'(a)(x-a) + ... + R_n, R_n Lagrange form -- math-real-analysis:taylor_theorem
-ra_mean_value_theorem	bridge	Mean value theorem (cited)	foundations	draft	foundation	f(b) - f(a) = f'(c)(b - a) for some c in (a,b) -- math-real-analysis:mean_value_theorem
-ra_compactness	bridge	Compactness / extreme value (cited)	foundations	draft	foundation	a continuous function on a compact set attains its max -- math-real-analysis:compactness
-ra_convex_function	bridge	Convex function (cited)	foundations	draft	foundation	f(tx+(1-t)y) <= t f(x) + (1-t) f(y) -- math-real-analysis:convex_function
-ra_interchange_limit_integral	bridge	Differentiate under the integral (cited)	foundations	draft	foundation	dominated derivative => d/dtheta int f = int d/dtheta f -- math-real-analysis:interchange_limit_integral
-linear_algebra_background	bridge	Finite-dimensional linear algebra (cited, no capsule)	foundations	draft	foundation	vector space, rank, transpose, inverse, symmetric and PSD matrices, spectral theorem, orthogonal projection and its matrix, trace, quadratic forms
-statistical_model	structure	Statistical model	model	draft	foundation	a family P = { P_theta : theta in Theta } of candidate distributions for the data
-parametric_model	definition	Parametric model	model	draft	core	a statistical model indexed by a finite-dimensional Theta subset of R^d
-parameter_space	definition	Parameter space	model	draft	core	the set Theta of admissible parameter values
-identifiability	hypothesis	Identifiability	model	draft	foundation	theta != theta' => P_theta != P_theta' (the map theta -> P_theta is injective)
-dominated_family	hypothesis	Dominated family	model	draft	foundation	every P_theta has a density f(x; theta) w.r.t. one common sigma-finite measure
-iid_sample	definition	i.i.d. sample	model	draft	core	X_1,...,X_n drawn independently from one P_theta in the model
-statistic	definition	Statistic	model	draft	core	T = T(X_1,...,X_n), a measurable function of the data not depending on theta
-likelihood_function	definition	Likelihood function	model	draft	headline	L(theta) = prod_i f(x_i; theta), viewed as a function of theta for fixed data
-log_likelihood	definition	Log-likelihood	model	draft	core	ell(theta) = sum_i log f(x_i; theta)
-score_function	definition	Score function	model	draft	headline	U(theta) = d ell / d theta = sum_i d/dtheta log f(x_i; theta)
-fisher_information	definition	Fisher information (scalar)	model	draft	headline	I(theta) = Var_theta(U_1(theta)) for one observation
-fisher_information_matrix	definition	Fisher information matrix	model	draft	core	I(theta) = Cov_theta(nabla log f(X;theta)), a d x d PSD matrix
-score_identity	identity	Score has mean zero	model	draft	headline	E_theta[U(theta)] = 0 under regularity
-information_equality	identity	Information equality	model	draft	headline	I(theta) = Var_theta(U_1) = -E_theta[ d^2/dtheta^2 log f(X;theta) ]
-support_independent_of_theta	hypothesis	Support does not depend on theta	model	draft	foundation	{ x : f(x; theta) > 0 } is the same set for every theta
-interchange_derivative_integral	hypothesis	Interchange of derivative and integral	model	draft	foundation	d/dtheta int f(x;theta) dx = int d/dtheta f(x;theta) dx holds (dominated derivative)
-true_parameter_interior	hypothesis	True parameter is interior	model	draft	foundation	theta_0 lies in the interior of Theta (not on the boundary)
-fisher_information_positive_definite	hypothesis	Fisher information positive definite	model	draft	foundation	I(theta_0) is finite and positive definite
-log_likelihood_smooth	hypothesis	Log-likelihood is smooth	model	draft	foundation	log f(x; theta) is C^3 in theta with locally dominated third derivative
-exponential_family	structure	Exponential family	exponential_family	draft	headline	f(x; eta) = h(x) exp( eta . T(x) - A(eta) )
-natural_parameter_space	definition	Natural parameter space	exponential_family	draft	core	{ eta : int h(x) exp(eta . T(x)) dx < inf }, a convex set
-cumulant_function	definition	Cumulant (log-partition) function	exponential_family	draft	core	A(eta) = log int h(x) exp(eta . T(x)) dx
-mean_value_parametrization	definition	Mean-value parametrization	exponential_family	draft	support	the reparametrization by mu = E_eta[T(X)] = grad A(eta)
-exponential_family_moment_identities	identity	Cumulant derivatives give moments	exponential_family	draft	core	grad A(eta) = E_eta[T(X)], Hess A(eta) = Cov_eta(T(X))
-exponential_family_sufficient_statistic	theorem	T is sufficient in an exponential family	exponential_family	draft	core	in f(x;eta) = h(x) exp(eta.T(x) - A(eta)), T(X_1..X_n) = sum T(X_i) is sufficient for eta
-exponential_family_completeness	theorem	Full-rank exponential family is complete	exponential_family	draft	core	if the natural parameter space contains an open set, the natural sufficient statistic is complete
-sufficiency	definition	Sufficient statistic	sufficiency	draft	headline	T is sufficient for theta if the conditional law of the data given T does not depend on theta
-neyman_fisher_factorization	theorem	Neyman-Fisher factorization	sufficiency	draft	headline	T is sufficient iff f(x;theta) = g(T(x); theta) h(x) for some g, h >= 0
-minimal_sufficiency	definition	Minimal sufficient statistic	sufficiency	draft	core	a sufficient statistic that is a function of every other sufficient statistic
-ancillary_statistic	definition	Ancillary statistic	sufficiency	draft	core	a statistic whose distribution does not depend on theta
-completeness_statistic	definition	Complete statistic	sufficiency	draft	headline	E_theta[g(T)] = 0 for all theta implies g(T) = 0 a.s. for all theta
-bounded_completeness	definition	Bounded completeness	sufficiency	draft	support	the completeness condition restricted to bounded g
-basu_theorem	theorem	Basu's theorem	sufficiency	draft	core	a complete sufficient statistic is independent of every ancillary statistic
-estimator	definition	Estimator	estimation	draft	headline	a statistic theta_hat = theta_hat(X_1..X_n) used as a guess for theta (or for g(theta))
-bias	definition	Bias	estimation	draft	core	b(theta) = E_theta[theta_hat] - theta
-mean_squared_error	definition	Mean squared error	estimation	draft	core	MSE(theta) = E_theta[(theta_hat - theta)^2]
-mse_bias_variance_decomposition	identity	Bias-variance decomposition	estimation	draft	headline	MSE(theta) = Var_theta(theta_hat) + b(theta)^2
-unbiased_estimator	definition	Unbiased estimator	estimation	draft	core	E_theta[theta_hat] = theta for every theta
-consistency	definition	Consistency	estimation	draft	headline	theta_hat_n -> theta in probability (under P_theta) for every theta
-asymptotic_variance	definition	Asymptotic variance	estimation	draft	core	v(theta) with sqrt(n)(theta_hat_n - theta) -> N(0, v(theta)) in distribution
-asymptotic_normality_estimator	definition	Asymptotically normal estimator	estimation	draft	core	sqrt(n)(theta_hat_n - theta) converges in distribution to a centered normal
-relative_efficiency	definition	Asymptotic relative efficiency	estimation	draft	support	ratio of asymptotic variances of two estimators of the same quantity
-asymptotic_efficiency	definition	Asymptotic efficiency	estimation	draft	core	an estimator whose asymptotic variance equals the Cramer-Rao bound I(theta)^{-1}
-umvue	definition	UMVUE	estimation	draft	headline	an unbiased estimator with the smallest variance for every theta among all unbiased estimators
-cramer_rao_lower_bound	theorem	Cramer-Rao lower bound	estimation	draft	headline	Var_theta(theta_hat) >= (1 + b'(theta))^2 / (n I(theta)); = 1/(n I(theta)) if unbiased
-rao_blackwell_theorem	theorem	Rao-Blackwell theorem	estimation	draft	headline	if T is sufficient, E[theta_hat | T] is unbiased (if theta_hat was) with Var no larger
-lehmann_scheffe_theorem	theorem	Lehmann-Scheffe theorem	estimation	draft	headline	an unbiased function of a complete sufficient statistic is the unique UMVUE
-crlb_attainment	proposition	CRLB attained iff exponential family	estimation	draft	core	an unbiased estimator attains the CRLB for all theta iff the model is a one-parameter exponential family and theta_hat is its natural sufficient statistic
-method_of_moments	algorithm	Method of moments	methods	draft	core	solve the first d population-moment equations E_theta[X^k] = (1/n) sum X_i^k for theta
-plug_in_principle	definition	Plug-in principle	methods	draft	core	estimate a functional T(P) by T(P_hat_n) with P_hat_n the empirical distribution
-maximum_likelihood_estimator	definition	Maximum likelihood estimator	methods	draft	headline	theta_hat = argmax_theta L(theta) = argmax_theta ell(theta)
-mle_score_equation	proposition	MLE solves the score equation	methods	draft	core	an interior MLE satisfies U(theta_hat) = 0
-mle_invariance	proposition	MLE invariance	methods	draft	core	if theta_hat is the MLE of theta then g(theta_hat) is the MLE of g(theta)
-mle_consistency	theorem	MLE consistency	methods	draft	headline	under identifiability and regularity, theta_hat_n -> theta_0 in probability
-mle_asymptotic_normality	theorem	MLE asymptotic normality	methods	draft	headline	sqrt(n)(theta_hat_n - theta_0) -> N(0, I(theta_0)^{-1}) in distribution
-m_estimator	definition	M-estimator	methods	draft	core	theta_hat maximizes (1/n) sum m(X_i; theta), or solves (1/n) sum psi(X_i; theta) = 0
-sandwich_variance	proposition	Sandwich (robust) variance	methods	draft	support	an M-estimator has asymptotic variance A^{-1} B A^{-T} with A = -E[psi'], B = E[psi psi^T]
-bayes_estimator	definition	Bayes estimator	methods	draft	headline	the decision rule minimizing the posterior expected loss E[ L(theta, a) | x ]
-posterior_mean_rule	theorem	Posterior mean under squared loss	methods	draft	core	under L(theta,a) = (theta - a)^2 the Bayes estimator is E[theta | x]
-posterior_median_rule	theorem	Posterior median under absolute loss	methods	draft	support	under L(theta,a) = |theta - a| the Bayes estimator is a posterior median
-conjugate_prior	definition	Conjugate prior	methods	draft	core	a prior family closed under the likelihood: posterior stays in the family
-credible_interval	definition	Credible interval	intervals	draft	headline	a set C(x) with posterior probability P(theta in C(x) | x) = 1 - alpha
-bernstein_von_mises	theorem	Bernstein-von Mises theorem	methods	draft	headline	under regularity the posterior is asymptotically N(theta_hat, (n I)^{-1}); credible sets have frequentist coverage
-loss_function	definition	Loss function	decision_theory	draft	core	L(theta, a) >= 0, the cost of action a when the truth is theta
-risk_function	definition	Risk function	decision_theory	draft	headline	R(theta, delta) = E_theta[ L(theta, delta(X)) ]
-decision_rule	definition	Decision rule	decision_theory	draft	core	delta: data -> action space (an estimator or a test is a decision rule)
-admissibility	definition	Admissibility	decision_theory	draft	headline	delta is admissible if no rule has R(theta, .) <= R(theta, delta) everywhere with strict somewhere
-minimax_rule	definition	Minimax rule	decision_theory	draft	core	a rule minimizing sup_theta R(theta, delta)
-bayes_risk	definition	Bayes risk	decision_theory	draft	core	r(pi, delta) = int R(theta, delta) pi(dtheta) for a prior pi
-bayes_rule_minimizes_bayes_risk	theorem	Bayes rule minimizes Bayes risk pointwise	decision_theory	draft	headline	the rule minimizing the posterior expected loss for each x minimizes r(pi, .)
-complete_class	theorem	Complete class theorem	decision_theory	draft	support	under convexity/compactness the Bayes rules (and their limits) form a complete class
-james_stein	counterexample	James-Stein: MLE inadmissible in dimension >= 3	decision_theory	draft	headline	for X ~ N(theta, I_d), d >= 3, the shrinkage estimator dominates X in total squared-error risk
-chi_squared_distribution	construction	Chi-squared distribution	gaussian_core	draft	headline	chi^2_k := Gamma(k/2, 1/2); equivalently the law of sum of k iid N(0,1)^2
-students_t_distribution	construction	Student's t distribution	gaussian_core	draft	headline	t_k := Z / sqrt(V/k) with Z ~ N(0,1) independent of V ~ chi^2_k
-f_distribution	construction	F distribution	gaussian_core	draft	core	F_{d1,d2} := (U/d1)/(V/d2) with U ~ chi^2_{d1} independent of V ~ chi^2_{d2}
-chi_squared_additivity	identity	Chi-squared degrees of freedom add	gaussian_core	draft	core	independent chi^2_a + chi^2_b = chi^2_{a+b}
-sample_mean	definition	Sample mean	gaussian_core	draft	headline	Xbar_n = (1/n) sum_{i=1}^n X_i
-sample_variance	definition	Sample variance	gaussian_core	draft	headline	S^2 = (1/(n-1)) sum_{i=1}^n (X_i - Xbar)^2
-bias_of_sample_variance	identity	Sample variance is unbiased	gaussian_core	draft	headline	E[S^2] = sigma^2 for any distribution with finite variance (the n-1 divisor)
-normal_sample_mean_variance_independence	theorem	Xbar and S^2 are independent for a normal sample	gaussian_core	draft	headline	if X_1..X_n ~ iid N(mu, sigma^2) then Xbar and S^2 are independent
-scaled_sample_variance_chi_squared	theorem	(n-1)S^2/sigma^2 ~ chi^2_{n-1}	gaussian_core	draft	headline	for an iid normal sample, (n-1)S^2/sigma^2 has the chi-squared law with n-1 df
-t_statistic_distribution	theorem	The t-statistic has Student's t law	gaussian_core	draft	headline	sqrt(n)(Xbar - mu)/S ~ t_{n-1} for an iid N(mu, sigma^2) sample
-cochran_theorem	theorem	Cochran's theorem	gaussian_core	draft	core	if sum of quadratic forms Q_i in iid standard normals sums to |x|^2 with ranks summing to n, the Q_i are independent chi^2_{r_i}
-one_way_anova_identity	identity	ANOVA sum-of-squares decomposition	gaussian_core	draft	core	total SS = between-group SS + within-group SS, with matching degrees of freedom
-one_sample_t_test	proposition	One-sample t-test	testing	draft	core	reject H0: mu = mu_0 when |sqrt(n)(Xbar - mu_0)/S| > t_{n-1, 1-alpha/2}; exact level alpha
-two_sample_t_test	proposition	Two-sample t-test	testing	draft	core	pooled or Welch t-statistic for H0: mu_X = mu_Y
-f_test_equality_of_variances	proposition	F-test for equality of variances	testing	draft	support	S_X^2 / S_Y^2 ~ F_{n-1, m-1} under H0: sigma_X = sigma_Y for normal samples
-confidence_set	definition	Confidence set	intervals	draft	headline	C(X) with P_theta(theta in C(X)) >= 1 - alpha for every theta
-coverage_probability	definition	Coverage probability	intervals	draft	core	P_theta(theta in C(X)) as a function of theta
-pivotal_quantity	definition	Pivotal quantity	intervals	draft	core	Q(X, theta) whose distribution does not depend on theta
-pivot_method	algorithm	Pivot method for a confidence set	intervals	draft	core	invert P(a <= Q(X, theta) <= b) = 1 - alpha to a set of theta
-confidence_set_test_duality	theorem	Duality of confidence sets and tests	intervals	draft	headline	C(x) = { theta_0 : the level-alpha test of H0: theta = theta_0 accepts at x } has coverage 1 - alpha, and conversely
-normal_mean_ci_known_variance	proposition	z-interval for a normal mean	intervals	draft	core	Xbar +- z_{1-alpha/2} sigma/sqrt(n) has exact coverage 1 - alpha when sigma is known
-normal_mean_ci_unknown_variance	proposition	t-interval for a normal mean	intervals	draft	headline	Xbar +- t_{n-1,1-alpha/2} S/sqrt(n) has exact coverage 1 - alpha
-normal_variance_ci	proposition	Chi-squared interval for a normal variance	intervals	draft	support	((n-1)S^2/chi^2_{n-1,1-alpha/2}, (n-1)S^2/chi^2_{n-1,alpha/2}) has exact coverage
-wald_interval	definition	Wald confidence interval	intervals	draft	headline	theta_hat +- z_{1-alpha/2} se(theta_hat) with se from the estimated information; asymptotic coverage
-delta_method_standard_error	proposition	Delta-method standard error	intervals	draft	core	se(g(theta_hat)) = |g'(theta_hat)| se(theta_hat); gives an asymptotic interval for g(theta)
-large_sample_wald_interval	proposition	Large-sample Wald interval from the MLE	intervals	draft	core	theta_hat_MLE +- z_{1-alpha/2} / sqrt(n I(theta_hat)) has coverage -> 1 - alpha
-null_hypothesis	definition	Null hypothesis	testing	draft	core	H0: theta in Theta_0, the hypothesis put on trial
-alternative_hypothesis	definition	Alternative hypothesis	testing	draft	core	H1: theta in Theta_1 = Theta \ Theta_0
-test_function	definition	Test function	testing	draft	headline	phi: data -> [0,1], the probability of rejecting H0 given the data
-size_of_test	definition	Size (and level) of a test	testing	draft	headline	size = sup_{theta in Theta_0} E_theta[phi]; a level-alpha test has size <= alpha
-power_function	definition	Power function	testing	draft	headline	beta(theta) = E_theta[phi], the rejection probability; power on Theta_1
-type_i_error	definition	Type I and Type II error	testing	draft	core	Type I: reject a true H0 (prob <= size); Type II: fail to reject a false H0 (prob 1 - power)
-neyman_pearson_lemma	theorem	Neyman-Pearson lemma	testing	draft	headline	for H0: f0 vs H1: f1 the size-alpha likelihood-ratio test phi* = 1{f1 > k f0} is most powerful
-monotone_likelihood_ratio	hypothesis	Monotone likelihood ratio	testing	draft	foundation	f(x; theta1)/f(x; theta0) is nondecreasing in a statistic T(x) whenever theta1 > theta0
-karlin_rubin_theorem	theorem	Karlin-Rubin theorem	testing	draft	core	under MLR in T, the test 1{T > c} is UMP for H0: theta <= theta_0 vs H1: theta > theta_0
-likelihood_ratio_test	definition	Likelihood ratio test	testing	draft	headline	reject H0 for small Lambda = sup_{Theta_0} L / sup_{Theta} L
-wilks_theorem	theorem	Wilks' theorem	testing	draft	headline	under H0 and regularity, -2 log Lambda -> chi^2_r in distribution, r = dim drop
-wald_test	definition	Wald test	testing	draft	core	reject when (theta_hat - theta_0)^2 n I(theta_hat) exceeds chi^2_{1,1-alpha}
-score_test	definition	Score (Rao) test	testing	draft	core	reject when U(theta_0)^2 / (n I(theta_0)) exceeds chi^2_{1,1-alpha}; needs only the null fit
-three_tests_asymptotically_equivalent	theorem	Wald, score, and LR tests are asymptotically equivalent	testing	draft	core	under H0 and local alternatives the three statistics differ by o_p(1) and share the chi^2_r limit
-p_value	definition	p-value	testing	draft	headline	the smallest alpha at which the observed data reject H0; p(X) = sup_{Theta_0} P_theta(T >= T(x))
-p_value_uniform_under_null	proposition	p-value is uniform under a simple null	testing	draft	core	for a continuous test statistic with a simple H0, p(X) ~ Uniform(0,1) under H0
-pearson_chi_squared_gof	theorem	Pearson chi-squared goodness of fit	testing	draft	support	sum (O_j - E_j)^2 / E_j -> chi^2_{k-1-d} under the fitted null
-multiple_testing_fwer	definition	Family-wise error rate	testing	draft	core	FWER = P(at least one true null rejected) across a family of m tests
-bonferroni_correction	proposition	Bonferroni correction	testing	draft	core	testing each of m hypotheses at level alpha/m controls FWER at alpha
-benjamini_hochberg_fdr	proposition	Benjamini-Hochberg FDR control	testing	draft	support	the step-up rule on ordered p-values controls the false discovery rate at alpha under independence
-empirical_cdf	definition	Empirical CDF	nonparametric	draft	headline	F_hat_n(x) = (1/n) sum 1{X_i <= x}
-order_statistic	definition	Order statistic	nonparametric	draft	core	X_(1) <= ... <= X_(n), the sorted sample
-sample_quantile	definition	Sample quantile	nonparametric	draft	core	F_hat_n^{-1}(p), a plug-in estimate of the population quantile
-glivenko_cantelli	theorem	Glivenko-Cantelli theorem	nonparametric	draft	headline	sup_x |F_hat_n(x) - F(x)| -> 0 almost surely, for every F
-dvoretzky_kiefer_wolfowitz	theorem	DKW inequality	nonparametric	draft	core	P(sup_x |F_hat_n(x) - F(x)| > t) <= 2 exp(-2 n t^2); a distribution-free confidence band
-plug_in_estimator	definition	Plug-in estimator of a functional	nonparametric	draft	core	T(F_hat_n) for a statistical functional T
-bootstrap	algorithm	The bootstrap	nonparametric	draft	headline	approximate the sampling distribution of T(X_1..X_n) by resampling with replacement from F_hat_n
-bootstrap_consistency	theorem	Bootstrap consistency	nonparametric	draft	core	for a Hadamard-differentiable functional the bootstrap distribution converges to the sampling distribution
-kernel_density_estimator	definition	Kernel density estimator	nonparametric	draft	support	f_hat_h(x) = (1/nh) sum K((x - X_i)/h)
-kde_bias_variance_tradeoff	regime	KDE bias-variance / bandwidth tradeoff	nonparametric	draft	support	bias = O(h^2), variance = O(1/(nh)); MISE-optimal h ~ n^{-1/5} gives rate n^{-4/5}
-linear_model	structure	Gaussian linear model	regression	draft	headline	y = X beta + eps, X in R^{n x p} fixed full-rank, eps ~ N(0, sigma^2 I_n)
-ordinary_least_squares	definition	Ordinary least squares	regression	draft	headline	beta_hat = argmin_b |y - X b|^2
-normal_equations	identity	Normal equations	regression	draft	core	X^T X beta_hat = X^T y; beta_hat = (X^T X)^{-1} X^T y
-ols_is_projection	theorem	OLS fitted values are an orthogonal projection	regression	draft	core	y_hat = H y with H = X(X^T X)^{-1} X^T the projection onto the column space of X
-residual_sum_of_squares	definition	Residual sum of squares	regression	draft	core	RSS = |y - X beta_hat|^2 = y^T (I - H) y
-unbiased_error_variance_estimator	proposition	Unbiased estimator of the error variance	regression	draft	core	sigma_hat^2 = RSS / (n - p) has E[sigma_hat^2] = sigma^2
-gauss_markov_theorem	theorem	Gauss-Markov theorem	regression	draft	headline	among linear unbiased estimators of c^T beta, OLS has the smallest variance (BLUE), needing only E[eps]=0, Cov(eps)=sigma^2 I
-ols_distribution_under_normal_errors	theorem	Distribution of the OLS estimator	regression	draft	headline	under normal errors beta_hat ~ N(beta, sigma^2 (X^T X)^{-1}) and is independent of RSS
-coefficient_t_test	proposition	t-test for a regression coefficient	regression	draft	core	(beta_hat_j - beta_j) / se(beta_hat_j) ~ t_{n-p} under normal errors
-overall_f_test	proposition	F-test for a linear hypothesis	regression	draft	core	((RSS_0 - RSS)/q) / (RSS/(n-p)) ~ F_{q, n-p} under the reduced-model null
-r_squared	definition	Coefficient of determination	regression	draft	support	R^2 = 1 - RSS/TSS, the fraction of variance explained
-partitioned_regression	theorem	Frisch-Waugh-Lovell theorem	regression	draft	support	the OLS coefficient on X_2 equals that from regressing residualized y on residualized X_2
-likelihood_principle	regime	Likelihood principle	principles	draft	support	inference should depend on the data only through the likelihood function; Birnbaum: sufficiency + conditionality => likelihood principle
-sufficiency_principle	regime	Sufficiency principle	principles	draft	support	if T is sufficient and T(x) = T(y) then x and y yield the same inference
-conditionality_principle	regime	Conditionality principle	principles	draft	support	if a randomly chosen experiment is performed, inference should condition on which experiment was run
+prob_probability_space	bridge	Probability space (cited)	foundations	reviewed	foundation	(Omega, F, P) with P a probability measure -- math-probability:probability_space
+prob_random_variable	bridge	Random variable (cited)	foundations	reviewed	foundation	a measurable map X: Omega -> R -- math-probability:random_variable
+prob_random_vector	bridge	Random vector (cited)	foundations	reviewed	foundation	a measurable map into R^k -- math-probability:random_variable
+prob_cdf	bridge	CDF (cited)	foundations	reviewed	foundation	F_X(x) = P(X <= x) -- math-probability:cdf
+prob_pmf	bridge	pmf (cited)	foundations	reviewed	foundation	p_X(x) = P(X = x) for discrete X -- math-probability:pmf
+prob_pdf	bridge	pdf (cited)	foundations	reviewed	foundation	density f_X with P(X in A) = int_A f_X -- math-probability:pdf
+prob_joint_distribution	bridge	Joint distribution (cited)	foundations	reviewed	foundation	the law of (X_1,...,X_n) on R^n -- math-probability:joint_distribution
+prob_marginal_distribution	bridge	Marginal distribution (cited)	foundations	reviewed	foundation	the law of a coordinate obtained by integrating out the rest -- math-probability:marginal_distribution
+prob_conditional_distribution	bridge	Conditional distribution (cited)	foundations	reviewed	foundation	the law of X given Y = y -- math-probability:conditional_distribution
+prob_expectation	bridge	Expectation (cited)	foundations	reviewed	foundation	E[X] = int X dP -- math-probability:expectation
+prob_lotus	bridge	LOTUS (cited)	foundations	reviewed	foundation	E[g(X)] = int g dF_X -- math-probability:lotus
+prob_expectation_linearity	bridge	Linearity of expectation (cited)	foundations	reviewed	foundation	E[aX + bY] = a E[X] + b E[Y] -- math-probability:expectation_linearity
+prob_variance	bridge	Variance (cited)	foundations	reviewed	foundation	Var(X) = E[(X - E X)^2] = E[X^2] - (E X)^2 -- math-probability:variance
+prob_covariance	bridge	Covariance (cited)	foundations	reviewed	foundation	Cov(X,Y) = E[XY] - E[X]E[Y] -- math-probability:covariance
+prob_correlation	bridge	Correlation (cited)	foundations	reviewed	foundation	rho = Cov(X,Y)/sqrt(Var X Var Y), |rho| <= 1 -- math-probability:correlation
+prob_mgf	bridge	Moment generating function (cited)	foundations	reviewed	foundation	M_X(t) = E[e^{tX}]; MGFs of independent sums multiply -- math-probability:mgf
+prob_characteristic_function	bridge	Characteristic function (cited)	foundations	reviewed	foundation	phi_X(t) = E[e^{itX}] -- math-probability:characteristic_function
+prob_moment	bridge	Moment (cited)	foundations	reviewed	foundation	the k-th moment E[X^k] -- math-probability:moment
+prob_independence_rv	bridge	Independence of random variables (cited)	foundations	reviewed	foundation	joint law factorizes -- math-probability:independence_random_variables
+prob_iid	bridge	i.i.d. sequence (cited)	foundations	reviewed	foundation	independent and identically distributed -- math-probability:iid
+prob_independence_factorization	bridge	Factorization / E[XY]=E[X]E[Y] (cited)	foundations	reviewed	foundation	independent => E[g(X)h(Y)] = E[g(X)]E[h(Y)] -- math-probability:independence_factorization
+prob_conditional_expectation	bridge	Conditional expectation E[X|G] (cited)	foundations	reviewed	foundation	the G-measurable L^2 projection of X -- math-probability:conditional_expectation_abstract
+prob_tower_property	bridge	Tower property (cited)	foundations	reviewed	foundation	E[E[X|G]] = E[X] -- math-probability:tower_property
+prob_law_total_variance	bridge	Law of total variance (cited)	foundations	reviewed	foundation	Var(X) = E[Var(X|T)] + Var(E[X|T]) -- math-probability:law_of_total_variance
+prob_bernoulli	bridge	Bernoulli(p) (cited)	foundations	reviewed	foundation	P(X=1)=p; mean p, variance p(1-p) -- math-probability:bernoulli_distribution
+prob_binomial	bridge	Binomial(n,p) (cited)	foundations	reviewed	foundation	sum of n iid Bernoulli(p) -- math-probability:binomial_distribution
+prob_poisson	bridge	Poisson(lambda) (cited)	foundations	reviewed	foundation	mean = variance = lambda -- math-probability:poisson_distribution
+prob_uniform_continuous	bridge	Uniform(a,b) (cited)	foundations	reviewed	foundation	constant density on [a,b] -- math-probability:continuous_uniform_distribution
+prob_exponential	bridge	Exponential(lambda) (cited)	foundations	reviewed	foundation	memoryless; density lambda e^{-lambda x} -- math-probability:exponential_distribution
+prob_gamma	bridge	Gamma(k, theta) (cited)	foundations	reviewed	foundation	sum of k iid Exponential; additive in shape -- math-probability:gamma_distribution
+prob_beta	bridge	Beta(a,b) (cited)	foundations	reviewed	foundation	conjugate density on [0,1] -- math-probability:beta_distribution
+prob_normal	bridge	Normal(mu, sigma^2) (cited)	foundations	reviewed	foundation	Gaussian density -- math-probability:normal_distribution
+prob_standard_normal	bridge	Standard normal N(0,1) (cited)	foundations	reviewed	foundation	mean 0, variance 1; CDF Phi -- math-probability:standard_normal
+prob_normal_affine_closure	bridge	Normal affine/sum closure (cited)	foundations	reviewed	foundation	aX + b and independent sums of normals are normal -- math-probability:normal_affine_closure
+prob_cauchy_no_mean	bridge	Cauchy: no mean (cited)	foundations	reviewed	foundation	the sample mean of iid Cauchy is again Cauchy -- math-probability:cauchy_no_mean
+prob_conv_as	bridge	Convergence almost surely (cited)	foundations	reviewed	foundation	X_n -> X with probability 1 -- math-probability:convergence_almost_sure
+prob_conv_p	bridge	Convergence in probability (cited)	foundations	reviewed	foundation	P(|X_n - X| > eps) -> 0 -- math-probability:convergence_in_probability
+prob_conv_d	bridge	Convergence in distribution (cited)	foundations	reviewed	foundation	F_{X_n}(x) -> F_X(x) at continuity points -- math-probability:convergence_in_distribution
+prob_wlln	bridge	Weak law of large numbers (cited)	foundations	reviewed	foundation	sample mean of iid L^1 -> mean in probability -- math-probability:weak_law_large_numbers
+prob_slln	bridge	Strong law of large numbers (cited)	foundations	reviewed	foundation	sample mean of iid L^1 -> mean almost surely -- math-probability:strong_law_large_numbers
+prob_clt	bridge	Central limit theorem (cited)	foundations	reviewed	foundation	sqrt(n)(mean_n - mu)/sigma -> N(0,1) in distribution -- math-probability:central_limit_theorem
+prob_levy_continuity	bridge	Levy continuity theorem (cited)	foundations	reviewed	foundation	pointwise CF convergence <=> convergence in distribution -- math-probability:levy_continuity_theorem
+prob_slutsky	bridge	Slutsky's theorem (cited)	foundations	reviewed	foundation	X_n -> X in d, Y_n -> c in p => X_n + Y_n -> X + c, X_n Y_n -> cX -- math-probability:slutsky_theorem
+prob_continuous_mapping	bridge	Continuous mapping theorem (cited)	foundations	reviewed	foundation	g continuous a.s., X_n -> X => g(X_n) -> g(X) in the same mode -- math-probability:continuous_mapping_theorem
+prob_delta_method	bridge	Delta method (cited)	foundations	reviewed	foundation	sqrt(n)(theta_n - theta) -> N(0,v) => sqrt(n)(g(theta_n) - g(theta)) -> N(0, g'(theta)^2 v) -- math-probability:delta_method
+prob_markov_ineq	bridge	Markov's inequality (cited)	foundations	reviewed	foundation	P(X >= a) <= E[X]/a for X >= 0, a > 0 -- math-probability:markov_inequality
+prob_chebyshev_ineq	bridge	Chebyshev's inequality (cited)	foundations	reviewed	foundation	P(|X - mu| >= k sigma) <= 1/k^2 -- math-probability:chebyshev_inequality
+prob_jensen_ineq	bridge	Jensen's inequality (cited)	foundations	reviewed	foundation	phi convex => phi(E X) <= E[phi(X)] -- math-probability:jensen_inequality
+prob_cauchy_schwarz	bridge	Cauchy-Schwarz for expectation (cited)	foundations	reviewed	foundation	E[XY]^2 <= E[X^2] E[Y^2] -- math-probability:cauchy_schwarz_expectation
+prob_hoeffding	bridge	Hoeffding's inequality (cited)	foundations	reviewed	foundation	bounded iid: P(mean - E mean >= t) <= exp(-2 n t^2 / range^2) -- math-probability:hoeffding_inequality
+ra_continuity	bridge	Continuity (cited)	foundations	reviewed	foundation	epsilon-delta continuity of a real function -- math-real-analysis:continuity
+ra_differentiability	bridge	Differentiability (cited)	foundations	reviewed	foundation	existence of the derivative / gradient -- math-real-analysis:differentiation
+ra_taylor_theorem	bridge	Taylor's theorem with remainder (cited)	foundations	reviewed	foundation	f(x) = f(a) + f'(a)(x-a) + ... + R_n, R_n Lagrange form -- math-real-analysis:taylor_theorem
+ra_mean_value_theorem	bridge	Mean value theorem (cited)	foundations	reviewed	foundation	f(b) - f(a) = f'(c)(b - a) for some c in (a,b) -- math-real-analysis:mean_value_theorem
+ra_compactness	bridge	Compactness / extreme value (cited)	foundations	reviewed	foundation	a continuous function on a compact set attains its max -- math-real-analysis:compactness
+ra_convex_function	bridge	Convex function (cited)	foundations	reviewed	foundation	f(tx+(1-t)y) <= t f(x) + (1-t) f(y) -- math-real-analysis:convex_function
+ra_interchange_limit_integral	bridge	Differentiate under the integral (cited)	foundations	reviewed	foundation	dominated derivative => d/dtheta int f = int d/dtheta f -- math-real-analysis:interchange_limit_integral
+linear_algebra_background	bridge	Finite-dimensional linear algebra (cited, no capsule)	foundations	reviewed	foundation	vector space, rank, transpose, inverse, symmetric and PSD matrices, spectral theorem, orthogonal projection and its matrix, trace, quadratic forms
+statistical_model	structure	Statistical model	model	reviewed	foundation	a family P = { P_theta : theta in Theta } of candidate distributions for the data
+parametric_model	definition	Parametric model	model	reviewed	core	a statistical model indexed by a finite-dimensional Theta subset of R^d
+parameter_space	definition	Parameter space	model	reviewed	core	the set Theta of admissible parameter values
+identifiability	hypothesis	Identifiability	model	reviewed	foundation	theta != theta' => P_theta != P_theta' (the map theta -> P_theta is injective)
+dominated_family	hypothesis	Dominated family	model	reviewed	foundation	every P_theta has a density f(x; theta) w.r.t. one common sigma-finite measure
+iid_sample	definition	i.i.d. sample	model	reviewed	core	X_1,...,X_n drawn independently from one P_theta in the model
+statistic	definition	Statistic	model	reviewed	core	T = T(X_1,...,X_n), a measurable function of the data not depending on theta
+likelihood_function	definition	Likelihood function	model	reviewed	headline	L(theta) = prod_i f(x_i; theta), viewed as a function of theta for fixed data
+log_likelihood	definition	Log-likelihood	model	reviewed	core	ell(theta) = sum_i log f(x_i; theta)
+score_function	definition	Score function	model	reviewed	headline	U(theta) = d ell / d theta = sum_i d/dtheta log f(x_i; theta)
+fisher_information	definition	Fisher information (scalar)	model	reviewed	headline	I(theta) = Var_theta(U_1(theta)) for one observation
+fisher_information_matrix	definition	Fisher information matrix	model	reviewed	core	I(theta) = Cov_theta(nabla log f(X;theta)), a d x d PSD matrix
+score_identity	identity	Score has mean zero	model	reviewed	headline	E_theta[U(theta)] = 0 under regularity
+information_equality	identity	Information equality	model	reviewed	headline	I(theta) = Var_theta(U_1) = -E_theta[ d^2/dtheta^2 log f(X;theta) ]
+support_independent_of_theta	hypothesis	Support does not depend on theta	model	reviewed	foundation	{ x : f(x; theta) > 0 } is the same set for every theta
+interchange_derivative_integral	hypothesis	Interchange of derivative and integral	model	reviewed	foundation	d/dtheta int f(x;theta) dx = int d/dtheta f(x;theta) dx holds (dominated derivative)
+true_parameter_interior	hypothesis	True parameter is interior	model	reviewed	foundation	theta_0 lies in the interior of Theta (not on the boundary)
+fisher_information_positive_definite	hypothesis	Fisher information positive definite	model	reviewed	foundation	I(theta_0) is finite and positive definite
+log_likelihood_smooth	hypothesis	Log-likelihood is smooth	model	reviewed	foundation	log f(x; theta) is C^3 in theta with locally dominated third derivative
+exponential_family	structure	Exponential family	exponential_family	reviewed	headline	f(x; eta) = h(x) exp( eta . T(x) - A(eta) )
+natural_parameter_space	definition	Natural parameter space	exponential_family	reviewed	core	{ eta : int h(x) exp(eta . T(x)) dx < inf }, a convex set
+cumulant_function	definition	Cumulant (log-partition) function	exponential_family	reviewed	core	A(eta) = log int h(x) exp(eta . T(x)) dx
+mean_value_parametrization	definition	Mean-value parametrization	exponential_family	reviewed	support	the reparametrization by mu = E_eta[T(X)] = grad A(eta)
+exponential_family_moment_identities	identity	Cumulant derivatives give moments	exponential_family	reviewed	core	grad A(eta) = E_eta[T(X)], Hess A(eta) = Cov_eta(T(X))
+exponential_family_sufficient_statistic	theorem	T is sufficient in an exponential family	exponential_family	reviewed	core	in f(x;eta) = h(x) exp(eta.T(x) - A(eta)), T(X_1..X_n) = sum T(X_i) is sufficient for eta
+exponential_family_completeness	theorem	Full-rank exponential family is complete	exponential_family	reviewed	core	if the natural parameter space contains an open set, the natural sufficient statistic is complete
+sufficiency	definition	Sufficient statistic	sufficiency	reviewed	headline	T is sufficient for theta if the conditional law of the data given T does not depend on theta
+neyman_fisher_factorization	theorem	Neyman-Fisher factorization	sufficiency	reviewed	headline	T is sufficient iff f(x;theta) = g(T(x); theta) h(x) for some g, h >= 0
+minimal_sufficiency	definition	Minimal sufficient statistic	sufficiency	reviewed	core	a sufficient statistic that is a function of every other sufficient statistic
+ancillary_statistic	definition	Ancillary statistic	sufficiency	reviewed	core	a statistic whose distribution does not depend on theta
+completeness_statistic	definition	Complete statistic	sufficiency	reviewed	headline	E_theta[g(T)] = 0 for all theta implies g(T) = 0 a.s. for all theta
+bounded_completeness	definition	Bounded completeness	sufficiency	reviewed	support	the completeness condition restricted to bounded g
+basu_theorem	theorem	Basu's theorem	sufficiency	reviewed	core	a complete sufficient statistic is independent of every ancillary statistic
+estimator	definition	Estimator	estimation	reviewed	headline	a statistic theta_hat = theta_hat(X_1..X_n) used as a guess for theta (or for g(theta))
+bias	definition	Bias	estimation	reviewed	core	b(theta) = E_theta[theta_hat] - theta
+mean_squared_error	definition	Mean squared error	estimation	reviewed	core	MSE(theta) = E_theta[(theta_hat - theta)^2]
+mse_bias_variance_decomposition	identity	Bias-variance decomposition	estimation	reviewed	headline	MSE(theta) = Var_theta(theta_hat) + b(theta)^2
+unbiased_estimator	definition	Unbiased estimator	estimation	reviewed	core	E_theta[theta_hat] = theta for every theta
+consistency	definition	Consistency	estimation	reviewed	headline	theta_hat_n -> theta in probability (under P_theta) for every theta
+asymptotic_variance	definition	Asymptotic variance	estimation	reviewed	core	v(theta) with sqrt(n)(theta_hat_n - theta) -> N(0, v(theta)) in distribution
+asymptotic_normality_estimator	definition	Asymptotically normal estimator	estimation	reviewed	core	sqrt(n)(theta_hat_n - theta) converges in distribution to a centered normal
+relative_efficiency	definition	Asymptotic relative efficiency	estimation	reviewed	support	ratio of asymptotic variances of two estimators of the same quantity
+asymptotic_efficiency	definition	Asymptotic efficiency	estimation	reviewed	core	an estimator whose asymptotic variance equals the Cramer-Rao bound I(theta)^{-1}
+umvue	definition	UMVUE	estimation	reviewed	headline	an unbiased estimator with the smallest variance for every theta among all unbiased estimators
+cramer_rao_lower_bound	theorem	Cramer-Rao lower bound	estimation	reviewed	headline	Var_theta(theta_hat) >= (1 + b'(theta))^2 / (n I(theta)); = 1/(n I(theta)) if unbiased
+rao_blackwell_theorem	theorem	Rao-Blackwell theorem	estimation	reviewed	headline	if T is sufficient, E[theta_hat | T] is unbiased (if theta_hat was) with Var no larger
+lehmann_scheffe_theorem	theorem	Lehmann-Scheffe theorem	estimation	reviewed	headline	an unbiased function of a complete sufficient statistic is the unique UMVUE
+crlb_attainment	proposition	CRLB attained iff exponential family	estimation	reviewed	core	an unbiased estimator attains the CRLB for all theta iff the model is a one-parameter exponential family and theta_hat is its natural sufficient statistic
+method_of_moments	algorithm	Method of moments	methods	reviewed	core	solve the first d population-moment equations E_theta[X^k] = (1/n) sum X_i^k for theta
+plug_in_principle	definition	Plug-in principle	methods	reviewed	core	estimate a functional T(P) by T(P_hat_n) with P_hat_n the empirical distribution
+maximum_likelihood_estimator	definition	Maximum likelihood estimator	methods	reviewed	headline	theta_hat = argmax_theta L(theta) = argmax_theta ell(theta)
+mle_score_equation	proposition	MLE solves the score equation	methods	reviewed	core	an interior MLE satisfies U(theta_hat) = 0
+mle_invariance	proposition	MLE invariance	methods	reviewed	core	if theta_hat is the MLE of theta then g(theta_hat) is the MLE of g(theta)
+mle_consistency	theorem	MLE consistency	methods	reviewed	headline	under identifiability and regularity, theta_hat_n -> theta_0 in probability
+mle_asymptotic_normality	theorem	MLE asymptotic normality	methods	reviewed	headline	sqrt(n)(theta_hat_n - theta_0) -> N(0, I(theta_0)^{-1}) in distribution
+m_estimator	definition	M-estimator	methods	reviewed	core	theta_hat maximizes (1/n) sum m(X_i; theta), or solves (1/n) sum psi(X_i; theta) = 0
+sandwich_variance	proposition	Sandwich (robust) variance	methods	reviewed	support	an M-estimator has asymptotic variance A^{-1} B A^{-T} with A = -E[psi'], B = E[psi psi^T]
+bayes_estimator	definition	Bayes estimator	methods	reviewed	headline	the decision rule minimizing the posterior expected loss E[ L(theta, a) | x ]
+posterior_mean_rule	theorem	Posterior mean under squared loss	methods	reviewed	core	under L(theta,a) = (theta - a)^2 the Bayes estimator is E[theta | x]
+posterior_median_rule	theorem	Posterior median under absolute loss	methods	reviewed	support	under L(theta,a) = |theta - a| the Bayes estimator is a posterior median
+conjugate_prior	definition	Conjugate prior	methods	reviewed	core	a prior family closed under the likelihood: posterior stays in the family
+credible_interval	definition	Credible interval	intervals	reviewed	headline	a set C(x) with posterior probability P(theta in C(x) | x) = 1 - alpha
+bernstein_von_mises	theorem	Bernstein-von Mises theorem	methods	reviewed	headline	under regularity the posterior is asymptotically N(theta_hat, (n I)^{-1}); credible sets have frequentist coverage
+loss_function	definition	Loss function	decision_theory	reviewed	core	L(theta, a) >= 0, the cost of action a when the truth is theta
+risk_function	definition	Risk function	decision_theory	reviewed	headline	R(theta, delta) = E_theta[ L(theta, delta(X)) ]
+decision_rule	definition	Decision rule	decision_theory	reviewed	core	delta: data -> action space (an estimator or a test is a decision rule)
+admissibility	definition	Admissibility	decision_theory	reviewed	headline	delta is admissible if no rule has R(theta, .) <= R(theta, delta) everywhere with strict somewhere
+minimax_rule	definition	Minimax rule	decision_theory	reviewed	core	a rule minimizing sup_theta R(theta, delta)
+bayes_risk	definition	Bayes risk	decision_theory	reviewed	core	r(pi, delta) = int R(theta, delta) pi(dtheta) for a prior pi
+bayes_rule_minimizes_bayes_risk	theorem	Bayes rule minimizes Bayes risk pointwise	decision_theory	reviewed	headline	the rule minimizing the posterior expected loss for each x minimizes r(pi, .)
+complete_class	theorem	Complete class theorem	decision_theory	reviewed	support	under convexity/compactness the Bayes rules (and their limits) form a complete class
+james_stein	counterexample	James-Stein: MLE inadmissible in dimension >= 3	decision_theory	reviewed	headline	for X ~ N(theta, I_d), d >= 3, the shrinkage estimator dominates X in total squared-error risk
+chi_squared_distribution	construction	Chi-squared distribution	gaussian_core	reviewed	headline	chi^2_k := Gamma(k/2, 1/2); equivalently the law of sum of k iid N(0,1)^2
+students_t_distribution	construction	Student's t distribution	gaussian_core	reviewed	headline	t_k := Z / sqrt(V/k) with Z ~ N(0,1) independent of V ~ chi^2_k
+f_distribution	construction	F distribution	gaussian_core	reviewed	core	F_{d1,d2} := (U/d1)/(V/d2) with U ~ chi^2_{d1} independent of V ~ chi^2_{d2}
+chi_squared_additivity	identity	Chi-squared degrees of freedom add	gaussian_core	reviewed	core	independent chi^2_a + chi^2_b = chi^2_{a+b}
+sample_mean	definition	Sample mean	gaussian_core	reviewed	headline	Xbar_n = (1/n) sum_{i=1}^n X_i
+sample_variance	definition	Sample variance	gaussian_core	reviewed	headline	S^2 = (1/(n-1)) sum_{i=1}^n (X_i - Xbar)^2
+bias_of_sample_variance	identity	Sample variance is unbiased	gaussian_core	reviewed	headline	E[S^2] = sigma^2 for any distribution with finite variance (the n-1 divisor)
+normal_sample_mean_variance_independence	theorem	Xbar and S^2 are independent for a normal sample	gaussian_core	reviewed	headline	if X_1..X_n ~ iid N(mu, sigma^2) then Xbar and S^2 are independent
+scaled_sample_variance_chi_squared	theorem	(n-1)S^2/sigma^2 ~ chi^2_{n-1}	gaussian_core	reviewed	headline	for an iid normal sample, (n-1)S^2/sigma^2 has the chi-squared law with n-1 df
+t_statistic_distribution	theorem	The t-statistic has Student's t law	gaussian_core	reviewed	headline	sqrt(n)(Xbar - mu)/S ~ t_{n-1} for an iid N(mu, sigma^2) sample
+cochran_theorem	theorem	Cochran's theorem	gaussian_core	reviewed	core	if sum of quadratic forms Q_i in iid standard normals sums to |x|^2 with ranks summing to n, the Q_i are independent chi^2_{r_i}
+one_way_anova_identity	identity	ANOVA sum-of-squares decomposition	gaussian_core	reviewed	core	total SS = between-group SS + within-group SS, with matching degrees of freedom
+one_sample_t_test	proposition	One-sample t-test	testing	reviewed	core	reject H0: mu = mu_0 when |sqrt(n)(Xbar - mu_0)/S| > t_{n-1, 1-alpha/2}; exact level alpha
+two_sample_t_test	proposition	Two-sample t-test	testing	reviewed	core	pooled or Welch t-statistic for H0: mu_X = mu_Y
+f_test_equality_of_variances	proposition	F-test for equality of variances	testing	reviewed	support	S_X^2 / S_Y^2 ~ F_{n-1, m-1} under H0: sigma_X = sigma_Y for normal samples
+confidence_set	definition	Confidence set	intervals	reviewed	headline	C(X) with P_theta(theta in C(X)) >= 1 - alpha for every theta
+coverage_probability	definition	Coverage probability	intervals	reviewed	core	P_theta(theta in C(X)) as a function of theta
+pivotal_quantity	definition	Pivotal quantity	intervals	reviewed	core	Q(X, theta) whose distribution does not depend on theta
+pivot_method	algorithm	Pivot method for a confidence set	intervals	reviewed	core	invert P(a <= Q(X, theta) <= b) = 1 - alpha to a set of theta
+confidence_set_test_duality	theorem	Duality of confidence sets and tests	intervals	reviewed	headline	C(x) = { theta_0 : the level-alpha test of H0: theta = theta_0 accepts at x } has coverage 1 - alpha, and conversely
+normal_mean_ci_known_variance	proposition	z-interval for a normal mean	intervals	reviewed	core	Xbar +- z_{1-alpha/2} sigma/sqrt(n) has exact coverage 1 - alpha when sigma is known
+normal_mean_ci_unknown_variance	proposition	t-interval for a normal mean	intervals	reviewed	headline	Xbar +- t_{n-1,1-alpha/2} S/sqrt(n) has exact coverage 1 - alpha
+normal_variance_ci	proposition	Chi-squared interval for a normal variance	intervals	reviewed	support	((n-1)S^2/chi^2_{n-1,1-alpha/2}, (n-1)S^2/chi^2_{n-1,alpha/2}) has exact coverage
+wald_interval	definition	Wald confidence interval	intervals	reviewed	headline	theta_hat +- z_{1-alpha/2} se(theta_hat) with se from the estimated information; asymptotic coverage
+delta_method_standard_error	proposition	Delta-method standard error	intervals	reviewed	core	se(g(theta_hat)) = |g'(theta_hat)| se(theta_hat); gives an asymptotic interval for g(theta)
+large_sample_wald_interval	proposition	Large-sample Wald interval from the MLE	intervals	reviewed	core	theta_hat_MLE +- z_{1-alpha/2} / sqrt(n I(theta_hat)) has coverage -> 1 - alpha
+null_hypothesis	definition	Null hypothesis	testing	reviewed	core	H0: theta in Theta_0, the hypothesis put on trial
+alternative_hypothesis	definition	Alternative hypothesis	testing	reviewed	core	H1: theta in Theta_1 = Theta \ Theta_0
+test_function	definition	Test function	testing	reviewed	headline	phi: data -> [0,1], the probability of rejecting H0 given the data
+size_of_test	definition	Size (and level) of a test	testing	reviewed	headline	size = sup_{theta in Theta_0} E_theta[phi]; a level-alpha test has size <= alpha
+power_function	definition	Power function	testing	reviewed	headline	beta(theta) = E_theta[phi], the rejection probability; power on Theta_1
+type_i_error	definition	Type I and Type II error	testing	reviewed	core	Type I: reject a true H0 (prob <= size); Type II: fail to reject a false H0 (prob 1 - power)
+neyman_pearson_lemma	theorem	Neyman-Pearson lemma	testing	reviewed	headline	for H0: f0 vs H1: f1 the size-alpha likelihood-ratio test phi* = 1{f1 > k f0} is most powerful
+monotone_likelihood_ratio	hypothesis	Monotone likelihood ratio	testing	reviewed	foundation	f(x; theta1)/f(x; theta0) is nondecreasing in a statistic T(x) whenever theta1 > theta0
+karlin_rubin_theorem	theorem	Karlin-Rubin theorem	testing	reviewed	core	under MLR in T, the test 1{T > c} is UMP for H0: theta <= theta_0 vs H1: theta > theta_0
+likelihood_ratio_test	definition	Likelihood ratio test	testing	reviewed	headline	reject H0 for small Lambda = sup_{Theta_0} L / sup_{Theta} L
+wilks_theorem	theorem	Wilks' theorem	testing	reviewed	headline	under H0 and regularity, -2 log Lambda -> chi^2_r in distribution, r = dim drop
+wald_test	definition	Wald test	testing	reviewed	core	reject when (theta_hat - theta_0)^2 n I(theta_hat) exceeds chi^2_{1,1-alpha}
+score_test	definition	Score (Rao) test	testing	reviewed	core	reject when U(theta_0)^2 / (n I(theta_0)) exceeds chi^2_{1,1-alpha}; needs only the null fit
+three_tests_asymptotically_equivalent	theorem	Wald, score, and LR tests are asymptotically equivalent	testing	reviewed	core	under H0 and local alternatives the three statistics differ by o_p(1) and share the chi^2_r limit
+p_value	definition	p-value	testing	reviewed	headline	the smallest alpha at which the observed data reject H0; p(X) = sup_{Theta_0} P_theta(T >= T(x))
+p_value_uniform_under_null	proposition	p-value is uniform under a simple null	testing	reviewed	core	for a continuous test statistic with a simple H0, p(X) ~ Uniform(0,1) under H0
+pearson_chi_squared_gof	theorem	Pearson chi-squared goodness of fit	testing	reviewed	support	sum (O_j - E_j)^2 / E_j -> chi^2_{k-1-d} under the fitted null
+multiple_testing_fwer	definition	Family-wise error rate	testing	reviewed	core	FWER = P(at least one true null rejected) across a family of m tests
+bonferroni_correction	proposition	Bonferroni correction	testing	reviewed	core	testing each of m hypotheses at level alpha/m controls FWER at alpha
+benjamini_hochberg_fdr	proposition	Benjamini-Hochberg FDR control	testing	reviewed	support	the step-up rule on ordered p-values controls the false discovery rate at alpha under independence
+empirical_cdf	definition	Empirical CDF	nonparametric	reviewed	headline	F_hat_n(x) = (1/n) sum 1{X_i <= x}
+order_statistic	definition	Order statistic	nonparametric	reviewed	core	X_(1) <= ... <= X_(n), the sorted sample
+sample_quantile	definition	Sample quantile	nonparametric	reviewed	core	F_hat_n^{-1}(p), a plug-in estimate of the population quantile
+glivenko_cantelli	theorem	Glivenko-Cantelli theorem	nonparametric	reviewed	headline	sup_x |F_hat_n(x) - F(x)| -> 0 almost surely, for every F
+dvoretzky_kiefer_wolfowitz	theorem	DKW inequality	nonparametric	reviewed	core	P(sup_x |F_hat_n(x) - F(x)| > t) <= 2 exp(-2 n t^2); a distribution-free confidence band
+plug_in_estimator	definition	Plug-in estimator of a functional	nonparametric	reviewed	core	T(F_hat_n) for a statistical functional T
+bootstrap	algorithm	The bootstrap	nonparametric	reviewed	headline	approximate the sampling distribution of T(X_1..X_n) by resampling with replacement from F_hat_n
+bootstrap_consistency	theorem	Bootstrap consistency	nonparametric	reviewed	core	for a Hadamard-differentiable functional the bootstrap distribution converges to the sampling distribution
+kernel_density_estimator	definition	Kernel density estimator	nonparametric	reviewed	support	f_hat_h(x) = (1/nh) sum K((x - X_i)/h)
+kde_bias_variance_tradeoff	regime	KDE bias-variance / bandwidth tradeoff	nonparametric	reviewed	support	bias = O(h^2), variance = O(1/(nh)); MISE-optimal h ~ n^{-1/5} gives rate n^{-4/5}
+linear_model	structure	Gaussian linear model	regression	reviewed	headline	y = X beta + eps, X in R^{n x p} fixed full-rank, eps ~ N(0, sigma^2 I_n)
+ordinary_least_squares	definition	Ordinary least squares	regression	reviewed	headline	beta_hat = argmin_b |y - X b|^2
+normal_equations	identity	Normal equations	regression	reviewed	core	X^T X beta_hat = X^T y; beta_hat = (X^T X)^{-1} X^T y
+ols_is_projection	theorem	OLS fitted values are an orthogonal projection	regression	reviewed	core	y_hat = H y with H = X(X^T X)^{-1} X^T the projection onto the column space of X
+residual_sum_of_squares	definition	Residual sum of squares	regression	reviewed	core	RSS = |y - X beta_hat|^2 = y^T (I - H) y
+unbiased_error_variance_estimator	proposition	Unbiased estimator of the error variance	regression	reviewed	core	sigma_hat^2 = RSS / (n - p) has E[sigma_hat^2] = sigma^2
+gauss_markov_theorem	theorem	Gauss-Markov theorem	regression	reviewed	headline	among linear unbiased estimators of c^T beta, OLS has the smallest variance (BLUE), needing only E[eps]=0, Cov(eps)=sigma^2 I
+ols_distribution_under_normal_errors	theorem	Distribution of the OLS estimator	regression	reviewed	headline	under normal errors beta_hat ~ N(beta, sigma^2 (X^T X)^{-1}) and is independent of RSS
+coefficient_t_test	proposition	t-test for a regression coefficient	regression	reviewed	core	(beta_hat_j - beta_j) / se(beta_hat_j) ~ t_{n-p} under normal errors
+overall_f_test	proposition	F-test for a linear hypothesis	regression	reviewed	core	((RSS_0 - RSS)/q) / (RSS/(n-p)) ~ F_{q, n-p} under the reduced-model null
+r_squared	definition	Coefficient of determination	regression	reviewed	support	R^2 = 1 - RSS/TSS, the fraction of variance explained
+partitioned_regression	theorem	Frisch-Waugh-Lovell theorem	regression	reviewed	support	the OLS coefficient on X_2 equals that from regressing residualized y on residualized X_2
+likelihood_principle	regime	Likelihood principle	principles	reviewed	support	inference should depend on the data only through the likelihood function; Birnbaum: sufficiency + conditionality => likelihood principle
+sufficiency_principle	regime	Sufficiency principle	principles	reviewed	support	if T is sufficient and T(x) = T(y) then x and y yield the same inference
+conditionality_principle	regime	Conditionality principle	principles	reviewed	support	if a randomly chosen experiment is performed, inference should condition on which experiment was run
 le_cam_lan_theory	theorem	Local asymptotic normality (boundary)	principles	draft	support	regular models are locally asymptotically normal; the log-likelihood ratio has a Gaussian-shift limit
 hajek_convolution_theorem	theorem	Hajek convolution theorem (boundary)	principles	draft	support	the limit law of any regular estimator is the efficient normal convolved with independent noise
 local_asymptotic_minimax	theorem	Local asymptotic minimax bound (boundary)	principles	draft	support	the local minimax risk of any estimator is bounded below by the efficient (CRLB) risk

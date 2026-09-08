@@ -49,7 +49,7 @@ sources:
   - 'wilks_1938'
   - 'van_der_vaart_asymptotic'
   - 'self_liang_1987'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#wilks_theorem
   specialization: validation/specialization-cases.md#wilks_theorem

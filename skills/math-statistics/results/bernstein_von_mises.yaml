@@ -47,7 +47,7 @@ sources:
   - 'van_der_vaart_asymptotic'
   - 'le_cam_asymptotic_methods'
   - 'freedman_1999'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#bernstein_von_mises
   specialization: validation/specialization-cases.md#bernstein_von_mises

@@ -30,7 +30,7 @@ related:
 sources:
   - 'lehmann_romano_tsh'
   - 'schervish_theory_of_statistics'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#dominated_family
   specialization: validation/specialization-cases.md#dominated_family

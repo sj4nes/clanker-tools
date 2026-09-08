@@ -43,7 +43,7 @@ related:
 sources:
   - 'neyman_pearson_1933'
   - 'lehmann_romano_tsh'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#neyman_pearson_lemma
   specialization: validation/specialization-cases.md#neyman_pearson_lemma

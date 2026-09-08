@@ -47,7 +47,7 @@ sources:
   - 'pearson_1900'
   - 'fisher_1924'
   - 'cramer_1946'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#pearson_chi_squared_gof
   specialization: validation/specialization-cases.md#pearson_chi_squared_gof

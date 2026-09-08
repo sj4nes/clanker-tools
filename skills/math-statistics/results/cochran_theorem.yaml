@@ -40,7 +40,7 @@ sources:
   - 'cochran_1934'
   - 'rao_linear_statistical_inference'
   - 'scheffe_analysis_of_variance'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#cochran_theorem
   specialization: validation/specialization-cases.md#cochran_theorem

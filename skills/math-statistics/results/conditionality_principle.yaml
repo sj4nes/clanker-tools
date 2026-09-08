@@ -38,7 +38,7 @@ sources:
   - 'cox_1958'
   - 'birnbaum_1962'
   - 'berger_wolpert_likelihood_principle'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#conditionality_principle
   specialization: validation/specialization-cases.md#conditionality_principle

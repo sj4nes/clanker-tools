@@ -53,7 +53,7 @@ sources:
   - 'casella_berger_2e'
   - 'lehmann_casella_tpe'
   - 'kay_estimation_theory'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#cramer_rao_lower_bound
   specialization: validation/specialization-cases.md#cramer_rao_lower_bound

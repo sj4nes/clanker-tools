@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:cauchy_schwarz_expectation'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_cauchy_schwarz
   specialization: validation/specialization-cases.md#prob_cauchy_schwarz

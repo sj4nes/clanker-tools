@@ -42,7 +42,7 @@ sources:
   - 'welch_1947'
   - 'lehmann_romano_tsh'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#two_sample_t_test
   specialization: validation/specialization-cases.md#two_sample_t_test

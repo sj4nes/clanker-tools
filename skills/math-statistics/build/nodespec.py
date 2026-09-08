@@ -32,6 +32,20 @@ def load_deps():
 DEPS = load_deps()
 DEFAULT_SOURCES = ["casella_berger_2e", "van_der_vaart_asymptotic"]
 
+# node status is authoritative in nodes/nodes.tsv (promoted draft->reviewed at
+# Release 0.1, boundary nodes kept draft); the YAML `status:` field mirrors it.
+_REGISTRY_STATUS = {}
+try:
+    for _i, _l in enumerate(open(os.path.join(ROOT_DIR, "nodes/nodes.tsv"))):
+        if _i == 0:
+            continue
+        _f = _l.rstrip("\n").split("\t")
+        if len(_f) >= 5:
+            _REGISTRY_STATUS[_f[0]] = _f[4]
+except FileNotFoundError:
+    pass
+
+
 def q(s):
     return "'" + str(s).replace("'", "''") + "'"
 
@@ -81,7 +95,7 @@ class N:
         self.regime = regime; self.solving_for = solving_for
         self.spec = spec or []; self.cxd = cxd or {}; self.misuse = misuse or []
         self.related = related or {}; self.sources = sources or DEFAULT_SOURCES
-        self.status = status; self.tcs = tcs; self.apps = apps or []
+        self.status = _REGISTRY_STATUS.get(nid, status); self.tcs = tcs; self.apps = apps or []
         self.status_label = status_label or STATUS_BY_TYPE.get(ntype, "proved_theorem")
         N.ALL.append(self); N.BY_ID[nid] = self
 

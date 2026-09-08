@@ -33,7 +33,7 @@ related:
   required_by: ['sample_variance', 'normal_sample_mean_variance_independence', 'normal_mean_ci_known_variance']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#sample_mean
   specialization: validation/specialization-cases.md#sample_mean

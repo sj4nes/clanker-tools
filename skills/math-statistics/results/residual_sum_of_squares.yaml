@@ -36,7 +36,7 @@ related:
 sources:
   - 'seber_lee_linear_regression'
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#residual_sum_of_squares
   specialization: validation/specialization-cases.md#residual_sum_of_squares

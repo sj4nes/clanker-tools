@@ -38,7 +38,7 @@ sources:
   - 'birnbaum_1962'
   - 'berger_wolpert_likelihood_principle'
   - 'mayo_2014'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#likelihood_principle
   specialization: validation/specialization-cases.md#likelihood_principle

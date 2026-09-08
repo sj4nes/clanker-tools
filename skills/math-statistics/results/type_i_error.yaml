@@ -29,7 +29,7 @@ related:
 sources:
   - 'lehmann_romano_tsh'
   - 'neyman_pearson_1933'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#type_i_error
   specialization: validation/specialization-cases.md#type_i_error

@@ -41,7 +41,7 @@ sources:
   - 'bonferroni_1936'
   - 'holm_1979'
   - 'lehmann_romano_tsh'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#bonferroni_correction
   specialization: validation/specialization-cases.md#bonferroni_correction

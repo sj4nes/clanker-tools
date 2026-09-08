@@ -37,7 +37,7 @@ related:
 sources:
   - 'seber_lee_linear_regression'
   - 'hoaglin_welsch_1978'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#ols_is_projection
   specialization: validation/specialization-cases.md#ols_is_projection

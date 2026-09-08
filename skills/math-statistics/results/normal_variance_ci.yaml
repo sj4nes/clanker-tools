@@ -34,7 +34,7 @@ related:
   uses: ['pivot_method', 'scaled_sample_variance_chi_squared']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#normal_variance_ci
   specialization: validation/specialization-cases.md#normal_variance_ci

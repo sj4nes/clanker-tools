@@ -28,7 +28,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'brown_cai_dasgupta_2001'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#coverage_probability
   specialization: validation/specialization-cases.md#coverage_probability

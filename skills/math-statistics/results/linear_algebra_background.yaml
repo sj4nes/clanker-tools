@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from linear-algebra:background-assumed'
 sources:
   - 'linear-algebra'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#linear_algebra_background
   specialization: validation/specialization-cases.md#linear_algebra_background

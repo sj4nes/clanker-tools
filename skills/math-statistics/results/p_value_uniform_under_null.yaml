@@ -36,7 +36,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'murdoch_tsai_adcock_2008'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#p_value_uniform_under_null
   specialization: validation/specialization-cases.md#p_value_uniform_under_null

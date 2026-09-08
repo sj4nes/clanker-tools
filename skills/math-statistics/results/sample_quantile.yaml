@@ -36,7 +36,7 @@ related:
 sources:
   - 'van_der_vaart_asymptotic'
   - 'hyndman_fan_1996'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#sample_quantile
   specialization: validation/specialization-cases.md#sample_quantile

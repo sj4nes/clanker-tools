@@ -29,7 +29,7 @@ related:
 sources:
   - 'lehmann_romano_tsh'
   - 'karlin_rubin_1956'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#monotone_likelihood_ratio
   specialization: validation/specialization-cases.md#monotone_likelihood_ratio

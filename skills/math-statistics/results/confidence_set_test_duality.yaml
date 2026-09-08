@@ -40,7 +40,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'lehmann_romano_tsh'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#confidence_set_test_duality
   specialization: validation/specialization-cases.md#confidence_set_test_duality

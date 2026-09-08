@@ -139,7 +139,7 @@ naturally high concept-load domain; 131 stays. No trim.
       table in `conventions.md`; each limit-theorem YAML carries
       `convergence_mode:` (see `central_limit_theorem.yaml`). (2026-09-06)
 
-### math-statistics + statistics  (follows math-probability)
+### math-statistics  (Release 0.1 COMPLETE, 2026-09-08)  +  statistics
 
 **Decision 2026-09-08: build both, the theorem-tree capsule FIRST, the
 methodology skill second (it will cite the capsule).**
@@ -196,9 +196,18 @@ linear model with Gauss–Markov. Per-result `regime:` tag
       design (beta_hat = 7/6, 1/2; residuals orthogonal; R^2); Wald-interval coverage
       for Binom(20, 0.2) = 0.921 < 0.95 (undercoverage); Benjamini-Hochberg step-up
       rejects 4 vs Bonferroni 1. `build/all.sh` green (lean + bc). (2026-09-08)
-- [ ] **math-statistics:** Stage 5 — `SKILL.md` + promote node statuses
-      `draft`->`reviewed` + Release 0.1 publish + changelog; then the `statistics`
-      methodology skill (cites this capsule).
+- [x] **math-statistics:** Stage 5 — `SKILL.md` (front-door, full description),
+      `CHANGELOG.md` (Release 0.1 summary); 201 nodes promoted `draft`->`reviewed`
+      in `nodes.tsv` (wired through `build/nodespec.py` so the YAML `status:`
+      mirrors the registry), 5 boundary nodes (`le_cam_lan_theory`,
+      `hajek_convolution_theorem`, `local_asymptotic_minimax`, `donsker_theorem`,
+      `minimax_rate`) kept `draft` for 0.2. `build/all.sh` green end to end.
+      **Release 0.1 published.** (2026-09-08)
+
+**Release 0.2 territory:** a `math-linear-algebra` capsule below (discharges
+`linear_algebra_background`); LAN/Hajek/LAM proved not stated; martingale +
+sequential methods; deeper empirical-process layer; GLMs beyond the exp-family
+mention.
 - [ ] **math-statistics:** acknowledged gap — no `math-linear-algebra` capsule;
       `linear_algebra_background` is a single cited `bridge` node. Candidate for
       a future capsule below this one.

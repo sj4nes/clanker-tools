@@ -44,7 +44,7 @@ sources:
   - 'silverman_density_estimation'
   - 'tsybakov_nonparametric'
   - 'wand_jones_kernel_smoothing'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#kde_bias_variance_tradeoff
   specialization: validation/specialization-cases.md#kde_bias_variance_tradeoff

@@ -40,7 +40,7 @@ related:
 sources:
   - 'dkw_1956'
   - 'massart_1990'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#dvoretzky_kiefer_wolfowitz
   specialization: validation/specialization-cases.md#dvoretzky_kiefer_wolfowitz

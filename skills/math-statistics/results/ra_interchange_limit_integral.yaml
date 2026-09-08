@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-real-analysis:interchange_limit_integral'
 sources:
   - 'math-real-analysis'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#ra_interchange_limit_integral
   specialization: validation/specialization-cases.md#ra_interchange_limit_integral

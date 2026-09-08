@@ -38,7 +38,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'wasserstein_lazar_2016'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#p_value
   specialization: validation/specialization-cases.md#p_value

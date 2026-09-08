@@ -40,7 +40,7 @@ related:
   uses: ['prob_variance', 'prob_independence_factorization']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#bias_of_sample_variance
   specialization: validation/specialization-cases.md#bias_of_sample_variance

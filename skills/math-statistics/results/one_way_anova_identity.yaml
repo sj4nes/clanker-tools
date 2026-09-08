@@ -40,7 +40,7 @@ sources:
   - 'scheffe_analysis_of_variance'
   - 'casella_berger_2e'
   - 'fisher_1925'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#one_way_anova_identity
   specialization: validation/specialization-cases.md#one_way_anova_identity

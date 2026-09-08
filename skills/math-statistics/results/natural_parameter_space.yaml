@@ -29,7 +29,7 @@ related:
   required_by: ['cumulant_function', 'exponential_family_completeness']
 sources:
   - 'brown_exponential_families'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#natural_parameter_space
   specialization: validation/specialization-cases.md#natural_parameter_space

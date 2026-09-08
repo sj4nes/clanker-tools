@@ -43,7 +43,7 @@ sources:
   - 'silverman_density_estimation'
   - 'wand_jones_kernel_smoothing'
   - 'tsybakov_nonparametric'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#kernel_density_estimator
   specialization: validation/specialization-cases.md#kernel_density_estimator

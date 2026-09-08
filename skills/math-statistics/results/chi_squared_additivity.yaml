@@ -35,7 +35,7 @@ related:
   uses: ['chi_squared_distribution']
 sources:
   - 'casella_berger_2e'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#chi_squared_additivity
   specialization: validation/specialization-cases.md#chi_squared_additivity

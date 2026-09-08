@@ -57,7 +57,7 @@ sources:
   - 'cramer_1946'
   - 'van_der_vaart_asymptotic'
   - 'lehmann_casella_tpe'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#mle_asymptotic_normality
   specialization: validation/specialization-cases.md#mle_asymptotic_normality

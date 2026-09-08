@@ -41,7 +41,7 @@ related:
 sources:
   - 'casella_berger_2e'
   - 'van_der_vaart_asymptotic'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#score_identity
   specialization: validation/specialization-cases.md#score_identity

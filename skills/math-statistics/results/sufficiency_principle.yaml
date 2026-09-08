@@ -34,7 +34,7 @@ related:
 sources:
   - 'birnbaum_1962'
   - 'berger_wolpert_likelihood_principle'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#sufficiency_principle
   specialization: validation/specialization-cases.md#sufficiency_principle

@@ -42,7 +42,7 @@ sources:
   - 'glivenko_1933'
   - 'van_der_vaart_asymptotic'
   - 'vapnik_statistical_learning_theory'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#glivenko_cantelli
   specialization: validation/specialization-cases.md#glivenko_cantelli

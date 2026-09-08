@@ -23,7 +23,7 @@ common_misuse:
   - 'treating this as proved here — it is imported from math-probability:law_of_total_variance'
 sources:
   - 'math-probability'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#prob_law_total_variance
   specialization: validation/specialization-cases.md#prob_law_total_variance

@@ -41,7 +41,7 @@ related:
 sources:
   - 'weisberg_applied_linear_regression'
   - 'seber_lee_linear_regression'
-status: draft
+status: reviewed
 checks:
   type: validation/type-checks.md#r_squared
   specialization: validation/specialization-cases.md#r_squared
