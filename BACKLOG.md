@@ -343,10 +343,14 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 
 ### unknown-discovery
 
-- [ ] **unknown-discovery:** cross-link — step 6 hands off to `simulation`,
-      `design-of-experiments`, `control-systems`, `tla-checker`/`lean`; their
-      charters could point back at `templates/assumption-register.md` for the
-      assumption / hypothesis registers instead of restating.
+- [x] **unknown-discovery:** cross-link done — the charter templates of
+      `simulation` (`model-charter.md`), `design-of-experiments` (`charter.md`),
+      `control-systems` (`control-charter.md`), and `tla-checker`'s completion
+      requirements now point at `unknown-discovery/templates/assumption-register.md`
+      for a load-bearing premise that needs a triage score + disconfirming
+      signal, instead of expanding their local `assumptions_made` lists. UD step
+      6 notes the register is the shared format. All 4 verifications exit 0.
+      (2026-09-08)
 - [ ] **unknown-discovery:** worked end-to-end example — take one messy decision
       (capacity commitment or a post-release metric drop) through steps 1–9:
       charter → epistemic map → ranked assumptions → premortem + ACH → signal

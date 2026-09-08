@@ -263,7 +263,7 @@ For a pass, report states/transitions explored and max depth reached, and never 
 Before declaring a `tla-checker` task complete, confirm that:
 
 - The concrete engineering question was stated.
-- The system boundary, actors, environmental assumptions, and excluded behaviors were documented.
+- The system boundary, actors, environmental assumptions, and excluded behaviors were documented. When an environmental assumption is load-bearing for the result — a premise that, if wrong, invalidates the check rather than just narrowing its scope — track it in the [assumption register](../unknown-discovery/templates/assumption-register.md) from [`unknown-discovery`](../unknown-discovery/SKILL.md) with a disconfirming signal.
 - All domains are finite and all bounds are explicit.
 - Every variable has an initial value and type constraint.
 - Every action updates or preserves every variable.

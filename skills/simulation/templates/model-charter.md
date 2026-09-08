@@ -38,8 +38,18 @@ DATA PROVENANCE
   cleaning          : <steps applied; assumptions made>
   rights            : <licence / privacy / retention constraints>
 
+ASSUMPTIONS
+  structural / behavioral / data / numerical / operational — each stated as a
+  testable claim, with the effect on the conclusion if it is wrong
+
 VALIDITY DOMAIN
   applies for       : <regimes where conclusions hold>
   does NOT apply for : <extrapolation the result must not be used for>
   failure modes     : <high-consequence ways the model could mislead>
 ```
+
+When an assumption is load-bearing enough to rank and track — with a triage
+score, a disconfirming signal, and an earliest indicator — promote it to the
+[assumption register](../../unknown-discovery/templates/assumption-register.md)
+from [`unknown-discovery`](../../unknown-discovery/SKILL.md) rather than
+expanding this section.

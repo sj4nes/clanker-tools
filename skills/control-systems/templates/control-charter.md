@@ -49,3 +49,11 @@ control_charter:
   assumptions_made: []              # anything filled in without confirmation
   blocking_questions: []            # minimal questions that must be answered first
 ```
+
+When an assumption is load-bearing enough to rank and track — with a triage
+score, a disconfirming signal, and an earliest indicator — promote it to the
+[assumption register](../../unknown-discovery/templates/assumption-register.md)
+from [`unknown-discovery`](../../unknown-discovery/SKILL.md) rather than
+expanding this list. (The `uncertainty_register` above stays here — it is the
+plant-model envelope; the assumption register is for the premises that, if
+wrong, change the design.)

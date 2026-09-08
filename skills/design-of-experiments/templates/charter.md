@@ -42,3 +42,9 @@ charter:
   assumptions_made: []            # anything filled in without confirmation
   blocking_questions: []          # the minimal questions that must be answered before designing
 ```
+
+When an assumption is load-bearing enough to rank and track — with a triage
+score, a disconfirming signal, and an earliest indicator — promote it to the
+[assumption register](../../unknown-discovery/templates/assumption-register.md)
+from [`unknown-discovery`](../../unknown-discovery/SKILL.md) rather than
+expanding this list.

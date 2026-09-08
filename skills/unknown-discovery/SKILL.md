@@ -203,7 +203,11 @@ variable". Say which one you are in.
    [`design-of-experiments`](../design-of-experiments/SKILL.md) for the learning
    design, [`control-systems`](../control-systems/SKILL.md) for a safety filter
    during a live probe, and [`tla-checker`](../tla-checker/SKILL.md) /
-   [`lean`](../lean/SKILL.md) for an invariant or protocol core.
+   [`lean`](../lean/SKILL.md) for an invariant or protocol core. Those skills'
+   charters point back at
+   [`templates/assumption-register.md`](templates/assumption-register.md) for a
+   load-bearing premise that needs a triage score and a disconfirming signal —
+   it is the shared format.
    [`references/probes-and-value-of-information.md`](references/probes-and-value-of-information.md).
 7. **Forecast and calibrate.** Record material forecasts as probabilities with
    deadlines, base rates, and disconfirming evidence. Score resolved forecasts
