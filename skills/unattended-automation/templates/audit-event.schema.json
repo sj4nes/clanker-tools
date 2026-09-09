@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UnattendedAutomationAuditEvent",
+  "description": "One structured event per automation run, and one per stage for a pipeline. Emit as a single JSON object per line. Redact before writing: no raw secrets, tokens, full PII, or full payloads - use sha256 fingerprints, counts, summaries, and resource identifiers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["ts", "run_id", "automation", "event_type"],
+  "properties": {
+    "ts": { "type": "string", "format": "date-time" },
+    "run_id": { "type": "string" },
+    "parent_run_id": { "type": "string", "description": "the run this is a stage or retry of" },
+    "automation": { "type": "string", "description": "stable name of the job/pipeline" },
+    "version": { "type": "string", "description": "commit/tag of the automation definition" },
+    "stage": { "type": "string", "description": "present for pipeline stage events" },
+    "event_type": {
+      "enum": [
+        "run_started", "input_validated", "input_rejected", "plan",
+        "skipped", "unit_processed", "retry", "checkpoint",
+        "stop_requested", "stopped", "postcondition_verified",
+        "postcondition_failed", "circuit_open", "reconciliation_needed",
+        "done", "error"
+      ]
+    },
+    "trigger": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": { "enum": ["cron", "timer", "scheduler", "queue", "webhook", "ci", "manual"] },
+        "source": { "type": "string" },
+        "authenticated": { "type": "boolean" }
+      }
+    },
+    "inputs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string" },
+          "fingerprint": { "type": "string" },
+          "age_seconds": { "type": "number" },
+          "size": { "type": "integer" },
+          "row_count": { "type": "integer" }
+        }
+      }
+    },
+    "plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "planned_items": { "type": "integer" },
+        "sample_ids": { "type": "array", "items": { "type": "string" } },
+        "dry_run": { "type": "boolean" }
+      }
+    },
+    "changes": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "what actually changed",
+      "properties": {
+        "created": { "type": "integer" },
+        "updated": { "type": "integer" },
+        "deleted": { "type": "integer" },
+        "sent": { "type": "integer" },
+        "resource_ids": { "type": "array", "items": { "type": "string" } },
+        "backup_ref": { "type": "string" }
+      }
+    },
+    "retries": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "call": { "type": "string" },
+        "attempts": { "type": "integer" },
+        "error_class": {
+          "enum": ["validation", "authentication", "authorization", "not_found",
+                   "conflict", "transient_dependency", "rate_limit",
+                   "postcondition_failure", "resource_limit", "unknown"]
+        }
+      }
+    },
+    "checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "last_processed": { "type": "string" },
+        "processed_count": { "type": "integer" },
+        "resumable": { "type": "boolean" }
+      }
+    },
+    "postcondition": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "method": { "type": "string" },
+        "expected": { "type": "string" },
+        "observed": { "type": "string" },
+        "verified": { "type": "boolean" }
+      }
+    },
+    "outcome": {
+      "enum": ["success", "dry_run", "nothing_to_do", "rejected",
+               "skipped_locked", "skipped_kill_switch", "partial",
+               "reconciliation_needed", "failed", "stopped"]
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "duration_seconds": { "type": "number" },
+        "items_processed": { "type": "integer" },
+        "retries_total": { "type": "integer" },
+        "spend": { "type": "number" },
+        "api_calls": { "type": "integer" }
+      }
+    },
+    "exit_code": { "type": "integer" },
+    "error": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "enum": ["validation", "authentication", "authorization", "not_found",
+                   "conflict", "transient_dependency", "rate_limit",
+                   "postcondition_failure", "resource_limit", "unknown"]
+        },
+        "message_redacted": { "type": "string" },
+        "retryable": { "type": "boolean" },
+        "alerted": { "type": "boolean" }
+      }
+    }
+  }
+}

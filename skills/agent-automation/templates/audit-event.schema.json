@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentAutomationAuditEvent",
+  "description": "One structured event emitted at a boundary of an agent-automation run. Prose-only logs are not acceptable. Redact before writing: no raw secrets, tokens, full payment details, unmasked PII, or full documents - use hashes, redacted excerpts, and resource identifiers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["timestamp", "event_id", "run_id", "event_type", "actor", "agent"],
+  "properties": {
+    "timestamp": { "type": "string", "format": "date-time" },
+    "event_id": { "type": "string" },
+    "trace_id": { "type": "string" },
+    "run_id": { "type": "string" },
+    "parent_run_id": { "type": "string" },
+    "tenant_id": { "type": "string" },
+    "actor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "id"],
+      "properties": {
+        "type": { "enum": ["human", "service", "schedule", "agent"] },
+        "id": { "type": "string" },
+        "role": { "type": "string" }
+      }
+    },
+    "agent": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": { "type": "string" },
+        "version": { "type": "string" },
+        "model": { "type": "string" },
+        "prompt_version": { "type": "string" },
+        "tool_schema_version": { "type": "string" }
+      }
+    },
+    "event_type": {
+      "enum": [
+        "run_started",
+        "plan_proposed",
+        "action_evaluated",
+        "action_blocked",
+        "approval_requested",
+        "approval_recorded",
+        "tool_execution_started",
+        "tool_execution_completed",
+        "postcondition_verified",
+        "reconciliation_started",
+        "circuit_breaker_tripped",
+        "kill_switch_engaged",
+        "limit_exceeded",
+        "error",
+        "run_completed"
+      ]
+    },
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "risk_tier": { "enum": ["read_only", "low_impact_write", "moderate_impact_write", "high_impact", "critical_irreversible"] },
+        "idempotency_key": { "type": "string" },
+        "parameter_fingerprint": { "type": "string" },
+        "target_scope": { "type": "string" },
+        "records_affected": { "type": "integer" }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": { "type": "string" },
+        "decision": { "enum": ["allow", "allow_with_approval", "deny"] },
+        "rules_matched": { "type": "array", "items": { "type": "string" } },
+        "denial_reason": { "type": "string" }
+      }
+    },
+    "approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required": { "type": "boolean" },
+        "dual_control": { "type": "boolean" },
+        "approval_id": { "type": "string" },
+        "approver_id": { "type": "string" },
+        "second_approver_id": { "type": "string" },
+        "expires_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "tool": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "request_fingerprint": { "type": "string" },
+        "response_fingerprint": { "type": "string" },
+        "latency_ms": { "type": "number" },
+        "attempt": { "type": "integer" },
+        "status": { "enum": ["success", "transient_error", "permanent_error", "timeout"] }
+      }
+    },
+    "outcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "verified": { "type": "boolean" },
+        "verification_method": { "type": "string" },
+        "resource_id": { "type": "string" },
+        "rollback_status": { "enum": ["not_needed", "pending", "completed", "failed"] }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "tool_calls_used": { "type": "integer" },
+        "wall_clock_ms": { "type": "number" },
+        "tokens_used": { "type": "integer" },
+        "spend_used": { "type": "number" }
+      }
+    },
+    "error": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "properties": {
+        "class": {
+          "enum": ["validation", "authentication", "authorization", "conflict",
+                   "transient_dependency", "rate_limit", "external_safety_issue",
+                   "postcondition_failure", "unknown"]
+        },
+        "message_redacted": { "type": "string" },
+        "retryable": { "type": "boolean" },
+        "escalated": { "type": "boolean" }
+      }
+    }
+  }
+}
