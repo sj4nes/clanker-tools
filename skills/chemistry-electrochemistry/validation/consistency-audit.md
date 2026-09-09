@@ -36,7 +36,7 @@ does not fix a wrong coefficient, sign, regime, or missing term.
 
 ## Derivation-step arithmetic (`validation/derivation-checks.lean`, Lean 4.33.1, no Mathlib)
 
-32 kernel-`decide`d instance checks over `Int` (potentials in centi- or
+35 kernel-`decide`d instance checks over `Int` (potentials in centi- or
 milli-volts, charges in coulombs, energies scaled). Grouped:
 1. `faradays_law_electrolysis` — `1 F` → `1 mol` (`z = 1`); `192970 C / (2·96485)
    = 1 mol` (`z = 2`).
@@ -65,6 +65,8 @@ milli-volts, charges in coulombs, energies scaled). Grouped:
     14084 mol Cl₂ per tonne`.
 16. `iron_flow_battery` — `E°_cell = 77 − (−44) = 121` cV; `−44 < 0` (iron plates
     below the H₂ line); `20000 / 15 = 1333 L` per tank for 20 kWh at 15 Wh/L.
+17. `zinc_iron_flow_battery` — `E°_cell = 36 − (−120) = 156` cV; `156 > 121`
+    (higher than all-iron); `20000 / 25 = 800 L` per tank at 25 Wh/L.
 **Recorded caveat:** Lean verified the *arithmetic* of each bookkeeping identity
 only — not that `ΔG° = −RT ln K` (imported), not the Butler–Volmer rate law, and
 not any tabulated `E°`, `K`, molar mass, or industrial cell figure.

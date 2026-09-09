@@ -41,11 +41,11 @@ batteries (one contrast node), fuel-cell engineering. See `scope.md`.
 | concept/formula entries `formulas/electrochemistry.md` | **done** — one entry per node (112), domain-grouped, reconciled against the graph |
 | `sources/bibliography.md` | **done** (BLM, Atkins, Bard & Faulkner, Newman, Pletcher & Walsh, Skyllas-Kazacos, IUPAC, SI, CODATA) |
 | `bc` dimensional checks `validation/dimensional-checks.bc` | **done** — 17 checks on the `[M L T Θ N I]` 6-tuple, all `0 0 0 0 0 0` |
-| `lean` identity checks `validation/derivation-checks.lean` | **done** — 32 kernel-`decide` instance checks, `lean` exit 0 |
+| `lean` identity checks `validation/derivation-checks.lean` | **done** — 35 kernel-`decide` instance checks, `lean` exit 0 |
 | discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (8 headline targets) |
 | `validation/consistency-audit.md` | **done** — full run recorded |
 | `SKILL.md` | **done** |
-| tutorials | **6 shipped** — see below |
+| tutorials | **7 shipped** — see below |
 
 Release 0.1 core is complete. All 112 nodes are still `status: draft`; importing
 the electrical primitives from a future `physics-circuits` capsule, promoting the
@@ -57,7 +57,7 @@ embedded assumptions to nodes, per-node pages, and the review pass are Release
 ```sh
 sh build/build-tree.sh                          # graph-check + tsort + cycle check + order verification
 bc -q -l validation/dimensional-checks.bc       # 17 [M L T Θ N I] checks, want 0 0 0 0 0 0
-lean validation/derivation-checks.lean          # 32 kernel-decide instance checks, exit 0
+lean validation/derivation-checks.lean          # 35 kernel-decide instance checks, exit 0
 sh build/gen-assumption-index.sh                # regenerate indexes/assumption-index.md
 sh build/gen-symbol-index.sh                    # ptx discovery pass for the hand-curated symbol index
 ```
@@ -77,9 +77,11 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 | 4 | [`iron-flow-battery`](tutorial/iron-flow-battery.md) | `iron_flow_battery` — the flow-battery architecture, the three efficiencies, and why **all-iron** (not vanadium) is the homestead chemistry; capstone sizes a 20 kWh / 4 kW off-grid battery |
 | 5 | [`hydrogen-as-a-battery`](tutorial/hydrogen-as-a-battery.md) | `reversible_fuel_cell` — water electrolysis and its reverse; `1.23 V` vs `1.48 V`, the oxygen overpotential paid both ways, `~31 %` round trip; capstone: H₂ storage (seasonal) vs the iron flow battery (daily) |
 | 6 | [`the-voltage-isnt-fixed`](tutorial/the-voltage-isnt-fixed.md) | `nernst_equation` — `E = E° − (RT/zF) ln Q`, the `59.16/z` mV-per-decade pH-meter slope, a concentration-difference battery, and why a cell's OCV sags; capstone derives the `~80 %` usable SOC window |
+| 7 | [`zinc-iron-alternative`](tutorial/zinc-iron-alternative.md) | `zinc_iron_flow_battery` — the `~1.56 V` alkaline zinc–iron cell: higher voltage (smaller tanks), the ferrocyanide safety question, the zinc-plating limit; capstone: a 3-chemistry decision table |
 
-`upmd --ci --all` green (11 / 11 / 9 / 11 / 9 / 9 blocks). One cut left in
-`indexes/prerequisite-paths.md`: `zinc_iron_flow_battery`.
+`upmd --ci --all` green (11 / 11 / 9 / 11 / 9 / 9 / 8 blocks). **The tutorial set
+is complete** — every staged target in `indexes/prerequisite-paths.md` is
+shipped, covering both applied halves (making substances; storing energy).
 
 ## Reading order caveat
 

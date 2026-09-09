@@ -21,12 +21,14 @@ flowchart TD
     T4["4 · iron-flow-battery<br/>iron_flow_battery<br/>— sizing a homestead battery"]
     T5["5 · hydrogen-as-a-battery<br/>reversible_fuel_cell<br/>— H₂ round-trip storage"]
     T6["6 · the-voltage-isnt-fixed<br/>nernst_equation<br/>— E moves with concentration"]
+    T7["7 · zinc-iron-alternative<br/>zinc_iron_flow_battery<br/>— a denser, higher-voltage flow chem"]
     T1 --> T2 --> T3 --> T4
     T2 --> T5
     T2 --> T6
+    T4 --> T7
+    T6 --> T7
     T4 -.compared in.-> T5
     T4 -.explained by.-> T6
-    T6 -.planned.-> T7["zinc_iron_flow_battery"]
 ```
 
 1. **`per-amp-hour`** (`faradays_law_electrolysis`) — the charge/electron/mass
@@ -57,6 +59,12 @@ flowchart TD
    pH-meter slope), a battery built from a concentration difference alone, and
    why the open-circuit voltage sags as a cell discharges. Capstone derives the
    `~80 %` usable SOC window that tutorial #4 hand-waved.
+7. **`zinc-iron-alternative`** (`zinc_iron_flow_battery`) — uses #4 and #6. The
+   `~1.56 V` alkaline zinc–iron cell: higher voltage (smaller tanks) than
+   all-iron, the ferrocyanide safety question (it is a food additive; keep acid
+   away), and the zinc-plating limit it trades for the parasitic-hydrogen one.
+   Capstone: a three-chemistry decision table (all-vanadium / all-iron /
+   zinc-iron) for the 20 kWh homestead battery.
 
 ## The tutorials
 
@@ -68,6 +76,7 @@ flowchart TD
 | 4 | [`iron-flow-battery`](iron-flow-battery.md) | `iron_flow_battery` | 11 | 3 dimensional, 5 numeric, 3 Lean, capstone |
 | 5 | [`hydrogen-as-a-battery`](hydrogen-as-a-battery.md) | `reversible_fuel_cell` | 9 | 1 dimensional, 4 numeric, 2 Lean, capstone |
 | 6 | [`the-voltage-isnt-fixed`](the-voltage-isnt-fixed.md) | `nernst_equation` | 9 | 1 dimensional, 4 numeric, 2 Lean, capstone |
+| 7 | [`zinc-iron-alternative`](zinc-iron-alternative.md) | `zinc_iron_flow_battery` | 8 | 6 numeric, 1 Lean, capstone (contrast — no dimensional check) |
 
 "Dimensional" = a `[M L T Θ N I]` 6-tuple check printing `0 0 0 0 0 0`.
 "Lean" = a `bash` block that heredocs the capsule's exact
@@ -84,15 +93,19 @@ if `lean` is absent.
 | 4 | tutorials #1–#3; a rough sense of grams-vs-kWh scale for off-grid storage |
 | 5 | tutorials #1, #2, #4; the difference between daily and seasonal storage |
 | 6 | tutorials #1, #2, #4; logarithms, and Q / K from chemistry-foundations |
+| 7 | tutorials #4 and #6 |
 
 All work at **298.15 K** in the **`dilute_ideal_solution`** limit, and stop
 where the capsule stops (Butler–Volmer stated not derived; no double layer, no
 photo-electrochemistry, no corrosion engineering).
 
-## Planned
+## Completeness
 
-From `../indexes/prerequisite-paths.md`: `zinc_iron_flow_battery` (the
-higher-voltage low-toxicity flow chemistry) is the last staged cut.
+Seven tutorials cover both applied halves of the capsule end to end — **making
+substances** (#1 Faraday's law → #2 energy cost → #3 selectivity) and **storing
+energy** (#4 iron flow battery → #5 hydrogen → #6 the Nernst voltage → #7 the
+zinc–iron alternative). Every staged target in
+`../indexes/prerequisite-paths.md` is now shipped.
 
 ## Verifying the set
 

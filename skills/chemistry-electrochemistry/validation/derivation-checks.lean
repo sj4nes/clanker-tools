@@ -117,3 +117,12 @@ example : ((77 : Int) - (-44)) = 121 := by decide
 example : ((-44 : Int) < 0) := by decide
 --     sizing: 20 kWh of usable storage at ~15 Wh/L needs ~1333 L per tank.
 example : ((20000 : Int) / 15) = 1333 := by decide
+
+-- 17. zinc_iron_flow_battery (alkaline).  Centivolts.
+--     E0_cell = E0(Fe(CN)6 3-/4-) - E0(Zn(OH)4/Zn) = 36 - (-120) = 156  (~1.56 V).
+example : ((36 : Int) - (-120)) = 156 := by decide
+--     higher cell voltage than all-iron (156 cV > 121 cV) -> more energy per electron:
+example : ((156 : Int) > 121) := by decide
+--     sizing: 20 kWh at ~25 Wh/L (higher voltage helps) needs ~800 L per tank,
+--     vs ~1333 L for all-iron at ~15 Wh/L.
+example : ((20000 : Int) / 25) = 800 := by decide

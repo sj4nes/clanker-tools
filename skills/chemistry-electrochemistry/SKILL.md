@@ -95,7 +95,7 @@ then see [`validation/consistency-audit.md`](validation/consistency-audit.md):
 - **Dimensions:** 17 relations checked on the `[M L T Θ N I]` 6-tuple via `bc`
   ([`validation/dimensional-checks.bc`](validation/dimensional-checks.bc)) — all
   `0 0 0 0 0 0`. Dimensional consistency is necessary, not sufficient.
-- **Arithmetic:** 32 kernel-`decide` instance checks via Lean
+- **Arithmetic:** 35 kernel-`decide` instance checks via Lean
   ([`validation/derivation-checks.lean`](validation/derivation-checks.lean)) —
   the Faraday mass/volume bookkeeping, `E°_cell = E°_cathode − E°_anode`,
   `ΔG = −zFE`, `ln K = zFE°/RT`, the Nernst zero at `Q = K`, the `59.16/z` mV
