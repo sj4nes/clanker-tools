@@ -47,15 +47,51 @@ lake exe cache get        # prebuilt Mathlib oleans — minutes, not hours
 lake build
 ```
 
-For an **existing** Lake project, add Mathlib to the Lake config with a matching
-`lean-toolchain`, then `lake update && lake exe cache get && lake build`.
+For an **existing** Lake project, add Mathlib as a dependency and align the
+toolchain to the one Mathlib pins (a mismatch is the most common failure):
 
-Confirm it works with a one-liner that needs Mathlib:
+```toml
+# lakefile.toml
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+```
+
+```sh
+# match this project's Lean version to Mathlib's, then fetch + cache
+curl -L https://raw.githubusercontent.com/leanprover-community/mathlib4/master/lean-toolchain \
+  -o lean-toolchain
+lake update            # resolves mathlib + its transitive deps into lake-manifest.json
+lake exe cache get     # prebuilt Mathlib oleans — minutes, not hours
+lake build
+```
+
+A `lakefile.lean` project uses `require mathlib from git "https://github.com/leanprover-community/mathlib4"`
+instead of the TOML block; everything else is the same.
+
+Confirm it works with a one-liner that needs Mathlib (`ring` is Mathlib-only):
 
 ```lean
 import Mathlib
-example (n : Nat) : n + 0 = n := by simp
+example (a b : ℝ) : (a + b)^2 = a^2 + 2*a*b + b^2 := by ring
 ```
+
+Check it through the project toolchain, not a global binary:
+`lake env lean Test.lean` or `lake build`.
+
+### Mathlib setup — common issues
+
+| Symptom | Cause / fix |
+|---|---|
+| `lake: command not found` | `elan` not on PATH — reopen the shell; verify with `elan --version`. |
+| `lake build` compiles Mathlib from source (hours) | ran before `lake exe cache get`, or the cache is stale for the current commit — stop it, run `lake exe cache get`, rebuild. |
+| `lake exe cache get` fetches nothing / few files | `lean-toolchain` or the pinned Mathlib rev does not match a cached build — align `lean-toolchain` to Mathlib's (curl above), `lake update`, retry. |
+| version-mismatch / olean errors after `lake update` | never hand-pick a Lean version for a Mathlib project — the resolved `lean-toolchain` is authoritative; re-sync it and `lake exe cache get`. |
+| editor / `lake env lean` cannot find `Mathlib` | opened a stray file, not the project root — the dir with `lakefile.toml` + `lean-toolchain` must be the working dir; wait for `lake build` to finish once. |
+| want a smaller dependency surface | `import Mathlib` is fine to start; narrow to specific modules (`import Mathlib.Tactic.Ring`, `import Mathlib.Data.Real.Basic`) once the needed API is known. |
+
+The VS Code **Lean 4** extension runs this same `elan` + Lake flow with a guided
+setup; for autonomous CLI work the commands above are the whole story.
 
 Without Mathlib, `ring`, `nlinarith`, `linarith`, `polyrith`, `field_simp`,
 `norm_num` extensions, and the `Real`/`Complex` API are unavailable — plain-Lean
