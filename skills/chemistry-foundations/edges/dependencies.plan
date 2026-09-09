@@ -1,0 +1,248 @@
+# Prerequisite edges: "A<TAB>B" means A must be understood before B can be
+# correctly defined, derived, interpreted, or applied within Release 0.1 scope.
+# Evidence for each block is in the leading comment. Non-prerequisite relations
+# (generalizes, approximates, commonly_confused_with, tested_by) go in
+# edges/relations.tsv, NOT here.
+
+# --- foundations / math roots ---
+# si_units grounds every measured quantity; dimensional_analysis is built on it.
+si_units	dimensional_analysis
+
+# --- atomic structure and the periodic table ---
+# Z counts protons in the nucleus; element identity IS Z; the table orders by Z.
+atomic_structure	atomic_number
+atom	element
+atomic_number	element
+element	periodic_table
+periodic_table	periodic_law
+periodic_law	periodic_trends
+atomic_number	periodic_trends
+periodic_trends	electronegativity
+periodic_trends	ionization_energy
+# isotopes: same Z, different neutron count; abundance is measured per isotope.
+atomic_structure	isotope
+atomic_number	isotope
+isotope	isotopic_abundance
+# mass scale for atoms
+atom	atomic_mass_unit
+si_units	atomic_mass_unit
+atomic_mass_unit	relative_atomic_mass
+isotope	relative_atomic_mass
+isotopic_abundance	relative_atomic_mass
+summation_notation	relative_atomic_mass
+# ions and substances
+atom	ion
+atomic_structure	ion
+element	chemical_substance
+chemical_substance	chemical_formula
+element	chemical_formula
+
+# --- the mole ---
+si_units	avogadro_constant
+avogadro_constant	amount_of_substance
+amount_of_substance	number_from_amount
+avogadro_constant	number_from_amount
+amount_of_substance	molar_mass
+si_units	molar_mass
+molar_mass	molar_mass_from_formula
+chemical_formula	molar_mass_from_formula
+relative_atomic_mass	molar_mass_from_formula
+summation_notation	molar_mass_from_formula
+molar_mass	amount_from_mass
+ratio_proportion	amount_from_mass
+molar_mass_from_formula	percent_composition
+chemical_formula	percent_composition
+percent_composition	empirical_formula
+amount_from_mass	empirical_formula
+ratio_proportion	empirical_formula
+empirical_formula	molecular_formula
+molar_mass_from_formula	molecular_formula
+
+# --- reactions and stoichiometry ---
+# a reaction rearranges atoms among substances; mass and charge are conserved.
+chemical_substance	chemical_reaction
+atom	chemical_reaction
+chemical_reaction	conservation_of_mass
+atom	conservation_of_mass
+chemical_reaction	conservation_of_charge
+ion	conservation_of_charge
+chemical_reaction	chemical_equation
+chemical_formula	chemical_equation
+chemical_equation	stoichiometric_coefficient
+chemical_equation	balancing_chemical_equations
+conservation_of_mass	balancing_chemical_equations
+conservation_of_charge	balancing_chemical_equations
+stoichiometric_coefficient	balancing_chemical_equations
+balancing_chemical_equations	mole_ratio
+stoichiometric_coefficient	mole_ratio
+amount_of_substance	mole_ratio
+ratio_proportion	mole_ratio
+mole_ratio	limiting_reagent
+amount_from_mass	limiting_reagent
+limiting_reagent	theoretical_yield
+mole_ratio	theoretical_yield
+molar_mass_from_formula	theoretical_yield
+theoretical_yield	percent_yield
+
+# --- solutions ---
+chemical_substance	solution
+solution	molarity
+amount_of_substance	molarity
+solution	dilute_ideal_solution
+molarity	dilution_equation
+molarity	solution_stoichiometry
+mole_ratio	solution_stoichiometry
+solution_stoichiometry	titration
+titration	equivalence_point
+mole_ratio	equivalence_point
+
+# --- gases ---
+si_units	gas_constant
+amount_of_substance	ideal_gas_law
+gas_constant	ideal_gas_law
+dimensional_analysis	ideal_gas_law
+ideal_gas_law	standard_conditions_stp
+ideal_gas_law	molar_volume
+amount_of_substance	mole_fraction
+ideal_gas_law	daltons_law
+mole_fraction	daltons_law
+daltons_law	partial_pressure
+mole_fraction	partial_pressure
+ideal_gas_law	gas_stoichiometry
+mole_ratio	gas_stoichiometry
+
+# --- thermochemistry ---
+si_units	system_surroundings
+system_surroundings	state_function
+system_surroundings	heat_work_sign_convention
+system_surroundings	internal_energy
+state_function	internal_energy
+internal_energy	first_law_thermo
+heat_work_sign_convention	first_law_thermo
+internal_energy	enthalpy
+first_law_thermo	enthalpy
+state_function	enthalpy
+heat_work_sign_convention	specific_heat_capacity
+si_units	specific_heat_capacity
+specific_heat_capacity	calorimetry
+enthalpy	enthalpy_of_reaction
+chemical_equation	enthalpy_of_reaction
+state_function	enthalpy_of_reaction
+calorimetry	heat_of_reaction_calorimetry
+enthalpy_of_reaction	heat_of_reaction_calorimetry
+heat_work_sign_convention	heat_of_reaction_calorimetry
+si_units	standard_state
+enthalpy	standard_state
+enthalpy_of_reaction	hess_law
+state_function	hess_law
+standard_state	standard_enthalpy_of_formation
+enthalpy_of_reaction	standard_enthalpy_of_formation
+chemical_formula	standard_enthalpy_of_formation
+standard_enthalpy_of_formation	enthalpy_from_formation_enthalpies
+hess_law	enthalpy_from_formation_enthalpies
+mole_ratio	enthalpy_from_formation_enthalpies
+summation_notation	enthalpy_from_formation_enthalpies
+covalent_bond	bond_enthalpy
+enthalpy	bond_enthalpy
+bond_enthalpy	enthalpy_from_bond_enthalpies
+enthalpy_of_reaction	enthalpy_from_bond_enthalpies
+lewis_structure	enthalpy_from_bond_enthalpies
+summation_notation	enthalpy_from_bond_enthalpies
+
+# --- equilibrium ---
+chemical_reaction	reversible_reaction
+reversible_reaction	dynamic_equilibrium
+dynamic_equilibrium	law_of_mass_action
+molarity	law_of_mass_action
+law_of_mass_action	equilibrium_constant
+stoichiometric_coefficient	equilibrium_constant
+dilute_ideal_solution	equilibrium_constant
+equilibrium_constant	reaction_quotient
+equilibrium_constant	q_versus_k
+reaction_quotient	q_versus_k
+equilibrium_constant	kp_kc_relation
+ideal_gas_law	kp_kc_relation
+partial_pressure	kp_kc_relation
+equilibrium_constant	heterogeneous_equilibrium
+chemical_substance	heterogeneous_equilibrium
+enthalpy	gibbs_free_energy
+standard_state	gibbs_free_energy
+gibbs_free_energy	gibbs_helmholtz_relation
+enthalpy_of_reaction	gibbs_helmholtz_relation
+gibbs_free_energy	spontaneity_criterion
+gibbs_free_energy	reaction_isotherm
+equilibrium_constant	reaction_isotherm
+standard_state	reaction_isotherm
+logarithm	reaction_isotherm
+dynamic_equilibrium	le_chatelier
+q_versus_k	le_chatelier
+equilibrium_constant	ice_table
+reaction_quotient	ice_table
+quadratic_formula	ice_table
+molarity	ice_table
+
+# --- acids and bases ---
+ion	arrhenius_acid_base
+solution	arrhenius_acid_base
+arrhenius_acid_base	bronsted_lowry
+bronsted_lowry	conjugate_acid_base_pair
+bronsted_lowry	water_autoionization
+equilibrium_constant	water_autoionization
+water_autoionization	ph_definition
+logarithm	ph_definition
+dilute_ideal_solution	ph_definition
+ph_definition	poh_relation
+water_autoionization	poh_relation
+ph_definition	strong_acid_base_ph
+arrhenius_acid_base	strong_acid_base_ph
+molarity	strong_acid_base_ph
+bronsted_lowry	weak_acid_equilibrium
+equilibrium_constant	weak_acid_equilibrium
+ice_table	weak_acid_equilibrium
+weak_acid_equilibrium	ka_kb_relation
+water_autoionization	ka_kb_relation
+conjugate_acid_base_pair	ka_kb_relation
+weak_acid_equilibrium	percent_ionization
+ice_table	percent_ionization
+weak_acid_equilibrium	henderson_hasselbalch
+ph_definition	henderson_hasselbalch
+logarithm	henderson_hasselbalch
+weak_acid_equilibrium	buffer
+conjugate_acid_base_pair	buffer
+le_chatelier	buffer
+titration	acid_base_titration_curve
+ph_definition	acid_base_titration_curve
+weak_acid_equilibrium	acid_base_titration_curve
+buffer	acid_base_titration_curve
+
+# --- redox bookkeeping ---
+chemical_formula	oxidation_number_rules
+ion	oxidation_number_rules
+electronegativity	oxidation_number_rules
+oxidation_number_rules	oxidation_reduction
+ion	oxidation_reduction
+oxidation_reduction	oxidizing_reducing_agent
+oxidation_reduction	half_reaction
+conservation_of_charge	half_reaction
+half_reaction	balancing_redox_half_reactions
+balancing_chemical_equations	balancing_redox_half_reactions
+conservation_of_charge	balancing_redox_half_reactions
+
+# --- qualitative bonding / structure (feeder nodes) ---
+ion	ionic_bond
+electronegativity	ionic_bond
+electronegativity	covalent_bond
+atomic_structure	covalent_bond
+atomic_structure	octet_rule
+periodic_table	octet_rule
+covalent_bond	lewis_structure
+octet_rule	lewis_structure
+chemical_formula	lewis_structure
+lewis_structure	formal_charge
+lewis_structure	vsepr
+covalent_bond	bond_polarity
+electronegativity	bond_polarity
+bond_polarity	molecular_polarity
+vsepr	molecular_polarity
+molecular_polarity	intermolecular_forces
+bond_polarity	intermolecular_forces

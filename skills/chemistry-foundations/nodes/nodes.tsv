@@ -1,0 +1,114 @@
+id	type	title	domain	status	knowledge_level	primary_formula
+si_units	primitive	SI units and the mole	foundations	draft	foundation	—
+dimensional_analysis	convention	Dimensional analysis [M L T Θ N]	foundations	draft	foundation	—
+logarithm	math_definition	Logarithm (base 10 and natural)	math	draft	foundation	log(xy) = log x + log y
+quadratic_formula	math_definition	Quadratic formula	math	draft	support	x = (-b ± sqrt(b^2 - 4ac)) / (2a)
+ratio_proportion	math_definition	Ratio and proportion	math	draft	foundation	a/b = c/d
+summation_notation	math_definition	Summation notation	math	draft	support	Σ_i a_i
+atom	primitive	Atom	atomic	draft	foundation	—
+atomic_structure	primitive	Atomic structure (nucleus and electrons)	atomic	draft	foundation	—
+atomic_number	definition	Atomic number Z	atomic	draft	foundation	Z = number of protons
+element	primitive	Chemical element	atomic	draft	foundation	—
+periodic_table	primitive	The periodic table	atomic	draft	foundation	—
+periodic_law	empirical_law	Periodic law	atomic	draft	core	—
+periodic_trends	qualitative_rule	Periodic trends	atomic	draft	core	—
+electronegativity	definition	Electronegativity	atomic	draft	core	—
+isotope	physical_definition	Isotope	atomic	draft	foundation	—
+isotopic_abundance	reference_data	Isotopic abundance	atomic	draft	support	—
+atomic_mass_unit	definition	Atomic mass unit (u / dalton)	atomic	draft	foundation	1 u = m(12C)/12
+relative_atomic_mass	definition	Relative atomic mass (standard atomic weight)	atomic	draft	core	A_r(X) = Σ_i f_i A_i
+ion	definition	Ion	atomic	draft	foundation	—
+chemical_substance	physical_definition	Pure substance (element or compound)	atomic	draft	foundation	—
+chemical_formula	definition	Chemical formula	atomic	draft	foundation	—
+avogadro_constant	definition	Avogadro constant N_A	mole	draft	foundation	N_A = 6.02214076e23 mol^-1
+amount_of_substance	primitive	Amount of substance (the mole)	mole	draft	foundation	—
+number_from_amount	derived_formula	Entities from amount	mole	draft	core	N = n N_A
+molar_mass	definition	Molar mass	mole	draft	core	M = m / n
+molar_mass_from_formula	derived_formula	Molar mass from formula	mole	draft	core	M = Σ (count_i · A_r,i) g/mol
+amount_from_mass	derived_formula	Amount from mass	mole	draft	core	n = m / M
+percent_composition	derived_formula	Percent composition by mass	mole	draft	core	%X = (count · A_r,X) / M · 100
+empirical_formula	definition	Empirical formula	mole	draft	core	—
+molecular_formula	derived_formula	Molecular formula from empirical	mole	draft	core	(EF)_k , k = M / M(EF)
+chemical_reaction	primitive	Chemical reaction	stoichiometry	draft	foundation	—
+conservation_of_mass	conservation_law	Conservation of mass in reaction	stoichiometry	draft	foundation	Σ m(reactants) = Σ m(products)
+conservation_of_charge	conservation_law	Conservation of charge in reaction	stoichiometry	draft	foundation	Σ q(reactants) = Σ q(products)
+chemical_equation	definition	Chemical equation	stoichiometry	draft	core	—
+stoichiometric_coefficient	definition	Stoichiometric coefficient	stoichiometry	draft	core	—
+balancing_chemical_equations	bookkeeping_procedure	Balancing chemical equations	stoichiometry	draft	core	—
+mole_ratio	derived_formula	Mole ratio	stoichiometry	draft	core	n_B = n_A · (ν_B / ν_A)
+limiting_reagent	bookkeeping_procedure	Limiting reagent	stoichiometry	draft	core	—
+theoretical_yield	derived_formula	Theoretical yield	stoichiometry	draft	core	—
+percent_yield	derived_formula	Percent yield	stoichiometry	draft	core	%yield = actual / theoretical · 100
+solution	physical_definition	Solution (solute and solvent)	solutions	draft	foundation	—
+molarity	definition	Molarity (amount concentration)	solutions	draft	core	c = n / V
+dilute_ideal_solution	assumption	Dilute ideal solution	solutions	draft	foundation	—
+dilution_equation	derived_formula	Dilution equation	solutions	draft	core	c1 V1 = c2 V2
+solution_stoichiometry	derived_formula	Solution stoichiometry	solutions	draft	core	n = c V ; then mole ratio
+titration	bookkeeping_procedure	Titration	solutions	draft	core	—
+equivalence_point	definition	Equivalence point	solutions	draft	core	n(titrant) = stoich · n(analyte)
+ideal_gas_law	bridge_imported	Ideal gas law (imported)	gases	draft	core	P V = n R T
+gas_constant	reference_data	Molar gas constant R	gases	draft	support	R = 8.314462618 J/(mol K)
+standard_conditions_stp	convention	Standard conditions (STP)	gases	draft	support	—
+molar_volume	derived_formula	Molar volume of an ideal gas	gases	draft	core	V_m = R T / P
+mole_fraction	definition	Mole fraction	gases	draft	core	x_i = n_i / n_total
+daltons_law	empirical_law	Dalton's law of partial pressures	gases	draft	core	P_total = Σ P_i
+partial_pressure	definition	Partial pressure	gases	draft	core	P_i = x_i P_total
+gas_stoichiometry	derived_formula	Gas stoichiometry	gases	draft	core	—
+system_surroundings	physical_definition	System and surroundings	thermochem	draft	foundation	—
+state_function	physical_definition	State function	thermochem	draft	foundation	—
+heat_work_sign_convention	convention	Heat and work sign convention	thermochem	draft	foundation	ΔU = q - w
+internal_energy	bridge_imported	Internal energy (imported)	thermochem	draft	support	—
+first_law_thermo	bridge_imported	First law of thermodynamics (imported)	thermochem	draft	core	ΔU = q - w
+enthalpy	bridge_imported	Enthalpy (imported)	thermochem	draft	core	H = U + P V
+specific_heat_capacity	definition	Specific heat capacity	thermochem	draft	core	c = q / (m ΔT)
+calorimetry	derived_formula	Calorimetry	thermochem	draft	core	q = m c ΔT
+enthalpy_of_reaction	definition	Enthalpy of reaction	thermochem	draft	core	ΔH_rxn = H(products) - H(reactants)
+heat_of_reaction_calorimetry	derived_formula	Reaction enthalpy from calorimetry	thermochem	draft	core	q_rxn = - q_calorimeter
+standard_state	convention	Standard state	thermochem	draft	core	P° = 1 bar, 1 mol/L
+hess_law	derived_exact	Hess's law	thermochem	draft	core	ΔH_rxn = Σ ΔH(steps)
+standard_enthalpy_of_formation	reference_data	Standard enthalpy of formation	thermochem	draft	core	ΔH_f°(element) = 0
+enthalpy_from_formation_enthalpies	derived_exact	Reaction enthalpy from formation enthalpies	thermochem	draft	core	ΔH_rxn° = Σ n ΔH_f°(prod) - Σ n ΔH_f°(react)
+bond_enthalpy	reference_data	Bond enthalpy	thermochem	draft	support	—
+enthalpy_from_bond_enthalpies	approximation	Reaction enthalpy from bond enthalpies	thermochem	draft	support	ΔH_rxn ≈ Σ D(broken) - Σ D(formed)
+reversible_reaction	physical_definition	Reversible reaction	equilibrium	draft	core	—
+dynamic_equilibrium	physical_definition	Dynamic equilibrium	equilibrium	draft	core	—
+law_of_mass_action	empirical_law	Law of mass action	equilibrium	draft	core	—
+equilibrium_constant	definition	Equilibrium constant K_c	equilibrium	draft	core	K_c = Π [prod]^ν / Π [react]^ν
+reaction_quotient	definition	Reaction quotient Q	equilibrium	draft	core	Q = same form as K, any composition
+q_versus_k	derived_formula	Predicting direction from Q vs K	equilibrium	draft	core	Q < K forward ; Q > K reverse
+kp_kc_relation	derived_formula	Kp-Kc relation	equilibrium	draft	core	K_p = K_c (R T)^{Δn}
+heterogeneous_equilibrium	qualitative_rule	Heterogeneous equilibrium	equilibrium	draft	support	pure solids and liquids omitted from K
+gibbs_free_energy	bridge_imported	Gibbs free energy (imported)	equilibrium	draft	core	G = H - T S
+gibbs_helmholtz_relation	bridge_imported	ΔG = ΔH − TΔS (imported)	equilibrium	draft	core	ΔG = ΔH - T ΔS
+spontaneity_criterion	derived_formula	Spontaneity criterion	equilibrium	draft	core	ΔG < 0 spontaneous
+reaction_isotherm	bridge_imported	Reaction isotherm ΔG° = −RT ln K (imported)	equilibrium	draft	core	ΔG° = - R T ln K
+le_chatelier	qualitative_rule	Le Chatelier's principle	equilibrium	draft	core	—
+ice_table	bookkeeping_procedure	ICE table	equilibrium	draft	core	—
+arrhenius_acid_base	definition	Arrhenius acid and base	acid_base	draft	core	—
+bronsted_lowry	definition	Brønsted–Lowry acid and base	acid_base	draft	core	—
+conjugate_acid_base_pair	definition	Conjugate acid–base pair	acid_base	draft	core	—
+water_autoionization	derived_formula	Autoionization of water	acid_base	draft	core	K_w = [H+][OH-] = 1.0e-14 (25 °C)
+ph_definition	approximation	pH	acid_base	draft	core	pH = - log10 [H+]
+poh_relation	derived_formula	pOH and the pH+pOH relation	acid_base	draft	core	pH + pOH = pK_w
+strong_acid_base_ph	derived_formula	pH of a strong acid or base	acid_base	draft	core	[H+] = c(acid) for a monoprotic strong acid
+weak_acid_equilibrium	definition	Weak-acid equilibrium constant K_a	acid_base	draft	core	K_a = [H+][A-] / [HA]
+ka_kb_relation	derived_exact	Ka–Kb relation	acid_base	draft	core	K_a K_b = K_w
+percent_ionization	derived_formula	Percent ionization	acid_base	draft	support	α = [H+]_eq / c(HA)_0 · 100
+henderson_hasselbalch	derived_formula	Henderson–Hasselbalch equation	acid_base	draft	core	pH = pK_a + log([A-]/[HA])
+buffer	physical_definition	Buffer solution	acid_base	draft	core	—
+acid_base_titration_curve	qualitative_rule	Acid–base titration curve	acid_base	draft	support	—
+oxidation_number_rules	bookkeeping_procedure	Oxidation-number rules	redox	draft	core	—
+oxidation_reduction	definition	Oxidation and reduction	redox	draft	core	oxidation = loss of electrons
+oxidizing_reducing_agent	definition	Oxidizing and reducing agent	redox	draft	core	—
+half_reaction	definition	Half-reaction	redox	draft	core	—
+balancing_redox_half_reactions	bookkeeping_procedure	Balancing redox equations by half-reactions	redox	draft	core	—
+ionization_energy	definition	Ionization energy	atomic	draft	support	—
+ionic_bond	physical_definition	Ionic bond	bonding	draft	core	—
+covalent_bond	physical_definition	Covalent bond	bonding	draft	core	—
+lewis_structure	bookkeeping_procedure	Lewis structure	bonding	draft	core	—
+octet_rule	qualitative_rule	Octet rule	bonding	draft	core	—
+formal_charge	derived_formula	Formal charge	bonding	draft	support	FC = V - N_lone - N_bond/2
+vsepr	qualitative_rule	VSEPR geometry	bonding	draft	core	—
+bond_polarity	definition	Bond polarity	bonding	draft	core	—
+molecular_polarity	qualitative_rule	Molecular polarity	bonding	draft	core	—
+intermolecular_forces	qualitative_rule	Intermolecular forces	bonding	draft	core	—

@@ -1,0 +1,15 @@
+from	relation	to	note
+reaction_quotient	equivalent_form_of	equilibrium_constant	same algebraic expression, arbitrary composition vs equilibrium composition
+henderson_hasselbalch	derived_from	weak_acid_equilibrium	log-transform of the Ka expression
+ph_definition	approximates	activity	pH = -log a(H+); a -> [H+] only in the dilute limit
+enthalpy_from_bond_enthalpies	approximates	enthalpy_from_formation_enthalpies	bond-enthalpy estimate vs the exact state-function result
+kp_kc_relation	special_case_of	reaction_isotherm	both connect gas-phase K to measurable quantities
+ideal_gas_law	imported_from	physics-thermodynamics:ideal_gas_law	constitutive model; real-gas corrections out of scope
+gibbs_free_energy	imported_from	physics-thermodynamics:gibbs_free_energy	—
+gibbs_helmholtz_relation	imported_from	physics-thermodynamics	ΔG = ΔH - TΔS
+reaction_isotherm	imported_from	physics-thermodynamics	ΔG° = -RT ln K
+first_law_thermo	imported_from	physics-thermodynamics:first_law	sign convention matched in conventions.md
+le_chatelier	qualitative_shadow_of	reaction_isotherm	Le Chatelier is the qualitative reading of the quantitative shift
+oxidation_number_rules	commonly_confused_with	formal_charge	both are electron-bookkeeping devices with different rules and purposes
+vsepr	uses_labels_from	hybridization	sp/sp2/sp3 used only as geometry mnemonics; orbital mixing is out of scope
+empirical_formula	commonly_confused_with	molecular_formula	EF is the smallest whole-number ratio; MF is an integer multiple of it

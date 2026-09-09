@@ -1,0 +1,102 @@
+/* Dimensional consistency checks, Release 0.1.
+ * Base dimensions tracked as exponent 5-tuples (M, L, T, Theta, N).
+ * bc has no vectors and no uppercase names, so each quantity is five lowercase
+ * scalars <q>m <q>l <q>t <q>h <q>n and each check prints "0 0 0 0 0" when the
+ * exponent difference [LHS] - [RHS] is consistent.
+ * Run:  bc -q -l validation/dimensional-checks.bc
+ *
+ * NOTE: equilibrium constants, Q, K_a, K_b, K_w, pH arguments, mole fraction,
+ * percent composition, formal charge, oxidation numbers and stoichiometric
+ * coefficients are all DIMENSIONLESS by construction (each [X] is a
+ * concentration divided by c0 = 1 mol/L, each P divided by P0 = 1 bar). Their
+ * "check" is that every term in the sum/quotient is the same dimensionless
+ * ratio; that is asserted in comments, not computed here.
+ */
+scale = 6
+
+/* quantity exponents (m, l, t, h, n) */
+enrm = 1; enrl = 2; enrt = -2; enrh = 0;  enrn = 0    /* energy  U,Q,W,H,G      M L^2 T^-2 */
+amnm = 0; amnl = 0; amnt = 0;  amnh = 0;  amnn = 1    /* amount n               N */
+nam  = 0; nal  = 0; nat  = 0;  nah  = 0;  nan  = -1   /* Avogadro constant N_A   N^-1 */
+cntm = 0; cntl = 0; cntt = 0;  cnth = 0;  cntn = 0    /* number of entities N    (dimensionless) */
+masm = 1; masl = 0; mast = 0;  mash = 0;  masn = 0    /* mass m                 M */
+mmm  = 1; mml  = 0; mmt  = 0;  mmh  = 0;  mmn  = -1   /* molar mass M           M N^-1 */
+conm = 0; conl = -3; cont = 0; conh = 0;  conn = 1    /* molarity c             N L^-3 */
+volm = 0; voll = 3; volt = 0;  volh = 0;  voln = 0    /* volume V               L^3 */
+prem = 1; prel = -1; pret = -2; preh = 0; pren = 0    /* pressure P             M L^-1 T^-2 */
+temm = 0; teml = 0; temt = 0;  temh = 1;  temn = 0    /* temperature T          Theta */
+rgcm = 1; rgcl = 2; rgct = -2; rgch = -1; rgcn = -1   /* gas constant R         M L^2 T^-2 Theta^-1 N^-1 */
+shcm = 0; shcl = 2; shct = -2; shch = -1; shcn = 0    /* specific heat c        L^2 T^-2 Theta^-1 */
+entm = 1; entl = 2; entt = -2; enth = -1; entn = 0    /* entropy S              M L^2 T^-2 Theta^-1 */
+mren = 1; mrel = 2; mret = -2; mreh = 0;  mrenn = -1  /* molar reaction enthalpy/Gibbs  M L^2 T^-2 N^-1 */
+
+define d5(am,al,at,ah,an, bm,bl,bt,bh,bn) {
+    print am-bm, " ", al-bl, " ", at-bt, " ", ah-bh, " ", an-bn, "\n"
+}
+
+print "dimensional checks  ([LHS] - [RHS] exponents, want  0 0 0 0 0):\n\n"
+
+print "N = n N_A            : "
+zz=d5(cntm,cntl,cntt,cnth,cntn, amnm+nam, amnl+nal, amnt+nat, amnh+nah, amnn+nan)
+
+print "M = m / n            : "
+zz=d5(mmm,mml,mmt,mmh,mmn, masm-amnm, masl-amnl, mast-amnt, mash-amnh, masn-amnn)
+
+print "n = m / M            : "
+zz=d5(amnm,amnl,amnt,amnh,amnn, masm-mmm, masl-mml, mast-mmt, mash-mmh, masn-mmn)
+
+print "c = n / V            : "
+zz=d5(conm,conl,cont,conh,conn, amnm-volm, amnl-voll, amnt-volt, amnh-volh, amnn-voln)
+
+print "c1 V1 = c2 V2 (= n)  : "
+zz=d5(conm+volm, conl+voll, cont+volt, conh+volh, conn+voln, amnm,amnl,amnt,amnh,amnn)
+
+print "P V = n R T          : "
+zz=d5(prem+volm, prel+voll, pret+volt, preh+volh, pren+voln, \
+   amnm+rgcm+temm, amnl+rgcl+teml, amnt+rgct+temt, amnh+rgch+temh, amnn+rgcn+temn)
+
+print "V_m = R T / P        : "  /* want L^3 N^-1 = 0 3 0 0 -1 */
+zz=d5(rgcm+temm-prem, rgcl+teml-prel, rgct+temt-pret, rgch+temh-preh, rgcn+temn-pren, \
+   0, 3, 0, 0, -1)
+
+print "P_i = x_i P_total    : "  /* x_i dimensionless */
+zz=d5(prem,prel,pret,preh,pren, prem,prel,pret,preh,pren)
+
+print "P_total = sum P_i    : "
+zz=d5(prem,prel,pret,preh,pren, prem,prel,pret,preh,pren)
+
+print "q = m c dT           : "  /* specific-heat calorimetry -> energy */
+zz=d5(enrm,enrl,enrt,enrh,enrn, \
+   masm+shcm+temm, masl+shcl+teml, mast+shct+temt, mash+shch+temh, masn+shcn+temn)
+
+print "c (spec heat) = q/(m dT): "
+zz=d5(shcm,shcl,shct,shch,shcn, \
+   enrm-masm-temm, enrl-masl-teml, enrt-mast-temt, enrh-mash-temh, enrn-masn-temn)
+
+print "H = U + P V          : "
+zz=d5(enrm,enrl,enrt,enrh,enrn, prem+volm, prel+voll, pret+volt, preh+volh, pren+voln)
+
+print "dU = q - w           : "
+zz=d5(enrm,enrl,enrt,enrh,enrn, enrm,enrl,enrt,enrh,enrn)
+
+print "G = H - T S          : "
+zz=d5(enrm,enrl,enrt,enrh,enrn, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
+
+print "dG = dH - T dS       : "
+zz=d5(enrm,enrl,enrt,enrh,enrn, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
+
+print "dG0 = - R T ln K     : "  /* ln K dimensionless -> molar energy on both sides */
+zz=d5(mren,mrel,mret,mreh,mrenn, rgcm+temm, rgcl+teml, rgct+temt, rgch+temh, rgcn+temn)
+
+print "dHrxn = sum n dHf    : "  /* n = stoich coefficient, dimensionless; dHf molar */
+zz=d5(mren,mrel,mret,mreh,mrenn, mren,mrel,mret,mreh,mrenn)
+
+print "R T c0 / P0 (Kp/Kc)  : "  /* want dimensionless: 0 0 0 0 0 */
+zz=d5(rgcm+temm+conm-prem, rgcl+teml+conl-prel, rgct+temt+cont-pret, \
+      rgch+temh+conh-preh, rgcn+temn+conn-pren, 0,0,0,0,0)
+
+print "\nDimensionless-by-construction (each term is (c/c0) or (P/P0)):\n"
+print "  K_c, Q, K_p, K_w = [H+][OH-], K_a, K_a K_b = K_w,\n"
+print "  x_i = n_i / n_total,  %X = part_mass / M,  pH = -log10([H+]/c0),\n"
+print "  pH + pOH = -log10(K_w),  Henderson-Hasselbalch log([A-]/[HA]),\n"
+print "  k = M_molecular / M_empirical,  percent_yield = actual / theoretical.\n"
