@@ -45,7 +45,7 @@ batteries (one contrast node), fuel-cell engineering. See `scope.md`.
 | discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (7 headline targets) |
 | `validation/consistency-audit.md` | **done** — full run recorded |
 | `SKILL.md` | **done** |
-| tutorials | **1 shipped** — see below |
+| tutorials | **2 shipped** — see below |
 
 Release 0.1 core is complete. All 110 nodes are still `status: draft`; importing
 the electrical primitives from a future `physics-circuits` capsule, promoting the
@@ -67,16 +67,16 @@ sh build/gen-symbol-index.sh                    # ptx discovery pass for the han
 Interactive walk-throughs built with the
 [`formula-tree-tutorial`](../formula-tree-tutorial/SKILL.md) skill — plain
 Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
+**Read [`tutorial/README.md`](tutorial/README.md) for the order.**
 
-| tutorial | target | run |
+| # | tutorial | target — one line |
 |---|---|---|
-| [`tutorial/per-amp-hour.md`](tutorial/per-amp-hour.md) | `faradays_law_electrolysis` — `Q = It`, `z`, `m = ItM/(zF)`, gas volume, current efficiency; capstone sizes a hydrogen electrolyser (~26.6 kA·h/kg H₂) | `upmd skills/chemistry-electrochemistry/tutorial/per-amp-hour.md` |
+| 1 | [`per-amp-hour`](tutorial/per-amp-hour.md) | `faradays_law_electrolysis` — `Q = It`, `z`, `m = ItM/(zF)`, gas volume, current efficiency; capstone sizes a hydrogen electrolyser (~26.6 kA·h/kg H₂) |
+| 2 | [`kwh-per-kilogram`](tutorial/kwh-per-kilogram.md) | `specific_energy_consumption` — `E°_cell`, `ΔG = −zFE`, overpotential + IR, `V_cell`, `E_spec = zF V_cell/(M η_F)`; capstone: H₂ ~54 kWh/kg vs Al ~13 kWh/kg |
 
-11 blocks (4 `[M L T Θ N I]` dimensional checks, 3 `awk` checks, 2 `lean` beats,
-capstone). `upmd --ci --all` green. More cuts staged in
-`indexes/prerequisite-paths.md` (`specific_energy_consumption`,
-`chlor_alkali_process`, `nernst_equation`, `all_vanadium_flow_battery`,
-`energy_efficiency`).
+Both 11 blocks, `upmd --ci --all` green. More cuts staged in
+`indexes/prerequisite-paths.md` (`water_electrolysis`, `chlor_alkali_process`,
+`nernst_equation`, `all_vanadium_flow_battery`, `energy_efficiency`).
 
 ## Reading order caveat
 
