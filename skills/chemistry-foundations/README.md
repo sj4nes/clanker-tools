@@ -62,6 +62,19 @@ sh build/gen-symbol-index.sh                    # ptx discovery pass for the han
 `build/build-tree.sh` regenerates `indexes/tsort-order.txt` and
 `indexes/reverse-dependencies.txt`.
 
+## Tutorials
+
+Interactive walk-throughs built with the
+[`formula-tree-tutorial`](../formula-tree-tutorial/SKILL.md) skill — plain
+Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
+
+| tutorial | target | run |
+|---|---|---|
+| [`tutorial/reaction-enthalpy-from-formation.md`](tutorial/reaction-enthalpy-from-formation.md) | `enthalpy_from_formation_enthalpies` — combustion ΔH from a table, no calorimeter | `upmd skills/chemistry-foundations/tutorial/reaction-enthalpy-from-formation.md` |
+
+11 blocks (5 `bc` / `awk` checks, 2 `lean` beats, capstone); `upmd --ci --all`
+green. Six more cuts are staged in `indexes/prerequisite-paths.md`.
+
 ## Reading order caveat
 
 `indexes/tsort-order.txt` is one valid prerequisite-respecting linearization.
