@@ -1,0 +1,107 @@
+/* Dimensional consistency checks, Release 0.1.
+ * Base dimensions tracked as exponent 6-tuples (M, L, T, Theta, N, I).
+ * I = electric current is a base dimension here (SI). bc has no vectors and no
+ * uppercase names, so each quantity is six lowercase scalars and each check
+ * prints "0 0 0 0 0 0" when the exponent difference [LHS] - [RHS] is consistent.
+ * Run:  bc -q -l validation/dimensional-checks.bc
+ *
+ * NOTE: z (electrons per formula unit), the efficiencies (eta_C, eta_V, eta_E,
+ * eta_F), the transport number t_i, the state of charge SOC, K, Q, and every
+ * exp() / ln() argument are DIMENSIONLESS by construction. Their "check" is that
+ * every term in the sum/quotient is the same dimensionless quantity; that is
+ * asserted in comments, not computed here.
+ */
+scale = 6
+
+/* quantity exponents (m, l, t, h, n, i) */
+crgm=0; crgl=0; crgt=1;  crgh=0; crgn=0;  crgi=1    /* charge Q        I T */
+curm=0; curl=0; curt=0;  curh=0; curn=0;  curi=1    /* current I       I */
+volm=1; voll=2; volt=-3; volh=0; voln=0;  voli=-1   /* potential E,V   M L^2 T^-3 I^-1 */
+enrm=1; enrl=2; enrt=-2; enrh=0; enrn=0;  enri=0    /* energy          M L^2 T^-2 */
+farm=0; farl=0; fart=1;  farh=0; farn=-1; fari=1    /* Faraday const F I T N^-1 */
+amnm=0; amnl=0; amnt=0;  amnh=0; amnn=1;  amni=0    /* amount n        N */
+mmm=1;  mml=0;  mmt=0;   mmh=0;  mmn=-1;  mmi=0     /* molar mass M    M N^-1 */
+masm=1; masl=0; mast=0;  mash=0; masn=0;  masi=0    /* mass m          M */
+rgcm=1; rgcl=2; rgct=-2; rgch=-1; rgcn=-1; rgci=0   /* gas constant R  M L^2 T^-2 Th^-1 N^-1 */
+temm=0; teml=0; temt=0;  temh=1; temn=0;  temi=0    /* temperature T   Theta */
+powm=1; powl=2; powt=-3; powh=0; pown=0;  powi=0    /* power P         M L^2 T^-3 */
+resm=1; resl=2; rest=-3; resh=0; resn=0;  resi=-2   /* resistance R    M L^2 T^-3 I^-2 */
+curdm=0; curdl=-2; curdt=0; curdh=0; curdn=0; curdi=1  /* current dens j I L^-2 */
+entm=1; entl=2; entt=-2; enth=-1; entn=-1; enti=0   /* molar entropy   M L^2 T^-2 Th^-1 N^-1 */
+mgim=1; mgil=2; mgit=-2; mgih=0; mgin=-1; mgii=0    /* molar Gibbs dG  M L^2 T^-2 N^-1 */
+conm=0; conl=-3; cont=0; conh=0; conn=1;  coni=0    /* molarity c      N L^-3 */
+vlm=0;  vll=3;  vlt=0;   vlh=0;  vln=0;   vli=0     /* volume          L^3 */
+arem=0; arel=2; aret=0;  areh=0; aren=0;  arei=0    /* area A          L^2 */
+mobm=-1; mobl=0; mobt=2; mobh=0; mobn=0;  mobi=1    /* ionic mobility u I T^2 M^-1 */
+mlcm=-1; mlcl=0; mlct=3; mlch=0; mlcn=-1; mlci=2    /* molar conduct.  I^2 T^3 M^-1 N^-1 */
+
+define d6(am,al,at,ah,an,ai, bm,bl,bt,bh,bn,bi) {
+    print am-bm," ",al-bl," ",at-bt," ",ah-bh," ",an-bn," ",ai-bi,"\n"
+}
+
+print "dimensional checks  ([LHS] - [RHS] exponents, want  0 0 0 0 0 0):\n\n"
+
+print "F = N_A e          : "  /* [N_A e] = N^-1 * I T ; N_A tuple = (0,0,0,0,-1,0) */
+zz=d6(farm,farl,fart,farh,farn,fari, 0+0,0+0,0+crgt,0+0,-1+0,0+crgi)
+
+print "Q = I t            : "
+zz=d6(crgm,crgl,crgt,crgh,crgn,crgi, curm,curl,curt+1,curh,curn,curi)
+
+print "Q = z F n          : "
+zz=d6(crgm,crgl,crgt,crgh,crgn,crgi, farm+amnm,farl+amnl,fart+amnt,farh+amnh,farn+amnn,fari+amni)
+
+print "m = I t M / (z F)  : "
+zz=d6(masm,masl,mast,mash,masn,masi, \
+  curm+mmm-farm, curl+mml-farl, (curt+1)+mmt-fart, curh+mmh-farh, curn+mmn-farn, curi+mmi-fari)
+
+print "E_spec = z F E / M : "  /* want J/kg = L^2 T^-2 = (0,2,-2,0,0,0) */
+zz=d6(farm+volm-mmm, farl+voll-mml, fart+volt-mmt, farh+volh-mmh, farn+voln-mmn, fari+voli-mmi, \
+  0,2,-2,0,0,0)
+
+print "dG = - z F E       : "  /* molar */
+zz=d6(mgim,mgil,mgit,mgih,mgin,mgii, farm+volm,farl+voll,fart+volt,farh+volh,farn+voln,fari+voli)
+
+print "E0 = (R T / z F) lnK: "  /* want V */
+zz=d6(rgcm+temm-farm, rgcl+teml-farl, rgct+temt-fart, rgch+temh-farh, rgcn+temn-farn, rgci+temi-fari, \
+  volm,voll,volt,volh,voln,voli)
+
+print "Nernst RT/zF term  : "  /* (R T / z F) ln Q is a potential */
+zz=d6(rgcm+temm-farm, rgcl+teml-farl, rgct+temt-fart, rgch+temh-farh, rgcn+temn-farn, rgci+temi-fari, \
+  volm,voll,volt,volh,voln,voli)
+
+print "dE/dT = dS / (z F) : "  /* want V/K = M L^2 T^-3 Th^-1 I^-1 */
+zz=d6(entm-farm, entl-farl, entt-fart, enth-farh, entn-farn, enti-fari, \
+  1,2,-3,-1,0,-1)
+
+print "z F eta / (R T)    : "  /* Butler-Volmer exponent, want dimensionless */
+zz=d6(farm+volm-rgcm-temm, farl+voll-rgcl-teml, fart+volt-rgct-temt, \
+      farh+volh-rgch-temh, farn+voln-rgcn-temn, fari+voli-rgci-temi, 0,0,0,0,0,0)
+
+print "eta_ohmic = I R    : "  /* want V */
+zz=d6(curm+resm, curl+resl, curt+rest, curh+resh, curn+resn, curi+resi, volm,voll,volt,volh,voln,voli)
+
+print "P = I V            : "
+zz=d6(powm,powl,powt,powh,pown,powi, curm+volm,curl+voll,curt+volt,curh+volh,curn+voln,curi+voli)
+
+print "j = I / A          : "
+zz=d6(curdm,curdl,curdt,curdh,curdn,curdi, curm-arem,curl-arel,curt-aret,curh-areh,curn-aren,curi-arei)
+
+print "lambda0 = z F u    : "  /* limiting molar ionic conductivity, want molar conductivity tuple */
+zz=d6(farm+mobm, farl+mobl, fart+mobt, farh+mobh, farn+mobn, fari+mobi, \
+  mlcm,mlcl,mlct,mlch,mlcn,mlci)
+
+print "E_store = c V z F E : "  /* flow-battery energy, want J */
+zz=d6(conm+vlm+farm+volm, conl+vll+farl+voll, cont+vlt+fart+volt, \
+      conh+vlh+farh+volh, conn+vln+farn+voln, coni+vli+fari+voli, enrm,enrl,enrt,enrh,enrn,enri)
+
+print "P_stack = A j V    : "  /* flow-battery power, want W */
+zz=d6(arem+curdm+volm, arel+curdl+voll, aret+curdt+volt, \
+      areh+curdh+volh, aren+curdn+voln, arei+curdi+voli, powm,powl,powt,powh,pown,powi)
+
+print "V_cell = E0 + eta + IR : "  /* every term a potential */
+zz=d6(volm,voll,volt,volh,voln,voli, volm,voll,volt,volh,voln,voli)
+
+print "\nDimensionless-by-construction (each term is a pure ratio or count):\n"
+print "  z, eta_C = Q_out/Q_in, eta_V = V_dis/V_chg, eta_E = eta_C eta_V,\n"
+print "  eta_F = n_actual/n_theoretical, t_i = I_i/I_total (sum = 1),\n"
+print "  SOC = c_charged/c_total, K, Q, ln K, exp(z F eta / R T).\n"
