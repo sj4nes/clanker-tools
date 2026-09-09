@@ -1,4 +1,4 @@
-# Chemistry Foundations — Release 0.1 (in progress)
+# Chemistry Foundations — Release 0.1
 
 A knowledge capsule built with the
 [`physics-formula-tree`](../physics-formula-tree/SKILL.md) method: a directed
@@ -41,16 +41,26 @@ not derived here.
 | `bc` dimensional checks `validation/dimensional-checks.bc` | **done** — 18 exponent-tuple checks, all `0 0 0 0 0`; worked numbers spot-checked |
 | `lean` identity checks `validation/derivation-checks.lean` | **done** — 25 kernel-`decide` instance checks (Hess, formation sum, Kp/Kc exponent, reaction isotherm, Ka·Kb=Kw, Henderson–Hasselbalch, pH+pOH, redox e⁻/charge balance, formal charge, k integer), `lean` exit 0 |
 | per-formula YAML `formulas/<id>.yaml` | not used — this method's shipped capsules (physics-newtonian, physics-thermodynamics) consolidate into `formulas/<domain>.md`; same here |
-| discovery indexes (topic/symbol/assumption/misuse) | **pending** |
-| `SKILL.md` | **pending** |
+| discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (7 headline targets) |
+| `validation/consistency-audit.md` | **done** — full run recorded |
+| `SKILL.md` | **done** |
+
+Release 0.1 is complete. Every node is still `status: draft`; the review pass,
+promoting `ideal_gas` to a node, per-node pages, and YAML entries are Release
+0.2 items (see `validation/consistency-audit.md`).
 
 ## Build
 
 ```sh
-sh build/build-tree.sh   # graph-check + tsort + cycle check + order verification
+sh build/build-tree.sh                          # graph-check + tsort + cycle check + order verification
+bc -q -l validation/dimensional-checks.bc       # 18 [M L T Θ N] checks, want 0 0 0 0 0
+lean validation/derivation-checks.lean          # 23 kernel-decide instance checks, exit 0
+sh build/gen-assumption-index.sh                # regenerate indexes/assumption-index.md
+sh build/gen-symbol-index.sh                    # ptx discovery pass for the hand-curated symbol index
 ```
 
-Regenerates `indexes/tsort-order.txt` and `indexes/reverse-dependencies.txt`.
+`build/build-tree.sh` regenerates `indexes/tsort-order.txt` and
+`indexes/reverse-dependencies.txt`.
 
 ## Reading order caveat
 
