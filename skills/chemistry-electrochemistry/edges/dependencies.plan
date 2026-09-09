@@ -151,6 +151,8 @@ reaction_isotherm	nernst_equation
 gas_constant	nernst_equation
 faraday_constant	nernst_equation
 electrons_per_formula_unit	nernst_equation
+# Q is written in concentrations, not activities -- the dilute-ideal assumption
+dilute_ideal_solution	nernst_equation
 # the 298 K base-10 shortcut: 0.05916 V = RT ln10 / F
 nernst_equation	nernst_298k_form
 # a concentration cell: same couple both sides, E0 = 0
