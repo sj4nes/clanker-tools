@@ -1,0 +1,111 @@
+id	type	title	domain	status	knowledge_level	primary_formula
+electric_charge	primitive	Electric charge	electrical	draft	foundation	—
+elementary_charge	reference_data	Elementary charge e	electrical	draft	foundation	e = 1.602176634e-19 C
+electric_current	primitive	Electric current	electrical	draft	foundation	I = dQ/dt
+electric_potential	primitive	Electric potential difference (voltage)	electrical	draft	foundation	V = W / Q
+electrical_work	definition	Electrical work	electrical	draft	foundation	W = Q V
+electrical_power	definition	Electrical power	electrical	draft	foundation	P = I V
+resistance	primitive	Electrical resistance	electrical	draft	support	R = V / I
+ohms_law	empirical_law	Ohm's law	electrical	draft	foundation	V = I R
+avogadro_constant	bridge_imported	Avogadro constant N_A (imported)	electrical	draft	support	N_A = 6.02214076e23 mol^-1
+amount_of_substance	bridge_imported	Amount of substance (imported)	imports	draft	foundation	n (mol)
+molar_mass	bridge_imported	Molar mass (imported)	imports	draft	foundation	M = m / n
+mole_ratio	bridge_imported	Mole ratio (imported)	imports	draft	foundation	n_B = n_A (nu_B / nu_A)
+molarity	bridge_imported	Molarity (imported)	imports	draft	foundation	c = n / V
+standard_state	bridge_imported	Standard state (imported)	imports	draft	support	P0 = 1 bar, 1 mol/L
+dilute_ideal_solution	assumption	Dilute ideal solution (imported assumption)	imports	draft	foundation	activity ~ concentration
+ideal_gas_law	bridge_imported	Ideal gas law (imported)	imports	draft	support	P V = n R T
+molar_volume	bridge_imported	Molar volume of an ideal gas (imported)	imports	draft	support	V_m = R T / P
+gas_constant	reference_data	Molar gas constant R	imports	draft	support	R = 8.314462618 J/(mol K)
+oxidation_reduction	bridge_imported	Oxidation and reduction (imported)	imports	draft	foundation	oxidation = loss of electrons
+oxidation_number_rules	bridge_imported	Oxidation-number rules (imported)	imports	draft	support	sum = species charge
+oxidizing_reducing_agent	bridge_imported	Oxidizing and reducing agent (imported)	imports	draft	support	—
+half_reaction	bridge_imported	Half-reaction (imported)	imports	draft	foundation	electrons explicit, mass + charge balanced
+balancing_redox_half_reactions	bridge_imported	Balancing redox by half-reactions (imported)	imports	draft	support	electrons lost = electrons gained
+gibbs_free_energy	bridge_imported	Gibbs free energy (imported)	imports	draft	foundation	G = H - T S
+entropy	bridge_imported	Entropy (imported)	imports	draft	support	S (J/K)
+reaction_quotient	bridge_imported	Reaction quotient Q (imported)	imports	draft	support	Q = product form, any composition
+equilibrium_constant	bridge_imported	Equilibrium constant K (imported)	imports	draft	support	K = product form at equilibrium
+reaction_isotherm	bridge_imported	Reaction isotherm dG0 = -RT ln K (imported)	imports	draft	foundation	dG0 = - R T ln K
+faraday_constant	definition	Faraday constant F	faraday	draft	foundation	F = N_A e = 96485 C/mol
+charge_from_current	derived_formula	Charge from current over time	faraday	draft	core	Q = I t
+electrons_per_formula_unit	definition	Electrons per formula unit z	faraday	draft	core	z (dimensionless)
+charge_mole_electron_bridge	derived_formula	Charge to moles of electrons	faraday	draft	core	Q = z F n
+faradays_law_electrolysis	derived_formula	Faraday's law of electrolysis	faraday	draft	core	m = (I t M) / (z F)
+moles_of_product_electrolysis	derived_formula	Moles of product from charge	faraday	draft	core	n_prod = Q / (z F nu)
+gas_volume_electrolysis	derived_formula	Gas volume from charge	faraday	draft	core	V = n_prod R T / P
+current_efficiency	definition	Current (Faradaic) efficiency	faraday	draft	core	eta_F = n_actual / n_theoretical
+specific_energy_consumption	derived_formula	Specific energy consumption	faraday	draft	core	E_spec = z F V_cell / (M eta_F)
+electrolyte	physical_definition	Electrolyte	cells	draft	foundation	—
+electrode	physical_definition	Electrode	cells	draft	foundation	—
+electrochemical_cell	definition	Electrochemical cell	cells	draft	foundation	two electrodes + electrolyte
+anode	definition	Anode (oxidation electrode)	cells	draft	core	oxidation half-reaction
+cathode	definition	Cathode (reduction electrode)	cells	draft	core	reduction half-reaction
+salt_bridge	physical_definition	Salt bridge	cells	draft	support	completes the ionic circuit
+ion_exchange_membrane	physical_definition	Ion-exchange membrane	cells	draft	core	selective ion transport
+cell_notation	convention	Cell notation	cells	draft	support	anode | ... || ... | cathode
+galvanic_cell	definition	Galvanic (voltaic) cell	cells	draft	core	spontaneous, E_cell > 0
+electrolytic_cell	definition	Electrolytic cell	cells	draft	core	driven by an external source
+standard_hydrogen_electrode	convention	Standard hydrogen electrode (SHE)	potentials	draft	foundation	E0(SHE) = 0
+standard_reduction_potential	reference_data	Standard reduction potential E0	potentials	draft	core	vs SHE, 298.15 K
+electrochemical_series	qualitative_rule	Electrochemical (activity) series	potentials	draft	core	ordering by E0
+cell_potential	derived_formula	Cell potential	potentials	draft	core	E_cell = E_cathode - E_anode
+standard_cell_potential	derived_formula	Standard cell potential	potentials	draft	core	E0_cell = E0_cathode - E0_anode
+spontaneity_from_cell_potential	qualitative_rule	Spontaneity from cell potential	potentials	draft	core	E0_cell > 0 => galvanic
+gibbs_from_cell_potential	derived_exact	Gibbs free energy from cell potential	thermo	draft	core	dG = - z F E
+standard_gibbs_from_cell_potential	derived_exact	Standard Gibbs from standard cell potential	thermo	draft	core	dG0 = - z F E0
+equilibrium_from_cell_potential	derived_exact	Equilibrium constant from E0	thermo	draft	core	E0 = (R T / z F) ln K
+temperature_coefficient_emf	derived_formula	Temperature coefficient of the emf	thermo	draft	support	(dE/dT)_P = dS / (z F)
+nernst_equation	derived_exact	Nernst equation	nernst	draft	core	E = E0 - (R T / z F) ln Q
+nernst_298k_form	derived_formula	Nernst equation at 298.15 K	nernst	draft	core	E = E0 - (0.05916 / z) log10 Q
+concentration_cell	derived_formula	Concentration cell	nernst	draft	support	E0 = 0, E from a concentration ratio
+cell_potential_vs_soc	qualitative_rule	Cell potential falls as Q approaches K	nernst	draft	core	Q -> K => E -> 0
+current_density	definition	Current density	kinetics	draft	core	j = I / A
+overpotential	definition	Overpotential	kinetics	draft	core	eta = E_applied - E_eq
+activation_overpotential	physical_definition	Activation overpotential	kinetics	draft	core	kinetic barrier at the electrode
+concentration_overpotential	physical_definition	Concentration overpotential	kinetics	draft	support	mass-transport limited
+ohmic_drop	derived_formula	Ohmic (IR) drop	kinetics	draft	core	eta_ohmic = I R
+butler_volmer_equation	principle_law	Butler-Volmer equation (stated, not derived)	kinetics	draft	core	j = j0 [exp(a z F eta / R T) - exp(-(1-a) z F eta / R T)]
+exchange_current_density	reference_data	Exchange current density j0	kinetics	draft	support	per electrode couple + material
+tafel_equation	empirical_law	Tafel equation	kinetics	draft	support	eta_act = a + b log10 j
+decomposition_potential	derived_formula	Decomposition potential	kinetics	draft	core	V_decomp ~ |E0_cell| + eta contributions
+cell_voltage_electrolysis	derived_formula	Cell voltage under electrolysis	kinetics	draft	core	V_cell = E0_cell + sum|eta| + I R
+cell_voltage_discharge	derived_formula	Cell voltage on discharge	kinetics	draft	core	V_cell = E0_cell - sum|eta| - I R
+competing_electrode_reactions	qualitative_rule	Competing electrode reactions	selectivity	draft	core	several half-reactions possible at one electrode
+thermodynamic_vs_kinetic_product	qualitative_rule	Thermodynamic vs kinetic product	selectivity	draft	core	overpotential can invert the E0 order
+oxygen_overpotential	reference_data	Oxygen evolution overpotential	selectivity	draft	core	high on most anodes
+electrode_material_selection	qualitative_rule	Electrode material selection	selectivity	draft	support	inertness, overpotential, cost, stability
+supporting_electrolyte	physical_definition	Supporting electrolyte	selectivity	draft	support	carries current, not consumed
+ionic_conduction	physical_definition	Ionic conduction (migration)	transport	draft	core	ions drift under the field
+conductivity	definition	Conductivity (specific conductance)	transport	draft	support	kappa (S/m)
+molar_conductivity	definition	Molar conductivity	transport	draft	core	Lambda_m = kappa / c
+kohlrausch_law	empirical_law	Kohlrausch law of independent ion migration	transport	draft	core	Lambda_m0 = nu+ lambda+0 + nu- lambda-0
+ionic_mobility	definition	Ionic mobility	transport	draft	support	u = v_drift / E_field
+transport_number	definition	Transport (transference) number	transport	draft	core	t_i = I_i / I_total, sum t_i = 1
+migration_vs_diffusion	qualitative_rule	Migration vs diffusion	transport	draft	support	field-driven vs gradient-driven ion flux
+water_electrolysis	example	Water electrolysis	processes	draft	core	2 H2O -> 2 H2 + O2 ; E0_cell = -1.23 V
+reversible_fuel_cell	example	Reversible H2/O2 cell (fuel cell)	processes	draft	support	2 H2 + O2 -> 2 H2O ; the electrolyser run backwards
+chlor_alkali_process	example	Chlor-alkali process	processes	draft	core	2 NaCl + 2 H2O -> Cl2 + H2 + 2 NaOH
+chlorate_perchlorate	example	Sodium chlorate and perchlorate	processes	draft	support	Cl- -> ClO3- -> ClO4- by anodic oxidation
+hall_heroult_process	example	Hall-Heroult aluminium	processes	draft	core	2 Al2O3 + 3 C -> 4 Al + 3 CO2 (molten cryolite)
+copper_electrorefining	example	Copper electrorefining	processes	draft	core	impure Cu anode -> pure Cu cathode
+zinc_electrowinning	example	Zinc electrowinning	processes	draft	support	Zn2+ + 2 e- -> Zn ; O2 at the anode
+redox_flow_battery	definition	Redox flow battery	flow_battery	draft	core	two tanks + pumps + membrane stack
+energy_power_decoupling	qualitative_rule	Energy-power decoupling	flow_battery	draft	core	energy = tanks, power = stack
+flow_battery_energy_capacity	derived_formula	Flow-battery energy capacity	flow_battery	draft	core	E = c V_tank z F dE_avg
+flow_battery_power	derived_formula	Flow-battery power	flow_battery	draft	core	P = N_cells A_stack j V_cell
+state_of_charge	definition	State of charge (SOC)	flow_battery	draft	core	SOC = c_charged / c_total
+coulombic_efficiency	definition	Coulombic efficiency	flow_battery	draft	core	eta_C = Q_out / Q_in
+voltage_efficiency	definition	Voltage efficiency	flow_battery	draft	core	eta_V = V_discharge / V_charge
+energy_efficiency	derived_formula	Energy (round-trip) efficiency	flow_battery	draft	core	eta_E = eta_C eta_V
+shunt_current	physical_definition	Shunt (bypass) current	flow_battery	draft	support	leakage through shared manifolds
+crossover	physical_definition	Ion crossover through the membrane	flow_battery	draft	core	unwanted transport of active species
+capacity_fade	qualitative_rule	Capacity fade	flow_battery	draft	core	from crossover + oxidation-state imbalance
+all_vanadium_flow_battery	example	All-vanadium flow battery	flow_battery	draft	core	VO2+/VO2+ // V3+/V2+ ; E0_cell ~ 1.26 V
+iron_chromium_flow_battery	example	Iron-chromium flow battery	flow_battery	draft	support	cheap, crossover-tolerant, slow kinetics
+zinc_bromine_flow_battery	example	Zinc-bromine flow battery	flow_battery	draft	support	hybrid: Zn plating, not fully flow
+fixed_cell_battery_contrast	qualitative_rule	Fixed-cell battery contrast	flow_battery	draft	support	lead-acid / Li-ion: energy and power coupled
+corrosion_as_galvanic_cell	qualitative_rule	Corrosion as a short-circuited galvanic cell	boundary	draft	support	anodic and cathodic sites on one metal
+pourbaix_diagram	reference_data	Pourbaix (E-pH) diagram	boundary	draft	support	stability regions vs E and pH (named)
+electrical_double_layer	physical_definition	Electrical double layer (named)	boundary	draft	support	charge separation at the electrode surface
+debye_huckel_onsager	empirical_law	Debye-Huckel-Onsager conductivity (named)	boundary	draft	support	Lambda_m = Lambda_m0 - k sqrt(c)

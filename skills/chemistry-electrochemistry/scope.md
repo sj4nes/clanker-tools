@@ -1,4 +1,10 @@
-# Scope — Release 0.1 (DRAFT — awaiting sign-off)
+# Scope — Release 0.1
+
+Scope signed off 2026-09-09. Three boundary calls confirmed: the H₂/O₂ **fuel
+cell** is one node ("the electrolyser run backwards"), no fuel-cell engineering;
+**corrosion** is one boundary node (a short-circuited galvanic cell; Pourbaix
+named); **non-flow batteries** (lead-acid, Li-ion) are one contrast node, no
+cell chemistry.
 
 Knowledge capsule: **electrochemistry for making substances and storing energy**,
 built with the [`physics-formula-tree`](../physics-formula-tree/SKILL.md) method

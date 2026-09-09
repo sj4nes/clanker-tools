@@ -1,0 +1,35 @@
+from	relation	to	note
+nernst_298k_form	special_case_of	nernst_equation	the 298.15 K base-10 form; 0.05916 V = R T ln10 / F
+concentration_cell	special_case_of	nernst_equation	same couple both electrodes, E0_cell = 0
+tafel_equation	approximates	butler_volmer_equation	the high-overpotential limit where the back reaction is negligible
+reversible_fuel_cell	equivalent_form_of	water_electrolysis	the H2/O2 cell run in the spontaneous direction
+debye_huckel_onsager	supersedes_in_regime	kohlrausch_law	finite-concentration correction, Lambda_m = Lambda_m0 - k sqrt(c)
+equilibrium_from_cell_potential	equivalent_to	reaction_isotherm	E0 = (RT/zF) ln K is dG0 = -RT ln K with dG0 = -zFE0
+gibbs_from_cell_potential	equivalent_to	chemistry-foundations:spontaneity_criterion	dG < 0 and E > 0 are the same statement
+iron_chromium_flow_battery	commonly_confused_with	all_vanadium_flow_battery	both are true flow batteries; Fe-Cr is cheaper but slower
+zinc_bromine_flow_battery	special_case_of	redox_flow_battery	a hybrid: one electrode plates zinc metal, so capacity is partly in the stack
+fixed_cell_battery_contrast	commonly_confused_with	redox_flow_battery	lead-acid / Li-ion couple energy and power in one sealed cell
+corrosion_as_galvanic_cell	special_case_of	galvanic_cell	anodic and cathodic sites short-circuited on one metal surface
+avogadro_constant	imported_from	chemistry-foundations:avogadro_constant	—
+amount_of_substance	imported_from	chemistry-foundations:amount_of_substance	—
+molar_mass	imported_from	chemistry-foundations:molar_mass	—
+mole_ratio	imported_from	chemistry-foundations:mole_ratio	—
+molarity	imported_from	chemistry-foundations:molarity	—
+standard_state	imported_from	chemistry-foundations:standard_state	—
+dilute_ideal_solution	imported_from	chemistry-foundations:dilute_ideal_solution	—
+ideal_gas_law	imported_from	chemistry-foundations:ideal_gas_law	itself imported there from physics-thermodynamics
+molar_volume	imported_from	chemistry-foundations:molar_volume	—
+oxidation_reduction	imported_from	chemistry-foundations:oxidation_reduction	—
+oxidation_number_rules	imported_from	chemistry-foundations:oxidation_number_rules	—
+oxidizing_reducing_agent	imported_from	chemistry-foundations:oxidizing_reducing_agent	—
+half_reaction	imported_from	chemistry-foundations:half_reaction	—
+balancing_redox_half_reactions	imported_from	chemistry-foundations:balancing_redox_half_reactions	—
+equilibrium_constant	imported_from	chemistry-foundations:equilibrium_constant	—
+reaction_quotient	imported_from	chemistry-foundations:reaction_quotient	—
+reaction_isotherm	imported_from	chemistry-foundations:reaction_isotherm	dG0 = -RT ln K
+gibbs_free_energy	imported_from	physics-thermodynamics:gibbs_free_energy	—
+entropy	imported_from	physics-thermodynamics:entropy	—
+electric_charge	should_be_imported_from	physics-circuits	no such capsule yet; treated as primitive here
+electric_current	should_be_imported_from	physics-circuits	I = dQ/dt
+electric_potential	should_be_imported_from	physics-circuits	work per unit charge
+ohms_law	should_be_imported_from	physics-circuits	V = I R

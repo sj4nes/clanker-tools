@@ -1,0 +1,396 @@
+# Prerequisite edges for chemistry-electrochemistry, Release 0.1.
+# Format: "<from>\t<to>" per line; "#" lines are evidence, stripped by graph-check.sh.
+# An edge A -> B means: A must be understood before B can be correctly stated,
+# derived, interpreted, or applied within this capsule's scope.
+# tsort edges only (requires / defines / derives_from / valid_when). Richer
+# relations (generalizes, approximates, historically_precedes) live in relations.tsv.
+
+# ---------------------------------------------------------------------------
+# Electrical primitives (root set)
+# ---------------------------------------------------------------------------
+# current is the time-rate of charge flow
+electric_charge	electric_current
+# potential is work per unit charge moved
+electric_charge	electric_potential
+# electrical work is charge times potential difference
+electric_charge	electrical_work
+electric_potential	electrical_work
+# power is current times voltage
+electric_current	electrical_power
+electric_potential	electrical_power
+# resistance relates the voltage across a conductor to the current through it
+electric_current	resistance
+electric_potential	resistance
+# Ohm's law is the empirical linear V-I relation via the resistance
+resistance	ohms_law
+# the elementary charge is the quantum of electric charge
+electric_charge	elementary_charge
+
+# ---------------------------------------------------------------------------
+# Faraday: charge <-> moles of electrons <-> mass
+# ---------------------------------------------------------------------------
+# F = N_A * e
+avogadro_constant	faraday_constant
+elementary_charge	faraday_constant
+# Q accumulated from a current over time
+electric_current	charge_from_current
+# z is the electron count of the balanced half-reaction
+half_reaction	electrons_per_formula_unit
+oxidation_reduction	electrons_per_formula_unit
+oxidation_number_rules	electrons_per_formula_unit
+# Q = z F n links coulombs to moles of the reacting species
+faraday_constant	charge_mole_electron_bridge
+electrons_per_formula_unit	charge_mole_electron_bridge
+amount_of_substance	charge_mole_electron_bridge
+charge_from_current	charge_mole_electron_bridge
+# Faraday's law: m = (I t M) / (z F)
+charge_mole_electron_bridge	faradays_law_electrolysis
+molar_mass	faradays_law_electrolysis
+# moles of product per coulomb, via the stoichiometric coefficient
+charge_mole_electron_bridge	moles_of_product_electrolysis
+mole_ratio	moles_of_product_electrolysis
+# a gaseous product's volume from its moles
+ideal_gas_law	molar_volume
+moles_of_product_electrolysis	gas_volume_electrolysis
+molar_volume	gas_volume_electrolysis
+# current efficiency compares the actual yield to the Faradaic (theoretical) one
+faradays_law_electrolysis	current_efficiency
+moles_of_product_electrolysis	current_efficiency
+# specific energy = z F V_cell / (M eta_F)
+faradays_law_electrolysis	specific_energy_consumption
+current_efficiency	specific_energy_consumption
+electrical_work	specific_energy_consumption
+cell_voltage_electrolysis	specific_energy_consumption
+
+# ---------------------------------------------------------------------------
+# Cells and electrodes
+# ---------------------------------------------------------------------------
+# an electrolyte is an ionic conductor at a given concentration
+electric_charge	electrolyte
+molarity	electrolyte
+# an electrode is where a half-reaction exchanges electrons with the circuit
+half_reaction	electrode
+electric_current	electrode
+# a cell is two electrodes sharing an electrolyte
+electrode	electrochemical_cell
+electrolyte	electrochemical_cell
+# anode / cathode are defined by which half-reaction runs there
+electrochemical_cell	anode
+electrochemical_cell	cathode
+oxidation_reduction	anode
+oxidation_reduction	cathode
+# a salt bridge completes the ionic circuit between compartments
+electrochemical_cell	salt_bridge
+electrolyte	salt_bridge
+# an ion-exchange membrane is a selective salt bridge
+salt_bridge	ion_exchange_membrane
+transport_number	ion_exchange_membrane
+# cell notation writes anode | electrolyte || electrolyte | cathode
+anode	cell_notation
+cathode	cell_notation
+salt_bridge	cell_notation
+# galvanic vs electrolytic is decided by the sign of the cell potential
+spontaneity_from_cell_potential	galvanic_cell
+spontaneity_from_cell_potential	electrolytic_cell
+electric_potential	electrolytic_cell
+
+# ---------------------------------------------------------------------------
+# Electrode potentials
+# ---------------------------------------------------------------------------
+# the SHE is the agreed potential zero
+half_reaction	standard_hydrogen_electrode
+standard_state	standard_hydrogen_electrode
+electric_potential	standard_hydrogen_electrode
+# every E0 is a reduction potential measured against the SHE
+standard_hydrogen_electrode	standard_reduction_potential
+half_reaction	standard_reduction_potential
+# the series ranks couples by E0 (oxidant / reductant strength)
+standard_reduction_potential	electrochemical_series
+oxidizing_reducing_agent	electrochemical_series
+# E_cell = E_cathode - E_anode
+anode	cell_potential
+cathode	cell_potential
+standard_reduction_potential	cell_potential
+electric_potential	cell_potential
+# the standard version, both electrodes at unit activity
+cell_potential	standard_cell_potential
+standard_state	standard_cell_potential
+balancing_redox_half_reactions	standard_cell_potential
+# E0_cell > 0 means the cell reaction is spontaneous as written
+standard_cell_potential	spontaneity_from_cell_potential
+
+# ---------------------------------------------------------------------------
+# Thermodynamic bridge
+# ---------------------------------------------------------------------------
+# dG = -z F E : the cell potential is the free energy per coulomb
+gibbs_free_energy	gibbs_from_cell_potential
+cell_potential	gibbs_from_cell_potential
+faraday_constant	gibbs_from_cell_potential
+electrons_per_formula_unit	gibbs_from_cell_potential
+electrical_work	gibbs_from_cell_potential
+# dG0 = -z F E0
+gibbs_from_cell_potential	standard_gibbs_from_cell_potential
+standard_cell_potential	standard_gibbs_from_cell_potential
+# combine dG0 = -zFE0 with dG0 = -RT ln K  =>  E0 = (RT/zF) ln K
+standard_gibbs_from_cell_potential	equilibrium_from_cell_potential
+reaction_isotherm	equilibrium_from_cell_potential
+equilibrium_constant	equilibrium_from_cell_potential
+# (dE/dT)_P = dS / (z F)
+gibbs_from_cell_potential	temperature_coefficient_emf
+entropy	temperature_coefficient_emf
+cell_potential	temperature_coefficient_emf
+
+# ---------------------------------------------------------------------------
+# Nernst equation
+# ---------------------------------------------------------------------------
+# E = E0 - (RT/zF) ln Q  from  dG = dG0 + RT ln Q  and  dG = -zFE
+gibbs_from_cell_potential	nernst_equation
+standard_cell_potential	nernst_equation
+reaction_quotient	nernst_equation
+reaction_isotherm	nernst_equation
+gas_constant	nernst_equation
+faraday_constant	nernst_equation
+electrons_per_formula_unit	nernst_equation
+# the 298 K base-10 shortcut: 0.05916 V = RT ln10 / F
+nernst_equation	nernst_298k_form
+# a concentration cell: same couple both sides, E0 = 0
+nernst_equation	concentration_cell
+standard_cell_potential	concentration_cell
+# as the cell discharges Q rises toward K and E falls to 0
+nernst_equation	cell_potential_vs_soc
+equilibrium_from_cell_potential	cell_potential_vs_soc
+reaction_quotient	cell_potential_vs_soc
+
+# ---------------------------------------------------------------------------
+# Kinetics and the real cell voltage
+# ---------------------------------------------------------------------------
+# current density normalises current to electrode area
+electric_current	current_density
+# overpotential is the excess applied potential over the equilibrium (Nernst) value
+nernst_equation	overpotential
+electric_potential	overpotential
+# activation overpotential: the charge-transfer kinetic barrier
+overpotential	activation_overpotential
+current_density	activation_overpotential
+# concentration overpotential: depletion of reactant at the surface
+overpotential	concentration_overpotential
+current_density	concentration_overpotential
+migration_vs_diffusion	concentration_overpotential
+# ohmic drop is I R across the electrolyte and contacts
+ohms_law	ohmic_drop
+current_density	ohmic_drop
+# Butler-Volmer: stated, not derived; the current-overpotential law
+activation_overpotential	butler_volmer_equation
+current_density	butler_volmer_equation
+exchange_current_density	butler_volmer_equation
+gas_constant	butler_volmer_equation
+faraday_constant	butler_volmer_equation
+electrons_per_formula_unit	butler_volmer_equation
+# j0 is the exchange current density, the current at zero overpotential
+current_density	exchange_current_density
+activation_overpotential	exchange_current_density
+# Tafel is the high-overpotential limit of Butler-Volmer
+butler_volmer_equation	tafel_equation
+activation_overpotential	tafel_equation
+# the decomposition potential is the minimum voltage to sustain electrolysis
+standard_cell_potential	decomposition_potential
+overpotential	decomposition_potential
+electrolytic_cell	decomposition_potential
+# V_cell(electrolysis) = E0_cell + sum|eta| + I R
+standard_cell_potential	cell_voltage_electrolysis
+activation_overpotential	cell_voltage_electrolysis
+concentration_overpotential	cell_voltage_electrolysis
+ohmic_drop	cell_voltage_electrolysis
+electrolytic_cell	cell_voltage_electrolysis
+# V_cell(discharge) = E0_cell - sum|eta| - I R
+standard_cell_potential	cell_voltage_discharge
+activation_overpotential	cell_voltage_discharge
+concentration_overpotential	cell_voltage_discharge
+ohmic_drop	cell_voltage_discharge
+galvanic_cell	cell_voltage_discharge
+
+# ---------------------------------------------------------------------------
+# Product selectivity
+# ---------------------------------------------------------------------------
+# more than one half-reaction can occur at a given electrode
+standard_reduction_potential	competing_electrode_reactions
+half_reaction	competing_electrode_reactions
+electrode	competing_electrode_reactions
+# overpotential can make the kinetically favoured product win over the E0 order
+competing_electrode_reactions	thermodynamic_vs_kinetic_product
+overpotential	thermodynamic_vs_kinetic_product
+standard_cell_potential	thermodynamic_vs_kinetic_product
+# O2 evolution has a large activation overpotential on most anodes
+activation_overpotential	oxygen_overpotential
+half_reaction	oxygen_overpotential
+# electrode material sets j0, overpotential, and which reaction is favoured
+oxygen_overpotential	electrode_material_selection
+exchange_current_density	electrode_material_selection
+competing_electrode_reactions	electrode_material_selection
+# a supporting electrolyte carries the current without being consumed
+electrolyte	supporting_electrolyte
+conductivity	supporting_electrolyte
+ionic_conduction	supporting_electrolyte
+
+# ---------------------------------------------------------------------------
+# Electrolyte transport
+# ---------------------------------------------------------------------------
+# ions drift under the field and carry the current through the electrolyte
+electric_current	ionic_conduction
+electric_potential	ionic_conduction
+electrolyte	ionic_conduction
+# conductivity kappa: measured from the electrolyte's resistance
+ionic_conduction	conductivity
+ohms_law	conductivity
+# molar conductivity normalises kappa to concentration
+conductivity	molar_conductivity
+molarity	molar_conductivity
+# Kohlrausch: at infinite dilution each ion contributes independently
+molar_conductivity	kohlrausch_law
+dilute_ideal_solution	kohlrausch_law
+# ionic mobility: drift velocity per unit field
+ionic_conduction	ionic_mobility
+electric_potential	ionic_mobility
+# transport number: the fraction of current carried by each ion
+ionic_mobility	transport_number
+electric_current	transport_number
+ionic_conduction	transport_number
+# migration (field-driven) vs diffusion (gradient-driven)
+ionic_conduction	migration_vs_diffusion
+transport_number	migration_vs_diffusion
+
+# ---------------------------------------------------------------------------
+# Named production processes
+# ---------------------------------------------------------------------------
+# water electrolysis: 2 H2O -> 2 H2 + O2
+electrolytic_cell	water_electrolysis
+half_reaction	water_electrolysis
+standard_cell_potential	water_electrolysis
+faradays_law_electrolysis	water_electrolysis
+gas_volume_electrolysis	water_electrolysis
+cell_voltage_electrolysis	water_electrolysis
+oxygen_overpotential	water_electrolysis
+# the fuel cell is the same cell discharging
+water_electrolysis	reversible_fuel_cell
+galvanic_cell	reversible_fuel_cell
+cell_voltage_discharge	reversible_fuel_cell
+gibbs_from_cell_potential	reversible_fuel_cell
+# chlor-alkali: Cl2 wins over O2 at the anode by overpotential; membrane cell
+electrolytic_cell	chlor_alkali_process
+half_reaction	chlor_alkali_process
+ion_exchange_membrane	chlor_alkali_process
+thermodynamic_vs_kinetic_product	chlor_alkali_process
+oxygen_overpotential	chlor_alkali_process
+faradays_law_electrolysis	chlor_alkali_process
+current_efficiency	chlor_alkali_process
+# chlorate / perchlorate by further anodic oxidation of the chlorine chemistry
+chlor_alkali_process	chlorate_perchlorate
+competing_electrode_reactions	chlorate_perchlorate
+current_efficiency	chlorate_perchlorate
+# Hall-Heroult: alumina in molten cryolite, consumable carbon anode
+electrolytic_cell	hall_heroult_process
+half_reaction	hall_heroult_process
+faradays_law_electrolysis	hall_heroult_process
+specific_energy_consumption	hall_heroult_process
+standard_cell_potential	hall_heroult_process
+# copper electrorefining: impure anode dissolves, pure copper plates
+electrolytic_cell	copper_electrorefining
+half_reaction	copper_electrorefining
+standard_reduction_potential	copper_electrorefining
+faradays_law_electrolysis	copper_electrorefining
+current_efficiency	copper_electrorefining
+competing_electrode_reactions	copper_electrorefining
+# zinc electrowinning: Zn deposits below the H2 line thanks to H2 overpotential
+copper_electrorefining	zinc_electrowinning
+oxygen_overpotential	zinc_electrowinning
+standard_reduction_potential	zinc_electrowinning
+current_efficiency	zinc_electrowinning
+cell_voltage_electrolysis	zinc_electrowinning
+
+# ---------------------------------------------------------------------------
+# Redox flow batteries
+# ---------------------------------------------------------------------------
+# a flow cell charges and discharges through a membrane stack fed from tanks
+galvanic_cell	redox_flow_battery
+electrolytic_cell	redox_flow_battery
+ion_exchange_membrane	redox_flow_battery
+half_reaction	redox_flow_battery
+molarity	redox_flow_battery
+# the defining property: tanks hold energy, the stack delivers power
+redox_flow_battery	energy_power_decoupling
+# energy capacity = c * V_tank * z * F * dE_avg
+redox_flow_battery	flow_battery_energy_capacity
+energy_power_decoupling	flow_battery_energy_capacity
+charge_mole_electron_bridge	flow_battery_energy_capacity
+molarity	flow_battery_energy_capacity
+cell_potential	flow_battery_energy_capacity
+# power = N_cells * A_stack * j * V_cell
+redox_flow_battery	flow_battery_power
+energy_power_decoupling	flow_battery_power
+current_density	flow_battery_power
+cell_voltage_discharge	flow_battery_power
+# state of charge: fraction of active species in the charged form
+redox_flow_battery	state_of_charge
+molarity	state_of_charge
+nernst_equation	state_of_charge
+# coulombic efficiency: charge out over charge in
+redox_flow_battery	coulombic_efficiency
+charge_from_current	coulombic_efficiency
+current_efficiency	coulombic_efficiency
+crossover	coulombic_efficiency
+shunt_current	coulombic_efficiency
+# voltage efficiency: discharge voltage over charge voltage at a stated current
+redox_flow_battery	voltage_efficiency
+cell_voltage_discharge	voltage_efficiency
+cell_voltage_electrolysis	voltage_efficiency
+# energy efficiency is the product
+coulombic_efficiency	energy_efficiency
+voltage_efficiency	energy_efficiency
+# shunt currents leak through the shared electrolyte manifolds
+redox_flow_battery	shunt_current
+ionic_conduction	shunt_current
+electric_potential	shunt_current
+# crossover: active ions cross the membrane
+ion_exchange_membrane	crossover
+transport_number	crossover
+redox_flow_battery	crossover
+# capacity fade from crossover and oxidation-state imbalance
+crossover	capacity_fade
+state_of_charge	capacity_fade
+redox_flow_battery	capacity_fade
+# all-vanadium: one element on both sides so crossover only self-discharges
+redox_flow_battery	all_vanadium_flow_battery
+crossover	all_vanadium_flow_battery
+standard_reduction_potential	all_vanadium_flow_battery
+half_reaction	all_vanadium_flow_battery
+energy_efficiency	all_vanadium_flow_battery
+# iron-chromium: cheaper, crossover-tolerant, but slow electrode kinetics
+all_vanadium_flow_battery	iron_chromium_flow_battery
+exchange_current_density	iron_chromium_flow_battery
+# zinc-bromine: a hybrid with a zinc plating step, not a pure flow battery
+all_vanadium_flow_battery	zinc_bromine_flow_battery
+electrolytic_cell	zinc_bromine_flow_battery
+# fixed-cell batteries couple energy and power in one sealed cell
+energy_power_decoupling	fixed_cell_battery_contrast
+redox_flow_battery	fixed_cell_battery_contrast
+
+# ---------------------------------------------------------------------------
+# Boundary nodes (named, not developed)
+# ---------------------------------------------------------------------------
+# corrosion is a short-circuited galvanic cell on one piece of metal
+galvanic_cell	corrosion_as_galvanic_cell
+standard_reduction_potential	corrosion_as_galvanic_cell
+oxidation_reduction	corrosion_as_galvanic_cell
+competing_electrode_reactions	corrosion_as_galvanic_cell
+# a Pourbaix diagram maps stability against potential and pH via the Nernst equation
+corrosion_as_galvanic_cell	pourbaix_diagram
+nernst_equation	pourbaix_diagram
+standard_reduction_potential	pourbaix_diagram
+# the double layer is the charge structure at the electrode-electrolyte interface
+electrode	electrical_double_layer
+electrolyte	electrical_double_layer
+electric_potential	electrical_double_layer
+# Debye-Huckel-Onsager: molar conductivity falls with sqrt(c) away from infinite dilution
+kohlrausch_law	debye_huckel_onsager
+molar_conductivity	debye_huckel_onsager
+dilute_ideal_solution	debye_huckel_onsager

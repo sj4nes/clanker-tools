@@ -36,10 +36,10 @@ fuel-cell engineering. See `scope.md`.
 
 | stage | state |
 |---|---|
-| `scope.md` | **draft — awaiting sign-off on scope before the graph is built** |
-| `conventions.md` | draft |
-| node registry `nodes/nodes.tsv` | not started |
-| prerequisite graph | not started |
+| `scope.md` | **done** — scope signed off 2026-09-09 |
+| `conventions.md` | done |
+| node registry `nodes/nodes.tsv` | **110 nodes**, all `draft` |
+| prerequisite graph | **255 edges, acyclic** (`tsort` clean, BSD-safe check), 0 isolated nodes; `edges/cycles.md`, `edges/relations.tsv` done |
 | `formulas/electrochemistry.md` | not started |
 | `sources/bibliography.md` | not started |
 | `bc` dimensional checks | not started |
