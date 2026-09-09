@@ -48,6 +48,12 @@
 - Retry cap (per call / per run): · Concurrency cap:
 - Maintenance-window blackout:
 
+## Procedure
+
+- **Steps and order** (versioned; keep compact):
+- **Drift review cadence** (confirms each step still does something the environment doesn't already do):
+- **Change control** (who may edit steps/thresholds; held-out check before it goes live):
+
 ## Identity and secrets
 
 - **Service account** (dedicated):
@@ -81,6 +87,7 @@
 ## Sign-off
 
 - [ ] Owner approved the effects and limits.
+- [ ] Procedure is versioned with a drift-review cadence set.
 - [ ] Failure-scenario matrix passes (`references/checklist.md`).
 - [ ] Runbook complete ([`runbook.md`](runbook.md)).
 - [ ] Scheduled paused / low-frequency with a ramp plan.

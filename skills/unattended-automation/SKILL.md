@@ -18,7 +18,7 @@ description: >-
   ordering, per-stage idempotency, and compensations. NOT for automations whose
   decisions are made by a language model (that is `agent-automation`), and not a
   substitute for a real workflow engine when you need one.
-version: 0.1.0
+version: 0.2.0
 author: Simon Janes
 tags: [automation, cron, scheduled-jobs, pipelines, idempotency, reliability, error-handling, retries, observability, runbook, ci-cd, etl]
 ---
@@ -84,6 +84,9 @@ nobody is watching.
   call; max records / files / bytes / API calls per run; rate limits; spend caps
   for paid operations; concurrency limits; a cap on retries. A runaway
   unattended job with no ceiling is how you get a huge bill or a deleted table.
+  Read each external input once per run and reuse it — re-querying the same
+  resource repeatedly within one run burns the rate and spend budget you just
+  capped.
 - **Fail closed on the unknown.** Unrecognized error, ambiguous state,
   unverifiable result, exhausted retry budget, missing lock, tripped circuit
   breaker → stop with a non-zero exit and an alert. Do not guess and continue.
@@ -119,6 +122,14 @@ nobody is watching.
   idempotent and resumable, checkpoint between stages, and define a compensating
   action for each stage that cannot simply be re-run. See
   [`references/pipelines.md`](references/pipelines.md).
+- **Keep the procedure explicit and compact, and reconcile it with reality.**
+  The steps the automation follows — the stage list, the order, the enumerated
+  effects — are a versioned artifact, not something to reverse-engineer from
+  control flow. Keep it small: an effective procedure is a handful of steps, not
+  an over-modelled tree. Environments drift — a dependency starts doing what one
+  of your steps did, an API changes a default, a stage quietly becomes a no-op.
+  Schedule a periodic review that checks each step still does something the
+  environment does not already do, and prune the ones that don't.
 - **Write the runbook before you schedule it.** How to pause it, how to run it
   manually, how to tell if a past run half-completed, how to reconcile, who to
   call. An automation with no runbook is an incident waiting for an audience.
@@ -216,6 +227,10 @@ nobody is watching.
   live in the repo or crontab.
 - There is no alert on failure, or no alert on silence for a job that must run
   on a schedule.
+- The procedure has accumulated steps the environment now handles itself, and
+  there is no periodic review to catch that drift.
+- The automation rewrites its own schedule, thresholds, or steps from past runs
+  with no held-out check and no version history.
 - The audit trail is absent, prose-only, missing the "what changed", or writable
   by the automation itself.
 - A multi-stage pipeline assumes atomicity across stages and has no checkpoint

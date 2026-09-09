@@ -33,6 +33,14 @@ See [`action-policy.md`](action-policy.md) for the typed schemas. Summary:
 |---|---|---|
 |  |  |  |
 
+## Procedural structure (long-horizon runs)
+
+- **Step map / procedure graph** (admissible next steps, or "n/a — single step"):
+- **Per-step guidance fields** (condition / how-to / pitfalls):
+- **Adjacency slice fed to the model per step** (current step + permitted successors):
+- **Lead-time steps** (action → delay before effect → when it must fire):
+- **Who may edit the procedure, and the review + held-out-eval gate for edits**:
+
 ## Untrusted inputs
 
 - **External content this automation consumes**:
@@ -67,5 +75,6 @@ See [`action-policy.md`](action-policy.md) for the typed schemas. Summary:
 ## Sign-off
 
 - [ ] Owner has approved the action contract and execution rules.
+- [ ] Procedure edits are versioned and gated on a held-out eval (or n/a).
 - [ ] Failure-scenario tests pass (see `references/production-checklist.md`).
 - [ ] Runbook complete.

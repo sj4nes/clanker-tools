@@ -17,7 +17,7 @@ description: >-
   a tamper-evident structured audit trail. Grounded in the OWASP AI Agent
   Security guidance. NOT for one-off manual agent tasks a human is watching, and
   not a licence to let a model call arbitrary APIs from raw prose.
-version: 0.1.0
+version: 0.2.0
 author: Simon Janes
 tags: [agent-automation, ai-agent-security, llm-safety, tool-use, policy-engine, human-in-the-loop, idempotency, audit-logging, least-privilege, circuit-breaker, owasp]
 ---
@@ -82,6 +82,24 @@ a verified outcome.
   automation's owner has signed off; high-impact needs contextual human
   approval; critical/irreversible needs dual control or is prohibited from
   autonomous execution. See [`references/safety-controls.md`](references/safety-controls.md).
+- **On long-horizon runs, give the agent explicit procedural structure — not
+  just a growing history.** Free-form action selection over an accumulating log
+  drifts off-objective, calls tools out of order, and repeats unproductive
+  actions as trajectories lengthen. Maintain an editable map of the task's
+  admissible next steps (a procedure graph or ordered step list) and, at each
+  step, feed the model only the structurally adjacent slice — the current step
+  plus its permitted successors, each annotated with *when* it applies, *how* to
+  proceed, and *what* to avoid. Retrieve by procedural adjacency, not by top-k
+  similarity: a similarity match can surface "submit" while dropping the
+  verification step that licenses it. This layer only *biases* the next proposal
+  — it sits upstream of the policy engine and never authorizes anything. Keep
+  the hard gate (deterministic policy) and the soft steering (procedural
+  guidance) as separate layers.
+- **Encode lead time into the procedure.** When an action's effect lands after a
+  delay (capital transfers, DNS propagation, approval queues, downstream
+  batch jobs), the step that triggers it must fire on `deadline − expected lag`,
+  not when the threshold is already breached. A procedure that only reacts to
+  the current state will act too late whenever feedback is delayed.
 - **Least privilege, scoped and revocable.** Each automation gets its own
   identity — never a shared admin token — with the smallest set of permissions,
   the shortest credential lifetime, the narrowest tenant/project/record scope,
@@ -118,6 +136,14 @@ a verified outcome.
   hashes, redacted excerpts, and resource identifiers instead. For regulated
   systems: tamper-evident, stored separately from the app database, access-
   restricted, retained to policy. See [`references/logging-and-audit.md`](references/logging-and-audit.md).
+- **If the automation revises its own procedure, guidance, or prompts, gate
+  every edit on a held-out evaluation.** An automated refiner may propose
+  changes to the step map, the edge guidance, or the planning prompt from
+  observed failures. Commit a change only if it holds or improves a score on a
+  validation set the refiner did not see during proposal; retain rejected
+  candidates in a log so the same unproductive edit is not re-proposed. Procedure
+  edits are versioned, owner-reviewed, and audited like code — never silently
+  self-applied in a running production automation.
 - **Calibrated language in reports.** "Under the stated policy version", "for
   the actions the executor verified", "within the tested failure scenarios".
   Never "the agent handled everything".
@@ -137,7 +163,9 @@ a verified outcome.
    the model per [`references/architecture.md`](references/architecture.md):
    input validation → context retrieval behind the untrusted boundary → typed
    plan proposal → policy engine → approval gate → least-privilege tool executor
-   → postcondition verification → structured audit log, metrics, alerts.
+   → postcondition verification → structured audit log, metrics, alerts. For
+   long-horizon tasks, add an explicit procedure / step-guidance layer between
+   retrieval and proposal — advisory only, and upstream of the policy engine.
 3. **Define the typed action contract.** For each action: name (allowlisted),
    parameter schema with types and bounds, target-scope field, risk tier, whether
    it is a read or a write, idempotency-key derivation, and the postcondition
@@ -215,6 +243,11 @@ a verified outcome.
 - A multi-system workflow assumes atomicity and has no compensating actions.
 - There is no kill switch, no circuit breaker, or no hard cap on tool calls,
   time, spend, or records affected per run.
+- A long-horizon or multi-step agent selects actions purely from a growing
+  history, with no explicit procedure or step-level guidance, and shows drift,
+  out-of-order tool calls, or repetitive loops.
+- The automation modifies its own procedure, guidance, or prompts in production
+  with no held-out evaluation gate, no version history, and no owner review.
 - The audit trail is prose-only, missing denials, logs raw secrets or unmasked
   PII, or is stored where the automation itself could alter it.
 - The automation has not been tested against prompt injection, malformed tool
