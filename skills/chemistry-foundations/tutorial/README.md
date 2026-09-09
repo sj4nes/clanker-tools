@@ -35,7 +35,18 @@ flowchart TD
     T1 --> T4
     T1 --> T5
     T1 --> T3
+
+    click T1 href "how-much-can-this-make.md" "Tutorial 1 — percent_yield"
+    click T2 href "reacting-gases-by-volume.md" "Tutorial 2 — gas_stoichiometry"
+    click T3 href "finding-a-concentration.md" "Tutorial 3 — equivalence_point"
+    click T4 href "reaction-enthalpy-from-formation.md" "Tutorial 4 — enthalpy_from_formation_enthalpies"
+    click T5 href "balancing-a-redox-equation.md" "Tutorial 5 — balancing_redox_half_reactions"
+    click T6 href "solving-an-equilibrium.md" "Tutorial 6 — ice_table"
+    click T7 href "predicting-ph.md" "Tutorial 7 — henderson_hasselbalch"
 ```
+
+(The boxes are clickable on GitHub — each links to its tutorial. The numbered
+list and table below carry the same links for other renderers.)
 
 1. **Start with `how-much-can-this-make`** (target `percent_yield`). It builds
    relative atomic mass → molar mass → balancing → the **mole ratio** →
