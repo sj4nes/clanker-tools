@@ -70,10 +70,13 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 
 | tutorial | target | run |
 |---|---|---|
+| [`tutorial/how-much-can-this-make.md`](tutorial/how-much-can-this-make.md) | `percent_yield` — grams → moles → limiting reagent → theoretical vs actual yield | `upmd skills/chemistry-foundations/tutorial/how-much-can-this-make.md` |
 | [`tutorial/reaction-enthalpy-from-formation.md`](tutorial/reaction-enthalpy-from-formation.md) | `enthalpy_from_formation_enthalpies` — combustion ΔH from a table, no calorimeter | `upmd skills/chemistry-foundations/tutorial/reaction-enthalpy-from-formation.md` |
 
-11 blocks (5 `bc` / `awk` checks, 2 `lean` beats, capstone); `upmd --ci --all`
-green. Six more cuts are staged in `indexes/prerequisite-paths.md`.
+`how-much-can-this-make.md`: 13 blocks (7 `bc` / `awk` checks, 2 `lean` beats,
+capstone). `reaction-enthalpy-from-formation.md`: 11 blocks (5 checks, 2 `lean`
+beats, capstone). Both `upmd --ci --all` green. Five more cuts staged in
+`indexes/prerequisite-paths.md`.
 
 ## Reading order caveat
 
