@@ -36,7 +36,7 @@ does not fix a wrong coefficient, sign, regime, or missing term.
 
 ## Derivation-step arithmetic (`validation/derivation-checks.lean`, Lean 4.33.1, no Mathlib)
 
-25 kernel-`decide`d instance checks over `Int` (potentials in centi- or
+29 kernel-`decide`d instance checks over `Int` (potentials in centi- or
 milli-volts, charges in coulombs, energies scaled). Grouped:
 1. `faradays_law_electrolysis` — `1 F` → `1 mol` (`z = 1`); `192970 C / (2·96485)
    = 1 mol` (`z = 2`).
@@ -59,6 +59,10 @@ milli-volts, charges in coulombs, energies scaled). Grouped:
 12. `copper_electrorefining` — `34 − 34 = 0` (`E°_cell = 0`).
 13. `specific_energy_consumption` charge factor — `3·96485 = 289455 C/mol Al`;
     `1000000 / 27 = 37037 mol Al per tonne`.
+14. `thermodynamic_vs_kinetic_product` (chlor-alkali anode) — `123 < 136`
+    (thermo favours O₂); `136 + 3 < 123 + 50` (kinetics favours Cl₂).
+15. `chlor_alkali_process` — `2·1 = 1·2` (Cl₂ : H₂ = 1 : 1); `1000000 / 71 =
+    14084 mol Cl₂ per tonne`.
 **Recorded caveat:** Lean verified the *arithmetic* of each bookkeeping identity
 only — not that `ΔG° = −RT ln K` (imported), not the Butler–Volmer rate law, and
 not any tabulated `E°`, `K`, molar mass, or industrial cell figure.

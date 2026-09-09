@@ -94,3 +94,17 @@ example : ((34 : Int) - 34) = 0 := by decide
 example : ((3 : Int) * 96485) = 289455 := by decide            -- C per mol Al
 --     ~37037 mol Al per tonne (M ~ 27 g/mol):
 example : ((1000000 : Int) / 27) = 37037 := by decide
+
+-- 14. thermodynamic_vs_kinetic_product (chlor-alkali anode).  Centivolts.
+--     Thermodynamics favours O2:  E0(O2/H2O) = 123  <  E0(Cl2/Cl-) = 136.
+example : ((123 : Int) < 136) := by decide
+--     But the anode runs whichever needs the LOWER applied potential, E0 + eta:
+--     Cl2:  136 + 3  = 139   vs   O2:  123 + 50 = 173.   Cl2 wins.
+example : ((136 : Int) + 3) < (123 + 50) := by decide
+
+-- 15. chlor_alkali_process: 2 NaCl + 2 H2O -> Cl2 + H2 + 2 NaOH, z = 2.
+--     Cl2 (2 e-) and H2 (2 e-) are produced in a 1 : 1 mole ratio, NaOH 2 : 1.
+example : ((2 : Int) * 1) = (1 * 2) := by decide
+--     charge to make 1 tonne of Cl2 (M ~ 71 g/mol, z = 2):
+--     ~14084 mol/tonne * 2 * 96485 C ~ 2.72e9 C.
+example : ((1000000 : Int) / 71) = 14084 := by decide

@@ -41,11 +41,11 @@ batteries (one contrast node), fuel-cell engineering. See `scope.md`.
 | concept/formula entries `formulas/electrochemistry.md` | **done** — one entry per node (110), domain-grouped, reconciled against the graph |
 | `sources/bibliography.md` | **done** (BLM, Atkins, Bard & Faulkner, Newman, Pletcher & Walsh, Skyllas-Kazacos, IUPAC, SI, CODATA) |
 | `bc` dimensional checks `validation/dimensional-checks.bc` | **done** — 17 checks on the `[M L T Θ N I]` 6-tuple, all `0 0 0 0 0 0` |
-| `lean` identity checks `validation/derivation-checks.lean` | **done** — 25 kernel-`decide` instance checks, `lean` exit 0 |
+| `lean` identity checks `validation/derivation-checks.lean` | **done** — 29 kernel-`decide` instance checks, `lean` exit 0 |
 | discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (7 headline targets) |
 | `validation/consistency-audit.md` | **done** — full run recorded |
 | `SKILL.md` | **done** |
-| tutorials | **2 shipped** — see below |
+| tutorials | **3 shipped** — see below |
 
 Release 0.1 core is complete. All 110 nodes are still `status: draft`; importing
 the electrical primitives from a future `physics-circuits` capsule, promoting the
@@ -57,7 +57,7 @@ embedded assumptions to nodes, per-node pages, and the review pass are Release
 ```sh
 sh build/build-tree.sh                          # graph-check + tsort + cycle check + order verification
 bc -q -l validation/dimensional-checks.bc       # 17 [M L T Θ N I] checks, want 0 0 0 0 0 0
-lean validation/derivation-checks.lean          # 25 kernel-decide instance checks, exit 0
+lean validation/derivation-checks.lean          # 29 kernel-decide instance checks, exit 0
 sh build/gen-assumption-index.sh                # regenerate indexes/assumption-index.md
 sh build/gen-symbol-index.sh                    # ptx discovery pass for the hand-curated symbol index
 ```
@@ -73,10 +73,11 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 |---|---|---|
 | 1 | [`per-amp-hour`](tutorial/per-amp-hour.md) | `faradays_law_electrolysis` — `Q = It`, `z`, `m = ItM/(zF)`, gas volume, current efficiency; capstone sizes a hydrogen electrolyser (~26.6 kA·h/kg H₂) |
 | 2 | [`kwh-per-kilogram`](tutorial/kwh-per-kilogram.md) | `specific_energy_consumption` — `E°_cell`, `ΔG = −zFE`, overpotential + IR, `V_cell`, `E_spec = zF V_cell/(M η_F)`; capstone: H₂ ~54 kWh/kg vs Al ~13 kWh/kg |
+| 3 | [`chlorine-not-oxygen`](tutorial/chlorine-not-oxygen.md) | `chlor_alkali_process` — competing anode reactions, the effective potential `E° + η`, why the `0.5 V` oxygen overpotential makes Cl₂ win; capstone: a 15 kA cell line, ~19 kg/h Cl₂ at ~2.4 kWh/kg |
 
-Both 11 blocks, `upmd --ci --all` green. More cuts staged in
-`indexes/prerequisite-paths.md` (`water_electrolysis`, `chlor_alkali_process`,
-`nernst_equation`, `all_vanadium_flow_battery`, `energy_efficiency`).
+`upmd --ci --all` green (11 / 11 / 9 blocks). More cuts staged in
+`indexes/prerequisite-paths.md` (`water_electrolysis`, `nernst_equation`,
+`all_vanadium_flow_battery`, `energy_efficiency`).
 
 ## Reading order caveat
 
