@@ -19,8 +19,11 @@ flowchart TD
     T2["2 · kwh-per-kilogram<br/>specific_energy_consumption<br/>— × the cell voltage → kWh/kg"]
     T3["3 · chlorine-not-oxygen<br/>chlor_alkali_process<br/>— E° + η selectivity"]
     T4["4 · iron-flow-battery<br/>iron_flow_battery<br/>— sizing a homestead battery"]
+    T5["5 · hydrogen-as-a-battery<br/>reversible_fuel_cell<br/>— H₂ round-trip storage"]
     T1 --> T2 --> T3 --> T4
-    T4 -.planned.-> T5["water_electrolysis · nernst_equation<br/>zinc_iron_flow_battery"]
+    T2 --> T5
+    T4 -.compared in.-> T5
+    T5 -.planned.-> T6["nernst_equation · zinc_iron_flow_battery"]
 ```
 
 1. **`per-amp-hour`** (`faradays_law_electrolysis`) — the charge/electron/mass
@@ -40,6 +43,12 @@ flowchart TD
    efficiencies, and why **all-iron** — not vanadium — is the homestead
    chemistry. Capstone sizes a 20 kWh / 4 kW off-grid battery (two IBC totes of
    FeCl₂, ~4.35 m² of stack).
+5. **`hydrogen-as-a-battery`** (`reversible_fuel_cell`) — uses #1, #2, #4.
+   Water electrolysis and its reverse: `1.23 V` reversible vs `1.48 V`
+   thermoneutral, the oxygen overpotential paid **both ways**, and why the
+   hydrogen round trip is only `~31 %`. Capstone compares hydrogen storage
+   (tiny cylinder, terrible round trip → *seasonal*) with the iron flow battery
+   (big tanks, good round trip → *daily*).
 
 ## The tutorials
 
@@ -49,6 +58,7 @@ flowchart TD
 | 2 | [`kwh-per-kilogram`](kwh-per-kilogram.md) | `specific_energy_consumption` | 11 | 4 dimensional, 4 numeric, 3 Lean, capstone |
 | 3 | [`chlorine-not-oxygen`](chlorine-not-oxygen.md) | `chlor_alkali_process` | 9 | 6 numeric, 2 Lean, capstone (selectivity — qualitative, no dimensional check) |
 | 4 | [`iron-flow-battery`](iron-flow-battery.md) | `iron_flow_battery` | 11 | 3 dimensional, 5 numeric, 3 Lean, capstone |
+| 5 | [`hydrogen-as-a-battery`](hydrogen-as-a-battery.md) | `reversible_fuel_cell` | 9 | 1 dimensional, 4 numeric, 2 Lean, capstone |
 
 "Dimensional" = a `[M L T Θ N I]` 6-tuple check printing `0 0 0 0 0 0`.
 "Lean" = a `bash` block that heredocs the capsule's exact
@@ -63,6 +73,7 @@ if `lean` is absent.
 | 2 | tutorial #1; electric potential (`W = QΔV`), Ohm's law; Gibbs free energy and `ΔG° = −RT ln K` (imported) |
 | 3 | tutorials #1 and #2; standard reduction potentials as reduction potentials vs SHE |
 | 4 | tutorials #1–#3; a rough sense of grams-vs-kWh scale for off-grid storage |
+| 5 | tutorials #1, #2, #4; the difference between daily and seasonal storage |
 
 Both work at **298.15 K** in the **`dilute_ideal_solution`** limit, and stop
 where the capsule stops (Butler–Volmer stated not derived; no double layer, no
@@ -70,9 +81,9 @@ photo-electrochemistry, no corrosion engineering).
 
 ## Planned
 
-From `../indexes/prerequisite-paths.md`: `water_electrolysis`,
-`nernst_equation`, `zinc_iron_flow_battery` (the higher-voltage low-toxicity
-alternative).
+From `../indexes/prerequisite-paths.md`: `nernst_equation` (how `E` and the
+efficiency shift with temperature, pressure, concentration), and
+`zinc_iron_flow_battery` (the higher-voltage low-toxicity flow chemistry).
 
 ## Verifying the set
 

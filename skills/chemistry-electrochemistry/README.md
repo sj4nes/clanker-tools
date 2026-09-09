@@ -45,7 +45,7 @@ batteries (one contrast node), fuel-cell engineering. See `scope.md`.
 | discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (8 headline targets) |
 | `validation/consistency-audit.md` | **done** — full run recorded |
 | `SKILL.md` | **done** |
-| tutorials | **4 shipped** — see below |
+| tutorials | **5 shipped** — see below |
 
 Release 0.1 core is complete. All 112 nodes are still `status: draft`; importing
 the electrical primitives from a future `physics-circuits` capsule, promoting the
@@ -75,10 +75,10 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 | 2 | [`kwh-per-kilogram`](tutorial/kwh-per-kilogram.md) | `specific_energy_consumption` — `E°_cell`, `ΔG = −zFE`, overpotential + IR, `V_cell`, `E_spec = zF V_cell/(M η_F)`; capstone: H₂ ~54 kWh/kg vs Al ~13 kWh/kg |
 | 3 | [`chlorine-not-oxygen`](tutorial/chlorine-not-oxygen.md) | `chlor_alkali_process` — competing anode reactions, the effective potential `E° + η`, why the `0.5 V` oxygen overpotential makes Cl₂ win; capstone: a 15 kA cell line, ~19 kg/h Cl₂ at ~2.4 kWh/kg |
 | 4 | [`iron-flow-battery`](tutorial/iron-flow-battery.md) | `iron_flow_battery` — the flow-battery architecture, the three efficiencies, and why **all-iron** (not vanadium) is the homestead chemistry; capstone sizes a 20 kWh / 4 kW off-grid battery |
+| 5 | [`hydrogen-as-a-battery`](tutorial/hydrogen-as-a-battery.md) | `reversible_fuel_cell` — water electrolysis and its reverse; `1.23 V` vs `1.48 V`, the oxygen overpotential paid both ways, `~31 %` round trip; capstone: H₂ storage (seasonal) vs the iron flow battery (daily) |
 
-`upmd --ci --all` green (11 / 11 / 9 / 11 blocks). More cuts staged in
-`indexes/prerequisite-paths.md` (`water_electrolysis`, `nernst_equation`,
-`zinc_iron_flow_battery`).
+`upmd --ci --all` green (11 / 11 / 9 / 11 / 9 blocks). More cuts staged in
+`indexes/prerequisite-paths.md` (`nernst_equation`, `zinc_iron_flow_battery`).
 
 ## Reading order caveat
 
