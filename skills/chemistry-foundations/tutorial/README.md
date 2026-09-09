@@ -13,24 +13,28 @@ every block top-to-bottom with `upmd --ci --all <file>`.
 
 ## Recommended order
 
-```
-                    1. how-much-can-this-make   (the mole, molar mass,
-                       (percent_yield)           balancing, the mole ratio)
-                              |
-        +------------+--------+--------+------------------+
-        |            |                 |                  |
-  2. reacting-   4. reaction-     5. balancing-      3. finding-a-
-     gases-by-      enthalpy-        a-redox-           concentration
-     volume         from-formation   equation           (equivalence_point)
-  (gas_stoich)   (enthalpy_from_  (balancing_redox_        |
-                  formation)       half_reactions)         |
-        \____________\_______________/                     v
-              pick by interest,                     6. solving-an-equilibrium
-              any time after #1                       (ice_table)
-                                                            |
-                                                            v
-                                                     7. predicting-ph
-                                                     (henderson_hasselbalch)
+```mermaid
+flowchart TD
+    T1["<b>1 · how-much-can-this-make</b><br/>percent_yield<br/>— builds the mole ratio"]
+
+    subgraph branch ["pick any, in any order (after #1)"]
+        T2["2 · reacting-gases-by-volume<br/>gas_stoichiometry"]
+        T4["4 · reaction-enthalpy-from-formation<br/>enthalpy_from_formation_enthalpies"]
+        T5["5 · balancing-a-redox-equation<br/>balancing_redox_half_reactions"]
+    end
+
+    subgraph spine ["solutions and equilibrium spine — in sequence"]
+        direction TB
+        T3["3 · finding-a-concentration<br/>equivalence_point<br/>— introduces molarity"]
+        T6["6 · solving-an-equilibrium<br/>ice_table"]
+        T7["7 · predicting-ph<br/>henderson_hasselbalch"]
+        T3 --> T6 --> T7
+    end
+
+    T1 --> T2
+    T1 --> T4
+    T1 --> T5
+    T1 --> T3
 ```
 
 1. **Start with `how-much-can-this-make`** (target `percent_yield`). It builds
