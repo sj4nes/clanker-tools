@@ -45,7 +45,7 @@ batteries (one contrast node), fuel-cell engineering. See `scope.md`.
 | discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (8 headline targets) |
 | `validation/consistency-audit.md` | **done** — full run recorded |
 | `SKILL.md` | **done** |
-| tutorials | **5 shipped** — see below |
+| tutorials | **6 shipped** — see below |
 
 Release 0.1 core is complete. All 112 nodes are still `status: draft`; importing
 the electrical primitives from a future `physics-circuits` capsule, promoting the
@@ -76,9 +76,10 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 | 3 | [`chlorine-not-oxygen`](tutorial/chlorine-not-oxygen.md) | `chlor_alkali_process` — competing anode reactions, the effective potential `E° + η`, why the `0.5 V` oxygen overpotential makes Cl₂ win; capstone: a 15 kA cell line, ~19 kg/h Cl₂ at ~2.4 kWh/kg |
 | 4 | [`iron-flow-battery`](tutorial/iron-flow-battery.md) | `iron_flow_battery` — the flow-battery architecture, the three efficiencies, and why **all-iron** (not vanadium) is the homestead chemistry; capstone sizes a 20 kWh / 4 kW off-grid battery |
 | 5 | [`hydrogen-as-a-battery`](tutorial/hydrogen-as-a-battery.md) | `reversible_fuel_cell` — water electrolysis and its reverse; `1.23 V` vs `1.48 V`, the oxygen overpotential paid both ways, `~31 %` round trip; capstone: H₂ storage (seasonal) vs the iron flow battery (daily) |
+| 6 | [`the-voltage-isnt-fixed`](tutorial/the-voltage-isnt-fixed.md) | `nernst_equation` — `E = E° − (RT/zF) ln Q`, the `59.16/z` mV-per-decade pH-meter slope, a concentration-difference battery, and why a cell's OCV sags; capstone derives the `~80 %` usable SOC window |
 
-`upmd --ci --all` green (11 / 11 / 9 / 11 / 9 blocks). More cuts staged in
-`indexes/prerequisite-paths.md` (`nernst_equation`, `zinc_iron_flow_battery`).
+`upmd --ci --all` green (11 / 11 / 9 / 11 / 9 / 9 blocks). One cut left in
+`indexes/prerequisite-paths.md`: `zinc_iron_flow_battery`.
 
 ## Reading order caveat
 
