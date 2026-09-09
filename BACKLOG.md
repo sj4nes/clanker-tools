@@ -388,6 +388,48 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       cards → VoI-ranked backlog → forecast ledger → monitoring plan; `check.py`
       recomputes the EVPI / Brier / diagnosticity claims, wired into `run.sh`.
 
+## Engineering practice
+
+### test-writing  (new skill — promoted 2026-09-08 from BACKLOG-BACKLOG)
+
+Promoted on the strength of danluu's "How well do agents use test/verification
+techniques?" eval (Sept 2026): given only the name of a technique or library,
+agents fall back to poor default testing across all 26 conditions tested — the
+gap is real and a nudge-style skill is the thing that helped (the author's
+5-bullet skill beat every tutorial-style skill, including ones with 250k GitHub
+stars). Analysis-methodology archetype; a *nudge away from known failure modes*,
+not a tutorial.
+
+- [ ] **test-writing:** first deliverable — `verification/` fixture with planted
+      bugs of the shapes the eval documents, each paired with a negative-contrast
+      naive test that misses it:
+      - expected values that **encode the implementation's own output** (no
+        independent oracle) — Kreinin's point: fixed input/output testing
+        certifies the bug
+      - **symmetric / palindromic input data** masking reversal and transposition
+        bugs (the Zstd bitstream-reversal case; four identical Huffman streams
+        hiding a jump-table transposition)
+      - **naive randomization** where every input falls down the same
+        invalid/rejection path — generators must be *structured* and steer toward
+        interesting state
+      - a property test that checks one trivial always-true property
+      The prescribed check must fail on the bug; the naive test must pass it.
+- [ ] **test-writing:** SKILL.md skeleton from `templates/skill-template` — lead
+      with the behaviour-modification bullets (identify risky areas → state likely
+      mistakes and alternative interpretations → asymmetric/boundary checks on
+      both sides of a boundary → independent re-derivation in a fresh context →
+      structured randomized inputs). Keep it short: the eval is direct evidence
+      that long tutorial-style skills degrade results.
+- [ ] **test-writing:** cross-link — `test-oracle-design` (BACKLOG-BACKLOG) is the
+      narrower "how do you know the output is correct" slice; decide one-skill vs
+      two once this one is exercised. Also link `simulation` /
+      `design-of-experiments` for the randomized-testing overlap.
+- [ ] **test-writing → docs/verifying-skills.md + methodology-skill-builder:**
+      fold in the eval's meta-finding as an explicit rule — *a skill that reads
+      like a human tutorial degrades performance*; skills modify a default
+      behaviour distribution, they do not teach from zero. (ECC, Hegel, and
+      Trail-of-Bits skills all underperformed no-skill.)
+
 ## Tutorials
 
 ### theorem-tree-tutorial  (new meta skill — started 2026-09-06)
