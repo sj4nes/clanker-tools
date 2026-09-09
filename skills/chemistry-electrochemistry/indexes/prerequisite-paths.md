@@ -78,16 +78,36 @@ Then → `nernst_298k_form`, `concentration_cell`, `cell_potential_vs_soc`,
 Do-not-use if: `Q` has the wrong stoichiometric exponents; a half-reaction `z`
 is used where the cell `z` is meant; away from the dilute limit.
 
-## all_vanadium_flow_battery — `VO₂⁺/VO²⁺ ‖ V³⁺/V²⁺`, `E°_cell ≈ 1.26 V`
+## iron_flow_battery — `Fe³⁺/Fe²⁺ ‖ Fe²⁺/Fe⁰`, `E°_cell ≈ 1.21 V` (the low-cost, low-hazard chemistry)
 everything under **nernst_equation** and **specific_energy_consumption**, plus:
 galvanic_cell · ion_exchange_membrane ·
 redox_flow_battery · energy_power_decoupling (implied) ·
 current_density · cell_voltage_discharge · cell_voltage_electrolysis ·
 crossover · shunt_current · coulombic_efficiency · voltage_efficiency →
+energy_efficiency ·
+competing_electrode_reactions → thermodynamic_vs_kinetic_product ·
+state_of_charge → capacity_fade ·
+all_vanadium_flow_battery (introduced first, as the reference)
+→ **iron_flow_battery**
+Then → `zinc_iron_flow_battery`.
+Do-not-use if: vanadium-like energy density is expected (the iron-plating limit
+caps it, so tanks run ~1.5–2× larger per kWh); pH control / rebalancing for the
+parasitic H₂ is skipped; the negative is deep-cycled past the plated-iron
+inventory.
+
+## all_vanadium_flow_battery — `VO₂⁺/VO²⁺ ‖ V³⁺/V²⁺`, `E°_cell ≈ 1.26 V` (the commercial reference)
+same prerequisites as **iron_flow_battery** minus
+`competing_electrode_reactions` / `thermodynamic_vs_kinetic_product` /
+`state_of_charge` / `capacity_fade` (nothing plates, so no plating-vs-H₂
+competition):
+galvanic_cell · ion_exchange_membrane · redox_flow_battery ·
+crossover · shunt_current · coulombic_efficiency · voltage_efficiency →
 energy_efficiency
 → **all_vanadium_flow_battery**
-Then → `iron_chromium_flow_battery`, `zinc_bromine_flow_battery`.
-Do-not-use if: run outside ≈ 10–40 °C, or the positive side above ≈ 1.6 V.
+Then → `iron_flow_battery`, `iron_chromium_flow_battery`,
+`zinc_bromine_flow_battery`, `zinc_iron_flow_battery`.
+Do-not-use if: run outside ≈ 10–40 °C, or the positive side above ≈ 1.6 V, or at
+small scale / on a budget (→ `iron_flow_battery`).
 
 ## energy_efficiency — `η_E = η_C η_V` (round-trip efficiency of a flow battery)
 everything under **nernst_equation**, plus:

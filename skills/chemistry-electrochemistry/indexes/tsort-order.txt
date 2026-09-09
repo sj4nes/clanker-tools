@@ -85,8 +85,8 @@ activation_overpotential
 state_of_charge
 energy_power_decoupling
 decomposition_potential
-capacity_fade
 flow_battery_energy_capacity
+capacity_fade
 oxygen_overpotential
 exchange_current_density
 cell_voltage_electrolysis
@@ -107,4 +107,6 @@ energy_efficiency
 chlorate_perchlorate
 all_vanadium_flow_battery
 zinc_bromine_flow_battery
+iron_flow_battery
 iron_chromium_flow_battery
+zinc_iron_flow_battery

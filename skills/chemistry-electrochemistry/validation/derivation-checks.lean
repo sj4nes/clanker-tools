@@ -108,3 +108,12 @@ example : ((2 : Int) * 1) = (1 * 2) := by decide
 --     charge to make 1 tonne of Cl2 (M ~ 71 g/mol, z = 2):
 --     ~14084 mol/tonne * 2 * 96485 C ~ 2.72e9 C.
 example : ((1000000 : Int) / 71) = 14084 := by decide
+
+-- 16. iron_flow_battery.  Centivolts.
+--     E0_cell = E0(Fe3+/Fe2+) - E0(Fe2+/Fe0) = 77 - (-44) = 121  (~1.21 V).
+example : ((77 : Int) - (-44)) = 121 := by decide
+--     the negative plates iron BELOW the H2 line thermodynamically (E0 < 0),
+--     so H2 evolution competes on charge and drives the rebalancing need:
+example : ((-44 : Int) < 0) := by decide
+--     sizing: 20 kWh of usable storage at ~15 Wh/L needs ~1333 L per tank.
+example : ((20000 : Int) / 15) = 1333 := by decide

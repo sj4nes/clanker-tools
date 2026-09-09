@@ -5,13 +5,13 @@ Run all:
 
 ## Graph (`build/build-tree.sh`)
 
-- 110 registered nodes, 256 prerequisite edges after `sort -u`.
+- 112 registered nodes, 271 prerequisite edges after `sort -u`.
 - Every edge line has exactly 2 fields; no self-edges (`validation/graph-check.sh`).
 - Every edge endpoint exists in `nodes/nodes.tsv` (`build/unknown-edge-nodes.txt`
   empty).
-- `tsort`: empty stderr (`validation/tsort-errors.txt`), 110-node order →
+- `tsort`: empty stderr (`validation/tsort-errors.txt`), 112-node order →
   **acyclic**. BSD-safe check: stderr inspected, not just exit status.
-- Every one of the 256 edges satisfied by `indexes/tsort-order.txt` (no
+- Every one of the 271 edges satisfied by `indexes/tsort-order.txt` (no
   `order violation`).
 - 0 isolated / root-only nodes (`build/isolated-nodes.txt` empty).
 - Six latent cycles anticipated and pre-empted in modeling (`edges/cycles.md`):
@@ -36,7 +36,7 @@ does not fix a wrong coefficient, sign, regime, or missing term.
 
 ## Derivation-step arithmetic (`validation/derivation-checks.lean`, Lean 4.33.1, no Mathlib)
 
-29 kernel-`decide`d instance checks over `Int` (potentials in centi- or
+32 kernel-`decide`d instance checks over `Int` (potentials in centi- or
 milli-volts, charges in coulombs, energies scaled). Grouped:
 1. `faradays_law_electrolysis` — `1 F` → `1 mol` (`z = 1`); `192970 C / (2·96485)
    = 1 mol` (`z = 2`).
@@ -63,6 +63,8 @@ milli-volts, charges in coulombs, energies scaled). Grouped:
     (thermo favours O₂); `136 + 3 < 123 + 50` (kinetics favours Cl₂).
 15. `chlor_alkali_process` — `2·1 = 1·2` (Cl₂ : H₂ = 1 : 1); `1000000 / 71 =
     14084 mol Cl₂ per tonne`.
+16. `iron_flow_battery` — `E°_cell = 77 − (−44) = 121` cV; `−44 < 0` (iron plates
+    below the H₂ line); `20000 / 15 = 1333 L` per tank for 20 kWh at 15 Wh/L.
 **Recorded caveat:** Lean verified the *arithmetic* of each bookkeeping identity
 only — not that `ΔG° = −RT ln K` (imported), not the Butler–Volmer rate law, and
 not any tabulated `E°`, `K`, molar mass, or industrial cell figure.
@@ -75,7 +77,7 @@ not any tabulated `E°`, `K`, molar mass, or industrial cell figure.
 - `indexes/symbol-index.md` — hand-curated (`build/gen-symbol-index.sh` runs the
   ptx discovery pass only).
 - `indexes/topic-index.md`, `formula-index.md`, `prerequisite-paths.md` —
-  curated. `prerequisite-paths.md` covers seven headline targets.
+  curated. `prerequisite-paths.md` covers eight headline targets.
 
 ## Known gaps (tracked for Release 0.2)
 
@@ -88,7 +90,7 @@ not any tabulated `E°`, `K`, molar mass, or industrial cell figure.
   selectivity.
 - Per-node detail pages under `nodes/`; `formulas/*.yaml` structured entries;
   a `sources/source-map.tsv`.
-- Move the whole capsule off `draft`: all 110 nodes are still `status: draft`.
+- Move the whole capsule off `draft`: all 112 nodes are still `status: draft`.
 - Upgrade the Lean instance checks to universal `by ring` proofs with Mathlib.
 - Deliberately uncut into their own capsules: electrode microkinetics
   (Butler–Volmer derivation), the double layer, semiconductor / photo-EC,

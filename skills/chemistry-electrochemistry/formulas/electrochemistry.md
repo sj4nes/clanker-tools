@@ -1046,17 +1046,22 @@ Source keys: `BLM` Brown/LeMay 14e; `Atkins` Atkins' Physical Chemistry 11e;
 - Source: `Skyllas-Kazacos` §4.
 
 ## all_vanadium_flow_battery — `VO₂⁺/VO²⁺` (positive) ‖ `V³⁺/V²⁺` (negative), `E°_cell ≈ 1.26 V`
-- Label: example. Positive: `VO₂⁺ + 2H⁺ + e⁻ ⇌ VO²⁺ + H₂O` (`E° ≈ +1.00 V`);
-  negative: `V³⁺ + e⁻ ⇌ V²⁺` (`E° ≈ −0.26 V`); `z = 1`. Sulfuric-acid
-  electrolyte.
+- Label: example. **The commercial reference and the fully-decoupled (true-flow)
+  benchmark — the other chemistries below are read against it.** Positive:
+  `VO₂⁺ + 2H⁺ + e⁻ ⇌ VO²⁺ + H₂O` (`E° ≈ +1.00 V`); negative:
+  `V³⁺ + e⁻ ⇌ V²⁺` (`E° ≈ −0.26 V`); `z = 1`. Sulfuric-acid electrolyte, both
+  species dissolved at every state of charge (nothing plates) so energy and
+  power are genuinely independent.
 - Prereqs: redox_flow_battery, crossover, standard_reduction_potential,
   half_reaction, energy_efficiency.
 - Special case: one element on both sides ⇒ crossover only self-discharges
   (recoverable), no permanent cross-contamination — the reason it became the
-  dominant chemistry despite vanadium's cost.
+  dominant chemistry despite vanadium's cost (`V₂O₅` is expensive and
+  price-volatile).
 - Failure: exceeding the ~10–40 °C window (`V₂O₅` precipitates hot, `V(II)`
   oxidises in air); running the positive side above `~1.6 V` (carbon and
-  membrane degrade).
+  membrane degrade); assuming it is the right choice at small scale or on a
+  budget (see `iron_flow_battery`).
 - Source: `Skyllas-Kazacos` §2.
 
 ## iron_chromium_flow_battery — `Fe³⁺/Fe²⁺` (positive) ‖ `Cr³⁺/Cr²⁺` (negative), `E°_cell ≈ 1.18 V`
@@ -1077,10 +1082,60 @@ Source keys: `BLM` Brown/LeMay 14e; `Atkins` Atkins' Physical Chemistry 11e;
 - Prereqs: all_vanadium_flow_battery, electrolytic_cell.
 - Special case: higher voltage and energy density than vanadium, but the zinc
   deposit limits how deeply/long it can charge (dendrites, passivation) and the
-  bromine must be complexed and stored safely.
+  bromine must be complexed and stored safely — a real hazard for an
+  unsupervised installation.
 - Failure: calling it a "true" flow battery — its energy is not fully decoupled
   from the stack because of the plated zinc.
 - Source: `Skyllas-Kazacos` §2.
+
+## iron_flow_battery — `Fe³⁺/Fe²⁺` (positive) ‖ `Fe²⁺/Fe⁰` (negative), `E°_cell ≈ 1.21 V`
+- Label: example. **The low-cost, low-hazard chemistry — the practical choice
+  for a small or off-grid installation.** Positive: `Fe³⁺ + e⁻ ⇌ Fe²⁺`
+  (`E° ≈ +0.77 V`); negative: `Fe²⁺ + 2e⁻ ⇌ Fe⁰` (`E° ≈ −0.44 V`, iron *plates*
+  during charge). Electrolyte: `FeCl₂` (~1.5–2 M) with a chloride supporting
+  salt, `pH ≈ 1–3` (a boric-acid buffer is common).
+- Prereqs: redox_flow_battery, all_vanadium_flow_battery, crossover,
+  standard_reduction_potential, half_reaction, electrolytic_cell,
+  competing_electrode_reactions, thermodynamic_vs_kinetic_product, capacity_fade,
+  energy_efficiency.
+- Special case: iron on both sides gives the vanadium crossover advantage
+  (a leaked ion self-discharges, it does not contaminate) but iron chloride is
+  cheap, abundant, and low-toxicity (a water-treatment coagulant, a plant
+  micronutrient) and the electrolyte is only mildly acidic. Because the negative
+  **plates iron**, it is a *hybrid*: energy density is low (`~10–20 Wh/L`, set by
+  the plating capacity), and the energy is not fully decoupled from the stack.
+  `E°_cell = 0.77 − (−0.44) = 1.21 V`. Coulombic efficiency `~0.95–0.99`, field
+  round-trip `~0.65–0.75`.
+- Failure: expecting vanadium-like energy density (the plating limit caps it, so
+  the tanks are ~1.5–2× larger per kWh); neglecting pH control and periodic
+  electrolytic **rebalancing** (see the H₂ side reaction below); deep-cycling
+  past the plated-iron inventory (the negative runs out before the positive).
+- Side reaction: during charge, at the negative, `2H⁺ + 2e⁻ → H₂` (`E° = 0`)
+  competes with iron plating (`E° = −0.44 V`). Iron plates anyway — hydrogen
+  evolution on iron is kinetically slow (a large overpotential), the same
+  effective-potential logic as `thermodynamic_vs_kinetic_product` — but the
+  small parasitic H₂ current shifts the two tanks out of oxidation-state balance
+  (`capacity_fade`), corrected by periodically re-reducing the positive
+  electrolyte.
+- Source: `Newman` ch. 22; Hruska & Savinell, *J. Electrochem. Soc.* 128 (1981)
+  18; ESS Inc. technical literature.
+
+## zinc_iron_flow_battery — `Zn/Zn(OH)₄²⁻` (negative) ‖ `Fe(CN)₆³⁻/⁴⁻` (positive), alkaline, `E°_cell ≈ 1.5–1.8 V`
+- Label: example (contrast). Negative: `Zn(OH)₄²⁻ + 2e⁻ ⇌ Zn + 4OH⁻`
+  (`E° ≈ −1.2 V` in base, zinc plates on charge); positive:
+  `Fe(CN)₆³⁻ + e⁻ ⇌ Fe(CN)₆⁴⁻` (`E° ≈ +0.36 V`). `KOH` electrolyte.
+- Prereqs: all_vanadium_flow_battery, iron_flow_battery, zinc_bromine_flow_battery,
+  standard_reduction_potential, half_reaction.
+- Special case: ferro/ferricyanide is very low toxicity — the Fe–CN bond is
+  extremely stable (`Fe(CN)₆⁴⁻` is the anti-caking additive in table salt),
+  nothing like free cyanide. Cheap materials, higher cell voltage than all-iron.
+  A hybrid (zinc plating), so zinc dendrites and passivation limit how deeply and
+  how long it can charge.
+- Failure: confusing complexed ferrocyanide with free cyanide (they are not the
+  same hazard — but do not mix ferrocyanide solutions with strong acid, which
+  can liberate HCN); treating it as a true flow battery (the plated zinc couples
+  part of the energy to the stack).
+- Source: `Newman` ch. 22; ViZn Energy literature.
 
 ## fixed_cell_battery_contrast — lead-acid, Li-ion, NiMH: the active material is inside a sealed cell, so energy and power are coupled
 - Label: qualitative_rule (contrast — cell chemistry out of scope). Higher energy

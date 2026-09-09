@@ -104,6 +104,8 @@ capacity_fade	qualitative_rule	Capacity fade	flow_battery	draft	core	from crosso
 all_vanadium_flow_battery	example	All-vanadium flow battery	flow_battery	draft	core	VO2+/VO2+ // V3+/V2+ ; E0_cell ~ 1.26 V
 iron_chromium_flow_battery	example	Iron-chromium flow battery	flow_battery	draft	support	cheap, crossover-tolerant, slow kinetics
 zinc_bromine_flow_battery	example	Zinc-bromine flow battery	flow_battery	draft	support	hybrid: Zn plating, not fully flow
+iron_flow_battery	example	All-iron flow battery	flow_battery	draft	core	Fe3+/Fe2+ // Fe2+/Fe0 ; E0_cell ~ 1.21 V
+zinc_iron_flow_battery	example	Zinc-iron (alkaline) flow battery	flow_battery	draft	support	Zn/Zn(OH)4 // Fe(CN)6 3-/4- ; E0_cell ~ 1.5-1.8 V
 fixed_cell_battery_contrast	qualitative_rule	Fixed-cell battery contrast	flow_battery	draft	support	lead-acid / Li-ion: energy and power coupled
 corrosion_as_galvanic_cell	qualitative_rule	Corrosion as a short-circuited galvanic cell	boundary	draft	support	anodic and cathodic sites on one metal
 pourbaix_diagram	reference_data	Pourbaix (E-pH) diagram	boundary	draft	support	stability regions vs E and pH (named)

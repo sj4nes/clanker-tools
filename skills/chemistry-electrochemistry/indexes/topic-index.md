@@ -1,6 +1,6 @@
 # Topic index (Release 0.1)
 
-Browse the 110 nodes by sub-domain. Full statements:
+Browse the 112 nodes by sub-domain. Full statements:
 `../formulas/electrochemistry.md`. One valid prerequisite order:
 `tsort-order.txt`. Minimal chains for the headline results:
 `prerequisite-paths.md`.
@@ -71,8 +71,10 @@ zinc_electrowinning
 redox_flow_battery · energy_power_decoupling · **flow_battery_energy_capacity** ·
 **flow_battery_power** · state_of_charge · coulombic_efficiency ·
 voltage_efficiency · **energy_efficiency** · shunt_current · crossover ·
-capacity_fade · all_vanadium_flow_battery · iron_chromium_flow_battery ·
-zinc_bromine_flow_battery · fixed_cell_battery_contrast
+capacity_fade · all_vanadium_flow_battery (the reference) ·
+**iron_flow_battery** (low-cost, low-hazard) · zinc_iron_flow_battery ·
+iron_chromium_flow_battery · zinc_bromine_flow_battery ·
+fixed_cell_battery_contrast
 
 ## Boundary nodes (named, not developed)
 corrosion_as_galvanic_cell `[bd]` · pourbaix_diagram `[bd]` ·

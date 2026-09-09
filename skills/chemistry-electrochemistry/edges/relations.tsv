@@ -8,6 +8,9 @@ equilibrium_from_cell_potential	equivalent_to	reaction_isotherm	E0 = (RT/zF) ln 
 gibbs_from_cell_potential	equivalent_to	chemistry-foundations:spontaneity_criterion	dG < 0 and E > 0 are the same statement
 iron_chromium_flow_battery	commonly_confused_with	all_vanadium_flow_battery	both are true flow batteries; Fe-Cr is cheaper but slower
 zinc_bromine_flow_battery	special_case_of	redox_flow_battery	a hybrid: one electrode plates zinc metal, so capacity is partly in the stack
+iron_flow_battery	commonly_confused_with	all_vanadium_flow_battery	same one-element-both-sides crossover advantage; iron is cheap and non-toxic, and a hybrid (plates Fe)
+iron_flow_battery	supersedes_in_regime	all_vanadium_flow_battery	the better choice at small scale / on a budget; vanadium wins on energy density and full decoupling
+zinc_iron_flow_battery	special_case_of	redox_flow_battery	hybrid: plates zinc on the negative; alkaline low-toxicity ferro/ferricyanide positive
 fixed_cell_battery_contrast	commonly_confused_with	redox_flow_battery	lead-acid / Li-ion couple energy and power in one sealed cell
 corrosion_as_galvanic_cell	special_case_of	galvanic_cell	anodic and cathodic sites short-circuited on one metal surface
 avogadro_constant	imported_from	chemistry-foundations:avogadro_constant	—

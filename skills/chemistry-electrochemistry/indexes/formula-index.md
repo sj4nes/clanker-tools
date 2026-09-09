@@ -57,6 +57,6 @@ standard_reduction_potential · energy_power_decoupling · shunt_current ·
 crossover · capacity_fade · water_electrolysis · reversible_fuel_cell ·
 chlor_alkali_process · chlorate_perchlorate · hall_heroult_process ·
 copper_electrorefining · zinc_electrowinning · all_vanadium_flow_battery ·
-iron_chromium_flow_battery · zinc_bromine_flow_battery ·
-fixed_cell_battery_contrast · corrosion_as_galvanic_cell · pourbaix_diagram ·
-electrical_double_layer
+iron_flow_battery · zinc_iron_flow_battery · iron_chromium_flow_battery ·
+zinc_bromine_flow_battery · fixed_cell_battery_contrast ·
+corrosion_as_galvanic_cell · pourbaix_diagram · electrical_double_layer

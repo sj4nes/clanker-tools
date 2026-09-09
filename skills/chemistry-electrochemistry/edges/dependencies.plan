@@ -372,6 +372,25 @@ exchange_current_density	iron_chromium_flow_battery
 # zinc-bromine: a hybrid with a zinc plating step, not a pure flow battery
 all_vanadium_flow_battery	zinc_bromine_flow_battery
 electrolytic_cell	zinc_bromine_flow_battery
+# all-iron: the same crossover advantage with cheap, non-toxic iron; a hybrid
+# (plates Fe on the negative), and Fe plating competes with H2 evolution on charge
+all_vanadium_flow_battery	iron_flow_battery
+redox_flow_battery	iron_flow_battery
+crossover	iron_flow_battery
+standard_reduction_potential	iron_flow_battery
+half_reaction	iron_flow_battery
+electrolytic_cell	iron_flow_battery
+competing_electrode_reactions	iron_flow_battery
+thermodynamic_vs_kinetic_product	iron_flow_battery
+capacity_fade	iron_flow_battery
+energy_efficiency	iron_flow_battery
+# zinc-iron (alkaline): low-toxicity ferro/ferricyanide positive, zinc-plating
+# negative -- an iron-based positive and a zinc-plating hybrid, both introduced
+all_vanadium_flow_battery	zinc_iron_flow_battery
+iron_flow_battery	zinc_iron_flow_battery
+zinc_bromine_flow_battery	zinc_iron_flow_battery
+standard_reduction_potential	zinc_iron_flow_battery
+half_reaction	zinc_iron_flow_battery
 # fixed-cell batteries couple energy and power in one sealed cell
 energy_power_decoupling	fixed_cell_battery_contrast
 redox_flow_battery	fixed_cell_battery_contrast

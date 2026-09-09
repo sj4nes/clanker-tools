@@ -12,8 +12,8 @@ description: >-
   named production processes (water electrolysis, chlor-alkali, chlorate,
   Hall-Heroult, copper refining, zinc electrowinning, reversible fuel cell), and
   redox flow batteries (energy-power decoupling, state of charge, the coulombic /
-  voltage / energy efficiencies, crossover, capacity fade, all-vanadium). A
-  110-node acyclic graph; every relation carries its symbols, SI units,
+  voltage / energy efficiencies, crossover, capacity fade, the low-cost all-iron chemistry and the all-vanadium reference). A
+  112-node acyclic graph; every relation carries its symbols, SI units,
   [M L T Theta N I] dimensions, exactness label, assumptions as graph nodes, one
   special-case check, failure modes, and a source. Use when solving or checking
   an electrolysis / plating / electrowinning / battery-sizing problem, when you
@@ -30,8 +30,8 @@ tags: [chemistry, electrochemistry, electrolysis, electrosynthesis, faraday, ner
 # Electrochemistry — Release 0.1
 
 A knowledge capsule built with the
-[`physics-formula-tree`](../physics-formula-tree/SKILL.md) method: a 110-node
-directed acyclic graph (256 edges) of electrical primitives, conventions,
+[`physics-formula-tree`](../physics-formula-tree/SKILL.md) method: a 112-node
+directed acyclic graph (271 edges) of electrical primitives, conventions,
 first-class assumptions, half-reactions, cell relations, imported thermodynamic
 bridges, and named production processes for **electrosynthesis and redox flow
 batteries**, linearized with `tsort`. Use it as a trustworthy reference for the
@@ -50,7 +50,8 @@ Covered / excluded / conventions: **read [`scope.md`](scope.md) and
 **making substances** (the Faraday bookkeeping, current efficiency, specific
 energy, overpotential, product selectivity, named processes) and **flow
 batteries** (energy–power decoupling, state of charge, the three efficiencies,
-crossover, all-vanadium). Excluded: electrode microkinetics (Butler–Volmer
+crossover, the low-cost all-iron chemistry, the all-vanadium reference).
+Excluded: electrode microkinetics (Butler–Volmer
 **stated, not derived**), the electrical double layer, semiconductor /
 photo-electrochemistry, corrosion engineering (one boundary node), analytical
 methods (CV, EIS), non-flow batteries (one contrast node), and fuel-cell
@@ -71,8 +72,8 @@ engineering (one node — "the electrolyser run backwards"). Dimensional basis i
    embedded 298.15 K / ideal-gas / `α ≈ 0.5` assumptions.
 4. **Need the background?**
    [`indexes/prerequisite-paths.md`](indexes/prerequisite-paths.md) gives the
-   minimal chain for seven headline results (Faraday's law, specific energy,
-   water electrolysis, chlor-alkali, the Nernst equation, the all-vanadium flow
+   minimal chain for eight headline results (Faraday's law, specific energy,
+   water electrolysis, chlor-alkali, the Nernst equation, the all-iron flow
    battery, round-trip efficiency);
    [`indexes/tsort-order.txt`](indexes/tsort-order.txt) is one full valid order.
 5. **Symbols** (which nodes use `E°`, `η`, `z`, `F`, `Λ_m`, …):
@@ -88,13 +89,13 @@ Run
 `sh build/build-tree.sh && bc -q -l validation/dimensional-checks.bc && lean validation/derivation-checks.lean`
 then see [`validation/consistency-audit.md`](validation/consistency-audit.md):
 
-- **Graph:** 110 nodes, 256 edges; `tsort` acyclic (BSD-safe stderr check);
+- **Graph:** 112 nodes, 271 edges; `tsort` acyclic (BSD-safe stderr check);
   every edge respected; no isolated nodes; six latent cycles pre-empted in
   modeling ([`edges/cycles.md`](edges/cycles.md)).
 - **Dimensions:** 17 relations checked on the `[M L T Θ N I]` 6-tuple via `bc`
   ([`validation/dimensional-checks.bc`](validation/dimensional-checks.bc)) — all
   `0 0 0 0 0 0`. Dimensional consistency is necessary, not sufficient.
-- **Arithmetic:** 29 kernel-`decide` instance checks via Lean
+- **Arithmetic:** 32 kernel-`decide` instance checks via Lean
   ([`validation/derivation-checks.lean`](validation/derivation-checks.lean)) —
   the Faraday mass/volume bookkeeping, `E°_cell = E°_cathode − E°_anode`,
   `ΔG = −zFE`, `ln K = zFE°/RT`, the Nernst zero at `Q = K`, the `59.16/z` mV
@@ -109,7 +110,7 @@ A valid `tsort` order confirms only the encoded prerequisite constraints.
 Dimensional consistency and the Lean instance checks do not establish
 electrochemical correctness. Every relation stays conditional on its stated
 model, regime, convention, and source; every `E`/`Q`/`K`/`Λ_m` additionally
-assumes `dilute_ideal_solution` and 298.15 K. All 110 nodes are still
+assumes `dilute_ideal_solution` and 298.15 K. All 112 nodes are still
 `status: draft`. `butler_volmer_equation` and the boundary nodes
 (`corrosion_as_galvanic_cell`, `pourbaix_diagram`, `electrical_double_layer`,
 `debye_huckel_onsager`) are named, not developed. Structural gaps (import the
