@@ -107,6 +107,20 @@ energy** (#4 iron flow battery → #5 hydrogen → #6 the Nernst voltage → #7 
 zinc–iron alternative). Every staged target in
 `../indexes/prerequisite-paths.md` is now shipped.
 
+## Domain coverage
+
+| capsule domain (`../indexes/topic-index.md`) | tutorial |
+|---|---|
+| Faraday bookkeeping (`Q = zFn`, `m = ItM/zF`, current efficiency, specific energy) | #1, #2 |
+| electrode potentials, the thermodynamic bridge (`E°_cell`, `ΔG = −zFE`) | #2 |
+| the Nernst equation (`E = E° − (RT/zF) ln Q`, concentration cells, OCV vs SOC) | #6 |
+| kinetics — overpotential, `V_cell` above `E°`, product selectivity | #2, #3 |
+| named production processes | #1/#3 (electrolyser, chlor-alkali), #5 (water electrolysis, fuel cell) |
+| redox flow batteries — architecture, the three efficiencies, sizing | #4, #7 |
+| electrolyte transport — `Λ_m`, mobility, transport number, Kohlrausch | — (used as background; no tutorial) |
+| the other named processes — Hall–Héroult, Cu electrorefining, Zn electrowinning, chlorate | — (each is a worked entry in `../formulas/electrochemistry.md`) |
+| boundary nodes — Butler–Volmer, corrosion, the double layer, Debye–Hückel–Ons.| — (named, not developed; out of scope) |
+
 ## Verifying the set
 
 ```sh
