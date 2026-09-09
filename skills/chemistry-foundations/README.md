@@ -73,12 +73,14 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 | [`tutorial/how-much-can-this-make.md`](tutorial/how-much-can-this-make.md) | `percent_yield` — grams → moles → limiting reagent → theoretical vs actual yield | `upmd skills/chemistry-foundations/tutorial/how-much-can-this-make.md` |
 | [`tutorial/reaction-enthalpy-from-formation.md`](tutorial/reaction-enthalpy-from-formation.md) | `enthalpy_from_formation_enthalpies` — combustion ΔH from a table, no calorimeter | `upmd skills/chemistry-foundations/tutorial/reaction-enthalpy-from-formation.md` |
 | [`tutorial/balancing-a-redox-equation.md`](tutorial/balancing-a-redox-equation.md) | `balancing_redox_half_reactions` — oxidation numbers, half-reactions, electron balance (MnO₄⁻/Fe²⁺) | `upmd skills/chemistry-foundations/tutorial/balancing-a-redox-equation.md` |
+| [`tutorial/reacting-gases-by-volume.md`](tutorial/reacting-gases-by-volume.md) | `gas_stoichiometry` — `PV=nRT`, molar volume, partial pressures, volume ratio at fixed T,P | `upmd skills/chemistry-foundations/tutorial/reacting-gases-by-volume.md` |
 
 Block counts: `how-much-can-this-make.md` 13, `reaction-enthalpy-from-formation.md`
-11, `balancing-a-redox-equation.md` 8 (5 `awk` checks, 2 `lean` beats, capstone).
-All `upmd --ci --all` green. Four more cuts staged in
-`indexes/prerequisite-paths.md` (`ice_table`, `henderson_hasselbalch`,
-`reaction_isotherm`, `gas_stoichiometry`).
+11, `balancing-a-redox-equation.md` 8, `reacting-gases-by-volume.md` 8 (4 `bc`
+dimensional checks, 3 `awk` checks, capstone). All `upmd --ci --all` green. Three
+more cuts staged in `indexes/prerequisite-paths.md` (`ice_table`,
+`henderson_hasselbalch`, `reaction_isotherm`); a `titration` / `equivalence_point`
+cut (solutions domain) is unstaged but viable.
 
 ## Reading order caveat
 
