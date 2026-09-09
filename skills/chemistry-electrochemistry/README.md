@@ -45,7 +45,7 @@ batteries (one contrast node), fuel-cell engineering. See `scope.md`.
 | discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (7 headline targets) |
 | `validation/consistency-audit.md` | **done** — full run recorded |
 | `SKILL.md` | **done** |
-| tutorials | not started |
+| tutorials | **1 shipped** — see below |
 
 Release 0.1 core is complete. All 110 nodes are still `status: draft`; importing
 the electrical primitives from a future `physics-circuits` capsule, promoting the
@@ -61,6 +61,22 @@ lean validation/derivation-checks.lean          # 25 kernel-decide instance chec
 sh build/gen-assumption-index.sh                # regenerate indexes/assumption-index.md
 sh build/gen-symbol-index.sh                    # ptx discovery pass for the hand-curated symbol index
 ```
+
+## Tutorials
+
+Interactive walk-throughs built with the
+[`formula-tree-tutorial`](../formula-tree-tutorial/SKILL.md) skill — plain
+Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
+
+| tutorial | target | run |
+|---|---|---|
+| [`tutorial/per-amp-hour.md`](tutorial/per-amp-hour.md) | `faradays_law_electrolysis` — `Q = It`, `z`, `m = ItM/(zF)`, gas volume, current efficiency; capstone sizes a hydrogen electrolyser (~26.6 kA·h/kg H₂) | `upmd skills/chemistry-electrochemistry/tutorial/per-amp-hour.md` |
+
+11 blocks (4 `[M L T Θ N I]` dimensional checks, 3 `awk` checks, 2 `lean` beats,
+capstone). `upmd --ci --all` green. More cuts staged in
+`indexes/prerequisite-paths.md` (`specific_energy_consumption`,
+`chlor_alkali_process`, `nernst_equation`, `all_vanadium_flow_battery`,
+`energy_efficiency`).
 
 ## Reading order caveat
 
