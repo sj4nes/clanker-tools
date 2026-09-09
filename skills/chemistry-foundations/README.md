@@ -74,13 +74,15 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 | [`tutorial/reaction-enthalpy-from-formation.md`](tutorial/reaction-enthalpy-from-formation.md) | `enthalpy_from_formation_enthalpies` — combustion ΔH from a table, no calorimeter | `upmd skills/chemistry-foundations/tutorial/reaction-enthalpy-from-formation.md` |
 | [`tutorial/balancing-a-redox-equation.md`](tutorial/balancing-a-redox-equation.md) | `balancing_redox_half_reactions` — oxidation numbers, half-reactions, electron balance (MnO₄⁻/Fe²⁺) | `upmd skills/chemistry-foundations/tutorial/balancing-a-redox-equation.md` |
 | [`tutorial/reacting-gases-by-volume.md`](tutorial/reacting-gases-by-volume.md) | `gas_stoichiometry` — `PV=nRT`, molar volume, partial pressures, volume ratio at fixed T,P | `upmd skills/chemistry-foundations/tutorial/reacting-gases-by-volume.md` |
+| [`tutorial/finding-a-concentration.md`](tutorial/finding-a-concentration.md) | `equivalence_point` — molarity, dilution, solution stoichiometry, titration (unknown H₂SO₄ vs NaOH) | `upmd skills/chemistry-foundations/tutorial/finding-a-concentration.md` |
 
 Block counts: `how-much-can-this-make.md` 13, `reaction-enthalpy-from-formation.md`
-11, `balancing-a-redox-equation.md` 8, `reacting-gases-by-volume.md` 8 (4 `bc`
-dimensional checks, 3 `awk` checks, capstone). All `upmd --ci --all` green. Three
-more cuts staged in `indexes/prerequisite-paths.md` (`ice_table`,
-`henderson_hasselbalch`, `reaction_isotherm`); a `titration` / `equivalence_point`
-cut (solutions domain) is unstaged but viable.
+11, `balancing-a-redox-equation.md` 8, `reacting-gases-by-volume.md` 8,
+`finding-a-concentration.md` 7 (3 `bc` dimensional checks, 4 `awk` checks,
+capstone). All `upmd --ci --all` green. Covered domains: stoichiometry,
+thermochemistry, redox, gases, solutions. Two cuts still staged in
+`indexes/prerequisite-paths.md` (`ice_table`, `henderson_hasselbalch` — build
+`ice_table` first; `reaction_isotherm` overlaps the enthalpy tutorial).
 
 ## Reading order caveat
 
