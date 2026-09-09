@@ -45,7 +45,7 @@ batteries (one contrast node), fuel-cell engineering. See `scope.md`.
 | discovery indexes | **done** — `indexes/topic-index.md`, `formula-index.md`, `symbol-index.md`, `assumption-index.md`, `prerequisite-paths.md` (8 headline targets) |
 | `validation/consistency-audit.md` | **done** — full run recorded |
 | `SKILL.md` | **done** |
-| tutorials | **3 shipped** — see below |
+| tutorials | **4 shipped** — see below |
 
 Release 0.1 core is complete. All 112 nodes are still `status: draft`; importing
 the electrical primitives from a future `physics-circuits` capsule, promoting the
@@ -74,10 +74,11 @@ Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 | 1 | [`per-amp-hour`](tutorial/per-amp-hour.md) | `faradays_law_electrolysis` — `Q = It`, `z`, `m = ItM/(zF)`, gas volume, current efficiency; capstone sizes a hydrogen electrolyser (~26.6 kA·h/kg H₂) |
 | 2 | [`kwh-per-kilogram`](tutorial/kwh-per-kilogram.md) | `specific_energy_consumption` — `E°_cell`, `ΔG = −zFE`, overpotential + IR, `V_cell`, `E_spec = zF V_cell/(M η_F)`; capstone: H₂ ~54 kWh/kg vs Al ~13 kWh/kg |
 | 3 | [`chlorine-not-oxygen`](tutorial/chlorine-not-oxygen.md) | `chlor_alkali_process` — competing anode reactions, the effective potential `E° + η`, why the `0.5 V` oxygen overpotential makes Cl₂ win; capstone: a 15 kA cell line, ~19 kg/h Cl₂ at ~2.4 kWh/kg |
+| 4 | [`iron-flow-battery`](tutorial/iron-flow-battery.md) | `iron_flow_battery` — the flow-battery architecture, the three efficiencies, and why **all-iron** (not vanadium) is the homestead chemistry; capstone sizes a 20 kWh / 4 kW off-grid battery |
 
-`upmd --ci --all` green (11 / 11 / 9 blocks). More cuts staged in
+`upmd --ci --all` green (11 / 11 / 9 / 11 blocks). More cuts staged in
 `indexes/prerequisite-paths.md` (`water_electrolysis`, `nernst_equation`,
-`iron_flow_battery` (the homestead chemistry), `all_vanadium_flow_battery`, `energy_efficiency`).
+`zinc_iron_flow_battery`).
 
 ## Reading order caveat
 
