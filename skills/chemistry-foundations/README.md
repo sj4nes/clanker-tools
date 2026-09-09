@@ -64,27 +64,30 @@ sh build/gen-symbol-index.sh                    # ptx discovery pass for the han
 
 ## Tutorials
 
-Interactive walk-throughs built with the
+Seven interactive walk-throughs built with the
 [`formula-tree-tutorial`](../formula-tree-tutorial/SKILL.md) skill — plain
 Markdown run under [`upmd`](https://upmd.dev), the reader executes every check.
 
-| tutorial | target | run |
-|---|---|---|
-| [`tutorial/how-much-can-this-make.md`](tutorial/how-much-can-this-make.md) | `percent_yield` — grams → moles → limiting reagent → theoretical vs actual yield | `upmd skills/chemistry-foundations/tutorial/how-much-can-this-make.md` |
-| [`tutorial/reaction-enthalpy-from-formation.md`](tutorial/reaction-enthalpy-from-formation.md) | `enthalpy_from_formation_enthalpies` — combustion ΔH from a table, no calorimeter | `upmd skills/chemistry-foundations/tutorial/reaction-enthalpy-from-formation.md` |
-| [`tutorial/balancing-a-redox-equation.md`](tutorial/balancing-a-redox-equation.md) | `balancing_redox_half_reactions` — oxidation numbers, half-reactions, electron balance (MnO₄⁻/Fe²⁺) | `upmd skills/chemistry-foundations/tutorial/balancing-a-redox-equation.md` |
-| [`tutorial/reacting-gases-by-volume.md`](tutorial/reacting-gases-by-volume.md) | `gas_stoichiometry` — `PV=nRT`, molar volume, partial pressures, volume ratio at fixed T,P | `upmd skills/chemistry-foundations/tutorial/reacting-gases-by-volume.md` |
-| [`tutorial/finding-a-concentration.md`](tutorial/finding-a-concentration.md) | `equivalence_point` — molarity, dilution, solution stoichiometry, titration (unknown H₂SO₄ vs NaOH) | `upmd skills/chemistry-foundations/tutorial/finding-a-concentration.md` |
-| [`tutorial/solving-an-equilibrium.md`](tutorial/solving-an-equilibrium.md) | `ice_table` — K and Q, the quadratic, the ICE table, exact vs `x≪c₀` (acetic acid) | `upmd skills/chemistry-foundations/tutorial/solving-an-equilibrium.md` |
+**Read [`tutorial/README.md`](tutorial/README.md) for the recommended order** —
+in brief: start with `how-much-can-this-make` (the mole ratio everything else
+uses); then `reacting-gases-by-volume` / `reaction-enthalpy-from-formation` /
+`balancing-a-redox-equation` in any order; then the ordered spine
+`finding-a-concentration` → `solving-an-equilibrium` → `predicting-ph`.
 
-Block counts: `how-much-can-this-make.md` 13, `reaction-enthalpy-from-formation.md`
-11, `balancing-a-redox-equation.md` 8, `reacting-gases-by-volume.md` 8,
-`finding-a-concentration.md` 7, `solving-an-equilibrium.md` 8 (all numeric —
-`K`/`Q` are dimensionless by construction; a quadratic solve, exact-vs-shortcut,
-back-substitution). All `upmd --ci --all` green. Covered domains: stoichiometry,
-thermochemistry, redox, gases, solutions, equilibrium. One cut still staged in
-`indexes/prerequisite-paths.md`: `henderson_hasselbalch` (acid–base, builds on
-`ice_table`); `reaction_isotherm` overlaps the enthalpy tutorial.
+| # | tutorial | target — one line |
+|---|---|---|
+| 1 | [`how-much-can-this-make`](tutorial/how-much-can-this-make.md) | `percent_yield` — grams → moles → limiting reagent → theoretical vs actual yield |
+| 2 | [`reacting-gases-by-volume`](tutorial/reacting-gases-by-volume.md) | `gas_stoichiometry` — `PV=nRT`, molar volume, partial pressures, volume ratio at fixed T,P |
+| 3 | [`finding-a-concentration`](tutorial/finding-a-concentration.md) | `equivalence_point` — molarity, dilution, solution stoichiometry, titration |
+| 4 | [`reaction-enthalpy-from-formation`](tutorial/reaction-enthalpy-from-formation.md) | `enthalpy_from_formation_enthalpies` — combustion ΔH from a table, no calorimeter |
+| 5 | [`balancing-a-redox-equation`](tutorial/balancing-a-redox-equation.md) | `balancing_redox_half_reactions` — oxidation numbers, half-reactions, electron balance |
+| 6 | [`solving-an-equilibrium`](tutorial/solving-an-equilibrium.md) | `ice_table` — K and Q, the quadratic, exact vs `x≪c₀` (acetic acid) |
+| 7 | [`predicting-ph`](tutorial/predicting-ph.md) | `henderson_hasselbalch` — pH, pOH, weak acids, and a designed buffer |
+
+All seven pass `upmd --ci --all`. Covered domains: stoichiometry, gases,
+solutions, thermochemistry, redox, equilibrium, acid–base — everything in scope
+except the qualitative bonding feeder nodes. `reaction_isotherm` is left uncut
+(it overlaps tutorial #4).
 
 ## Reading order caveat
 
