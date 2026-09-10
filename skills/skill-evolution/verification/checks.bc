@@ -1,0 +1,117 @@
+/* Exact-arithmetic checks for the `skill-evolution` skill.
+ * Run:  bc -q skills/skill-evolution/verification/checks.bc
+ * bc truncates on division; scale is set explicitly. Lowercase identifiers
+ * only, no `_`, no single letters. See docs/verifying-skills.md.
+ *
+ * Case: the 4-round worked example from references/optimization-loop.md.
+ *   bbase = 8, bmin = 1, vmax = 2.0, beta = 0.9
+ *   R1 deltas  1  1  1  1   -> vhat 0        V 0        budget->R2 8
+ *   R2 deltas  3 -2  3 -2   -> vhat 25/3     V 0.8333   budget->R3 4
+ *   R3 deltas  1  0  1  0   -> vhat 1/3      V 0.7833   budget->R4 4
+ *   R4 deltas  1  1  1  1   -> vhat 0        V 0.7050   budget->R5 5
+ */
+scale = 10
+bbase = 8
+bmin = 1
+vmax = 2.0
+beta = 0.9
+fails = 0
+
+define maxof(a, b) {
+    if (a > b) return (a)
+    return (b)
+}
+
+define floorof(x) {
+    auto keep, r
+    keep = scale
+    scale = 0
+    r = x / 1
+    scale = keep
+    return (r)
+}
+
+define clip01(x) {
+    if (x < 0) return (0)
+    if (x > 1) return (1)
+    return (x)
+}
+
+define variance(n) {
+    auto i, m, ss
+    m = 0
+    for (i = 0; i < n; i++) m += delta[i]
+    m = m / n
+    ss = 0
+    for (i = 0; i < n; i++) ss += (delta[i] - m) * (delta[i] - m)
+    return (ss / (n - 1))
+}
+
+define budgetof(v) {
+    return (maxof(bmin, floorof(bbase * (1 - clip01(v / vmax)))))
+}
+
+define check(got, want) {
+    if (got == want) {
+        print "  OK   got ", got, "\n"
+    } else {
+        print "  FAIL got ", got, " want ", want, "\n"
+        fails += 1
+    }
+}
+
+vprev = 0
+
+print "R1 vhat (want 0)\n"
+delta[0] = 1; delta[1] = 1; delta[2] = 1; delta[3] = 1
+vhat = variance(4)
+check(vhat, 0)
+vcur = beta * vprev + (1 - beta) * vhat
+print "R1 V (want 0)\n"
+check(vcur, 0)
+print "R1 budget -> R2 (want 8 = bbase, zero volatility)\n"
+check(budgetof(vcur), 8)
+check(budgetof(vcur), bbase)
+vprev = vcur
+
+print "R2 vhat (want 25/3)\n"
+delta[0] = 3; delta[1] = -2; delta[2] = 3; delta[3] = -2
+vhat = variance(4)
+check(vhat, 25 / 3)
+vcur = beta * vprev + (1 - beta) * vhat
+print "R2 V (want 0.1 * 25/3)\n"
+check(vcur, (1 - beta) * (25 / 3))
+print "R2 budget -> R3 (want 4; volatile round shrinks it below bbase)\n"
+check(budgetof(vcur), 4)
+if (budgetof(vcur) < bbase) {
+    print "  OK   volatile-round budget < bbase\n"
+} else {
+    print "  FAIL volatile-round budget not < bbase\n"
+    fails += 1
+}
+vprev = vcur
+
+print "R3 vhat (want 1/3)\n"
+delta[0] = 1; delta[1] = 0; delta[2] = 1; delta[3] = 0
+vhat = variance(4)
+check(vhat, 1 / 3)
+vcur = beta * vprev + (1 - beta) * vhat
+print "R3 budget -> R4 (want 4; EMA keeps it suppressed despite a calm round)\n"
+check(budgetof(vcur), 4)
+vprev = vcur
+
+print "R4 vhat (want 0)\n"
+delta[0] = 1; delta[1] = 1; delta[2] = 1; delta[3] = 1
+vhat = variance(4)
+check(vhat, 0)
+vcur = beta * vprev + (1 - beta) * vhat
+print "R4 budget -> R5 (want 5; budget begins to recover)\n"
+check(budgetof(vcur), 5)
+
+print "\n"
+if (fails == 0) {
+    print "ALL BC CHECKS PASSED\n"
+} else {
+    print "BC CHECKS FAILED: ", fails, "\n"
+}
+quit

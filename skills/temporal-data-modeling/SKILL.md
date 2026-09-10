@@ -19,9 +19,9 @@ description: >-
   intervals must agree. NOT a time-series forecasting method, not a
   temporal-database product guide, and not a licence to call a snapshot
   sequence a temporal model.
-version: 0.1.0
+version: 0.2.0
 author: Simon Janes
-tags: [temporal-data, time-varying, longitudinal, panel-data, event-log, point-in-time, persistent-cumulative, entity-resolution, data-modeling, provenance, narratives, sheaves]
+tags: [temporal-data, time-varying, longitudinal, panel-data, event-log, point-in-time, persistent-cumulative, entity-resolution, data-modeling, provenance, narratives, sheaves, llm-memory]
 ---
 
 # Temporal Data Modeling
@@ -154,6 +154,42 @@ line — but every field's semantics, identity transitions, and gluing check mus
 be stated per branch, and merges across branches are `merge` transitions with
 their own conflict rule.
 
+## When a language model is the downstream reader
+
+If an LLM consumes the temporal data — an agent memory, a RAG pipeline, a
+"summarize this account's history" step — the representation you hand it matters
+as much as the model. **The model will not do the interval reconciliation for
+you.** Give it the raw versioned rows or the full set of relevant sessions and
+expect it to derive current-state-per-field, notice that a proposed decision
+conflicts with the trajectory, or keep persistent and cumulative straight — and
+it largely will not, *even when every row it needs is in context*.
+
+Evidence: PRAGMA (Yu et al., *Evaluating Personalized Guidance with Memory
+Alignment in Lifelong Conversations*, 2026). On guidance grounded in an evolving
+user trajectory, handing the model the gold evidence sessions **raw** scored
+78 / 17 (alignment / grounding); the **same evidence pre-distilled into a
+trajectory summary** scored 99 / 86. Retrieval was not the bottleneck —
+representation was. Raw-content memory systems preserved ~99% of the evidence
+but under half of it survived into the response; summarized memories preserved
+less yet were used more.
+
+What this skill's disciplines give you is exactly the artifact to hand over:
+
+- **Feed the derived facts, not the event stream.** The current persistent value
+  per field *as of now*, the identity-transition log, and the cumulative rollups
+  the question actually needs — materialized. The field register and
+  identity-transition log *are* that distilled representation; put them in the
+  prompt, not the raw history.
+- **Diagnose a model-facing pipeline in three stages:** preservation (did the
+  derived temporal fact survive ingestion?) → retrieval (did it get selected for
+  this query?) → utilization (did the model use it?). A pipeline can preserve
+  raw history perfectly and still fail utilization because it never built the
+  persistent / cumulative view — the failure is upstream of the model.
+- **An ungrounded temporal answer becomes next turn's input.** If one turn
+  silently drops a persistent constraint ("low-salt meal plan in force"), the
+  next turn reasons from the degraded state and the error compounds. Grounding
+  each temporal claim to its interval evidence is what stops the drift.
+
 ## Principles
 
 - **No time base, no model.** State it first: are observations at instants or
@@ -185,6 +221,10 @@ their own conflict rule.
 - **Store the view you can't derive.** If a field is loose, store both the
   persistent and cumulative forms, or store one and document — in the register —
   exactly what the other view loses.
+- **When a language model reads the data, hand it the derived facts, not the raw
+  history.** Materialize the as-of persistent values, the transition log, and the
+  needed cumulative rollups; do not expect the model to reconstruct them from
+  versioned rows in context. Grounding beats retrieval volume.
 - **Reconcile multi-source histories per interval, not per snapshot.** When two
   sources both describe a period, align them on intervals and check the gluing
   condition; a disagreement at one instant may be a resolution-mismatch that
@@ -252,6 +292,7 @@ their own conflict rule.
 | Two systems' histories disagree at an instant | Interval reconciliation | Alignment on intervals; the gluing check across sources; the conflict retained with both sources if it survives |
 | A property invisible at raw granularity ("weekly active") | Resolution declaration | The coarsest resolution it is defined at; evaluation by restrict-then-check |
 | Version history / scenario tree | Branching-time model | Per-branch field semantics and identity; cross-branch merges as `merge` transitions with a conflict rule |
+| An LLM / agent memory / RAG step consumes the history | Distil to a model-facing representation | The as-of persistent values, transition log, and needed cumulative rollups — materialized into the prompt, not raw versioned rows; a preservation → retrieval → utilization check on the pipeline |
 | An invariant that must hold across all intervals ("balance never negative in any window") | Hand the core to `lean` or `tla-checker` | A machine-checked statement of the interval invariant with its out-of-model assumptions listed |
 
 ## Guardrails — refuse or escalate when
@@ -272,6 +313,10 @@ their own conflict rule.
   double-counts / drops the overlap.
 - A coarse-grained property is evaluated at raw granularity.
 - A snapshot sequence with primary keys is being presented as a temporal model.
+- Raw versioned rows or a full session history are being fed to a language model
+  with the expectation that it will derive current state, detect trajectory
+  conflicts, or keep persistent/cumulative straight — instead of handing it the
+  materialized derived facts.
 - The work is being used to manufacture confidence ("we modelled the history,
   so the number is right") without the field classification and the gluing
   check.
@@ -331,6 +376,8 @@ identity model with its transition vocabulary and `unobserved` policy; the
 temporal analogues derived and the resolution each needs; the gluing-check
 result on real or realistic data; the multi-source reconciliation and any
 retained conflicts with their intervals; the fields stored in both views and
-what each single view would lose; and explicit non-claims — above all, never
+what each single view would lose; if a language model reads the data, the
+model-facing distilled representation and the preservation → retrieval →
+utilization check; and explicit non-claims — above all, never
 that a keyed snapshot sequence is a temporal model, and never a cumulative
 quantity reported as point-in-time or vice versa.

@@ -17,7 +17,7 @@ description: >-
   a tamper-evident structured audit trail. Grounded in the OWASP AI Agent
   Security guidance. NOT for one-off manual agent tasks a human is watching, and
   not a licence to let a model call arbitrary APIs from raw prose.
-version: 0.2.0
+version: 0.3.0
 author: Simon Janes
 tags: [agent-automation, ai-agent-security, llm-safety, tool-use, policy-engine, human-in-the-loop, idempotency, audit-logging, least-privilege, circuit-breaker, owasp]
 ---
@@ -137,11 +137,17 @@ a verified outcome.
   systems: tamper-evident, stored separately from the app database, access-
   restricted, retained to policy. See [`references/logging-and-audit.md`](references/logging-and-audit.md).
 - **If the automation revises its own procedure, guidance, or prompts, gate
-  every edit on a held-out evaluation.** An automated refiner may propose
-  changes to the step map, the edge guidance, or the planning prompt from
-  observed failures. Commit a change only if it holds or improves a score on a
-  validation set the refiner did not see during proposal; retain rejected
-  candidates in a log so the same unproductive edit is not re-proposed. Procedure
+  every edit on a held-out evaluation with an explicit acceptance rule.** An
+  automated refiner may propose changes to the step map, the edge guidance, or
+  the planning prompt from observed failures. Evaluate the current version and
+  the candidate on the *same* held-out cases the refiner did not see during
+  proposal, so their per-case effects are directly comparable. Accept the
+  candidate only if at least one target metric clears its improvement threshold
+  *and* every protected metric stays within its declared regression boundary — a
+  net score that improves on average is not enough if it silently regresses a
+  metric the automation must not break. Retain rejected candidates, and the
+  failure each was meant to fix, in a log so the same unproductive edit is not
+  re-proposed and a recurring failure is not repeatedly rediscovered. Procedure
   edits are versioned, owner-reviewed, and audited like code — never silently
   self-applied in a running production automation.
 - **Calibrated language in reports.** "Under the stated policy version", "for
@@ -247,7 +253,9 @@ a verified outcome.
   history, with no explicit procedure or step-level guidance, and shows drift,
   out-of-order tool calls, or repetitive loops.
 - The automation modifies its own procedure, guidance, or prompts in production
-  with no held-out evaluation gate, no version history, and no owner review.
+  with no held-out evaluation gate, no version history, and no owner review — or
+  its acceptance rule is a single averaged score with no protected metrics and
+  no regression boundary.
 - The audit trail is prose-only, missing denials, logs raw secrets or unmasked
   PII, or is stored where the automation itself could alter it.
 - The automation has not been tested against prompt injection, malformed tool
