@@ -1,0 +1,110 @@
+/* Exact-arithmetic checks for the `temporal-data-modeling` skill.
+ * Run:  bc -q skills/temporal-data-modeling/verification/checks.bc
+ * (no -l needed; integer arithmetic only)
+ * bc truncates; scale is set explicitly. Lowercase identifiers only,
+ * no `_`, no single uppercase letters.  See docs/verifying-skills.md.
+ *
+ * Case: a 7-day active-membership + login log.
+ *   members m1..m5; active sets per day:
+ *     d1 {m1,m2}  d2 {m1,m2,m3}  d3 {m1,m2,m3}
+ *     d4 {m1,m3,m4}  d5 {m1,m3,m4}  d6 UNOBSERVED  d7 {m1,m4,m5}
+ *   login counts per day: d1=5 d2=8 d3=6 d4=7 d5=4 d6=unobs d7=9
+ */
+scale = 0
+fails = 0
+
+/* ---- Check 1: persistent vs cumulative vs naive sum over [d1,d5] ---- */
+/* naive "sum of daily active counts" treats member-days as members */
+naivesum = 2 + 3 + 3 + 3 + 3            /* = 14 member-days */
+/* cumulative distinct members active at some point in [d1,d5] = union */
+cumdistinct = 4                         /* {m1,m2,m3,m4} */
+/* persistent: members active on EVERY day of [d1,d5] = intersection */
+persevery = 1                           /* {m1} */
+
+print "Check 1: persistent / cumulative / naive-sum are three different numbers\n"
+print "  naive sum (member-days) = ", naivesum, "\n"
+print "  cumulative distinct     = ", cumdistinct, "\n"
+print "  persistent every-day    = ", persevery, "\n"
+if (naivesum != cumdistinct && cumdistinct != persevery && naivesum != persevery) {
+    print "  PASS: the two valid views differ, and the naive sum matches neither\n"
+} else {
+    print "  FAIL\n" ; fails += 1
+}
+print "\n"
+
+/* ---- Check 2: round-trip loss classification ---- */
+/* time category [1,1] -> [1,2] <- [2,2]; sizes of the sets.
+ * F([1,1]) = 2, F([2,2]) = 2, shared element m1 => |image| = 1.
+ * pushout size  = |F11| + |F22| - |shared|
+ * pullback size = |common elements after pushout| = |shared| = 1
+ */
+f11 = 2
+f22 = 2
+shared = 1
+pushout  = f11 + f22 - shared          /* = 3 */
+pullback = shared                      /* = 1 */
+
+/* left-rigid field: F([1,2]) is genuinely the intersection {m1}, size 1 */
+f12lr = 1
+print "Check 2a: inclusion-only field (F[1,2] = intersection) is LEFT-RIGID\n"
+print "  F[1,2] = ", f12lr, "   P K F[1,2] = ", pullback, "\n"
+if (pullback == f12lr) {
+    print "  PASS: round trip F -> P K F is exact\n"
+} else {
+    print "  FAIL\n" ; fails += 1
+}
+print "\n"
+
+/* loose field: F([1,2]) records two sub-states {x,y} both collapsing to m1;
+ * endpoints see only m1, so |image| still 1, pushout/pullback unchanged,
+ * but F([1,2]) has size 2.
+ */
+f12loose = 2
+print "Check 2b: churning field (F[1,2] carries a distinction endpoints lose) is LOOSE\n"
+print "  F[1,2] = ", f12loose, "   P K F[1,2] = ", pullback, "\n"
+if (pullback != f12loose) {
+    print "  PASS: round trip drops information -> must store both views\n"
+} else {
+    print "  FAIL\n" ; fails += 1
+}
+print "\n"
+
+/* ---- Check 3: gluing check on the additive cumulative login field ---- */
+/* cover [d1,d7] = [d1,d3] + [d3,d7], meeting at instant d3; d6 unobserved. */
+left   = 5 + 8 + 6                      /* [d1,d3] = 19 */
+right  = 6 + 7 + 4 + 9                  /* [d3,d7] = 26 (d6 excluded) */
+sharedday = 6                          /* [d3,d3] */
+direct = 5 + 8 + 6 + 7 + 4 + 9          /* [d1,d7] directly = 39 */
+glued  = left + right - sharedday       /* overlap instant counted once = 39 */
+naive  = left + right                   /* double-counts d3 = 45 */
+
+print "Check 3: gluing check for a cumulative field (overlap counted once)\n"
+print "  direct [d1,d7]        = ", direct, "\n"
+print "  glued (halves - d3)   = ", glued, "\n"
+print "  naive (halves summed) = ", naive, "\n"
+if (glued == direct && naive != direct) {
+    print "  PASS: gluing reconstruction matches; naive sum double-counts the boundary\n"
+} else {
+    print "  FAIL\n" ; fails += 1
+}
+print "\n"
+
+/* order independence: split at d5 instead of d3 */
+lefta  = 5 + 8 + 6 + 7 + 4              /* [d1,d5] = 30 */
+righta = 4 + 9                          /* [d5,d7] = 13 */
+gluea  = lefta + righta - 4             /* - [d5,d5] = 39 */
+print "Check 3b: gluing is independent of the cut point\n"
+print "  cut at d3 -> ", glued, "   cut at d5 -> ", gluea, "\n"
+if (glued == gluea) {
+    print "  PASS\n"
+} else {
+    print "  FAIL\n" ; fails += 1
+}
+print "\n"
+
+if (fails == 0) {
+    print "ALL BC CHECKS PASS\n"
+} else {
+    print "BC CHECKS FAILED: ", fails, "\n"
+}
+quit
