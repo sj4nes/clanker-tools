@@ -12,3 +12,6 @@ skills/*/validation/tsort-errors.txt
 # Python bytecode
 __pycache__/
 *.pyc
+
+# Paper drafts / lit-search working notes — not part of the skills repo
+paper/
