@@ -1,0 +1,46 @@
+/* Exact-arithmetic checks for the `causal-sandbox` skill.
+ * Run:  bc -q skills/causal-sandbox/verification/checks.bc
+ * Integer arithmetic only; scale set explicitly. Lowercase identifiers only,
+ * no `_`, no single uppercase letters.  See docs/verifying-skills.md.
+ *
+ * The inventory world: stock starts at s0, consume removes c per step, reorder
+ * fires the step stock first drops BELOW threshold th, restock adds r.
+ * These are the known answers the Python engine trace must reproduce.
+ */
+scale = 0
+fail = 0
+
+s0 = 40
+c = 5
+th = 25
+r = 30
+
+/* step at which stock first goes strictly below th, under 1 consume/step.
+ * stock after k consumes = s0 - c*k ; want smallest k with s0 - c*k < th. */
+k = 0
+while (s0 - c*k >= th) k = k + 1
+print "reorder fires after consume #", k, " (stock = ", s0 - c*k, ")\n"
+if (k == 4) { print "  PASS k==4\n" } else { print "  FAIL k\n" ; fail = 1 }
+if (s0 - c*k == 20) { print "  PASS stock-at-reorder==20\n" } else { print "  FAIL stock-at-reorder\n" ; fail = 1 }
+
+/* restock recovery: 20 + 30 = 50 */
+rec = (s0 - c*k) + r
+if (rec == 50) { print "  PASS restock recovery == 50\n" } else { print "  FAIL restock recovery\n" ; fail = 1 }
+
+/* the "hits zero" scenario: threshold too low (th2 = 3), reorder never fires
+ * in time; stock reaches exactly 0 after s0/c consumes. */
+th2 = 3
+z = s0 / c
+print "stock hits 0 at consume #", z, "\n"
+if (z == 8) { print "  PASS zero-at-step-8\n" } else { print "  FAIL zero-at-step\n" ; fail = 1 }
+/* and it is exactly 0, not negative: s0 - c*z */
+if (s0 - c*z == 0) { print "  PASS lands exactly on 0\n" } else { print "  FAIL not exact\n" ; fail = 1 }
+
+/* minimal-intervention check: raising threshold to 25 keeps stock >= 20 > 0
+ * forever (reorder at 20 -> restock to 50 -> ... oscillates in [20,50]). */
+lo = s0 - c*k
+if (lo > 0) { print "  PASS threshold:=25 keeps stock > 0 (min ", lo, ")\n" } else { print "  FAIL\n" ; fail = 1 }
+
+print "\n"
+if (fail == 0) { print "ALL BC CHECKS PASSED\n" } else { print "BC CHECKS FAILED\n" }
+quit
