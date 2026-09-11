@@ -93,12 +93,18 @@ capsules — organised by domain, low confidence, no commitments — see
       introduced. Decibel scale, Doppler effect, impedance/intensity, and
       reflection/transmission left for a future tutorial (noted in both
       files' "Where to go next").
-- [ ] **physics-acoustics:** `physics-thermoacoustics`'s own registry still
-      carries its own local `small_amplitude`/`time_harmonic` copies rather
-      than citing this capsule directly (only the atlas-level edge exists).
-      A direct in-capsule citation would need editing
-      `physics-thermoacoustics` itself — tracked separately, not folded into
-      this release (see `physics-acoustics/README.md`'s "What's next").
+- [x] **physics-acoustics:** `physics-thermoacoustics` updated 2026-09-11 to
+      document the discharge. **Not** a real `requires` edge spliced into
+      `physics-thermoacoustics/edges/dependencies.plan` — that would break
+      its own `graph-check.sh` (which only knows its own `nodes.tsv`) and
+      contradicts the whole reason the atlas keeps cross-capsule edges in a
+      separate layer. Instead: `physics-thermoacoustics/nodes/nodes.tsv`'s
+      `small_amplitude`/`time_harmonic` rows gain a "discharged by
+      physics-acoustics:… (physics-formula-atlas cross-capsule edge)" note
+      (mirrors the `math-sets-functions-cardinality` Release 0.2 pattern);
+      `scope.md`'s "Assumed background" and `README.md` both point at the
+      atlas discharge explicitly. `physics-thermoacoustics`'s own graph
+      unchanged and still green (104 nodes, 253 edges, 0 isolated/root-only).
 - [x] **physics-acoustics:** reciprocity + horn-equation addition,
       2026-09-11, answering "are a megaphone and a long-range microphone
       symmetric devices?" with real capsule content. New nodes:

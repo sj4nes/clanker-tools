@@ -57,7 +57,16 @@ the analytic on-ramp.
   single-variable + partial derivatives, cycle-averaged integrals.
 - **Assumed background:** the [`physics-newtonian`](../physics-newtonian/SKILL.md)
   capsule (kinematics, `F=ma`, work/energy), plus elementary thermodynamics and
-  vector calculus.
+  vector calculus. As of 2026-09-11, the small-amplitude and time-harmonic
+  regime assumptions this capsule states as its own roots
+  (`small_amplitude`, `time_harmonic`) are genuinely discharged against
+  [`physics-acoustics`](../physics-acoustics/SKILL.md)'s nodes of the same
+  name — see [`physics-formula-atlas/edges/cross-capsule.plan`](../physics-formula-atlas/edges/cross-capsule.plan)
+  and [`physics-formula-atlas/validation/duplicate-primitives.md`](../physics-formula-atlas/validation/duplicate-primitives.md).
+  This capsule's own `nodes.tsv`/`edges/dependencies.plan` are unchanged —
+  the discharge is a cross-capsule edge in the atlas, not a `requires` edge
+  here (the same non-destructive treatment every other atlas discharge
+  uses); the two nodes stay this capsule's own roots for its own `tsort`.
 - **Unit system:** SI, with base dimensions `[M, L, T, Θ]` (temperature added —
   see `conventions.md`).
 - **Phasor convention:** `q(x,t) = Re[ q_1(x) e^{+iωt} ]`; `q_1` complex, `x` the

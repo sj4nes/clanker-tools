@@ -9,6 +9,12 @@ domain capsule after [`physics-newtonian`](../physics-newtonian/SKILL.md).
 - Formulas: [`formulas/thermoacoustics.md`](formulas/thermoacoustics.md)
 - Views: [`indexes/`](indexes/) — formula/topic/symbol/assumption indexes, tsort order, prerequisite paths
 - Verification: [`validation/consistency-audit.md`](validation/consistency-audit.md)
+- Cross-capsule discharge: this capsule's `small_amplitude`/`time_harmonic`
+  roots are genuinely discharged against
+  [`physics-acoustics`](../physics-acoustics/SKILL.md) by
+  [`physics-formula-atlas`](../physics-formula-atlas/SKILL.md) (2026-09-11)
+  — see `scope.md`'s "Assumed background" for the details. This capsule's
+  own graph is unchanged; the discharge is an atlas-level edge.
 
 ## Build
 

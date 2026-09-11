@@ -36,9 +36,9 @@ thermal_conductivity	physical_definition	Thermal conductivity k	thermo	reviewed	
 thermal_diffusivity	derived_formula	Thermal diffusivity alpha	thermo	reviewed	core	alpha = k / (rho_m c_p)
 prandtl_number	derived_formula	Prandtl number	fluids	reviewed	core	Pr = nu / alpha = mu c_p / k
 laminar_flow	assumption	Laminar oscillatory flow	fluids	reviewed	foundation	-
-small_amplitude	assumption	Small acoustic amplitude	acoustics	reviewed	foundation	Ma << 1
+small_amplitude	assumption	Small acoustic amplitude	acoustics	reviewed	foundation	Ma << 1; discharged by physics-acoustics:small_amplitude (physics-formula-atlas cross-capsule edge)
 acoustic_mach_number	derived_formula	Acoustic Mach number	acoustics	reviewed	foundation	Ma = |u1| / a
-time_harmonic	assumption	Single-frequency steady oscillation	acoustics	reviewed	foundation	-
+time_harmonic	assumption	Single-frequency steady oscillation	acoustics	reviewed	foundation	discharged by physics-acoustics:time_harmonic (physics-formula-atlas cross-capsule edge)
 linearization	regime_limit	Acoustic linearization	acoustics	reviewed	core	first order in amplitude
 acoustic_pressure	physical_definition	Acoustic pressure p1	acoustics	reviewed	core	p = p_m + Re[p1 e^{i w t}]
 acoustic_velocity	physical_definition	Acoustic velocity u1	acoustics	reviewed	core	-
