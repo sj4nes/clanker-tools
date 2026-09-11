@@ -21,6 +21,32 @@ capsules — organised by domain, low confidence, no commitments — see
 
 ## Physics
 
+### physics-formula-atlas  (new bridge capsule — Release 0.1 COMPLETE, 2026-09-11)
+
+- [x] **physics-formula-atlas:** Release 0.1 built 2026-09-11. Bridge capsule
+      connecting `physics-newtonian`, `physics-thermodynamics`,
+      `physics-thermoacoustics` with 15 real cross-capsule `requires` edges
+      (unlike `bayes-bridge`, this hierarchy has no mutual-grounding cycle,
+      so the edges are real `tsort` edges, not prose). Discharge audit
+      (`validation/duplicate-primitives.md`) found `physics-thermodynamics`'s
+      5-primitive root set 100% duplicates `physics-newtonian`, and
+      `physics-thermoacoustics` re-declares 6 `physics-thermodynamics`-
+      developed concepts (incl. the first law of thermodynamics, restated
+      from scratch) as disconnected roots. `build/prereq-path.py` walks any
+      formula's prerequisite chain backward across capsule boundaries to its
+      terminal roots — worked example:
+      `physics-thermoacoustics:specific_heat_cv` crosses two capsule
+      boundaries down to 5 `physics-newtonian` primitives. Combined graph
+      (3 capsules + bridge): 239 nodes, 634 edges, `tsort`-clean, acyclic.
+- [ ] **physics-formula-atlas:** Release 0.2 — extend to
+      `chemistry-foundations` and `chemistry-electrochemistry` (both already
+      claim `physics-thermodynamics` as background in prose; roughly doubles
+      the capsule count and the discharge-audit work).
+- [ ] **physics-formula-atlas:** discharge each physics capsule's bare
+      `derivative`/`integral` math primitives against `math-real-analysis`
+      (flagged in `validation/duplicate-primitives.md`'s "Known limitation"
+      — mirrors what the `math-*` capsule stack already does internally).
+
 ### physics-thermodynamics
 
 - [ ] **physics-thermodynamics:** Release 0.2 scope expansion — open systems and

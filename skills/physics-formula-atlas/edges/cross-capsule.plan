@@ -1,0 +1,58 @@
+# physics-formula-atlas -- edges/cross-capsule.plan
+#
+# Real cross-capsule `requires` edges (unlike bayes-bridge's prose-only
+# discharge: this hierarchy has no mutual-grounding cycle, see scope.md).
+# Format: two fields, tab-separated, `capsule:node_id` on both ends.
+# Strip comments with `grep -Ev '^[[:space:]]*(#|$)'` -> cross-capsule.edges,
+# exactly like an in-capsule dependencies.plan.
+
+# --- Shared cross_domain / math primitives: physics-newtonian declares
+#     these first (it is the floor capsule); physics-thermodynamics
+#     independently re-declares the identical primitive with no edge. The
+#     edge test: "must physics-newtonian's length be understood before
+#     physics-thermodynamics's length can be correctly stated" -- trivially
+#     yes, they are the same primitive, so this is a same-object identity
+#     edge, the degenerate case of `requires`.
+physics-newtonian:length	physics-thermodynamics:length
+physics-newtonian:mass	physics-thermodynamics:mass
+physics-newtonian:time	physics-thermodynamics:time
+physics-newtonian:real_numbers	physics-thermodynamics:real_numbers
+physics-newtonian:SI_units	physics-thermodynamics:SI_units
+
+# --- Same primitives, thermoacoustics' independent copies.
+physics-newtonian:real_numbers	physics-thermoacoustics:real_numbers
+physics-newtonian:SI_units	physics-thermoacoustics:SI_units
+physics-newtonian:time	physics-thermoacoustics:time
+
+# --- physics-thermodynamics develops these; physics-thermoacoustics
+#     re-declares each as its own root instead of citing the developed
+#     node. Genuine develops/re-primitives duplication -- the atlas's
+#     headline discharge.
+#     ideal_gas_law (PV=nRT) is exactly what "ideal_gas" (assumption: the
+#     working fluid obeys it) names -- must be understood before the
+#     assumption can be correctly invoked.
+physics-thermodynamics:ideal_gas_law	physics-thermoacoustics:ideal_gas
+#     gas_constant (universal, molar, R=8.314 J/(mol K)) is the quantity
+#     gas_constant_specific (R_specific = R / molar_mass) divides by molar
+#     mass to get -- see validation/duplicate-primitives.md for the
+#     conversion note; the concept is still a genuine prerequisite.
+physics-thermodynamics:gas_constant	physics-thermoacoustics:gas_constant_specific
+#     heat_capacity_cv / heat_capacity_cp are molar (per mole); specific_heat_cv
+#     / specific_heat_cp are per unit mass (divide by molar mass again) --
+#     same conversion-note treatment.
+physics-thermodynamics:heat_capacity_cv	physics-thermoacoustics:specific_heat_cv
+physics-thermodynamics:heat_capacity_cp	physics-thermoacoustics:specific_heat_cp
+#     first_law_thermodynamics: thermoacoustics restates the identical law
+#     (dU = dQ - dW) as its own root. This is the clearest pure duplicate --
+#     no unit conversion needed, literally the same statement.
+physics-thermodynamics:first_law_thermodynamics	physics-thermoacoustics:first_law_thermodynamics
+
+# --- Resolves scope.md's second open scoping question: mean_temperature and
+#     mean_pressure are the time/space-averaged base state a linear acoustic
+#     perturbation is expanded around -- the underlying concept (temperature,
+#     pressure) genuinely must be understood first, so these pass the edge
+#     test as real requires edges, not a lighter relates_to. mean_density has
+#     no thermodynamics-capsule analogue (no density node there at all) and
+#     stays a capsule-local root -- see validation/duplicate-primitives.md.
+physics-thermodynamics:temperature	physics-thermoacoustics:mean_temperature
+physics-thermodynamics:pressure	physics-thermoacoustics:mean_pressure

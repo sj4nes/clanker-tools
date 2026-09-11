@@ -1,0 +1,15 @@
+physics-newtonian:length	physics-thermodynamics:length
+physics-newtonian:mass	physics-thermodynamics:mass
+physics-newtonian:time	physics-thermodynamics:time
+physics-newtonian:real_numbers	physics-thermodynamics:real_numbers
+physics-newtonian:SI_units	physics-thermodynamics:SI_units
+physics-newtonian:real_numbers	physics-thermoacoustics:real_numbers
+physics-newtonian:SI_units	physics-thermoacoustics:SI_units
+physics-newtonian:time	physics-thermoacoustics:time
+physics-thermodynamics:ideal_gas_law	physics-thermoacoustics:ideal_gas
+physics-thermodynamics:gas_constant	physics-thermoacoustics:gas_constant_specific
+physics-thermodynamics:heat_capacity_cv	physics-thermoacoustics:specific_heat_cv
+physics-thermodynamics:heat_capacity_cp	physics-thermoacoustics:specific_heat_cp
+physics-thermodynamics:first_law_thermodynamics	physics-thermoacoustics:first_law_thermodynamics
+physics-thermodynamics:temperature	physics-thermoacoustics:mean_temperature
+physics-thermodynamics:pressure	physics-thermoacoustics:mean_pressure
