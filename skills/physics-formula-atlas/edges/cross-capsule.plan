@@ -56,3 +56,47 @@ physics-thermodynamics:first_law_thermodynamics	physics-thermoacoustics:first_la
 #     stays a capsule-local root -- see validation/duplicate-primitives.md.
 physics-thermodynamics:temperature	physics-thermoacoustics:mean_temperature
 physics-thermodynamics:pressure	physics-thermoacoustics:mean_pressure
+
+# --- physics-acoustics (Release 0.1, built with the atlas's own edge
+#     discipline from the start, per its scope.md): its 5 shared
+#     cross_domain/math primitives and its local copies of two
+#     physics-thermodynamics-developed nodes, discharged immediately.
+#     All 7 of its true roots (per its own build/build-tree.sh) get an
+#     edge here -- 100% discharge, unlike physics-thermodynamics'
+#     0/5-then-fixed and physics-thermoacoustics' 10/25.
+physics-newtonian:real_numbers	physics-acoustics:real_numbers
+physics-newtonian:length	physics-acoustics:length
+physics-newtonian:mass	physics-acoustics:mass
+physics-newtonian:time	physics-acoustics:time
+physics-newtonian:SI_units	physics-acoustics:SI_units
+#     gas_constant and heat_capacity_ratio: pure duplicates, same
+#     treatment as physics-thermoacoustics' molar-vs-specific pairs above,
+#     except here there is no unit conversion -- physics-acoustics uses
+#     the same molar R and the same gamma = c_p/c_v.
+physics-thermodynamics:gas_constant	physics-acoustics:gas_constant
+physics-thermodynamics:heat_capacity_ratio	physics-acoustics:heat_capacity_ratio
+#     Two more local copies that are not roots within physics-acoustics'
+#     own graph (each already has an in-capsule predecessor, e.g.
+#     mean_pressure requires SI_units locally) but are still pure
+#     duplicates of a physics-newtonian/physics-thermodynamics developed
+#     node, so the cross-capsule edge is added anyway -- prereq-path.py
+#     walks predecessors regardless of whether the downstream node is a
+#     capsule-local root, so this still shortens the printed path.
+physics-newtonian:newton_second_law	physics-acoustics:newton_second_law
+physics-thermodynamics:ideal_gas_law	physics-acoustics:ideal_gas_law
+physics-thermodynamics:pressure	physics-acoustics:mean_pressure
+physics-thermodynamics:temperature	physics-acoustics:mean_temperature
+#     mean_density: checked -- no density node exists anywhere in
+#     physics-thermodynamics (confirmed again for this release). Stays
+#     capsule-local, same finding as physics-thermoacoustics'
+#     mean_density.
+
+# --- With physics-acoustics now developing them, physics-thermoacoustics'
+#     small_amplitude and time_harmonic roots (previously genuinely
+#     capsule-local -- see the audit's physics-thermoacoustics table) get
+#     discharged too. physics-thermoacoustics' own registry is untouched;
+#     this is purely an atlas-level edge, same non-destructive treatment
+#     as every other entry in this file.
+physics-acoustics:small_amplitude	physics-thermoacoustics:small_amplitude
+physics-acoustics:time_harmonic	physics-thermoacoustics:time_harmonic
+

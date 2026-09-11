@@ -33,6 +33,12 @@ actually use them.
 
 ## What's next
 
+**Done:** [`physics-acoustics`](../physics-acoustics/SKILL.md) (new capsule,
+built with this atlas's edge discipline from the start — its `scope.md`
+committed to full discharge in the same session, and it delivers: a formula
+as deep as `acoustic_wave_equation_1d` now traces back through
+`physics-thermodynamics` and `physics-newtonian` to 8 terminal primitives).
+
 Release 0.2 candidate: extend to `chemistry-foundations` and
 `chemistry-electrochemistry` (both already claim `physics-thermodynamics` as
 background). A further extension flagged in the discharge audit: the bare

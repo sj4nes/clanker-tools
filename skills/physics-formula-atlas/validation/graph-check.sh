@@ -33,7 +33,7 @@ with open("build/combined.edges", "w") as f:
 
 n_edges = sum(len(v) for v in graph.values())
 n_nodes = sum(len(v) for v in node_ids.values())
-print(f"graph-check: ok ({n_edges} combined edges, {n_nodes} nodes across 3 capsules, 0 unregistered cross-capsule endpoints)")
+print(f"graph-check: ok ({n_edges} combined edges, {n_nodes} nodes across {len(m.CAPSULES)} capsules, 0 unregistered cross-capsule endpoints)")
 PYEOF
 
 TSORT_ERR=$(mktemp)

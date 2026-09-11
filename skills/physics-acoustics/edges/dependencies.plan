@@ -1,0 +1,152 @@
+# physics-acoustics Release 0.1 prerequisite edges. Each block: a plain-
+# language justification (the physics-formula-tree edge test) then the
+# edge(s). Comments and blank lines are stripped to dependencies.edges
+# before tsort. Whitespace-separated, matching the sibling physics
+# capsules' convention.
+
+# --- calculus prerequisites ---
+# The real line underlies the notion of a function.
+real_numbers function
+# A derivative needs a function to differentiate.
+function derivative
+# A partial derivative is a derivative holding other variables fixed --
+# needs the ordinary derivative and a function of several variables.
+derivative partial_derivative
+function partial_derivative
+# The definite integral (time-averaging p'u for intensity) needs a function.
+function integral
+
+# --- mechanics / thermo floor (local copies, discharged against
+#     physics-newtonian / physics-thermodynamics by physics-formula-atlas
+#     immediately after this release -- see scope.md) ---
+mass newton_second_law
+length newton_second_law
+time newton_second_law
+mean_pressure ideal_gas_law
+mean_temperature ideal_gas_law
+gas_constant ideal_gas_law
+heat_capacity_ratio speed_of_sound_ideal_gas
+
+# --- background fluid state ---
+SI_units mean_pressure
+SI_units mean_density
+SI_units mean_temperature
+mean_density inviscid_fluid
+mean_pressure inviscid_fluid
+mean_density continuum_fluid
+
+# --- the small-amplitude / time-harmonic regime ---
+mean_pressure small_amplitude
+mean_density small_amplitude
+inviscid_fluid small_amplitude
+continuum_fluid small_amplitude
+real_numbers time_harmonic
+time time_harmonic
+
+# --- perturbation quantities: defined relative to the mean state, under
+#     the small-amplitude assumption that licenses treating them as small
+#     corrections. ---
+mean_pressure acoustic_pressure_perturbation
+small_amplitude acoustic_pressure_perturbation
+mean_density acoustic_density_perturbation
+small_amplitude acoustic_density_perturbation
+small_amplitude particle_velocity
+mean_density particle_velocity
+
+# --- linearized continuity and Euler's equation: continuity needs the
+#     density perturbation and particle velocity and the small-amplitude
+#     assumption that drops the quadratic term; Euler needs Newton's second
+#     law applied to a fluid element (force from the pressure gradient),
+#     the pressure perturbation, particle velocity, and the same
+#     linearization. ---
+acoustic_density_perturbation linearized_continuity_equation
+particle_velocity linearized_continuity_equation
+small_amplitude linearized_continuity_equation
+partial_derivative linearized_continuity_equation
+newton_second_law linearized_euler_equation
+acoustic_pressure_perturbation linearized_euler_equation
+particle_velocity linearized_euler_equation
+small_amplitude linearized_euler_equation
+partial_derivative linearized_euler_equation
+
+# --- the bulk modulus and speed of sound: the adiabatic bulk modulus needs
+#     the mean density and an adiabatic process (imported id, matching
+#     physics-thermodynamics:adiabatic_process, discharged by the atlas);
+#     the general speed-of-sound form is the bulk modulus per unit density;
+#     the ideal-gas form specializes it via the ideal-gas law and gamma. ---
+mean_density adiabatic_bulk_modulus
+partial_derivative adiabatic_bulk_modulus
+adiabatic_bulk_modulus speed_of_sound_general
+mean_density speed_of_sound_general
+ideal_gas_law speed_of_sound_ideal_gas
+speed_of_sound_general speed_of_sound_ideal_gas
+mean_temperature speed_of_sound_ideal_gas
+
+# --- the wave equation: combine linearized continuity + Euler + the bulk
+#     modulus's constitutive relation (p' = c^2 rho') by eliminating rho'
+#     and u between them. ---
+linearized_continuity_equation acoustic_wave_equation_1d
+linearized_euler_equation acoustic_wave_equation_1d
+speed_of_sound_general acoustic_wave_equation_1d
+acoustic_wave_equation_1d acoustic_wave_equation_3d
+
+# --- plane-wave solutions and the dispersion relation: substitute a
+#     traveling-wave ansatz into the 1-D wave equation; requires the
+#     time-harmonic regime to fix a single omega. ---
+acoustic_wave_equation_1d plane_wave_solution
+time_harmonic plane_wave_solution
+plane_wave_solution dispersion_relation
+speed_of_sound_general wavelength_frequency_relation
+dispersion_relation wavelength_frequency_relation
+
+# --- impedance: specific impedance is the definition p'/u; characteristic
+#     impedance and the plane-wave p'=rho0 c u relation follow from
+#     substituting the plane-wave solution into linearized Euler /
+#     continuity. ---
+acoustic_pressure_perturbation specific_acoustic_impedance
+particle_velocity specific_acoustic_impedance
+mean_density characteristic_impedance
+speed_of_sound_general characteristic_impedance
+plane_wave_solution plane_wave_pressure_velocity_relation
+characteristic_impedance plane_wave_pressure_velocity_relation
+linearized_euler_equation plane_wave_pressure_velocity_relation
+
+# --- intensity, inverse-square law, decibels ---
+acoustic_pressure_perturbation acoustic_intensity
+particle_velocity acoustic_intensity
+integral acoustic_intensity
+plane_wave_pressure_velocity_relation intensity_plane_wave
+acoustic_intensity intensity_plane_wave
+intensity_plane_wave inverse_square_law
+acoustic_intensity decibel_spl
+
+# --- superposition, interference, standing waves, pipe resonance: all
+#     downstream of the wave equation being linear. ---
+acoustic_wave_equation_1d superposition_principle
+superposition_principle interference
+plane_wave_solution interference
+superposition_principle standing_wave
+plane_wave_solution standing_wave
+standing_wave pipe_resonance_symmetric_boundary
+wavelength_frequency_relation pipe_resonance_symmetric_boundary
+standing_wave pipe_resonance_mixed_boundary
+wavelength_frequency_relation pipe_resonance_mixed_boundary
+
+# --- reflection / transmission at an impedance mismatch: needs the
+#     characteristic impedance on each side and the boundary conditions
+#     (continuity of p' and u), which the plane-wave pressure-velocity
+#     relation supplies. ---
+characteristic_impedance reflection_coefficient_normal_incidence
+plane_wave_pressure_velocity_relation reflection_coefficient_normal_incidence
+reflection_coefficient_normal_incidence transmission_coefficient_normal_incidence
+
+# --- Doppler effect: a kinematic consequence of the wavefront geometry for
+#     a moving source / observer at speeds small relative to c; needs the
+#     wavelength-frequency relation and the nonrelativistic (v<<c)
+#     regime, which the small-amplitude-adjacent low-Mach assumption
+#     already carries in this capsule's scope (no separate node -- the
+#     v<<c bound is stated inline on each Doppler node per scope.md). ---
+wavelength_frequency_relation doppler_moving_source
+wavelength_frequency_relation doppler_moving_observer
+doppler_moving_source doppler_general
+doppler_moving_observer doppler_general

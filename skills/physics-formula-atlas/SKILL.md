@@ -1,14 +1,15 @@
 ---
 name: physics-formula-atlas
-description: A bridge capsule connecting physics-newtonian, physics-thermodynamics, and physics-thermoacoustics with real cross-capsule requires edges (not prose-only discharge -- this hierarchy has no mutual-grounding cycle), plus a working prereq-path.py tool that walks any formula's full prerequisite chain backward across capsule boundaries down to its terminal primitives, axioms, assumptions, and conventions. Use when you need to trace a physics formula's complete dependency chain back to constants or dimensions, when adding a formula to physics-thermodynamics or physics-thermoacoustics and you need to know whether a "new" primitive is actually a duplicate of an already-developed node in an upstream capsule, or when auditing whether a capsule's assumed background is a real edge or just a prose claim. Built with the physics-formula-tree method's tsort/edge discipline, adapted across capsule boundaries.
+description: A bridge capsule connecting physics-newtonian, physics-thermodynamics, physics-thermoacoustics, and physics-acoustics with real cross-capsule requires edges (not prose-only discharge -- this hierarchy has no mutual-grounding cycle), plus a working prereq-path.py tool that walks any formula's full prerequisite chain backward across capsule boundaries down to its terminal primitives, axioms, assumptions, and conventions. Use when you need to trace a physics formula's complete dependency chain back to constants or dimensions, when adding a formula to physics-thermodynamics or physics-thermoacoustics and you need to know whether a "new" primitive is actually a duplicate of an already-developed node in an upstream capsule, or when auditing whether a capsule's assumed background is a real edge or just a prose claim. Built with the physics-formula-tree method's tsort/edge discipline, adapted across capsule boundaries.
 ---
 
 # physics-formula-atlas
 
 A `bridge`-archetype capsule connecting
 [`physics-newtonian`](../physics-newtonian/SKILL.md),
-[`physics-thermodynamics`](../physics-thermodynamics/SKILL.md), and
-[`physics-thermoacoustics`](../physics-thermoacoustics/SKILL.md). Read
+[`physics-thermodynamics`](../physics-thermodynamics/SKILL.md),
+[`physics-thermoacoustics`](../physics-thermoacoustics/SKILL.md), and
+[`physics-acoustics`](../physics-acoustics/SKILL.md). Read
 [`scope.md`](scope.md) first.
 
 ## Why this exists
@@ -27,7 +28,7 @@ citing the developed `physics-thermodynamics` nodes.
 
 ## What's here
 
-- **`edges/cross-capsule.plan`** — 15 real cross-capsule `requires` edges,
+- **`edges/cross-capsule.plan`** — 28 real cross-capsule `requires` edges,
   each with an evidence comment (including unit-conversion notes where the
   discharge isn't a plain identity: specific vs. molar heat capacity and
   gas constant). Unlike `bayes-bridge`, these are genuine `tsort` edges, not
@@ -40,9 +41,11 @@ citing the developed `physics-thermodynamics` nodes.
   boundaries wherever a bridge edge fires. This is the "rapidly scan a
   formula's path back to constants or dimensions" tool.
 - **`validation/duplicate-primitives.md`** — every root in
-  `physics-thermodynamics` (5/5 discharged) and `physics-thermoacoustics`
-  (10/25 discharged, 15 genuinely capsule-local — mostly fluid-mechanics and
-  acoustics primitives neither upstream capsule develops) classified.
+  `physics-thermodynamics` (5/5 discharged), `physics-thermoacoustics`
+  (12/25 discharged after `physics-acoustics` also picked up
+  `small_amplitude`/`time_harmonic` — 13 remaining are genuinely
+  capsule-local, mostly fluid-mechanics primitives no upstream capsule
+  develops), and `physics-acoustics` (7/7 roots discharged) classified.
 
 ## Use it
 
@@ -60,8 +63,11 @@ capsule-local root with no further path.
 
 ## Release 0.1 at a glance
 
-15 cross-capsule edges; combined graph (3 capsules' native edges + the
-bridge) = 239 nodes, 634 edges, `tsort`-clean (stderr-checked), acyclic.
+28 cross-capsule edges across 4 capsules (`physics-newtonian`,
+`physics-thermodynamics`, `physics-thermoacoustics`, and — added in the same
+session, built to discharge itself from the start —
+[`physics-acoustics`](../physics-acoustics/SKILL.md)); combined graph =
+289 nodes, 732 edges, `tsort`-clean (stderr-checked), acyclic.
 Two scoping questions resolved (see `scope.md`): `position` vs. `length`
 deliberately **not** edged (coordinate vs. dimension — a type difference);
 `mean_temperature`/`mean_pressure` **are** real edges (the base state a

@@ -1,4 +1,4 @@
-# Discharge audit — every root in `physics-thermodynamics` and `physics-thermoacoustics`
+# Discharge audit — every root in `physics-thermodynamics`, `physics-thermoacoustics`, and `physics-acoustics`
 
 Every root (no in-capsule predecessor) in the two downstream capsules,
 classified: **discharged** (a `cross-capsule.plan` edge was added),
@@ -47,20 +47,52 @@ undischarged roots.
 | `laminar_flow` | capsule-local | fluid-mechanics assumption, no upstream analogue |
 | `no_mean_flow` | capsule-local | thermoacoustics-specific modelling assumption |
 | `rigid_isothermal_wall` | capsule-local | thermoacoustics-specific boundary-condition assumption |
-| `small_amplitude` | capsule-local | acoustics regime assumption, no upstream analogue (neither other capsule treats waves) |
+| `small_amplitude` | discharged (added once `physics-acoustics` existed) | `physics-acoustics:small_amplitude` |
 | `thermal_conductivity` | capsule-local | fluid/solid transport property, no upstream analogue |
-| `time_harmonic` | capsule-local | acoustics regime assumption |
+| `time_harmonic` | discharged (added once `physics-acoustics` existed) | `physics-acoustics:time_harmonic` |
 | `velocity_field` | capsule-local | fluid-mechanics primitive, no upstream analogue |
 | `mean_temperature_gradient` | capsule-local | thermoacoustics-specific (an imposed gradient of the discharged `mean_temperature`, but the gradient itself has no thermodynamics-capsule analogue) |
 
-**10 of 25 discharged, 15 genuinely capsule-local or deliberately
-distinguished.** The discharge rate is much lower than
-`physics-thermodynamics`'s because `physics-thermoacoustics` sits at the
-intersection of thermodynamics *and* fluid mechanics/acoustics — and
-neither `physics-newtonian` nor `physics-thermodynamics` develops fluid
-mechanics (viscosity, laminar flow, velocity fields) or wave phenomena
-(small-amplitude, time-harmonic). That is a real scope boundary, not a
-missed discharge — recorded here rather than silently absorbed.
+**12 of 25 discharged** (10 against `physics-thermodynamics`, 2 —
+`small_amplitude`, `time_harmonic` — against `physics-acoustics` once it
+existed), **13 genuinely capsule-local or deliberately distinguished.**
+The discharge rate is still lower than `physics-thermodynamics`'s because
+`physics-thermoacoustics` sits at the intersection of thermodynamics *and*
+fluid mechanics/acoustics — and
+the remaining 13 are fluid-mechanics primitives (viscosity, laminar flow,
+velocity fields) that no capsule in this stack develops — `physics-acoustics`
+picked up the two wave-phenomena roots (`small_amplitude`, `time_harmonic`)
+but stayed deliberately inviscid (see its `scope.md`'s exclusions), so it
+could not discharge the fluid-mechanics roots too. That is a real scope
+boundary — a future `physics-fluid-mechanics` capsule's job — not a missed
+discharge; recorded here rather than silently absorbed.
+
+## `physics-acoustics` roots (7 total)
+
+Built after this atlas existed, so its `scope.md` committed to discharging
+every root in the same session rather than leaving the duplication for a
+later release.
+
+| Root | Classification | Discharged by |
+|---|---|---|
+| `real_numbers` | discharged | `physics-newtonian:real_numbers` |
+| `length` | discharged | `physics-newtonian:length` |
+| `mass` | discharged | `physics-newtonian:mass` |
+| `time` | discharged | `physics-newtonian:time` |
+| `SI_units` | discharged | `physics-newtonian:SI_units` |
+| `gas_constant` | discharged | `physics-thermodynamics:gas_constant` |
+| `heat_capacity_ratio` | discharged | `physics-thermodynamics:heat_capacity_ratio` |
+
+**100% discharged**, matching `physics-thermodynamics`'s rate once fixed.
+Two further local copies (`newton_second_law`, `ideal_gas_law`) and two more
+mean-state nodes (`mean_pressure`, `mean_temperature`) are not roots within
+`physics-acoustics`'s own graph (each already has an in-capsule predecessor)
+but are still pure duplicates of an upstream developed node, so
+`cross-capsule.plan` edges them anyway — `prereq-path.py` walks predecessors
+regardless of local-root status, so the printed path still shortens.
+`mean_density` was checked again and confirmed capsule-local: no `density`
+node exists anywhere in `physics-thermodynamics`, the same finding as
+`physics-thermoacoustics`'s `mean_density`.
 
 ## Known limitation: bare math primitives
 

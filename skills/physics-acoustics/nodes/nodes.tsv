@@ -1,0 +1,51 @@
+id	type	title	domain	status	knowledge_level	primary_formula
+real_numbers	primitive	Real numbers	math	reviewed	foundation	-
+length	primitive	Length	cross_domain	reviewed	foundation	-
+mass	primitive	Inertial mass	mechanics	reviewed	foundation	-
+time	primitive	Time	cross_domain	reviewed	foundation	-
+SI_units	convention	SI unit system	cross_domain	reviewed	foundation	-
+function	math_definition	Function	math	reviewed	foundation	-
+derivative	math_definition	Derivative	math	reviewed	foundation	df/dx
+partial_derivative	math_definition	Partial derivative	math	reviewed	foundation	df/dx holding other variables fixed
+integral	math_definition	Definite integral	math	reviewed	foundation	int f dx
+newton_second_law	principle_law	Newton's second law	mechanics	reviewed	foundation	F_net = m a
+ideal_gas_law	constitutive_relation	Ideal-gas equation of state	thermo	reviewed	foundation	P V = n R T
+gas_constant	convention	Universal gas constant R	thermo	reviewed	foundation	R = 8.314 J/(mol K)
+heat_capacity_ratio	derived_formula	Heat-capacity ratio gamma	thermo	reviewed	foundation	gamma = c_p / c_v
+mean_pressure	physical_definition	Mean (equilibrium) pressure P0	fluids	reviewed	foundation	-
+mean_density	physical_definition	Mean (equilibrium) density rho0	fluids	reviewed	foundation	-
+mean_temperature	physical_definition	Mean (equilibrium) temperature T0	fluids	reviewed	foundation	-
+inviscid_fluid	assumption	Inviscid fluid	fluids	reviewed	foundation	viscosity neglected
+continuum_fluid	assumption	Continuum fluid	fluids	reviewed	foundation	fluid treated as continuously distributed
+small_amplitude	assumption	Small-amplitude (linear) acoustic approximation	acoustics	reviewed	foundation	|p'| << P0 ; |rho'| << rho0
+time_harmonic	assumption	Time-harmonic (single-frequency) regime	acoustics	reviewed	foundation	steady-state at one angular frequency omega
+acoustic_pressure_perturbation	physical_definition	Acoustic pressure perturbation p'	acoustics	reviewed	core	p' = P - P0
+acoustic_density_perturbation	physical_definition	Acoustic density perturbation rho'	acoustics	reviewed	core	rho' = rho - rho0
+particle_velocity	physical_definition	Acoustic particle velocity u	acoustics	reviewed	core	u(x,t), fluid-element velocity due to the wave
+linearized_continuity_equation	derived_formula	Linearized continuity equation	acoustics	reviewed	core	d(rho')/dt + rho0 (du/dx) = 0
+linearized_euler_equation	derived_formula	Linearized Euler's equation	acoustics	reviewed	core	rho0 (du/dt) = -d(p')/dx
+adiabatic_bulk_modulus	physical_definition	Adiabatic bulk modulus B_s	acoustics	reviewed	core	B_s = rho0 (dP/drho)_s
+speed_of_sound_general	derived_formula	Speed of sound (general thermodynamic form)	acoustics	reviewed	headline	c^2 = (dP/drho)_s = B_s / rho0
+speed_of_sound_ideal_gas	derived_formula	Speed of sound in an ideal gas	acoustics	reviewed	headline	c = sqrt(gamma R T0 / M)
+acoustic_wave_equation_1d	derived_formula	Linear acoustic wave equation (1-D)	acoustics	reviewed	headline	d^2(p')/dt^2 = c^2 d^2(p')/dx^2
+acoustic_wave_equation_3d	derived_formula	Linear acoustic wave equation (3-D)	acoustics	reviewed	core	d^2(p')/dt^2 = c^2 laplacian(p')
+plane_wave_solution	derived_formula	Plane-wave solution	acoustics	reviewed	core	p'(x,t) = A cos(kx - omega t + phi)
+dispersion_relation	identity	Dispersion relation	acoustics	reviewed	headline	omega = c k
+wavelength_frequency_relation	identity	Wavelength-frequency relation	acoustics	reviewed	core	lambda = c / f
+specific_acoustic_impedance	physical_definition	Specific acoustic impedance z	acoustics	reviewed	core	z = p' / u
+characteristic_impedance	physical_definition	Characteristic impedance z0	acoustics	reviewed	core	z0 = rho0 c
+plane_wave_pressure_velocity_relation	derived_formula	Plane-wave pressure-velocity relation	acoustics	reviewed	headline	p' = rho0 c u
+acoustic_intensity	physical_definition	Acoustic intensity I	acoustics	reviewed	core	I = time-average of p' u
+intensity_plane_wave	derived_formula	Intensity of a plane wave	acoustics	reviewed	core	I = p_rms^2 / (rho0 c)
+inverse_square_law	derived_formula	Inverse-square law (point source)	acoustics	reviewed	core	I(r) = P / (4 pi r^2)
+decibel_spl	definition	Sound pressure level (decibels)	acoustics	reviewed	headline	L_p = 20 log10(p_rms / p_ref)
+superposition_principle	principle_law	Superposition of acoustic waves	acoustics	reviewed	foundation	the wave equation is linear ; solutions add
+interference	derived_formula	Interference of two waves	acoustics	reviewed	core	constructive at path-difference = n lambda ; destructive at (n+1/2) lambda
+standing_wave	derived_formula	Standing wave	acoustics	reviewed	core	sum of two equal counter-propagating waves ; fixed nodes and antinodes
+pipe_resonance_symmetric_boundary	derived_formula	Pipe resonance, symmetric boundaries	acoustics	reviewed	core	f_n = n c / (2L), n=1,2,3,... (open-open or closed-closed)
+pipe_resonance_mixed_boundary	derived_formula	Pipe resonance, mixed boundaries	acoustics	reviewed	core	f_n = (2n-1) c / (4L), n=1,2,3,... (one open, one closed end)
+reflection_coefficient_normal_incidence	derived_formula	Reflection coefficient, normal incidence	acoustics	reviewed	core	R = (z2 - z1) / (z2 + z1)
+transmission_coefficient_normal_incidence	derived_formula	Transmission coefficient, normal incidence	acoustics	reviewed	core	T = 2 z2 / (z2 + z1)
+doppler_moving_source	derived_formula	Doppler effect, moving source	acoustics	reviewed	core	f' = f c / (c -+ v_s), v_s << c
+doppler_moving_observer	derived_formula	Doppler effect, moving observer	acoustics	reviewed	core	f' = f (c +- v_o) / c, v_o << c
+doppler_general	derived_formula	Doppler effect, general (source and observer moving)	acoustics	reviewed	headline	f' = f (c +- v_o) / (c -+ v_s)

@@ -20,7 +20,7 @@ import sys
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[3]
 ATLAS_ROOT = pathlib.Path(__file__).resolve().parents[1]
 
-CAPSULES = ["physics-newtonian", "physics-thermodynamics", "physics-thermoacoustics"]
+CAPSULES = ["physics-newtonian", "physics-thermodynamics", "physics-thermoacoustics", "physics-acoustics"]
 
 
 def load_node_ids(capsule):

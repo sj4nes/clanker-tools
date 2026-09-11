@@ -1,0 +1,60 @@
+/* physics-acoustics -- bc instance checks
+   Run: bc -q -l validation/instance-checks.bc
+   Convention: scale set explicitly per block; bc truncates, does not round. */
+
+scale = 6
+
+"=== speed_of_sound_ideal_gas: dry air at 20C ===" ; ""
+/* c = sqrt(gam r_gas temp / molar_mass), gam=1.4, R=8.314 J/(mol K), T=293.15 K,
+   M=0.02896 kg/mol (dry air) */
+gam = 1.4
+r_gas = 8.314
+temp = 293.15
+molar_mass = 0.02896
+c = sqrt(gam * r_gas * temp / molar_mass)
+"speed of sound (should be close to the textbook 343 m/s):"; c
+
+"" ; "=== dispersion_relation: omega = c k ===" ; ""
+/* f=1000 Hz, c=343 m/s -> lambda = c/f, k = 2 pi / lambda, omega = 2 pi f */
+pi = 4*a(1)
+f = 1000
+c = 343
+lambda = c / f
+k = 2 * pi / lambda
+omega = 2 * pi * f
+"lambda (m):"; lambda
+"k (rad/m):"; k
+"omega (rad/s):"; omega
+"check omega - c*k (should be ~0):"; omega - c * k
+
+"" ; "=== decibel_spl: p_rms = 2 Pa (loud, near threshold of pain) ===" ; ""
+scale = 4
+p_rms = 2
+p_ref = 0.00002
+spl_db = 20 * (l(p_rms / p_ref) / l(10))
+"SPL (dB):"; spl_db
+
+"" ; "=== pipe_resonance: L=0.5m, c=343 m/s, open-open (symmetric) fundamental ===" ; ""
+pipe_len = 0.5
+c = 343
+f1_symmetric = c / (2 * pipe_len)
+"fundamental (open-open or closed-closed):"; f1_symmetric
+f1_mixed = c / (4 * pipe_len)
+"fundamental (one open, one closed):"; f1_mixed
+
+"" ; "=== doppler_general: ambulance approaching then receding, v_s=30 m/s, f=700 Hz, c=343 ===" ; ""
+scale = 2
+f = 700
+c = 343
+vs = 30
+f_approaching = f * c / (c - vs)
+f_receding = f * c / (c + vs)
+"frequency heard while approaching (Hz):"; f_approaching
+"frequency heard while receding (Hz):"; f_receding
+
+"" ; "=== reflection_coefficient: air-water interface, z_air approx 415, z_water approx 1.48e6 ===" ; ""
+scale = 6
+z1 = 415
+z2 = 1480000
+r_refl = (z2 - z1) / (z2 + z1)
+"reflection coefficient (should be close to 1 -- water is much harder than air):"; r_refl

@@ -38,6 +38,16 @@ capsules — organised by domain, low confidence, no commitments — see
       `physics-thermoacoustics:specific_heat_cv` crosses two capsule
       boundaries down to 5 `physics-newtonian` primitives. Combined graph
       (3 capsules + bridge): 239 nodes, 634 edges, `tsort`-clean, acyclic.
+- [x] **physics-formula-atlas:** extended same-day (2026-09-11) to cover the
+      new `physics-acoustics` capsule (see below): 11 new edges discharging
+      all 7 of `physics-acoustics`'s roots against `physics-newtonian`/
+      `physics-thermodynamics`, plus 2 more retrofitting
+      `physics-thermoacoustics`'s previously-undischarged `small_amplitude`/
+      `time_harmonic` roots against `physics-acoustics`. 28 cross-capsule
+      edges total; combined graph now 289 nodes, 732 edges, `tsort`-clean.
+      `physics-thermoacoustics` discharge rate up from 10/25 to 12/25 (13
+      remaining are genuine fluid-mechanics gaps — no capsule in the stack
+      develops viscosity/laminar flow — not missed discharges).
 - [ ] **physics-formula-atlas:** Release 0.2 — extend to
       `chemistry-foundations` and `chemistry-electrochemistry` (both already
       claim `physics-thermodynamics` as background in prose; roughly doubles
@@ -46,6 +56,35 @@ capsules — organised by domain, low confidence, no commitments — see
       `derivative`/`integral` math primitives against `math-real-analysis`
       (flagged in `validation/duplicate-primitives.md`'s "Known limitation"
       — mirrors what the `math-*` capsule stack already does internally).
+
+### physics-acoustics  (new capsule — Release 0.1 COMPLETE, 2026-09-11)
+
+- [x] **physics-acoustics:** Release 0.1 built 2026-09-11. Linear
+      (small-signal) acoustics in fluids — the floor `physics-thermoacoustics`
+      assumed in prose but had no real capsule for (its `small_amplitude`/
+      `time_harmonic` roots were undischarged, per `physics-formula-atlas`'s
+      audit). 50 nodes (18 roots/local-floor copies, 32 native), 85 `tsort`
+      edges, acyclic, 0 isolated, 7 genuine roots — **all 7 discharged
+      against `physics-newtonian`/`physics-thermodynamics` in the same
+      session** via `physics-formula-atlas` (built to discharge itself from
+      the start, unlike the two older physics capsules). Continuity +
+      linearized Euler + adiabatic bulk modulus → the linear acoustic wave
+      equation → plane waves, dispersion relation, impedance, intensity,
+      decibels → superposition, standing waves, pipe resonance →
+      reflection/transmission → the Doppler effect. `bc`-verified: speed of
+      sound in dry air (343.25 m/s), the dispersion relation, SPL at 2 Pa
+      (≈100 dB), pipe resonance (343 Hz / 171.5 Hz symmetric vs. mixed
+      boundary), Doppler shift (767/644 Hz), air-water reflection
+      coefficient (0.9994). No Lean cores this release (algebraic
+      derivations + `bc` instances, same proof-policy call `bayes-bridge`
+      made). Deliberately inviscid — viscosity/thermal dissipation stay
+      `physics-thermoacoustics`'s territory.
+- [ ] **physics-acoustics:** `physics-thermoacoustics`'s own registry still
+      carries its own local `small_amplitude`/`time_harmonic` copies rather
+      than citing this capsule directly (only the atlas-level edge exists).
+      A direct in-capsule citation would need editing
+      `physics-thermoacoustics` itself — tracked separately, not folded into
+      this release (see `physics-acoustics/README.md`'s "What's next").
 
 ### physics-thermodynamics
 
