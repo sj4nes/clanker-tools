@@ -58,3 +58,29 @@ z1 = 415
 z2 = 1480000
 r_refl = (z2 - z1) / (z2 + z1)
 "reflection coefficient (should be close to 1 -- water is much harder than air):"; r_refl
+
+"" ; "=== acoustic_reciprocity_theorem: power transmission is symmetric under swapping source/receiver side ===" ; ""
+/* power transmission coefficient tau = 1 - R^2, R = (z2-z1)/(z2+z1).
+   R^2 is unchanged by swapping z1 and z2 (the numerator just flips sign),
+   so tau(z1,z2) = tau(z2,z1) -- reciprocity, specialized to one boundary,
+   reusing the same air/water impedances as the reflection-coefficient check. */
+scale = 8
+z1 = 415
+z2 = 1480000
+r_12 = (z2 - z1) / (z2 + z1)
+r_21 = (z1 - z2) / (z1 + z2)
+tau_12 = 1 - r_12 * r_12
+tau_21 = 1 - r_21 * r_21
+"power transmission, air->water source side:"; tau_12
+"power transmission, water->air source side:"; tau_21
+"difference (should be exactly 0):"; tau_12 - tau_21
+
+"" ; "=== exponential_horn: cutoff frequency, flare constant m=2 per meter, c=343 m/s ===" ; ""
+/* k^2 = (omega/c)^2 - m^2 ; propagates only for omega > m*c ; f_c = m*c/(2 pi) */
+scale = 4
+pi = 4*a(1)
+m_flare = 2
+c = 343
+f_cutoff = m_flare * c / (2 * pi)
+"cutoff frequency (Hz):"; f_cutoff
+"(below this, the horn attenuates instead of radiating -- a horn is a high-pass filter)"

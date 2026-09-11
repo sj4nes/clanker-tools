@@ -21,6 +21,11 @@ interactive walk):
 - [`tutorial/designing-an-organ-pipe.md`](tutorial/designing-an-organ-pipe.md)
   — continuity + Euler → the wave equation → the dispersion relation →
   pipe resonance; capstone designs a pipe length for concert A (440 Hz).
+- [`tutorial/horns-and-reciprocity.md`](tutorial/horns-and-reciprocity.md)
+  — acoustic reciprocity, the Webster horn equation, and an exponential
+  horn's cutoff frequency; capstone compares two flare rates' bass
+  extension. Answers "are a megaphone and a long-range microphone
+  symmetric devices?"
 
 ## Quick start
 

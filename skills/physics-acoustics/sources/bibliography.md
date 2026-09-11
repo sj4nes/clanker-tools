@@ -8,3 +8,5 @@
   derivation of the speed of sound and the linearized fluid equations.
 - [morse_ingard] Morse & Ingard, *Theoretical Acoustics* — the Doppler
   effect and standing-wave/normal-mode treatment.
+- [olson_acoustics] Olson, H.F., *Acoustical Engineering* — horn
+  loudspeaker design practice, the Webster horn equation applied.

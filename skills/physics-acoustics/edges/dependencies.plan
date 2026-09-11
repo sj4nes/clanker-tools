@@ -150,3 +150,24 @@ wavelength_frequency_relation doppler_moving_source
 wavelength_frequency_relation doppler_moving_observer
 doppler_moving_source doppler_general
 doppler_moving_observer doppler_general
+
+# --- Acoustic reciprocity: a structural consequence of the wave equation
+#     being linear (superposition_principle) and of the same operator
+#     governing propagation in either direction (acoustic_wave_equation_3d) --
+#     needs both to state correctly. ---
+acoustic_wave_equation_3d acoustic_reciprocity_theorem
+superposition_principle acoustic_reciprocity_theorem
+
+# --- Webster's horn equation: the 1-D wave equation generalized to a
+#     duct of slowly-varying cross-section S(x); needs the plain 1-D wave
+#     equation as the S=const special case, and a function S(x) to vary. ---
+acoustic_wave_equation_1d webster_horn_equation
+function webster_horn_equation
+partial_derivative webster_horn_equation
+
+# --- The exponential horn: the one closed-form solution of Webster's
+#     equation used in practice, whose plane-wave-like ansatz gives a
+#     dispersion relation with a cutoff -- needs the horn equation itself
+#     and the plane dispersion relation this generalizes. ---
+webster_horn_equation exponential_horn
+dispersion_relation exponential_horn

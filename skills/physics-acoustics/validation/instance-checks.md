@@ -41,6 +41,27 @@ energy reflects at an air-water interface, the reason sonar and
 ultrasound need coupling gel/water immersion rather than working through
 air.
 
+## acoustic_reciprocity_theorem
+Specialized to one impedance boundary (reusing the reflection check's
+air-water values): the power transmission coefficient `tau = 1 - R^2` is
+computed once with air as the "source side" (`z1=415, z2=1.48e6`) and once
+with water as the "source side" (`z1` and `z2` swapped). Both give
+`tau ≈ 0.00112101`; the difference is exactly `0` — because `R` only flips
+sign under the swap, and `R^2` doesn't care about sign. This is the general
+reciprocity theorem's structural content (source and receiver are
+interchangeable) demonstrated on the one case already in the capsule,
+not a full proof of the general theorem.
+
+## exponential_horn
+Flare constant `m = 2 /m`, `c = 343 m/s`: cutoff frequency
+`f_c = m c / (2π) ≈ 109.19 Hz`. Below this frequency the horn's dispersion
+relation (`k² = (ω/c)² − m²`) gives an imaginary wavenumber — the wave
+decays exponentially instead of propagating, so the horn acts as a
+high-pass filter. `109 Hz` is a realistic bass-horn cutoff (real horn
+loudspeakers typically cut off somewhere in the 40–150 Hz range depending
+on flare rate), a sanity check on the formula, not a claim about any
+specific real device.
+
 ## Status
 `bc` 7.0.3 (GNU), `-q -l`, scale set explicitly per block. Ran clean, no
 errors.

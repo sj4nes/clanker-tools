@@ -49,3 +49,6 @@ transmission_coefficient_normal_incidence	derived_formula	Transmission coefficie
 doppler_moving_source	derived_formula	Doppler effect, moving source	acoustics	reviewed	core	f' = f c / (c -+ v_s), v_s << c
 doppler_moving_observer	derived_formula	Doppler effect, moving observer	acoustics	reviewed	core	f' = f (c +- v_o) / c, v_o << c
 doppler_general	derived_formula	Doppler effect, general (source and observer moving)	acoustics	reviewed	headline	f' = f (c +- v_o) / (c -+ v_s)
+acoustic_reciprocity_theorem	principle_law	Acoustic reciprocity theorem	acoustics	reviewed	headline	source and receiver may be interchanged without changing the transfer function, in any linear passive acoustic system
+webster_horn_equation	derived_formula	Webster horn equation	acoustics	reviewed	core	d/dx(S dp'/dx) + (omega/c)^2 S p' = 0, for cross-section S(x)
+exponential_horn	derived_formula	Exponential horn cutoff frequency	acoustics	reviewed	headline	S(x) = S0 e^(2mx) ; propagates only above f_c = m c / (2 pi)

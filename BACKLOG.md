@@ -99,6 +99,23 @@ capsules — organised by domain, low confidence, no commitments — see
       A direct in-capsule citation would need editing
       `physics-thermoacoustics` itself — tracked separately, not folded into
       this release (see `physics-acoustics/README.md`'s "What's next").
+- [x] **physics-acoustics:** reciprocity + horn-equation addition,
+      2026-09-11, answering "are a megaphone and a long-range microphone
+      symmetric devices?" with real capsule content. New nodes:
+      `acoustic_reciprocity_theorem`, `webster_horn_equation`,
+      `exponential_horn` (53 nodes total now, up from 50; 92 edges, still
+      acyclic, 0 isolated, still 7 roots — no new roots introduced).
+      `bc`-verified: the power transmission coefficient across the
+      capsule's air/water boundary is exactly symmetric under swapping
+      source/receiver side (reciprocity's specialization); an exponential
+      horn with flare constant `m=2/m` has cutoff frequency ≈109 Hz, a
+      realistic bass-horn figure. Third tutorial:
+      `tutorial/horns-and-reciprocity.md`, verified the same way as the
+      first two (`upmd --ci --all` exits 0 on all 4 blocks, capstone and a
+      mid-chain check run standalone). Explicitly does **not** cover
+      parabolic-dish directivity — a genuinely different diffraction-limited
+      mechanism, noted as excluded in `scope.md` rather than conflated with
+      the horn case.
 
 ### physics-thermodynamics
 

@@ -40,6 +40,15 @@ with no upstream capsule to discharge them against.
   mismatch (reflection/transmission coefficients).
 - The **Doppler effect** (moving source, moving observer, both — non-
   relativistic, source/observer speed `<< c`).
+- **Acoustic reciprocity** (source and receiver interchangeable in any
+  linear passive system) and the **Webster horn equation** with its
+  closed-form **exponential-horn** solution and cutoff frequency — added
+  2026-09-11 to answer "are a megaphone and a long-range/parabolic
+  microphone symmetric devices" honestly: reciprocity says yes in the
+  linear-transfer-function sense; the horn equation is the mechanism for
+  *why a horn helps* (impedance-matching a small diaphragm to open air),
+  distinct from a parabolic dish's mechanism (geometric focusing —
+  **not** added here, see Excluded).
 
 ## Excluded (out of scope for 0.1)
 
@@ -62,7 +71,12 @@ with no upstream capsule to discharge them against.
   these out; noted at every node that depends on it.
 - **3-D scattering, diffraction, and room acoustics** (reverberation time,
   modal density in irregular enclosures) beyond the 1-D pipe resonance
-  case needed for standing waves.
+  case needed for standing waves. This is also why **parabolic-reflector
+  directivity** (the mechanism behind a long-range "shotgun"/dish
+  microphone) stays out even after the 2026-09-11 addition above: it is a
+  diffraction-limited, aperture-vs-wavelength problem, genuinely different
+  physics from the horn's impedance-matching mechanism, and would need a
+  real treatment of diffraction this capsule deliberately doesn't cover.
 - **Electroacoustic transduction** (microphones, loudspeakers,
   piezoelectric transducers) and **psychoacoustics** (loudness, pitch
   perception, equal-loudness contours) — engineering/perceptual layers on

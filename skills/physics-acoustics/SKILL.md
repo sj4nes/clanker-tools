@@ -18,7 +18,17 @@ Continuity + linearized Euler + the adiabatic bulk modulus → the linear
 acoustic wave equation → plane-wave solutions and the dispersion relation
 → impedance, intensity, the decibel scale → superposition, standing waves,
 pipe resonance → reflection/transmission at an impedance mismatch → the
-Doppler effect. 50 nodes, 85 `tsort` edges, acyclic, 7 genuine roots.
+Doppler effect → acoustic reciprocity and the Webster horn equation
+(2026-09-11 addition — see below). 53 nodes, 92 `tsort` edges, acyclic, 7
+genuine roots.
+
+**2026-09-11 addition:** `acoustic_reciprocity_theorem`,
+`webster_horn_equation`, `exponential_horn` — answering "are a megaphone
+and a long-range microphone symmetric devices?" with real capsule content
+instead of an unbacked claim. Short version: **yes** in the linear-transfer-
+function sense (reciprocity), but they work by different mechanisms — a
+horn impedance-matches (this addition), a parabolic dish geometrically
+focuses (still out of scope — a diffraction problem, see `scope.md`).
 
 Explicitly **inviscid** — viscosity and thermal dissipation are
 `physics-thermoacoustics`'s territory, kept out here so the two capsules
@@ -46,13 +56,13 @@ python3 ../physics-formula-atlas/build/prereq-path.py physics-acoustics:acoustic
 
 ```sh
 sh build/all.sh                        # graph -> tsort -> bc
-sh build/build-tree.sh                 # 50 nodes, 85 edges, acyclic, 7 roots
+sh build/build-tree.sh                 # 53 nodes, 92 edges, acyclic, 7 roots
 bc -q -l validation/instance-checks.bc  # speed of sound, dispersion, SPL, pipe resonance, Doppler, reflection
 ```
 
 ## Release 0.1 at a glance
 
-50 nodes (18 roots/local-floor copies, 32 native acoustics content), 85
+53 nodes (18 roots/local-floor copies, 35 native acoustics content), 92
 `tsort` edges, acyclic, 0 isolated, 7 genuine capsule-local roots (all 7
 discharged against `physics-newtonian`/`physics-thermodynamics` — see
 above). No Lean cores this release — proofs are algebraic derivations
@@ -74,12 +84,20 @@ standalone `-b capstone` run:
   → `pipe_resonance_symmetric_boundary` /
   `pipe_resonance_mixed_boundary`; capstone: solve for the pipe length
   that plays concert A (440 Hz), both boundary types.
+- [`tutorial/horns-and-reciprocity.md`](tutorial/horns-and-reciprocity.md)
+  — "are a megaphone and a long-range microphone the same thing?" —
+  `acoustic_reciprocity_theorem` (verified on the air/water boundary: power
+  transmission is exactly symmetric under swapping source/receiver side) →
+  `webster_horn_equation` → `exponential_horn`'s cutoff frequency;
+  capstone: how much lower a horn's bass cutoff gets for a given flare
+  rate. Explicitly distinguishes a horn's impedance-matching mechanism
+  from a parabolic dish's (out-of-scope) diffraction-limited focusing.
 
 ## Method verification (Release 0.1)
 
 | Stage | Tool | Result |
 |---|---|---|
-| graph + sort | GNU `tsort` | 50 nodes, 85 edges, **acyclic**; every edge respected; 0 isolated, 7 roots |
+| graph + sort | GNU `tsort` | 53 nodes, 92 edges, **acyclic**; every edge respected; 0 isolated, 7 roots |
 | instances | GNU `bc` 7.0.3 | clean run: speed of sound in dry air (343.25 m/s), the dispersion relation, SPL at 2 Pa (≈100 dB), pipe resonance (343 Hz / 171.5 Hz), Doppler shift (767/644 Hz), air-water reflection coefficient (0.9994) — `validation/instance-checks.md` |
 | cross-capsule discharge | `physics-formula-atlas` | all 7 roots + 2 non-root duplicates discharged; combined atlas graph 289 nodes / 730 edges, `tsort`-clean |
 

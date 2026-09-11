@@ -31,13 +31,16 @@ speed_of_sound_ideal_gas
 decibel_spl
 characteristic_impedance
 acoustic_wave_equation_1d
+webster_horn_equation
 superposition_principle
 plane_wave_solution
 acoustic_wave_equation_3d
+acoustic_reciprocity_theorem
 standing_wave
 interference
 plane_wave_pressure_velocity_relation
 dispersion_relation
+exponential_horn
 reflection_coefficient_normal_incidence
 intensity_plane_wave
 wavelength_frequency_relation
