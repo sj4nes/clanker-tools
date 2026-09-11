@@ -1,9 +1,9 @@
 id	type	title	area	status	role	primary_statement
-proposition_logic	primitive	Propositional logic	logic	active	foundation	connectives and truth-functional reasoning
-predicate_logic	primitive	Predicate logic	logic	active	foundation	quantifiers over a domain, bound variables
-quantifier_negation	principle_law	Negation of quantifiers	logic	reviewed	core	not forall x P(x) iff exists x not P(x) ; not exists iff forall not
-quantifier_order	notation_convention	Quantifier order	logic	reviewed	foundation	forall x exists y is weaker than exists y forall x
-proof_methods	principle_law	Proof by contradiction, contrapositive, cases	logic	reviewed	foundation	classical proof strategies
+proposition_logic	primitive	Propositional logic	logic	reviewed	foundation	connectives and truth-functional reasoning; discharged by math-logic-and-proof (nd_rules_propositional, derivability, soundness_prop, post_completeness_theorem)
+predicate_logic	primitive	Predicate logic	logic	reviewed	foundation	quantifiers over a domain, bound variables; discharged by math-logic-and-proof (quantifier_syntax, nd_rules_quantifier, tarski_satisfaction, godel_completeness_theorem)
+quantifier_negation	principle_law	Negation of quantifiers	logic	reviewed	core	not forall x P(x) iff exists x not P(x) ; not exists iff forall not; discharged by math-logic-and-proof (quantifier_negation)
+quantifier_order	notation_convention	Quantifier order	logic	reviewed	foundation	forall x exists y is weaker than exists y forall x; discharged by math-logic-and-proof (quantifier_order)
+proof_methods	principle_law	Proof by contradiction, contrapositive, cases	logic	reviewed	foundation	classical proof strategies; discharged by math-logic-and-proof (proof_methods area, 14 nodes)
 axiom_extensionality	axiom	Axiom of extensionality	axioms	active	foundation	sets with the same elements are equal
 axiom_empty_set	axiom	Axiom of the empty set	axioms	active	foundation	there is a set with no elements
 axiom_pairing	axiom	Axiom of pairing	axioms	active	foundation	for any a,b the set {a,b} exists

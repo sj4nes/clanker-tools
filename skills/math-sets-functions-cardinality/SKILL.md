@@ -36,8 +36,9 @@ capsule takes on faith (`set`, `function`, `quotient_set`, `axiom_of_choice`,
 ## Scope
 
 **Read [`scope.md`](scope.md) first.** In brief: propositional and predicate
-logic as a cited **floor** (not developed — that is a future
-`math-logic-and-proof`); the nine ZF axioms + Choice, with `countable_choice`
+logic as a **floor**, used not developed here, and as of Release 0.2
+**discharged** by [`math-logic-and-proof`](../math-logic-and-proof/SKILL.md)
+(see `edges/cross-capsule.md`); the nine ZF axioms + Choice, with `countable_choice`
 and `dependent_choice`; subset / power set / arbitrary union & intersection /
 De Morgan / products; relations; equivalence relations, quotients, and
 **well-definedness on a quotient**; injection / surjection / bijection, image

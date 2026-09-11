@@ -16,7 +16,7 @@ through Cantor's theorem, Cantor–Schröder–Bernstein, and the arithmetic of
 
 ## Included
 
-- **Logic floor** (cited to a future `math-logic-and-proof`): propositional and
+- **Logic floor** (discharged by [`math-logic-and-proof`](../math-logic-and-proof/SKILL.md) — see `edges/cross-capsule.md`): propositional and
   predicate logic; **quantifier negation** (`¬∀ ↔ ∃¬`, `¬∃ ↔ ∀¬`) — the engine
   of every counterexample; quantifier order (`∀∃` vs `∃∀`); proof by
   contradiction, contrapositive, and cases.
@@ -61,7 +61,8 @@ through Cantor's theorem, Cantor–Schröder–Bernstein, and the arithmetic of
 
 - **Formal logic and metamathematics**: proof systems, completeness /
   incompleteness, model theory, the arithmetization of syntax. The logic floor
-  is used, not developed — that is `math-logic-and-proof`.
+  is used, not developed — that is `math-logic-and-proof`, which now
+  discharges it (Release 0.2; see `edges/cross-capsule.md`).
 - **The independence proofs**: Gödel's constructible universe `L`, forcing, the
   consistency of `¬CH` / `¬AC`. CH's independence is **stated and cited**, never
   proved.

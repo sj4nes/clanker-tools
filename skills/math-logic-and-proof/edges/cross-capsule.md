@@ -15,12 +15,19 @@ develops. Recorded here; linearised in neither.
 
 ## Discharge status
 
-- **Upward (this → set capsule).** `math-sets-functions-cardinality` Release 0.1
-  lists `proposition_logic`, `predicate_logic`, `quantifier_negation`,
-  `quantifier_order`, `proof_methods` as primitives "cited to a future
-  `math-logic-and-proof`". This capsule supplies them. A Release 0.2 of the set
-  capsule can replace those five primitive nodes with `requires` edges into the
-  nodes named above.
+- **Upward (this → set capsule) — done, Release 0.2.**
+  `math-sets-functions-cardinality` Release 0.1 listed `proposition_logic`,
+  `predicate_logic`, `quantifier_negation`, `quantifier_order`, `proof_methods`
+  as primitives "cited to a future `math-logic-and-proof`". Its Release 0.2
+  records the discharge in its own
+  [`edges/cross-capsule.md`](../math-sets-functions-cardinality/edges/cross-capsule.md)
+  and promotes `proposition_logic`/`predicate_logic` `active` → `reviewed`.
+  **No `tsort` edge was added** — the two capsules' primitives are mutually
+  grounding (this capsule's `naive_collection` is grounded by the set
+  capsule's ZFC axioms, downward, below), so a `requires` edge either way would
+  misencode a genuine foundational circularity as a false acyclic dependency.
+  The discharge is a documented metadata link, consistent with this file's own
+  rule that neither `tsort` graph contains the loop.
 - **Downward (set capsule → this).** `naive_collection` stays primitive here.
   Every semantic node (`structure`, `assignment`, `tarski_satisfaction`,
   `model`, `soundness_*`, Henkin, `godel_completeness_theorem`,

@@ -326,11 +326,17 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 
 ### math-sets-functions-cardinality
 
-- [ ] **math-sets-functions-cardinality:** Release 0.2 — replace its five logic
-      primitives (`proposition_logic`, `predicate_logic`, `quantifier_negation`,
-      `quantifier_order`, `proof_methods`) with `requires` edges into the
-      corresponding developed nodes in `math-logic-and-proof`.  (cross-capsule; see
-      `math-logic-and-proof/edges/cross-capsule.md`)
+- [x] **math-sets-functions-cardinality:** Release 0.2 — done 2026-09-11.
+      Discharged its five logic primitives (`proposition_logic`,
+      `predicate_logic`, `quantifier_negation`, `quantifier_order`,
+      `proof_methods`) against the corresponding developed nodes in
+      `math-logic-and-proof`. No `tsort`/`requires` edge added: the two
+      capsules' foundations are mutually grounding (this capsule assumes logic
+      to state ZFC; `math-logic-and-proof` assumes naive set talk for its
+      semantics), so the discharge is recorded as metadata in
+      `math-sets-functions-cardinality/edges/cross-capsule.md` (mirrored in
+      `math-logic-and-proof/edges/cross-capsule.md`), not as a graph edge.
+      `proposition_logic`/`predicate_logic` promoted `active` → `reviewed`.
 
 ## Analysis & inference methodology
 

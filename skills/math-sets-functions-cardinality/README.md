@@ -43,3 +43,16 @@ well-ordering, comparability). `continuum_hypothesis` is `independent_of_ZFC`.
 
 It also supplies **`preimage_algebra`** — the node `math-real-analysis`'s
 continuity and compactness proofs actually stand on.
+
+## Release 0.2 — logic floor discharged
+
+`proposition_logic`, `predicate_logic`, `quantifier_negation`,
+`quantifier_order`, `proof_methods` were Release 0.1 primitives "cited to a
+future `math-logic-and-proof`". That capsule now exists and develops them; see
+[`edges/cross-capsule.md`](edges/cross-capsule.md) for the discharge table.
+They stay `primitive` in this capsule's own `tsort` graph — the two capsules'
+foundations are mutually grounding (this capsule assumes logic to state ZFC;
+that capsule assumes naive set talk to state its semantics), so the discharge
+is recorded as metadata, not a `tsort` edge, exactly as `math-logic-and-proof`
+already documents from its side. `proposition_logic` and `predicate_logic`
+promoted `active` → `reviewed`.

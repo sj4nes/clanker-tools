@@ -1,8 +1,8 @@
 # Result index by node type (generated)
 
 ## primitive
-- **proposition_logic** (logic) — connectives and truth-functional reasoning
-- **predicate_logic** (logic) — quantifiers over a domain, bound variables
+- **proposition_logic** (logic) — connectives and truth-functional reasoning; discharged by math-logic-and-proof (nd_rules_propositional, derivability, soundness_prop, post_completeness_theorem)
+- **predicate_logic** (logic) — quantifiers over a domain, bound variables; discharged by math-logic-and-proof (quantifier_syntax, nd_rules_quantifier, tarski_satisfaction, godel_completeness_theorem)
 - **set** (sets) — an element of a model of ZFC
 
 ## axiom
@@ -24,11 +24,11 @@
 - **zfc** (axioms) — ZF plus the axiom of choice
 
 ## notation_convention
-- **quantifier_order** (logic) — forall x exists y is weaker than exists y forall x
+- **quantifier_order** (logic) — forall x exists y is weaker than exists y forall x; discharged by math-logic-and-proof (quantifier_order)
 
 ## principle_law
-- **quantifier_negation** (logic) — not forall x P(x) iff exists x not P(x) ; not exists iff forall not
-- **proof_methods** (logic) — classical proof strategies
+- **quantifier_negation** (logic) — not forall x P(x) iff exists x not P(x) ; not exists iff forall not; discharged by math-logic-and-proof (quantifier_negation)
+- **proof_methods** (logic) — classical proof strategies; discharged by math-logic-and-proof (proof_methods area, 14 nodes)
 - **well_defined_on_quotient** (equivalence) — [x] -> f(x) is a function iff x~x' implies f(x)=f(x')
 
 ## definition
