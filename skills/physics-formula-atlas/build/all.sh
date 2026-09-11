@@ -20,4 +20,15 @@ echo "-- physics-acoustics:acoustic_wave_equation_1d (crosses into newtonian AND
 python3 build/prereq-path.py physics-acoustics:acoustic_wave_equation_1d --roots-only
 
 echo ""
+echo "== capsule map (graphviz) =="
+mkdir -p indexes
+python3 build/gen-capsule-map.py > indexes/capsule-map.dot
+if command -v dot >/dev/null 2>&1; then
+  dot -Tsvg indexes/capsule-map.dot -o indexes/capsule-map.svg
+  echo "capsule-map: ok (indexes/capsule-map.{dot,svg})"
+else
+  echo "capsule-map: dot not found, wrote indexes/capsule-map.dot only (install graphviz to render)"
+fi
+
+echo ""
 echo "ALL OK"

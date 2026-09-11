@@ -13,6 +13,14 @@ assumptions, and conventions.
 
 Read [`SKILL.md`](SKILL.md) then [`scope.md`](scope.md).
 
+## Capsule map
+
+[`indexes/capsule-map.svg`](indexes/capsule-map.svg) — a minimal graphviz
+map: not all 289 combined-graph nodes, just the 44 that carry the 28
+cross-capsule discharge edges, clustered by capsule. Regenerate with
+`python3 build/gen-capsule-map.py > indexes/capsule-map.dot && dot -Tsvg indexes/capsule-map.dot -o indexes/capsule-map.svg`
+(also runs as part of `build/all.sh`).
+
 ## Quick start
 
 ```sh

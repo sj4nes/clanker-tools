@@ -1,0 +1,95 @@
+digraph physics_formula_atlas {
+  rankdir=LR;
+  fontname="Helvetica"; node [fontname="Helvetica", fontsize=11, shape=box, style="rounded,filled"];
+  edge [fontname="Helvetica", fontsize=9, color="#555555"];
+  labelloc="t"; label="physics-formula-atlas -- cross-capsule discharge map (28 edges, the nodes that carry them)";
+
+  subgraph "cluster_physics_newtonian" {
+    label="physics-newtonian"; style=filled; fillcolor="#f8fafc"; color="#94a3b8";
+    "physics_newtonian__SI_units" [label="SI_units", fillcolor="#dbeafe"];
+    "physics_newtonian__length" [label="length", fillcolor="#dbeafe"];
+    "physics_newtonian__mass" [label="mass", fillcolor="#dbeafe"];
+    "physics_newtonian__newton_second_law" [label="newton_second_law", fillcolor="#dbeafe"];
+    "physics_newtonian__real_numbers" [label="real_numbers", fillcolor="#dbeafe"];
+    "physics_newtonian__time" [label="time", fillcolor="#dbeafe"];
+  }
+
+  subgraph "cluster_physics_thermodynamics" {
+    label="physics-thermodynamics"; style=filled; fillcolor="#f8fafc"; color="#94a3b8";
+    "physics_thermodynamics__SI_units" [label="SI_units", fillcolor="#fef3c7"];
+    "physics_thermodynamics__first_law_thermodynamics" [label="first_law_thermodynamics", fillcolor="#fef3c7"];
+    "physics_thermodynamics__gas_constant" [label="gas_constant", fillcolor="#fef3c7"];
+    "physics_thermodynamics__heat_capacity_cp" [label="heat_capacity_cp", fillcolor="#fef3c7"];
+    "physics_thermodynamics__heat_capacity_cv" [label="heat_capacity_cv", fillcolor="#fef3c7"];
+    "physics_thermodynamics__heat_capacity_ratio" [label="heat_capacity_ratio", fillcolor="#fef3c7"];
+    "physics_thermodynamics__ideal_gas_law" [label="ideal_gas_law", fillcolor="#fef3c7"];
+    "physics_thermodynamics__length" [label="length", fillcolor="#fef3c7"];
+    "physics_thermodynamics__mass" [label="mass", fillcolor="#fef3c7"];
+    "physics_thermodynamics__pressure" [label="pressure", fillcolor="#fef3c7"];
+    "physics_thermodynamics__real_numbers" [label="real_numbers", fillcolor="#fef3c7"];
+    "physics_thermodynamics__temperature" [label="temperature", fillcolor="#fef3c7"];
+    "physics_thermodynamics__time" [label="time", fillcolor="#fef3c7"];
+  }
+
+  subgraph "cluster_physics_thermoacoustics" {
+    label="physics-thermoacoustics"; style=filled; fillcolor="#f8fafc"; color="#94a3b8";
+    "physics_thermoacoustics__SI_units" [label="SI_units", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__first_law_thermodynamics" [label="first_law_thermodynamics", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__gas_constant_specific" [label="gas_constant_specific", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__ideal_gas" [label="ideal_gas", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__mean_pressure" [label="mean_pressure", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__mean_temperature" [label="mean_temperature", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__real_numbers" [label="real_numbers", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__small_amplitude" [label="small_amplitude", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__specific_heat_cp" [label="specific_heat_cp", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__specific_heat_cv" [label="specific_heat_cv", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__time" [label="time", fillcolor="#fee2e2"];
+    "physics_thermoacoustics__time_harmonic" [label="time_harmonic", fillcolor="#fee2e2"];
+  }
+
+  subgraph "cluster_physics_acoustics" {
+    label="physics-acoustics"; style=filled; fillcolor="#f8fafc"; color="#94a3b8";
+    "physics_acoustics__SI_units" [label="SI_units", fillcolor="#dcfce7"];
+    "physics_acoustics__gas_constant" [label="gas_constant", fillcolor="#dcfce7"];
+    "physics_acoustics__heat_capacity_ratio" [label="heat_capacity_ratio", fillcolor="#dcfce7"];
+    "physics_acoustics__ideal_gas_law" [label="ideal_gas_law", fillcolor="#dcfce7"];
+    "physics_acoustics__length" [label="length", fillcolor="#dcfce7"];
+    "physics_acoustics__mass" [label="mass", fillcolor="#dcfce7"];
+    "physics_acoustics__mean_pressure" [label="mean_pressure", fillcolor="#dcfce7"];
+    "physics_acoustics__mean_temperature" [label="mean_temperature", fillcolor="#dcfce7"];
+    "physics_acoustics__newton_second_law" [label="newton_second_law", fillcolor="#dcfce7"];
+    "physics_acoustics__real_numbers" [label="real_numbers", fillcolor="#dcfce7"];
+    "physics_acoustics__small_amplitude" [label="small_amplitude", fillcolor="#dcfce7"];
+    "physics_acoustics__time" [label="time", fillcolor="#dcfce7"];
+    "physics_acoustics__time_harmonic" [label="time_harmonic", fillcolor="#dcfce7"];
+  }
+
+  "physics_newtonian__length" -> "physics_thermodynamics__length";
+  "physics_newtonian__mass" -> "physics_thermodynamics__mass";
+  "physics_newtonian__time" -> "physics_thermodynamics__time";
+  "physics_newtonian__real_numbers" -> "physics_thermodynamics__real_numbers";
+  "physics_newtonian__SI_units" -> "physics_thermodynamics__SI_units";
+  "physics_newtonian__real_numbers" -> "physics_thermoacoustics__real_numbers";
+  "physics_newtonian__SI_units" -> "physics_thermoacoustics__SI_units";
+  "physics_newtonian__time" -> "physics_thermoacoustics__time";
+  "physics_thermodynamics__ideal_gas_law" -> "physics_thermoacoustics__ideal_gas";
+  "physics_thermodynamics__gas_constant" -> "physics_thermoacoustics__gas_constant_specific";
+  "physics_thermodynamics__heat_capacity_cv" -> "physics_thermoacoustics__specific_heat_cv";
+  "physics_thermodynamics__heat_capacity_cp" -> "physics_thermoacoustics__specific_heat_cp";
+  "physics_thermodynamics__first_law_thermodynamics" -> "physics_thermoacoustics__first_law_thermodynamics";
+  "physics_thermodynamics__temperature" -> "physics_thermoacoustics__mean_temperature";
+  "physics_thermodynamics__pressure" -> "physics_thermoacoustics__mean_pressure";
+  "physics_newtonian__real_numbers" -> "physics_acoustics__real_numbers";
+  "physics_newtonian__length" -> "physics_acoustics__length";
+  "physics_newtonian__mass" -> "physics_acoustics__mass";
+  "physics_newtonian__time" -> "physics_acoustics__time";
+  "physics_newtonian__SI_units" -> "physics_acoustics__SI_units";
+  "physics_thermodynamics__gas_constant" -> "physics_acoustics__gas_constant";
+  "physics_thermodynamics__heat_capacity_ratio" -> "physics_acoustics__heat_capacity_ratio";
+  "physics_newtonian__newton_second_law" -> "physics_acoustics__newton_second_law";
+  "physics_thermodynamics__ideal_gas_law" -> "physics_acoustics__ideal_gas_law";
+  "physics_thermodynamics__pressure" -> "physics_acoustics__mean_pressure";
+  "physics_thermodynamics__temperature" -> "physics_acoustics__mean_temperature";
+  "physics_acoustics__small_amplitude" -> "physics_thermoacoustics__small_amplitude";
+  "physics_acoustics__time_harmonic" -> "physics_thermoacoustics__time_harmonic";
+}

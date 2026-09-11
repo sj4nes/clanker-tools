@@ -6,6 +6,9 @@ skills/*/build/*.txt
 skills/*/build/_*
 skills/*/build/*.out
 skills/*/build/*.edges
+skills/*/build/*.dot
+skills/*/build/*.svg
+skills/*/build/*.png
 skills/*/edges/dependencies.edges
 skills/*/edges/cross-capsule.edges
 skills/*/validation/tsort-errors.txt
