@@ -1,0 +1,32 @@
+id: bayes_bridge.posterior_prop_prior_times_likelihood
+node: posterior_prop_prior_times_likelihood
+status_label: proved_theorem
+display: 'pi(theta|x) is proportional to pi(theta) L(theta); the missing constant is the marginal likelihood.'
+parseable: 'pi(theta|x) = pi(theta) * L(theta) / integral(pi(theta) * L(theta) dtheta)'
+symbols:
+  theta: { meaning: parameter, type: 'per application' }
+  pi_theta: { meaning: prior density, type: 'nonnegative, integrates to 1' }
+  L_theta: { meaning: likelihood function at fixed data x, type: 'nonnegative real-valued function of theta' }
+type_check_status: well_formed
+hypotheses: [pi_times_L_integrable_in_theta]
+preconditions: [normalizer_finite_and_positive]
+dependencies: [bayes_theorem_cited, likelihood_function_cited, prior]
+proof:
+  technique: 'Bayes theorem, continuous-parameter form'
+  derives_from: bayes_theorem_cited
+  lean_status: stated
+  lean_ref: null
+uses_choice: false
+constructive: true
+solving_for: 'pi(theta|x) given pi(theta) and L(theta)'
+specialization_cases:
+  - 'discrete theta (finitely many models) reduces to bayes_theorem_cited exactly, and the integral becomes bayesian_model_comparisons sum over models'
+counterexamples_when_dropped:
+  integrability: 'an improper prior can still give a proper posterior in specific models (see conjugate_families Normal-Normal as tau0_sq -> infinity), but the marginal likelihood itself is then undefined up to an arbitrary constant'
+common_misuse:
+  - 'treating pi(theta)*L(theta) as already a density before dividing by the marginal likelihood'
+sources: [gelman_bda3, casella_berger]
+status: reviewed
+checks:
+  type: validation/type-checks.md#posterior_prop_prior_times_likelihood
+  instances: validation/instance-checks.md#posterior_prop_prior_times_likelihood

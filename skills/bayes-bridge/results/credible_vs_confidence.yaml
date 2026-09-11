@@ -1,0 +1,39 @@
+id: bayes_bridge.credible_vs_confidence
+node: credible_vs_confidence
+status_label: proposition
+display: 'Under a flat prior, the 95% credible interval and confidence interval for a normal mean coincide numerically but differ in interpretation.'
+parseable: 'flat_prior(theta) => credible_interval(x, 0.95) = confidence_interval(x, 0.95) as sets, with different probability statements'
+symbols:
+  theta: { meaning: 'normal mean', type: real }
+  sigma_sq: { meaning: 'known variance', type: positive real }
+  xbar, n: { meaning: 'sample mean, sample size', type: 'real, positive integer' }
+type_check_status: well_formed
+hypotheses: [flat_improper_prior, known_variance]
+preconditions: [n_ge_1]
+dependencies: [credible_interval_cited, normal_mean_ci_known_variance_cited,
+               coverage_probability_cited, bernstein_von_mises_cited,
+               posterior_prop_prior_times_likelihood]
+proof:
+  technique: 'direct computation: flat prior + Normal likelihood gives posterior N(xbar, sigma_sq/n) by conjugate_families Normal-Normal at tau0_sq -> infinity; its central 95% region matches the z-interval termwise'
+  derives_from: posterior_prop_prior_times_likelihood
+  lean_status: not_attempted
+  lean_ref: null
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - instance: 'xbar=10, sigma=2, n=25'
+    credible_interval: '10 +- 1.96*2/5 = [9.216, 10.784]'
+    confidence_interval: '10 +- 1.96*2/5 = [9.216, 10.784]'
+    note: 'identical as sets under the flat prior; interpretations differ (see node page)'
+counterexamples_when_dropped:
+  flat_prior: 'an informative prior (finite tau0_sq) shifts and narrows the credible interval relative to the confidence interval -- see conjugate_families'
+common_misuse:
+  - 'reading a 95% confidence interval as a 95% posterior probability statement about theta'
+sources: [gelman_bda3, wasserman_all_of_statistics]
+status: reviewed
+checks:
+  type: validation/type-checks.md#credible_vs_confidence
+  instances: validation/instance-checks.md#credible_vs_confidence
+relations:
+  contrasts_with: normal_mean_ci_known_variance_cited

@@ -1,0 +1,34 @@
+id: bayes_bridge.bayesian_model_comparison
+node: bayesian_model_comparison
+status_label: proved_theorem
+display: 'Posterior odds = Bayes factor x prior odds.'
+parseable: 'P(M1|x)/P(M0|x) = [p(x|M1)/p(x|M0)] * [P(M1)/P(M0)]'
+symbols:
+  M0, M1: { meaning: two candidate models, type: 'measurable hypotheses over the same data x' }
+  BF_10: { meaning: Bayes factor, type: 'positive real, = p(x|M1)/p(x|M0)' }
+type_check_status: well_formed
+hypotheses: [proper_priors_on_each_model, models_assign_a_marginal_likelihood_to_x]
+preconditions: [marginal_likelihood_finite_and_nonzero_for_both_models]
+dependencies: [bayes_factor, prior, jeffreys_scale]
+proof:
+  technique: 'Bayes theorem applied to the discrete model-indicator random variable'
+  derives_from: bayes_theorem_cited
+  lean_status: not_attempted
+  lean_ref: null
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - 'equal prior odds (P(M1)=P(M0)) => posterior odds = Bayes factor exactly'
+counterexamples_when_dropped:
+  proper_priors: 'lindleys_paradox: a diffuse-enough proper prior on M1 already drives BF_10 toward M0 at data a same-alpha classical test rejects; an improper prior makes BF_10 undefined up to an arbitrary constant'
+common_misuse:
+  - 'reading BF_10 > 1 as "M1 is true" rather than as a graded evidence ratio'
+  - 'comparing Bayes factors across analyses that used different priors on the same model, as though BF were prior-independent'
+sources: [kass_raftery_1995, gelman_bda3]
+status: reviewed
+checks:
+  type: validation/type-checks.md#bayesian_model_comparison
+  instances: validation/instance-checks.md#bayesian_model_comparison
+relations:
+  contrasts_with: likelihood_ratio_test_cited

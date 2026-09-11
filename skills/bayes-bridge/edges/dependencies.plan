@@ -1,0 +1,73 @@
+# bayes-bridge Release 0.1 -- edges/dependencies.plan
+#
+# Every imported *_cited node is a `bridge` (cited, not redeveloped): it has
+# no in-edges here (its own prerequisites live in its source capsule's
+# graph). Native nodes edge into imported roots exactly where the statement
+# or proof actually needs them -- the edge test from the tsort skill.
+
+# --- prior: the pre-data belief a Bayesian update starts from; the
+#     definition mentions a distribution over the parameter, which is
+#     conceptually the same object math-probability formalizes for data --
+#     cite the distribution catalogue so "prior" is stated in the same
+#     vocabulary as "likelihood".
+prior	beta_distribution_cited
+prior	normal_distribution_cited
+prior	gamma_distribution_cited
+
+# --- posterior_prop_prior_times_likelihood: literally Bayes' theorem with
+#     the denominator (marginal likelihood) left as an unevaluated integral;
+#     needs prior and the likelihood function to be stated.
+bayes_theorem_cited	posterior_prop_prior_times_likelihood
+likelihood_function_cited	posterior_prop_prior_times_likelihood
+prior	posterior_prop_prior_times_likelihood
+
+# --- conjugate_families: the three worked instances (Beta-Bernoulli,
+#     Normal-Normal known variance, Gamma-Poisson) apply
+#     posterior_prop_prior_times_likelihood to each named prior/likelihood
+#     pair, and require conjugate_prior_cited for the closure property being
+#     exhibited, plus the four named distributions.
+posterior_prop_prior_times_likelihood	conjugate_families
+conjugate_prior_cited	conjugate_families
+bernoulli_distribution_cited	conjugate_families
+beta_distribution_cited	conjugate_families
+normal_distribution_cited	conjugate_families
+gamma_distribution_cited	conjugate_families
+poisson_distribution_cited	conjugate_families
+
+# --- conjugate_families also reports the posterior mean as the natural
+#     point estimate at each update -- needs the Bayes-estimator apparatus.
+bayes_estimator_cited	conjugate_families
+posterior_mean_rule_cited	conjugate_families
+
+# --- marginal_likelihood: names the normalizer left open by
+#     posterior_prop_prior_times_likelihood.
+posterior_prop_prior_times_likelihood	marginal_likelihood
+
+# --- bayes_factor: a ratio of two models' marginal likelihoods.
+marginal_likelihood	bayes_factor
+
+# --- jeffreys_scale: a convention for reading a bayes_factor value; needs
+#     the quantity to exist first.
+bayes_factor	jeffreys_scale
+
+# --- bayesian_model_comparison: states posterior-odds = BF * prior-odds, so
+#     needs bayes_factor and the notion of a prior (here, prior odds over
+#     models -- the same "prior" concept generalized to a discrete choice).
+bayes_factor	bayesian_model_comparison
+prior	bayesian_model_comparison
+jeffreys_scale	bayesian_model_comparison
+
+# --- lindleys_paradox: the hypothesis-dropped counterexample for
+#     bayesian_model_comparison -- drop "proper, non-diffuse prior" and the
+#     Bayes factor can favor M0 while a same-data classical test rejects it;
+#     the classical side of the contrast needs likelihood_ratio_test_cited.
+bayesian_model_comparison	lindleys_paradox
+likelihood_ratio_test_cited	lindleys_paradox
+
+# --- credible_vs_confidence: the worked normal-mean comparison needs both
+#     interval families and the asymptotic-coincidence explanation.
+credible_interval_cited	credible_vs_confidence
+normal_mean_ci_known_variance_cited	credible_vs_confidence
+coverage_probability_cited	credible_vs_confidence
+bernstein_von_mises_cited	credible_vs_confidence
+posterior_prop_prior_times_likelihood	credible_vs_confidence

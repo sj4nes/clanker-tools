@@ -1,0 +1,34 @@
+id: bayes_bridge.lindleys_paradox
+node: lindleys_paradox
+status_label: counterexample
+display: "Lindley's paradox: a diffuse proper prior on M1 can make the Bayes factor favor M0 while a same-data, same-alpha classical test rejects M0."
+parseable: 'exists (n, x, alpha, tau0_sq) : likelihood_ratio_test_cited rejects H0 at level alpha, AND BF_10 < 1 under Normal(0, tau0_sq) prior on the alternative mean, as tau0_sq -> infinity'
+symbols:
+  n: { meaning: sample size, type: positive integer }
+  x: { meaning: observed data (sample mean), type: real }
+  tau0_sq: { meaning: 'variance of the diffuse prior on the alternative parameter', type: positive real, made large }
+type_check_status: well_formed
+hypotheses: [normal_normal_setup, improper_or_highly_diffuse_prior_on_M1]
+preconditions: [n_large_enough_that_classical_test_rejects_at_the_chosen_alpha]
+dependencies: [bayesian_model_comparison, likelihood_ratio_test_cited]
+proof:
+  technique: 'worked numeric instance -- compute the classical p-value and BF_10 at the same (n, xbar, tau0_sq) and exhibit the divergence as tau0_sq grows'
+  derives_from: bayesian_model_comparison
+  lean_status: not_attempted
+  lean_ref: null
+uses_choice: false
+constructive: true
+solving_for: null
+specialization_cases:
+  - instance: 'n=100000, sigma_sq=1, tau0_sq=1, xbar chosen at the alpha=0.05 rejection boundary (z=1.96, xbar=0.006198)'
+    classical_result: 'two-sided z-test rejects H0: theta=0 at alpha=0.05 (p approx 0.05, by construction)'
+    bayes_result: 'BF_10 approx 0.0216, i.e. BF_01 approx 46.3 -- the data favor H0 by about 46:1 under a diffuse N(0,1) prior on the alternative mean'
+counterexamples_when_dropped:
+  diffuse_prior: 'a concentrated, well-chosen proper prior on M1 does not exhibit the paradox at the same data -- the effect is a property of prior diffuseness, not of Bayes factors generally'
+common_misuse:
+  - 'treating Lindleys paradox as showing Bayes factors are wrong, rather than showing they are sensitive to a diffuse prior in a way p-values are not'
+  - 'using an improper prior on M1 and reporting a BF_10 as if it were well-defined (it is only defined up to the arbitrary normalizing constant of the improper prior)'
+sources: [lindley_1957, jeffreys_1961]
+status: reviewed
+checks:
+  instances: validation/instance-checks.md#lindleys_paradox

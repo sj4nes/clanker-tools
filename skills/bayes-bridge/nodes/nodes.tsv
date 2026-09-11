@@ -1,0 +1,25 @@
+id	type	title	area	status	role	primary_statement
+bayes_theorem_cited	bridge	Bayes' theorem (cited)	imports	reviewed	foundation	P(B_j|A) = P(A|B_j)P(B_j) / sum_i P(A|B_i)P(B_i) -- math-probability:bayes_theorem
+likelihood_function_cited	bridge	Likelihood function (cited)	imports	reviewed	foundation	L(theta) = prod_i f(x_i; theta) -- math-statistics:likelihood_function
+conjugate_prior_cited	bridge	Conjugate prior (cited)	imports	reviewed	foundation	a prior family closed under the likelihood -- math-statistics:conjugate_prior
+bayes_estimator_cited	bridge	Bayes estimator (cited)	imports	reviewed	support	the decision rule minimizing posterior expected loss -- math-statistics:bayes_estimator
+posterior_mean_rule_cited	bridge	Posterior mean under squared loss (cited)	imports	reviewed	support	Bayes estimator under squared loss is E[theta|x] -- math-statistics:posterior_mean_rule
+credible_interval_cited	bridge	Credible interval (cited)	imports	reviewed	foundation	P(theta in C(x) | x) = 1 - alpha -- math-statistics:credible_interval
+bernstein_von_mises_cited	bridge	Bernstein-von Mises theorem (cited)	imports	reviewed	foundation	posterior is asymptotically N(theta_hat, (nI)^-1); credible sets get frequentist coverage -- math-statistics:bernstein_von_mises
+coverage_probability_cited	bridge	Coverage probability (cited)	imports	reviewed	support	P_theta(theta in C(X)) as a function of theta -- math-statistics:coverage_probability
+normal_mean_ci_known_variance_cited	bridge	z-interval for a normal mean (cited)	imports	reviewed	support	Xbar +- z_{1-alpha/2} sigma/sqrt(n) -- math-statistics:normal_mean_ci_known_variance
+likelihood_ratio_test_cited	bridge	Likelihood ratio test (cited)	imports	reviewed	support	reject H0 for small Lambda = sup_{Theta_0} L / sup_{Theta} L -- math-statistics:likelihood_ratio_test
+bernoulli_distribution_cited	bridge	Bernoulli distribution (cited)	imports	reviewed	support	P(X=1)=p, P(X=0)=1-p -- math-probability:bernoulli_distribution
+beta_distribution_cited	bridge	Beta distribution (cited)	imports	reviewed	support	f(x) prop x^(a-1)(1-x)^(b-1) on [0,1] -- math-probability:beta_distribution
+normal_distribution_cited	bridge	Normal distribution (cited)	imports	reviewed	support	f(x) prop exp(-(x-mu)^2/(2 sigma^2)) -- math-probability:normal_distribution
+gamma_distribution_cited	bridge	Gamma distribution (cited)	imports	reviewed	support	f(x) prop x^(a-1) e^(-b x) on (0,infinity) -- math-probability:gamma_distribution
+poisson_distribution_cited	bridge	Poisson distribution (cited)	imports	reviewed	support	P(X=k) = e^-lambda lambda^k / k! -- math-probability:poisson_distribution
+prior	definition	Prior distribution	inference	reviewed	foundation	a distribution pi(theta) over the parameter representing pre-data belief
+posterior_prop_prior_times_likelihood	theorem	Posterior proportional to prior times likelihood	inference	reviewed	headline	pi(theta|x) prop pi(theta) L(theta); the missing normalizer is the marginal likelihood
+conjugate_families	construction	Worked conjugate families	inference	reviewed	headline	Beta-Bernoulli, Normal-Normal (known variance), Gamma-Poisson: closed-form posterior updates
+marginal_likelihood	definition	Marginal likelihood	model_comparison	reviewed	foundation	p(x) = integral L(theta) pi(theta) d theta, the normalizer omitted by proportionality
+bayes_factor	definition	Bayes factor	model_comparison	reviewed	headline	BF_10 = p(x|M1) / p(x|M0), the ratio of marginal likelihoods
+jeffreys_scale	notation_convention	Jeffreys scale	model_comparison	reviewed	support	conventional strength-of-evidence bins for log10(BF_10): barely worth mentioning / substantial / strong / decisive
+bayesian_model_comparison	principle_law	Bayesian model comparison via Bayes factors	model_comparison	reviewed	headline	posterior odds = Bayes factor times prior odds; compares models without a nested-hypothesis requirement
+lindleys_paradox	counterexample	Lindley's paradox	model_comparison	reviewed	headline	a diffuse-enough prior on M1 makes the Bayes factor favor M0 at data a classical test rejects at the same significance
+credible_vs_confidence	diagnostic	Credible interval vs. confidence interval	inference	reviewed	headline	same nominal coverage under a flat prior on the normal mean, different interpretation; Bernstein-von Mises explains the asymptotic coincidence

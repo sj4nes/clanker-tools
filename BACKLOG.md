@@ -243,12 +243,21 @@ the decision-theory / calibration tie-in to `unknown-discovery`'s forecast
 ledger. Named for the *correspondence*, not for "Bayes". See the "Cross-domain
 bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 
-- [~] **bayes-bridge:** unblocked (both endpoints exist) — scoping started
-      2026-09-11, `skills/bayes-bridge/scope.md` + `README.md` written. Two
-      open scoping questions recorded there; next: `nodes/nodes.tsv` +
-      `edges/dependencies.plan`. `bc` for conjugate-update closed forms and a
-      credible-vs-confidence-interval contrast, Lean for the
-      posterior ∝ prior × likelihood identity.
+- [x] **bayes-bridge:** Release 0.1 built 2026-09-11. 24 nodes (15 cited
+      `bridge` roots from `math-probability`/`math-statistics` + 9 native:
+      `prior`, `posterior_prop_prior_times_likelihood`, `conjugate_families`
+      [one node, three worked instances: Beta-Bernoulli, Normal-Normal
+      known-variance, Gamma-Poisson], `marginal_likelihood`, `bayes_factor`,
+      `jeffreys_scale`, `bayesian_model_comparison`, `lindleys_paradox`,
+      `credible_vs_confidence`), 28 `tsort` edges acyclic, 0 isolated.
+      `bayesian_model_comparison` ↔ `likelihood_ratio_test_cited` and
+      `credible_vs_confidence` ↔ `normal_mean_ci_known_variance_cited` linked
+      via a `contrasts_with` relation (not a `requires` edge — resolves the
+      backlog's open scoping question). `bc`-verified: three conjugate
+      updates, Lindley's paradox (`BF_01 approx 46.3` at the classical
+      alpha=0.05 rejection boundary), the flat-prior credible/confidence
+      coincidence. No Lean cores this release (proofs are cited restatements
+      or direct algebra — see `scope.md`'s proof policy).
 
 ### math-logic-and-proof
 

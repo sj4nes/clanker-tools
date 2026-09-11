@@ -1,0 +1,45 @@
+/* bayes-bridge -- bc instance checks
+   Run: bc -q -l validation/instance-checks.bc
+   Convention: scale set explicitly per block; bc truncates, does not round
+   (per the bc skill's precision discipline). */
+
+scale = 6
+
+"=== conjugate_families: Beta-Bernoulli, a=1 b=1 n=10 s=7 ===" ; ""
+a = 1; b = 1; n = 10; s = 7
+post_a = a + s; post_b = b + (n - s)
+"posterior Beta(a,b) params:"; post_a ; post_b
+"posterior mean:"; post_a / (post_a + post_b)
+
+"" ; "=== conjugate_families: Normal-Normal, mu0=0 tau0_sq=1 sigma_sq=4 n=5 xbar=3 ===" ; ""
+mu0 = 0; tau0_sq = 1; sigma_sq = 4; n = 5; xbar = 3
+tau_n_sq = 1 / (1/tau0_sq + n/sigma_sq)
+mu_n = tau_n_sq * (mu0/tau0_sq + n*xbar/sigma_sq)
+"posterior variance tau_n_sq:"; tau_n_sq
+"posterior mean mu_n:"; mu_n
+
+"" ; "=== conjugate_families: Gamma-Poisson, a=2 b=1 n=4 s=9 ===" ; ""
+a = 2; b = 1; n = 4; s = 9
+post_a = a + s; post_b = b + n
+"posterior Gamma(a,b) params:"; post_a ; post_b
+"posterior mean:"; post_a / post_b
+
+"" ; "=== lindleys_paradox: n=100000 sigma_sq=1 tau0_sq=1, z=1.96 ===" ; ""
+scale = 10
+n = 100000; sigma_sq = 1; tau0_sq = 1; z = 1.96
+xbar = z * sqrt(sigma_sq / n)
+"xbar at the alpha=0.05 rejection boundary:"; xbar
+v0 = sigma_sq / n
+v1 = sigma_sq / n + tau0_sq
+bf10 = sqrt(v0 / v1) * e(xbar * xbar / 2 * (1/v0 - 1/v1))
+"BF_10 (favors M1 if > 1):"; bf10
+"BF_01 = 1/BF_10 (favors M0 if > 1):"; 1 / bf10
+"-- classical z-test rejects H0 at alpha=0.05 by construction (z=1.96);"
+"-- BF_01 >> 1 shows the diffuse-prior Bayes factor favors H0 at the same data."
+
+"" ; "=== credible_vs_confidence: xbar=10 sigma=2 n=25 ===" ; ""
+scale = 4
+xbar = 10; sigma = 2; n = 25
+half_width = 1.96 * sigma / sqrt(n)
+"half-width (both intervals, flat prior):"; half_width
+"interval:"; xbar - half_width; xbar + half_width

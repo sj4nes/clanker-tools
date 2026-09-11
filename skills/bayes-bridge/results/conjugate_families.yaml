@@ -1,0 +1,55 @@
+id: bayes_bridge.conjugate_families
+node: conjugate_families
+status_label: constructive_result
+display: 'Three exact conjugate updates: Beta-Bernoulli, Normal-Normal (known variance), Gamma-Poisson.'
+parseable: 'posterior(theta|x) = prior(theta) * likelihood(x|theta) / marginal(x), in closed form for each named family'
+symbols:
+  theta: { meaning: parameter, type: 'per-instance: [0,1] / R / (0,infinity)' }
+  a, b: { meaning: 'prior hyperparameters (Beta/Gamma shape,rate)', type: 'positive reals' }
+  mu0, tau0_sq: { meaning: 'Normal prior mean and variance', type: 'real, positive real' }
+  n, s, xbar: { meaning: 'sample size, sufficient statistic (sum), sample mean', type: 'nonneg integer, matching type, real' }
+type_check_status: well_formed
+hypotheses: [iid_sampling, known_variance_in_normal_case, positive_hyperparameters]
+preconditions: [nonempty_or_empty_sample_both_well_defined]
+dependencies: [posterior_prop_prior_times_likelihood, conjugate_prior_cited,
+               bernoulli_distribution_cited, beta_distribution_cited,
+               normal_distribution_cited, gamma_distribution_cited,
+               poisson_distribution_cited, bayes_estimator_cited,
+               posterior_mean_rule_cited]
+proof:
+  technique: 'multiply density kernels, drop theta-free factors, recognize the resulting kernel'
+  derives_from: posterior_prop_prior_times_likelihood
+  lean_status: not_attempted
+  lean_ref: null
+uses_choice: false
+constructive: true
+solving_for: 'the posterior hyperparameters as a function of prior hyperparameters and data'
+specialization_cases:
+  - instance: beta_bernoulli
+    prior: 'Beta(a=1, b=1)'
+    data: 'n=10, s=7'
+    posterior: 'Beta(8, 4)'
+    posterior_mean: '8/12 = 0.6666...'
+  - instance: normal_normal_known_variance
+    prior: 'N(mu0=0, tau0_sq=1)'
+    data: 'n=5, sigma_sq=4, xbar=3'
+    posterior: 'N(mu_n, tau_n_sq)'
+    tau_n_sq: '1 / (1/1 + 5/4) = 4/9 = 0.4444...'
+    mu_n: '(4/9) * (0/1 + 5*3/4) = (4/9)*(15/4) = 15/9 = 1.6666...'
+  - instance: gamma_poisson
+    prior: 'Gamma(a=2, b=1)'
+    data: 'n=4, s=9'
+    posterior: 'Gamma(11, 5)'
+    posterior_mean: '11/5 = 2.2'
+counterexamples_when_dropped:
+  conjugacy: 'a non-conjugate prior (e.g. bounded-uniform prior on an unbounded-support Normal mean) gives no closed form -- needs numerical integration or MCMC, out of scope'
+  known_variance: 'unknown-variance Normal case needs the Normal-Inverse-Gamma family; the marginal posterior for theta is Student-t, not Normal'
+common_misuse:
+  - 'reporting the posterior mean as "the" Bayes estimate regardless of the loss function actually used'
+  - 'plugging an estimated sigma_sq into the known-variance formula as if it were exact'
+sources: [gelman_bda3, casella_berger]
+status: reviewed
+checks:
+  type: validation/type-checks.md#conjugate_families
+  specialization: validation/specialization-cases.md#conjugate_families
+  instances: validation/instance-checks.md#conjugate_families
