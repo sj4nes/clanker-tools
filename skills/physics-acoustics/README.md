@@ -9,6 +9,19 @@ assumed in prose but had no real capsule for.
 
 Read [`SKILL.md`](SKILL.md) then [`scope.md`](scope.md).
 
+## Tutorials
+
+Interactive, `upmd`-executable walkthroughs (run
+`upmd --ci --all <file>.md` or install [upmd](https://upmd.dev) for the
+interactive walk):
+
+- [`tutorial/how-fast-does-sound-travel.md`](tutorial/how-fast-does-sound-travel.md)
+  — the minimal path to `speed_of_sound_ideal_gas`; capstone estimates a
+  lightning strike's distance from a thunder delay.
+- [`tutorial/designing-an-organ-pipe.md`](tutorial/designing-an-organ-pipe.md)
+  — continuity + Euler → the wave equation → the dispersion relation →
+  pipe resonance; capstone designs a pipe length for concert A (440 Hz).
+
 ## Quick start
 
 ```sh

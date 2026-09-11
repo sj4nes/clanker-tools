@@ -79,6 +79,20 @@ capsules — organised by domain, low confidence, no commitments — see
       derivations + `bc` instances, same proof-policy call `bayes-bridge`
       made). Deliberately inviscid — viscosity/thermal dissipation stay
       `physics-thermoacoustics`'s territory.
+- [x] **physics-acoustics:** two `upmd`-executable tutorials, built
+      2026-09-11 with `formula-tree-tutorial`:
+      `tutorial/how-fast-does-sound-travel.md` (minimal path to
+      `speed_of_sound_ideal_gas`, capstone estimates a lightning strike's
+      distance from a thunder delay) and
+      `tutorial/designing-an-organ-pipe.md` (continuity + Euler → the wave
+      equation → dispersion relation → pipe resonance, capstone solves for
+      the pipe length that plays concert A). Both verified: `upmd --ci --all`
+      exits 0 on every block, capstone and a mid-chain check both run
+      standalone with their full `deps:` chain, no non-runnable fences. All
+      numbers reused from `validation/instance-checks.bc` — no new physics
+      introduced. Decibel scale, Doppler effect, impedance/intensity, and
+      reflection/transmission left for a future tutorial (noted in both
+      files' "Where to go next").
 - [ ] **physics-acoustics:** `physics-thermoacoustics`'s own registry still
       carries its own local `small_amplitude`/`time_harmonic` copies rather
       than citing this capsule directly (only the atlas-level edge exists).

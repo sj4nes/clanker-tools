@@ -59,6 +59,22 @@ above). No Lean cores this release — proofs are algebraic derivations
 worked in each node entry and `bc`-checked at concrete instances (same
 proof-policy call `bayes-bridge` made).
 
+## Tutorials
+
+Two `upmd`-executable tutorials, built with the `formula-tree-tutorial`
+skill, both verified with `upmd --ci --all` (every block exit 0) and a
+standalone `-b capstone` run:
+
+- [`tutorial/how-fast-does-sound-travel.md`](tutorial/how-fast-does-sound-travel.md)
+  — minimal path to `speed_of_sound_ideal_gas` (mean state → ideal-gas law
+  → adiabatic bulk modulus → speed of sound); capstone: estimate a
+  lightning strike's distance from a thunder delay.
+- [`tutorial/designing-an-organ-pipe.md`](tutorial/designing-an-organ-pipe.md)
+  — continuity + Euler → `acoustic_wave_equation_1d` → `dispersion_relation`
+  → `pipe_resonance_symmetric_boundary` /
+  `pipe_resonance_mixed_boundary`; capstone: solve for the pipe length
+  that plays concert A (440 Hz), both boundary types.
+
 ## Method verification (Release 0.1)
 
 | Stage | Tool | Result |
