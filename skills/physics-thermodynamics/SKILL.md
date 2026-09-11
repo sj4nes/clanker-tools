@@ -99,7 +99,9 @@ regime, sign convention, and source. Derived-formula nodes are `status: draft`
 pending per-node `bc`/`lean` cross-checks; structural nodes (primitives,
 conventions, assumptions, laws) are `reviewed`. Known scope gaps for Release
 0.2: open systems and `μ`, phase equilibria / Clausius–Clapeyron, real-gas
-equations of state, per-node detail pages, an `upmd` tutorial.
+equations of state, per-node detail pages. An `upmd` tutorial exists:
+[`tutorial/why-heat-engines-have-a-ceiling.md`](tutorial/why-heat-engines-have-a-ceiling.md)
+(`zeroth_law` → `carnot_efficiency`).
 
 ## Maintenance
 

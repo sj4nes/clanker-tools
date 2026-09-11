@@ -26,6 +26,18 @@ bc -q -l validation/dimensional-checks.bc    # [M L T Theta N] consistency, 10 r
 lean validation/derivation-checks.lean       # 8 kernel-checked algebra instances
 ```
 
+## Tutorials
+
+An `upmd`-executable tutorial, built with the `formula-tree-tutorial`
+skill, verified with `upmd --ci --all` (every block exits 0) and a
+standalone capstone + mid-chain run:
+
+- [`tutorial/why-heat-engines-have-a-ceiling.md`](tutorial/why-heat-engines-have-a-ceiling.md)
+  — `zeroth_law` → `carnot_efficiency` (trimmed from the full 42-node
+  prerequisite path to the physically load-bearing steps); capstone
+  computes the Carnot ceiling for a real coal-fired steam plant
+  (`Th≈838K, Tc≈298K` → ~64%) and contrasts it with real plants' 35–40%.
+
 ## Method verification (Release 0.1)
 
 Building this capsule exercised the `physics-formula-tree` method on a 77-node

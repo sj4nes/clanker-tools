@@ -126,8 +126,20 @@ capsules — organised by domain, low confidence, no commitments — see
 - [ ] **physics-thermodynamics:** per-node detail pages (`nodes/<id>.md`) — the
       capsule currently collapses to the formula view; promote the 15 `draft`
       derived-formula nodes to `reviewed` with per-node `bc`/`lean` cross-checks.
-- [ ] **physics-thermodynamics:** `upmd` tutorial via `formula-tree-tutorial` —
-      "Why heat engines have a ceiling", `zeroth_law` → `carnot_efficiency`.
+- [x] **physics-thermodynamics:** `upmd` tutorial built 2026-09-11 —
+      `tutorial/why-heat-engines-have-a-ceiling.md`, `zeroth_law` →
+      `carnot_efficiency`, trimmed from the full 42-node prerequisite path
+      to the physically load-bearing steps (zeroth law → first law/heat →
+      reversible/isothermal/adiabatic → cycles/engines/refrigerators →
+      second law (Kelvin-Planck/Clausius + their equivalence) → Carnot
+      cycle → Carnot's theorem → thermodynamic temperature scale → Carnot
+      efficiency). `chk_carnot_efficiency` reuses the capsule's own
+      `dimensional-checks.bc` numeric case (Tc=300K, Th=600K -> eta=.5
+      exactly). Capstone: Carnot ceiling for a real coal-fired steam plant
+      (Th≈838K, Tc≈298K -> ~64%), contrasted with real plants' 35-40%.
+      Verified: `upmd --ci --all` exits 0 on all 3 blocks, capstone and the
+      mid-chain check both run standalone with their full `deps:` chain, no
+      non-runnable fences. Linked from SKILL.md and README.md.
 - [ ] **physics-thermodynamics:** cross-capsule — `physics-thermoacoustics`
       re-declares ideal-gas + first/second-law + entropy primitives; replace with
       `requires` edges into this capsule's developed nodes (0.2, mirrors the
@@ -601,9 +613,9 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
 
 ### physics-thermodynamics
 
-- [ ] **physics-thermodynamics:** `upmd` tutorial "Why heat engines have a
-      ceiling" (`zeroth_law` → `carnot_efficiency`) via `formula-tree-tutorial` —
-      also listed under that capsule above; buildable today, no new infra.
+- [x] **physics-thermodynamics:** (duplicate of the entry above — built
+      2026-09-11, see the `physics-thermodynamics` section near the top of
+      this file for the full record.)
 
 ## Cross-cutting
 
