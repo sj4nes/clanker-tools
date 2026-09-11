@@ -243,8 +243,10 @@ the decision-theory / calibration tie-in to `unknown-discovery`'s forecast
 ledger. Named for the *correspondence*, not for "Bayes". See the "Cross-domain
 bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 
-- [ ] **bayes-bridge:** hold until `math-probability` and `statistics` are both
-      in `skills/`; `bc` for conjugate-update closed forms and a
+- [~] **bayes-bridge:** unblocked (both endpoints exist) — scoping started
+      2026-09-11, `skills/bayes-bridge/scope.md` + `README.md` written. Two
+      open scoping questions recorded there; next: `nodes/nodes.tsv` +
+      `edges/dependencies.plan`. `bc` for conjugate-update closed forms and a
       credible-vs-confidence-interval contrast, Lean for the
       posterior ∝ prior × likelihood identity.
 
