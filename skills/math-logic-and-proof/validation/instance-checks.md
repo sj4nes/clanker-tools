@@ -59,7 +59,7 @@ literature or downstream of a cited result, not fully re-checked here.
 
 ## substitution_lemma_semantic
 
-- **lean_status:** `partial` — validation/proof-checks.lean -- named-variable version with the FreeFor predicate; the quantifier case is the substantive one. Mathlib cites its de Bruijn analogue.
+- **lean_status:** `cited` — proof-checks.lean has no FreeFor predicate or satisfaction relation -- this node's universal statement is cited, not kernel-checked; corrected from a prior partial that named a predicate that was never formalised. What IS checked, by free_for_matters (see validation/proof-checks.md#free_for), is one concrete instance of the underlying capture-bug mechanism this lemma's hypothesis guards against -- attributed to the free_for node (lean_status: core, an instance check, not this node's universal lemma). Cited: [enderton_logic_2e] Lemma 24B, [chiswell_hodges] Lemma 3.4.3; Mathlib's de Bruijn representation sidesteps the lemma entirely (capture is structurally impossible there).
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## quantifier_negation
@@ -74,22 +74,22 @@ literature or downstream of a cited result, not fully re-checked here.
 
 ## soundness_fol
 
-- **lean_status:** `partial` — validation/proof-checks.lean -- proved outright once satisfaction and the substitution lemma are in place; the eigenvariable case is the bookkeeping-heavy one.
+- **lean_status:** `cited` — proof-checks.lean has no first-order satisfaction/Structure formalisation, so none of this node's own content (the forall-E / exists-I / eigenvariable cases) is kernel-checked -- corrected from a prior partial that described an unexecuted plan. What IS checked is the propositional core (soundness_prop, genuinely proved on propext) this node reduces to on the propositional fragment; the FOL-specific quantifier and equality cases remain cited ([enderton_logic_2e] Thm 24C, [vandalen_5e] Thm 2.6.1). See validation/proof-checks.md's "Cited only" list.
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## godel_completeness_theorem
 
-- **lean_status:** `partial` — validation/proof-checks.lean + proof-checks.md#godel_completeness_theorem -- Formula/Term/Structure/satisfaction as inductive types; soundness outright; Henkin construction carried as far as feasible, connected to Mathlib FirstOrder.Language completeness where present (mathlib_cited), every sorry / informal step logged. Epistemic label NOT upgraded past the kernel.
+- **lean_status:** `cited` — validation/proof-checks.lean is explicitly, by its own header comment, "not the place for the Henkin construction" -- no Formula/Term/Structure/satisfaction inductive types exist in it. Corrected from a prior partial that described an aspirational plan never executed (the plan text is preserved below as a Release 0.2 target, not a current claim). Cited: [enderton_logic_2e] Thm 25.14, [vandalen_5e] Thm 2.5.3. A Mathlib-enabled release would connect to Mathlib.ModelTheory (FirstOrder.Language) and its completeness development, upgrading to mathlib_cited -- see BACKLOG.md and validation/proof-checks.md's "Cited only" section.
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## compactness_fol
 
-- **lean_status:** `partial` — validation/proof-checks.lean -- inherits the status of the completeness proof.
+- **lean_status:** `cited` — inherits the status of godel_completeness_theorem, corrected there from partial to cited (proof-checks.lean has no first-order content to inherit from). Cited: [enderton_logic_2e] Thm 25.16, [vandalen_5e] Thm 2.5.7. Mathlib has Theory.isSatisfiable_iff_isFinitelySatisfiable, not connected here.
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## lowenheim_skolem_down
 
-- **lean_status:** `partial` — validation/proof-checks.lean -- follows once the term model is shown countable; inherits completeness status.
+- **lean_status:** `cited` — inherits the status of godel_completeness_theorem, corrected there from partial to cited -- the term-model countability argument this node needs is not formalised either. Cited: [enderton_logic_2e] Thm 25.19. Mathlib has exists_elementarySubstructure_card_eq, not connected here.
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## induction_equivalence

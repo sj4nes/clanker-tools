@@ -15,8 +15,8 @@ dependencies: [truth_lemma_fol, term_model, henkin_theory, lindenbaum_lemma_fol,
 proof:
   technique: 'Henkin. (1) reduce Gamma |= phi, Gamma not|- phi to: Gamma union {not phi} consistent. (2) add witness constants in an omega-chain of languages + Henkin axioms (exists x psi) -> psi[c_psi/x], stays consistent. (3) Lindenbaum: extend to a maximal consistent Henkin theory T. (4) term model M: domain = closed terms / (t ~ u iff (t=u) in T), a congruence by the equality axioms. (5) truth lemma: M |= sigma iff sigma in T, by induction on sigma; the exists-clause uses the witness property. (6) M |= Gamma.'
   derives_from: truth_lemma_fol
-  lean_status: partial
-  lean_ref: 'validation/proof-checks.lean + proof-checks.md#godel_completeness_theorem -- Formula/Term/Structure/satisfaction as inductive types; soundness outright; Henkin construction carried as far as feasible, connected to Mathlib FirstOrder.Language completeness where present (mathlib_cited), every sorry / informal step logged. Epistemic label NOT upgraded past the kernel.'
+  lean_status: cited
+  lean_ref: 'validation/proof-checks.lean is explicitly, by its own header comment, "not the place for the Henkin construction" -- no Formula/Term/Structure/satisfaction inductive types exist in it. Corrected from a prior partial that described an aspirational plan never executed (the plan text is preserved below as a Release 0.2 target, not a current claim). Cited: [enderton_logic_2e] Thm 25.14, [vandalen_5e] Thm 2.5.3. A Mathlib-enabled release would connect to Mathlib.ModelTheory (FirstOrder.Language) and its completeness development, upgrading to mathlib_cited -- see BACKLOG.md and validation/proof-checks.md''s "Cited only" section.'
 uses_choice: false
 choice_note: 'countable language: LEM + metatheoretic_induction, NO choice. Uncountable language: Lindenbaum needs Zorn / an ultrafilter -- recorded on lindenbaum_lemma_fol.'
 constructive: false

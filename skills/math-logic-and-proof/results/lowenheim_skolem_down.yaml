@@ -15,8 +15,8 @@ dependencies: [godel_completeness_theorem, term_model, signature]
 proof:
   technique: 'the term model built in the completeness proof has domain = a quotient of the closed terms of a countable language L+ (L plus countably many Henkin constants), hence countable. So the model produced by godel_completeness_theorem for a consistent countable theory is already countable. (Downward LS to an arbitrary infinite cardinal kappa between aleph_0 and |M| uses Skolem functions / elementary substructures.)'
   derives_from: godel_completeness_theorem
-  lean_status: partial
-  lean_ref: 'validation/proof-checks.lean -- follows once the term model is shown countable; inherits completeness status.'
+  lean_status: cited
+  lean_ref: 'inherits the status of godel_completeness_theorem, corrected there from partial to cited -- the term-model countability argument this node needs is not formalised either. Cited: [enderton_logic_2e] Thm 25.19. Mathlib has exists_elementarySubstructure_card_eq, not connected here.'
 uses_choice: false
 choice_note: 'the countable-term-model version is choice-free (given the countable-language completeness proof). The elementary-substructure version (downward LS to kappa) uses dependent choice / AC to pick Skolem witnesses.'
 constructive: false

@@ -412,12 +412,29 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       Lean proofs that don't exist in the Mathlib-free `.lean` (their own node
       pages already said `cited`) — corrected to `cited`. `sh build/all.sh`
       green. (2026-09-08)
-- [ ] **math-logic-and-proof:** Audit the FOL-metatheory `lean_status: partial`
-      YAMLs (`soundness_fol`, `godel_completeness_theorem`, `compactness_fol`,
-      `lowenheim_skolem_down`, `substitution_lemma_semantic`) — `proof-checks.lean`
-      is Mathlib-free with **no first-order content**, so `partial` overclaims;
-      the honest label is `cited` / `stated` until the FOL layer is formalised.
-      Decide per node (some node pages describe an aspirational Mathlib plan).
+- [x] **math-logic-and-proof:** Audited the FOL-metatheory `lean_status:
+      partial` YAMLs, 2026-09-11. Confirmed against `proof-checks.lean`
+      (its own header says it is "not the place for the Henkin
+      construction" — no `Formula`/`Term`/`Structure`/`satisfaction`
+      formalised) and against `proof-checks.md`'s own "Cited only" section,
+      which already listed all 5 nodes as not formalised — the YAMLs had
+      simply drifted out of sync with that ground truth. All 5 corrected
+      `partial` → `cited` in both `results/*.yaml` and `nodes/*.md`:
+      `soundness_fol` (the FOL-specific quantifier/eigenvariable cases are
+      cited; the propositional core it reduces to genuinely is proved,
+      that distinction now stated explicitly), `godel_completeness_theorem`
+      (the old `lean_ref` described an aspirational Formula/Term/Structure
+      plan that was never executed — preserved as a labelled "Release 0.2
+      target, not a current claim" rather than deleted), `compactness_fol`
+      and `lowenheim_skolem_down` (both correctly inherit
+      `godel_completeness_theorem`'s corrected status), and
+      `substitution_lemma_semantic` (its universal lemma is cited; the
+      genuinely Lean-checked `free_for_matters` instance demonstrates the
+      capture-bug mechanism but belongs to the sibling `free_for` node,
+      which was already correctly labelled `core` — no change needed
+      there). `sh build/all.sh` still green (130 nodes, 312 edges, 0 gaps,
+      `check-yaml.py`'s 21-YAML consistency check passing) — the fix only
+      touched `lean_status`/`lean_ref` text, not the dependency graph.
 
 ### math-number-systems
 

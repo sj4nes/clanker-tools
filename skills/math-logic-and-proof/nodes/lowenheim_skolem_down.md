@@ -38,9 +38,12 @@ elementary-substructure version)
   countable `κ`; full AC for the general downward theorem).
 
 ## Lean status
-`lean_status: partial` — follows once the term model is shown countable.
-Mathlib: `FirstOrder.Language.exists_elementarySubstructure_card_eq` /
-the downward LS development.
+`lean_status: cited` (corrected from `partial` — audited 2026-09-11; see
+`BACKLOG.md`). Inherits the status of `godel_completeness_theorem`, itself
+corrected to `cited` — the term-model-countability argument this node
+needs is not formalised. Cited: [enderton_logic_2e] Thm 25.19. Mathlib:
+`FirstOrder.Language.exists_elementarySubstructure_card_eq` / the downward
+LS development, not connected here.
 
 ## Type / well-formedness check
 `well_formed`. "Countable" = `|ℒ| ≤ ℵ₀` **and** `|model| ≤ ℵ₀` — cardinality is

@@ -16,8 +16,8 @@ dependencies: [substitution, term_evaluation, tarski_satisfaction, free_for, coi
 proof:
   technique: 'induction on phi. Terms: a sub-lemma that evaluating u[t/x] under s equals evaluating u under s(x -> sbar(t)), by induction on u. Atomic: from the term sub-lemma. Connectives: IH. Quantifier forall y psi: the free_for condition guarantees y not in var(t) (when x is free in forall y psi), so s(x -> sbar(t))(y -> a) and s(y -> a)(x -> sbar(t)) agree on FV(psi) -- coincidence_lemma closes it.'
   derives_from: tarski_satisfaction
-  lean_status: partial
-  lean_ref: 'validation/proof-checks.lean -- named-variable version with the FreeFor predicate; the quantifier case is the substantive one. Mathlib cites its de Bruijn analogue.'
+  lean_status: cited
+  lean_ref: 'proof-checks.lean has no FreeFor predicate or satisfaction relation -- this node''s universal statement is cited, not kernel-checked; corrected from a prior partial that named a predicate that was never formalised. What IS checked, by free_for_matters (see validation/proof-checks.md#free_for), is one concrete instance of the underlying capture-bug mechanism this lemma''s hypothesis guards against -- attributed to the free_for node (lean_status: core, an instance check, not this node''s universal lemma). Cited: [enderton_logic_2e] Lemma 24B, [chiswell_hodges] Lemma 3.4.3; Mathlib''s de Bruijn representation sidesteps the lemma entirely (capture is structurally impossible there).'
 uses_choice: false
 constructive: true
 constructive_grade: intuitionistic

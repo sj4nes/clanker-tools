@@ -26,16 +26,16 @@ The capsule hook: every logical law / proof method carries one of
 - soundness_fol
 - soundness_prop
 
-### needs_LEM
-- de_morgan_prop
-- quantifier_negation
-
 ### needs_full_classical
 - compactness_fol
 - compactness_prop
 - godel_completeness_theorem
 - lowenheim_skolem_down
 - post_completeness_theorem
+
+### needs_LEM
+- de_morgan_prop
+- quantifier_negation
 
 ## From node detail pages (grade stated in the Type section)
 
@@ -136,6 +136,9 @@ The capsule hook: every logical law / proof method carries one of
 - soundness_prop
 - well_ordering_principle
 
+### needs_full_classical
+- godel_completeness_theorem
+
 ### needs_LEM
 - conjunctive_normal_form
 - disjunctive_normal_form
@@ -144,9 +147,6 @@ The capsule hook: every logical law / proof method carries one of
 - negation_normal_form
 - prenex_normal_form
 - truth_lemma_prop
-
-### needs_full_classical
-- godel_completeness_theorem
 
 ### split
 - contraposition

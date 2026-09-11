@@ -40,11 +40,16 @@ equality** cases are constructive. A soundness proof for the intuitionistic
 first-order calculus (Kripke semantics) is fully constructive.
 
 ## Lean status
-`lean_status: partial`. The propositional core (`soundness` in
-`validation/proof-checks.lean`) is a genuine kernel proof on `propext`. The
-quantifier cases are `stated` (they need the FOL `satisfaction` and
-`substitution_lemma_semantic` formalised, which without Mathlib is not done);
-`validation/proof-checks.md` records the split.
+`lean_status: cited` (corrected from `partial` — audited 2026-09-11; see
+`BACKLOG.md`). This node's own content — the FOL-specific forall-E,
+exists-I, and eigenvariable cases — is not kernel-checked at all:
+`validation/proof-checks.lean` has no `Structure`/`satisfaction`
+formalisation to state them in. What genuinely is proved is a different,
+prerequisite result: the propositional core (`soundness` in
+`validation/proof-checks.lean`), a real kernel proof on `propext`, which
+this node reduces to on the propositional fragment. The FOL-specific cases
+remain cited ([enderton_logic_2e] Thm 24C). `validation/proof-checks.md`
+lists this node under "Cited only."
 
 ## Type / well-formedness check
 `well_formed`. `Γ` and `φ` in the same language; the delicate obligations are

@@ -56,12 +56,21 @@ consequence coincide for classical first-order logic with equality.
   contains `ψ` or `¬ψ`.
 
 ## Lean status
-`lean_status: partial`. Plan: `Formula`/`Term`/`Structure`/`satisfaction` as
-inductive types; **soundness** proved outright; the Henkin construction carried
-as far as feasible, **connected to Mathlib `FirstOrder.Language` and its
-completeness development** where present (`mathlib_cited`), every `sorry` /
-informal step logged in `validation/proof-checks.md#godel_completeness_theorem`.
-The epistemic label is **not** upgraded past what the kernel checks.
+`lean_status: cited` (corrected from `partial` — audited 2026-09-11; see
+`BACKLOG.md`). `validation/proof-checks.lean` states, in its own header
+comment, that it is "not the place for the Henkin construction" — no
+`Formula`/`Term`/`Structure`/`satisfaction` inductive types exist in it,
+and none of the six Henkin-proof steps above are kernel-checked.
+`validation/proof-checks.md`'s own "Cited only" section lists this node
+explicitly. Cited: [enderton_logic_2e] Thm 25.14, [vandalen_5e] Thm 2.5.3.
+
+**Release 0.2 target, not a current claim:** `Formula`/`Term`/`Structure`/
+`satisfaction` as inductive types; soundness proved outright; the Henkin
+construction carried as far as feasible; connected to Mathlib
+`FirstOrder.Language` and its completeness development where present
+(`mathlib_cited`); every `sorry` / informal step logged. The epistemic
+label will **not** be upgraded past what the kernel actually checks when
+that work happens.
 
 ## Type / well-formedness check
 `well_formed`. Recorded: the Henkin constants must be **genuinely fresh** at

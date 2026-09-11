@@ -31,8 +31,13 @@ every finite `Γ₀ ⊆ Γ` is satisfiable.
 needs an ultrafilter. There is no constructive compactness theorem.
 
 ## Lean status
-`lean_status: partial` — inherits the status of the completeness proof.
-Mathlib has `FirstOrder.Language.Theory.isSatisfiable_iff_isFinitelySatisfiable`.
+`lean_status: cited` (corrected from `partial` — audited 2026-09-11; see
+`BACKLOG.md`). Inherits the status of `godel_completeness_theorem`, itself
+corrected to `cited`: `validation/proof-checks.lean` has no first-order
+content for this node to inherit a genuine kernel proof from. Cited:
+[enderton_logic_2e] Thm 25.16. Mathlib has
+`FirstOrder.Language.Theory.isSatisfiable_iff_isFinitelySatisfiable`, not
+connected here.
 
 ## Type / well-formedness check
 `well_formed`. "Model" is a `naive_collection` fact; the theorem quantifies over

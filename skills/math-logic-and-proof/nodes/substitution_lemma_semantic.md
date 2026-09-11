@@ -33,12 +33,19 @@ forces `y ∉ var(t)`, so `s(x ↦ s̄(t))(y ↦ a)` and `s(y ↦ a)(x ↦ s̄(t
 `intuitionistic` — a structural induction, no classical step.
 
 ## Lean status
-`lean_status: partial`. In a **de Bruijn** representation (Mathlib) capture is
-impossible and the lemma has a clean form; in a named representation the
-`free_for` guard is explicit. `validation/proof-checks.lean` demonstrates the
-**mechanism** via `free_for_matters` (`∀x. ∃y. y = x+1` true; capture form
-`∃y. y = y+1` false) — a concrete instance of the lemma **failing** without
-`free_for`.
+`lean_status: cited` (corrected from `partial` — audited 2026-09-11; see
+`BACKLOG.md`). This node's universal statement — for every `φ`, `t`, `x`,
+`s` with `free_for(t,x,φ)` — is not kernel-checked: `proof-checks.lean` has
+no `FreeFor` predicate or satisfaction relation, so there is nothing to
+state the lemma in. What genuinely is checked, and belongs to the sibling
+`free_for` node (`lean_status: core`), is one concrete instance of the
+capture-bug mechanism this lemma's hypothesis guards against:
+`free_for_matters` (`∀x. ∃y. y = x+1` true; capture form `∃y. y = y+1`
+false). That instance check demonstrates *why* the hypothesis is needed;
+it does not establish the universal lemma. In a **de Bruijn**
+representation (Mathlib) capture is structurally impossible and the lemma
+has a clean, vacuous form — cited, not connected here. Cited:
+[enderton_logic_2e] Lemma 24B.
 
 ## Type / well-formedness check
 `well_formed` **iff** `free_for(t, x, φ)` — the hypothesis is the entire

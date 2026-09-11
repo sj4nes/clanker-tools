@@ -13,8 +13,8 @@ dependencies: [godel_completeness_theorem, derivability_fol, model]
 proof:
   technique: 'from completeness: if Gamma has no model then (completeness, contrapositive) Gamma is inconsistent, so Gamma |- bottom; a derivation uses finitely many sentences Gamma0; (soundness) Gamma0 has no model. Alternative: ultraproduct of models of the finite subsets (Los theorem) -- out of scope.'
   derives_from: godel_completeness_theorem
-  lean_status: partial
-  lean_ref: 'validation/proof-checks.lean -- inherits the status of the completeness proof.'
+  lean_status: cited
+  lean_ref: 'inherits the status of godel_completeness_theorem, corrected there from partial to cited (proof-checks.lean has no first-order content to inherit from). Cited: [enderton_logic_2e] Thm 25.16, [vandalen_5e] Thm 2.5.7. Mathlib has Theory.isSatisfiable_iff_isFinitelySatisfiable, not connected here.'
 uses_choice: false
 choice_note: 'the ultraproduct proof needs an ultrafilter (BPIT, a weak choice principle); the completeness route needs whatever godel_completeness_theorem needs.'
 constructive: false
