@@ -674,8 +674,20 @@ not a tutorial.
       completion report. Detail is deliberately pushed to
       `verification/README.md`; the skill states *why* it is short and cites the
       eval's meta-finding. README catalogue + Verification rows added.
-      Still open: no `references/` directory — decide whether one is warranted at
-      all, given the same meta-finding.
+      **`references/` decided (2026-09-13): none, deliberately.**
+      `docs/verifying-skills.md` §7 gives the test — `references/` earns its
+      place when the agent's prior is genuinely empty and the facts are not
+      derivable (BSD `bc` rejecting `_`, BSD `tsort` exiting 0 on a cycle).
+      `test-writing` carries no such facts: no framework API, no runner flags,
+      no portability quirks. Everything it knows is a *displacement*, and
+      displacements belong in the 148-line body where they are actually read —
+      a `references/` file here would be the tutorial the eval warns about, one
+      directory further away. The fixture is the reference: an agent wanting
+      detail runs `verification/run.sh` and reads six planted bugs.
+      Revisit only for a genuine tool-fact payload — a specific ecosystem's
+      generator/shrinker API (`hypothesis` strategies, `proptest`, `jqwik`) or a
+      mutation-testing runner's flags. That would be column two of §7, and would
+      justify a file then.
 - [x] **test-writing:** `test-oracle-design` decided (2026-09-13) — **ONE SKILL,
       not two.** Folded into `test-writing` behaviour 3 and the candidate row in
       `BACKLOG-BACKLOG.md` retired. The deciding evidence was the two entries'
