@@ -56,8 +56,10 @@ cd "$(dirname "$0")"
 PY=python3
 
 echo "=== 1. <name> (bc) ==="
-# `bc`'s `quit` ALWAYS EXITS 0 -- the exit status can NEVER signal failure, and
-# `set -e` gives no protection.  The OUTPUT must be inspected.
+# `bc`'s exit status reports INTERPRETER errors (2 syntax, 3 undefined function,
+# 4 missing file, 1 math error), NOT whether your claims were true -- a false
+# claim is a VALUE to a calculator, not an error, and `quit` takes no status.
+# So `set -e` catches a broken file but never a wrong answer.  Inspect the OUTPUT.
 bcout=$(bc -lq checks.bc)
 printf '%s\n' "$bcout"
 if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
@@ -101,7 +103,9 @@ skill has the full treatment; this is the verification-relevant subset.
 | **Set `scale` before the first calculation, and reset it explicitly** when a block changes precision. | `scale` is global and sticky. | One `scale = N` near the top; re-set per block that needs different precision. |
 | **Base conversion: set `obase` before `ibase`.** | After `ibase = 16`, the token `10` means base-16 sixteen. | `obase = A` (or set `obase` first). |
 | End the script with `quit`. | Clean exit under `-q`. | |
-| **`quit` ALWAYS exits 0 — there is no failure exit status.** | A runner that checks only `$?` (or relies on `set -e`) passes a run whose assertions all failed. This shipped in 20 of 24 harnesses; see [`bc-verification-audit.md`](bc-verification-audit.md). | Capture the output and `grep` for both a pass banner and the absence of the failure marker. |
+| **The exit status reports interpreter errors, not false claims.** | `bc` exits 2 on a syntax error, 3 on an undefined function, 4 on a missing file, 1 on a math error — all documented in `man bc`. But a claim that is simply *wrong* is a value, not an error, and `quit` takes no status argument (`quit 1` exits 0). So `set -e` catches a **broken** file and never a **wrong** one. That partial protection is what made this look safe in 20 of 24 harnesses; see [`bc-verification-audit.md`](bc-verification-audit.md). | Capture the output and `grep` for both a pass banner and the absence of the failure marker. |
+| **A pipe replaces `bc`'s status with the last command's.** | `bc f.bc \| tail` reports `tail`'s success even when `bc` died with a parse error. Easy to hit while *testing* a harness. | Redirect to a file, or capture with `$( )`, and check the status before piping. |
+| **Escape hatch if you want a nonzero exit anyway:** a deliberate `1/0`. | `if (fails > 0) { zz = 1/0 }` makes `bc` exit 1 (documented "math error"). Belt-and-braces alongside the grep, so a runner that forgets to check the output still fails. | Optional; the grep gives better diagnostics because it names the failing claim. |
 | **Grep for the marker `*** FAIL`, never bare `FAIL`.** | Descriptive text legitimately contains the word — `visualization-design` prints `(claim: < 3 -> FAILS as a standalone cue)`, which made a bare `grep -q FAIL` fail a passing run. | Emit `*** FAIL: <claim>` from assertions only, and grep for exactly that. |
 | **`abs` is a RESERVED name in macOS `bc`.** | `define abs(x)` fails with `bad function definition`, even without `-l`. | Name it something else — `aval`. |
 | **BSD `bc` functions take NUMERIC arguments only.** | No strings, so a failure message cannot be passed to an assertion helper. | Print the message at the call site: `bad = chk(expr, tol); if (bad) { print "*** FAIL: ...\n" }`. |

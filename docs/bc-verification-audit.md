@@ -1,9 +1,9 @@
 # Audit: the `bc` verification pattern across every skill
 
 **Date:** 2026-09-13. **Trigger:** building `math-linear-algebra` surfaced that
-`bc`'s `quit` **always exits 0**, so a harness that checks only the exit status
-passes a run whose assertions failed. This audit re-checks every skill using the
-pattern.
+a harness that checks only `bc`'s exit status passes a run whose assertions
+failed — `bc` reports *interpreter* errors, never a false claim. This audit
+re-checks every skill using the pattern.
 
 **Scope:** 24 `.bc` files across 20 skills, plus `templates/verification/`.
 
@@ -163,9 +163,31 @@ have the runner grep for it.
 
 ## The two `bc` facts behind this
 
-1. **`quit` always exits 0.** There is no way to make `bc` signal failure
-   through its exit status. The runner must inspect the **output**. This is why
-   `set -e` gives no protection at all in these harnesses.
+1. **The exit status reports interpreter errors, not false claims.**
+   *(Corrected 2026-09-13 — the first version of this document overstated
+   this as "there is no failure exit status", which is wrong.)*
+
+   `bc` has a documented, well-populated exit vocabulary (`man bc`, EXIT
+   STATUS): **0** no error, **1** math error (divide by zero, sqrt of a
+   negative), **2** syntax/parse error, **3** undefined function, **4** file
+   not found. Verified empirically on bc 7.0.3.
+
+   What it cannot report is that your arithmetic **claim was false** — to a
+   calculator that is a *value*, not an error — and `quit` takes no status
+   argument (`quit 1` exits 0).
+
+   The consequence is sharper than "no protection": `set -e` catches a
+   **broken** file (typo, missing file, bad function) and never a **wrong**
+   one. Partial protection that reads as full protection is exactly why this
+   survived in 20 of 24 harnesses.
+
+   A deliberate `1/0` is an available escape hatch (`if (fails > 0) { zz = 1/0 }`
+   → exit 1), but the grep gives better diagnostics because it names the
+   failing claim.
+
+   A third, independent trap: **a pipe replaces `bc`'s status with the last
+   command's**. `bc f.bc | tail` reports success even when `bc` died parsing.
+   This document's own author hit that while measuring the problem.
 2. **`abs` is a reserved name in macOS `bc`.** `define abs(x)` fails with
    "bad function definition" even without `-l`. Use another name (`aval`).
 
