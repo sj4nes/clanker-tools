@@ -19,7 +19,15 @@ cd "$(dirname "$0")"
 PY=python3
 
 echo "=== 1. retrieval score + precondition conjunction (bc) ==="
-bc -lq checks.bc
+# bc's `quit` ALWAYS exits 0, so `set -e` gives no protection here: the output
+# must be inspected.  checks.bc prints a PASS/FAIL verdict per claim; a FAIL
+# line must fail this run.  See docs/bc-verification-audit.md.
+bcout=$(bc -lq checks.bc)
+printf '%s\n' "$bcout"
+if printf '%s\n' "$bcout" | grep -q FAIL; then
+    echo "bc checks FAILED (see the FAIL line(s) above)" >&2
+    exit 1
+fi
 echo
 
 echo "=== 2-5. operator checks (python, stdlib only) ==="

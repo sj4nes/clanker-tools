@@ -730,13 +730,42 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       from the 16 README Verification rows. Skeletons in `templates/verification/`
       (`run.sh`, `checks.bc`, `README.md`). README Verification section links both.
       (2026-09-08)
-- [ ] **docs/verifying-skills.md:** fold in two findings from the
-      `math-linear-algebra` build (2026-09-13): (a) **`bc`'s `quit` always exits
-      0**, so a `run.sh` that checks only the exit status will pass a harness
-      whose assertions failed — the output must be inspected, and every capsule
-      using the `bc` pattern should be re-checked for this; (b) **`abs` is a
-      reserved name in macOS `bc`**. Both belong in that doc's portability
-      rules.
+- [x] **bc verification audit** — all 24 `.bc` harnesses across 20 skills
+      re-checked 2026-09-13; results in [`docs/bc-verification-audit.md`](docs/bc-verification-audit.md).
+      **Only 4 of 24 would catch a wrong number.** 1 outright broken
+      (`hypergraph-reasoning` computed PASS/FAIL verdicts that no one read —
+      FIXED + negative-contrast tested), 15 "unasserted" (print a number beside
+      a prose `(want ...)`; nothing compares them), 4 never invoked by any
+      script. Each category was demonstrated by corrupting a value and
+      confirming the harness still reported success; all corruptions reverted
+      and every harness re-verified green. `docs/verifying-skills.md` updated
+      with the two `bc` facts (`quit` always exits 0; `abs` is reserved on
+      macOS), the BSD numeric-args-only and multi-line-`define` rules, a new
+      "Assert, do not annotate" section, and two new checklist items.
+      `templates/verification/` rewritten to the asserting pattern (it was the
+      source propagating the weakness) and negative-contrast tested.
+
+- [ ] **bc harnesses — add assertions to the 15 "unasserted" files.** Each
+      prints numbers with a prose claim and machine-checks nothing:
+      `control-systems`, `design-of-experiments`, `simulation`, `statistics`,
+      `unknown-discovery`, `visualization-design` (skills, `verification/checks.bc`);
+      `bayes-bridge`, `math-logic-and-proof`, `math-number-systems`,
+      `math-probability`, `math-real-analysis`,
+      `math-sets-functions-cardinality`, `math-statistics`, `physics-acoustics`,
+      `physics-thermodynamics` (capsules, `validation/*.bc`). Mechanical where
+      an independent oracle is already computed and merely not compared —
+      `math-probability` computes Bernoulli variance both by closed form and by
+      direct summation, prints "(match)", and passes when they differ (.39 vs
+      .21, demonstrated). Pattern + helpers in
+      `math-linear-algebra/validation/instance-checks.bc` and the rewritten
+      `templates/verification/checks.bc`. Each must be negative-contrast tested.
+
+- [ ] **bc harnesses — wire the 4 unautomated capsules into a build script.**
+      `chemistry-foundations`, `chemistry-electrochemistry`, `physics-newtonian`,
+      `physics-thermoacoustics` each ship a `validation/dimensional-checks.bc`
+      that **no script ever runs** (they have no `build/all.sh`); their READMEs
+      cite it as verification. Either add an `all.sh` on the sibling pattern or
+      correct the README claim.
 
 - [x] **capsule build dedup:** hoisted the identical `validation/graph-check.sh`
       + `build/build-tree.sh` (canonical variants: the comment-stripping

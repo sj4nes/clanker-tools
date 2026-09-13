@@ -56,7 +56,14 @@ cd "$(dirname "$0")"
 PY=python3
 
 echo "=== 1. <name> (bc) ==="
-bc -lq checks.bc
+# `bc`'s `quit` ALWAYS EXITS 0 -- the exit status can NEVER signal failure, and
+# `set -e` gives no protection.  The OUTPUT must be inspected.
+bcout=$(bc -lq checks.bc)
+printf '%s\n' "$bcout"
+if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
+   || printf '%s\n' "$bcout" | grep -q FAIL; then
+    echo "bc checks FAILED" >&2; exit 1
+fi
 echo
 
 echo "=== 2. <name> (python, stdlib only) ==="
@@ -94,6 +101,45 @@ skill has the full treatment; this is the verification-relevant subset.
 | **Set `scale` before the first calculation, and reset it explicitly** when a block changes precision. | `scale` is global and sticky. | One `scale = N` near the top; re-set per block that needs different precision. |
 | **Base conversion: set `obase` before `ibase`.** | After `ibase = 16`, the token `10` means base-16 sixteen. | `obase = A` (or set `obase` first). |
 | End the script with `quit`. | Clean exit under `-q`. | |
+| **`quit` ALWAYS exits 0 — there is no failure exit status.** | A runner that checks only `$?` (or relies on `set -e`) passes a run whose assertions all failed. This shipped in 20 of 24 harnesses; see [`bc-verification-audit.md`](bc-verification-audit.md). | Capture the output and `grep` for both a pass banner and the absence of `FAIL`. |
+| **`abs` is a RESERVED name in macOS `bc`.** | `define abs(x)` fails with `bad function definition`, even without `-l`. | Name it something else — `aval`. |
+| **BSD `bc` functions take NUMERIC arguments only.** | No strings, so a failure message cannot be passed to an assertion helper. | Print the message at the call site: `bad = chk(expr, tol); if (bad) { print "*** FAIL: ...\n" }`. |
+| **Multi-line `define` bodies are the portable form.** | `define f(x) { if (c) return (a); return (b) }` parses on some builds and not others. | Put each statement on its own line, `{ }`-blocked. |
+
+### Assert, do not annotate
+
+**Printing a number next to a prose `(want >= 4.5)` is a documented example, not
+a check.** Nothing fails when the formula drifts, and the file reads as
+verification while providing none. The 2026-09-13 audit found this in 15 of 24
+`bc` harnesses — including capsules whose `.bc` already computed an
+**independent oracle** and simply never compared it to the closed form.
+
+Every claim gets an assertion:
+
+```
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {        /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+
+bad = chk(got - want, 0.000000001); if (bad) { print "*** FAIL: <claim>\n" }
+fails += bad
+
+if (fails == 0) { print "ALL BC CHECKS PASSED\n" }
+if (fails > 0)  { print "*** ", fails, " BC CHECK(S) FAILED\n" }
+```
+
+Prefer an **independent oracle** to a restatement: compute the quantity a second
+way (direct summation against a closed form, substitution back into the original
+equation) and assert the two agree. Restating a formula and comparing it to
+itself certifies nothing — this is the same point the `test-writing` backlog
+entry makes about expected values that encode the implementation's own output.
 
 `checks.bc` header block to copy:
 
@@ -101,7 +147,10 @@ skill has the full treatment; this is the verification-relevant subset.
 /* Exact-arithmetic checks for the `<skill>` skill.
  * Run:  bc -lq skills/<skill>/verification/checks.bc   (needs -l for l(), e())
  * bc truncates; scale is set explicitly. Lowercase identifiers only,
- * no `_`, no single uppercase letters.  See docs/verifying-skills.md.
+ * no `_`, no single uppercase letters.  `abs` is reserved on macOS -- use
+ * `aval`.  EVERY CLAIM IS ASSERTED via chk() and prints a FAIL line, because
+ * bc's `quit` always exits 0 and the runner greps the output.
+ * See docs/verifying-skills.md and docs/bc-verification-audit.md.
  */
 scale = 12
 ```
@@ -175,6 +224,12 @@ One per `verification/` directory. Sections:
 - [ ] Every prescribed check has a visible `PASS` line **and** a negative
       contrast case that would `FAIL` if the guardrail were removed.
 - [ ] `bc` runs with `-l`, lowercase identifiers, explicit `scale`, no stray `0`.
+- [ ] **Every `bc` claim is ASSERTED** (prints a `FAIL` line on mismatch), not
+      merely annotated with a prose `(want ...)`; and `run.sh` greps the output
+      rather than trusting the exit status, which `bc` fixes at 0.
+- [ ] **The harness has been negative-contrast tested end to end**: corrupt one
+      value, confirm `run.sh` exits nonzero, revert. An assertion never seen to
+      fail is not known to be an assertion.
 - [ ] Python imports stdlib only; every RNG stream is seeded from an argument.
 - [ ] Capsule graph checks read `tsort` stderr for `cycle`.
 - [ ] Lean cores are Mathlib-free or labelled as requiring it.

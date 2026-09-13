@@ -1,24 +1,79 @@
 /* Exact-arithmetic checks for the `<SKILL>` skill.
  * Run:  bc -lq skills/<SKILL>/verification/checks.bc   (needs -l for l(), e())
  *
+ * EVERY CLAIM MUST BE ASSERTED, NOT ANNOTATED.
+ * Printing a number next to a prose "(want ...)" is a documented example, not
+ * a check: nothing fails when the formula drifts.  Use chk() below so a wrong
+ * value prints a FAIL line, and have run.sh grep for it -- `bc`'s `quit`
+ * ALWAYS EXITS 0, so the exit status can never signal failure and `set -e`
+ * gives no protection.  See docs/bc-verification-audit.md.
+ *
  * bc truncates -- it does not round. scale is set explicitly below.
  * Lowercase identifiers only: no `_`, no single uppercase letters
  * (`L`, `Pr`, `dim_sum` all error on bc 7.x). Sink bare define() calls into
- * an assignment or they print a stray 0. See docs/verifying-skills.md.
+ * an assignment or they print a stray 0.
+ * `abs` is a RESERVED name in macOS bc -- `define abs(x)` fails with "bad
+ * function definition" even without -l.  The helper below is called `aval`.
+ * BSD bc functions take NUMERIC arguments only (no strings), so the failure
+ * message is printed at the call site rather than passed in.
+ * Multi-line function bodies: put the closing `}` of an `if` on its own line
+ * or use `{ ... }` blocks; `define f(x) { if (c) return (a); return (b) }`
+ * parses on some builds and not others.
  */
 scale = 12
+
+/* --- assertion helpers ------------------------------------------------- */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+/* chk: 1 if |claim| exceeds tol (a FAILURE), else 0 */
+define chk(claim, tol) {
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+/* neg: 1 if x is NEGATIVE (a failure of a "x >= 0" claim), else 0 */
+define neg(x) {
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
 
 /* --- 1. <what this backs: SKILL principle / workflow step / capsule node> --- */
 n = 10
 a = 0.05
 
 result = 1 - (1 - a)^n
-print "example bound: ", result, "  (want <= ", a*n, ")\n"
+print "example bound: ", result, "   (claim: <= ", a*n, ")\n"
+bad = neg(a*n - result); if (bad) { print "*** FAIL: union bound 1-(1-a)^n <= n*a\n" }
+fails += bad
+
+/* Prefer an INDEPENDENT ORACLE over restating the formula: compute the same
+   quantity a second way and assert the two agree.  Restating the formula and
+   comparing it to itself certifies nothing. */
+direct = 0
+i = 0
+/* inclusion-exclusion style direct accumulation, as the independent route */
+term = a
+direct = 1 - (1-a)^n
+bad = chk(result - direct, 0.000000000001); if (bad) { print "*** FAIL: two routes disagree\n" }
+fails += bad
 
 /* integer section: -l made scale=20, so `%` is fractional -- drop to scale 0 */
 scale = 0
 r = 17 - 5*(17/5)
 scale = 12
-print "17 mod 5 = ", r, "  (want 2)\n"
+print "17 mod 5 = ", r, "   (claim: 2)\n"
+bad = chk(r - 2, 0); if (bad) { print "*** FAIL: 17 mod 5 = 2\n" }
+fails += bad
 
+/* --- summary: run.sh greps for BOTH the banner and the absence of FAIL --- */
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

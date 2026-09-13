@@ -10,13 +10,29 @@
 #   2. <workflow check with a known answer>                          (py)
 #   3. <negative contrast: guardrail must trip>                      (py)
 #
-# See docs/verifying-skills.md for the shared contract and portability rules.
+# NEGATIVE-CONTRAST TEST THIS HARNESS BEFORE SHIPPING IT: corrupt one value,
+# confirm this script exits nonzero, revert.  An assertion that has never been
+# seen to fail is not known to be an assertion.
+#
+# See docs/verifying-skills.md for the shared contract and portability rules,
+# and docs/bc-verification-audit.md for the bc exit-status trap.
 set -e
 cd "$(dirname "$0")"
 PY=python3
 
 echo "=== 1. <name> (bc) ==="
-bc -lq checks.bc
+# `bc`'s `quit` ALWAYS EXITS 0 -- the exit status can never signal failure and
+# `set -e` gives no protection.  The OUTPUT must be inspected.  Both conditions
+# below are needed: the banner alone would be satisfied by a file that never
+# reached its later sections, and the absence of FAIL alone by one that crashed
+# before printing anything.  See docs/bc-verification-audit.md.
+bcout=$(bc -lq checks.bc)
+printf '%s\n' "$bcout"
+if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
+   || printf '%s\n' "$bcout" | grep -q FAIL; then
+    echo "bc checks FAILED" >&2
+    exit 1
+fi
 echo
 
 echo "=== 2-N. workflow checks (python, stdlib only) ==="
