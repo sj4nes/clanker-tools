@@ -22,7 +22,7 @@ echo "=== dimensional checks (bc, [M L T Theta N]) ==="
 bcout=$(bc -q -l validation/dimensional-checks.bc)
 printf '%s\n' "$bcout"
 if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
-   || printf '%s\n' "$bcout" | grep -q '*** FAIL'; then
+   || printf '%s\n' "$bcout" | grep -qF '*** FAIL'; then
     echo "bc checks FAILED" >&2
     exit 1
 fi

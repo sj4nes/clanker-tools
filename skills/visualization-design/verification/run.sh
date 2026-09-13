@@ -21,7 +21,7 @@ echo "=== 1-2. contrast ratios + lie factors (bc) ==="
 bcout=$(bc -l -q checks.bc)
 printf '%s\n' "$bcout"
 if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
-   || printf '%s\n' "$bcout" | grep -q '*** FAIL'; then
+   || printf '%s\n' "$bcout" | grep -qF '*** FAIL'; then
     echo "bc checks FAILED" >&2
     exit 1
 fi

@@ -30,7 +30,7 @@ bcout=$(bc -lq checks.bc 2>&1) && bcstatus=0 || bcstatus=$?
 printf '%s\n' "$bcout"
 if [ "$bcstatus" -ne 0 ] \
    || ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
-   || printf '%s\n' "$bcout" | grep -q '\*\*\* FAIL'; then
+   || printf '%s\n' "$bcout" | grep -qF '*** FAIL'; then
     echo "bc checks FAILED (exit status $bcstatus)" >&2
     exit 1
 fi

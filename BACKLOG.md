@@ -818,6 +818,24 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       from the 16 README Verification rows. Skeletons in `templates/verification/`
       (`run.sh`, `checks.bc`, `README.md`). README Verification section links both.
       (2026-09-08)
+- [x] **bc marker grep was broken in 8 of 9 harnesses + the template** — found
+      2026-09-13 while building the second §7 displacement table (`statistics`),
+      from a stray `grep: repetition-operator operand invalid` on stderr in an
+      otherwise-passing run. `grep -q '*** FAIL'` reads its argument as a BRE
+      whose leading `*` is a repetition operator applied to nothing: GNU `grep`
+      tolerates it, **`ugrep` (what `grep` resolves to here) exits 2**, and
+      shell `if` reads 2 as false — so the clause could never fire. Proved on
+      `skills/statistics`: a `*** FAIL` marker planted with the `fails` counter
+      left at 0 (banner still printed, `bc` still exit 0) passed the gate with
+      **exit 0**; exits 1 after the fix. Switched all nine harnesses plus
+      `templates/verification/run.sh` to the fixed-string form
+      `grep -qF '*** FAIL'`; all nine re-run green.
+      Root cause is one level up from the original audit: it asked "can this
+      assertion fail?" of every `bc` claim but never of the **runner's own
+      clauses**, and three signals tested *together* always look healthy because
+      the two working ones cover for the third. New §8 checklist item requires
+      each of the three `bc` signals to be tested **in isolation**; recorded as
+      an addendum in `docs/bc-verification-audit.md` and as a §3 row.
 - [ ] **displacement tables, retro-fit:** `docs/verifying-skills.md` §7 now
       requires one per behaviour-modification skill, and exactly one skill has
       one (`test-writing`, where the rule was derived). A repo-wide rule that

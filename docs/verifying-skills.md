@@ -64,7 +64,7 @@ bcout=$(bc -lq checks.bc 2>&1) && bcstatus=0 || bcstatus=$?
 printf '%s\n' "$bcout"
 if [ "$bcstatus" -ne 0 ] \
    || ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
-   || printf '%s\n' "$bcout" | grep -q '*** FAIL'; then
+   || printf '%s\n' "$bcout" | grep -qF '*** FAIL'; then   # -F is load-bearing, see §3
     echo "bc checks FAILED (exit status $bcstatus)" >&2; exit 1
 fi
 echo
@@ -109,6 +109,7 @@ skill has the full treatment; this is the verification-relevant subset.
 | **Force a nonzero exit too, with a deliberate `1/0`.** | `bc` has no `assert` and `quit` takes no status, but a divide-by-zero raises a documented math error and exits 1. This is the backstop for a runner that forgets to grep — the mistake that shipped in 20 of 24 harnesses. Verified: a naive `set -e; bc checks.bc` now catches a false claim. | End `checks.bc` with `if (fails > 0) { zz = 1/0 }`, **after** the FAIL lines and summary — a math error halts `bc` immediately, so put it last or you lose the diagnostics. |
 | **Capture `bc`'s status explicitly; don't let `set -e` or a pipe eat it.** | Under `set -e` a failing `$( )` assignment aborts *before* the captured output is printed, losing the diagnostic. A pipe replaces `bc`'s status with the last command's. | `bcout=$(bc -lq checks.bc 2>&1) && bcstatus=0 \|\| bcstatus=$?`, print `$bcout`, then test both signals. |
 | **Grep for the marker `*** FAIL`, never bare `FAIL`.** | Descriptive text legitimately contains the word — `visualization-design` prints `(claim: < 3 -> FAILS as a standalone cue)`, which made a bare `grep -q FAIL` fail a passing run. | Emit `*** FAIL: <claim>` from assertions only, and grep for exactly that. |
+| **Grep for it with `-F`: `grep -qF '*** FAIL'`.** | `'*** FAIL'` as a *regex* starts with a repetition operator applied to nothing. GNU `grep` tolerates a leading `*` as a literal; **`ugrep` (installed as `grep` on this machine) exits 2, `repetition-operator operand invalid`** — and shell `if` treats 2 as false, so the clause silently never fires. Found 2026-09-13 in **8 of 9 harnesses plus the template** (every one copied from the template), where a planted `*** FAIL` marker passed the gate with exit 0. The other two signals (missing pass banner, `1/0` backstop) had been masking it. | `grep -qF '*** FAIL'` — fixed-string, no escaping to get wrong. Not `grep -q '*** FAIL'`, not `grep -q '\*\*\* FAIL'`. |
 | **`abs` is a RESERVED name in macOS `bc`.** | `define abs(x)` fails with `bad function definition`, even without `-l`. | Name it something else — `aval`. |
 | **BSD `bc` functions take NUMERIC arguments only.** | No strings, so a failure message cannot be passed to an assertion helper. | Print the message at the call site: `bad = chk(expr, tol); if (bad) { print "*** FAIL: ...\n" }`. |
 | **Multi-line `define` bodies are the portable form.** | `define f(x) { if (c) return (a); return (b) }` parses on some builds and not others. | Put each statement on its own line, `{ }`-blocked. |
@@ -141,8 +142,10 @@ fails += bad
 /* ...and END the file with the backstop, AFTER the summary: */
 if (fails > 0) { zz = 1/0 }     /* forces exit 1; a math error halts bc here */
 
-/* `*** FAIL` is the MARKER the runner greps for.  Never use the bare word
-   `FAIL` in descriptive text on a passing path -- it will fail a good run. */
+/* `*** FAIL` is the MARKER the runner greps for, with `grep -qF` -- as a
+   regex it is an invalid leading repetition operator and ugrep exits 2, which
+   shell `if` reads as false.  Never use the bare word `FAIL` in descriptive
+   text on a passing path -- it will fail a good run. */
 
 if (fails == 0) { print "ALL BC CHECKS PASSED\n" }
 if (fails > 0)  { print "*** ", fails, " BC CHECK(S) FAILED\n" }
@@ -348,6 +351,12 @@ Two corollaries, and one caution:
 - [ ] **The harness has been negative-contrast tested end to end**: corrupt one
       value, confirm `run.sh` exits nonzero, revert. An assertion never seen to
       fail is not known to be an assertion.
+- [ ] **Each of the three `bc` signals tested in ISOLATION**, not just together.
+      A marker planted with the `fails` counter untouched (banner still printed,
+      exit still 0) must make `run.sh` exit 1 — that is the only way to see the
+      `grep -qF '*** FAIL'` clause work, and it is how the broken `grep -q` form
+      hid in 8 harnesses. Likewise a syntax error for the status clause and a
+      suppressed banner for the banner clause.
 - [ ] Python imports stdlib only; every RNG stream is seeded from an argument.
 - [ ] Capsule graph checks read `tsort` stderr for `cycle`.
 - [ ] Lean cores are Mathlib-free or labelled as requiring it.

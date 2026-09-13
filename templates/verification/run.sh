@@ -30,6 +30,14 @@ echo "=== 1. <name> (bc) ==="
 # bc reports interpreter errors but never a false claim, so signal 1 is the
 # one that catches wrong arithmetic; signal 2 is the backstop.
 #
+# The `-F` on the marker grep is LOAD-BEARING.  `'*** FAIL'` as a regex is a
+# leading repetition operator applied to nothing: ugrep (installed as `grep`
+# here) exits 2 with `repetition-operator operand invalid`, and shell `if`
+# reads 2 as false -- so the clause never fires.  That broke this signal in 8
+# of 9 harnesses before 2026-09-13.  Test it in ISOLATION: plant a `*** FAIL`
+# marker with the `fails` counter untouched (banner still printed, exit still
+# 0) and confirm run.sh exits 1.
+#
 # Capture the status EXPLICITLY. Two traps here:
 #   - under `set -e`, a failing `$( )` assignment aborts before the diagnostics
 #     are printed, so the useful output is lost;
@@ -39,7 +47,7 @@ bcout=$(bc -lq checks.bc 2>&1) && bcstatus=0 || bcstatus=$?
 printf '%s\n' "$bcout"
 if [ "$bcstatus" -ne 0 ] \
    || ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
-   || printf '%s\n' "$bcout" | grep -q '*** FAIL'; then
+   || printf '%s\n' "$bcout" | grep -qF '*** FAIL'; then
     echo "bc checks FAILED (exit status $bcstatus)" >&2
     exit 1
 fi

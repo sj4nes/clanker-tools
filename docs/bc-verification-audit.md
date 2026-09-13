@@ -246,3 +246,42 @@ fail a *passing* run during this remediation.
 **Every harness written to this pattern must be negative-contrast tested** —
 corrupt one value, confirm the run fails, revert. An assertion that has never
 been seen to fail is not known to be an assertion.
+
+---
+
+## Addendum, 2026-09-13: the marker grep was itself broken
+
+The remediation above installed three independent signals per `bc` harness: the
+`*** FAIL` marker in the output, the pass banner, and a `1/0` backstop forcing a
+nonzero exit. The first of those **did not work in 8 of 9 harnesses, plus the
+template every one of them was copied from**.
+
+`grep -q '*** FAIL'` treats its argument as a basic regular expression, in which
+a leading `*` is a repetition operator applied to nothing. GNU `grep` tolerates
+it as a literal; **`ugrep` — which is what `grep` resolves to on this machine —
+exits 2 with `repetition-operator operand invalid`**. Shell `if` treats any
+nonzero status as false, so the clause could never fire, and the error line
+scrolled past in the middle of a passing run.
+
+Demonstrated on `skills/statistics`: a `*** FAIL` marker planted in `checks.bc`
+with the `fails` counter left at 0 — so the pass banner still printed and `bc`
+still exited 0 — passed the gate with **exit 0**. After the fix the same
+corruption exits 1.
+
+Fixed in all nine harnesses and the template by switching to the fixed-string
+form, `grep -qF '*** FAIL'`, which needs no escaping and no regex semantics:
+
+    templates/verification/run.sh
+    skills/statistics, visualization-design, simulation, unknown-discovery,
+    design-of-experiments, control-systems, test-writing
+    skills/physics-thermodynamics/build
+
+All nine re-run green afterwards.
+
+**The lesson is the same one this document already records, one level up.** The
+2026-09-13 audit asked "can this assertion fail?" of every `bc` claim. It did
+not ask it of the *runner's own clauses*. Three signals tested **together**
+always looked healthy, because the two working ones covered for the third; the
+defect is only visible when each signal is tested **in isolation** — a marker
+with no failure, a syntax error with no marker, a suppressed banner. That is now
+a checklist item in [`verifying-skills.md`](verifying-skills.md) §8.
