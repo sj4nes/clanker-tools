@@ -1,8 +1,34 @@
 /* Analytic checks for the control-systems verification run.
    Run with:  bc -q -l checks.bc
-   `bc` truncates; identifiers are lowercase, no `_` or single uppercase letters. */
+   `bc` truncates; identifiers are lowercase, no `_` or single uppercase letters.
+
+   EVERY CLAIM IS ASSERTED (helpers below): `bc`'s `quit` always exits 0, so a
+   printed "(should be ...)" catches nothing.  See docs/bc-verification-audit.md. */
 
 scale = 8
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+tol = 0.00000001
 
 wn = 1.0
 zeta = 0.2
@@ -15,6 +41,21 @@ disc = a1*a1 - 4*a0
 print "open-loop  discriminant = ", disc, "  (negative => underdamped, complex poles)\n"
 reol = -a1/2
 print "open-loop  Re(pole) = ", reol, "  (should be -", zeta*wn, ", stable but lightly damped)\n"
+bad = chk(a1 - 0.4, tol); if (bad) { print "*** FAIL: open-loop a1 = 2*zeta*wn = 0.4\n" }
+fails += bad
+bad = chk(a0 - 1, tol); if (bad) { print "*** FAIL: open-loop a0 = wn^2 = 1\n" }
+fails += bad
+/* negative discriminant IS the underdamped claim -- assert it, do not annotate */
+bad = neg(-disc); if (bad) { print "*** FAIL: discriminant must be negative (underdamped, complex poles)\n" }
+fails += bad
+bad = chk(reol + zeta*wn, tol); if (bad) { print "*** FAIL: Re(pole) = -zeta*wn\n" }
+fails += bad
+/* open loop is stable but LIGHTLY damped: that is the whole motivation for the
+   feedback design below, so assert zeta is genuinely small. */
+bad = neg(-reol); if (bad) { print "*** FAIL: open loop must be stable (Re(pole) < 0)\n" }
+fails += bad
+bad = neg(0.5 - zeta); if (bad) { print "*** FAIL: open loop must be lightly damped (zeta < 0.5)\n" }
+fails += bad
 
 /* --- 2. state feedback u = -[k1 k2] x, place a1_cl, a0_cl --- */
 /* target: wn_cl = 2.0, zeta_cl = 0.8  => a1_cl = 2*zeta_cl*wn_cl, a0_cl = wn_cl^2 */
@@ -27,19 +68,61 @@ k2 = (a1cl - 2*zeta*wn) / (wn*wn)
 k1 = (a0cl - wn*wn) / (wn*wn)
 print "state fb   K = [ ", k1, " ", k2, " ]\n"
 print "closed a1 = ", a1cl, "  a0 = ", a0cl, "\n"
+/* ROUND TRIP (the independent oracle): K was SOLVED from the target
+   coefficients, so substituting it back into the closed-loop characteristic
+   polynomial must reproduce them.  Restating the solving formula would prove
+   nothing; this re-derives the coefficients by the forward map. */
+a1chk = 2*zeta*wn + wn*wn*k2
+a0chk = wn*wn + wn*wn*k1
+print "round trip: a1 from K = ", a1chk, "   a0 from K = ", a0chk, "\n"
+bad = chk(a1chk - a1cl, tol); if (bad) { print "*** FAIL: K does not place a1 at its target\n" }
+fails += bad
+bad = chk(a0chk - a0cl, tol); if (bad) { print "*** FAIL: K does not place a0 at its target\n" }
+fails += bad
+bad = chk(k1 - 3, tol); if (bad) { print "*** FAIL: k1 = 3\n" }
+fails += bad
+bad = chk(k2 - 2.8, tol); if (bad) { print "*** FAIL: k2 = 2.8\n" }
+fails += bad
+/* the design must actually IMPROVE damping -- the point of the exercise */
+bad = neg(zetacl - zeta); if (bad) { print "*** FAIL: feedback must increase the damping ratio\n" }
+fails += bad
 
 /* --- 3. Routh-Hurwitz for the 2nd-order closed loop: stable iff a1>0 and a0>0 --- */
 if (a1cl > 0 && a0cl > 0) {
     print "Routh-Hurwitz: a1 > 0 and a0 > 0  => closed loop asymptotically stable\n"
 } else {
-    print "Routh-Hurwitz: FAIL\n"
+    print "*** FAIL: Routh-Hurwitz -- closed loop is NOT asymptotically stable\n"
 }
+bad = neg(a1cl); if (bad) { print "*** FAIL: Routh-Hurwitz needs a1 > 0\n" }
+fails += bad
+bad = neg(a0cl); if (bad) { print "*** FAIL: Routh-Hurwitz needs a0 > 0\n" }
+fails += bad
+/* closed-loop poles: Re = -zeta_cl*wn_cl = -1.6, strictly left half plane */
+bad = neg(zetacl*wncl); if (bad) { print "*** FAIL: closed-loop poles must be in the left half plane\n" }
+fails += bad
 
 /* --- 4. discrete stability bound: forward-Euler of s = -p needs Ts < 2/p --- */
 /* dominant closed-loop pole magnitude ~ wn_cl ; a crude loop-rate ceiling */
 tsmax = 2 / wncl
 print "crude explicit-discretisation ceiling: Ts < ", tsmax, " s  (2 / wn_cl)\n"
-print "  -> Ts = 0.05 s is well inside; Ts = 0.8 s is far outside (expect divergence)\n"
+print "  -> Ts = 0.05 s is well inside this bound.\n"
+bad = chk(tsmax - 1.0, tol); if (bad) { print "*** FAIL: Ts ceiling = 2/wn_cl = 1.0 s\n" }
+fails += bad
+bad = neg(tsmax - 0.05); if (bad) { print "*** FAIL: Ts = 0.05 must be INSIDE the stability ceiling\n" }
+fails += bad
+/* HONEST SCOPE OF THIS BOUND (corrected 2026-09-13, surfaced by asserting it).
+   This ceiling is 2/wn_cl for the STATE-FEEDBACK design, wn_cl = 2 rad/s, so
+   it equals 1.0 s.  The run.sh section-5 guardrail diverges at Ts = 0.8 s,
+   which is INSIDE this bound -- the file previously claimed 0.8 s was "far
+   outside" it, which is simply false (0.8 < 1.0).
+   The divergence there is a property of the PID loop (kp=4, ki=3, kd=1.5),
+   whose effective bandwidth is higher than the state-feedback design's, and
+   whose derivative term amplifies the sampling error.  This crude bound is
+   NECESSARY, NOT SUFFICIENT: satisfying it does not certify a different
+   controller on the same plant.  Section 5 demonstrates the divergence
+   numerically; it is not predicted here, and this file no longer claims it is. */
+bad = neg(tsmax - 0.8); if (bad) { print "*** FAIL: 0.8 s is inside this bound -- the claim that it is outside was the defect\n" }
+fails += bad
 
 /* --- 5. controllability / observability determinants (2x2) --- */
 /* Cm = [B  AB], B = [0 ; wn^2], AB = [wn^2 ; -2 zeta wn * wn^2] */
@@ -48,5 +131,21 @@ print "det(controllability) = ", detc, "  (nonzero => controllable)\n"
 /* Om = [C ; C A], C = [1 0], CA = [0 1] */
 deto = 1*1 - 0*0
 print "det(observability)   = ", deto, "  (nonzero => observable)\n"
+/* "nonzero => controllable/observable" is the claim; assert the nonzeroness
+   rather than printing it.  Both must hold for the design above to be valid
+   at all -- pole placement requires controllability. */
+bad = chk(detc + 1, tol); if (bad) { print "*** FAIL: det(controllability) = -1\n" }
+fails += bad
+if (detc == 0) { print "*** FAIL: system not controllable -- pole placement is invalid\n" }
+bad = chk(deto - 1, tol); if (bad) { print "*** FAIL: det(observability) = 1\n" }
+fails += bad
+if (deto == 0) { print "*** FAIL: system not observable -- the estimator is invalid\n" }
 
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

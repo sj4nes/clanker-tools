@@ -1,24 +1,73 @@
 /* Analytic benchmarks and a dimensional check for the M/M/1 verification.
  * Run:  bc -q skills/simulation/verification/checks.bc
  * bc truncates; scale set explicitly per the `bc` skill.
+ *
+ * EVERY CLAIM IS ASSERTED (see the helpers below), because `bc`'s `quit`
+ * always exits 0 and a printed "(want ...)" is not a check.
  */
 scale = 6
+
+/* --- assertion helpers -------------------------------------------------
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+tol = 0.000001
 
 lam = 0.8      /* arrivals per unit time,  [T^-1] */
 mu  = 1.0      /* service completions per unit time, [T^-1] */
 rho = lam / mu /* dimensionless utilization, [1] */
 
-print "rho          = ", rho, "\n"
-print "L  = rho/(1-rho)      = ", rho / (1 - rho), "\n"
-print "Lq = rho^2/(1-rho)    = ", (rho * rho) / (1 - rho), "\n"
-print "W  = 1/(mu-lam)       = ", 1 / (mu - lam), "\n"
-print "Wq = rho/(mu-lam)     = ", rho / (mu - lam), "\n"
-
-/* Little's law must hold: L (dimensionless count) == lam [T^-1] * W [T].
- * Residual should be 0 to displayed scale. */
 ll = rho / (1 - rho)
+lq = (rho * rho) / (1 - rho)
 ww = 1 / (mu - lam)
+wq = rho / (mu - lam)
+
+print "rho          = ", rho, "\n"
+print "L  = rho/(1-rho)      = ", ll, "\n"
+print "Lq = rho^2/(1-rho)    = ", lq, "\n"
+print "W  = 1/(mu-lam)       = ", ww, "\n"
+print "Wq = rho/(mu-lam)     = ", wq, "\n"
+
+/* Closed-form values at rho = 0.8, asserted against hand-computed constants. */
+bad = chk(rho - 0.8, tol); if (bad) { print "*** FAIL: rho = lam/mu = 0.8\n" }
+fails += bad
+bad = chk(ll - 4, tol);    if (bad) { print "*** FAIL: L = 4 at rho = 0.8\n" }
+fails += bad
+bad = chk(lq - 3.2, tol);  if (bad) { print "*** FAIL: Lq = 3.2 at rho = 0.8\n" }
+fails += bad
+bad = chk(ww - 5, tol);    if (bad) { print "*** FAIL: W = 5 at rho = 0.8\n" }
+fails += bad
+bad = chk(wq - 4, tol);    if (bad) { print "*** FAIL: Wq = 4 at rho = 0.8\n" }
+fails += bad
+
+/* Little's law is the INDEPENDENT ORACLE here: L is computed from rho alone,
+ * lam*W from the rate and the waiting time, by different routes.  Requiring
+ * them to agree tests both, which restating either formula would not. */
 print "Little residual  L - lam*W = ", ll - lam * ww, "\n"
+bad = chk(ll - lam * ww, tol); if (bad) { print "*** FAIL: Little's law L = lam*W\n" }
+fails += bad
+/* the queue-only form of Little's law, a second independent route */
+bad = chk(lq - lam * wq, tol); if (bad) { print "*** FAIL: Little's law Lq = lam*Wq\n" }
+fails += bad
+/* decomposition identities: a job in the system is either waiting or in service */
+bad = chk(ll - (lq + rho), tol); if (bad) { print "*** FAIL: L = Lq + rho\n" }
+fails += bad
+bad = chk(ww - (wq + 1/mu), tol); if (bad) { print "*** FAIL: W = Wq + 1/mu\n" }
+fails += bad
 
 /* Dimensional check, [T] basis: lam*W has dimension [T^-1]*[T] = [1],
  * matching L. Encode exponents as integers and require the sum to be 0. */
@@ -26,7 +75,27 @@ dimlam = -1
 dimw   =  1
 dimsum = dimlam + dimw
 print "dim(lam)+dim(W) (want 0) = ", dimsum, "\n"
+bad = chk(dimsum, 0); if (bad) { print "*** FAIL: lam*W is dimensionless\n" }
+fails += bad
 
 /* Degenerate case: lam = 0 -> rho = 0 -> L = 0. */
 print "lam=0 => L = ", 0 / (1 - 0), "\n"
+bad = chk(0 / (1 - 0), 0); if (bad) { print "*** FAIL: empty system has L = 0\n" }
+fails += bad
+
+/* Stability regime: rho < 1 is required for these steady-state formulas to
+ * exist at all.  Asserting it guards against a future edit setting lam >= mu,
+ * which would silently produce negative L and W. */
+bad = neg(1 - rho); if (bad) { print "*** FAIL: rho < 1 required for a steady state\n" }
+fails += bad
+bad = neg(ll); if (bad) { print "*** FAIL: L must be nonnegative\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

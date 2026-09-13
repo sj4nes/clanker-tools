@@ -61,7 +61,7 @@ echo "=== 1. <name> (bc) ==="
 bcout=$(bc -lq checks.bc)
 printf '%s\n' "$bcout"
 if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
-   || printf '%s\n' "$bcout" | grep -q FAIL; then
+   || printf '%s\n' "$bcout" | grep -q '*** FAIL'; then
     echo "bc checks FAILED" >&2; exit 1
 fi
 echo
@@ -101,7 +101,8 @@ skill has the full treatment; this is the verification-relevant subset.
 | **Set `scale` before the first calculation, and reset it explicitly** when a block changes precision. | `scale` is global and sticky. | One `scale = N` near the top; re-set per block that needs different precision. |
 | **Base conversion: set `obase` before `ibase`.** | After `ibase = 16`, the token `10` means base-16 sixteen. | `obase = A` (or set `obase` first). |
 | End the script with `quit`. | Clean exit under `-q`. | |
-| **`quit` ALWAYS exits 0 — there is no failure exit status.** | A runner that checks only `$?` (or relies on `set -e`) passes a run whose assertions all failed. This shipped in 20 of 24 harnesses; see [`bc-verification-audit.md`](bc-verification-audit.md). | Capture the output and `grep` for both a pass banner and the absence of `FAIL`. |
+| **`quit` ALWAYS exits 0 — there is no failure exit status.** | A runner that checks only `$?` (or relies on `set -e`) passes a run whose assertions all failed. This shipped in 20 of 24 harnesses; see [`bc-verification-audit.md`](bc-verification-audit.md). | Capture the output and `grep` for both a pass banner and the absence of the failure marker. |
+| **Grep for the marker `*** FAIL`, never bare `FAIL`.** | Descriptive text legitimately contains the word — `visualization-design` prints `(claim: < 3 -> FAILS as a standalone cue)`, which made a bare `grep -q FAIL` fail a passing run. | Emit `*** FAIL: <claim>` from assertions only, and grep for exactly that. |
 | **`abs` is a RESERVED name in macOS `bc`.** | `define abs(x)` fails with `bad function definition`, even without `-l`. | Name it something else — `aval`. |
 | **BSD `bc` functions take NUMERIC arguments only.** | No strings, so a failure message cannot be passed to an assertion helper. | Print the message at the call site: `bad = chk(expr, tol); if (bad) { print "*** FAIL: ...\n" }`. |
 | **Multi-line `define` bodies are the portable form.** | `define f(x) { if (c) return (a); return (b) }` parses on some builds and not others. | Put each statement on its own line, `{ }`-blocked. |
@@ -130,6 +131,9 @@ bad = 0
 
 bad = chk(got - want, 0.000000001); if (bad) { print "*** FAIL: <claim>\n" }
 fails += bad
+
+/* `*** FAIL` is the MARKER the runner greps for.  Never use the bare word
+   `FAIL` in descriptive text on a passing path -- it will fail a good run. */
 
 if (fails == 0) { print "ALL BC CHECKS PASSED\n" }
 if (fails > 0)  { print "*** ", fails, " BC CHECK(S) FAILED\n" }

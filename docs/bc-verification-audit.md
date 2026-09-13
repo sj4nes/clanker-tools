@@ -151,16 +151,21 @@ and in the runner:
 ```sh
 bc -q -l validation/instance-checks.bc > build/instance-checks.out 2>&1
 if grep -q "ALL INSTANCE CHECKS PASSED" build/instance-checks.out \
-   && ! grep -q "FAIL" build/instance-checks.out; then
+   && ! grep -q '\*\*\* FAIL' build/instance-checks.out; then
   echo "bc: ok"
 else
-  echo "bc: FAILED" >&2; grep "FAIL" build/instance-checks.out >&2; exit 1
+  echo "bc: FAILED" >&2; grep '\*\*\* FAIL' build/instance-checks.out >&2; exit 1
 fi
 ```
 
 Both conditions are needed: the pass banner alone would be satisfied by a file
-that never ran its later sections, and the absence of `FAIL` alone would be
-satisfied by a file that crashed before printing anything.
+that never ran its later sections, and the absence of a failure marker alone
+would be satisfied by a file that crashed before printing anything.
+
+**Grep for the marker `*** FAIL`, never bare `FAIL`.** Descriptive text
+legitimately contains the word — `visualization-design` prints
+`(claim: < 3 -> FAILS as a standalone cue)`, which made a bare `grep -q FAIL`
+fail a *passing* run during this remediation.
 
 **Every harness written to this pattern must be negative-contrast tested** —
 corrupt one value, confirm the run fails, revert. An assertion that has never

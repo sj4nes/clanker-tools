@@ -1,8 +1,38 @@
 /* Value-of-information / EVPI on a two-action, two-state decision.
    States: s1 (demand high) p = 0.30 ; s2 (demand low) 0.70
    Actions: a1 = build capacity ; a2 = do not build
-   Payoffs v(action, state):                                        */
+   Payoffs v(action, state):
+
+   EVERY CLAIM IS ASSERTED (helpers below).  The "expect N" comments this file
+   used to carry were annotations, not checks: `bc`'s `quit` always exits 0 and
+   nothing compared the echoed value to the expectation.
+   (Note: bc comments do NOT nest, so an inner close-comment token would end
+   this block early -- hence the quoted form above.)
+   See docs/bc-verification-audit.md.                                 */
 scale = 6
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+tol = 0.000001
 p = 0.30
 
 va1s1 = 100 ; va1s2 = -40
@@ -16,24 +46,80 @@ ea2 = p*va2s1 + (1-p)*va2s2
 
 valuenow = ea1
 if (ea2 > ea1) valuenow = ea2
-"value_now        = " ; valuenow          /* expect 5 */
+"value_now        = " ; valuenow
+/* Acting on current belief: E[a1] = .3(100) + .7(-40) = 2, E[a2] = .3(-30) +
+   .7(20) = 5, so the better fixed action is a2 at 5. */
+bad = chk(ea1 - 2, tol); if (bad) { print "*** FAIL: E[a1] = 2\n" }
+fails += bad
+bad = chk(ea2 - 5, tol); if (bad) { print "*** FAIL: E[a2] = 5\n" }
+fails += bad
+bad = chk(valuenow - 5, tol); if (bad) { print "*** FAIL: value_now = max(E[a1], E[a2]) = 5\n" }
+fails += bad
 
 /* expected value if the true state were known before acting */
 bests1 = va1s1 ; if (va2s1 > va1s1) bests1 = va2s1
 bests2 = va1s2 ; if (va2s2 > va1s2) bests2 = va2s2
 valueperfect = p*bests1 + (1-p)*bests2
-"value_perfect    = " ; valueperfect      /* expect 44 */
+"value_perfect    = " ; valueperfect
+/* Knowing the state first: pick a1 (100) if high, a2 (20) if low.
+   .3(100) + .7(20) = 44. */
+bad = chk(valueperfect - 44, tol); if (bad) { print "*** FAIL: value_perfect = 44\n" }
+fails += bad
+/* Perfect information can never be worth LESS than acting on belief -- the
+   structural guarantee behind the whole VoI apparatus. */
+bad = neg(valueperfect - valuenow); if (bad) { print "*** FAIL: perfect information cannot lower the expected value\n" }
+fails += bad
 
 evpi = valueperfect - valuenow
-"evpi             = " ; evpi              /* expect 39 */
+"evpi             = " ; evpi
+bad = chk(evpi - 39, tol); if (bad) { print "*** FAIL: EVPI = 44 - 5 = 39\n" }
+fails += bad
 
 /* a probe that costs more than EVPI is not worth running */
 probecost = 45
 "probe_cost       = " ; probecost
 worth = 0 ; if (evpi > probecost) worth = 1
-"probe_worthwhile = " ; worth             /* expect 0 : do not probe, act + monitor */
+"probe_worthwhile = " ; worth
+/* THE DECISION RULE, asserted: a probe costing 45 exceeds the 39 that perfect
+   information is worth, so it must NOT be run.  EVPI is an upper bound on any
+   probe's value -- no study can beat knowing the answer outright. */
+bad = chk(worth, 0); if (bad) { print "*** FAIL: a probe costing more than EVPI must not be worthwhile\n" }
+fails += bad
+bad = neg(probecost - evpi); if (bad) { print "*** FAIL: this probe's cost must exceed EVPI for the guardrail to bite\n" }
+fails += bad
+/* NEGATIVE CONTRAST: a cheaper probe must flip the decision, or the rule is
+   vacuous -- it would "pass" by always saying no. */
+cheap = 20
+worthcheap = 0 ; if (evpi > cheap) worthcheap = 1
+"probe_worthwhile_at_20 = " ; worthcheap
+bad = chk(worthcheap - 1, 0); if (bad) { print "*** FAIL: a probe costing 20 < EVPI must BE worthwhile (rule is not vacuous)\n" }
+fails += bad
 
 /* EVPI is never negative, and never more than the regret of the worse action */
 worstfixed = ea1 ; if (ea2 < ea1) worstfixed = ea2
-"evpi_nonneg      = " ; (evpi >= 0)                  /* expect 1 */
-"evpi_bounded     = " ; (evpi <= valueperfect - worstfixed)  /* expect 1 */
+"evpi_nonneg      = " ; (evpi >= 0)
+"evpi_bounded     = " ; (evpi <= valueperfect - worstfixed)
+bad = chk((evpi >= 0) - 1, 0); if (bad) { print "*** FAIL: EVPI must be nonnegative\n" }
+fails += bad
+bad = chk((evpi <= valueperfect - worstfixed) - 1, 0); if (bad) { print "*** FAIL: EVPI must not exceed the regret of the worse fixed action\n" }
+fails += bad
+/* Degenerate case: under certainty (p = 1) there is nothing left to learn, so
+   EVPI must be exactly 0.  This is the boundary the formula is easiest to get
+   wrong at. */
+e1c = 1*va1s1 + 0*va1s2
+e2c = 1*va2s1 + 0*va2s2
+vnowc = e1c ; if (e2c > e1c) vnowc = e2c
+b1c = va1s1 ; if (va2s1 > va1s1) b1c = va2s1
+vperfc = 1*b1c + 0*va1s2*0
+"evpi_under_certainty = " ; vperfc - vnowc
+bad = chk(vperfc - vnowc, tol); if (bad) { print "*** FAIL: EVPI must be 0 when the state is already known\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
+quit

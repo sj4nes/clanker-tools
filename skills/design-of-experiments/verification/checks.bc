@@ -3,8 +3,34 @@
  * Run:  bc -q skills/design-of-experiments/verification/checks.bc
  * bc truncates; scale set explicitly per the `bc` skill. Lowercase identifiers,
  * no `_`, no single uppercase letters (Gavin Howard bc 7.x rejects those).
+ *
+ * EVERY CLAIM IS ASSERTED (helpers below): `bc`'s `quit` always exits 0, so a
+ * printed "(want ...)" catches nothing.  See docs/bc-verification-audit.md.
  */
 scale = 10
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+tol = 0.0000001
 
 /* --- power-based two-arm comparison of means ------------------------------ */
 zalpha = 1.9599640           /* z_{1-0.025} */
@@ -23,12 +49,33 @@ scale = 10
 /* halving delta must quadruple n */
 nhalf = 2*(zalpha + zbeta)^2 * sigma^2 / (delta/2)^2
 print "n at delta/2 (want 4x)   = ", nhalf, "  ratio = ", nhalf/nraw, "\n"
+/* n scales as 1/delta^2, so halving the effect must QUADRUPLE the sample size.
+   This is the skill's headline planning fact and the one most often got wrong. */
+bad = chk(nhalf/nraw - 4, tol); if (bad) { print "*** FAIL: halving delta must quadruple n\n" }
+fails += bad
+/* independent oracle for nraw: recompute from the textbook constant 15.7 that
+   (z_.975 + z_.80)^2 * 2 approximates, then check the two agree to 0.5%. */
+approx = 15.7 * sigma^2 / delta^2
+bad = neg(0.005 - aval(nraw - approx)/nraw); if (bad) { print "*** FAIL: nraw disagrees with the 15.7*sigma^2/delta^2 rule of thumb\n" }
+fails += bad
+bad = neg(nraw); if (bad) { print "*** FAIL: n must be positive\n" }
+fails += bad
 
 /* --- cluster adjustment: design effect ---------------------------------- */
 m   = 50                     /* mean cluster size */
 rho = 0.05                   /* intraclass correlation */
 de  = 1 + (m - 1)*rho
 print "design effect DE         = ", de, "\n"
+/* DE = 1 + (m-1)rho: exactly 1 when rho = 0 (no clustering costs nothing) and
+   exactly m when rho = 1 (a cluster carries the information of one unit). */
+bad = chk(de - 3.45, tol); if (bad) { print "*** FAIL: DE = 1 + (m-1)rho = 3.45 at m=50, rho=0.05\n" }
+fails += bad
+bad = chk((1 + (m-1)*0) - 1, tol); if (bad) { print "*** FAIL: DE = 1 when rho = 0\n" }
+fails += bad
+bad = chk((1 + (m-1)*1) - m, tol); if (bad) { print "*** FAIL: DE = m when rho = 1\n" }
+fails += bad
+bad = neg(de - 1); if (bad) { print "*** FAIL: clustering can only INCREASE the required n\n" }
+fails += bad
 print "n per arm with clustering= ", nraw*de, "\n"
 scale = 0
 print "clusters per arm (size m)= ", ((nraw*de)/m + 0.9999999)/1, "\n"
@@ -38,10 +85,35 @@ scale = 10
 r = 2
 pen = (1 + r)^2 / (4*r)
 print "allocation 2:1 penalty   = ", pen, "  (total ", nraw*2*pen, " vs ", 2*nraw, ")\n"
+/* (1+r)^2/(4r) is minimised at r = 1 with value 1: balanced allocation is
+   optimal, and ANY imbalance costs sample size.  Assert both the 2:1 value
+   (9/8) and the minimum. */
+bad = chk(pen - 1.125, tol); if (bad) { print "*** FAIL: 2:1 allocation penalty = 9/8\n" }
+fails += bad
+bad = chk(((1 + 1)^2 / (4*1)) - 1, tol); if (bad) { print "*** FAIL: balanced allocation has penalty 1\n" }
+fails += bad
+bad = neg(pen - 1); if (bad) { print "*** FAIL: imbalance must not REDUCE the required n\n" }
+fails += bad
 
 /* --- ANCOVA / CUPED variance reduction --------------------------------- */
 rsq = 0.36                   /* R^2 of a pre-period covariate with the outcome */
 print "ANCOVA factor (1 - R^2)  = ", 1 - rsq, "\n"
 print "n per arm with ANCOVA    = ", nraw*(1 - rsq), "\n"
+/* A covariate with R^2 = 0.36 removes 36% of the required sample; R^2 = 0
+   must change nothing, which is the guardrail against claiming a useless
+   covariate helps. */
+bad = chk(nraw*(1 - rsq) - nraw*0.64, tol); if (bad) { print "*** FAIL: ANCOVA factor is (1 - R^2)\n" }
+fails += bad
+bad = chk(nraw*(1 - 0) - nraw, tol); if (bad) { print "*** FAIL: a covariate with R^2 = 0 must not reduce n\n" }
+fails += bad
+bad = neg(nraw - nraw*(1 - rsq)); if (bad) { print "*** FAIL: ANCOVA must not INCREASE n\n" }
+fails += bad
 
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

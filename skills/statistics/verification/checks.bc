@@ -7,21 +7,65 @@
  * "Handle multiplicity explicitly", and workflow steps 4 and 6.
  * math-statistics nodes: cramer_rao_lower_bound, crlb_attainment,
  * multiple_testing_fwer, bonferroni_correction, benjamini_hochberg_fdr.
+ *
+ * EVERY CLAIM IS ASSERTED (helpers below): `bc`'s `quit` always exits 0, so a
+ * printed "(want 1)" catches nothing.  See docs/bc-verification-audit.md.
  */
 scale = 12
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+tol = 0.000000001
 
 /* --- CRLB efficiency: attained iff exponential family (right parametrization) */
 n = 10
 
-/* Bernoulli(p): I1(p) = 1/(p(1-p)); Var(phat) = p(1-p)/n; CRLB = 1/(n I1) */
+/* Bernoulli(p): I1(p) = 1/(p(1-p)); Var(phat) = p(1-p)/n; CRLB = 1/(n I1).
+ *
+ * NOTE (2026-09-13): these two ratios were previously VACUOUS -- `crlbbern`
+ * and `varbern` were written as the SAME expression, and the Poisson line was
+ * literally (lam/n)/(lam/n), so both printed 1 by construction and would have
+ * printed 1 for any wrong formula.  That is the "expected value encodes the
+ * implementation's own output" antipattern.  The CRLB is now computed through
+ * the FISHER INFORMATION by its own route, so the ratio genuinely tests that
+ * 1/(n*I1) and the sampling variance agree. */
 p    = 0.3
-crlbbern = p*(1-p)/n
-varbern  = p*(1-p)/n
-print "Bernoulli mean : Var/CRLB = ", varbern/crlbbern, "  (want 1 = attained)\n"
+i1bern   = 1/(p*(1-p))        /* Fisher information for ONE Bernoulli draw */
+crlbbern = 1/(n*i1bern)       /* CRLB from the information -- independent route */
+varbern  = p*(1-p)/n          /* sampling variance of phat -- direct route */
+print "Bernoulli mean : I1 = ", i1bern, "  Var/CRLB = ", varbern/crlbbern, "  (claim: 1 = attained)\n"
+bad = chk(varbern/crlbbern - 1, tol); if (bad) { print "*** FAIL: Bernoulli mean attains the CRLB\n" }
+fails += bad
+bad = chk(i1bern - 1/0.21, 0.000001); if (bad) { print "*** FAIL: Bernoulli I1 = 1/(p(1-p))\n" }
+fails += bad
 
-/* Poisson(lam): I1 = 1/lam; Var(xbar) = lam/n; CRLB = lam/n */
+/* Poisson(lam): I1 = 1/lam; Var(xbar) = lam/n; CRLB = 1/(n I1) = lam/n */
 lam = 2.5
-print "Poisson mean   : Var/CRLB = ", (lam/n)/(lam/n), "  (want 1 = attained)\n"
+i1pois   = 1/lam
+crlbpois = 1/(n*i1pois)
+varpois  = lam/n
+print "Poisson mean   : I1 = ", i1pois, "  Var/CRLB = ", varpois/crlbpois, "  (claim: 1 = attained)\n"
+bad = chk(varpois/crlbpois - 1, tol); if (bad) { print "*** FAIL: Poisson mean attains the CRLB\n" }
+fails += bad
 
 /* Normal variance, mean known: CRLB = 2 sig^4 / n; Var(mlevar) = 2 sig^4 / n
  * but the UNBIASED estimator s^2 (divide by n-1) has Var = 2 sig^4 / (n-1),
@@ -29,7 +73,16 @@ print "Poisson mean   : Var/CRLB = ", (lam/n)/(lam/n), "  (want 1 = attained)\n"
 sig = 1
 crlbvar = 2*sig^4/n
 varunb  = 2*sig^4/(n-1)
-print "Normal variance: CRLB/Var = ", crlbvar/varunb, "  (want (n-1)/n = ", (n-1)/n, ", NOT attained)\n"
+print "Normal variance: CRLB/Var = ", crlbvar/varunb, "  (claim: (n-1)/n = ", (n-1)/n, ", NOT attained)\n"
+/* The NEGATIVE CONTRAST of this section: the unbiased s^2 does NOT attain the
+   bound, and the shortfall is exactly (n-1)/n.  Asserting strict inequality is
+   what makes "not attained" a check rather than a remark. */
+bad = chk(crlbvar/varunb - (n-1)/n, tol); if (bad) { print "*** FAIL: normal-variance efficiency = (n-1)/n\n" }
+fails += bad
+bad = neg(1 - crlbvar/varunb); if (bad) { print "*** FAIL: s^2 must NOT attain the CRLB (efficiency < 1)\n" }
+fails += bad
+bad = neg(varunb - crlbvar); if (bad) { print "*** FAIL: an unbiased variance cannot beat the CRLB\n" }
+fails += bad
 print "\n"
 
 /* --- family-wise error rate and the corrections that bound it --------------- */
@@ -38,17 +91,38 @@ m     = 20
 
 fwer = 1 - (1 - alpha)^m
 print "FWER, ", m, " independent nulls at alpha=", alpha, " : ", fwer, "\n"
+/* 20 independent tests at 0.05 give ~64% chance of at least one false positive:
+   the number that motivates the whole multiplicity section. */
+bad = chk(fwer - 0.6415140775, 0.000001); if (bad) { print "*** FAIL: uncorrected FWER = 1-(1-alpha)^m = 0.6415\n" }
+fails += bad
+bad = neg(fwer - alpha); if (bad) { print "*** FAIL: uncorrected FWER must EXCEED alpha (the whole problem)\n" }
+fails += bad
 
 /* Bonferroni: test each at alpha/m -> FWER <= alpha */
 bonf = alpha/m
 fwerbonf = 1 - (1 - bonf)^m
-print "Bonferroni per-test alpha = ", bonf, " -> FWER = ", fwerbonf, "  (<= ", alpha, ")\n"
+print "Bonferroni per-test alpha = ", bonf, " -> FWER = ", fwerbonf, "  (claim: <= ", alpha, ")\n"
+/* Bonferroni must CONTROL the FWER at alpha -- the guarantee, asserted. */
+bad = neg(alpha - fwerbonf); if (bad) { print "*** FAIL: Bonferroni must bound FWER by alpha\n" }
+fails += bad
+/* ...and it is CONSERVATIVE: strictly below alpha under independence. */
+bad = neg(alpha - fwerbonf - 0.000001); if (bad) { print "*** FAIL: Bonferroni is conservative under independence (FWER < alpha)\n" }
+fails += bad
+bad = chk(bonf - 0.0025, tol); if (bad) { print "*** FAIL: Bonferroni per-test alpha = alpha/m = 0.0025\n" }
+fails += bad
 
 /* Sidak (exact under independence): 1-(1-alpha)^(1/m) */
 scale = 12
 sidak = 1 - e( l(1-alpha)/m )
 fwersidak = 1 - (1 - sidak)^m
-print "Sidak per-test alpha      = ", sidak, " -> FWER = ", fwersidak, "  (= ", alpha, ")\n"
+print "Sidak per-test alpha      = ", sidak, " -> FWER = ", fwersidak, "  (claim: = ", alpha, " exactly)\n"
+/* Sidak is EXACT under independence -- it hits alpha rather than falling short. */
+bad = chk(fwersidak - alpha, 0.000001); if (bad) { print "*** FAIL: Sidak attains FWER = alpha exactly under independence\n" }
+fails += bad
+/* ...and is therefore strictly LESS CONSERVATIVE than Bonferroni: a larger
+   per-test alpha for the same guarantee.  This ordering is the practical point. */
+bad = neg(sidak - bonf); if (bad) { print "*** FAIL: Sidak per-test alpha must exceed Bonferroni's\n" }
+fails += bad
 print "\n"
 
 /* --- Benjamini-Hochberg step-up thresholds  k*q/m -------------------------- */
@@ -59,5 +133,22 @@ for (k = 1; k <= 5; k++) {
     print "  k=", k, "  threshold=", k*q/m, "\n"
 }
 print "  k=", m, "  threshold=", m*q/m, "  (largest p can be as big as q)\n"
+/* BH thresholds rise linearly from q/m to q.  The top rung equals q, and the
+   bottom rung equals Bonferroni's alpha/m -- i.e. BH is never STRICTER than
+   Bonferroni at any rank, which is why it rejects at least as much. */
+scale = 12
+bad = chk(m*q/m - q, tol); if (bad) { print "*** FAIL: BH top threshold = q\n" }
+fails += bad
+bad = chk(1*q/m - bonf, tol); if (bad) { print "*** FAIL: BH bottom threshold = Bonferroni alpha/m\n" }
+fails += bad
+bad = neg(3*q/m - 2*q/m); if (bad) { print "*** FAIL: BH thresholds must increase with k\n" }
+fails += bad
 
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit
