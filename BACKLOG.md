@@ -730,6 +730,27 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       from the 16 README Verification rows. Skeletons in `templates/verification/`
       (`run.sh`, `checks.bc`, `README.md`). README Verification section links both.
       (2026-09-08)
+### octave  (new skill — built 2026-09-13)
+
+- [x] **octave:** new CLI-primitive skill scoped to **matrix verification** —
+      the gap `bc` (no matrices, 2x2 hand-rolled) and Mathlib-free Lean
+      (`dim_core`, n = 2) structurally cannot reach. SKILL.md + 3 references
+      (`independence`, `tolerance-and-conditioning`, `octave-gotchas`) +
+      `verification/` (27 assertions against REAL math-linear-algebra claims at
+      n = 4-5, rectangular and rank-deficient; negative-contrast tested twice).
+      Deliberately NOT a bc successor: Octave is IEEE double and one existing
+      capsule check brackets a quantity to 1e-25, which is inexpressible there.
+      Scope table in SKILL.md; contract updated in `docs/verifying-skills.md`
+      Section 6b.
+- [ ] **octave -> math-linear-algebra:** apply the skill to the capsule itself —
+      add `validation/matrix-checks.m` raising its spectral-theorem, SVD,
+      Eckart-Young, Courant-Fischer, Cholesky and pseudoinverse checks from 2x2
+      to realistic n, and wire it into `build/all.sh`. The verification run
+      already demonstrates the checks; this is promoting them into the capsule.
+- [ ] **octave:** consider a second consumer — `math-statistics`' Gaussian
+      linear model block (hat matrix, Cochran, ANOVA decomposition) is matrix
+      content currently checked only at the 3-point design in `bc`.
+
 - [x] **bc verification audit** — all 24 `.bc` harnesses across 20 skills
       re-checked 2026-09-13; results in [`docs/bc-verification-audit.md`](docs/bc-verification-audit.md).
       **Only 4 of 24 would catch a wrong number.** 1 outright broken

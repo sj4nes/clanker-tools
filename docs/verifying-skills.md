@@ -231,6 +231,37 @@ One per `verification/` directory. Sections:
 
 ---
 
+## 6b. Octave: when the claim is about matrices
+
+`bc` has no matrices and Mathlib-free Lean cannot quantify over dimension, so a
+matrix-level claim can end up verified only at 2×2. That is the gap
+[`octave`](../skills/octave/SKILL.md) fills. It is an **addition, not a
+migration** — do not rewrite working `bc` checks.
+
+| | `bc` | Octave | `lean` |
+|---|---|---|---|
+| arbitrary precision | **yes** | no (IEEE double) | n/a |
+| matrices | no | **yes** (LAPACK) | only if hand-encoded |
+| `assert` + nonzero exit | no (see §3) | **yes** | n/a |
+| proves a universal | no | no | **yes** |
+| startup | ~0.2s | ~1.7s | slow |
+
+Three rules carry over from `octave/SKILL.md` and apply to any numeric check:
+
+1. **Never check a built-in against itself.** `[Q,D]=eig(A); assert(Q*D*Q',A)`
+   passes at 3e-15 and tests LAPACK, not your claim. Compute the claim by a
+   route that is genuinely independent of the reference.
+2. **Derive tolerances.** A residual scales as `n·eps`; a solution error scales
+   as `cond(A)·eps`. A small residual never certifies an accurate solution. A
+   check passing with a ~1× margin is telling you the tolerance is guessed.
+3. **Octave needs no output-grepping.** It exits 1 on a failed `assert`, so
+   `set -e; octave --no-gui --quiet checks.m` is sufficient — unlike `bc`.
+
+Precision is the hard boundary: at least one existing `bc` check brackets a
+quantity to 1e-25, which is inexpressible in double. Those stay in `bc`.
+
+---
+
 ## 7. Checklist before marking a skill verified
 
 - [ ] `sh verification/run.sh` exits 0 from a clean checkout, from any directory.
