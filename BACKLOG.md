@@ -661,12 +661,21 @@ not a tutorial.
       Two findings for `SKILL.md`: (i) run a new check against code you believe
       correct, not only against the bug; (ii) ask for the branch-coverage
       number, not for the adjective.
-- [ ] **test-writing:** SKILL.md skeleton from `templates/skill-template` — lead
-      with the behaviour-modification bullets (identify risky areas → state likely
-      mistakes and alternative interpretations → asymmetric/boundary checks on
-      both sides of a boundary → independent re-derivation in a fresh context →
-      structured randomized inputs). Keep it short: the eval is direct evidence
-      that long tutorial-style skills degrade results.
+- [x] **test-writing:** SKILL.md DONE (2026-09-13) — 125 lines, six numbered
+      behaviours and nothing else: name the risky area → state the likely mistake
+      and the alternative interpretation *before* the assertion → get the expected
+      value from somewhere other than the code → break fixture symmetry and assert
+      you did (both sides of each boundary, plus the boundary) → randomize
+      structurally and report the branch-coverage fraction → run the new check
+      against code you believe correct. Behaviours 5 and 6 came out of building the
+      fixture, not from the eval. Plus a short "properties must discriminate"
+      section (name one wrong implementation the property rejects; prefer
+      metamorphic relations to bounds), a 6-item pre-ship checklist, and a
+      completion report. Detail is deliberately pushed to
+      `verification/README.md`; the skill states *why* it is short and cites the
+      eval's meta-finding. README catalogue + Verification rows added.
+      Still open: no `references/` directory — decide whether one is warranted at
+      all, given the same meta-finding.
 - [ ] **test-writing:** cross-link — `test-oracle-design` (BACKLOG-BACKLOG) is the
       narrower "how do you know the output is correct" slice; decide one-skill vs
       two once this one is exercised. Also link `simulation` /

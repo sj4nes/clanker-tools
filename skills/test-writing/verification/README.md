@@ -15,9 +15,9 @@ therefore ships with a `buggy=True|False` switch and every row of the matrix
 is a three-cell claim.
 
 **Fixture-first.** This directory was built *before* `SKILL.md`. The five
-prescribed checks in `prescribed_tests.py` are the behaviours the skill will
-tell an agent to adopt; the fixture is what makes them falsifiable rather than
-advice. The bug shapes are taken from danluu's "How well do agents use
+prescribed checks in `prescribed_tests.py` are the behaviours
+[`SKILL.md`](../SKILL.md) tells an agent to adopt; the fixture is what makes
+them falsifiable rather than advice. The bug shapes are taken from danluu's "How well do agents use
 test/verification techniques?" eval (Sept 2026) and from Yossi Kreinin on
 fixed input/output testing.
 
@@ -72,12 +72,12 @@ Reverted after each; `sh run.sh` exits 0.
 
 - **A prescribed check needs its own no-false-alarm cell.** Running only
   "prescribed detects the bug" scores a vacuous `return False` as perfect. This
-  became the third cell of the matrix and belongs in `SKILL.md` as a rule:
+  became the third cell of the matrix, and `SKILL.md` behaviour 6:
   *run your new check against the code you believe is correct, too.*
 - **Coverage is the observable for the randomization failure mode.** "Use
   structured generators" is unfalsifiable advice; *fraction of inputs reaching
   the branch under test* is measurable, and the naive generator scores exactly
-  zero. `SKILL.md` should ask for that number, not for the adjective.
+  zero. `SKILL.md` behaviour 5 asks for that number, not for the adjective.
 - The eval's meta-finding (long tutorial-style skills degrade results) means
   this README, not `SKILL.md`, is where the detail lives.
 
