@@ -284,8 +284,12 @@ A skill modifies a default behaviour distribution; it does not teach from zero,
 and prose that reads like a tutorial spends context restating the default it
 was supposed to displace.
 
-That does not make reference material bad. It makes the *kind* of skill
-decisive, and this repo has both kinds:
+That does not make reference material bad. It makes the *kind* of writing
+decisive — and the unit is the **section, not the skill**. `statistics` is a
+behaviour-modification skill that legitimately contains two reference tables
+(the regime table, the method-selection table) whose payload is capsule-sourced
+fact an agent's prior is thin on. Classify each section; do not classify the
+document:
 
 | | behaviour-modification skill | tool-fact skill |
 |---|---|---|
@@ -322,6 +326,31 @@ for the filled-in table.
 - What is not allowed is an **unmarked** row: a section that neither displaces
   a demonstrable default nor declares itself judgement. Two of `test-writing`'s
   eight rows are judgement, and both are about *choosing* what to test.
+
+Sort the finished table into three blocks and **report the counts** — they are
+the deliverable, not the prose:
+
+| Block | Meaning | What to do |
+|---|---|---|
+| **covered** | the default is demonstrated failing in the harness | nothing |
+| **`judgement`** | no fixture can falsify it, because the fixture supplies what the step is supposed to find | name these rows in "the gates are necessary, not sufficient", replacing a general gesture at judgement |
+| **gaps** | a fixture *could* falsify it and does not | log each as a concrete harness section in `BACKLOG.md` |
+
+The **gaps block is the yield.** `statistics` — the second skill through this
+rule and the first not designed around it — came out **7 covered, 5 judgement,
+5 gaps**, with no `SKILL.md` claim found wrong: the finding was that five claims
+rest on the skill's authority where the harness could carry them (CI/test
+duality, p-value uniformity under the null, pseudoreplication — already
+demonstrated in `design-of-experiments` and never ported, prior sensitivity, and
+a regression principle with no regression case anywhere in the harness). A
+"verified" skill can have a green harness and still assert most of its
+principles on authority. That is what the table is for.
+
+One more thing the second table did, which is worth expecting: it was written by
+*reading the harness output closely enough to build the rows*, and that is how
+the dead `grep -q '*** FAIL'` clause in §3 was found — a stray stderr line in an
+otherwise-passing run. Building the table is a review of the harness, not only
+of the document.
 
 Two corollaries, and one caution:
 

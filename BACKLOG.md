@@ -255,6 +255,30 @@ naturally high concept-load domain; 131 stays. No trim.
 
 ### math-statistics  (Release 0.1 COMPLETE, 2026-09-08)  +  statistics
 
+- [ ] **statistics → verification: the 5 gaps from the §7 displacement table**
+      (2026-09-13). The table came out **7 covered / 5 judgement / 5 gaps**; no
+      `SKILL.md` claim was found *wrong*, but five rest on the skill's authority
+      where the harness could carry them. Each is a concrete section, cheap:
+      - **CI/test duality** — the `n = 5` t-interval must exclude `mu_0` exactly
+        when the level-α test rejects, over many samples. Exact; reuses step 2's
+        sampler. (Principle: *report the interval, not a bare p*.)
+      - **p-value uniformity under the null** + power ≈ 0.2 at a plausible
+        effect at small `n`. One MC loop. (Principle: *a non-significant result
+        is not evidence of no effect* — currently the skill's strongest claim
+        with no local evidence at all.)
+      - **pseudoreplication** — clustered data analysed at the observation level
+        inflates the FPR. **Already demonstrated in `design-of-experiments`**
+        (`0.29` vs `0.06`) and never ported; cite it or port it.
+      - **prior sensitivity** — the same data under two defensible priors at
+        small `n`, posterior interval moving materially. Conjugate
+        Beta–Binomial, closed form.
+      - **regression as projection** — there is no regression case anywhere in
+        the harness. The one row at risk of being tutorial prose rather than a
+        gap: if no case is added, shrink the principle to a pointer into the
+        capsule.
+      Table lives in the new `skills/statistics/verification/README.md` (which
+      did not exist — a §6 violation, now fixed).
+
 **Decision 2026-09-08: build both, the theorem-tree capsule FIRST, the
 methodology skill second (it will cite the capsule).**
 
@@ -839,9 +863,17 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
 - [ ] **displacement tables, retro-fit:** `docs/verifying-skills.md` §7 now
       requires one per behaviour-modification skill, and exactly one skill has
       one (`test-writing`, where the rule was derived). A repo-wide rule that
-      only the newest skill follows is not a rule. Retro-fit, in descending
-      order of expected yield — the long ones are where tutorial prose hides:
-      `statistics` (437 lines), `nonfiction-book`, `agent-automation`,
+      only the newest skill follows is not a rule.
+      `statistics` done 2026-09-13 (**7 covered / 5 judgement / 5 gaps**; gap
+      list in the math-statistics section). n=2 changed the rule twice: §7 now
+      classifies **sections, not skills** (`statistics` is a nudge skill holding
+      two legitimate reference tables), and requires the
+      covered/judgement/gaps counts as the reportable output. Building it also
+      found the dead `grep -q '*** FAIL'` clause, so the table doubles as a
+      review of the harness.
+      Retro-fit the rest, in descending order of expected yield — the long ones
+      are where tutorial prose hides:
+      `nonfiction-book`, `agent-automation`,
       `unattended-automation`, `local-first-backup`, `simulation`,
       `design-of-experiments`, `control-systems`, `unknown-discovery`,
       `temporal-data-modeling`, `hypergraph-reasoning`, `causal-sandbox`,
