@@ -629,20 +629,38 @@ gap is real and a nudge-style skill is the thing that helped (the author's
 stars). Analysis-methodology archetype; a *nudge away from known failure modes*,
 not a tutorial.
 
-- [ ] **test-writing:** first deliverable — `verification/` fixture with planted
-      bugs of the shapes the eval documents, each paired with a negative-contrast
-      naive test that misses it:
-      - expected values that **encode the implementation's own output** (no
-        independent oracle) — Kreinin's point: fixed input/output testing
-        certifies the bug
-      - **symmetric / palindromic input data** masking reversal and transposition
-        bugs (the Zstd bitstream-reversal case; four identical Huffman streams
-        hiding a jump-table transposition)
-      - **naive randomization** where every input falls down the same
-        invalid/rejection path — generators must be *structured* and steer toward
-        interesting state
-      - a property test that checks one trivial always-true property
-      The prescribed check must fail on the bug; the naive test must pass it.
+- [x] **test-writing:** first deliverable DONE (2026-09-13) —
+      `skills/test-writing/verification/`, `sh run.sh` exits 0 in ~2 s
+      (`bc -lq` + Python 3 stdlib, runs from any directory). Five subjects in
+      `subjects.py`, each with one planted bug and a `buggy=True|False` switch,
+      covering all four documented shapes:
+      - **A** `net_cents` truncates instead of rounding half-up — the naive
+        suite's expected values were **captured from the buggy run**, so it
+        passes the bug *and fails the fix*: the test certifies the bug
+        (Kreinin, now executable as the matrix's fourth cell)
+      - **B** `unpack` forgets the back-to-front read of a Zstd-style stream —
+        masked by palindromic buffers; **C** `step` transposes
+        `table[state][symbol]` — masked by a symmetric jump table driven by
+        identical streams
+      - **D** `parse_kv` keeps the first value on a repeated key instead of the
+        last — the branch sits past two guards, so uniform random bytes reach it
+        in **0.0000%** of 20 000 inputs while the grammar-driven steered
+        generator reaches it in **72.3%** (coverage is the measurable, not the
+        adjective "structured")
+      - **E** `median` returns the lower middle for even n — `min <= m <= max`
+        passes it; metamorphic negation symmetry plus a symmetric-multiset
+        oracle catch it
+      `matrix.py` asserts three cells per bug — prescribed **detects** the bug,
+      prescribed stays **green on the fixed code** (a vacuous `return False`
+      would otherwise score as a perfect detector), naive **misses** it.
+      `checks.bc` holds the independent half-up oracle derived from the spec
+      sentence and asserts the masking premise itself (truncation and half-up
+      **disagree** at 1990c/15% and **agree** at 1999c/15%, with the
+      `remainder >= 50` relation swept over 2000 amounts). Negative-contrast
+      audited with three corruptions, each caught by a *different* cell.
+      Two findings for `SKILL.md`: (i) run a new check against code you believe
+      correct, not only against the bug; (ii) ask for the branch-coverage
+      number, not for the adjective.
 - [ ] **test-writing:** SKILL.md skeleton from `templates/skill-template` — lead
       with the behaviour-modification bullets (identify risky areas → state likely
       mistakes and alternative interpretations → asymmetric/boundary checks on

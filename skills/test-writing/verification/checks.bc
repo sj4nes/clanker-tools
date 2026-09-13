@@ -1,0 +1,117 @@
+/* Exact-arithmetic checks for the `test-writing` skill's planted-bug fixture.
+ * Run:  bc -lq skills/test-writing/verification/checks.bc
+ *
+ * Scope: subject A (`net_cents`) -- the "expected values encode the
+ * implementation's own output" bug shape.  bc holds the INDEPENDENT ORACLE for
+ * the money rounding, computed from the spec sentence ("round half-up to the
+ * nearest cent") in exact integer arithmetic, with no reference to the Python
+ * implementation.  It also asserts the two properties that make this bug shape
+ * dangerous: truncation and half-up DISAGREE on a half-cent boundary and AGREE
+ * on ordinary inputs, so a captured-output test is green either way.
+ *
+ * bc truncates -- it does not round.  scale is set explicitly.  Lowercase
+ * identifiers only, no `_`, no single uppercase letters.  `abs` is reserved on
+ * macOS -- the helper is `aval`.  EVERY CLAIM IS ASSERTED via chk() and prints
+ * a `*** FAIL` line, because bc's `quit` always exits 0 and run.sh greps the
+ * output; the trailing 1/0 is the exit-status backstop.
+ * See docs/verifying-skills.md and docs/bc-verification-audit.md.
+ */
+scale = 12
+
+define aval(x) {
+  if (x < 0) {
+    return (-x)
+  }
+  return (x)
+}
+
+define chk(claim, tol) {          /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) {
+    return (0)
+  }
+  return (1)
+}
+
+fails = 0
+bad = 0
+
+/* --- 1. the disagreeing case: 19.90 at 15% off = 16.915 -------------------
+ * Exact value in hundredths of a cent, so no division is needed yet.
+ */
+nn = 1990 * (100 - 15)
+bad = chk(nn - 169150, 0); if (bad) { print "*** FAIL: 1990*85 != 169150\n" }
+fails += bad
+
+exact = nn / 100
+bad = chk(exact - 1691.5, 0); if (bad) { print "*** FAIL: exact net != 1691.5 cents\n" }
+fails += bad
+print "1. exact net for 1990c at 15% off = ", exact, " cents\n"
+
+scale = 0
+trunc = nn / 100                  /* what the buggy implementation returns */
+halfup = (nn + 50) / 100          /* the spec: add half a unit, then truncate */
+scale = 12
+
+bad = chk(trunc - 1691, 0); if (bad) { print "*** FAIL: truncated value != 1691\n" }
+fails += bad
+bad = chk(halfup - 1692, 0); if (bad) { print "*** FAIL: half-up value != 1692\n" }
+fails += bad
+bad = chk((halfup - trunc) - 1, 0); if (bad) { print "*** FAIL: half-up and truncation do not differ by 1 cent here\n" }
+fails += bad
+print "   truncated = ", trunc, "   half-up = ", halfup, "   (differ: the bug is observable here)\n"
+
+/* --- 2. the agreeing case: 19.99 at 15% off = 16.9915 --------------------
+ * This is the input a captured-output test is likely to pick.  Assert that
+ * the two rules AGREE here, which is exactly why such a test runs green.
+ */
+mm = 1999 * (100 - 15)
+bad = chk(mm - 169915, 0); if (bad) { print "*** FAIL: 1999*85 != 169915\n" }
+fails += bad
+
+scale = 0
+trunc2 = mm / 100
+halfup2 = (mm + 50) / 100
+scale = 12
+
+bad = chk(trunc2 - 1699, 0); if (bad) { print "*** FAIL: truncated value != 1699\n" }
+fails += bad
+bad = chk(halfup2 - trunc2, 0); if (bad) { print "*** FAIL: half-up and truncation differ on 1999c -- the masking premise is wrong\n" }
+fails += bad
+print "2. 1999c at 15% off: truncated = ", trunc2, " = half-up = ", halfup2
+print "   (agree: a captured-output test on this input cannot see the bug)\n"
+
+/* --- 3. the half-cent boundary, both sides -------------------------------
+ * 1994c*85 = 169490 -> 1694.90, rounds up to 1695, truncates to 1694.
+ * 1996c*85 = 169660 -> 1696.60, rounds up to 1697, truncates to 1696.
+ * The claim asserted here: half-up exceeds truncation by exactly 1 whenever
+ * the remainder is >= 50, and by 0 otherwise.
+ */
+kk = 0
+boundaryfails = 0
+for (g = 1; g <= 2000; g += 1) {
+  scale = 0
+  v = g * 85
+  r = v - 100 * (v / 100)
+  t = v / 100
+  h = (v + 50) / 100
+  scale = 12
+  if (r >= 50) {
+    if (h - t != 1) { boundaryfails += 1 }
+  }
+  if (r < 50) {
+    if (h - t != 0) { boundaryfails += 1 }
+  }
+  kk += 1
+}
+bad = chk(boundaryfails, 0); if (bad) { print "*** FAIL: half-up/truncation relation broken on some input\n" }
+fails += bad
+bad = chk(kk - 2000, 0); if (bad) { print "*** FAIL: boundary sweep did not cover 2000 inputs\n" }
+fails += bad
+print "3. half-up vs truncation relation verified over ", kk, " gross amounts\n"
+
+print "\n"
+if (fails == 0) { print "ALL BC CHECKS PASSED\n" }
+if (fails > 0)  { print "*** ", fails, " BC CHECK(S) FAILED\n" }
+
+if (fails > 0) { zz = 1/0 }       /* exit-status backstop; must be last */
+quit
