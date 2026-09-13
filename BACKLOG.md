@@ -676,10 +676,33 @@ not a tutorial.
       eval's meta-finding. README catalogue + Verification rows added.
       Still open: no `references/` directory — decide whether one is warranted at
       all, given the same meta-finding.
-- [ ] **test-writing:** cross-link — `test-oracle-design` (BACKLOG-BACKLOG) is the
-      narrower "how do you know the output is correct" slice; decide one-skill vs
-      two once this one is exercised. Also link `simulation` /
-      `design-of-experiments` for the randomized-testing overlap.
+- [x] **test-writing:** `test-oracle-design` decided (2026-09-13) — **ONE SKILL,
+      not two.** Folded into `test-writing` behaviour 3 and the candidate row in
+      `BACKLOG-BACKLOG.md` retired. The deciding evidence was the two entries'
+      *Verify* columns: the fixture `test-oracle-design` proposed (planted bugs
+      of the masking shapes, prescribed oracle catches each, negative-contrast
+      naive test misses each) is the fixture already shipped here, subject for
+      subject. Two skills cannot share one verification fixture and stay
+      independently falsifiable — and a second short document overlapping this
+      one would put an agent facing a testing task in front of a routing choice,
+      which is the cost the eval's meta-finding says to avoid.
+      What the fold-in added: behaviour 3 now names the four places a real
+      expectation comes from (spec re-derivation / model-based reference oracle /
+      metamorphic relation / differential testing against a genuinely
+      independent implementation) and ends on the **independence test** — *does
+      my oracle share code with the thing it is judging?* — because
+      "two implementations" is not the property that matters. Made falsifiable
+      by new fixture **subject F**: two renderers with different algorithms
+      (division loop vs recursion) sharing one defective `digit_char` helper are
+      wrong identically, so the differential test is green over the bug, while
+      the stdlib `int(s, b)` round trip catches it. Fourth negative-contrast
+      corruption added — give the recursive renderer its own correct helper and
+      the `naive misses` cell fires, so the fixture guards F's *premise* too.
+      SKILL.md 125 → 148 lines; the checklist gains "no oracle shares code with
+      what it judges". `simulation` and `design-of-experiments` links sharpened:
+      `simulation` is where the model-based oracle becomes a whole model with its
+      own V&V problem; `design-of-experiments` is where the randomized comparison
+      is the deliverable rather than the test.
 - [ ] **test-writing → docs/verifying-skills.md + methodology-skill-builder:**
       fold in the eval's meta-finding as an explicit rule — *a skill that reads
       like a human tutorial degrades performance*; skills modify a default

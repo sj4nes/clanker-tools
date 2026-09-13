@@ -132,3 +132,44 @@ def median(xs, buggy=True):
     if buggy:
         return s[n // 2 - 1]                  # lower middle
     return (s[n // 2 - 1] + s[n // 2]) / 2
+
+
+# ---------------------------------------------------------------------------
+# F. to_base_iterative / to_base_recursive -- bug shape: a DIFFERENTIAL test
+#    against a second implementation that is not independent.  Spec: render n
+#    in base b using 0-9 then a-z.  Bug: the shared digit_char helper forgets
+#    the -10 offset, so digit 10 renders as 'k' instead of 'a'.
+#
+#    The two renderers use genuinely different algorithms (division loop vs
+#    recursion) and are wrong IDENTICALLY, because the defect lives in the
+#    helper they share.  Differential testing is only differential when the
+#    two implementations share no code -- "two implementations" is not the
+#    property that matters, independence is.
+# ---------------------------------------------------------------------------
+
+def digit_char(d, buggy=True):
+    if d < 10:
+        return chr(ord("0") + d)
+    if buggy:
+        return chr(ord("a") + d)              # forgets the -10 offset
+    return chr(ord("a") + d - 10)
+
+
+def to_base_iterative(n, b, buggy=True):
+    if not (2 <= b <= 36):
+        raise ValueError("base out of range")
+    if n == 0:
+        return "0"
+    out = []
+    while n:
+        out.append(digit_char(n % b, buggy=buggy))
+        n //= b
+    return "".join(reversed(out))
+
+
+def to_base_recursive(n, b, buggy=True):
+    if not (2 <= b <= 36):
+        raise ValueError("base out of range")
+    if n < b:
+        return digit_char(n, buggy=buggy)
+    return to_base_recursive(n // b, b, buggy=buggy) + digit_char(n % b, buggy=buggy)

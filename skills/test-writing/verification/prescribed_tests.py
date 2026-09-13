@@ -134,3 +134,25 @@ def prescribed_e(buggy, seed=20260913):
         if S.median(sym, buggy=buggy) != centre:
             return False
     return True
+
+
+def prescribed_f(buggy, seed=20260913):
+    """Model-based reference oracle, running the other direction: the stdlib
+    `int(s, b)` parser shares no code with either renderer, so the round trip
+    constrains the digit alphabet itself.  Also sweeps bases > 10, without
+    which no letter digit is ever produced and the bug is unreachable."""
+    rng = random.Random(seed)
+    letters = 0
+    for _ in range(2000):
+        b = rng.randint(11, 36)              # > 10, or no letter digit appears
+        n = rng.randint(10, 10 ** 6)
+        s = S.to_base_iterative(n, b, buggy=buggy)
+        letters += any(c.isalpha() for c in s)
+        try:
+            if int(s, b) != n:
+                return False
+        except ValueError:
+            return False                      # a digit outside the base's alphabet
+    # coverage assertion: a sweep that never emits a letter digit cannot see it
+    assert letters >= 1000, "fixture produced too few letter digits"
+    return True

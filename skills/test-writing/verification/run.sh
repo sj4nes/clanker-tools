@@ -8,7 +8,7 @@
 # the corrected code.
 #
 #   1. exact oracle + masking premise for subject A                     (bc)
-#   2. detection matrix: 5 planted bugs x {prescribed, naive}           (py)
+#   2. detection matrix: 6 planted bugs x {prescribed, naive}           (py)
 #   3. branch coverage: naive vs structured generator (subject D)       (py)
 #
 # NEGATIVE-CONTRAST TESTED: the whole point of this harness is that each check
@@ -36,7 +36,7 @@ if [ "$bcstatus" -ne 0 ] \
 fi
 echo
 
-echo "=== 2. detection matrix: 5 planted bugs (python, stdlib only) ==="
+echo "=== 2. detection matrix: 6 planted bugs (python, stdlib only) ==="
 $PY matrix.py
 echo
 

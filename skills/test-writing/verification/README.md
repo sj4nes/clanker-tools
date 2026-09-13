@@ -14,7 +14,7 @@ returns `FAIL` unconditionally would score as a perfect detector. Every subject
 therefore ships with a `buggy=True|False` switch and every row of the matrix
 is a three-cell claim.
 
-**Fixture-first.** This directory was built *before* `SKILL.md`. The five
+**Fixture-first.** This directory was built *before* `SKILL.md`. The six
 prescribed checks in `prescribed_tests.py` are the behaviours
 [`SKILL.md`](../SKILL.md) tells an agent to adopt; the fixture is what makes
 them falsifiable rather than advice. The bug shapes are taken from danluu's "How well do agents use
@@ -29,6 +29,12 @@ sh skills/test-writing/verification/run.sh
 
 Tooling: `bc` 7.x (`-lq`), Python 3 (stdlib only), macOS `/bin/sh`. ~2 s wall.
 
+Subject F was added later, when the `test-oracle-design` candidate in
+`BACKLOG-BACKLOG.md` was folded into this skill rather than split out: its
+proposed fixture was *this* fixture, and the one oracle route it named that
+`SKILL.md` did not yet cover — differential testing — needed a planted bug of
+its own to stay falsifiable.
+
 ## The subjects and their planted bugs
 
 | | Subject (`subjects.py`) | Spec | Planted bug | Bug shape |
@@ -38,15 +44,17 @@ Tooling: `bc` 7.x (`-lq`), Python 3 (stdlib only), macOS `/bin/sh`. ~2 s wall.
 | C | `step` | `table[state][symbol]` | `table[symbol][state]` | symmetric jump table masking an index transposition |
 | D | `parse_kv` | `k=v;k=v`; on a repeated key, **last wins** | first wins | naive randomization where every input falls down the same rejection path |
 | E | `median` | even `n` → mean of the two middle values | returns the lower middle | a property test that checks one trivial always-true property |
+| F | `to_base_iterative` / `to_base_recursive` | render `n` in base `b` with `0-9a-z` | the **shared** `digit_char` helper drops the `-10` offset (digit 10 → `'k'`) | a differential test against a second implementation that shares the defect |
 
 ## What each step demonstrates
 
 | Step | Prescribed check | Result |
 |---|---|---|
 | 1 (bc) | independent oracle for A's rounding, derived from the *spec sentence* in exact integer arithmetic — plus the two properties that make the shape dangerous | `19.90 @ 15% = 1691.5c` → half-up `1692`, truncated `1691` (**disagree**); `19.99 @ 15%` → both `1699` (**agree**); the `remainder ≥ 50 ⟺ half-up − truncated = 1` relation holds over all 2000 gross amounts — **pass** |
-| 2 (py) | detection matrix, 5 bugs × {prescribed, naive} × {buggy, fixed} | every row `detects / green / misses` — **pass** |
-| 2 — negative contrast | the naive suite on each buggy subject | all five run **green over the bug** — **pass** (the guardrail is visibly absent) |
+| 2 (py) | detection matrix, 6 bugs × {prescribed, naive} × {buggy, fixed} | every row `detects / green / misses` — **pass** |
+| 2 — negative contrast | the naive suite on each buggy subject | all six run **green over the bug** — **pass** (the guardrail is visibly absent) |
 | 2 — A's fourth cell | the captured-output suite on the *corrected* subject | **FAILS** — the naive test does not merely miss the bug, it **certifies** it, and would reject the fix. Kreinin's point, made executable |
+| 2 — F's premise | two renderers with *different algorithms* (division loop vs recursion) calling one defective helper | the diff is **green over the bug** for all 2000 random `(n, b)` pairs; the stdlib `int(s, b)` round trip, which shares no code with either renderer, catches it — **pass** |
 | 3 (py) | branch coverage of the two generators for D | uniform random bytes reach the repeated-key branch in **0.0000%** of 20 000 inputs; the grammar-driven, steered generator reaches it in **72.3%** — **pass** |
 
 The prescribed checks also carry their own **fixture-quality assertions**, which
@@ -57,14 +65,18 @@ discriminate is the naive test wearing a costume.
 
 ## Negative-contrast audit of this harness
 
-Three independent corruptions, each caught by a *different* cell — so the three
-cells are not redundant:
+Four independent corruptions. The first three are each caught by a *different*
+cell, so the three cells are not redundant; the fourth shows that the
+`naive misses` cell also guards the **premise** of a subject — break the shared
+helper and the fixture correctly stops claiming that differential testing is
+fooled:
 
 | Corruption | Caught by | Exit |
 |---|---|---|
 | `checks.bc` oracle `1692` → `1693` | bc `*** FAIL` marker + grep in `run.sh` | 1 |
 | bug E un-planted (subject made correct, fixture left alone) | `prescribed on buggy` → `MISSES` | 1 |
 | `prescribed_c` made vacuous (`return False`) | `prescribed on fixed` → `FALSE ALARM` | 1 |
+| F's recursive renderer given its own **correct** helper (the shared-defect premise broken) | `naive on buggy` → `detects` | 1 |
 
 Reverted after each; `sh run.sh` exits 0.
 
@@ -78,12 +90,17 @@ Reverted after each; `sh run.sh` exits 0.
   structured generators" is unfalsifiable advice; *fraction of inputs reaching
   the branch under test* is measurable, and the naive generator scores exactly
   zero. `SKILL.md` behaviour 5 asks for that number, not for the adjective.
+- **"Two implementations" is not the property that matters.** Subject F's two
+  renderers use different algorithms and are wrong identically, because the
+  defect is in the helper they share. `SKILL.md` behaviour 3 therefore ends on
+  an independence test — *does my oracle share code with the thing it is
+  judging?* — rather than on a list of oracle types.
 - The eval's meta-finding (long tutorial-style skills degrade results) means
   this README, not `SKILL.md`, is where the detail lives.
 
 ## The gates are necessary, not sufficient
 
-`run.sh` proves that five specific checks beat five specific naive tests on five
+`run.sh` proves that six specific checks beat six specific naive tests on six
 planted bugs. It cannot prove an agent will *notice* which shape it is facing —
 choosing what is risky, what the likely mistake is, and what an independent
 oracle would even be for the code in front of it stays human (or stays with the

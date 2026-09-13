@@ -28,7 +28,7 @@ behaviour**, not a tutorial: agents given only the name of a technique fall
 back to poor default testing across every condition the danluu eval measured,
 and the tutorial-style skills in that eval performed *worse than no skill*.
 If you want the detail, it is in
-[`verification/README.md`](verification/README.md) — five planted bugs, each
+[`verification/README.md`](verification/README.md) — six planted bugs, each
 with the naive test that misses it.
 
 ## The six behaviours
@@ -44,12 +44,32 @@ with the naive test that misses it.
    the test you write is the one that distinguishes them. If you cannot name a
    plausible wrong answer, you do not yet know what the test is for.
 
-3. **Get the expected value from somewhere other than the code.** Re-derive it
-   from the specification sentence, compute it a second independent way, use a
-   metamorphic relation, or work the case by hand. **Never paste in what the
-   implementation printed.** A captured expected value does not merely miss the
-   bug — it certifies it, and will reject the fix. (Subject A of the fixture is
-   exactly this; its naive suite fails on the corrected code.)
+3. **Get the expected value from somewhere other than the code.** **Never paste
+   in what the implementation printed.** A captured expected value does not
+   merely miss the bug — it certifies it, and will reject the fix. There are
+   four places a real expectation comes from:
+
+   - **re-derivation from the spec sentence** — work the rule, not the code
+     ("round half-up" → add half a unit, then truncate), by hand or in a
+     calculator that shares nothing with the implementation;
+   - **a model-based reference oracle** — a slow, obvious, or already-trusted
+     implementation you are willing to believe: the stdlib, a brute-force
+     `O(n²)` version of the clever algorithm, a spreadsheet, a published table;
+   - **a metamorphic relation** — related inputs with a predictable relationship
+     between their outputs (negate the input and the output must negate; sort
+     twice and get the identity; permute and the total must not move). This one
+     needs no expected value at all, which is why it survives where the others
+     are unaffordable;
+   - **differential testing against a genuinely independent implementation** —
+     a different author, a different language, the other side of the wire.
+
+   Then apply the independence test: **does my oracle share code with the thing
+   it is judging?** A second algorithm calling the same helper is wrong
+   identically and the diff is green (fixture subject F). Calling the function
+   to build its own expectation, reusing the production parser to check the
+   production serializer, or diffing against a port of the same source are all
+   the same mistake wearing a different hat. Two implementations are not two
+   oracles; independence is the property, not the count.
 
 4. **Break the symmetry of your fixtures, then assert that you did.** Symmetric
    matrices, palindromic buffers, identical streams, equal-length inputs and
@@ -95,6 +115,8 @@ harder than bounds do.
 - [ ] Every randomized generator reports the fraction of inputs that reached
       the target branch.
 - [ ] Every property names a wrong implementation it rejects.
+- [ ] No oracle shares code with what it judges — not a helper, not a parser,
+      not a port.
 
 ## Verification
 
@@ -107,7 +129,8 @@ prescribed check stays **green on the fixed code**, and the naive test
 
 - **`design-of-experiments`** — when the randomized comparison is the
   deliverable rather than the test: power, blocking, pre-registration.
-- **`simulation`** — when the oracle has to be a model rather than a formula.
+- **`simulation`** — when the model-based oracle of behaviour 3 has to be a
+  whole model, with its own verification and validation problem.
 - **`bc`** / **`octave`** / **`lean`** — the three independent-oracle tools:
   exact decimal arithmetic, matrices at realistic dimension, and universals.
 - **`docs/verifying-skills.md`** — the same discipline applied to this repo's

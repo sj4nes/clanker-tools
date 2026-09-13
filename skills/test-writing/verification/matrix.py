@@ -28,6 +28,8 @@ SUBJECTS = [
      P.prescribed_d, N.naive_d, None),
     ("E", "a property test that checks one trivial always-true property",
      P.prescribed_e, N.naive_e, None),
+    ("F", "differential test vs a second implementation sharing the defect",
+     P.prescribed_f, N.naive_f, None),
 ]
 
 

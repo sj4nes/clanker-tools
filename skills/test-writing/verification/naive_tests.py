@@ -95,3 +95,17 @@ def naive_e(buggy, seed=20260913):
         if not (min(xs) <= m <= max(xs)):
             return False
     return True
+
+
+def naive_f(buggy, seed=20260913):
+    """DIFFERENTIAL test against a "second implementation" -- a different
+    algorithm that calls the same helper.  Both are wrong identically, so the
+    comparison is green.  Two implementations are not two oracles."""
+    rng = random.Random(seed)
+    for _ in range(2000):
+        n = rng.randint(0, 10 ** 6)
+        b = rng.randint(2, 36)
+        if S.to_base_iterative(n, b, buggy=buggy) != \
+           S.to_base_recursive(n, b, buggy=buggy):
+            return False
+    return True
