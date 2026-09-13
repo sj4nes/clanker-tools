@@ -126,6 +126,71 @@ capsules had to be audited for after the fact:
   Rayleigh-quotient existence step needs real analysis, unavailable
   Mathlib-free. The n = 2 case is worked explicitly.
 
+## Release 0.1a — 2026-09-13 (validation layer added, no graph change)
+
+### `validation/matrix-checks.m` — numerical matrix checks at realistic size
+
+Built with the new [`octave`](../octave/SKILL.md) skill. **120 assertions**,
+wired into `build/all.sh` (skipped, not failed, when `octave` is absent).
+
+The motivation is a dimension gap, not a coverage gap in the usual sense.
+Mathlib-free Lean cannot quantify over n, so this capsule's strongest matrix
+proofs are `dim_core` — universal in the **entries** at a **fixed n = 2**. And
+`bc` has no matrices, so every matrix claim in `instance-checks.bc` is
+hand-rolled 2×2 scalar arithmetic. At 2×2 most of the capsule's headline
+results are degenerate: every 2×2 symmetric matrix is diagonalisable, rank is
+0/1/2, and there is exactly one way to be defective.
+
+Dimensions now exercised: **n = 5, 6 square; 6×4, 6×3, 7×4 rectangular;
+rank-deficient (rank 3 of 4); defective (Jordan blocks 3+2)**.
+
+Results that gained genuinely new evidence:
+
+- `spectral_decomposition` as a real resolution of the identity — `sum P_i = I`,
+  `P_i P_j = 0`, functional calculus `S^3 = sum λ³ P_i`.
+- `courant_fischer` via Cauchy interlacing for **all six** principal
+  submatrices — a statement with no content at n = 2.
+- `moore_penrose_pseudoinverse` — all four Penrose conditions on a
+  **rank-deficient** matrix, where `(A'A)^{-1}` does not exist, plus 200 samples
+  confirming the minimum-norm property.
+- `eckart_young` at k = 1, 2, 3 in both norms, with 300 perturbed rank-k
+  competitors none of which beats the truncated SVD.
+- `algebraic_geometric_multiplicity` on Jordan blocks 3+2, so the bookkeeping
+  has room to be wrong (geometric 2 < algebraic 5).
+- `simultaneous_diagonalisation`, `sylvester_law_of_inertia` (inertia (3,2,1)
+  preserved under congruence while the eigenvalues are not), `schur_triangularisation`
+  over ℂ, `spectral_theorem_normal` with a non-normal negative contrast.
+- `condition_number`'s sharpest claim at n = 6: `1e-5·I₆` has determinant
+  **1e-30** and condition number **exactly 1**, while `diag(1,…,1e-10)` has the
+  *larger* determinant 1e-10 and condition number **1e10**.
+
+Method (from the `octave` skill): every claim computed by **two routes sharing
+no code path**; tolerances **derived** (residual ~ `n·eps·‖A‖`, forward error
+~ `cond(A)·eps`) and printed next to the achieved residual with the margin, so
+a guessed tolerance is visible; a **negative contrast** in every section. All
+eight sections were negative-contrast tested — corrupting any one makes
+`build/all.sh` exit 1.
+
+One deliberate non-assertion, recorded as section H: the **Jordan form is
+numerically uncomputable**. Perturbing a 5×5 Jordan block by 1e-14 in a single
+entry moves its eigenvalues by **1.59e-3**, matching the predicted ε^(1/5) =
+1.59e-3 rather than ε, and the perturbed matrix is no longer defective. The
+section demonstrates this instead of asserting it away; `jordan_normal_form`
+stays a `stated_not_proved` boundary node.
+
+**No `lean_status` changed and the graph is untouched.** This is evidence at
+particular matrices over ℝ and ℂ, not proof.
+
+A precise statement of the field limitation, since it is the largest one:
+Octave has ℝ and ℂ and nothing else. So of the 182 `field_scope`-tagged nodes,
+the **121 tagged `any_field`** have their *generality* untested — Octave can
+only exercise the ℝ instance and fail to refute the rest — and the **3 tagged
+`char_not_2`** cannot be tested in their *failing* direction at all, since
+there is no characteristic-2 field available to witness the breakdown. The 45
+`real_or_complex`, 5 `ordered_field` and 8 `algebraically_closed` nodes are
+tested at a genuine instance of the field they require. Stated in the file's
+own closing report and in `validation/proof-checks.md`.
+
 ### Release 0.2 territory
 
 Jordan normal form proved via cyclic subspaces; tensor and exterior algebra

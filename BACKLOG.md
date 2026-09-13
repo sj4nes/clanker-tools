@@ -742,11 +742,23 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       capsule check brackets a quantity to 1e-25, which is inexpressible there.
       Scope table in SKILL.md; contract updated in `docs/verifying-skills.md`
       Section 6b.
-- [ ] **octave -> math-linear-algebra:** apply the skill to the capsule itself —
-      add `validation/matrix-checks.m` raising its spectral-theorem, SVD,
-      Eckart-Young, Courant-Fischer, Cholesky and pseudoinverse checks from 2x2
-      to realistic n, and wire it into `build/all.sh`. The verification run
-      already demonstrates the checks; this is promoting them into the capsule.
+- [x] **octave -> math-linear-algebra:** DONE 2026-09-13.
+      `validation/matrix-checks.m`, **120 assertions**, wired into
+      `build/all.sh` (SKIPS rather than fails when octave is absent, since it is
+      a heavier dependency than bc/lean). Raises the capsule from 2x2 — where
+      most of its headline results are degenerate — to n = 5, 6 square, 6x4 /
+      6x3 / 7x4 rectangular, rank-deficient and defective (Jordan blocks 3+2).
+      New evidence for `spectral_decomposition` (resolution of the identity +
+      functional calculus), `courant_fischer` (Cauchy interlacing, all 6
+      principal submatrices), `moore_penrose_pseudoinverse` (four Penrose
+      conditions on a RANK-DEFICIENT matrix where (A'A)^-1 does not exist),
+      `eckart_young` (k=1,2,3 both norms + 300 perturbed competitors),
+      `simultaneous_diagonalisation`, `schur_triangularisation`. Section H
+      DEMONSTRATES that the Jordan form is numerically uncomputable rather than
+      asserting it away: perturbing a 5x5 block by 1e-14 moves the eigenvalues
+      by 1.59e-3, matching the predicted eps^(1/5). All 8 sections
+      negative-contrast tested. No `lean_status` changed, graph untouched;
+      Release 0.1a in the CHANGELOG.
 - [ ] **octave:** consider a second consumer — `math-statistics`' Gaussian
       linear model block (hat matrix, Cochran, ANOVA decomposition) is matrix
       content currently checked only at the 3-point design in `bc`.

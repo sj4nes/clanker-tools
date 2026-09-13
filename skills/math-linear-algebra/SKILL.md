@@ -61,6 +61,16 @@ downstream. Dimension is defined only *after* Steinitz proves it well-defined.
 Five would-be cycles, all recorded with their resolutions in
 [`edges/cycles.md`](edges/cycles.md).
 
+**Three validation layers, each honest about its dimension.** Mathlib-free Lean
+caps at `dim_core` (universal in the entries, n = 2); `bc` has no matrices at
+all. So `validation/matrix-checks.m` (GNU Octave, 120 assertions) runs the
+headline results at **n = 5, 6 square, 6×4 / 6×3 / 7×4 rectangular,
+rank-deficient and defective** — where they stop being degenerate. Built with
+the [`octave`](../octave/SKILL.md) skill's discipline: independent routes,
+tolerances derived from conditioning, negative contrasts. It changes no
+`lean_status` and proves nothing; see
+[`validation/proof-checks.md`](validation/proof-checks.md) for the split.
+
 **Lean overclaiming is structurally prevented.** A new `lean_status` value,
 `dim_core`, marks results proved **universally in the matrix entries at a fixed
 dimension** — stronger than a numeric instance, weaker than the theorem. One
@@ -81,6 +91,7 @@ named declaration exists in the `.lean` file. See
 | one result in full | `nodes/<id>.md` (readable) or `results/<id>.yaml` (structured) |
 | what Lean actually verified | `validation/proof-checks.md` |
 | the numbers | `validation/instance-checks.bc` (12 sections, `bc -l`) |
+| the matrix results at realistic size | `validation/matrix-checks.m` (120 assertions, Octave) |
 
 ## Scope boundary
 
@@ -108,7 +119,10 @@ output rather than the exit status, since `bc`'s `quit` always exits 0.
 
 Current state: `tsort` clean, 0 isolated; `check-consistency` green;
 `check-lean-refs` resolves 55 references against 87 declarations; Lean exits 0
-with no `sorry`, no `axiom`, no warnings; all 12 `bc` sections pass.
+with no `sorry`, no `axiom`, no warnings; all 12 `bc` sections pass; all 120
+Octave matrix assertions pass. The Octave step **skips** (does not fail) when
+`octave` is absent — it is a heavier dependency than `bc` and `lean`, and the
+rest of the build must not depend on it.
 
 ## Standing limitations
 

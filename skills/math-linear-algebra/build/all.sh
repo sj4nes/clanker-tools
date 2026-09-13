@@ -40,4 +40,26 @@ else
   echo "bc: SKIP (validation/instance-checks.bc not written yet)"
 fi
 echo
+echo "== Octave matrix checks (n = 5..7, rectangular, rank-deficient) =="
+# Unlike bc, Octave exits 1 on a failed assert, so no output-grepping is needed.
+# This layer reaches the dimensions proof-checks.lean (dim_core, n = 2) and
+# instance-checks.bc (2x2 scalar arithmetic) structurally cannot.
+# Method: skills/octave/SKILL.md.  SKIPPED, not failed, if octave is absent --
+# it is a heavier dependency than bc/lean and the rest of the build must not
+# depend on it.
+if command -v octave >/dev/null 2>&1; then
+  octave --no-gui --quiet validation/matrix-checks.m > build/matrix-checks.out 2>&1
+  mcstatus=$?
+  if [ "$mcstatus" -eq 0 ] && grep -q "ALL MATRIX CHECKS PASSED" build/matrix-checks.out; then
+    echo "octave: ok ($(grep -o 'PASSED -- [0-9]* assertions' build/matrix-checks.out)); see build/matrix-checks.out"
+  else
+    echo "octave: FAILED (exit $mcstatus) -- see build/matrix-checks.out" >&2
+    tail -20 build/matrix-checks.out >&2
+    exit 1
+  fi
+else
+  echo "octave: SKIP (not installed; matrix checks not run)"
+fi
+
+echo
 echo "ALL OK"

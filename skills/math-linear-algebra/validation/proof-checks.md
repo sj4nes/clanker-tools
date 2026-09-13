@@ -164,10 +164,66 @@ The `lean_status` drift that `math-logic-and-proof` and `math-probability` had
 to be audited for retrospectively (see `BACKLOG.md`) is structurally impossible
 here: the refs and the kernel cannot disagree and still build.
 
+## The third layer: numerical matrix checks (added 2026-09-13)
+
+`validation/matrix-checks.m` (GNU Octave, **120 assertions**) exists because
+this file and `instance-checks.bc` are both dimension-limited:
+
+| layer | strongest matrix evidence | why it stops there |
+|---|---|---|
+| `proof-checks.lean` | `dim_core` — universal in the **entries**, fixed **n = 2** | Mathlib-free Lean cannot quantify over the dimension |
+| `instance-checks.bc` | 2×2 scalar arithmetic | `bc` has no matrices |
+| `matrix-checks.m` | **n = 5, 6 square; 6×4, 6×3, 7×4 rectangular; rank-deficient; defective** | IEEE double; no fields but ℝ and ℂ |
+
+So the capsule's headline results — the spectral theorem, the SVD,
+Eckart–Young, Courant–Fischer, Cholesky, the pseudoinverse — were previously
+verified **only at 2×2, where most of them are degenerate**: every 2×2
+symmetric matrix is diagonalisable, rank is 0/1/2, and there is exactly one way
+to be defective.
+
+What the new layer reaches that the other two cannot:
+
+- **`spectral_decomposition`** as an actual resolution of the identity:
+  `sum P_i = I`, `P_i P_j = 0`, and the functional calculus `S^3 = sum λ³ P_i`.
+- **`courant_fischer`** via Cauchy interlacing, checked for **all six**
+  principal submatrices — meaningless at n = 2.
+- **`moore_penrose_pseudoinverse`**: all four Penrose conditions on a
+  **rank-deficient** matrix, where the `(A'A)^{-1}` formula does not exist.
+- **`algebraic_geometric_multiplicity`** on a matrix with Jordan blocks 3+2,
+  so the multiplicity bookkeeping has room to be wrong.
+- **`eckart_young`** at k = 1, 2, 3 in both norms, plus 300 perturbed rank-k
+  competitors none of which beats the truncated SVD.
+- **`condition_number`**'s sharpest claim, at n = 6: `1e-5·I₆` has determinant
+  1e-30 and condition number **exactly 1**, while `diag(1,…,1e-10)` has the
+  *larger* determinant 1e-10 and condition number 1e10.
+
+It is **not** a proof layer and does not change any `lean_status`. A numerical
+check at n = 6 over ℝ is evidence about n = 6 over ℝ.
+
+### What it deliberately does NOT cover
+
+- **The generality of the field-scope tags.** Octave has ℝ and ℂ and nothing
+  else. Of the 182 tagged nodes, the **121 `any_field`** ones have their
+  generality untested — the ℝ instance is exercised and the rest merely not
+  refuted — and the **3 `char_not_2`** ones cannot be tested in their *failing*
+  direction at all, there being no characteristic-2 field to witness the
+  breakdown. The 45 `real_or_complex`, 5 `ordered_field` and 8
+  `algebraically_closed` nodes are tested at a genuine instance of the field
+  they require.
+- **Anything discontinuous in the entries.** Section H *demonstrates* this
+  rather than asserting it away: perturbing a 5×5 Jordan block by 1e-14 in one
+  entry moves its eigenvalues by 1.59e-3 — matching the predicted ε^(1/5) =
+  1.59e-3, not ε. The Jordan form is therefore numerically uncomputable and
+  stays a `stated_not_proved` boundary node.
+- **Exact and arbitrary-precision arithmetic**, which remains
+  `instance-checks.bc`'s territory.
+
 ## The standing limitation
 
 A `dim_core` proof at n = 2 is evidence, not a theorem. A `decide` instance is a
-spot-check. `bc` instances (`validation/instance-checks.md`) are sanity checks
-and counterexample hunts, never proofs. Every result in this capsule remains
+spot-check. `bc` instances (`validation/instance-checks.md`) and the Octave
+matrix checks are sanity checks and counterexample hunts at particular
+matrices, never proofs — a passing check at n = 6 says nothing about n = 7, and
+nothing at all about a field other than ℝ or ℂ. Every result in this capsule remains
 conditional on its stated hypotheses, on the foundational stance in
 `conventions.md`, and on its cited source.

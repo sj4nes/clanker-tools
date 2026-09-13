@@ -28,6 +28,7 @@ Start at [`SKILL.md`](SKILL.md).
 | `validation/proof-checks.lean` | Mathlib-free Lean; exit 0, no `sorry`, no warnings |
 | `validation/proof-checks.md` | what the kernel verified vs what stays cited |
 | `validation/instance-checks.bc` | 12 `bc` sections, all passing |
+| `validation/matrix-checks.m` | 120 Octave assertions at n = 5..7, rectangular and rank-deficient |
 | `build/all.sh` | full build; fails on any check failure |
 
 ## Verification
@@ -40,6 +41,7 @@ Start at [`SKILL.md`](SKILL.md).
 | Lean refs | `build/check-lean-refs.py` — every `LinAlg.*` named actually exists; no `cited` node names one | ok (55 refs / 87 declarations) |
 | proofs | `lean validation/proof-checks.lean` | exit 0, no `sorry`/`axiom`/warnings |
 | instances | `bc -l validation/instance-checks.bc`, **output inspected** (bc's `quit` always exits 0) | 12/12 sections pass |
+| matrix results | `octave --no-gui --quiet validation/matrix-checks.m` — exits 1 on a failed assert, so no grepping needed | 120/120 assertions pass; negative-contrast tested in all 8 sections |
 
 The `bc` harness was negative-contrast tested: corrupting one check makes it
 print a `FAIL` line and makes `build/all.sh` exit 1.
