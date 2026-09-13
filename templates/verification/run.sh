@@ -21,16 +21,26 @@ cd "$(dirname "$0")"
 PY=python3
 
 echo "=== 1. <name> (bc) ==="
-# `bc`'s `quit` ALWAYS EXITS 0 -- the exit status can never signal failure and
-# `set -e` gives no protection.  The OUTPUT must be inspected.  Both conditions
-# below are needed: the banner alone would be satisfied by a file that never
-# reached its later sections, and the absence of FAIL alone by one that crashed
-# before printing anything.  See docs/bc-verification-audit.md.
-bcout=$(bc -lq checks.bc)
+# Two INDEPENDENT failure signals, both checked:
+#   1. the OUTPUT -- a `*** FAIL` marker, plus the pass banner. Names the claim.
+#   2. the EXIT STATUS -- checks.bc forces a nonzero exit on failure via a
+#      deliberate 1/0. This also catches a BROKEN file for free: bc exits 2 on
+#      a syntax error, 3 on an undefined function, 4 on a missing file.
+#
+# bc reports interpreter errors but never a false claim, so signal 1 is the
+# one that catches wrong arithmetic; signal 2 is the backstop.
+#
+# Capture the status EXPLICITLY. Two traps here:
+#   - under `set -e`, a failing `$( )` assignment aborts before the diagnostics
+#     are printed, so the useful output is lost;
+#   - a pipe (`bc f.bc | tail`) replaces bc's status with the last command's.
+# See docs/bc-verification-audit.md.
+bcout=$(bc -lq checks.bc 2>&1) && bcstatus=0 || bcstatus=$?
 printf '%s\n' "$bcout"
-if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
+if [ "$bcstatus" -ne 0 ] \
+   || ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
    || printf '%s\n' "$bcout" | grep -q '*** FAIL'; then
-    echo "bc checks FAILED" >&2
+    echo "bc checks FAILED (exit status $bcstatus)" >&2
     exit 1
 fi
 echo

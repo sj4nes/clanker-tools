@@ -182,8 +182,10 @@ have the runner grep for it.
    survived in 20 of 24 harnesses.
 
    A deliberate `1/0` is an available escape hatch (`if (fails > 0) { zz = 1/0 }`
-   → exit 1), but the grep gives better diagnostics because it names the
-   failing claim.
+   → exit 1). **`templates/verification/` now ships both signals**: the grep
+   names *which* claim failed, and the forced nonzero exit backstops a runner
+   that forgets to grep. Verified — a naive `set -e; bc checks.bc` against the
+   updated template now catches a false claim, where before it passed.
 
    A third, independent trap: **a pipe replaces `bc`'s status with the last
    command's**. `bc f.bc | tail` reports success even when `bc` died parsing.

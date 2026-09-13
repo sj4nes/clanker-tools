@@ -60,11 +60,12 @@ echo "=== 1. <name> (bc) ==="
 # 4 missing file, 1 math error), NOT whether your claims were true -- a false
 # claim is a VALUE to a calculator, not an error, and `quit` takes no status.
 # So `set -e` catches a broken file but never a wrong answer.  Inspect the OUTPUT.
-bcout=$(bc -lq checks.bc)
+bcout=$(bc -lq checks.bc 2>&1) && bcstatus=0 || bcstatus=$?
 printf '%s\n' "$bcout"
-if ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
+if [ "$bcstatus" -ne 0 ] \
+   || ! printf '%s\n' "$bcout" | grep -q "ALL BC CHECKS PASSED" \
    || printf '%s\n' "$bcout" | grep -q '*** FAIL'; then
-    echo "bc checks FAILED" >&2; exit 1
+    echo "bc checks FAILED (exit status $bcstatus)" >&2; exit 1
 fi
 echo
 
@@ -105,7 +106,8 @@ skill has the full treatment; this is the verification-relevant subset.
 | End the script with `quit`. | Clean exit under `-q`. | |
 | **The exit status reports interpreter errors, not false claims.** | `bc` exits 2 on a syntax error, 3 on an undefined function, 4 on a missing file, 1 on a math error — all documented in `man bc`. But a claim that is simply *wrong* is a value, not an error, and `quit` takes no status argument (`quit 1` exits 0). So `set -e` catches a **broken** file and never a **wrong** one. That partial protection is what made this look safe in 20 of 24 harnesses; see [`bc-verification-audit.md`](bc-verification-audit.md). | Capture the output and `grep` for both a pass banner and the absence of the failure marker. |
 | **A pipe replaces `bc`'s status with the last command's.** | `bc f.bc \| tail` reports `tail`'s success even when `bc` died with a parse error. Easy to hit while *testing* a harness. | Redirect to a file, or capture with `$( )`, and check the status before piping. |
-| **Escape hatch if you want a nonzero exit anyway:** a deliberate `1/0`. | `if (fails > 0) { zz = 1/0 }` makes `bc` exit 1 (documented "math error"). Belt-and-braces alongside the grep, so a runner that forgets to check the output still fails. | Optional; the grep gives better diagnostics because it names the failing claim. |
+| **Force a nonzero exit too, with a deliberate `1/0`.** | `bc` has no `assert` and `quit` takes no status, but a divide-by-zero raises a documented math error and exits 1. This is the backstop for a runner that forgets to grep — the mistake that shipped in 20 of 24 harnesses. Verified: a naive `set -e; bc checks.bc` now catches a false claim. | End `checks.bc` with `if (fails > 0) { zz = 1/0 }`, **after** the FAIL lines and summary — a math error halts `bc` immediately, so put it last or you lose the diagnostics. |
+| **Capture `bc`'s status explicitly; don't let `set -e` or a pipe eat it.** | Under `set -e` a failing `$( )` assignment aborts *before* the captured output is printed, losing the diagnostic. A pipe replaces `bc`'s status with the last command's. | `bcout=$(bc -lq checks.bc 2>&1) && bcstatus=0 \|\| bcstatus=$?`, print `$bcout`, then test both signals. |
 | **Grep for the marker `*** FAIL`, never bare `FAIL`.** | Descriptive text legitimately contains the word — `visualization-design` prints `(claim: < 3 -> FAILS as a standalone cue)`, which made a bare `grep -q FAIL` fail a passing run. | Emit `*** FAIL: <claim>` from assertions only, and grep for exactly that. |
 | **`abs` is a RESERVED name in macOS `bc`.** | `define abs(x)` fails with `bad function definition`, even without `-l`. | Name it something else — `aval`. |
 | **BSD `bc` functions take NUMERIC arguments only.** | No strings, so a failure message cannot be passed to an assertion helper. | Print the message at the call site: `bad = chk(expr, tol); if (bad) { print "*** FAIL: ...\n" }`. |
@@ -135,6 +137,9 @@ bad = 0
 
 bad = chk(got - want, 0.000000001); if (bad) { print "*** FAIL: <claim>\n" }
 fails += bad
+
+/* ...and END the file with the backstop, AFTER the summary: */
+if (fails > 0) { zz = 1/0 }     /* forces exit 1; a math error halts bc here */
 
 /* `*** FAIL` is the MARKER the runner greps for.  Never use the bare word
    `FAIL` in descriptive text on a passing path -- it will fail a good run. */

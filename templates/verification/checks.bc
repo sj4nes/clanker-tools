@@ -68,7 +68,9 @@ print "17 mod 5 = ", r, "   (claim: 2)\n"
 bad = chk(r - 2, 0); if (bad) { print "*** FAIL: 17 mod 5 = 2\n" }
 fails += bad
 
-/* --- summary: run.sh greps for BOTH the banner and the absence of FAIL --- */
+/* --- summary ------------------------------------------------------------
+ * run.sh checks BOTH the banner and the absence of the `*** FAIL` marker.
+ */
 print "\n"
 if (fails == 0) {
   print "ALL BC CHECKS PASSED\n"
@@ -76,4 +78,20 @@ if (fails == 0) {
 if (fails > 0) {
   print "*** ", fails, " BC CHECK(S) FAILED\n"
 }
+
+/* --- belt and braces: ALSO exit nonzero -----------------------------------
+ * bc has no `assert`, and `quit` takes no status argument (`quit 1` exits 0).
+ * But a deliberate divide-by-zero raises a documented math error and exits 1
+ * (`man bc`, EXIT STATUS).  That gives a second, independent failure signal.
+ *
+ * Why both, rather than either alone:
+ *   - the grep names WHICH claim failed, so it gives the better diagnostic;
+ *   - the exit status protects a runner that forgets to grep, which is the
+ *     mistake that shipped in 20 of 24 harnesses (docs/bc-verification-audit.md).
+ *
+ * This MUST come last: a math error halts bc immediately, so the FAIL lines
+ * and the summary above are printed first.  The "Math error: divide by 0"
+ * that bc then emits is expected, and run.sh captures it with 2>&1.
+ */
+if (fails > 0) { zz = 1/0 }
 quit
