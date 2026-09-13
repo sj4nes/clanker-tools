@@ -860,6 +860,40 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       the two working ones cover for the third. New §8 checklist item requires
       each of the three `bc` signals to be tested **in isolation**; recorded as
       an addendum in `docs/bc-verification-audit.md` and as a §3 row.
+- [x] **skill wiring audited** (2026-09-13, d62e2e9) — `.claude/skills/` holds
+      symlinks into `../../skills/` and that is the only mechanism by which a
+      built skill becomes a loadable one. Two defects: `math-probability`'s link
+      was **broken since the capsule shipped** (`../math-probability`, one `../`
+      short), so the skill has never been loadable; and **16 of 46 repo skills
+      had no link at all**. Repaired `math-probability` and wired
+      `test-writing`, `statistics`, `octave`.
+      Also fixed **outside the repo**: `~/.claude/skills/` held five stale
+      *copies* (not symlinks) of `bc`, `csplit`, `ed`, `ptx`, `tsort` frozen at
+      Sep 5; four had drifted, and the `bc` copy still taught the `x / 1`
+      truncation idiom this repo's verification **disproved on macOS bc** — while
+      carrying the same `version: 1.0.0` and a byte-identical description, so
+      nothing distinguished it from the fixed one. Now symlinks into this repo.
+      Backed up and diffed first; no content existed only in the copies.
+- [ ] **skill wiring, the remaining 12:** left unwired deliberately (46 skill
+      descriptions is a real prompt-context cost), but the decision should be
+      recorded rather than implicit: `agent-automation`, `unattended-automation`,
+      `local-first-backup`, `hypergraph-reasoning`, `nonfiction-book`,
+      `bayes-bridge`, `math-statistics`, `math-linear-algebra`,
+      `chemistry-foundations`, `chemistry-electrochemistry`, `physics-acoustics`,
+      `physics-formula-atlas`. Decide per skill: wire it, or state in the README
+      that it is a reference capsule read by humans and other skills rather than
+      loaded as an agent skill. **A built skill nobody wired in is shelfware** —
+      that is what the `math-probability` link taught.
+- [ ] **version fields do not move when a skill is edited.** Both `bc` copies
+      read `version: 1.0.0` despite a 29-line divergence including a verified
+      correctness fix, so a stale fork was indistinguishable from the fixed one
+      by metadata. Either bump `version` on every substantive edit (and say so
+      in `templates/skill-template/SKILL.md`) or drop the field as decorative.
+      Surfaced by the `~/.claude/skills` drift.
+- [ ] **user-level symlinks are absolute** (`/Users/sjanes/work26/clanker-tools/...`)
+      because `~/.claude/skills` cannot use a relative path into the repo. They
+      break if the repo moves or is renamed. Note it in the README's setup
+      section, or provide an install script that rewrites them.
 - [ ] **displacement tables, retro-fit:** `docs/verifying-skills.md` §7 now
       requires one per behaviour-modification skill, and exactly one skill has
       one (`test-writing`, where the rule was derived). A repo-wide rule that
