@@ -4,7 +4,37 @@
    scale = 0 throughout: these are combinatorial / truth-functional checks,
    no fractional arithmetic, so bc's truncation never bites.
    These are INSTANCES -- they make the theorems concrete.  They are NOT proofs
-   of the general statements (that is what validation/proof-checks.lean is for). */
+   of the general statements (that is what validation/proof-checks.lean is for).
+
+   EVERY CLAIM IS ASSERTED (helpers below).  This file already computed the
+   right boolean flags -- taut, ok1/ok2, oknot/okand/okor, fa_ex/ex_fa, allodd,
+   zleast, qleast, reached, noleast -- and only PRINTED them.  They are now
+   checked.  `bc`'s `quit` always exits 0, so printing "(want 1)" caught
+   nothing.  See docs/bc-verification-audit.md.
+   NOTE: the helper flag is `bd`, not `bad` -- this file uses `bad` as a
+   counter in the proof_by_cases section. */
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define avl(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (avl(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bd = 0
 
 scale = 0
 
@@ -24,7 +54,10 @@ for (p = 0; p <= 1; p++) {
     }
   }
 }
-print "  tautology? ", taut, "  (1 = true under every one of the 8 assignments)\n\n"
+print "  tautology? ", taut, "  (claim: 1, true under every one of the 8 assignments)\n"
+bd = chk(taut - 1, 0); if (bd) { print "*** FAIL: hypothetical syllogism must be a tautology\n" }
+fails += bd
+print "\n"
 
 print "=== tautology / satisfiability / contradiction: classify sample wffs over {p,q} ===\n"
 print "  wff            rows_true / 4   verdict\n"
@@ -44,7 +77,25 @@ for (k = 1; k <= 3; k++) {
   if (k == 2) print "  p and not p    ", cnt, " / 4          contradiction (unsatisfiable)\n"
   if (k == 3) print "  p and not q    ", cnt, " / 4          contingent (satisfiable, not valid)\n"
 }
-print "  tautology = all rows true ; contradiction = no rows true ; satisfiable = some row true\n\n"
+print "  tautology = all rows true ; contradiction = no rows true ; satisfiable = some row true\n"
+/* The three-way classification, asserted: 4/4 rows true, 0/4, and 1/4.
+   Printing the counts without checking them would let a wrong truth function
+   through -- e.g. a contradiction misreported as contingent. */
+c1 = 0; c2 = 0; c3 = 0
+for (pz = 0; pz <= 1; pz++) {
+  for (qz = 0; qz <= 1; qz++) {
+    if ((pz + (1 - pz)) >= 1) c1 = c1 + 1
+    if ((pz * (1 - pz)) >= 1) c2 = c2 + 1
+    if ((pz * (1 - qz)) >= 1) c3 = c3 + 1
+  }
+}
+bd = chk(c1 - 4, 0); if (bd) { print "*** FAIL: p or not p must be a TAUTOLOGY (4/4 rows)\n" }
+fails += bd
+bd = chk(c2, 0);     if (bd) { print "*** FAIL: p and not p must be a CONTRADICTION (0/4 rows)\n" }
+fails += bd
+bd = chk(c3 - 1, 0); if (bd) { print "*** FAIL: p and not q must be CONTINGENT (1/4 rows)\n" }
+fails += bd
+print "\n"
 
 print "=== duality_principle: prove one absorption law, get the dual free ===\n"
 print "  check  p and (p or q) == p   over all 4 rows, then its dual  p or (p and q) == p :\n"
@@ -56,7 +107,12 @@ for (p = 0; p <= 1; p++) {
   }
 }
 print "  p and (p or q) == p : ", ok1, "     dual  p or (p and q) == p : ", ok2, "\n"
-print "  swapping and<->or, true<->false sends any Boolean identity to its dual.\n\n"
+print "  swapping and<->or, true<->false sends any Boolean identity to its dual.\n"
+bd = chk(ok1 - 1, 0); if (bd) { print "*** FAIL: absorption p and (p or q) == p must hold on every row\n" }
+fails += bd
+bd = chk(ok2 - 1, 0); if (bd) { print "*** FAIL: the DUAL absorption p or (p and q) == p must hold too\n" }
+fails += bd
+print "\n"
 
 print "=== de_morgan_prop: the constructive-grade SPLIT, checked on Bool ===\n"
 print "  columns: not(p and q) | (not p or not q)      -- classically equal\n"
@@ -84,7 +140,18 @@ for (a = 0; a <= 1; a++) {
   }
 }
 print "  not from nand: ", oknot, "   and from nand: ", okand, "   or from nand: ", okor, "\n"
-print "  count of binary functions {0,1}^2 -> {0,1}: 2^(2^2) = ", 2^(2^2), "\n\n"
+print "  count of binary functions {0,1}^2 -> {0,1}: 2^(2^2) = ", 2^(2^2), "\n"
+/* FUNCTIONAL COMPLETENESS of NAND: all three of not/and/or must be
+   reconstructible, and there are exactly 16 binary Boolean functions. */
+bd = chk(oknot - 1, 0); if (bd) { print "*** FAIL: NOT must be reconstructible from NAND\n" }
+fails += bd
+bd = chk(okand - 1, 0); if (bd) { print "*** FAIL: AND must be reconstructible from NAND\n" }
+fails += bd
+bd = chk(okor - 1, 0);  if (bd) { print "*** FAIL: OR must be reconstructible from NAND\n" }
+fails += bd
+bd = chk(2^(2^2) - 16, 0); if (bd) { print "*** FAIL: there are 16 binary Boolean functions\n" }
+fails += bd
+print "\n"
 
 print "=== quantifier_order: forall x exists y  vs  exists y forall x ===\n"
 print "  domain D = {0,1,2,3}, relation r(x,y) := (y == x+1 mod 4)\n"
@@ -103,7 +170,16 @@ for (y = 0; y < n; y++) {
 }
 print "  forall x, exists y, r(x,y) : ", fa_ex, "   (each x has the successor)\n"
 print "  exists y, forall x, r(x,y) : ", ex_fa, "   (no single y works for all x)\n"
-print "  => the two orders are NOT equivalent; exists-forall is strictly stronger.\n\n"
+print "  => the two orders are NOT equivalent; exists-forall is strictly stronger.\n"
+/* QUANTIFIER ORDER: the two must DIFFER on this model, or the node's whole
+   point is unwitnessed.  Assert both values, not just their difference. */
+bd = chk(fa_ex - 1, 0); if (bd) { print "*** FAIL: forall x exists y must HOLD on the successor relation\n" }
+fails += bd
+bd = chk(ex_fa, 0);     if (bd) { print "*** FAIL: exists y forall x must FAIL -- the orders are not equivalent\n" }
+fails += bd
+bd = chk(fa_ex - ex_fa - 1, 0); if (bd) { print "*** FAIL: the two quantifier orders must disagree here\n" }
+fails += bd
+print "\n"
 
 print "=== free_for: the capture bug, numerically ===\n"
 print "  phi(x) := exists y in {0..9}, y == x + 1        -- true for x = 0..8\n"
@@ -113,6 +189,12 @@ for (y = 0; y <= 9; y++) { if (y == 3 + 1) phi3 = 1 }
 cap = 0
 for (y = 0; y <= 9; y++) { if (y == y + 1) cap = 1 }
 print "  phi(3) = ", phi3, "     captured form = ", cap, "\n"
+/* THE CAPTURE BUG: phi(3) is TRUE while the captured substitution is FALSE.
+   Both halves must hold or the free_for side condition is unmotivated. */
+bd = chk(phi3 - 1, 0); if (bd) { print "*** FAIL: phi(3) must be TRUE before substitution\n" }
+fails += bd
+bd = chk(cap, 0); if (bd) { print "*** FAIL: the CAPTURED form must be FALSE -- that is the bug free_for prevents\n" }
+fails += bd
 print "  forall-elimination without the free_for check turns a truth into a falsehood.\n\n"
 
 print "=== quantifier_negation: negating an eps-delta statement (structure only) ===\n"
@@ -143,7 +225,9 @@ for (k = 0; k <= 4; k++) {
   if (par != 1) allodd = 0
   if (sq != alg) allodd = 0
 }
-print "  all odd, and the algebra matches: ", allodd, "  (want 1)\n"
+print "  all odd, and the algebra matches: ", allodd, "  (claim: 1)\n"
+bd = chk(allodd - 1, 0); if (bd) { print "*** FAIL: n odd => n^2 odd, with the 2(2k^2+2k)+1 algebra matching\n" }
+fails += bd
 print "  contrapositive of 'n^2 even => n even' is exactly 'n odd => n^2 odd' -- proved above.\n\n"
 
 print "=== proof_methods: proof_by_cases -- exhaustiveness is the obligation ===\n"
@@ -155,7 +239,14 @@ print "  but {n >= 2} is NOT exhaustive -- the uncovered cases n = 0, 1:\n"
 print "    n=0: 0 > 0 ? ", (0 > 0), "     n=1: 1 > 1 ? ", (1 > 1), "\n"
 bad = 0
 for (n = 0; n <= 1; n++) { if (n*n <= n) bad = bad + 1 }
-print "  uncovered cases where the claim FAILS: ", bad, "  (want 2)\n"
+print "  uncovered cases where the claim FAILS: ", bad, "  (claim: 2)\n"
+/* EXHAUSTIVENESS is the obligation: the n >= 2 sub-case holds, yet exactly two
+   uncovered cases (n = 0, 1) break the claim.  Both numbers must be checked --
+   if the uncovered count were 0 the example would not illustrate anything. */
+bd = chk(holds2 - 1, 0); if (bd) { print "*** FAIL: the n >= 2 sub-case must hold\n" }
+fails += bd
+bd = chk(bad - 2, 0); if (bd) { print "*** FAIL: exactly 2 uncovered cases (n=0,1) must break the claim\n" }
+fails += bd
 print "  a case split that omits a case proves nothing.  (The true statement is n^2 >= n.)\n\n"
 
 print "=== proof_methods: disproof_by_counterexample -- one witness kills a universal ===\n"
@@ -173,11 +264,15 @@ print "  Z (integers): pick any candidate least m; m-1 < m is also in Z.  m = -3
 zleast = 1
 for (m = -3; m <= 3; m++) { if ((m - 1) >= m) zleast = 0 }
 print "    every m has a smaller m-1 in Z: ", zleast, "  -> Z has NO least element\n"
+bd = chk(zleast - 1, 0); if (bd) { print "*** FAIL: every integer must have a smaller predecessor (Z is not well-ordered)\n" }
+fails += bd
 print "  Q>0 : candidate least 1/n; then 1/(2n) is positive and smaller (cross-multiply\n"
 print "        1*(2n) vs 1*n  =>  n < 2n).  n = 1..5:\n"
 qleast = 1
 for (n = 1; n <= 5; n++) { if (n >= 2*n) qleast = 0 }
 print "    1/(2n) < 1/n for every n: ", qleast, "  -> {q in Q : q > 0} has NO least element\n"
+bd = chk(qleast - 1, 0); if (bd) { print "*** FAIL: the positive rationals must have no least element\n" }
+fails += bd
 print "  drop 'nonempty' or leave N and the principle fails (well_ordering_theorem needs AC).\n\n"
 
 print "=== proof_methods: induction_equivalence -- weak reaches all, cyclic carrier has no least ===\n"
@@ -186,15 +281,27 @@ x = 0
 reached = 1
 for (i = 1; i <= 5; i++) { x = (x + 1) % 6; if (x != i) reached = 0 }
 print "    walk 0->1->2->3->4->5 by successor: all six reached? ", reached, "\n"
+bd = chk(reached - 1, 0); if (bd) { print "*** FAIL: the successor walk must reach every element of Z/6Z\n" }
+fails += bd
 print "  so a weak-induction-style walk covers the whole carrier.  But in the cycle every\n"
 print "  element has a predecessor (m-1 mod 6), so there is NO least element:\n"
 noleast = 1
 for (m = 0; m <= 5; m++) { p = (m + 5) % 6; if (p == m) noleast = 0 }
 print "    every m in Z/6Z has a distinct predecessor: ", noleast, "\n"
+bd = chk(noleast - 1, 0); if (bd) { print "*** FAIL: every element of Z/6Z must have a distinct predecessor (no least)\n" }
+fails += bd
 print "  => weak_induction can hold where well_ordering_principle fails: the equivalence\n"
 print "     (induction_equivalence) is RELATIVE to the Peano structure of N.\n\n"
 
 print "=== boundary: propositional validity IS decidable (2^n table); first-order is NOT ===\n"
 print "  propositional: a wff with n atoms -> 2^n rows -> decidable (this file, row-by-row)\n"
 print "  first-order: no such bound; validity is only semi-decidable (undecidability_fol_validity)\n"
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

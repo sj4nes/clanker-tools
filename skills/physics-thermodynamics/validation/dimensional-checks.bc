@@ -4,8 +4,36 @@
  * scalars <q>m <q>l <q>t <q>h <q>n and each check prints "0 0 0 0 0" when the
  * exponent difference [LHS] - [RHS] is consistent.
  * Run:  bc -q -l validation/dimensional-checks.bc
+ *
+ * EVERY CHECK IS ASSERTED (helpers below).  `d5` previously PRINTED the
+ * exponent difference and returned nothing, with its result sunk into `zz`;
+ * a nonzero difference -- i.e. a dimensionally inconsistent formula -- printed
+ * and passed, because `bc`'s `quit` always exits 0.  `d5` now RETURNS a
+ * failure count.  See docs/bc-verification-audit.md.
  */
 scale = 6
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
 
 /* quantity exponents (m, l, t, h, n) */
 enem = 1; enel = 2; enet = -2; eneh = 0;  enen = 0    /* energy  U,Q,W,H,F,G  M L^2 T^-2 */
@@ -18,49 +46,113 @@ cmom = 1; cmol = 2; cmot = -2; cmoh = -1; cmon = -1    /* molar heat cap    same
 entm = 1; entl = 2; entt = -2; enth = -1; entn = 0     /* entropy S (ext.)  M L^2 T^-2 Theta^-1 */
 jtcm = -1; jtcl = 1; jtct = 2; jtch = 1;  jtcn = 0     /* mu_JT  = Theta / pressure */
 
+/* Prints the exponent difference and RETURNS 1 if any component is nonzero,
+   i.e. if the formula is dimensionally INCONSISTENT. */
 define d5(am,al,at,ah,an, bm,bl,bt,bh,bn) {
-    print am-bm, " ", al-bl, " ", at-bt, " ", ah-bh, " ", an-bn, "\n"
+    auto dm, dl, dt, dh, dn, bd5
+    dm = am-bm; dl = al-bl; dt = at-bt; dh = ah-bh; dn = an-bn
+    print dm, " ", dl, " ", dt, " ", dh, " ", dn
+    bd5 = 0
+    if (dm != 0) bd5 = 1
+    if (dl != 0) bd5 = 1
+    if (dt != 0) bd5 = 1
+    if (dh != 0) bd5 = 1
+    if (dn != 0) bd5 = 1
+    if (bd5 == 1) print "   *** FAIL: dimensionally inconsistent"
+    print "\n"
+    return (bd5)
 }
 
 print "dimensional checks  ([LHS] - [RHS] exponents, want  0 0 0 0 0):\n"
 
 print "P V = n R T          : "
-zz=d5(prem+volm, prel+voll, pret+volt, preh+volh, pren+voln, \
+fails += d5(prem+volm, prel+voll, pret+volt, preh+volh, pren+voln, \
    amnn*0+amnm+rgcm+temm, amnl+rgcl+teml, amnt+rgct+temt, amnh+rgch+temh, amnn+rgcn+temn)
 
 print "H = U + P V          : "
-zz=d5(enem, enel, enet, eneh, enen, prem+volm, prel+voll, pret+volt, preh+volh, pren+voln)
+fails += d5(enem, enel, enet, eneh, enen, prem+volm, prel+voll, pret+volt, preh+volh, pren+voln)
 
 print "c_p - c_v = R        : "
-zz=d5(cmom, cmol, cmot, cmoh, cmon, rgcm, rgcl, rgct, rgch, rgcn)
+fails += d5(cmom, cmol, cmot, cmoh, cmon, rgcm, rgcl, rgct, rgch, rgcn)
 
 print "dU = dQ - dW         : "
-zz=d5(enem, enel, enet, eneh, enen, enem, enel, enet, eneh, enen)
+fails += d5(enem, enel, enet, eneh, enen, enem, enel, enet, eneh, enen)
 
 print "dS = dQ / T          : "
-zz=d5(entm, entl, entt, enth, entn, enem-temm, enel-teml, enet-temt, eneh-temh, enen-temn)
+fails += d5(entm, entl, entt, enth, entn, enem-temm, enel-teml, enet-temt, eneh-temh, enen-temn)
 
 print "T dS = dU + P dV     : "
-zz=d5(temm+entm, teml+entl, temt+entt, temh+enth, temn+entn, enem, enel, enet, eneh, enen)
+fails += d5(temm+entm, teml+entl, temt+entt, temh+enth, temn+entn, enem, enel, enet, eneh, enen)
 
 print "F = U - T S          : "
-zz=d5(enem, enel, enet, eneh, enen, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
+fails += d5(enem, enel, enet, eneh, enen, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
 
 print "eta = 1 - T_c/T_h    : "
-zz=d5(0,0,0,0,0, temm-temm, teml-teml, temt-temt, temh-temh, temn-temn)
+fails += d5(0,0,0,0,0, temm-temm, teml-teml, temt-temt, temh-temh, temn-temn)
 
 print "S_ideal term n c_v   : "
-zz=d5(entm, entl, entt, enth, entn, amnm+cmom, amnl+cmol, amnt+cmot, amnh+cmoh, amnn+cmon)
+fails += d5(entm, entl, entt, enth, entn, amnm+cmom, amnl+cmol, amnt+cmot, amnh+cmoh, amnn+cmon)
 
 print "mu_JT = (dT/dP)_H    : "
-zz=d5(jtcm, jtcl, jtct, jtch, jtcn, temm-prem, teml-prel, temt-pret, temh-preh, temn-pren)
+fails += d5(jtcm, jtcl, jtct, jtch, jtcn, temm-prem, teml-prel, temt-pret, temh-preh, temn-pren)
 
 print "\nnumeric special cases:\n"
 scale = 6
-print "Carnot eta, Tc=300 Th=600 : ", 1 - 300/600, "   (want .5)\n"
-print "gamma diatomic (7/2)/(5/2): ", (7/2)/(5/2), "   (want 1.4)\n"
-print "Mayer  cp-cv, cp=29.1 cv=20.8 : ", 29.1 - 20.8, "   (~ R = 8.314)\n"
-print "free-exp dS = R ln2 (n=1) : ", 8.314 * l(2), "   (> 0, want ~5.763)\n"
-print "adiabatic T2/T1, g=1.4 V2/V1=2 : ", e(-0.4*l(2)), "   (want ~.7579)\n"
+print "Carnot eta, Tc=300 Th=600 : ", 1 - 300/600, "   (claim: .5)\n"
+toltd = 0.0001
+bad = chk((1 - 300/600) - 0.5, toltd); if (bad) { print "*** FAIL: Carnot efficiency at Tc/Th = 1/2 is 0.5\n" }
+fails += bad
+/* Carnot efficiency must be strictly between 0 and 1, and must RISE as the
+   hot reservoir gets hotter -- the qualitative claims a sign error breaks. */
+bad = neg(1 - 300/600); if (bad) { print "*** FAIL: Carnot efficiency must be positive\n" }
+fails += bad
+bad = neg(1 - (1 - 300/900)); if (bad) { print "*** FAIL: Carnot efficiency must stay below 1\n" }
+fails += bad
+bad = neg((1 - 300/900) - (1 - 300/600)); if (bad) { print "*** FAIL: a hotter source must give HIGHER Carnot efficiency\n" }
+fails += bad
+print "gamma diatomic (7/2)/(5/2): ", (7/2)/(5/2), "   (claim: 1.4)\n"
+bad = chk((7/2)/(5/2) - 1.4, toltd); if (bad) { print "*** FAIL: diatomic gamma = 7/5 = 1.4\n" }
+fails += bad
+/* monatomic gamma is 5/3 and must EXCEED the diatomic value -- more degrees of
+   freedom means a lower ratio */
+bad = neg((5/3) - (7/5)); if (bad) { print "*** FAIL: monatomic gamma must exceed diatomic gamma\n" }
+fails += bad
+print "Mayer  cp-cv, cp=29.1 cv=20.8 : ", 29.1 - 20.8, "   (claim: ~ R = 8.314)\n"
+/* Mayer's relation from tabulated molar heat capacities: the measured
+   difference must recover R to within the rounding of the table (0.05). */
+bad = chk((29.1 - 20.8) - 8.314, 0.05); if (bad) { print "*** FAIL: Mayer relation c_p - c_v must recover R = 8.314\n" }
+fails += bad
+bad = neg(29.1 - 20.8); if (bad) { print "*** FAIL: c_p must exceed c_v\n" }
+fails += bad
+print "free-exp dS = R ln2 (n=1) : ", 8.314 * l(2), "   (claim: > 0, ~5.763)\n"
+/* FREE EXPANSION is irreversible, so the entropy change must be STRICTLY
+   POSITIVE -- the second law, asserted rather than annotated. */
+bad = chk(8.314 * l(2) - 5.7628, 0.001); if (bad) { print "*** FAIL: free-expansion dS = R ln 2 = 5.763 J/K\n" }
+fails += bad
+bad = neg(8.314 * l(2)); if (bad) { print "*** FAIL: free expansion must INCREASE entropy (second law)\n" }
+fails += bad
+print "adiabatic T2/T1, g=1.4 V2/V1=2 : ", e(-0.4*l(2)), "   (claim: ~.7579)\n"
+/* Adiabatic expansion COOLS the gas: T2/T1 < 1.  Both the value and the
+   direction are asserted. */
+bad = chk(e(-0.4*l(2)) - 0.757858, 0.0001); if (bad) { print "*** FAIL: adiabatic T2/T1 = 2^-0.4 = 0.7579\n" }
+fails += bad
+bad = neg(1 - e(-0.4*l(2))); if (bad) { print "*** FAIL: adiabatic expansion must COOL the gas (T2/T1 < 1)\n" }
+fails += bad
 print "irrev eta < Carnot: 0.35 < ", 1 - 300/600, " ? ", (0.35 < 1 - 300/600), "\n"
+/* CARNOT'S THEOREM: no real engine beats the reversible bound.  The comparison
+   was printed as a 1/0 and never checked. */
+bad = chk((0.35 < 1 - 300/600) - 1, 0); if (bad) { print "*** FAIL: an irreversible engine must fall BELOW the Carnot bound\n" }
+fails += bad
+/* NEGATIVE CONTRAST: a claimed efficiency ABOVE the bound must be detected as
+   a violation, or the comparison above is vacuous. */
+bad = chk((0.60 < 1 - 300/600), 0); if (bad) { print "*** FAIL: an efficiency of 0.60 must be flagged as EXCEEDING the Carnot bound\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

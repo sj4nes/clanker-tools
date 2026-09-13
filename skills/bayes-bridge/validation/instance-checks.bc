@@ -1,15 +1,57 @@
 /* bayes-bridge -- bc instance checks
    Run: bc -q -l validation/instance-checks.bc
    Convention: scale set explicitly per block; bc truncates, does not round
-   (per the bc skill's precision discipline). */
+   (per the bc skill's precision discipline).
+
+   EVERY CLAIM IS ASSERTED (helpers below).  This file echoed bare values with
+   no comparison at all; `bc`'s `quit` always exits 0, so a wrong posterior
+   would have printed and passed.  See docs/bc-verification-audit.md. */
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
 
 scale = 6
+tolb = 0.00001
 
 "=== conjugate_families: Beta-Bernoulli, a=1 b=1 n=10 s=7 ===" ; ""
 a = 1; b = 1; n = 10; s = 7
 post_a = a + s; post_b = b + (n - s)
 "posterior Beta(a,b) params:"; post_a ; post_b
 "posterior mean:"; post_a / (post_a + post_b)
+/* Beta-Bernoulli with a flat Beta(1,1) prior: the posterior mean is Laplace's
+   rule of succession (s+1)/(n+2) = 8/12.  Asserting it against that INDEPENDENT
+   closed form, not against a restatement of the update. */
+bad = chk(post_a - 8, 0); if (bad) { print "*** FAIL: Beta-Bernoulli posterior a = prior a + s = 8\n" }
+fails += bad
+bad = chk(post_b - 4, 0); if (bad) { print "*** FAIL: Beta-Bernoulli posterior b = prior b + (n-s) = 4\n" }
+fails += bad
+bad = chk(post_a/(post_a + post_b) - (s+1)/(n+2), tolb); if (bad) { print "*** FAIL: posterior mean must equal Laplace's rule (s+1)/(n+2)\n" }
+fails += bad
+/* The posterior mean must lie STRICTLY between the prior mean (1/2) and the
+   MLE (0.7): shrinkage toward the prior is the whole content of conjugacy. */
+bad = neg(post_a/(post_a + post_b) - 0.5 - tolb); if (bad) { print "*** FAIL: posterior mean must exceed the prior mean 0.5\n" }
+fails += bad
+bad = neg(s/n - post_a/(post_a + post_b) - tolb); if (bad) { print "*** FAIL: posterior mean must be SHRUNK below the MLE 0.7\n" }
+fails += bad
 
 "" ; "=== conjugate_families: Normal-Normal, mu0=0 tau0_sq=1 sigma_sq=4 n=5 xbar=3 ===" ; ""
 mu0 = 0; tau0_sq = 1; sigma_sq = 4; n = 5; xbar = 3
@@ -17,12 +59,40 @@ tau_n_sq = 1 / (1/tau0_sq + n/sigma_sq)
 mu_n = tau_n_sq * (mu0/tau0_sq + n*xbar/sigma_sq)
 "posterior variance tau_n_sq:"; tau_n_sq
 "posterior mean mu_n:"; mu_n
+/* Normal-Normal: precisions ADD (1/tau_n^2 = 1/tau0^2 + n/sigma^2), and the
+   posterior mean is the precision-weighted average of prior mean and xbar.
+   Both are asserted against their own closed forms. */
+bad = chk(1/tau_n_sq - (1/tau0_sq + n/sigma_sq), tolb); if (bad) { print "*** FAIL: Normal-Normal precisions must add\n" }
+fails += bad
+bad = chk(tau_n_sq - 1/2.25, tolb); if (bad) { print "*** FAIL: posterior variance = 1/2.25 = 0.4444\n" }
+fails += bad
+bad = chk(mu_n - 1.666666, 0.0001); if (bad) { print "*** FAIL: posterior mean = 1.6667\n" }
+fails += bad
+/* The posterior is MORE precise than either input, and the mean lies strictly
+   between the prior mean (0) and the data mean (3). */
+bad = neg(tau0_sq - tau_n_sq - tolb); if (bad) { print "*** FAIL: the posterior must be more precise than the prior\n" }
+fails += bad
+bad = neg(mu_n - mu0 - tolb); if (bad) { print "*** FAIL: posterior mean must lie above the prior mean\n" }
+fails += bad
+bad = neg(xbar - mu_n - tolb); if (bad) { print "*** FAIL: posterior mean must lie below the data mean (shrinkage)\n" }
+fails += bad
 
 "" ; "=== conjugate_families: Gamma-Poisson, a=2 b=1 n=4 s=9 ===" ; ""
 a = 2; b = 1; n = 4; s = 9
 post_a = a + s; post_b = b + n
 "posterior Gamma(a,b) params:"; post_a ; post_b
 "posterior mean:"; post_a / post_b
+bad = chk(post_a - 11, 0); if (bad) { print "*** FAIL: Gamma-Poisson posterior shape = a + s = 11\n" }
+fails += bad
+bad = chk(post_b - 5, 0); if (bad) { print "*** FAIL: Gamma-Poisson posterior rate = b + n = 5\n" }
+fails += bad
+bad = chk(post_a/post_b - 2.2, tolb); if (bad) { print "*** FAIL: Gamma-Poisson posterior mean = 11/5 = 2.2\n" }
+fails += bad
+/* shrinkage again: between the prior mean 2/1 and the MLE 9/4 = 2.25 */
+bad = neg(post_a/post_b - 2 - tolb); if (bad) { print "*** FAIL: posterior mean must exceed the prior mean 2\n" }
+fails += bad
+bad = neg(2.25 - post_a/post_b - tolb); if (bad) { print "*** FAIL: posterior mean must be shrunk below the MLE 2.25\n" }
+fails += bad
 
 "" ; "=== lindleys_paradox: n=100000 sigma_sq=1 tau0_sq=1, z=1.96 ===" ; ""
 scale = 10
@@ -36,6 +106,20 @@ bf10 = sqrt(v0 / v1) * e(xbar * xbar / 2 * (1/v0 - 1/v1))
 "BF_01 = 1/BF_10 (favors M0 if > 1):"; 1 / bf10
 "-- classical z-test rejects H0 at alpha=0.05 by construction (z=1.96);"
 "-- BF_01 >> 1 shows the diffuse-prior Bayes factor favors H0 at the same data."
+/* LINDLEY'S PARADOX is a DISAGREEMENT, and the disagreement is the claim:
+   the classical test rejects H0 at exactly alpha = 0.05 (by construction,
+   z = 1.96) while the Bayes factor favours H0 by a factor of ~46.  Both the
+   rejection and the strong Bayesian preference must hold simultaneously,
+   or the paradox is not exhibited. */
+tolp2 = 0.001
+bad = chk(xbar - 1.96*sqrt(1/100000), 0.000001); if (bad) { print "*** FAIL: xbar must sit exactly on the alpha=0.05 rejection boundary\n" }
+fails += bad
+bad = chk(1/bf10 - 46.3257034668, tolp2); if (bad) { print "*** FAIL: BF_01 = 46.33 at the rejection boundary\n" }
+fails += bad
+bad = neg(1/bf10 - 20); if (bad) { print "*** FAIL: the Bayes factor must STRONGLY favour H0 (BF_01 > 20) -- the paradox\n" }
+fails += bad
+bad = neg(1 - bf10); if (bad) { print "*** FAIL: BF_10 must be BELOW 1 while the classical test rejects -- the disagreement\n" }
+fails += bad
 
 "" ; "=== credible_vs_confidence: xbar=10 sigma=2 n=25 ===" ; ""
 scale = 4
@@ -43,3 +127,29 @@ xbar = 10; sigma = 2; n = 25
 half_width = 1.96 * sigma / sqrt(n)
 "half-width (both intervals, flat prior):"; half_width
 "interval:"; xbar - half_width; xbar + half_width
+/* CREDIBLE vs CONFIDENCE: under a flat prior the two intervals COINCIDE
+   numerically -- that coincidence is the node's content, and it is what makes
+   the interpretive difference (not the arithmetic) the real distinction. */
+tolc = 0.0001
+bad = chk(half_width - 1.96*sigma/sqrt(n), tolc); if (bad) { print "*** FAIL: half-width = z*sigma/sqrt(n)\n" }
+fails += bad
+bad = chk(half_width - 0.784, tolc); if (bad) { print "*** FAIL: half-width = 0.784 at sigma=2, n=25\n" }
+fails += bad
+bad = chk((xbar - half_width) - 9.216, tolc); if (bad) { print "*** FAIL: interval lower endpoint = 9.216\n" }
+fails += bad
+bad = chk((xbar + half_width) - 10.784, tolc); if (bad) { print "*** FAIL: interval upper endpoint = 10.784\n" }
+fails += bad
+/* the interval must be centred on xbar and have positive width */
+bad = chk(((xbar - half_width) + (xbar + half_width))/2 - xbar, tolc); if (bad) { print "*** FAIL: the interval must be centred on xbar\n" }
+fails += bad
+bad = neg(half_width); if (bad) { print "*** FAIL: the half-width must be positive\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
+quit

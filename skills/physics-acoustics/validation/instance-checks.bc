@@ -1,6 +1,32 @@
 /* physics-acoustics -- bc instance checks
    Run: bc -q -l validation/instance-checks.bc
-   Convention: scale set explicitly per block; bc truncates, does not round. */
+   Convention: scale set explicitly per block; bc truncates, does not round.
+
+   EVERY CLAIM IS ASSERTED (helpers below).  This file echoed bare values with
+   no comparison; `bc`'s `quit` always exits 0, so a wrong speed of sound would
+   have printed and passed.  See docs/bc-verification-audit.md. */
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
 
 scale = 6
 
@@ -12,7 +38,17 @@ r_gas = 8.314
 temp = 293.15
 molar_mass = 0.02896
 c = sqrt(gam * r_gas * temp / molar_mass)
-"speed of sound (should be close to the textbook 343 m/s):"; c
+"speed of sound (claim: within 1 m/s of the textbook 343.2 m/s at 20C):"; c
+/* The ideal-gas formula must reproduce the measured value.  1 m/s of slack
+   covers the humidity/CO2 content the dry-air model omits; a wrong gamma
+   (5/3 instead of 7/5) would shift this by ~30 m/s and fail. */
+bad = chk(c - 343.2, 1.0); if (bad) { print "*** FAIL: speed of sound in dry air at 20C must be ~343 m/s\n" }
+fails += bad
+/* sqrt of a positive quantity, and strictly increasing in temperature -- the
+   qualitative claim a sign error would break. */
+chot = sqrt(gam * r_gas * 313.15 / molar_mass)
+bad = neg(chot - c); if (bad) { print "*** FAIL: the speed of sound must INCREASE with temperature\n" }
+fails += bad
 
 "" ; "=== dispersion_relation: omega = c k ===" ; ""
 /* f=1000 Hz, c=343 m/s -> lambda = c/f, k = 2 pi / lambda, omega = 2 pi f */
@@ -25,7 +61,20 @@ omega = 2 * pi * f
 "lambda (m):"; lambda
 "k (rad/m):"; k
 "omega (rad/s):"; omega
-"check omega - c*k (should be ~0):"; omega - c * k
+"check omega - c*k (claim: 0 to truncation):"; omega - c * k
+/* THE DISPERSION RELATION is an identity; the residual is pure bc truncation
+   at scale 6 on a quantity of size 6283, i.e. ~1e-3 of absolute slack. */
+bad = chk(omega - c * k, 0.01); if (bad) { print "*** FAIL: dispersion relation omega = c k\n" }
+fails += bad
+bad = chk(lambda - 0.343, 0.000001); if (bad) { print "*** FAIL: wavelength = c/f = 0.343 m at 1 kHz\n" }
+fails += bad
+/* NON-DISPERSIVE: the phase speed omega/k must be the SAME at another
+   frequency.  That independence is the physical content -- a dispersive
+   medium would fail here while still passing the identity above. */
+f2 = 4000
+k2 = 2 * pi * f2 / c
+bad = chk((2*pi*f2)/k2 - c, 0.01); if (bad) { print "*** FAIL: air must be NON-dispersive (phase speed independent of frequency)\n" }
+fails += bad
 
 "" ; "=== decibel_spl: p_rms = 2 Pa (loud, near threshold of pain) ===" ; ""
 scale = 4
@@ -33,6 +82,16 @@ p_rms = 2
 p_ref = 0.00002
 spl_db = 20 * (l(p_rms / p_ref) / l(10))
 "SPL (dB):"; spl_db
+/* 2 Pa is ~100 dB SPL.  The reference 20 uPa is the threshold of hearing, so
+   0 dB must come back exactly at p = p_ref -- the anchor of the whole scale. */
+bad = chk(spl_db - 100, 0.01); if (bad) { print "*** FAIL: 2 Pa must be ~100 dB SPL\n" }
+fails += bad
+bad = chk(20 * (l(p_ref / p_ref) / l(10)), 0.0001); if (bad) { print "*** FAIL: the reference pressure must be exactly 0 dB\n" }
+fails += bad
+/* doubling the pressure must add 6.02 dB -- the defining property of a
+   20*log10 scale, and the one most often misremembered as 3 dB */
+bad = chk(20*(l(2*p_rms/p_ref)/l(10)) - spl_db - 6.0206, 0.001); if (bad) { print "*** FAIL: doubling pressure must add 6.02 dB (not 3)\n" }
+fails += bad
 
 "" ; "=== pipe_resonance: L=0.5m, c=343 m/s, open-open (symmetric) fundamental ===" ; ""
 pipe_len = 0.5
@@ -41,6 +100,15 @@ f1_symmetric = c / (2 * pipe_len)
 "fundamental (open-open or closed-closed):"; f1_symmetric
 f1_mixed = c / (4 * pipe_len)
 "fundamental (one open, one closed):"; f1_mixed
+/* The mixed-boundary pipe sounds an OCTAVE BELOW the symmetric one -- exactly
+   half the frequency.  Asserting the RATIO tests the boundary-condition
+   physics, which either absolute value alone would not. */
+bad = chk(f1_symmetric - 343, 0.01); if (bad) { print "*** FAIL: open-open fundamental = c/2L = 343 Hz\n" }
+fails += bad
+bad = chk(f1_mixed - 171.5, 0.01); if (bad) { print "*** FAIL: open-closed fundamental = c/4L = 171.5 Hz\n" }
+fails += bad
+bad = chk(f1_symmetric/f1_mixed - 2, 0.0001); if (bad) { print "*** FAIL: the mixed-boundary pipe must sound exactly an octave lower\n" }
+fails += bad
 
 "" ; "=== doppler_general: ambulance approaching then receding, v_s=30 m/s, f=700 Hz, c=343 ===" ; ""
 scale = 2
@@ -51,13 +119,34 @@ f_approaching = f * c / (c - vs)
 f_receding = f * c / (c + vs)
 "frequency heard while approaching (Hz):"; f_approaching
 "frequency heard while receding (Hz):"; f_receding
+/* DOPPLER: approaching raises the pitch, receding lowers it, and the shifts
+   are ASYMMETRIC -- the rise exceeds the fall, because the source-motion form
+   is not linear in v_s.  That asymmetry is the physics, and it is asserted. */
+bad = chk(f_approaching - 767.09, 0.02); if (bad) { print "*** FAIL: approaching Doppler frequency = 767 Hz\n" }
+fails += bad
+bad = chk(f_receding - 643.69, 0.02); if (bad) { print "*** FAIL: receding Doppler frequency = 644 Hz\n" }
+fails += bad
+bad = neg(f_approaching - f); if (bad) { print "*** FAIL: approaching must RAISE the pitch\n" }
+fails += bad
+bad = neg(f - f_receding); if (bad) { print "*** FAIL: receding must LOWER the pitch\n" }
+fails += bad
+bad = neg((f_approaching - f) - (f - f_receding)); if (bad) { print "*** FAIL: the Doppler shift must be ASYMMETRIC (rise exceeds fall)\n" }
+fails += bad
 
 "" ; "=== reflection_coefficient: air-water interface, z_air approx 415, z_water approx 1.48e6 ===" ; ""
 scale = 6
 z1 = 415
 z2 = 1480000
 r_refl = (z2 - z1) / (z2 + z1)
-"reflection coefficient (should be close to 1 -- water is much harder than air):"; r_refl
+"reflection coefficient (claim: ~0.9994 -- water is much harder than air):"; r_refl
+bad = chk(r_refl - 0.999439, 0.00001); if (bad) { print "*** FAIL: air-water reflection coefficient = 0.99944\n" }
+fails += bad
+/* |R| <= 1 always (energy conservation), and matched impedances must give
+   R = 0 -- the boundary case that a sign or ordering error would break. */
+bad = neg(1 - r_refl); if (bad) { print "*** FAIL: |R| must not exceed 1\n" }
+fails += bad
+bad = chk((z1 - z1)/(z1 + z1), 0); if (bad) { print "*** FAIL: matched impedances must give zero reflection\n" }
+fails += bad
 
 "" ; "=== acoustic_reciprocity_theorem: power transmission is symmetric under swapping source/receiver side ===" ; ""
 /* power transmission coefficient tau = 1 - R^2, R = (z2-z1)/(z2+z1).
@@ -73,7 +162,18 @@ tau_12 = 1 - r_12 * r_12
 tau_21 = 1 - r_21 * r_21
 "power transmission, air->water source side:"; tau_12
 "power transmission, water->air source side:"; tau_21
-"difference (should be exactly 0):"; tau_12 - tau_21
+"difference (claim: exactly 0 -- reciprocity):"; tau_12 - tau_21
+/* RECIPROCITY: swapping source and receiver side must leave the power
+   transmission EXACTLY unchanged -- this is an algebraic identity, so the
+   tolerance is 0, not an approximation. */
+bad = chk(tau_12 - tau_21, 0); if (bad) { print "*** FAIL: power transmission must be EXACTLY symmetric (reciprocity)\n" }
+fails += bad
+/* ...and the transmission must be tiny into such a mismatched boundary: the
+   physical reason shouting into water barely carries. */
+bad = neg(0.01 - tau_12); if (bad) { print "*** FAIL: air-water power transmission must be below 1%\n" }
+fails += bad
+bad = neg(tau_12); if (bad) { print "*** FAIL: a power transmission coefficient cannot be negative\n" }
+fails += bad
 
 "" ; "=== exponential_horn: cutoff frequency, flare constant m=2 per meter, c=343 m/s ===" ; ""
 /* k^2 = (omega/c)^2 - m^2 ; propagates only for omega > m*c ; f_c = m*c/(2 pi) */
@@ -84,3 +184,19 @@ c = 343
 f_cutoff = m_flare * c / (2 * pi)
 "cutoff frequency (Hz):"; f_cutoff
 "(below this, the horn attenuates instead of radiating -- a horn is a high-pass filter)"
+/* Exponential horn cutoff f_c = m c / (2 pi): ~109 Hz for m = 2 /m, a realistic
+   bass-horn figure.  A LARGER flare constant must raise the cutoff -- the
+   design trade-off (a wider flare radiates less bass). */
+bad = chk(f_cutoff - 109.1939, 0.01); if (bad) { print "*** FAIL: exponential horn cutoff = 109.2 Hz at m = 2 /m\n" }
+fails += bad
+bad = neg((4 * c / (2 * pi)) - f_cutoff); if (bad) { print "*** FAIL: a larger flare constant must RAISE the cutoff frequency\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
+quit
