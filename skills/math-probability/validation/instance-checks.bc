@@ -4,9 +4,42 @@
    Every identifier is lowercase and starts with a letter (bc rule).
    bc TRUNCATES; it does not round.  These are INSTANCES — they check the moment
    formulas at specific parameters and show the CLT trend numerically.  They do
-   not prove the general formulas or the theorem. */
+   not prove the general formulas or the theorem.
+
+   EVERY CLAIM IS ASSERTED (helpers below).  This file already computed
+   INDEPENDENT ORACLES -- the Bernoulli variance both in closed form and by
+   direct summation, the binomial moments by summation against np and np(1-p)
+   -- and merely printed them side by side with the word "(match)".  Nothing
+   compared them: corrupting the closed form to p(1+p) gave .39 against .21 and
+   the capsule build still reported ALL OK.  The comparisons are now made.
+   See docs/bc-verification-audit.md. */
 
 scale = 20
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+/* Tolerances: exact-rational sections use 0; truncated sums and numerical
+   integration carry their own error and are given explicit, justified slack. */
+tolx = 0.0000000001
 
 print "=== bernoulli(p): E = p, Var = p(1-p) ===\n"
 p = 0.3
@@ -16,7 +49,22 @@ print "  p = 0.3 : E = ", em, "  Var = ", va, "\n"
 /* direct sum: 0*(1-p) + 1*p = p ; (0-em)^2*(1-p) + (1-em)^2*p */
 es = 1*p
 vs = (0-em)^2*(1-p) + (1-em)^2*p
-print "  direct : E = ", es, "  Var = ", vs, "  (match)\n\n"
+print "  direct : E = ", es, "  Var = ", vs, "  (claim: matches the closed form)\n"
+/* THE ORACLE COMPARISON this file was missing: closed form vs direct summation
+   over the two-point support.  These are genuinely different routes. */
+bad = chk(va - vs, tolx); if (bad) { print "*** FAIL: Bernoulli Var: closed form p(1-p) disagrees with the direct sum\n" }
+fails += bad
+bad = chk(em - es, tolx); if (bad) { print "*** FAIL: Bernoulli E: closed form disagrees with the direct sum\n" }
+fails += bad
+bad = chk(va - 0.21, tolx); if (bad) { print "*** FAIL: Bernoulli Var at p=0.3 is 0.21\n" }
+fails += bad
+/* Variance is maximised at p = 1/2 and vanishes at the deterministic ends --
+   the shape claim, which a wrong sign or exponent would break. */
+bad = chk(0.5*(1-0.5) - 0.25, tolx); if (bad) { print "*** FAIL: Bernoulli Var is 1/4 at p = 1/2\n" }
+fails += bad
+bad = chk(1*(1-1), tolx); if (bad) { print "*** FAIL: Bernoulli Var is 0 at p = 1\n" }
+fails += bad
+print "\n"
 
 print "=== binomial(n,p): E = np, Var = np(1-p) ; check by summation, n=10 p=0.3 ===\n"
 n = 10; p = 0.3
@@ -30,7 +78,19 @@ for (k = 0; k <= n; k++) {
 }
 print "  sum k p_k      = ", esum, "   (np = ", n*p, ")\n"
 print "  sum k^2 p_k    = ", e2sum, "\n"
-print "  Var = E[X^2]-E[X]^2 = ", e2sum - esum*esum, "   (np(1-p) = ", n*p*(1-p), ")\n\n"
+print "  Var = E[X^2]-E[X]^2 = ", e2sum - esum*esum, "   (claim: np(1-p) = ", n*p*(1-p), ")\n"
+/* Summation over the full support against the closed forms: two routes again. */
+bad = chk(esum - n*p, tolx); if (bad) { print "*** FAIL: binomial E by summation disagrees with np\n" }
+fails += bad
+bad = chk((e2sum - esum*esum) - n*p*(1-p), tolx); if (bad) { print "*** FAIL: binomial Var by summation disagrees with np(1-p)\n" }
+fails += bad
+/* The pmf must be a probability distribution at all -- total mass 1. */
+masschk = 0
+for (kq = 0; kq <= n; kq++) { masschk += choose(n,kq) * (p^kq) * ((1-p)^(n-kq)) }
+print "  total mass = ", masschk, "   (claim: 1)\n"
+bad = chk(masschk - 1, tolx); if (bad) { print "*** FAIL: binomial pmf does not sum to 1\n" }
+fails += bad
+print "\n"
 
 print "=== poisson(lambda): E = Var = lambda ; lambda = 2, truncate sum at k=30 ===\n"
 lambda = 2
@@ -41,7 +101,22 @@ for (k = 0; k <= 30; k++) {
 }
 print "  total mass  = ", psum, "\n"
 print "  E[X]        = ", es, "   (lambda = ", lambda, ")\n"
-print "  Var         = ", e2s - es*es, "   (lambda = ", lambda, ")\n\n"
+print "  Var         = ", e2s - es*es, "   (claim: lambda = ", lambda, ")\n"
+/* Truncating the infinite sum at k=30 loses mass ~1e-20 at lambda=2, so the
+   tolerance is generous relative to that but far tighter than any formula
+   error would be. */
+tolp = 0.00000001
+bad = chk(psum - 1, tolp); if (bad) { print "*** FAIL: Poisson pmf mass (truncated at 30) is not 1\n" }
+fails += bad
+bad = chk(es - lambda, tolp); if (bad) { print "*** FAIL: Poisson E != lambda\n" }
+fails += bad
+bad = chk((e2s - es*es) - lambda, tolp); if (bad) { print "*** FAIL: Poisson Var != lambda\n" }
+fails += bad
+/* The signature property: mean EQUALS variance.  This is what distinguishes
+   Poisson from the binomial it is a limit of, and is asserted directly. */
+bad = chk(es - (e2s - es*es), tolp); if (bad) { print "*** FAIL: Poisson mean and variance must be equal\n" }
+fails += bad
+print "\n"
 
 print "=== poisson_limit_theorem: binomial(n, lambda/n) -> poisson(lambda), lambda=2, k=3 ===\n"
 lambda = 2; kk = 3
@@ -52,7 +127,22 @@ for (n = 10; n <= 2000; n *= 10) {
   b = choose(n,kk) * (q^kk) * ((1-q)^(n-kk))
   print "  binom(n=", n, ", 2/n) at 3 = ", b, "\n"
 }
-print "  -> converges to the poisson value\n\n"
+print "  -> converges to the poisson value\n"
+/* CONVERGENCE, asserted: the binomial approximation error must SHRINK as n
+   grows.  Recompute the endpoints and require the error at n=2000 to be at
+   least an order of magnitude smaller than at n=10. */
+q10 = lambda/10
+b10 = choose(10,kk) * (q10^kk) * ((1-q10)^(10-kk))
+q2k = lambda/2000
+b2k = choose(2000,kk) * (q2k^kk) * ((1-q2k)^(2000-kk))
+err10 = aval(b10 - target)
+err2k = aval(b2k - target)
+print "  |error| at n=10 = ", err10, " ; at n=2000 = ", err2k, "\n"
+bad = neg(err10 - err2k); if (bad) { print "*** FAIL: Poisson limit -- error must shrink as n grows\n" }
+fails += bad
+bad = neg(err10/10 - err2k); if (bad) { print "*** FAIL: Poisson limit -- error at n=2000 should be << error at n=10\n" }
+fails += bad
+print "\n"
 
 print "=== exponential(lambda): E = 1/lambda, Var = 1/lambda^2 ; memorylessness ===\n"
 lambda = 0.5
@@ -60,7 +150,23 @@ print "  E = ", 1/lambda, "  Var = ", 1/(lambda*lambda), "\n"
 s = 3; t = 4
 lhs = (e(-lambda*(s+t))) / (e(-lambda*s))   /* P(X>s+t)/P(X>s) */
 rhs = e(-lambda*t)                          /* P(X>t) */
-print "  P(X>s+t|X>s) = ", lhs, "   P(X>t) = ", rhs, "   (memoryless: match)\n\n"
+print "  P(X>s+t|X>s) = ", lhs, "   P(X>t) = ", rhs, "   (claim: memoryless, equal)\n"
+/* MEMORYLESSNESS is an identity, so it is checked exactly, not approximately. */
+bad = chk(lhs - rhs, tolx); if (bad) { print "*** FAIL: exponential memorylessness P(X>s+t|X>s) = P(X>t)\n" }
+fails += bad
+bad = chk(1/lambda - 2, tolx); if (bad) { print "*** FAIL: exponential E = 1/lambda = 2\n" }
+fails += bad
+bad = chk(1/(lambda*lambda) - 4, tolx); if (bad) { print "*** FAIL: exponential Var = 1/lambda^2 = 4\n" }
+fails += bad
+/* NEGATIVE CONTRAST: memorylessness is special to the exponential.  A Weibull
+   with shape 2 (i.e. exp(-(lam x)^2)) must FAIL the same identity, or the
+   check above would be vacuous -- true of any survival function. */
+wl = (e(-(lambda*(3+4))^2)) / (e(-(lambda*3)^2))
+wr = e(-(lambda*4)^2)
+print "  Weibull(shape 2) same ratio = ", wl, " vs ", wr, "   (claim: NOT equal)\n"
+bad = neg(aval(wl - wr) - 0.01); if (bad) { print "*** FAIL: a non-exponential must NOT be memoryless (check is vacuous otherwise)\n" }
+fails += bad
+print "\n"
 
 print "=== normal(mu,sigma^2): standardization ; N(0,1) pdf integral by midpoint ===\n"
 define npdf(x) { return e(-(x*x)/2) / sqrt(8*a(1)) }   /* a(1)=pi/4, so 8*a(1)=2pi */
@@ -69,7 +175,16 @@ for (x = -8; x < 8; x += dx) area += npdf(x + dx/2) * dx
 print "  integral of standard-normal pdf over [-8,8] ~ ", area, "  (target 1)\n"
 m2 = 0
 for (x = -8; x < 8; x += dx) m2 += (x+dx/2)^2 * npdf(x + dx/2) * dx
-print "  integral x^2 phi(x) dx ~ ", m2, "  (target Var = 1)\n\n"
+print "  integral x^2 phi(x) dx ~ ", m2, "  (claim: Var = 1)\n"
+/* Midpoint rule on [-8,8] with dx=0.01: the quadrature error dominates and is
+   ~1e-12 here, so 1e-8 is generous slack yet far tighter than any error in the
+   density constant (a wrong 1/sqrt(2pi) would shift this by percent). */
+toln = 0.00000001
+bad = chk(area - 1, toln); if (bad) { print "*** FAIL: standard normal pdf does not integrate to 1\n" }
+fails += bad
+bad = chk(m2 - 1, toln); if (bad) { print "*** FAIL: standard normal second moment != 1\n" }
+fails += bad
+print "\n"
 
 print "=== central_limit_theorem: standardized binomial(n,1/2) vs N(0,1) ===\n"
 print "    X ~ Bin(n,1/2): mu = n/2, sigma = sqrt(n)/2.  S_n = (X - n/2)/(sqrt(n)/2).\n"
@@ -91,5 +206,33 @@ for (n = 4; n <= 400; n *= 2) {
 }
 print "  -> the standardized binomial CDF at 1 approaches Phi(1) as n grows.\n"
 print "  (INSTANCE: a numerical trend with lattice/continuity wobble, not a proof of the CLT.)\n"
+/* The trend is NOT monotone -- a lattice distribution overshoots and undershoots
+   Phi(1) as the floor() cut moves (n=4: .9375, n=8: .8555, n=16: .8949, ...).
+   So monotonicity must NOT be asserted.  What IS true, and is asserted, is that
+   the error at the largest n is much smaller than at the smallest. */
+phione = phi(1)
+thr4 = 4/2 + sqrt(4)/2
+cut4 = 0; while (cut4 + 1 <= thr4) cut4 += 1
+cdf4 = 0; for (k = 0; k <= cut4; k++) cdf4 += choose(4,k) / (2^4)
+thrb = 256/2 + sqrt(256)/2
+cutb = 0; while (cutb + 1 <= thrb) cutb += 1
+cdfb = 0; for (k = 0; k <= cutb; k++) cdfb += choose(256,k) / (2^256)
+e4 = aval(cdf4 - phione)
+eb = aval(cdfb - phione)
+print "  |error| at n=4 = ", e4, " ; at n=256 = ", eb, "\n"
+bad = neg(e4 - eb); if (bad) { print "*** FAIL: CLT -- error at n=256 must be smaller than at n=4\n" }
+fails += bad
+bad = neg(0.05 - eb); if (bad) { print "*** FAIL: CLT -- error at n=256 should be within 0.05 of Phi(1)\n" }
+fails += bad
+/* Phi(1) itself, against the standard tabulated value. */
+bad = chk(phione - 0.8413447460685429, 0.0000000001); if (bad) { print "*** FAIL: Phi(1) = 0.84134474606854\n" }
+fails += bad
 
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

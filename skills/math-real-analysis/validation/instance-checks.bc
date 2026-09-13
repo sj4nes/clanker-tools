@@ -5,29 +5,91 @@
 
    These are INSTANCES.  A clean run exhibits counterexamples (a valid disproof
    of a dropped-hypothesis claim) and sanity-checks specializations.  It is
-   NOT a proof of any theorem.  See validation/instance-checks.md for prose. */
+   NOT a proof of any theorem.  See validation/instance-checks.md for prose.
+
+   EVERY CLAIM IS ASSERTED (helpers below).  Several sections already computed
+   genuine INDEPENDENT ORACLES -- a bisection root against sqrt(2), a Newton
+   iterate against sqrt(2), partial sums against their closed forms -- and only
+   printed them side by side.  The comparisons are now made.
+   See docs/bc-verification-audit.md. */
 
 scale = 40
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+tola = 0.0000000001
 print "=== geometric_series: partial sum vs 1/(1-r) ===\n"
 r = 1/2
 s = 0
 for (n = 0; n <= 60; n++) s += r^n
 print "r=1/2  partial(0..60) = ", s, "\n"
 print "r=1/2  1/(1-r)        = ", 1/(1-r), "\n"
-print "gap                   = ", 1/(1-r) - s, "  (-> 0, converges)\n"
+gap = 1/(1-r) - s
+print "gap                   = ", gap, "  (claim: -> 0, converges)\n"
+/* 60 terms of a geometric series with r=1/2: the tail is 2^-60 ~ 8.7e-19, so
+   the gap must be positive (partial sums approach from below) and tiny. */
+bad = chk(1/(1-r) - 2, 0); if (bad) { print "*** FAIL: geometric limit 1/(1-r) = 2 at r = 1/2\n" }
+fails += bad
+bad = neg(gap); if (bad) { print "*** FAIL: partial sums must approach the limit FROM BELOW\n" }
+fails += bad
+bad = neg(0.000000000000000001 - gap); if (bad) { print "*** FAIL: geometric gap must be below 1e-18 after 60 terms\n" }
+fails += bad
 /* drop |r| < 1 */
 r = 1
 s = 0; for (n = 0; n <= 60; n++) s += r^n
 print "DROP |r|<1: r=1  partial(0..60) = ", s, "  (= 61, grows without bound: DIVERGES)\n"
 r = 2
 s = 0; for (n = 0; n <= 20; n++) s += r^n
-print "DROP |r|<1: r=2  partial(0..20) = ", s, "  (2^21 - 1, DIVERGES)\n\n"
+print "DROP |r|<1: r=2  partial(0..20) = ", s, "  (claim: 2^21 - 1, DIVERGES)\n"
+/* The DROPPED-HYPOTHESIS counterexamples must actually diverge, or they
+   witness nothing.  r=1 gives exactly 61 terms of 1; r=2 gives 2^21 - 1. */
+bad = chk(s - (2^21 - 1), 0); if (bad) { print "*** FAIL: r=2 partial sum = 2^21 - 1\n" }
+fails += bad
+r1s = 0; for (nq = 0; nq <= 60; nq++) { r1s += 1^nq }
+bad = chk(r1s - 61, 0); if (bad) { print "*** FAIL: r=1 partial sum = 61\n" }
+fails += bad
+/* divergence: the r=2 partial sum must dwarf the convergent case */
+bad = neg(s - 1000); if (bad) { print "*** FAIL: the r=2 series must grow without bound\n" }
+fails += bad
+print "\n"
 
 print "=== monotone_convergence_theorem: x_{n+1} = (x_n + 2/x_n)/2 -> sqrt(2) ===\n"
 x = 2
 for (n = 1; n <= 6; n++) { x = (x + 2/x)/2; print "x_", n, " = ", x, "\n" }
 print "sqrt(2)  = ", sqrt(2), "\n"
-print "x_6 - sqrt(2) = ", x - sqrt(2), "  (decreasing, bounded below by sqrt(2))\n"
+print "x_6 - sqrt(2) = ", x - sqrt(2), "  (claim: >= 0, decreasing and bounded below)\n"
+/* NEWTON vs sqrt(): two independent routes to the same number.  The iteration
+   converges from ABOVE (it is decreasing and bounded below by sqrt 2), which is
+   exactly the monotone-convergence hypothesis being illustrated -- so assert
+   the SIGN as well as the magnitude. */
+bad = neg(x - sqrt(2)); if (bad) { print "*** FAIL: Newton iterates must stay ABOVE sqrt(2)\n" }
+fails += bad
+bad = chk(x - sqrt(2), tola); if (bad) { print "*** FAIL: x_6 must agree with sqrt(2) to 1e-10\n" }
+fails += bad
+/* monotone DECREASING: x_2 must already be below x_1 */
+y1 = (2 + 2/2)/2
+y2 = (y1 + 2/y1)/2
+bad = neg(y1 - y2); if (bad) { print "*** FAIL: the iteration must be decreasing\n" }
+fails += bad
 print "DROP completeness (work in Q): every x_n is rational, the sequence is\n"
 print "  Cauchy, but sqrt(2) is irrational, so it has NO limit in Q.\n"
 print "  x_6 as a check is already correct to ", scale, " places numerically.\n\n"
@@ -36,7 +98,14 @@ print "=== bolzano_weierstrass: drop boundedness ===\n"
 print "x_n = n.  Differences x_{n+1} - x_n = 1 for all n, so |x_m - x_n| >= 1\n"
 print "  for m != n: no subsequence is Cauchy, none converges.\n"
 d = 1
-print "  spacing = ", d, "  (constant, bounded below by 1 -> no convergent subseq)\n\n"
+print "  spacing = ", d, "  (claim: constant 1 -> no convergent subsequence)\n"
+bad = chk(d - 1, 0); if (bad) { print "*** FAIL: spacing of x_n = n is 1\n" }
+fails += bad
+/* No subsequence can be Cauchy: any two distinct terms differ by at least 1,
+   which is bounded away from 0. */
+bad = neg(d - 1); if (bad) { print "*** FAIL: spacing must be bounded away from zero\n" }
+fails += bad
+print "\n"
 
 print "=== p_series / comparison_test: harmonic (p=1) diverges, p=2 converges ===\n"
 h = 0
@@ -44,13 +113,38 @@ for (n = 1; n <= 100000; n++) h += 1/n
 print "sum 1/n,  n=1..1e5   = ", h, "  (~ ln(1e5) = ", l(100000), ", grows)\n"
 p = 0
 for (n = 1; n <= 100000; n++) p += 1/(n*n)
-print "sum 1/n^2, n=1..1e5  = ", p, "  (bounded; true value pi^2/6 = ", 4*a(1)*4*a(1)/6, ")\n"
+pisq6 = 4*a(1)*4*a(1)/6
+print "sum 1/n^2, n=1..1e5  = ", p, "  (claim: bounded, -> pi^2/6 = ", pisq6, ")\n"
+/* p=2 CONVERGES: the partial sum must sit just below pi^2/6, with a tail of
+   about 1/N = 1e-5.  Both the closeness and the from-below direction are
+   asserted -- a sign error or a wrong exponent breaks one or the other. */
+bad = neg(pisq6 - p); if (bad) { print "*** FAIL: the p=2 partial sum must stay BELOW pi^2/6\n" }
+fails += bad
+bad = neg(0.0001 - (pisq6 - p)); if (bad) { print "*** FAIL: p=2 partial sum must be within 1e-4 of pi^2/6\n" }
+fails += bad
+/* p=1 DIVERGES: the harmonic sum must exceed ln(1e5), and grow like it.
+   This is the negative contrast that makes the p>1 hypothesis load-bearing. */
+bad = neg(h - l(100000)); if (bad) { print "*** FAIL: the harmonic sum must exceed ln(1e5)\n" }
+fails += bad
+bad = neg(h - 12); if (bad) { print "*** FAIL: the harmonic sum at 1e5 must exceed 12 (it diverges)\n" }
+fails += bad
+/* ...and must dwarf the convergent p=2 sum, which is bounded by 2. */
+bad = neg(h - p - 5); if (bad) { print "*** FAIL: the divergent series must dominate the convergent one\n" }
+fails += bad
 print "  p=1 is the boundary: DROP p>1 and the series diverges.\n\n"
 
 print "=== alternating_series_test: conditional convergence of sum (-1)^{n+1}/n ===\n"
 a2 = 0; sg = 1
 for (n = 1; n <= 200000; n++) { a2 += sg * (1/n); sg = -sg }
-print "partial sum (n=1..2e5) = ", a2, "  (-> ln 2 = ", l(2), ")\n"
+print "partial sum (n=1..2e5) = ", a2, "  (claim: -> ln 2 = ", l(2), ")\n"
+/* Alternating harmonic -> ln 2.  The truncation error after N terms is about
+   1/(2N) = 2.5e-6, so 1e-5 is the right slack. */
+bad = chk(a2 - l(2), 0.00001); if (bad) { print "*** FAIL: alternating harmonic must approach ln 2\n" }
+fails += bad
+/* CONDITIONAL, not absolute: the same terms in absolute value diverge -- that
+   contrast is the entire content of the node. */
+bad = neg(h - a2 - 10); if (bad) { print "*** FAIL: the absolute series must diverge while the alternating one converges\n" }
+fails += bad
 print "  converges though sum 1/n (absolute values) diverges: conditional.\n"
 print "  DROP 'b_n decreasing': terms 1,1/2,1,1/3,1,1/4,... would not -> 0 in a\n"
 print "  controlled way and the bracketing fails.\n\n"
@@ -63,23 +157,71 @@ b = (0.999999)^50
 print "  e.g. n=50, x=0.999999:  x^n = ", b, "  while f(x) = 0  -> gap ~ 1\n"
 print "On [0, 0.9]:  sup is 0.9^n.\n"
 for (n = 10; n <= 60; n += 25) print "  0.9^", n, " = ", (0.9)^n, "\n"
-print "  -> 0, so f_n -> 0 uniformly on [0, 0.9].  The hypothesis is the domain.\n\n"
+print "  -> 0, so f_n -> 0 uniformly on [0, 0.9].  The hypothesis is the domain.\n"
+/* THE CONTRAST, asserted: on [0,0.9] the sup 0.9^n collapses; on [0,1] the
+   value at x -> 1^- stays near 1 for every n.  Both directions matter. */
+bad = neg(0.01 - (0.9)^60); if (bad) { print "*** FAIL: 0.9^60 must be below 0.01 (uniform convergence on [0,0.9])\n" }
+fails += bad
+bad = neg(b - 0.99); if (bad) { print "*** FAIL: x^n near x=1 must stay near 1 (NO uniform convergence on [0,1])\n" }
+fails += bad
+print "\n"
 
 print "=== mean_value_theorem specialization: f(x) = x^2 on [1,3] ===\n"
 print "  (f(3) - f(1))/(3 - 1) = (9 - 1)/2 = ", (9-1)/2, "\n"
-print "  f'(c) = 2c = 4  =>  c = 2, which lies in (1,3).  OK\n\n"
+print "  f'(c) = 2c = 4  =>  c = 2, which lies in (1,3).  OK\n"
+/* MVT: the average slope equals f'(c) for some c IN the open interval. */
+avg = (9-1)/2
+cc = avg/2
+bad = chk(avg - 4, 0); if (bad) { print "*** FAIL: average slope of x^2 on [1,3] is 4\n" }
+fails += bad
+bad = chk(2*cc - avg, 0); if (bad) { print "*** FAIL: f'(c) = 2c must equal the average slope\n" }
+fails += bad
+bad = neg(cc - 1); if (bad) { print "*** FAIL: c must lie above the left endpoint\n" }
+fails += bad
+bad = neg(3 - cc); if (bad) { print "*** FAIL: c must lie below the right endpoint\n" }
+fails += bad
+print "\n"
 
 print "=== intermediate_value_theorem: f(x) = x^2 - 2 on [1,2] ===\n"
 print "  f(1) = ", 1-2, " ,  f(2) = ", 4-2, "  (sign change)\n"
 lo = 1; hi = 2
 for (n = 1; n <= 80; n++) { mid = (lo+hi)/2; if (mid*mid - 2 > 0) hi = mid else lo = mid }
 print "  bisection root = ", lo, " ,  sqrt(2) = ", sqrt(2), "\n"
-print "  DROP continuity: g(x) = 0 for x<1.5, g(x)=1 for x>=1.5 on [1,2] skips 0.5.\n\n"
+print "  DROP continuity: g(x) = 0 for x<1.5, g(x)=1 for x>=1.5 on [1,2] skips 0.5.\n"
+/* BISECTION vs sqrt(): a second genuinely independent route to sqrt 2 -- the
+   IVT root-finder against the built-in.  80 halvings of [1,2] give ~2^-80. */
+bad = chk(lo - sqrt(2), tola); if (bad) { print "*** FAIL: bisection root must agree with sqrt(2)\n" }
+fails += bad
+/* the SIGN CHANGE is the IVT hypothesis: f(1) < 0 < f(2) */
+bad = neg(-(1-2)); if (bad) { print "*** FAIL: f(1) must be negative\n" }
+fails += bad
+bad = neg(4-2); if (bad) { print "*** FAIL: f(2) must be positive\n" }
+fails += bad
+print "\n"
 
 print "=== taylor_theorem: e^x at a=0, degree 4, remainder on [0, 1] ===\n"
 t = 1 + 1 + 1/2 + 1/6 + 1/24
 print "  P_4(1) = ", t, "\n"
 print "  e^1    = ", e(1), "\n"
 print "  |R_4|  = ", e(1) - t, "\n"
-print "  Lagrange bound: e^xi * 1^5 / 5! <= e/120 = ", e(1)/120, "  (holds)\n"
+print "  Lagrange bound: e^xi * 1^5 / 5! <= e/120 = ", e(1)/120, "  (claim: bound holds)\n"
+/* TAYLOR: the actual remainder must lie within the Lagrange bound, and be
+   POSITIVE (e^x has all-positive derivatives, so P_4 underestimates). */
+rem = e(1) - t
+bad = neg(rem); if (bad) { print "*** FAIL: P_4 must UNDERestimate e^1 (all derivatives positive)\n" }
+fails += bad
+bad = neg(e(1)/120 - rem); if (bad) { print "*** FAIL: the Lagrange bound must actually bound the remainder\n" }
+fails += bad
+/* and the bound must be tight enough to be informative -- within an order of
+   magnitude of the true remainder, not a vacuous overestimate */
+bad = neg(rem*20 - e(1)/120); if (bad) { print "*** FAIL: the Lagrange bound should be within ~20x of the true remainder\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

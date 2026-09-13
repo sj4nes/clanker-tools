@@ -16,6 +16,17 @@ echo "== Lean proof-core checks =="
 lean validation/proof-checks.lean && echo "lean: ok (exit 0)"
 echo
 echo "== bc instance checks =="
-bc -q -l validation/instance-checks.bc > build/instance-checks.out 2>&1 && echo "bc: ok ($(wc -l < build/instance-checks.out | tr -d ' ') lines of output -> build/instance-checks.out)"
+# `bc`'s `quit` ALWAYS exits 0, so `&& echo ok` reports success even when every
+# check failed -- the OUTPUT must be inspected.  Grep for the marker `*** FAIL`,
+# never the bare word, which appears legitimately in descriptive text.
+# See docs/bc-verification-audit.md.
+bc -q -l validation/instance-checks.bc > build/instance-checks.out 2>&1
+if grep -q "ALL BC CHECKS PASSED" build/instance-checks.out && ! grep -q '\*\*\* FAIL' build/instance-checks.out; then
+  echo "bc: ok ($(grep -c '\*\*\* FAIL' build/instance-checks.out | tr -d ' ') failures; see build/instance-checks.out)"
+else
+  echo "bc: FAILED -- see build/instance-checks.out" >&2
+  grep '\*\*\* FAIL' build/instance-checks.out >&2 || echo "  (no pass banner: the file did not run to completion)" >&2
+  exit 1
+fi
 echo
 echo "ALL OK"

@@ -3,7 +3,32 @@
    Run:  bc -q -l validation/instance-checks.bc
    Every identifier is lowercase and starts with a letter (bc rule).
    These are INSTANCES -- they make the definitions concrete and disprove the
-   "Q is complete" claim.  They are not proofs of the general theorems. */
+   "Q is complete" claim.  They are not proofs of the general theorems.
+
+   EVERY CLAIM IS ASSERTED (helpers below): `bc`'s `quit` always exits 0, so a
+   printed "(want 0)" catches nothing.  See docs/bc-verification-audit.md. */
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
 
 scale = 0        /* the Z and Q construction arithmetic is all integer */
 print "=== integer: Z = (N x N)/~ ,  (a,b) ~ (c,d) iff a+d = b+c ===\n"
@@ -13,7 +38,22 @@ print "[(2,7)] names  2 - 7 = ", 2-7, "\n"
 print "[(5,2)] + [(1,4)] = [(6,6)] :  6-6 = ", 6-6, "   (3 + (-3) = 0)\n"
 /* multiplication: (a,b)*(c,d) = (ac+bd, ad+bc) */
 ac = 5*4 + 2*1 ; bd = 5*1 + 2*4
-print "[(5,2)] * [(4,1)] = [(", ac, ",", bd, ")] :  ", ac-bd, "   (3 * 3 = 9)\n\n"
+print "[(5,2)] * [(4,1)] = [(", ac, ",", bd, ")] :  ", ac-bd, "   (claim: 3 * 3 = 9)\n"
+/* WELL-DEFINEDNESS ON THE QUOTIENT is the whole point of these constructions:
+   the relation must identify the right pairs, and the operations must respect
+   it.  Assert the equivalence, the value, and -- crucially -- that a DIFFERENT
+   representative of the same class gives the same answer. */
+bad = chk((5+5) - (2+8), 0); if (bad) { print "*** FAIL: (5,2) ~ (8,5) requires 5+5 = 2+8\n" }
+fails += bad
+bad = chk((2-7) + 5, 0); if (bad) { print "*** FAIL: [(2,7)] names -5\n" }
+fails += bad
+bad = chk(ac - bd - 9, 0); if (bad) { print "*** FAIL: [(5,2)]*[(4,1)] must name 9\n" }
+fails += bad
+/* same product via the representative (8,5) of the class [(5,2)] */
+ac2 = 8*4 + 5*1 ; bd2 = 8*1 + 5*4
+bad = chk((ac2 - bd2) - (ac - bd), 0); if (bad) { print "*** FAIL: Z multiplication is NOT well-defined on classes\n" }
+fails += bad
+print "\n"
 
 print "=== rational: Q = (Z x Z*)/~ ,  (a,b) ~ (c,d) iff a*d = b*c ===\n"
 print "[(2,4)] vs [(1,2)]:  2*2 = ", 2*2, " ,  4*1 = ", 4*1, "  -> equal\n"
@@ -22,14 +62,39 @@ print "[(1,2)] + [(1,3)] = [(", 1*3+2*1, ",", 2*3, ")] = [(5,6)]\n"
 /* lowest terms via gcd */
 define g(a,b) { if (b == 0) return a; return g(b, a - b*(a/b)) }
 gg = g(6,8)
-print "[(6,8)] in lowest terms: gcd = ", gg, " -> [(", 6/gg, ",", 8/gg, ")]\n\n"
+print "[(6,8)] in lowest terms: gcd = ", gg, " -> [(", 6/gg, ",", 8/gg, ")]\n"
+bad = chk(2*2 - 4*1, 0); if (bad) { print "*** FAIL: (2,4) ~ (1,2) requires 2*2 = 4*1\n" }
+fails += bad
+bad = chk(gg - 2, 0); if (bad) { print "*** FAIL: gcd(6,8) = 2\n" }
+fails += bad
+/* Q addition (a,b)+(c,d) = (ad+bc, bd): 1/2 + 1/3 = 5/6 */
+bad = chk((1*3+2*1) - 5, 0); if (bad) { print "*** FAIL: numerator of 1/2 + 1/3 is 5\n" }
+fails += bad
+bad = chk((2*3) - 6, 0); if (bad) { print "*** FAIL: denominator of 1/2 + 1/3 is 6\n" }
+fails += bad
+/* well-definedness again: the same sum from the representative (2,4) of [1/2] */
+bad = chk(((2*3+4*1)*6) - (5*(4*3)), 0); if (bad) { print "*** FAIL: Q addition is NOT well-defined on classes\n" }
+fails += bad
+print "\n"
 
 print "=== division with remainder in Z:  a = b*q + r ,  0 <= r < |b| ===\n"
 a = 17; b = 5; q = 3; r = 17 - 5*3
 print "17 = 5*", q, " + ", r, "\n"
 /* negative dividend */
 a = -17; q = -4; r = -17 - 5*(-4)
-print "-17 = 5*", q, " + ", r, "   (r = ", r, " in [0,5))\n\n"
+print "-17 = 5*", q, " + ", r, "   (claim: r = ", r, " lies in [0,5))\n"
+/* The DEFINING property a = bq + r with 0 <= r < |b|, asserted in both the
+   positive and the NEGATIVE-dividend case -- the latter is where the common
+   "truncate toward zero" implementation gets it wrong. */
+bad = chk(17 - (5*3 + 2), 0); if (bad) { print "*** FAIL: 17 = 5*3 + 2\n" }
+fails += bad
+bad = chk(-17 - (5*(-4) + 3), 0); if (bad) { print "*** FAIL: -17 = 5*(-4) + 3\n" }
+fails += bad
+bad = neg(r); if (bad) { print "*** FAIL: the remainder must be NONNEGATIVE even for a negative dividend\n" }
+fails += bad
+bad = neg(5 - r - 1); if (bad) { print "*** FAIL: the remainder must be strictly below |b|\n" }
+fails += bad
+print "\n"
 
 print "=== sqrt2_irrational: no p/q with q <= 2000 has p^2 = 2 q^2 ===\n"
 found = 0
@@ -40,7 +105,23 @@ while (q <= 2000) {
   if ((p+1)*(p+1) == 2*q*q) found = 1
   q += 1
 }
-print "  p/q with q<=2000 and (p/q)^2 = 2 : ", found, "   (want 0)\n\n"
+print "  p/q with q<=2000 and (p/q)^2 = 2 : ", found, "   (claim: 0, none exists)\n"
+bad = chk(found, 0); if (bad) { print "*** FAIL: a rational square root of 2 was found -- sqrt2_irrational is contradicted\n" }
+fails += bad
+/* NEGATIVE CONTRAST: the same search MUST find a solution for a perfect
+   square, or it proves nothing about 2 -- it would "pass" by never finding
+   anything at all. */
+found4 = 0
+qq = 1
+while (qq <= 50) {
+  pp4 = sqrt(4*qq*qq); pp4 = pp4/1
+  if (pp4*pp4 == 4*qq*qq) found4 = 1
+  qq += 1
+}
+print "  same search for sqrt(4) : ", found4, "   (claim: 1, the search CAN find roots)\n"
+bad = chk(found4 - 1, 0); if (bad) { print "*** FAIL: the search must find sqrt(4) -- otherwise the sqrt(2) result is vacuous\n" }
+fails += bad
+print "\n"
 
 print "=== rational_archimedean: every rational is below some natural ===\n"
 scale = 20
@@ -48,7 +129,21 @@ x = 22/7
 print "  x = 22/7 = ", x, "  ->  n = 4 > x\n\n"
 
 print "=== rational_order_dense: a third rational strictly between two ===\n"
-print "  between 1/3 and 1/2:  (1/3 + 1/2)/2 = ", (1/3 + 1/2)/2, "  = 5/12\n\n"
+mid2 = (1/3 + 1/2)/2
+print "  between 1/3 and 1/2:  (1/3 + 1/2)/2 = ", mid2, "  (claim: = 5/12, strictly between)\n"
+tolq = 0.0000000001
+bad = chk(mid2 - 5/12, tolq); if (bad) { print "*** FAIL: the midpoint of 1/3 and 1/2 is 5/12\n" }
+fails += bad
+/* DENSITY is the claim: the midpoint must be STRICTLY between, not equal to
+   either endpoint. */
+bad = neg(mid2 - 1/3 - tolq); if (bad) { print "*** FAIL: the midpoint must lie strictly above 1/3\n" }
+fails += bad
+bad = neg(1/2 - mid2 - tolq); if (bad) { print "*** FAIL: the midpoint must lie strictly below 1/2\n" }
+fails += bad
+/* Archimedean: 4 > 22/7 */
+bad = neg(4 - x); if (bad) { print "*** FAIL: 22/7 must be below the natural number 4\n" }
+fails += bad
+print "\n"
 
 print "=== rational_incomplete_lub: {x in Q : x^2 < 2} has no supremum IN Q ===\n"
 scale = 30
@@ -62,7 +157,18 @@ print "    its square             : ", x*x, "   (< 2)\n"
 print "    (x + 10^-25) squared   : ", (x + 1/10^25)^2, "   (> 2)\n"
 print "  every rational candidate is either not an upper bound (square < 2, room\n"
 print "  above by density) or not the LEAST one (square > 2, room below).  The\n"
-print "  boundary has square exactly 2 -- not rational (sqrt2_irrational).\n\n"
+print "  boundary has square exactly 2 -- not rational (sqrt2_irrational).\n"
+/* THE INCOMPLETENESS WITNESS: x^2 < 2 < (x + 10^-25)^2.  The set has no least
+   upper bound IN Q precisely because this bracket can be tightened forever
+   without ever landing on 2.  Both inequalities are asserted. */
+bad = neg(2 - x*x); if (bad) { print "*** FAIL: the witness must satisfy x^2 < 2\n" }
+fails += bad
+bad = neg((x + 1/10^25)^2 - 2); if (bad) { print "*** FAIL: the next candidate must satisfy (x+eps)^2 > 2\n" }
+fails += bad
+/* ...and the bracket must be genuinely tight, or it witnesses nothing */
+bad = neg(0.0000000000000000000000001 - (2 - x*x)); if (bad) { print "*** FAIL: the bracket must be tight (2 - x^2 below 1e-25)\n" }
+fails += bad
+print "\n"
 
 print "=== nat_pairing_bijection: pi(m,n) = (m+n)(m+n+1)/2 + n ===\n"
 scale = 0
@@ -73,7 +179,29 @@ for (s = 0; s <= 3; s++) {
     print "  pi(", m, ",", n, ") = ", pp(m,n), "\n"
   }
 }
-print "  -> 0,1,2,3,4,5,6,7,8,9 with no gaps and no repeats (a bijection)\n\n"
+print "  -> 0,1,2,3,4,5,6,7,8,9 with no gaps and no repeats (a bijection)\n"
+/* BIJECTIVITY on this initial block, asserted rather than eyeballed: the ten
+   pi values over s = 0..3 must be exactly {0,...,9}.  Their sum being 45 and
+   their max being 9 forces this for ten nonnegative integers with no repeats,
+   and repeats are ruled out by the strictly increasing enumeration. */
+psum2 = 0; pmax = 0; pmin = 1000
+for (sq = 0; sq <= 3; sq++) {
+  for (nq = 0; nq <= sq; nq++) {
+    mq = sq - nq
+    vq = pp(mq,nq)
+    psum2 += vq
+    if (vq > pmax) pmax = vq
+    if (vq < pmin) pmin = vq
+  }
+}
+print "  sum = ", psum2, " (claim 45)   min = ", pmin, " (claim 0)   max = ", pmax, " (claim 9)\n"
+bad = chk(psum2 - 45, 0); if (bad) { print "*** FAIL: the ten pairing values must sum to 45 (= 0+...+9)\n" }
+fails += bad
+bad = chk(pmin, 0); if (bad) { print "*** FAIL: the pairing must start at 0\n" }
+fails += bad
+bad = chk(pmax - 9, 0); if (bad) { print "*** FAIL: the pairing must reach exactly 9 with no gaps\n" }
+fails += bad
+print "\n"
 
 print "=== cantor_diagonal_argument: a real in [0,1] missing from a given list ===\n"
 scale = 12
@@ -90,4 +218,30 @@ print "  2^(1/3) ~ ", lo, "   check ^3 = ", lo^3, "\n"
 lo = 2; hi = 3
 for (i = 1; i <= 100; i++) { mid = (lo+hi)/2; if (mid*mid < 7) lo = mid else hi = mid }
 print "  7^(1/2) ~ ", lo, "   check ^2 = ", lo*lo, "\n"
+/* BISECTION vs the built-in sqrt: an independent route, asserted.  The cube
+   root has no built-in, so it is checked by cubing -- the inverse operation,
+   which is itself an independent oracle. */
+toln = 0.0000000000000000000001
+bad = chk(lo*lo - 7, 0.0000000001); if (bad) { print "*** FAIL: the bisection 7^(1/2) does not square to 7\n" }
+fails += bad
+bad = chk(lo - sqrt(7), 0.0000000001); if (bad) { print "*** FAIL: bisection disagrees with the built-in sqrt(7)\n" }
+fails += bad
+lo3 = 1; hi3 = 2
+for (i3 = 1; i3 <= 100; i3++) { md3 = (lo3+hi3)/2; if (md3^3 < 2) lo3 = md3 else hi3 = md3 }
+bad = chk(lo3^3 - 2, 0.0000000001); if (bad) { print "*** FAIL: the bisection 2^(1/3) does not cube to 2\n" }
+fails += bad
+/* the root must lie strictly inside the starting bracket, or the search was
+   degenerate */
+bad = neg(lo3 - 1); if (bad) { print "*** FAIL: 2^(1/3) must exceed 1\n" }
+fails += bad
+bad = neg(2 - lo3); if (bad) { print "*** FAIL: 2^(1/3) must be below 2\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

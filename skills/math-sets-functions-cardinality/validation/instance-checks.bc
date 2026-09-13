@@ -3,7 +3,35 @@
    Run:  bc -q -l validation/instance-checks.bc
    Every identifier is lowercase and starts with a letter (bc rule).
    These are INSTANCES -- they make the constructions concrete.  They are not
-   proofs of the general theorems. */
+   proofs of the general theorems.
+
+   EVERY COMPUTABLE CLAIM IS ASSERTED (helpers below).  The prose sections
+   (diagonal argument, Cantor's theorem) are worked by hand and stay narrative;
+   everything with a number attached is now checked.  `bc`'s `quit` always
+   exits 0, so a printed value catches nothing on its own.
+   See docs/bc-verification-audit.md. */
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
 
 scale = 0
 
@@ -12,7 +40,27 @@ define pp(m,n) { return (m+n)*(m+n+1)/2 + n }
 for (s = 0; s <= 4; s++) {
   for (n = 0; n <= s; n++) { m = s - n; print "  pi(", m, ",", n, ") = ", pp(m,n), "\n" }
 }
-print "  -> hits 0,1,2,...,14 with no gaps or repeats: a bijection omega x omega -> omega\n\n"
+print "  -> hits 0,1,2,...,14 with no gaps or repeats: a bijection omega x omega -> omega\n"
+/* BIJECTIVITY on the first five diagonals: the 15 values must be exactly
+   {0,...,14}.  Sum 105, min 0, max 14 pins that down for 15 distinct
+   nonnegative integers, and distinctness follows from the strict enumeration. */
+tsum = 0; tmin = 9999; tmax = 0
+for (sq = 0; sq <= 4; sq++) {
+  for (nq = 0; nq <= sq; nq++) {
+    mq = sq - nq; vq = pp(mq,nq)
+    tsum += vq
+    if (vq < tmin) tmin = vq
+    if (vq > tmax) tmax = vq
+  }
+}
+print "  sum = ", tsum, " (claim 105)  min = ", tmin, " (claim 0)  max = ", tmax, " (claim 14)\n"
+bad = chk(tsum - 105, 0); if (bad) { print "*** FAIL: the 15 pairing values must sum to 105 (= 0+...+14)\n" }
+fails += bad
+bad = chk(tmin, 0); if (bad) { print "*** FAIL: the pairing must start at 0\n" }
+fails += bad
+bad = chk(tmax - 14, 0); if (bad) { print "*** FAIL: the pairing must reach exactly 14 -- no gaps\n" }
+fails += bad
+print "\n"
 
 print "=== countable_set: Z is countable (interleave) ===\n"
 print "  0 -> 0, 1 -> 1, 2 -> -1, 3 -> 2, 4 -> -2, ...\n"
@@ -22,7 +70,26 @@ for (k = 0; k <= 8; k++) {
   if (k % 2 == 0) { if (k > 0) z = -(k / 2) }
   print "  f(", k, ") = ", z, "\n"
 }
-print "  (uses k %% 2 at scale 0 -- honest integer parity)\n\n"
+print "  (uses k %% 2 at scale 0 -- honest integer parity)\n"
+/* Z COUNTABLE: the interleave over k = 0..8 must hit exactly {-4,...,4}, i.e.
+   sum to 0 (symmetry), with min -4 and max 4 -- nine distinct integers. */
+zsum = 0; zmin = 9999; zmax = -9999
+for (kq = 0; kq <= 8; kq++) {
+  if (kq == 0) zq = 0
+  if (kq % 2 == 1) zq = (kq + 1) / 2
+  if (kq % 2 == 0) { if (kq > 0) zq = -(kq / 2) }
+  zsum += zq
+  if (zq < zmin) zmin = zq
+  if (zq > zmax) zmax = zq
+}
+print "  sum = ", zsum, " (claim 0)  min = ", zmin, " (claim -4)  max = ", zmax, " (claim 4)\n"
+bad = chk(zsum, 0); if (bad) { print "*** FAIL: the interleave over k=0..8 must be symmetric (sum 0)\n" }
+fails += bad
+bad = chk(zmin + 4, 0); if (bad) { print "*** FAIL: the interleave must reach -4\n" }
+fails += bad
+bad = chk(zmax - 4, 0); if (bad) { print "*** FAIL: the interleave must reach +4\n" }
+fails += bad
+print "\n"
 
 print "=== countable_closure_properties: Q+ enumerated via the pairing (with repeats) ===\n"
 print "  list a/b for pi(a-1,b-1) = 0,1,2,... :\n"
@@ -34,7 +101,22 @@ for (t = 0; t <= 9; t++) {
   m = s - n
   print "  q_", t, " = ", (m+1), "/", (n+1), "\n"
 }
-print "  every positive rational appears (infinitely often); dropping repeats stays countable\n\n"
+print "  every positive rational appears (infinitely often); dropping repeats stays countable\n"
+/* ROUND TRIP (the independent oracle): the loop INVERTS the pairing to recover
+   (m,n) from t.  Re-applying pp to the recovered pair must return t.  This
+   tests the inversion against the forward map -- neither restates the other. */
+rtbad = 0
+for (tq = 0; tq <= 9; tq++) {
+  sq2 = 0
+  while ((sq2+1)*(sq2+2)/2 <= tq) sq2 = sq2 + 1
+  nq2 = tq - sq2*(sq2+1)/2
+  mq2 = sq2 - nq2
+  if (pp(mq2,nq2) != tq) rtbad = 1
+}
+print "  inversion round trip pp(invert(t)) == t for t = 0..9 : ", 1 - rtbad, " (claim 1)\n"
+bad = chk(rtbad, 0); if (bad) { print "*** FAIL: the pairing inversion does not round-trip\n" }
+fails += bad
+print "\n"
 
 print "=== cantor_diagonal: 2^omega is uncountable -- build the missing sequence ===\n"
 print "  a candidate enumeration (rows) of binary sequences; flip the diagonal:\n"
@@ -47,7 +129,20 @@ print "  d = 0 1 1 0 1 ...  differs from s_k in bit k, so d is not any s_k.\n\n"
 
 print "=== powerset_iso_two_power: |P(X)| = 2^|X| via characteristic functions ===\n"
 for (nn = 0; nn <= 6; nn++) print "  |X| = ", nn, "  ->  |P(X)| = 2^", nn, " = ", 2^nn, "\n"
-print "  each subset A of {0,...,n-1} is the 0/1 string 1_A ; 2^n of them\n\n"
+print "  each subset A of {0,...,n-1} is the 0/1 string 1_A ; 2^n of them\n"
+/* |P(X)| = 2^|X|, with the boundary case |X| = 0 giving 1 (the empty set has
+   exactly one subset -- itself), which is where an off-by-one would show. */
+bad = chk(2^0 - 1, 0); if (bad) { print "*** FAIL: |P(empty)| = 1\n" }
+fails += bad
+bad = chk(2^6 - 64, 0); if (bad) { print "*** FAIL: |P(X)| = 64 for |X| = 6\n" }
+fails += bad
+/* Cantor: 2^n > n strictly, for every n in the displayed range -- the finite
+   shadow of "no surjection onto the power set". */
+cbad = 0
+for (nq3 = 0; nq3 <= 6; nq3++) { if (2^nq3 <= nq3) cbad = 1 }
+bad = chk(cbad, 0); if (bad) { print "*** FAIL: 2^n must strictly exceed n (Cantor, finite case)\n" }
+fails += bad
+print "\n"
 
 print "=== cantor_theorem: from f : X -> P(X), the missing set { x : x not in f(x) } ===\n"
 print "  X = {0,1,2,3}, f given as membership rows (f(x) as a bitmask over X):\n"
@@ -66,5 +161,23 @@ print "  infinite kappa needs AC (well-order kappa, induct on order type).\n\n"
 
 print "=== pigeonhole_principle: 5 items into 4 boxes ===\n"
 items = 5 ; boxes = 4
-print "  ceil(", items, "/", boxes, ") = ", (items + boxes - 1)/boxes, "  -- some box holds at least 2\n"
+ceilv = (items + boxes - 1)/boxes
+print "  ceil(", items, "/", boxes, ") = ", ceilv, "  -- some box holds at least 2\n"
+bad = chk(ceilv - 2, 0); if (bad) { print "*** FAIL: ceil(5/4) = 2 -- some box holds at least 2\n" }
+fails += bad
+/* The pigeonhole bound must EXCEED 1 exactly when there are more items than
+   boxes; with items = boxes it must be 1, which is the boundary an
+   off-by-one in the ceiling idiom would break. */
+bad = chk((4 + 4 - 1)/4 - 1, 0); if (bad) { print "*** FAIL: ceil(4/4) = 1 -- no pigeonhole with equal counts\n" }
+fails += bad
+bad = neg(items - boxes - 1); if (bad) { print "*** FAIL: the instance must have strictly more items than boxes\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit
