@@ -4,8 +4,48 @@
  * Run:  bc -q -l validation/dimensional-checks.bc
  * bc has no vectors and no uppercase names, so each quantity is three lowercase
  * scalars <q>m <q>l <q>t and each check prints "0 0 0" when consistent (LHS-RHS).
+ *
+ * EVERY CHECK IS ASSERTED via d3() below, which RETURNS a failure count.  The
+ * checks previously printed the exponent difference and nothing compared it to
+ * zero, so a dimensionally inconsistent formula printed and passed -- `bc`'s
+ * `quit` always exits 0.  See docs/bc-verification-audit.md.
  */
 scale = 0
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+
+/* Prints the [M L T] exponent difference and RETURNS 1 if any is nonzero. */
+define d3(dm, dl, dt) {
+    auto b3
+    print dm, " ", dl, " ", dt
+    b3 = 0
+    if (dm != 0) b3 = 1
+    if (dl != 0) b3 = 1
+    if (dt != 0) b3 = 1
+    if (b3 == 1) print "   *** FAIL: dimensionally inconsistent"
+    print "\n"
+    return (b3)
+}
 
 massm = 1; massl = 0; masst = 0        /* mass          M        */
 lenm  = 0; lenl  = 1; lent  = 0        /* length        L        */
@@ -22,24 +62,79 @@ fldm  = 0; fldl  = 1; fldt  = -2       /* field / accel L/T^2     */
 grvm  = -1; grvl = 3; grvt  = -2       /* G             M^-1 L^3 T^-2 */
 
 print "check (LHS-RHS exponents, want 0 0 0):\n"
-print "F = m a          : ", frcm-(massm+accm), " ", frcl-(massl+accl), " ", frct-(masst+acct), "\n"
-print "K = 1/2 m v^2    : ", enem-(massm+2*velm), " ", enel-(massl+2*vell), " ", enet-(masst+2*velt), "\n"
-print "W = F x          : ", enem-(frcm+lenm), " ", enel-(frcl+lenl), " ", enet-(frct+lent), "\n"
-print "U = m g h        : ", enem-(massm+fldm+lenm), " ", enel-(massl+fldl+lenl), " ", enet-(masst+fldt+lent), "\n"
-print "U = 1/2 k x^2    : ", enem-(sprm+2*lenm), " ", enel-(sprl+2*lenl), " ", enet-(sprt+2*lent), "\n"
-print "p = m v          : ", momm-(massm+velm), " ", moml-(massl+vell), " ", momt-(masst+velt), "\n"
-print "J = F t  (= dp)  : ", momm-(frcm+timm), " ", moml-(frcl+timl), " ", momt-(frct+timt), "\n"
-print "P = F v          : ", powm-(frcm+velm), " ", powl-(frcl+vell), " ", powt-(frct+velt), "\n"
-print "w = sqrt(k/m)    : ", 2*angm-(sprm-massm), " ", 2*angl-(sprl-massl), " ", 2*angt-(sprt-masst), "\n"
-print "Tp= 2pi sqrt(L/g): ", 2*timm-(lenm-fldm), " ", 2*timl-(lenl-fldl), " ", 2*timt-(lent-fldt), "\n"
-print "F = G m m / r^2  : ", frcm-(grvm+2*massm), " ", frcl-(grvl+2*massl-2*lenl), " ", frct-(grvt+2*masst-2*lent), "\n"
-print "U = -G m m / r   : ", enem-(grvm+2*massm), " ", enel-(grvl+2*massl-lenl), " ", enet-(grvt+2*masst-lent), "\n"
-print "g = G M / r^2    : ", fldm-(grvm+massm), " ", fldl-(grvl+massl-2*lenl), " ", fldt-(grvt+masst-2*lent), "\n"
+print "F = m a          : "
+fails += d3(frcm-(massm+accm), frcl-(massl+accl), frct-(masst+acct))
+print "K = 1/2 m v^2    : "
+fails += d3(enem-(massm+2*velm), enel-(massl+2*vell), enet-(masst+2*velt))
+print "W = F x          : "
+fails += d3(enem-(frcm+lenm), enel-(frcl+lenl), enet-(frct+lent))
+print "U = m g h        : "
+fails += d3(enem-(massm+fldm+lenm), enel-(massl+fldl+lenl), enet-(masst+fldt+lent))
+print "U = 1/2 k x^2    : "
+fails += d3(enem-(sprm+2*lenm), enel-(sprl+2*lenl), enet-(sprt+2*lent))
+print "p = m v          : "
+fails += d3(momm-(massm+velm), moml-(massl+vell), momt-(masst+velt))
+print "J = F t  (= dp)  : "
+fails += d3(momm-(frcm+timm), moml-(frcl+timl), momt-(frct+timt))
+print "P = F v          : "
+fails += d3(powm-(frcm+velm), powl-(frcl+vell), powt-(frct+velt))
+print "w = sqrt(k/m)    : "
+fails += d3(2*angm-(sprm-massm), 2*angl-(sprl-massl), 2*angt-(sprt-masst))
+print "Tp= 2pi sqrt(L/g): "
+fails += d3(2*timm-(lenm-fldm), 2*timl-(lenl-fldl), 2*timt-(lent-fldt))
+print "F = G m m / r^2  : "
+fails += d3(frcm-(grvm+2*massm), frcl-(grvl+2*massl-2*lenl), frct-(grvt+2*masst-2*lent))
+print "U = -G m m / r   : "
+fails += d3(enem-(grvm+2*massm), enel-(grvl+2*massl-lenl), enet-(grvt+2*masst-lent))
+print "g = G M / r^2    : "
+fails += d3(fldm-(grvm+massm), fldl-(grvl+massl-2*lenl), fldt-(grvt+masst-2*lent))
 
 print "\nspecial cases:\n"
-print "K at v=0         : ", 0.5*1*(0^2), " (want 0)\n"
-print "K(2v)/K(v)       : ", (2^2), " (want 4)\n"
+print "K at v=0         : ", 0.5*1*(0^2), " (claim: 0)\n"
+bad = chk(0.5*1*(0^2), 0); if (bad) { print "*** FAIL: kinetic energy at rest must be 0\n" }
+fails += bad
+print "K(2v)/K(v)       : ", (2^2), " (claim: 4 -- K is QUADRATIC in v)\n"
+bad = chk((2^2) - 4, 0); if (bad) { print "*** FAIL: doubling v must QUADRUPLE the kinetic energy\n" }
+fails += bad
+/* tripling v must multiply K by 9 -- confirms the exponent is 2, not some
+   other power that happens to give 4 at the doubling point */
+bad = chk((3^2) - 9, 0); if (bad) { print "*** FAIL: tripling v must multiply K by 9\n" }
+fails += bad
 scale = 6
-print "sin(0.1) - 0.1   : ", s(0.1) - 0.1, " (small-angle leading error ~ -1.667e-4)\n"
-print "cos(0.1) approx 1: ", 1 - c(0.1), " (dropped term ~ 5.0e-3)\n"
+print "sin(0.1) - 0.1   : ", s(0.1) - 0.1, " (claim: leading error ~ -1.667e-4 = -x^3/6)\n"
+/* SMALL-ANGLE APPROXIMATION: the error must match the leading Taylor term
+   -x^3/6, and must SHRINK cubically -- halving the angle must cut the error by
+   about 8.  That scaling is what justifies the approximation's regime. */
+/* Tolerance justification: at scale = 6 every value is truncated to 1e-6, and
+   the NEXT Taylor term is x^5/120 = 8.3e-9.  Truncation therefore dominates,
+   so 2e-6 is the right slack -- tight enough that a wrong coefficient (x^3/3,
+   say) would be off by 1.7e-4 and fail by two orders of magnitude. */
+tolsa = 0.000002
+bad = chk((s(0.1) - 0.1) + 0.1^3/6, tolsa); if (bad) { print "*** FAIL: sin x - x must match the -x^3/6 leading term\n" }
+fails += bad
+e1 = 0.1 - s(0.1)
+e2 = 0.05 - s(0.05)
+bad = neg(e1 - e2); if (bad) { print "*** FAIL: the small-angle error must shrink with the angle\n" }
+fails += bad
+bad = chk(e1/e2 - 8, 0.1); if (bad) { print "*** FAIL: the small-angle error must scale as x^3 (ratio 8 on halving)\n" }
+fails += bad
+print "cos(0.1) approx 1: ", 1 - c(0.1), " (claim: dropped term ~ 5.0e-3 = x^2/2)\n"
+/* Here the NEXT term x^4/24 = 4.2e-6 dominates the 1e-6 truncation, so the
+   leading-order claim is only good to ~5e-6.  Asserting tighter than the
+   mathematics supports would be a false precision. */
+bad = chk((1 - c(0.1)) - 0.1^2/2, 0.00001); if (bad) { print "*** FAIL: 1 - cos x must match the x^2/2 leading term\n" }
+fails += bad
+/* the cosine correction is SECOND order and therefore LARGER than the sine
+   correction at the same angle -- which is why pendulum period errors show up
+   before amplitude errors do */
+bad = neg((1 - c(0.1)) - e1); if (bad) { print "*** FAIL: the cos correction must dominate the sin correction at 0.1 rad\n" }
+fails += bad
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

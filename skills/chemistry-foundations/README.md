@@ -52,8 +52,12 @@ promoting `ideal_gas` to a node, per-node pages, and YAML entries are Release
 ## Build
 
 ```sh
+sh build/all.sh                              # EVERYTHING below, in order, and
+                                             # FAILS the run if any check fails
+
+# ...or the individual steps:
 sh build/build-tree.sh                          # graph-check + tsort + cycle check + order verification
-bc -q -l validation/dimensional-checks.bc       # 18 [M L T Θ N] checks, want 0 0 0 0 0
+bc -q -l validation/dimensional-checks.bc </dev/null     # 18 [M L T Θ N] checks, want 0 0 0 0 0
 lean validation/derivation-checks.lean          # 23 kernel-decide instance checks, exit 0
 sh build/gen-assumption-index.sh                # regenerate indexes/assumption-index.md
 sh build/gen-symbol-index.sh                    # ptx discovery pass for the hand-curated symbol index

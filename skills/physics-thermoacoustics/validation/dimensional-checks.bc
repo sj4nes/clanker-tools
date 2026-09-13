@@ -4,6 +4,12 @@
  * Run:  bc -q -l validation/dimensional-checks.bc
  * bc has no vectors and no uppercase names: each quantity q is four lowercase
  * scalars  qm ql qt qh  and each check prints "0 0 0 0" for LHS-RHS.
+ *
+ * EVERY CHECK IS ASSERTED: the helper below RETURNS a failure count instead of
+ * only printing.  Previously the exponent difference was printed and its result
+ * sunk into a throwaway variable, so a dimensionally INCONSISTENT formula
+ * printed and passed -- `bc`'s `quit` always exits 0.
+ * See docs/bc-verification-audit.md.
  */
 scale = 0
 
@@ -30,52 +36,85 @@ lenm=0;  lenl=1;   lent=0;   lenh=0     /* length         L              */
 gradm=0; gradl=-1; gradt=0;  gradh=1    /* temp gradient  Theta L^-1     */
 t1m=0;   t1l=0;    t1t=0;    t1h=1      /* acoustic temp  Theta          */
 
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+
+/* Prints the exponent difference and RETURNS 1 if any component is nonzero. */
 define p4(nm, nl, nt, nh) {
-  print nm, " ", nl, " ", nt, " ", nh, "\n"
+  auto b4
+  print nm, " ", nl, " ", nt, " ", nh
+  b4 = 0
+  if (nm != 0) b4 = 1
+  if (nl != 0) b4 = 1
+  if (nt != 0) b4 = 1
+  if (nh != 0) b4 = 1
+  if (b4 == 1) print "   *** FAIL: dimensionally inconsistent"
+  print "\n"
+  return (b4)
 }
 
 print "check (LHS - RHS exponents, want 0 0 0 0):\n"
 
 print "p = rho R T      : "
-dd=p4(presm-(densm+rgasm+tempm), presl-(densl+rgasl+templ), prest-(denst+rgast+tempt), presh-(densh+rgash+temph))
+fails += p4(presm-(densm+rgasm+tempm), presl-(densl+rgasl+templ), prest-(denst+rgast+tempt), presh-(densh+rgash+temph))
 print "c_p - c_v = R    : "
-dd=p4(cpm-rgasm, cpl-rgasl, cpt-rgast, cph-rgash)          /* c_v has same dims as c_p and R */
+fails += p4(cpm-rgasm, cpl-rgasl, cpt-rgast, cph-rgash)          /* c_v has same dims as c_p and R */
 print "beta = 1 / T_m   : "                             /* [beta] = Theta^-1 */
-dd=p4(0-0, 0-0, 0-0, (-1)-(-temph))
+fails += p4(0-0, 0-0, 0-0, (-1)-(-temph))
 print "nu = mu / rho    : "
-dd=p4(kinm-(viscm-densm), kinl-(viscl-densl), kint-(visct-denst), kinh-(visch-densh))
+fails += p4(kinm-(viscm-densm), kinl-(viscl-densl), kint-(visct-denst), kinh-(visch-densh))
 print "alpha = k/(rho cp): "
-dd=p4(kinm-(kthm-densm-cpm), kinl-(kthl-densl-cpl), kint-(ktht-denst-cpt), kinh-(kthh-densh-cph))
+fails += p4(kinm-(kthm-densm-cpm), kinl-(kthl-densl-cpl), kint-(ktht-denst-cpt), kinh-(kthh-densh-cph))
 print "Pr = nu / alpha   : "
-dd=p4(0, 0, 0, 0)                                            /* ratio of equal dims -> dimensionless */
+fails += p4(0, 0, 0, 0)                                            /* ratio of equal dims -> dimensionless */
 print "a = sqrt(g R T)   : "                             /* 2*a = R + T  */
-dd=p4(2*spdm-(rgasm+tempm), 2*spdl-(rgasl+templ), 2*spdt-(rgast+tempt), 2*spdh-(rgash+temph))
+fails += p4(2*spdm-(rgasm+tempm), 2*spdl-(rgasl+templ), 2*spdt-(rgast+tempt), 2*spdh-(rgash+temph))
 print "omega = a k       : "
-dd=p4(omgm-(spdm+wnm), omgl-(spdl+wnl), omgt-(spdt+wnt), omgh-(spdh+wnh))
+fails += p4(omgm-(spdm+wnm), omgl-(spdl+wnl), omgt-(spdt+wnt), omgh-(spdh+wnh))
 print "lambda = 2pi / k  : "
-dd=p4(lenm-(-wnm), lenl-(-wnl), lent-(-wnt), lenh-(-wnh))
+fails += p4(lenm-(-wnm), lenl-(-wnl), lent-(-wnt), lenh-(-wnh))
 print "z0 = rho a        : "
-dd=p4(impm-(densm+spdm), impl-(densl+spdl), impt-(denst+spdt), imph-(densh+spdh))
+fails += p4(impm-(densm+spdm), impl-(densl+spdl), impt-(denst+spdt), imph-(densh+spdh))
 print "delta = sqrt(2 kin/omega): "                      /* 2*len = kin - omega */
-dd=p4(2*lenm-(kinm-omgm), 2*lenl-(kinl-omgl), 2*lent-(kint-omgt), 2*lenh-(kinh-omgh))
+fails += p4(2*lenm-(kinm-omgm), 2*lenl-(kinl-omgl), 2*lent-(kint-omgt), 2*lenh-(kinh-omgh))
 print "U1 = u1 A         : "
-dd=p4(vfrm-(velm+0), vfrl-(vell+2), vfrt-(velt+0), vfrh-(velh+0))
+fails += p4(vfrm-(velm+0), vfrl-(vell+2), vfrt-(velt+0), vfrh-(velh+0))
 print "Wdot = p1 U1      : "
-dd=p4(pwrm-(presm+vfrm), pwrl-(presl+vfrl), pwrt-(prest+vfrt), pwrh-(presh+vfrh))
+fails += p4(pwrm-(presm+vfrm), pwrl-(presl+vfrl), pwrt-(prest+vfrt), pwrh-(presh+vfrh))
 print "dp1/dx = w rho/A U1: "                            /* (omega*dens/L^2)*vfr */
-dd=p4((presm-lenm)-(omgm+densm-0+vfrm), (presl-lenl)-(omgl+densl-2+vfrl), (prest-lent)-(omgt+denst-0+vfrt), (presh-lenh)-(omgh+densh-0+vfrh))
+fails += p4((presm-lenm)-(omgm+densm-0+vfrm), (presl-lenl)-(omgl+densl-2+vfrl), (prest-lent)-(omgt+denst-0+vfrt), (presh-lenh)-(omgh+densh-0+vfrh))
 print "gradT_crit = w p1/(rho cp u1): "
-dd=p4(gradm-(omgm+presm-densm-cpm-velm), gradl-(omgl+presl-densl-cpl-vell), gradt-(omgt+prest-denst-cpt-velt), gradh-(omgh+presh-densh-cph-velh))
+fails += p4(gradm-(omgm+presm-densm-cpm-velm), gradl-(omgl+presl-densl-cpl-vell), gradt-(omgt+prest-denst-cpt-velt), gradh-(omgh+presh-densh-cph-velh))
 print "Qdot2 = rho cp <u1 T1> A: "
-dd=p4(pwrm-(densm+cpm+velm+t1m+0), pwrl-(densl+cpl+vell+t1l+2), pwrt-(denst+cpt+velt+t1t+0), pwrh-(densh+cph+velh+t1h+0))
+fails += p4(pwrm-(densm+cpm+velm+t1m+0), pwrl-(densl+cpl+vell+t1l+2), pwrt-(denst+cpt+velt+t1t+0), pwrh-(densh+cph+velh+t1h+0))
 
 print "\ndimensionless quantities (want 0 0 0 0):\n"
 print "Ma = |u1| / a     : "
-dd=p4(velm-spdm, vell-spdl, velt-spdt, velh-spdh)
+fails += p4(velm-spdm, vell-spdl, velt-spdt, velh-spdh)
 print "eta_C = 1 - Tc/Th  : "
-dd=p4(temph-temph, temph-temph, temph-temph, temph-temph)
+fails += p4(temph-temph, temph-temph, temph-temph, temph-temph)
 print "delta_nu/delta_k = sqrt(pr): "
-dd=p4(0,0,0,0)
+fails += p4(0,0,0,0)
 
 print "\nspecial cases:\n"
 scale = 6
@@ -86,4 +125,12 @@ pr = 0.71
 print "air: delta_nu/delta_kappa = sqrt(0.71) = ", sqrt(pr), "\n"
 tc = 300; th = 600
 print "Carnot Tc=300 Th=600: eta_C = ", 1 - tc/th, " ; COP_C(cool) = ", tc/(th-tc), " ; (1-eta_C)/eta_C = ", (1-(1-tc/th))/(1-tc/th), "\n"
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
 quit

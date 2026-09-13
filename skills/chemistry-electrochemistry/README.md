@@ -55,8 +55,12 @@ embedded assumptions to nodes, per-node pages, and the review pass are Release
 ## Build
 
 ```sh
+sh build/all.sh                              # EVERYTHING below, in order, and
+                                             # FAILS the run if any check fails
+
+# ...or the individual steps:
 sh build/build-tree.sh                          # graph-check + tsort + cycle check + order verification
-bc -q -l validation/dimensional-checks.bc       # 17 [M L T Θ N I] checks, want 0 0 0 0 0 0
+bc -q -l validation/dimensional-checks.bc </dev/null     # 17 [M L T Θ N I] checks, want 0 0 0 0 0 0
 lean validation/derivation-checks.lean          # 35 kernel-decide instance checks, exit 0
 sh build/gen-assumption-index.sh                # regenerate indexes/assumption-index.md
 sh build/gen-symbol-index.sh                    # ptx discovery pass for the hand-curated symbol index

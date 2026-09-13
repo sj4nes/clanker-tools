@@ -20,8 +20,12 @@ method, and its proof-of-method.
 ## Build
 
 ```sh
+sh build/all.sh                              # EVERYTHING below, in order, and
+                                             # FAILS the run if any check fails
+
+# ...or the individual steps:
 sh build/build-tree.sh                       # graph-check -> tsort -> views
-bc -q -l validation/dimensional-checks.bc    # [M L T] consistency, 13 formulas
+bc -q -l validation/dimensional-checks.bc </dev/null  # [M L T] consistency, 13 formulas
 lean validation/derivation-checks.lean       # 5 kernel-checked algebra steps
 sh build/gen-symbol-index.sh                 # ptx discovery + confirmed symbol index
 sh build/gen-assumption-index.sh

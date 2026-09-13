@@ -10,6 +10,12 @@
  * exp() / ln() argument are DIMENSIONLESS by construction. Their "check" is that
  * every term in the sum/quotient is the same dimensionless quantity; that is
  * asserted in comments, not computed here.
+ *
+ * EVERY CHECK IS ASSERTED: the helper below RETURNS a failure count instead of
+ * only printing.  Previously the exponent difference was printed and its result
+ * sunk into a throwaway variable, so a dimensionally INCONSISTENT formula
+ * printed and passed -- `bc`'s `quit` always exits 0.
+ * See docs/bc-verification-audit.md.
  */
 scale = 6
 
@@ -35,73 +41,123 @@ arem=0; arel=2; aret=0;  areh=0; aren=0;  arei=0    /* area A          L^2 */
 mobm=-1; mobl=0; mobt=2; mobh=0; mobn=0;  mobi=1    /* ionic mobility u I T^2 M^-1 */
 mlcm=-1; mlcl=0; mlct=3; mlch=0; mlcn=-1; mlci=2    /* molar conduct.  I^2 T^3 M^-1 N^-1 */
 
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+
+/* Prints the exponent difference and RETURNS 1 if any component is nonzero. */
 define d6(am,al,at,ah,an,ai, bm,bl,bt,bh,bn,bi) {
-    print am-bm," ",al-bl," ",at-bt," ",ah-bh," ",an-bn," ",ai-bi,"\n"
+    auto dm, dl, dt, dh, dn, di, b6
+    dm = am-bm; dl = al-bl; dt = at-bt; dh = ah-bh; dn = an-bn; di = ai-bi
+    print dm," ",dl," ",dt," ",dh," ",dn," ",di
+    b6 = 0
+    if (dm != 0) b6 = 1
+    if (dl != 0) b6 = 1
+    if (dt != 0) b6 = 1
+    if (dh != 0) b6 = 1
+    if (dn != 0) b6 = 1
+    if (di != 0) b6 = 1
+    if (b6 == 1) print "   *** FAIL: dimensionally inconsistent"
+    print "\n"
+    return (b6)
 }
 
 print "dimensional checks  ([LHS] - [RHS] exponents, want  0 0 0 0 0 0):\n\n"
 
 print "F = N_A e          : "  /* [N_A e] = N^-1 * I T ; N_A tuple = (0,0,0,0,-1,0) */
-zz=d6(farm,farl,fart,farh,farn,fari, 0+0,0+0,0+crgt,0+0,-1+0,0+crgi)
+fails += d6(farm,farl,fart,farh,farn,fari, 0+0,0+0,0+crgt,0+0,-1+0,0+crgi)
 
 print "Q = I t            : "
-zz=d6(crgm,crgl,crgt,crgh,crgn,crgi, curm,curl,curt+1,curh,curn,curi)
+fails += d6(crgm,crgl,crgt,crgh,crgn,crgi, curm,curl,curt+1,curh,curn,curi)
 
 print "Q = z F n          : "
-zz=d6(crgm,crgl,crgt,crgh,crgn,crgi, farm+amnm,farl+amnl,fart+amnt,farh+amnh,farn+amnn,fari+amni)
+fails += d6(crgm,crgl,crgt,crgh,crgn,crgi, farm+amnm,farl+amnl,fart+amnt,farh+amnh,farn+amnn,fari+amni)
 
 print "m = I t M / (z F)  : "
-zz=d6(masm,masl,mast,mash,masn,masi, \
+fails += d6(masm,masl,mast,mash,masn,masi, \
   curm+mmm-farm, curl+mml-farl, (curt+1)+mmt-fart, curh+mmh-farh, curn+mmn-farn, curi+mmi-fari)
 
 print "E_spec = z F E / M : "  /* want J/kg = L^2 T^-2 = (0,2,-2,0,0,0) */
-zz=d6(farm+volm-mmm, farl+voll-mml, fart+volt-mmt, farh+volh-mmh, farn+voln-mmn, fari+voli-mmi, \
+fails += d6(farm+volm-mmm, farl+voll-mml, fart+volt-mmt, farh+volh-mmh, farn+voln-mmn, fari+voli-mmi, \
   0,2,-2,0,0,0)
 
 print "dG = - z F E       : "  /* molar */
-zz=d6(mgim,mgil,mgit,mgih,mgin,mgii, farm+volm,farl+voll,fart+volt,farh+volh,farn+voln,fari+voli)
+fails += d6(mgim,mgil,mgit,mgih,mgin,mgii, farm+volm,farl+voll,fart+volt,farh+volh,farn+voln,fari+voli)
 
 print "E0 = (R T / z F) lnK: "  /* want V */
-zz=d6(rgcm+temm-farm, rgcl+teml-farl, rgct+temt-fart, rgch+temh-farh, rgcn+temn-farn, rgci+temi-fari, \
+fails += d6(rgcm+temm-farm, rgcl+teml-farl, rgct+temt-fart, rgch+temh-farh, rgcn+temn-farn, rgci+temi-fari, \
   volm,voll,volt,volh,voln,voli)
 
 print "Nernst RT/zF term  : "  /* (R T / z F) ln Q is a potential */
-zz=d6(rgcm+temm-farm, rgcl+teml-farl, rgct+temt-fart, rgch+temh-farh, rgcn+temn-farn, rgci+temi-fari, \
+fails += d6(rgcm+temm-farm, rgcl+teml-farl, rgct+temt-fart, rgch+temh-farh, rgcn+temn-farn, rgci+temi-fari, \
   volm,voll,volt,volh,voln,voli)
 
 print "dE/dT = dS / (z F) : "  /* want V/K = M L^2 T^-3 Th^-1 I^-1 */
-zz=d6(entm-farm, entl-farl, entt-fart, enth-farh, entn-farn, enti-fari, \
+fails += d6(entm-farm, entl-farl, entt-fart, enth-farh, entn-farn, enti-fari, \
   1,2,-3,-1,0,-1)
 
 print "z F eta / (R T)    : "  /* Butler-Volmer exponent, want dimensionless */
-zz=d6(farm+volm-rgcm-temm, farl+voll-rgcl-teml, fart+volt-rgct-temt, \
+fails += d6(farm+volm-rgcm-temm, farl+voll-rgcl-teml, fart+volt-rgct-temt, \
       farh+volh-rgch-temh, farn+voln-rgcn-temn, fari+voli-rgci-temi, 0,0,0,0,0,0)
 
 print "eta_ohmic = I R    : "  /* want V */
-zz=d6(curm+resm, curl+resl, curt+rest, curh+resh, curn+resn, curi+resi, volm,voll,volt,volh,voln,voli)
+fails += d6(curm+resm, curl+resl, curt+rest, curh+resh, curn+resn, curi+resi, volm,voll,volt,volh,voln,voli)
 
 print "P = I V            : "
-zz=d6(powm,powl,powt,powh,pown,powi, curm+volm,curl+voll,curt+volt,curh+volh,curn+voln,curi+voli)
+fails += d6(powm,powl,powt,powh,pown,powi, curm+volm,curl+voll,curt+volt,curh+volh,curn+voln,curi+voli)
 
 print "j = I / A          : "
-zz=d6(curdm,curdl,curdt,curdh,curdn,curdi, curm-arem,curl-arel,curt-aret,curh-areh,curn-aren,curi-arei)
+fails += d6(curdm,curdl,curdt,curdh,curdn,curdi, curm-arem,curl-arel,curt-aret,curh-areh,curn-aren,curi-arei)
 
 print "lambda0 = z F u    : "  /* limiting molar ionic conductivity, want molar conductivity tuple */
-zz=d6(farm+mobm, farl+mobl, fart+mobt, farh+mobh, farn+mobn, fari+mobi, \
+fails += d6(farm+mobm, farl+mobl, fart+mobt, farh+mobh, farn+mobn, fari+mobi, \
   mlcm,mlcl,mlct,mlch,mlcn,mlci)
 
 print "E_store = c V z F E : "  /* flow-battery energy, want J */
-zz=d6(conm+vlm+farm+volm, conl+vll+farl+voll, cont+vlt+fart+volt, \
+fails += d6(conm+vlm+farm+volm, conl+vll+farl+voll, cont+vlt+fart+volt, \
       conh+vlh+farh+volh, conn+vln+farn+voln, coni+vli+fari+voli, enrm,enrl,enrt,enrh,enrn,enri)
 
 print "P_stack = A j V    : "  /* flow-battery power, want W */
-zz=d6(arem+curdm+volm, arel+curdl+voll, aret+curdt+volt, \
+fails += d6(arem+curdm+volm, arel+curdl+voll, aret+curdt+volt, \
       areh+curdh+volh, aren+curdn+voln, arei+curdi+voli, powm,powl,powt,powh,pown,powi)
 
 print "V_cell = E0 + eta + IR : "  /* every term a potential */
-zz=d6(volm,voll,volt,volh,voln,voli, volm,voll,volt,volh,voln,voli)
+fails += d6(volm,voll,volt,volh,voln,voli, volm,voll,volt,volh,voln,voli)
 
 print "\nDimensionless-by-construction (each term is a pure ratio or count):\n"
 print "  z, eta_C = Q_out/Q_in, eta_V = V_dis/V_chg, eta_E = eta_C eta_V,\n"
 print "  eta_F = n_actual/n_theoretical, t_i = I_i/I_total (sum = 1),\n"
 print "  SOC = c_charged/c_total, K, Q, ln K, exp(z F eta / R T).\n"
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
+
+/* NOTE (2026-09-13): this file previously had NO trailing `quit`, so running it
+   exactly as the README documents -- `bc -q -l validation/dimensional-checks.bc`
+   -- left bc reading stdin and HUNG on an interactive terminal.  That is very
+   likely why it was never wired into a build script. */
+quit

@@ -7,7 +7,59 @@ pattern.
 
 **Scope:** 24 `.bc` files across 20 skills, plus `templates/verification/`.
 
-## Result
+## Status: REMEDIATED (2026-09-13)
+
+All 24 harnesses now assert their claims and fail the run on a wrong value.
+Every one was negative-contrast tested — corrupt a value, confirm a nonzero
+exit, revert — and all 24 verified green afterwards. The findings below are
+kept as the record of what was wrong and how it was demonstrated.
+
+Fixed in three passes: the 6 methodology skills (`7b7a3e3`), the 4 math
+capsules whose oracles were already present (`d863651`), and the remaining 5
+capsules plus the 4 that had no build script at all.
+
+### Defects found by writing the assertions
+
+Seven, beyond the missing checks themselves:
+
+1. **`statistics`** — two CRLB checks were **vacuous**: `crlbbern` and
+   `varbern` were the *same expression*, and the Poisson line was literally
+   `(lam/n)/(lam/n)`. Both printed the expected `1` by construction. Now routed
+   through the Fisher information.
+2. **`visualization-design`** — the zero-baseline lie-factor check was vacuous
+   the same way (`shownc` and `datac` identical).
+3. **`control-systems`** — the file computed a sampling ceiling of `2/wn_cl =
+   1.0 s` and its own comment called `Ts = 0.8 s` "far outside" it. `0.8 < 1.0`.
+   The Python section's divergence at 0.8 s comes from the PID loop's higher
+   bandwidth, not from this bound.
+4. **`physics-thermodynamics`** and the three other dimensional-check files —
+   the `d5`/`d6`/`p4`/`d3` helpers **printed** the exponent difference and
+   returned nothing, with the result sunk into a throwaway variable. A
+   dimensionally inconsistent formula printed and passed.
+5. **`chemistry-foundations`** and **`chemistry-electrochemistry`** — the `.bc`
+   files had **no trailing `quit`**, so running them exactly as their READMEs
+   documented left `bc` reading stdin and **hung** on an interactive terminal.
+   Very likely why they were never automated.
+6. **A bare `grep -q FAIL` gives false positives.** `visualization-design`
+   legitimately prints `(claim: < 3 -> FAILS as a standalone cue)`, which made
+   a naive grep fail a *passing* run. The marker is now `*** FAIL`.
+7. **Tolerances were guessed, not derived.** In `physics-newtonian` the
+   small-angle checks initially failed against tolerances tighter than the next
+   Taylor term (`x^4/24 = 4.2e-6`) and the `scale = 6` truncation floor. Each
+   tolerance is now justified in a comment against the actual error term.
+
+### Structural changes
+
+- The 4 capsules with no build script (`chemistry-foundations`,
+  `chemistry-electrochemistry`, `physics-newtonian`,
+  `physics-thermoacoustics`) now have a `build/all.sh` on the sibling pattern,
+  and their READMEs lead with it.
+- Every runner greps for `*** FAIL` **and** a pass banner, and redirects
+  `< /dev/null` so a missing `quit` cannot hang a build.
+- `templates/verification/` was rewritten first, since it was the source
+  propagating the weakness.
+
+## Original findings
 
 | category | count | what it means |
 |---|---|---|

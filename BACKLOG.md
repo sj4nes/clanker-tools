@@ -745,27 +745,26 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       `templates/verification/` rewritten to the asserting pattern (it was the
       source propagating the weakness) and negative-contrast tested.
 
-- [ ] **bc harnesses — add assertions to the 15 "unasserted" files.** Each
-      prints numbers with a prose claim and machine-checks nothing:
-      `control-systems`, `design-of-experiments`, `simulation`, `statistics`,
-      `unknown-discovery`, `visualization-design` (skills, `verification/checks.bc`);
-      `bayes-bridge`, `math-logic-and-proof`, `math-number-systems`,
-      `math-probability`, `math-real-analysis`,
-      `math-sets-functions-cardinality`, `math-statistics`, `physics-acoustics`,
-      `physics-thermodynamics` (capsules, `validation/*.bc`). Mechanical where
-      an independent oracle is already computed and merely not compared —
-      `math-probability` computes Bernoulli variance both by closed form and by
-      direct summation, prints "(match)", and passes when they differ (.39 vs
-      .21, demonstrated). Pattern + helpers in
-      `math-linear-algebra/validation/instance-checks.bc` and the rewritten
-      `templates/verification/checks.bc`. Each must be negative-contrast tested.
+- [x] **bc harnesses — all 15 "unasserted" files now assert** (2026-09-13,
+      commits 7b7a3e3 / d863651 / this one). Every claim prints a `*** FAIL`
+      marker on mismatch and every runner greps for it. Each file
+      negative-contrast tested; all 24 harnesses verified green afterwards.
+      Seven further defects surfaced in the process — two VACUOUS checks
+      (`statistics` CRLB, `visualization-design` lie factor: expected value and
+      computed value were the same expression), a false claim in
+      `control-systems` (0.8 s called "far outside" a ceiling of 1.0 s), four
+      dimensional-check helpers that printed without returning a status, two
+      `.bc` files with no trailing `quit` that HUNG when run as documented, a
+      bare `grep -q FAIL` false-positiving on descriptive text, and tolerances
+      tighter than the next Taylor term. All recorded in
+      `docs/bc-verification-audit.md`.
 
-- [ ] **bc harnesses — wire the 4 unautomated capsules into a build script.**
-      `chemistry-foundations`, `chemistry-electrochemistry`, `physics-newtonian`,
-      `physics-thermoacoustics` each ship a `validation/dimensional-checks.bc`
-      that **no script ever runs** (they have no `build/all.sh`); their READMEs
-      cite it as verification. Either add an `all.sh` on the sibling pattern or
-      correct the README claim.
+- [x] **bc harnesses — the 4 unautomated capsules are now automated**
+      (2026-09-13). `chemistry-foundations`, `chemistry-electrochemistry`,
+      `physics-newtonian`, `physics-thermoacoustics` each gained a
+      `build/all.sh` on the sibling pattern (graph → views → lean → asserted
+      bc, failing the run on any failure) and their READMEs now lead with it
+      instead of listing hand-run commands.
 
 - [x] **capsule build dedup:** hoisted the identical `validation/graph-check.sh`
       + `build/build-tree.sh` (canonical variants: the comment-stripping

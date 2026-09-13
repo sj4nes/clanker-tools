@@ -11,6 +11,12 @@
  * concentration divided by c0 = 1 mol/L, each P divided by P0 = 1 bar). Their
  * "check" is that every term in the sum/quotient is the same dimensionless
  * ratio; that is asserted in comments, not computed here.
+ *
+ * EVERY CHECK IS ASSERTED: the helper below RETURNS a failure count instead of
+ * only printing.  Previously the exponent difference was printed and its result
+ * sunk into a throwaway variable, so a dimensionally INCONSISTENT formula
+ * printed and passed -- `bc`'s `quit` always exits 0.
+ * See docs/bc-verification-audit.md.
  */
 scale = 6
 
@@ -30,69 +36,104 @@ shcm = 0; shcl = 2; shct = -2; shch = -1; shcn = 0    /* specific heat c        
 entm = 1; entl = 2; entt = -2; enth = -1; entn = 0    /* entropy S              M L^2 T^-2 Theta^-1 */
 mren = 1; mrel = 2; mret = -2; mreh = 0;  mrenn = -1  /* molar reaction enthalpy/Gibbs  M L^2 T^-2 N^-1 */
 
+
+/* --- assertion helpers -------------------------------------------------
+ * Every claim below is ASSERTED, not merely annotated: a wrong value prints
+ * a FAIL line and run.sh greps for it.  `bc`'s `quit` ALWAYS exits 0, so the
+ * exit status can never signal failure.  See docs/bc-verification-audit.md.
+ * `abs` is reserved in macOS bc, hence `aval`; BSD bc functions take numeric
+ * arguments only, so the message is printed at the call site.
+ */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {      /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+define neg(x) {               /* 1 if x < 0, i.e. an "x >= 0" claim failed */
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+
+/* Prints the exponent difference and RETURNS 1 if any component is nonzero. */
 define d5(am,al,at,ah,an, bm,bl,bt,bh,bn) {
-    print am-bm, " ", al-bl, " ", at-bt, " ", ah-bh, " ", an-bn, "\n"
+    auto dm, dl, dt, dh, dn, b5
+    dm = am-bm; dl = al-bl; dt = at-bt; dh = ah-bh; dn = an-bn
+    print dm, " ", dl, " ", dt, " ", dh, " ", dn
+    b5 = 0
+    if (dm != 0) b5 = 1
+    if (dl != 0) b5 = 1
+    if (dt != 0) b5 = 1
+    if (dh != 0) b5 = 1
+    if (dn != 0) b5 = 1
+    if (b5 == 1) print "   *** FAIL: dimensionally inconsistent"
+    print "\n"
+    return (b5)
 }
 
 print "dimensional checks  ([LHS] - [RHS] exponents, want  0 0 0 0 0):\n\n"
 
 print "N = n N_A            : "
-zz=d5(cntm,cntl,cntt,cnth,cntn, amnm+nam, amnl+nal, amnt+nat, amnh+nah, amnn+nan)
+fails += d5(cntm,cntl,cntt,cnth,cntn, amnm+nam, amnl+nal, amnt+nat, amnh+nah, amnn+nan)
 
 print "M = m / n            : "
-zz=d5(mmm,mml,mmt,mmh,mmn, masm-amnm, masl-amnl, mast-amnt, mash-amnh, masn-amnn)
+fails += d5(mmm,mml,mmt,mmh,mmn, masm-amnm, masl-amnl, mast-amnt, mash-amnh, masn-amnn)
 
 print "n = m / M            : "
-zz=d5(amnm,amnl,amnt,amnh,amnn, masm-mmm, masl-mml, mast-mmt, mash-mmh, masn-mmn)
+fails += d5(amnm,amnl,amnt,amnh,amnn, masm-mmm, masl-mml, mast-mmt, mash-mmh, masn-mmn)
 
 print "c = n / V            : "
-zz=d5(conm,conl,cont,conh,conn, amnm-volm, amnl-voll, amnt-volt, amnh-volh, amnn-voln)
+fails += d5(conm,conl,cont,conh,conn, amnm-volm, amnl-voll, amnt-volt, amnh-volh, amnn-voln)
 
 print "c1 V1 = c2 V2 (= n)  : "
-zz=d5(conm+volm, conl+voll, cont+volt, conh+volh, conn+voln, amnm,amnl,amnt,amnh,amnn)
+fails += d5(conm+volm, conl+voll, cont+volt, conh+volh, conn+voln, amnm,amnl,amnt,amnh,amnn)
 
 print "P V = n R T          : "
-zz=d5(prem+volm, prel+voll, pret+volt, preh+volh, pren+voln, \
+fails += d5(prem+volm, prel+voll, pret+volt, preh+volh, pren+voln, \
    amnm+rgcm+temm, amnl+rgcl+teml, amnt+rgct+temt, amnh+rgch+temh, amnn+rgcn+temn)
 
 print "V_m = R T / P        : "  /* want L^3 N^-1 = 0 3 0 0 -1 */
-zz=d5(rgcm+temm-prem, rgcl+teml-prel, rgct+temt-pret, rgch+temh-preh, rgcn+temn-pren, \
+fails += d5(rgcm+temm-prem, rgcl+teml-prel, rgct+temt-pret, rgch+temh-preh, rgcn+temn-pren, \
    0, 3, 0, 0, -1)
 
 print "P_i = x_i P_total    : "  /* x_i dimensionless */
-zz=d5(prem,prel,pret,preh,pren, prem,prel,pret,preh,pren)
+fails += d5(prem,prel,pret,preh,pren, prem,prel,pret,preh,pren)
 
 print "P_total = sum P_i    : "
-zz=d5(prem,prel,pret,preh,pren, prem,prel,pret,preh,pren)
+fails += d5(prem,prel,pret,preh,pren, prem,prel,pret,preh,pren)
 
 print "q = m c dT           : "  /* specific-heat calorimetry -> energy */
-zz=d5(enrm,enrl,enrt,enrh,enrn, \
+fails += d5(enrm,enrl,enrt,enrh,enrn, \
    masm+shcm+temm, masl+shcl+teml, mast+shct+temt, mash+shch+temh, masn+shcn+temn)
 
 print "c (spec heat) = q/(m dT): "
-zz=d5(shcm,shcl,shct,shch,shcn, \
+fails += d5(shcm,shcl,shct,shch,shcn, \
    enrm-masm-temm, enrl-masl-teml, enrt-mast-temt, enrh-mash-temh, enrn-masn-temn)
 
 print "H = U + P V          : "
-zz=d5(enrm,enrl,enrt,enrh,enrn, prem+volm, prel+voll, pret+volt, preh+volh, pren+voln)
+fails += d5(enrm,enrl,enrt,enrh,enrn, prem+volm, prel+voll, pret+volt, preh+volh, pren+voln)
 
 print "dU = q - w           : "
-zz=d5(enrm,enrl,enrt,enrh,enrn, enrm,enrl,enrt,enrh,enrn)
+fails += d5(enrm,enrl,enrt,enrh,enrn, enrm,enrl,enrt,enrh,enrn)
 
 print "G = H - T S          : "
-zz=d5(enrm,enrl,enrt,enrh,enrn, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
+fails += d5(enrm,enrl,enrt,enrh,enrn, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
 
 print "dG = dH - T dS       : "
-zz=d5(enrm,enrl,enrt,enrh,enrn, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
+fails += d5(enrm,enrl,enrt,enrh,enrn, temm+entm, teml+entl, temt+entt, temh+enth, temn+entn)
 
 print "dG0 = - R T ln K     : "  /* ln K dimensionless -> molar energy on both sides */
-zz=d5(mren,mrel,mret,mreh,mrenn, rgcm+temm, rgcl+teml, rgct+temt, rgch+temh, rgcn+temn)
+fails += d5(mren,mrel,mret,mreh,mrenn, rgcm+temm, rgcl+teml, rgct+temt, rgch+temh, rgcn+temn)
 
 print "dHrxn = sum n dHf    : "  /* n = stoich coefficient, dimensionless; dHf molar */
-zz=d5(mren,mrel,mret,mreh,mrenn, mren,mrel,mret,mreh,mrenn)
+fails += d5(mren,mrel,mret,mreh,mrenn, mren,mrel,mret,mreh,mrenn)
 
 print "R T c0 / P0 (Kp/Kc)  : "  /* want dimensionless: 0 0 0 0 0 */
-zz=d5(rgcm+temm+conm-prem, rgcl+teml+conl-prel, rgct+temt+cont-pret, \
+fails += d5(rgcm+temm+conm-prem, rgcl+teml+conl-prel, rgct+temt+cont-pret, \
       rgch+temh+conh-preh, rgcn+temn+conn-pren, 0,0,0,0,0)
 
 print "\nDimensionless-by-construction (each term is (c/c0) or (P/P0)):\n"
@@ -100,3 +141,17 @@ print "  K_c, Q, K_p, K_w = [H+][OH-], K_a, K_a K_b = K_w,\n"
 print "  x_i = n_i / n_total,  %X = part_mass / M,  pH = -log10([H+]/c0),\n"
 print "  pH + pOH = -log10(K_w),  Henderson-Hasselbalch log([A-]/[HA]),\n"
 print "  k = M_molecular / M_empirical,  percent_yield = actual / theoretical.\n"
+
+print "\n"
+if (fails == 0) {
+  print "ALL BC CHECKS PASSED\n"
+}
+if (fails > 0) {
+  print "*** ", fails, " BC CHECK(S) FAILED\n"
+}
+
+/* NOTE (2026-09-13): this file previously had NO trailing `quit`, so running it
+   exactly as the README documents -- `bc -q -l validation/dimensional-checks.bc`
+   -- left bc reading stdin and HUNG on an interactive terminal.  That is very
+   likely why it was never wired into a build script. */
+quit

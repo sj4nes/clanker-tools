@@ -19,8 +19,12 @@ domain capsule after [`physics-newtonian`](../physics-newtonian/SKILL.md).
 ## Build
 
 ```sh
+sh build/all.sh                              # EVERYTHING below, in order, and
+                                             # FAILS the run if any check fails
+
+# ...or the individual steps:
 sh build/build-tree.sh                       # graph-check -> tsort -> views
-bc -q -l validation/dimensional-checks.bc    # [M L T Theta] consistency, 19 checks
+bc -q -l validation/dimensional-checks.bc </dev/null  # [M L T Theta] consistency, 19 checks
 lean validation/derivation-checks.lean       # 13 kernel-checked algebra instances
 sh build/gen-symbol-index.sh
 sh build/gen-assumption-index.sh
