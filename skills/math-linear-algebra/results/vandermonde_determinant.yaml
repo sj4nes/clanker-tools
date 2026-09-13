@@ -1,0 +1,45 @@
+id: determinants.vandermonde_determinant
+node: vandermonde_determinant
+status_label: mathematical_identity
+display: 'The Vandermonde matrix V with V_{ij} = x_i^{j-1} has det V = prod_{1 <= i < j <= n} (x_j - x_i). It is nonzero exactly when the x_i are pairwise DISTINCT.'
+parseable: 'det[x_i^{j-1}]_{i,j=1..n} = prod_{i<j} (x_j - x_i)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'x_1,...,x_n': 'the nodes, type: elements of F'
+  'V': 'type: element of F^{n x n}'
+type_check_status: well_formed
+type_check_note: 'Well-formed over any field. The product has C(n,2) factors.'
+hypotheses:
+  - 'A square Vandermonde matrix'
+preconditions: []
+dependencies:
+  - 'determinant'
+  - 'determinant_row_operations'
+  - 'leibniz_formula'
+proof:
+  technique: 'subtract x_1 times each column from the next (an R3-type column operation, which preserves det), factor (x_i - x_1) out of each row, and induct on n'
+  derives_from: 'determinant_row_operations'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2: det[[1,x_1],[1,x_2]] = x_2 - x_1'
+  - 'n = 3 at x = (1,2,3): det = (2-1)(3-1)(3-2) = 2'
+  - 'two equal nodes: a repeated row, so det = 0 -- consistent with the product having a zero factor'
+counterexamples_when_dropped:
+  distinctness_of_the_nodes: 'with a repeated node the matrix is singular, which is exactly the statement that polynomial interpolation at repeated points is not uniquely solvable (one needs derivative data -- Hermite interpolation)'
+common_misuse:
+  - 'using the Vandermonde system to fit a high-degree polynomial numerically: it is notoriously ill-conditioned, with condition number growing exponentially in n. Use orthogonal polynomials or a QR-based fit instead (condition_number, qr_factorisation)'
+applications:
+  - 'existence and uniqueness of the Lagrange interpolating polynomial through n distinct points'
+  - 'the design matrix of polynomial regression is a Vandermonde matrix -- and its ill-conditioning is why centring and orthogonal polynomial bases are standard practice'
+sources:
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#vandermonde_determinant
+  specialization: validation/specialization-cases.md#vandermonde_determinant
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#vandermonde_determinant

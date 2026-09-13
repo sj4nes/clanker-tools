@@ -1,0 +1,41 @@
+id: eigentheory.non_diagonalisable_counterexample
+node: non_diagonalisable_counterexample
+status_label: counterexample
+display: 'J = [[1,1],[0,1]] has p_J(t) = (t-1)^2, so alg(1) = 2, but ker(J - I) is spanned by e_1 alone, so geom(1) = 1. J is NOT diagonalisable over any field. Its minimal polynomial is (t-1)^2, not (t-1).'
+parseable: 'J = [[1,1],[0,1]];  p_J = (t-1)^2;  m_J = (t-1)^2;  geom(1) = 1 < 2 = alg(1)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'J': 'the 2x2 Jordan block for eigenvalue 1'
+type_check_status: well_formed
+type_check_note: 'Well-formed over any field; the entries 0 and 1 make it a counterexample even in characteristic 2.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'algebraic_geometric_multiplicity'
+  - 'characteristic_polynomial'
+  - 'diagonalisable'
+proof:
+  technique: 'direct computation of ker(J - I) and of p_J'
+  derives_from: 'algebraic_geometric_multiplicity'
+  lean_status: instance
+  lean_ref: 'LinAlg.jordan_block_defective'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'J^k = [[1,k],[0,1]], which grows LINEARLY even though the only eigenvalue has modulus 1 -- the practical consequence of defectiveness'
+  - 'J is similar to no diagonal matrix, though it shares its characteristic polynomial with I_2'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'this IS the counterexample node. It witnesses: the converse of distinct_eigenvalues_diagonalisable, the multiplicity clause of diagonalisability_criterion, the incompleteness of p_A as a similarity invariant, and the necessity of (t-lambda) appearing to the first power in minimal_polynomial_diagonalisable'
+common_misuse:
+  - 'assuming |eigenvalues| <= 1 bounds ||A^k||: J shows it does not. The correct statement involves the spectral radius only ASYMPTOTICALLY (spectral_radius)'
+related:
+  illustrated_by: []
+sources:
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#non_diagonalisable_counterexample
+  specialization: validation/specialization-cases.md#non_diagonalisable_counterexample
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#non_diagonalisable_counterexample

@@ -1,0 +1,50 @@
+id: determinants.determinant_multiplicative
+node: determinant_multiplicative
+status_label: proved_theorem
+display: 'det(AB) = det(A) det(B) for square A, B of the same size. Hence det is a group homomorphism from GL_n(F) to F^*.'
+parseable: 'det(AB) = det(A) det(B);  det : GL_n(F) -> F^* a group homomorphism'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'GL_n(F)': 'the group of invertible n x n matrices'
+type_check_status: well_formed
+type_check_note: 'Well-formed for equal square shapes. This is the deepest elementary property of the determinant and is what all its invariance results (similarity, volume) reduce to.'
+hypotheses:
+  - 'A, B square of the same size'
+preconditions: []
+dependencies:
+  - 'determinant'
+  - 'determinant_row_operations'
+  - 'elementary_matrix'
+  - 'matrix_multiplication'
+proof:
+  technique: 'for fixed B, the map A -> det(AB) is an alternating multilinear function of the ROWS of A, equal to det(B) when A = I; by uniqueness it equals det(B)det(A). (Equivalently: factor A into elementary matrices and apply determinant_row_operations to each.)'
+  derives_from: 'determinant_row_operations'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.det_mul (n = 2)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'B = A^{-1}: det(A)det(A^{-1}) = 1, so det(A^{-1}) = 1/det(A)'
+  - 'B = P^{-1}, A = PA'': recovers determinant_similarity_invariant'
+  - 'det(A^k) = (det A)^k'
+counterexamples_when_dropped:
+  squareness_and_equal_size: 'for rectangular factors both sides are undefined; the Cauchy-Binet formula is the correct generalisation and is NOT a product of determinants'
+  addition_has_no_analogue: 'det(A+B) != det A + det B, and there is no useful formula'
+common_misuse:
+  - 'expecting an additive analogue'
+  - 'using det(AB) = det(A)det(B) to conclude rank(AB) = rank(A)rank(B) -- rank is not multiplicative (rank_inequalities)'
+applications:
+  - 'the change-of-variables Jacobian factor composes multiplicatively under composition of maps, which is exactly this theorem'
+  - 'the determinant of a product of elementary operations is how elimination tracks det in O(n^3)'
+related:
+  required_by: ['determinant_invertible_iff', 'determinant_similarity_invariant', 'determinant_volume']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'lang_algebra_3e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#determinant_multiplicative
+  specialization: validation/specialization-cases.md#determinant_multiplicative
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#determinant_multiplicative

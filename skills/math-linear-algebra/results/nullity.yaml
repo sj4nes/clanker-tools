@@ -1,0 +1,33 @@
+id: linear_maps.nullity
+node: nullity
+status_label: definition
+display: 'nullity T = dim(ker T), the dimension of the solution space of the homogeneous equation T(v) = 0.'
+parseable: 'nullity T := dim(ker T)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'nullity T': 'type: natural number, at most dim V'
+type_check_status: well_formed
+type_check_note: 'Well-formed when ker T is finite-dimensional, automatic if V is.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'dimension'
+  - 'kernel'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T injective: nullity 0'
+  - 'T = 0 on V: nullity = dim V'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a definition; the content is entirely in rank_nullity'
+common_misuse:
+  - 'reading nullity as a count of SOLUTIONS rather than a DIMENSION: over an infinite field a one-dimensional kernel already contains infinitely many solutions (over F_q it contains exactly q)'
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#nullity
+  specialization: validation/specialization-cases.md#nullity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#nullity

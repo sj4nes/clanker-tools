@@ -1,0 +1,44 @@
+id: linear_maps.annihilator
+node: annihilator
+status_label: definition
+display: 'For a subspace U of V, the annihilator is U^0 = {f in V^* : f(u) = 0 for all u in U}, a subspace of V^*. In finite dimension dim U + dim U^0 = dim V.'
+parseable: 'U^0 := {f in V^* : f|_U = 0};  dim U + dim U^0 = dim V  (finite dim)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'U^0': 'type: subspace of V^*'
+type_check_status: well_formed
+type_check_note: 'Well-formed: the conditions f(u) = 0 are linear in f, so U^0 is an intersection of kernels of functionals on V^*, hence a subspace.'
+hypotheses:
+  - 'V finite-dimensional for the dimension identity'
+preconditions: []
+dependencies:
+  - 'dual_basis'
+  - 'dual_space'
+  - 'subspace'
+proof:
+  technique: 'extend a basis of U to a basis of V; the dual functionals indexed by the ADDED vectors form a basis of U^0'
+  derives_from: 'dual_basis'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'U = {0}: U^0 = V^*'
+  - 'U = V: U^0 = {0}'
+  - 'U a hyperplane: U^0 is one-dimensional, spanned by any functional cutting it out'
+counterexamples_when_dropped:
+  finite_dimensionality: 'the dimension identity fails in infinite dimension, where it must be replaced by a statement about codimension'
+  no_inner_product_needed: 'U^0 lives in V^*, NOT in V. The analogous object inside V is the orthogonal complement U^perp, which requires an inner product; conflating them is the standard error'
+common_misuse:
+  - 'writing U^0 as a subspace of V -- it is a subspace of the DUAL. The two coincide only after the Riesz identification supplied by an inner product'
+related:
+  dual_of: ['orthogonal_complement']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#annihilator
+  specialization: validation/specialization-cases.md#annihilator
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#annihilator

@@ -1,0 +1,45 @@
+id: vector_spaces.direct_sum
+node: direct_sum
+status_label: definition
+display: 'V = U (+) W means V = U + W and U ∩ W = {0}. Equivalently, every v in V has a UNIQUE decomposition v = u + w with u in U and w in W.'
+parseable: 'V = U (+) W  <=>  (V = U + W and U ∩ W = {0})  <=>  every v = u + w uniquely'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '(+)': 'direct sum'
+  'U ∩ W': 'the intersection, required trivial'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The equivalence of the two formulations is part of the node''s content: uniqueness of the decomposition is exactly the triviality of the intersection, since a nonzero x in U ∩ W gives x + 0 = 0 + x as two decompositions.'
+hypotheses:
+  - 'U, W subspaces of V'
+preconditions: []
+dependencies:
+  - 'basis_unique_representation'
+  - 'subspace_intersection'
+  - 'sum_of_subspaces'
+proof:
+  technique: 'if x in U ∩ W is nonzero, x = x + 0 = 0 + x are distinct decompositions; conversely two decompositions differ by an element of U ∩ W'
+  derives_from: 'subspace_intersection'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'R^2 = (x-axis) (+) (y-axis), but also R^2 = (x-axis) (+) (diagonal) -- a complement is NOT unique'
+  - 'V = U (+) U^perp for a finite-dimensional subspace of an inner product space (orthogonal_decomposition) -- the ORTHOGONAL complement is the canonical choice among many complements'
+counterexamples_when_dropped:
+  trivial_intersection: 'in R^2 with U = W = the x-axis, U + W = U but the decomposition is wildly non-unique. The sum formula dim(U+W) = dim U + dim W then fails (1 != 2)'
+  pairwise_triviality_for_three_or_more: 'for three subspaces, PAIRWISE trivial intersections do NOT suffice: the x-axis, y-axis, and diagonal in R^2 meet pairwise in {0}, yet the sum of the three is not direct -- (1,1) decomposes in more than one way. The correct condition is that each U_i meets the sum of the others trivially'
+common_misuse:
+  - 'assuming a complement is unique, or that ''the'' complement is meaningful without an inner product'
+  - 'extending directness from two summands to many by checking only pairwise intersections (see the counterexample above)'
+related:
+  required_by: ['dimension_formula_sum', 'orthogonal_decomposition', 'primary_decomposition']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#direct_sum
+  specialization: validation/specialization-cases.md#direct_sum
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#direct_sum

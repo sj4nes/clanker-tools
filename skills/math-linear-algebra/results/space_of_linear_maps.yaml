@@ -1,0 +1,44 @@
+id: linear_maps.space_of_linear_maps
+node: space_of_linear_maps
+status_label: definition
+display: 'L(V,W) is the set of linear maps V -> W, a vector space under (S+T)(v) = S(v) + T(v) and (aT)(v) = aT(v). If dim V = n and dim W = m are finite then dim L(V,W) = mn.'
+parseable: 'L(V,W) vector space;  dim L(V,W) = dim V * dim W  when both are finite'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'L(V,W)': 'type: vector space over F'
+  'L(V)': 'abbreviation for L(V,V)'
+type_check_status: well_formed
+type_check_note: 'Well-formed: the pointwise operations land in L(V,W) because a sum and a scalar multiple of linear maps is linear.'
+hypotheses:
+  - 'V, W over the same field F'
+preconditions: []
+dependencies:
+  - 'linear_map'
+  - 'linear_map_determined_by_basis'
+  - 'vector_space'
+proof:
+  technique: 'the dimension count follows from linear_map_determined_by_basis: a map is freely specified by the n images, each with m coordinates'
+  derives_from: 'linear_map_determined_by_basis'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'W = F: L(V,F) = V^*, the dual space, of dimension n'
+  - 'V = W = F^n: L(V) is isomorphic to F^{n x n}, of dimension n^2'
+counterexamples_when_dropped:
+  finite_dimensionality: 'for infinite-dimensional V the algebraic dual and hence L(V,W) is strictly larger than V in cardinality, and dim L(V,F) > dim V -- which is exactly why double_dual fails'
+common_misuse:
+  - 'assuming L(V) is commutative: composition is not (matrix_mult_noncommutative)'
+related:
+  required_by: ['dual_space', 'minimal_polynomial']
+sources:
+  - 'axler_lada_4e'
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#space_of_linear_maps
+  specialization: validation/specialization-cases.md#space_of_linear_maps
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#space_of_linear_maps

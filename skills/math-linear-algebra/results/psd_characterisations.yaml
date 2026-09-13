@@ -1,0 +1,53 @@
+id: spectral.psd_characterisations
+node: psd_characterisations
+status_label: proved_theorem
+display: 'For real symmetric A the following are EQUIVALENT: A is positive definite; every eigenvalue is > 0; every LEADING PRINCIPAL minor is > 0 (Sylvester''s criterion); A = B^TB for some B of full column rank; A has a Cholesky factorisation LL^T with positive diagonal; A = A^TA-form Gram matrix of an independent set. For positive SEMIdefiniteness, replace > by >= and ''leading principal'' by ALL principal minors.'
+parseable: 'A > 0  <=>  all eigenvalues > 0  <=>  all leading principal minors > 0  <=>  A = B^TB with rank B = n  <=>  A = LL^T Cholesky'
+field_scope: ordered_field
+choice_grade: choice_free
+symbols:
+  'leading principal minor': 'det of the top-left k x k block, k = 1..n'
+type_check_status: well_formed
+type_check_note: 'Well-formed for SYMMETRIC A only. The semidefinite version genuinely needs ALL principal minors, not merely the leading ones -- a distinction that is easy to get wrong and is recorded as a counterexample below.'
+hypotheses:
+  - 'A real symmetric'
+preconditions: []
+dependencies:
+  - 'cholesky_factorisation'
+  - 'determinant_rank_minors'
+  - 'gram_matrix'
+  - 'positive_definite'
+  - 'schur_complement'
+  - 'spectral_theorem_symmetric'
+proof:
+  technique: 'eigenvalues: diagonalise by spectral_theorem_symmetric so x^TAx = sum lambda_i y_i^2. Sylvester''s criterion by induction using the schur_complement. Factorisations: B = D^{1/2}Q^T from the spectral decomposition, or the Cholesky construction'
+  derives_from: 'spectral_theorem_symmetric'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.psd_2x2_complete_square with LinAlg.leading_minors_insufficient_for_psd (the leading-vs-all-principal-minors trap)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 1: [a] > 0 iff a > 0 iff its one minor is positive'
+  - 'n = 2: A > 0 iff a_{11} > 0 and det A > 0 -- the two leading minors'
+  - 'A a covariance matrix: PSD, definite iff no exact linear relation among the variables'
+counterexamples_when_dropped:
+  leading_versus_all_principal_minors: 'A = diag(0, -1) has leading principal minors 0 and 0 -- neither negative -- yet A is NOT positive semidefinite (x = e_2 gives -1). For SEMIdefiniteness one must check ALL principal minors, including det of the {2} block, which is -1. Sylvester''s criterion with LEADING minors characterises DEFINITENESS only'
+  symmetry: 'for non-symmetric A the minor criterion says nothing: [[1,-3],[3,1]] has positive leading minors (1 and 10) and complex eigenvalues'
+  strictness: 'diag(1,0) has leading minors 1 and 0, so it fails strict Sylvester -- correctly, since it is semidefinite but not definite'
+common_misuse:
+  - 'using leading principal minors to test positive SEMIdefiniteness (see the diag(0,-1) witness)'
+  - 'applying any of these criteria to a non-symmetric matrix'
+applications:
+  - 'testing a Hessian at a critical point; validating a covariance or kernel matrix; the PSD constraint in semidefinite programming'
+  - 'the Loewner ordering Var(estimator) >= CRLB in math-statistics is a PSD statement in exactly this sense'
+related:
+  required_by: []
+sources:
+  - 'horn_johnson_2e'
+  - 'boyd_vandenberghe'
+status: reviewed
+checks:
+  type: validation/type-checks.md#psd_characterisations
+  specialization: validation/specialization-cases.md#psd_characterisations
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#psd_characterisations

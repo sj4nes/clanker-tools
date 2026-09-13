@@ -1,0 +1,32 @@
+id: foundations.axiom_of_choice
+node: axiom_of_choice
+status_label: proved_theorem
+display: 'Every family of nonempty sets admits a choice function; equivalent over ZF to Zorn''s lemma and to the well-ordering theorem.'
+parseable: 'Every family of nonempty sets admits a choice function; equivalent over ZF to Zorn''s lemma and to the well-ordering theorem.'
+choice_grade: choice_free
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-sets-functions-cardinality:axiom_of_choice'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-sets-functions-cardinality:axiom_of_choice'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-sets-functions-cardinality:axiom_of_choice'
+sources:
+  - 'math-sets-functions-cardinality'
+status: reviewed
+checks:
+  type: validation/type-checks.md#axiom_of_choice
+  specialization: validation/specialization-cases.md#axiom_of_choice
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#axiom_of_choice

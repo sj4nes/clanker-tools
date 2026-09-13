@@ -1,0 +1,37 @@
+id: vector_spaces.sum_of_subspaces
+node: sum_of_subspaces
+status_label: definition
+display: 'U + W = {u + w : u in U, w in W}, the smallest subspace of V containing both. More generally sum_i U_i is the set of finite sums of elements of the U_i.'
+parseable: 'U + W := {u + w : u in U, w in W} = span(U union W)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'U + W': 'type: subspace of V'
+type_check_status: well_formed
+type_check_note: 'Well-formed, and equal to span(U union W) -- which is why the union itself (usually not a subspace, see subspace_intersection) is not the right object.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'span'
+  - 'subspace'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'U + {0} = U'
+  - 'U + U = U'
+  - 'in R^3, the sum of two distinct planes through the origin is all of R^3'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a definition; the trap is the union, which is generally not a subspace'
+common_misuse:
+  - 'writing U union W for the span of two subspaces'
+  - 'assuming dim(U + W) = dim U + dim W without directness -- see dimension_formula_sum'
+related:
+  required_by: ['direct_sum', 'dimension_formula_sum']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#sum_of_subspaces
+  specialization: validation/specialization-cases.md#sum_of_subspaces
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#sum_of_subspaces

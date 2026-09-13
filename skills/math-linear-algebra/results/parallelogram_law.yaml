@@ -1,0 +1,42 @@
+id: inner_product.parallelogram_law
+node: parallelogram_law
+status_label: mathematical_identity
+display: '||u+v||^2 + ||u-v||^2 = 2||u||^2 + 2||v||^2. It CHARACTERISES induced norms: a norm satisfies it if and only if it comes from an inner product (Jordan-von Neumann).'
+parseable: '||u+v||^2 + ||u-v||^2 = 2||u||^2 + 2||v||^2;  norm induced by an inner product <=> this law holds'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'u, v': 'arbitrary vectors'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The identity direction is a one-line expansion; the CHARACTERISATION (the converse) is cited, not proved here.'
+hypotheses:
+  - 'induced norm for the identity; a general norm for the characterisation'
+preconditions: []
+dependencies:
+  - 'induced_norm'
+  - 'inner_product'
+proof:
+  technique: 'expand both squared norms via <u+v,u+v> and <u-v,u-v> and add: the cross terms cancel. The Jordan-von Neumann converse (recovering the inner product by polarisation and verifying bilinearity) is CITED'
+  derives_from: 'induced_norm'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.parallelogram (n = 2)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'v = 0: reduces to 2||u||^2 = 2||u||^2'
+  - 'u perp v: combined with pythagorean_theorem it gives ||u+v|| = ||u-v||'
+counterexamples_when_dropped:
+  the_norm_being_induced: 'on R^2 with the 1-norm, take u = (1,0), v = (0,1): ||u+v||_1 = 2 and ||u-v||_1 = 2, so the left side is 8, while the right side is 2 + 2 = 4. The 1-norm comes from no inner product -- this is the standard witness'
+common_misuse:
+  - 'assuming every norm supports orthogonality and projection: the parallelogram law is the exact test, and it fails for all p-norms except p = 2'
+related:
+  required_by: ['polarisation_identity']
+sources:
+  - 'axler_lada_4e'
+  - 'jordan_von_neumann_1935'
+status: reviewed
+checks:
+  type: validation/type-checks.md#parallelogram_law
+  specialization: validation/specialization-cases.md#parallelogram_law
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#parallelogram_law

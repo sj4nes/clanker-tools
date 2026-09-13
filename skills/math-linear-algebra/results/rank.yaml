@@ -1,0 +1,38 @@
+id: linear_maps.rank
+node: rank
+status_label: definition
+display: 'rank T = dim(im T). DEFINED WITHOUT DETERMINANTS OR MINORS -- see edges/cycles.md, cycle 3.'
+parseable: 'rank T := dim(im T)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'rank T': 'type: natural number (or cardinal), at most dim W and at most dim V'
+type_check_status: well_formed
+type_check_note: 'Well-formed whenever im T is finite-dimensional, which holds automatically when V is (the image of a spanning set spans the image).'
+hypotheses:
+  - 'im T finite-dimensional'
+preconditions: []
+dependencies:
+  - 'dimension'
+  - 'image_subspace'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T = 0: rank 0'
+  - 'T an isomorphism: rank = dim V = dim W'
+  - 'T a projection onto a k-dimensional subspace: rank k'
+counterexamples_when_dropped:
+  finite_dimensionality_of_the_image: 'for an infinite-rank operator the number is a cardinal and the counting theorems below carry no content'
+common_misuse:
+  - 'defining rank by minors and then using it before determinants exist -- the minor characterisation is the downstream theorem determinant_rank_minors'
+  - 'assuming rank(AB) = rank(A)rank(B): rank is not multiplicative, see rank_inequalities'
+related:
+  required_by: ['rank_nullity', 'matrix_rank']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#rank
+  specialization: validation/specialization-cases.md#rank
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#rank

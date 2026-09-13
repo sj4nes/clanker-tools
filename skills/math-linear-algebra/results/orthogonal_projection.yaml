@@ -1,0 +1,51 @@
+id: inner_product.orthogonal_projection
+node: orthogonal_projection
+status_label: constructive_result
+display: 'For a finite-dimensional subspace U with orthonormal basis (e_1,...,e_k), P_U v = sum_i <v,e_i> e_i. It is linear, idempotent (P^2 = P), self-adjoint, has image U and kernel U^perp, and is INDEPENDENT of which orthonormal basis of U is used.'
+parseable: 'P_U v := sum_{i=1}^k <v, e_i> e_i;  P^2 = P;  P^* = P;  im P = U, ker P = U^perp'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'P_U': 'type: element of L(V)'
+  '(e_i)': 'any orthonormal basis of U'
+type_check_status: well_formed
+type_check_note: 'The type check is the WELL-DEFINEDNESS check: the formula is written in terms of a chosen orthonormal basis, so independence of that choice must be verified. It follows because P_U v is characterised basis-free as the unique u in U with v - u in U^perp.'
+hypotheses:
+  - 'U finite-dimensional'
+  - '(e_i) orthonormal basis of U'
+preconditions: []
+dependencies:
+  - 'linear_map'
+  - 'orthogonality'
+  - 'orthonormal_basis'
+  - 'subspace'
+proof:
+  technique: 'idempotence and self-adjointness by direct computation with orthonormality; the basis-free characterisation gives well-definedness'
+  derives_from: 'orthonormal_basis'
+  lean_status: cited
+  lean_ref: null
+well_definedness: 'Independent of the orthonormal basis: if (f_j) is another, both formulas produce the unique u in U with v - u orthogonal to U, and uniqueness follows since a difference would lie in U ∩ U^perp = {0}.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'U a line spanned by unit e: P_U v = <v,e> e, the familiar scalar projection'
+  - 'U = V: P = I; U = {0}: P = 0'
+  - 'I - P_U is the orthogonal projection onto U^perp'
+counterexamples_when_dropped:
+  orthonormality_of_the_basis: 'with a merely independent basis (b_i) of U, sum <v,b_i> b_i is NOT the projection; the correct formula is B(B^*B)^{-1}B^* v, i.e. the hat_matrix, and the discrepancy is the inverse Gram matrix'
+  orthogonality_versus_oblique: 'a general idempotent P is an OBLIQUE projection along ker P, which need not be U^perp. Self-adjointness is exactly what makes a projection orthogonal (projection_matrix_characterisation)'
+common_misuse:
+  - 'using the orthonormal formula with a non-orthonormal spanning set'
+  - 'assuming any idempotent matrix is an orthogonal projection'
+applications:
+  - 'fitted values in least squares; conditional expectation onto a sigma-algebra is the L^2 orthogonal projection, which is why E[Y|X] is the best mean-square predictor'
+related:
+  required_by: ['gram_schmidt', 'best_approximation', 'projection_matrix_characterisation', 'spectral_decomposition']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#orthogonal_projection
+  specialization: validation/specialization-cases.md#orthogonal_projection
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#orthogonal_projection

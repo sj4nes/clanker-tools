@@ -1,0 +1,36 @@
+id: vector_spaces.finite_dimensional
+node: finite_dimensional
+status_label: definition
+display: 'V is finite-dimensional if it has a finite spanning set. A FIRST-CLASS HYPOTHESIS, never ambient: every result that needs it carries a tsort edge to this node.'
+parseable: 'exists a finite S subset V with span(S) = V'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'V': 'a vector space over F'
+  'S': 'a finite spanning set, type: finite subset of V'
+type_check_status: well_formed
+type_check_note: 'Well-formed before dimension is available -- it says a finite spanning set EXISTS, not that any number is well-defined. That ordering is what lets steinitz_exchange and dimension_well_defined come afterwards.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'finite_set'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'F^n is finite-dimensional with the standard spanning set of size n'
+  - 'the space of polynomials of degree <= d is finite-dimensional (dimension d+1); the space of ALL polynomials is not'
+counterexamples_when_dropped:
+  finiteness: 'F[t] (all polynomials) has no finite spanning set. Dropping the hypothesis breaks rank_nullity (the shift operator on F[t] is injective, not surjective, with zero nullity), injective_surjective_equivalence, double_dual, and the existence of an eigenvalue -- see infinite_dimensional_boundary for the catalogue'
+common_misuse:
+  - 'assuming it silently because the examples are all F^n: most of this capsule''s sharpest theorems are FALSE without it'
+  - 'confusing it with ''has a basis'' -- every vector space has a basis given AC (basis_existence_general); what finite-dimensionality buys is that the basis is finite and choice-free'
+related:
+  illustrated_by: ['infinite_dimensional_boundary']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#finite_dimensional
+  specialization: validation/specialization-cases.md#finite_dimensional
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#finite_dimensional

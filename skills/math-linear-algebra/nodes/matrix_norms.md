@@ -1,0 +1,52 @@
+# matrix_norms
+
+## Type
+definition
+
+## Statement
+The SPECTRAL (operator 2-) norm ||A||_2 = max_{||x||=1} ||Ax|| = sigma_1, and the FROBENIUS norm ||A||_F = sqrt(tr(A^*A)) = sqrt(sum_i sigma_i^2). Both are submultiplicative and UNITARILY INVARIANT, and ||A||_2 <= ||A||_F <= sqrt(r) ||A||_2.
+
+## Symbols
+- `||A||_2` — the spectral/operator norm
+- `||A||_F` — the Frobenius norm
+
+## Epistemic status
+definition  ·  field_scope: real_or_complex
+
+## Prerequisites (tsort edges into this node)
+conjugate_transpose, induced_norm, matrix_multiplication, singular_values, trace
+
+## Hypotheses
+F = R or C
+
+## Proof provenance
+technique: ||A||_2 = sigma_1 from the SVD: ||Ax|| = ||Sigma V^*x|| is maximised along v_1. ||A||_F^2 = tr(A^*A) = sum of the eigenvalues of A^*A = sum sigma_i^2. Unitary invariance because U and V do not change singular values
+derives_from: singular_values
+lean_status: cited
+
+## Type / well-formedness check
+Well-formed. Both are genuine norms on F^{m x n}; the Frobenius norm is the norm induced by the Frobenius INNER PRODUCT <A,B> = tr(B^*A), while the spectral norm comes from NO inner product (it fails the parallelogram law).
+
+## Specialization / boundary cases
+- A = I_n: ||I||_2 = 1 but ||I||_F = sqrt(n) -- the norms differ substantially
+- A of rank 1: the two norms coincide
+- A unitary: ||A||_2 = 1, ||A||_F = sqrt(n)
+
+## Hypothesis-dropped counterexamples
+- **the_entrywise_max_is_not_submultiplicative**: max_{ij}|A_{ij}| is a norm but NOT submultiplicative: for A = B = [[1,1],[1,1]], the max norm of AB = [[2,2],[2,2]] is 2 > 1 * 1. Submultiplicativity must be checked, not assumed
+- **the_spectral_norm_is_not_from_an_inner_product**: it fails the parallelogram law, so there is no 'spectral inner product' and no projection theory for it
+- **norms_are_not_the_spectral_radius**: for the nilpotent [[0,1],[0,0]], rho = 0 while ||A||_2 = 1 -- see spectral_radius
+
+## Common misuse
+- assuming every matrix norm is submultiplicative
+- using ||A||_F where ||A||_2 is meant in a perturbation bound (they differ by up to sqrt(r))
+
+## In the wild
+- the Frobenius norm is the loss function of matrix factorisation and of the Eckart-Young approximation; the spectral norm bounds error amplification and defines the condition number
+- Lipschitz bounds on neural network layers use the spectral norm
+
+## Related nodes (non-prerequisite)
+- required_by: eckart_young, condition_number, spectral_radius
+
+## Sources
+horn_johnson_2e, trefethen_bau

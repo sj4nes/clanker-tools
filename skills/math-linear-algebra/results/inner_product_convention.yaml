@@ -1,0 +1,33 @@
+id: inner_product.inner_product_convention
+node: inner_product_convention
+status_label: definition
+display: 'The complex inner product is LINEAR IN THE FIRST argument and conjugate-linear in the second: <ax, y> = a<x,y>, <x, ay> = conj(a)<x,y>, <y,x> = conj(<x,y>). The mathematician''s convention (Axler, Hoffman-Kunze), NOT the physicist''s.'
+parseable: '<ax + by, z> = a<x,z> + b<y,z>;  <x, y> = conj(<y, x>);  <x,x> > 0 for x != 0'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  '<x,y>': 'the inner product, type: V x V -> F with F in {R, C}'
+type_check_status: well_formed
+type_check_note: 'A convention, but conjugate-symmetry is FORCED, not chosen: without it <x,x> need not be real and ''positive definite'' is meaningless. What is conventional is only WHICH slot is conjugated.'
+hypotheses: []
+preconditions: []
+dependencies: []
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'over R conjugation is the identity and the form is simply bilinear and symmetric'
+  - 'the standard inner product on C^n under this convention is <x,y> = sum_i x_i conj(y_i) = y^* x'
+counterexamples_when_dropped:
+  conjugate_symmetry: 'the plain bilinear form sum_i x_i y_i on C^n is NOT positive definite: x = (1, i) gives sum x_i^2 = 1 + (-1) = 0 with x != 0. Every norm, projection, and spectral result in the inner-product half of the capsule collapses without the conjugation'
+common_misuse:
+  - 'mixing this with the physicist''s convention mid-proof, which swaps a with conj(a) and turns the adjoint identity <Tv,w> = <v,T^*w> into its conjugate'
+  - 'reading <x,y> = y^* x as y^T x over C'
+sources:
+  - 'axler_lada_4e'
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#inner_product_convention
+  specialization: validation/specialization-cases.md#inner_product_convention
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#inner_product_convention

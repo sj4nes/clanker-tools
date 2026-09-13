@@ -1,0 +1,43 @@
+id: vector_spaces.dependence_lemma
+node: dependence_lemma
+status_label: proved_lemma
+display: 'If (v_1,...,v_k) is dependent and v_1 != 0, then there is a j >= 2 with v_j in span(v_1,...,v_{j-1}), and removing that v_j does not change the span.'
+parseable: 'dependent and v_1 != 0  =>  exists j >= 2 with v_j in span(v_1..v_{j-1}) and span(v_1..v_k) = span(list with v_j removed)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'j': 'the index of the first redundant vector, type: element of {2,...,k}'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The ordering matters: the lemma identifies the FIRST redundant vector in the given order, which is what makes it usable as an induction step.'
+hypotheses:
+  - 'the list is dependent'
+  - 'v_1 != 0'
+  - 'the list is finite'
+preconditions: []
+dependencies:
+  - 'linear_independence'
+  - 'span'
+proof:
+  technique: 'take a nontrivial vanishing combination, let j be the largest index with a_j != 0; j >= 2 since v_1 != 0; solve for v_j using a_j^{-1}'
+  derives_from: 'linear_independence'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k = 2: if v_2 = c v_1 then removing v_2 leaves the span unchanged'
+counterexamples_when_dropped:
+  v_1_not_zero: 'if v_1 = 0 the list is dependent but no LATER vector need be redundant -- (0, e_1) is dependent, yet removing e_1 changes the span. The conclusion must then be about removing v_1 itself'
+  invertibility_of_a_j: 'solving for v_j divides by a_j, which needs F to be a field; over Z this step fails and is the origin of the module-theoretic complications in smith_normal_form_boundary'
+common_misuse:
+  - 'concluding the LAST vector is always the removable one -- the lemma names the largest index with a nonzero coefficient, which depends on the relation chosen'
+related:
+  required_by: ['steinitz_exchange', 'basis_existence_finite']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#dependence_lemma
+  specialization: validation/specialization-cases.md#dependence_lemma
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#dependence_lemma

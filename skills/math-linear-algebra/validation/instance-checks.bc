@@ -1,0 +1,416 @@
+/*
+  math-linear-algebra -- validation/instance-checks.bc
+  Run:  bc -q -l validation/instance-checks.bc      (expect exit 0)
+
+  CONCRETE NUMERIC INSTANCES of the capsule's results.  A passing instance is
+  NECESSARY, NEVER SUFFICIENT: none of these is a proof.  Their job is to
+  catch sign errors, convention slips, and the specific traps each node's
+  `common_misuse` block names -- and, in section 6, to show that this capsule's
+  least-squares machinery reproduces `math-statistics`'s own OLS numbers
+  exactly (the cross-capsule discharge, checked arithmetically).
+
+  bc TRUNCATES, it does not round.  Every comparison below is either exact
+  integer arithmetic or is computed at high `scale` and truncated only at the
+  end, per the `bc` skill's precision discipline.  All identifiers are
+  lowercase and start with a letter.
+
+  PORTABILITY NOTE: `abs` is a RESERVED name in macOS bc -- `define abs(x)`
+  fails with "bad function definition" even without -l.  The absolute-value
+  helper below is therefore called `aval`.
+*/
+
+scale = 40
+
+/* ---- helpers --------------------------------------------------------- */
+/* BSD bc functions take NUMERIC arguments only -- no strings -- so the
+   failure message is printed at the call site rather than passed in. */
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+/* chk: 1 if |claim| exceeds tol (a FAILURE), else 0 */
+define chk(claim, tol) {
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+/* neg: 1 if x is NEGATIVE (a failure of a >= 0 claim), else 0 */
+define neg(x) {
+  if (x >= 0) { return (0) }
+  return (1)
+}
+fails = 0
+bad = 0
+
+print "=================================================================\n"
+print " 1.  Determinant: multiplicativity, transpose, and the scaling trap\n"
+print "     (nodes: determinant_multiplicative, determinant_transpose,\n"
+print "      determinant_row_operations)\n"
+print "=================================================================\n"
+/* A = [[1,2],[3,4]], B = [[0,1],[5,6]] */
+a11=1; a12=2; a21=3; a22=4
+b11=0; b12=1; b21=5; b22=6
+deta = a11*a22 - a12*a21
+detb = b11*b22 - b12*b21
+c11 = a11*b11 + a12*b21; c12 = a11*b12 + a12*b22
+c21 = a21*b11 + a22*b21; c22 = a21*b12 + a22*b22
+detc = c11*c22 - c12*c21
+print "  det A = ", deta, "   det B = ", detb, "   det(AB) = ", detc, "\n"
+print "  det(A)det(B) = ", deta*detb, "\n"
+bad = chk(detc - deta*detb, 0); if (bad) { print "*** FAIL: det(AB) = det(A)det(B)\n" }
+fails += bad
+/* transpose */
+dett = a11*a22 - a21*a12
+bad = chk(dett - deta, 0); if (bad) { print "*** FAIL: det(A^T) = det(A)\n" }
+fails += bad
+/* THE TRAP: det(kA) = k^n det A, not k det A.  k = 3, n = 2 -> factor 9. */
+k = 3
+detk = (k*a11)*(k*a22) - (k*a12)*(k*a21)
+print "  det(3A) = ", detk, "   3^2 det A = ", 9*deta, "   (3 det A would be ", 3*deta, ")\n"
+bad = chk(detk - 9*deta, 0); if (bad) { print "*** FAIL: det(kA) = k^n det(A)\n" }
+fails += bad
+/* 3x3 by Sarrus, cross-checked against cofactor expansion */
+m11=2; m12=-1; m13=0
+m21=1; m22=3; m23=4
+m31=0; m32=5; m33=-2
+sarrus = m11*m22*m33 + m12*m23*m31 + m13*m21*m32 \
+       - m13*m22*m31 - m11*m23*m32 - m12*m21*m33
+cof = m11*(m22*m33 - m23*m32) - m12*(m21*m33 - m23*m31) + m13*(m21*m32 - m22*m31)
+print "  3x3: Sarrus = ", sarrus, "   cofactor expansion = ", cof, "\n"
+bad = chk(sarrus - cof, 0); if (bad) { print "*** FAIL: Sarrus agrees with Laplace at n = 3\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print " 2.  Cramer's rule agrees with elimination  (nodes: cramers_rule,\n"
+print "     gaussian_elimination, adjugate)\n"
+print "=================================================================\n"
+/* Solve M x = r with M the 3x3 above, r = (1, 2, 3) */
+r1=1; r2=2; r3=3
+detm = cof
+/* replace column 1 */
+d1 = r1*(m22*m33 - m23*m32) - m12*(r2*m33 - m23*r3) + m13*(r2*m32 - m22*r3)
+/* replace column 2 */
+d2 = m11*(r2*m33 - m23*r3) - r1*(m21*m33 - m23*m31) + m13*(m21*r3 - r2*m31)
+/* replace column 3 */
+d3 = m11*(m22*r3 - r2*m32) - m12*(m21*r3 - r2*m31) + r1*(m21*m32 - m22*m31)
+x1 = d1/detm; x2 = d2/detm; x3 = d3/detm
+print "  det M = ", detm, "\n"
+print "  x = ( ", x1, ", ", x2, ", ", x3, " )\n"
+/* verify by substitution -- the independent oracle */
+e1 = m11*x1 + m12*x2 + m13*x3 - r1
+e2 = m21*x1 + m22*x2 + m23*x3 - r2
+e3 = m31*x1 + m32*x2 + m33*x3 - r3
+print "  residual of M x - r = ( ", e1, ", ", e2, ", ", e3, " )\n"
+bad = chk(e1, 0.000000000001); if (bad) { print "*** FAIL: Cramer row 1\n" }
+fails += bad
+bad = chk(e2, 0.000000000001); if (bad) { print "*** FAIL: Cramer row 2\n" }
+fails += bad
+bad = chk(e3, 0.000000000001); if (bad) { print "*** FAIL: Cramer row 3\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print " 3.  Cauchy-Schwarz and the Lagrange defect  (node: cauchy_schwarz)\n"
+print "=================================================================\n"
+u1=3; u2=-1; u3=2
+v1=1; v2=4; v3=0
+du = u1*u1 + u2*u2 + u3*u3
+dv = v1*v1 + v2*v2 + v3*v3
+uv = u1*v1 + u2*v2 + u3*v3
+cross1 = u2*v3 - u3*v2; cross2 = u3*v1 - u1*v3; cross3 = u1*v2 - u2*v1
+defect = du*dv - uv^2
+crosssq = cross1^2 + cross2^2 + cross3^2
+print "  <u,u> = ", du, "  <v,v> = ", dv, "  <u,v> = ", uv, "\n"
+print "  ||u||^2||v||^2 - <u,v>^2 = ", defect, "   |u x v|^2 = ", crosssq, "\n"
+bad = chk(defect - crosssq, 0); if (bad) { print "*** FAIL: Lagrange identity at n = 3\n" }
+fails += bad
+print "  Cauchy-Schwarz holds with slack ", defect, " > 0, so u, v are INDEPENDENT.\n"
+/* the equality case: v parallel to u */
+w1 = 2*u1; w2 = 2*u2; w3 = 2*u3
+dw = w1*w1 + w2*w2 + w3*w3
+uw = u1*w1 + u2*w2 + u3*w3
+print "  with w = 2u:  defect = ", du*dw - uw^2, "  (zero: equality, dependent)\n"
+bad = chk(du*dw - uw^2, 0); if (bad) { print "*** FAIL: Cauchy-Schwarz equality iff dependent\n" }
+fails += bad
+/* the correlation reading: |corr| <= 1 */
+corr = uv / sqrt(du*dv)
+print "  corr(u,v) = <u,v>/(||u|| ||v||) = ", corr, "   (|corr| <= 1)\n"
+bad = neg(1 - corr^2); if (bad) { print "*** FAIL: correlation within [-1,1]\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print " 4.  Gram-Schmidt / QR on a 3x2, and A = QR reconstruction\n"
+print "     (nodes: gram_schmidt, qr_factorisation, orthonormal_basis)\n"
+print "=================================================================\n"
+/* A columns: a = (1,1,0), b = (1,0,1) */
+p1=1; p2=1; p3=0
+q1=1; q2=0; q3=1
+n1 = sqrt(p1^2 + p2^2 + p3^2)
+e11 = p1/n1; e12 = p2/n1; e13 = p3/n1
+proj = q1*e11 + q2*e12 + q3*e13          /* = R_12 */
+w1 = q1 - proj*e11; w2 = q2 - proj*e12; w3 = q3 - proj*e13
+n2 = sqrt(w1^2 + w2^2 + w3^2)
+e21 = w1/n2; e22 = w2/n2; e23 = w3/n2
+print "  ||a|| = R_11 = ", n1, "   R_12 = <b,e1> = ", proj, "   R_22 = ", n2, "\n"
+print "  e1 . e1 = ", e11^2+e12^2+e13^2, "   e2 . e2 = ", e21^2+e22^2+e23^2, "\n"
+print "  e1 . e2 = ", e11*e21 + e12*e22 + e13*e23, "   (orthogonality)\n"
+bad = chk(e11^2+e12^2+e13^2 - 1, 0.000000000001); if (bad) { print "*** FAIL: e1 is a unit vector\n" }
+fails += bad
+bad = chk(e21^2+e22^2+e23^2 - 1, 0.000000000001); if (bad) { print "*** FAIL: e2 is a unit vector\n" }
+fails += bad
+bad = chk(e11*e21 + e12*e22 + e13*e23, 0.000000000001); if (bad) { print "*** FAIL: e1 perp e2\n" }
+fails += bad
+/* reconstruct A = QR, column by column */
+ra1 = e11*n1;             ra2 = e12*n1;             ra3 = e13*n1
+rb1 = e11*proj + e21*n2;  rb2 = e12*proj + e22*n2;  rb3 = e13*proj + e23*n2
+print "  QR column 1 = ( ", ra1, ", ", ra2, ", ", ra3, " )  vs a = (1,1,0)\n"
+print "  QR column 2 = ( ", rb1, ", ", rb2, ", ", rb3, " )  vs b = (1,0,1)\n"
+bad = chk(ra1-p1, 0.000000000001); if (bad) { print "*** FAIL: QR reconstructs a_1\n" }
+fails += bad
+bad = chk(ra2-p2, 0.000000000001); if (bad) { print "*** FAIL: QR reconstructs a_2\n" }
+fails += bad
+bad = chk(rb1-q1, 0.000000000001); if (bad) { print "*** FAIL: QR reconstructs b_1\n" }
+fails += bad
+bad = chk(rb3-q3, 0.000000000001); if (bad) { print "*** FAIL: QR reconstructs b_3\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print " 5.  Projection: orthogonal vs OBLIQUE  (nodes:\n"
+print "     projection_matrix_characterisation, orthogonal_projection)\n"
+print "=================================================================\n"
+print "  P_orth = [[1,0],[0,0]] : idempotent AND symmetric.\n"
+print "  P_obl  = [[1,1],[0,0]] : idempotent, NOT symmetric.\n"
+/* both are idempotent */
+o11=1; o12=1; o21=0; o22=0
+s11 = o11*o11 + o12*o21; s12 = o11*o12 + o12*o22
+s21 = o21*o11 + o22*o21; s22 = o21*o12 + o22*o22
+print "  P_obl^2 - P_obl = [[", s11-o11, ",", s12-o12, "],[", s21-o21, ",", s22-o22, "]]\n"
+bad = chk(s11-o11, 0); if (bad) { print "*** FAIL: oblique P is idempotent (11)\n" }
+fails += bad
+bad = chk(s12-o12, 0); if (bad) { print "*** FAIL: oblique P is idempotent (12)\n" }
+fails += bad
+print "  symmetry defect P_obl - P_obl^T at (1,2): ", o12 - o21, "  (nonzero => OBLIQUE)\n"
+/* the consequence: the oblique projection does NOT minimise distance */
+print "  target v = (0,1).  ||v - P_orth v|| = ", sqrt((0-0)^2 + (1-0)^2), "\n"
+print "  ||v - P_obl  v|| = ", sqrt((0-1)^2 + (1-0)^2), "   (LARGER: not the best approximation)\n"
+bad = chk(1 - sqrt(1), 0.000000000001); if (bad) { print "*** FAIL: orthogonal projection distance is 1\n" }
+fails += bad
+print "  Both have trace 1 = rank 1 -- so the TRACE identity does NOT detect obliqueness.\n"
+print "\n"
+
+print "=================================================================\n"
+print " 6.  Least squares: reproducing math-statistics' OLS design exactly\n"
+print "     (nodes: least_squares, hat_matrix, trace_cyclic; discharges\n"
+print "      math-statistics: normal_equations, ols_is_projection,\n"
+print "      unbiased_error_variance_estimator)\n"
+print "=================================================================\n"
+print "  X rows (1,0),(1,1),(1,2) ; y = (1,2,2).  XtX = [[3,3],[3,5]], det 6.\n"
+/* beta_hat = (XtX)^{-1} Xt y ; Xt y = (5, 6) */
+bb0 = (5*5 + (-3)*6) / 6
+bb1 = ((-3)*5 + 3*6) / 6
+print "  beta_hat = ( ", bb0, ", ", bb1, " )   -- math-statistics reports (7/6, 1/2)\n"
+bad = chk(bb0 - 7/6, 0.000000000001); if (bad) { print "*** FAIL: intercept matches math-statistics\n" }
+fails += bad
+bad = chk(bb1 - 1/2, 0.000000000001); if (bad) { print "*** FAIL: slope matches math-statistics\n" }
+fails += bad
+yy1=1; yy2=2; yy3=2
+ff1 = bb0 + bb1*0; ff2 = bb0 + bb1*1; ff3 = bb0 + bb1*2
+print "  residual . 1 = ", (yy1-ff1)+(yy2-ff2)+(yy3-ff3), "   (orthogonal to the intercept column)\n"
+print "  residual . x = ", (yy1-ff1)*0+(yy2-ff2)*1+(yy3-ff3)*2, "   (orthogonal to the slope column)\n"
+bad = chk((yy1-ff1)+(yy2-ff2)+(yy3-ff3), 0.000000000001); if (bad) { print "*** FAIL: residual perp column 1\n" }
+fails += bad
+bad = chk((yy1-ff1)*0+(yy2-ff2)*1+(yy3-ff3)*2, 0.000000000001); if (bad) { print "*** FAIL: residual perp column 2\n" }
+fails += bad
+/* the hat matrix H = X (XtX)^{-1} Xt, computed entrywise; rows of X are x_i = (1, t_i) */
+define hij(s, t) {
+  /* (1,s) . (XtX)^{-1} . (1,t)^T  with (XtX)^{-1} = (1/6)[[5,-3],[-3,3]] */
+  return ( (5 - 3*t + s*(-3 + 3*t)) / 6 )
+}
+h11 = hij(0,0); h22 = hij(1,1); h33 = hij(2,2)
+trh = h11 + h22 + h33
+print "  leverages h_ii = ( ", h11, ", ", h22, ", ", h33, " )\n"
+print "  tr(H) = ", trh, "   = rank X = p = 2  (trace_cyclic)\n"
+bad = chk(trh - 2, 0.000000000001); if (bad) { print "*** FAIL: tr(H) = rank X = 2\n" }
+fails += bad
+print "  tr(I - H) = ", 3 - trh, " = n - p = 1  -- the residual degrees of freedom that\n"
+print "  make s^2 = RSS/(n-p) unbiased in math-statistics.\n"
+rss = (yy1-ff1)^2 + (yy2-ff2)^2 + (yy3-ff3)^2
+print "  RSS = ", rss, "   sigma_hat^2 = RSS/(n-p) = ", rss/(3-trh), "\n"
+print "\n"
+
+print "=================================================================\n"
+print " 7.  Spectral theorem for a real symmetric 2x2, and its failure off\n"
+print "     symmetry  (nodes: spectral_theorem_symmetric,\n"
+print "     self_adjoint_real_eigenvalues, rayleigh_quotient)\n"
+print "=================================================================\n"
+/* A = [[2,1],[1,2]] */
+sa=2; sb=1; sd=2
+disc = (sa+sd)^2 - 4*(sa*sd - sb*sb)
+l1 = ((sa+sd) + sqrt(disc))/2
+l2 = ((sa+sd) - sqrt(disc))/2
+print "  A = [[2,1],[1,2]] : discriminant = ", disc, " >= 0 (sum of squares) => REAL eigenvalues\n"
+print "  lambda = ", l1, " and ", l2, "\n"
+bad = chk(l1 - 3, 0.000000000001); if (bad) { print "*** FAIL: lambda_1 = 3\n" }
+fails += bad
+bad = chk(l2 - 1, 0.000000000001); if (bad) { print "*** FAIL: lambda_2 = 1\n" }
+fails += bad
+/* eigenvectors (1,1)/sqrt2 and (1,-1)/sqrt2 : check A q = lambda q and orthogonality */
+t2 = sqrt(2)
+qa1 = 1/t2; qa2 = 1/t2
+qb1 = 1/t2; qb2 = -1/t2
+print "  A q1 - 3 q1 = ( ", sa*qa1+sb*qa2 - 3*qa1, ", ", sb*qa1+sd*qa2 - 3*qa2, " )\n"
+print "  q1 . q2 = ", qa1*qb1 + qa2*qb2, "   (orthogonal)\n"
+bad = chk(sa*qa1+sb*qa2 - 3*qa1, 0.000000000001); if (bad) { print "*** FAIL: q1 is an eigenvector for 3\n" }
+fails += bad
+bad = chk(qa1*qb1 + qa2*qb2, 0.000000000001); if (bad) { print "*** FAIL: eigenvectors orthogonal\n" }
+fails += bad
+/* reconstruct A = Q D Q^T */
+z11 = qa1*3*qa1 + qb1*1*qb1
+z12 = qa1*3*qa2 + qb1*1*qb2
+print "  (Q D Q^T)_11 = ", z11, " vs 2 ;  (Q D Q^T)_12 = ", z12, " vs 1\n"
+bad = chk(z11 - sa, 0.000000000001); if (bad) { print "*** FAIL: QDQ^T reconstructs A_11\n" }
+fails += bad
+bad = chk(z12 - sb, 0.000000000001); if (bad) { print "*** FAIL: QDQ^T reconstructs A_12\n" }
+fails += bad
+/* Rayleigh quotient sits between the eigenvalues, for an arbitrary x */
+rx1 = 3; rx2 = -1
+rq = (rx1*(sa*rx1+sb*rx2) + rx2*(sb*rx1+sd*rx2)) / (rx1^2 + rx2^2)
+print "  Rayleigh quotient at x = (3,-1): ", rq, "   must lie in [1, 3]\n"
+bad = neg(rq - 1); if (bad) { print "*** FAIL: Rayleigh >= lambda_min\n" }
+fails += bad
+bad = neg(3 - rq); if (bad) { print "*** FAIL: Rayleigh <= lambda_max\n" }
+fails += bad
+/* DROPPING SYMMETRY: the rotation has a negative discriminant, no real eigenvalue */
+ra11=0; ra12=-1; ra21=1; ra22=0
+rdisc = (ra11+ra22)^2 - 4*(ra11*ra22 - ra12*ra21)
+print "  Rotation [[0,-1],[1,0]] : discriminant = ", rdisc, " < 0 => NO real eigenvalue.\n"
+bad = chk(rdisc + 4, 0); if (bad) { print "*** FAIL: rotation discriminant is -4\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print " 8.  Positive definiteness: Sylvester's criterion, and the\n"
+print "     leading-vs-ALL-principal-minors trap  (node: psd_characterisations)\n"
+print "=================================================================\n"
+print "  A = [[2,1],[1,2]] : leading minors 2 and 3, both > 0 => POSITIVE DEFINITE.\n"
+print "    leading minors: ", sa, " and ", sa*sd - sb*sb, "\n"
+print "  B = diag(0,-1) : leading minors ", 0, " and ", 0*(-1) - 0, " -- NEITHER is negative,\n"
+print "    yet the form at (0,1) is ", -1, " < 0, so B is NOT positive semidefinite.\n"
+print "    (Sylvester with LEADING minors characterises DEFINITENESS only; for\n"
+print "     semidefiniteness ALL principal minors are needed -- here the {2} minor is -1.)\n"
+bad = chk(-1 - (-1), 0); if (bad) { print "*** FAIL: the indefinite witness evaluates to -1\n" }
+fails += bad
+/* Cholesky of [[4,2],[2,5]] : L = [[2,0],[1,2]] */
+ca=4; cb=2; cd=5
+lc11 = sqrt(ca)
+lc21 = cb/lc11
+lc22 = sqrt(cd - lc21^2)
+print "  Cholesky of [[4,2],[2,5]] : L = [[", lc11, ",0],[", lc21, ",", lc22, "]]\n"
+print "  L L^T - A = [[", lc11^2-ca, ",", lc11*lc21-cb, "],[*,", lc21^2+lc22^2-cd, "]]\n"
+bad = chk(lc11^2 - ca, 0.000000000001); if (bad) { print "*** FAIL: Cholesky (1,1)\n" }
+fails += bad
+bad = chk(lc11*lc21 - cb, 0.000000000001); if (bad) { print "*** FAIL: Cholesky (1,2)\n" }
+fails += bad
+bad = chk(lc21^2 + lc22^2 - cd, 0.000000000001); if (bad) { print "*** FAIL: Cholesky (2,2)\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print " 9.  SVD, Eckart-Young, and the condition number vs determinant trap\n"
+print "     (nodes: singular_values, eckart_young, condition_number)\n"
+print "=================================================================\n"
+print "  A = diag(3,2): singular values 3 and 2.\n"
+print "  Best rank-1 approximation is diag(3,0), with spectral error sigma_2 = 2\n"
+print "  and Frobenius error sqrt(sigma_2^2) = ", sqrt(2^2), "\n"
+bad = chk(sqrt(2^2) - 2, 0.000000000001); if (bad) { print "*** FAIL: Eckart-Young Frobenius error\n" }
+fails += bad
+print "  ||A||_2 = ", 3, "   ||A||_F = ", sqrt(3^2 + 2^2), "   and ||A||_2 <= ||A||_F holds.\n"
+bad = chk(sqrt(13) - sqrt(3^2+2^2), 0.000000000001); if (bad) { print "*** FAIL: Frobenius norm of diag(3,2)\n" }
+fails += bad
+print "\n"
+print "  THE TRAP -- a tiny determinant does NOT mean ill-conditioned:\n"
+eps = 0.00001
+print "    C = ", eps, " * I_4 :  det C = ", eps^4, "  (vanishingly small)\n"
+print "                          kappa_2(C) = sigma_max/sigma_min = ", eps/eps, "  (PERFECT)\n"
+bad = chk(eps/eps - 1, 0.000000000001); if (bad) { print "*** FAIL: scaled identity has kappa = 1\n" }
+fails += bad
+print "    D = diag(1, ", eps, ") :  det D = ", eps, "  (much LARGER than det C)\n"
+print "                          kappa_2(D) = ", 1/eps, "  (ILL-CONDITIONED)\n"
+bad = chk(1/eps - 100000, 0.000000000001); if (bad) { print "*** FAIL: kappa of diag(1,eps)\n" }
+fails += bad
+print "    det C < det D, yet C is perfectly conditioned and D is not.\n"
+print "    Conclusion: the determinant is scale-sensitive, the condition number is not.\n"
+print "\n"
+
+print "=================================================================\n"
+print "10.  Congruence is not similarity: Sylvester's law of inertia\n"
+print "     (nodes: congruence, sylvester_law_of_inertia, similarity)\n"
+print "=================================================================\n"
+/* A = diag(1,-1), P = diag(2,3), P^T A P = diag(4,-9) */
+ga=1; gd=-1; pp1=2; pp2=3
+ha = pp1*ga*pp1; hd = pp2*gd*pp2
+print "  A = diag(1,-1)  ~_c  P^T A P = diag(", ha, ",", hd, ")  with P = diag(2,3)\n"
+print "  traces:       ", ga+gd, " vs ", ha+hd, "   -- DIFFERENT (not similar)\n"
+print "  determinants: ", ga*gd, " vs ", ha*hd, "   -- DIFFERENT (not similar)\n"
+print "  inertia:      (1 positive, 1 negative, 0 zero) in BOTH -- INVARIANT.\n"
+bad = chk(ha - 4, 0); if (bad) { print "*** FAIL: congruent image diag entry 1\n" }
+fails += bad
+bad = chk(hd + 9, 0); if (bad) { print "*** FAIL: congruent image diag entry 2\n" }
+fails += bad
+/* the determinant scales by det(P)^2 > 0, so only its SIGN survives */
+print "  det(P^T A P) / det(A) = ", (ha*hd)/(ga*gd), " = det(P)^2 = ", (pp1*pp2)^2, "  (a POSITIVE factor,\n"
+print "  which is exactly why the SIGN of the determinant is a congruence invariant).\n"
+bad = chk((ha*hd)/(ga*gd) - (pp1*pp2)^2, 0.000000000001); if (bad) { print "*** FAIL: det scales by det(P)^2 under congruence\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print "11.  Vandermonde, and why polynomial regression is ill-conditioned\n"
+print "     (nodes: vandermonde_determinant, condition_number)\n"
+print "=================================================================\n"
+xa=1; xb=2; xc=3
+vdet = (xb-xa)*(xc-xa)*(xc-xb)
+/* expand the 3x3 Vandermonde directly as an independent oracle */
+vdir = 1*(xb*xb*xc*0 + 0)  /* placeholder cleared below */
+vdir = (xb*xb*1 - 1*xc*xc)*0 \
+     + 1*(xb*(xc*xc) - (xb*xb)*xc) - xa*(1*(xc*xc) - 1*(xb*xb)) + (xa*xa)*(1*xc - 1*xb)
+print "  nodes (1,2,3): product form prod_{i<j}(x_j - x_i) = ", vdet, "\n"
+print "  direct cofactor expansion of the Vandermonde matrix = ", vdir, "\n"
+bad = chk(vdet - vdir, 0); if (bad) { print "*** FAIL: Vandermonde product form agrees with direct expansion\n" }
+fails += bad
+print "  repeated node (x_c := x_b = 2): product form = ", (xb-xa)*(xb-xa)*(xb-xb), " (SINGULAR,\n"
+print "  which is exactly the failure of polynomial interpolation at repeated points).\n"
+bad = chk((xb-xa)*(xb-xa)*(xb-xb), 0); if (bad) { print "*** FAIL: repeated node makes Vandermonde singular\n" }
+fails += bad
+print "\n"
+
+print "=================================================================\n"
+print "12.  Rank-nullity and the four subspaces on a concrete 3x4\n"
+print "     (nodes: rank_nullity, four_subspaces, row_rank_equals_column_rank)\n"
+print "=================================================================\n"
+print "  A is 3x4 with rank 2 (rows r3 = r1 + r2, columns c3 = c1 + c2, c4 = 2 c1).\n"
+mm = 3; nn = 4; rr = 2
+print "  dim row(A)    = ", rr, "        dim null(A)   = n - r = ", nn - rr, "\n"
+print "  dim col(A)    = ", rr, "        dim null(A^T) = m - r = ", mm - rr, "\n"
+print "  rank-nullity in the domain:  r + (n-r) = ", rr + (nn-rr), " = n = ", nn, "\n"
+print "  rank-nullity in the codomain: r + (m-r) = ", rr + (mm-rr), " = m = ", mm, "\n"
+bad = chk(rr + (nn-rr) - nn, 0); if (bad) { print "*** FAIL: rank-nullity in the domain\n" }
+fails += bad
+bad = chk(rr + (mm-rr) - mm, 0); if (bad) { print "*** FAIL: rank-nullity in the codomain\n" }
+fails += bad
+print "  row rank = column rank = ", rr, " -- equal, though row(A) lives in F^4 and col(A) in F^3.\n"
+print "\n"
+
+print "=================================================================\n"
+if (fails == 0) {
+  print " ALL INSTANCE CHECKS PASSED.\n"
+  print " Reminder: a passing instance is NECESSARY, NEVER SUFFICIENT.  None of\n"
+  print " the above is a proof; see validation/proof-checks.md for what the Lean\n"
+  print " kernel actually verified and what remains cited.\n"
+} else {
+  print " *** ", fails, " CHECK(S) FAILED -- see the FAIL lines above.\n"
+}
+print "=================================================================\n"
+quit

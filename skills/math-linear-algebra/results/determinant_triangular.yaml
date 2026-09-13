@@ -1,0 +1,43 @@
+id: determinants.determinant_triangular
+node: determinant_triangular
+status_label: proposition
+display: 'The determinant of a triangular matrix is the product of its diagonal entries.'
+parseable: 'A triangular  =>  det A = prod_{i=1}^n A_{ii}'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_{ii}': 'the diagonal entries'
+type_check_status: well_formed
+type_check_note: 'Well-formed for upper or lower triangular A, and in particular for diagonal A.'
+hypotheses:
+  - 'A triangular'
+preconditions: []
+dependencies:
+  - 'determinant'
+  - 'leibniz_formula'
+  - 'triangular_matrix'
+proof:
+  technique: 'in the Leibniz sum, a permutation other than the identity must pick an entry above the diagonal in some column and below it in another; triangularity makes one of these zero'
+  derives_from: 'leibniz_formula'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.det_triangular (n = 2)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A = I: det = 1, recovering the normalisation'
+  - 'combined with determinant_row_operations, this is the O(n^3) algorithm: eliminate to triangular, multiply the diagonal, correct for swaps and scalings'
+counterexamples_when_dropped:
+  triangularity: 'a general matrix''s determinant is NOT the product of its diagonal: [[0,1],[1,0]] has diagonal product 0 but determinant -1'
+  block_version: 'for a BLOCK triangular matrix det is the product of the DIAGONAL BLOCKS'' determinants -- but only when the off-diagonal block is on one side; see schur_complement for the general case'
+common_misuse:
+  - 'reading the diagonal of a general matrix as its eigenvalues (true only for triangular matrices)'
+related:
+  required_by: ['determinant_invertible_iff', 'characteristic_polynomial']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#determinant_triangular
+  specialization: validation/specialization-cases.md#determinant_triangular
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#determinant_triangular

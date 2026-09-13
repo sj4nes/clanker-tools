@@ -1,0 +1,47 @@
+id: matrices.matrix_of_linear_map
+node: matrix_of_linear_map
+status_label: constructive_result
+display: 'For T: V -> W with ordered bases B of V and C of W, [T]_{C<-B} is the matrix whose j-th COLUMN is [T(b_j)]_C. Then [T(v)]_C = [T]_{C<-B} [v]_B.'
+parseable: '([T]_{C<-B})_{.j} := [T(b_j)]_C;  [T(v)]_C = [T]_{C<-B} [v]_B'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '[T]_{C<-B}': 'type: element of F^{m x n} where n = dim V, m = dim W'
+type_check_status: well_formed
+type_check_note: 'Well-formed and unique by linear_map_determined_by_basis. The COLUMNS-are-images convention is what makes composition correspond to the product in the order [S][T]; the opposite convention transposes everything.'
+hypotheses:
+  - 'V, W finite-dimensional'
+  - 'bases fixed and ORDERED'
+preconditions: []
+dependencies:
+  - 'index_convention'
+  - 'linear_map'
+  - 'matrix'
+  - 'ordered_basis'
+proof:
+  technique: 'existence and uniqueness from linear_map_determined_by_basis; the action formula by expanding v in the basis'
+  derives_from: 'ordered_basis'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = W = F^n with standard bases: [T] is the matrix A with T(x) = Ax'
+  - 'T = I with B != C: [I]_{C<-B} is the change-of-basis matrix, which is generally NOT the identity matrix'
+counterexamples_when_dropped:
+  finite_dimensionality: 'no matrix exists otherwise'
+  the_bases_being_recorded: 'the SAME operator has different matrices in different bases; conversely the same matrix represents different operators. Dropping the subscripts is how sign and transposition errors enter'
+common_misuse:
+  - 'saying ''the matrix of T'' without naming bases'
+  - 'confusing [T]_{C<-B} with [T]_{B<-C}: they are related by inversion, not transposition'
+related:
+  required_by: ['change_of_basis', 'characteristic_polynomial']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#matrix_of_linear_map
+  specialization: validation/specialization-cases.md#matrix_of_linear_map
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#matrix_of_linear_map

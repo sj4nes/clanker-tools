@@ -1,0 +1,37 @@
+id: linear_maps.dual_space
+node: dual_space
+status_label: definition
+display: 'V^* = L(V, F), the space of linear FUNCTIONALS on V (linear maps into the scalar field).'
+parseable: 'V^* := L(V, F) = {f : V -> F, f linear}'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'f': 'a functional, type: element of V^*'
+  'V^*': 'type: vector space over F'
+type_check_status: well_formed
+type_check_note: 'Well-formed as a special case of L(V,W) with W = F, which is a one-dimensional F-space.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'field'
+  - 'space_of_linear_maps'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = F^n: V^* is the space of row vectors, f(x) = a^T x -- the transpose convention made concrete'
+  - 'V = polynomials of degree <= d: evaluation at a point, and integration over an interval, are functionals'
+counterexamples_when_dropped:
+  finite_dimensionality: 'dim V^* = dim V only in finite dimension (dual_basis). For infinite-dimensional V the ALGEBRAIC dual is strictly larger in cardinality, which is why double_dual fails there'
+common_misuse:
+  - 'identifying V with V^* without an inner product: the identification requires a choice of basis and is NOT canonical. With an inner product it becomes canonical (the Riesz correspondence), which is why the inner-product half of the capsule can use A^T freely'
+related:
+  required_by: ['dual_basis', 'dual_map', 'annihilator']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#dual_space
+  specialization: validation/specialization-cases.md#dual_space
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#dual_space

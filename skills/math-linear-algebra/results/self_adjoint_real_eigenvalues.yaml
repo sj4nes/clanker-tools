@@ -1,0 +1,48 @@
+id: spectral.self_adjoint_real_eigenvalues
+node: self_adjoint_real_eigenvalues
+status_label: proposition
+display: 'Every eigenvalue of a self-adjoint operator is REAL, and eigenvectors for distinct eigenvalues are ORTHOGONAL. (For a real symmetric matrix this means the complex eigenvalues guaranteed by FTA are in fact real.)'
+parseable: 'T = T^*, Tv = lambda v, v != 0  =>  lambda in R;  and lambda != mu  =>  E_lambda perp E_mu'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'lambda': 'an eigenvalue, a priori complex'
+type_check_status: well_formed
+type_check_note: 'Well-formed. For a REAL symmetric matrix one must first pass to C to know an eigenvalue exists (eigenvalue_existence_closed over C); the proposition then says it is real. That two-step structure is why the real spectral theorem is not a triviality.'
+hypotheses:
+  - 'T self-adjoint'
+preconditions: []
+dependencies:
+  - 'eigenvalue'
+  - 'inner_product'
+  - 'orthogonality'
+  - 'self_adjoint'
+proof:
+  technique: 'lambda <v,v> = <Tv,v> = <v,Tv> = conj(lambda)<v,v>, and <v,v> != 0 forces lambda = conj(lambda). Orthogonality: lambda<v,w> = <Tv,w> = <v,Tw> = conj(mu)<v,w> = mu<v,w> using realness, so (lambda - mu)<v,w> = 0'
+  derives_from: 'self_adjoint'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.symmetric_discriminant_nonneg (n = 2: the discriminant is a sum of squares) with LinAlg.rotation_discriminant_negative as the dropped-hypothesis witness'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A = [[a,b],[b,d]] real symmetric: discriminant (a-d)^2 + 4b^2 >= 0 always, so both roots are real -- the 2x2 case verified directly'
+  - 'a covariance matrix has real (indeed nonnegative) eigenvalues, which is why PCA''s variances are meaningful numbers'
+counterexamples_when_dropped:
+  self_adjointness: '[[0,-1],[1,0]] is real but NOT symmetric, and its eigenvalues +-i are not real. Symmetry, not realness of the entries, is what forces real eigenvalues'
+  over_C_transpose_is_not_enough: 'the complex-symmetric [[1,i],[i,-1]] has A^T = A but eigenvalues both 0 with a defective eigenspace -- it is nilpotent. Hermitian (A^* = A) is the correct hypothesis'
+common_misuse:
+  - 'assuming a real matrix has real eigenvalues'
+  - 'using A^T = A as the criterion over C'
+applications:
+  - 'the real-valuedness of PCA variances, of the natural frequencies of a conservative mechanical system, and of quantum-mechanical observables'
+related:
+  required_by: ['spectral_theorem_symmetric']
+sources:
+  - 'axler_lada_4e'
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#self_adjoint_real_eigenvalues
+  specialization: validation/specialization-cases.md#self_adjoint_real_eigenvalues
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#self_adjoint_real_eigenvalues

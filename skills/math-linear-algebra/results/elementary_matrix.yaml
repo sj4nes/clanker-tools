@@ -1,0 +1,43 @@
+id: matrices.elementary_matrix
+node: elementary_matrix
+status_label: constructive_result
+display: 'Each elementary row operation on A equals left multiplication EA, where E is the result of applying that operation to I. Every elementary matrix is invertible, with an elementary inverse of the same type.'
+parseable: 'op(A) = E A  where E = op(I);  E invertible with E^{-1} elementary of the same type'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'E': 'an elementary matrix, type: invertible element of F^{m x m}'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Left multiplication acts on rows and right multiplication on columns -- a consequence of the index_convention, not a separate fact.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'elementary_row_operation'
+  - 'identity_matrix'
+  - 'invertible_matrix'
+  - 'matrix_multiplication'
+proof:
+  technique: 'compute EA row by row; invertibility because each operation is reversible by an operation of the same type'
+  derives_from: 'elementary_row_operation'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'E for R2 with factor c has inverse the R2 matrix with factor c^{-1}'
+  - 'E for R3 with factor c has inverse the R3 matrix with factor -c'
+  - 'E for R1 is its own inverse'
+counterexamples_when_dropped:
+  invertibility_of_each_operation: 'an ''operation'' multiplying a row by 0 has a singular E and generates no equivalence relation'
+common_misuse:
+  - 'forgetting that applying row operations to A means LEFT-multiplying, so a recorded sequence composes in reverse order: A -> E_k...E_1 A'
+related:
+  required_by: ['row_equivalence', 'determinant_multiplicative', 'lu_factorisation']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#elementary_matrix
+  specialization: validation/specialization-cases.md#elementary_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#elementary_matrix

@@ -1,0 +1,44 @@
+id: eigentheory.eigenspace
+node: eigenspace
+status_label: definition
+display: 'E_lambda = ker(T - lambda I) = {v : Tv = lambda v}, a subspace of V consisting of 0 together with all eigenvectors for lambda. It is T-invariant.'
+parseable: 'E_lambda := ker(T - lambda I);  E_lambda is a T-invariant subspace'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'E_lambda': 'type: subspace of V'
+  'dim E_lambda': 'the GEOMETRIC multiplicity of lambda'
+type_check_status: well_formed
+type_check_note: 'Well-formed as a kernel, hence a subspace. Including 0 is what makes it a subspace -- the set of eigenvectors alone is not.'
+hypotheses:
+  - 'lambda in F'
+preconditions: []
+dependencies:
+  - 'eigenvalue'
+  - 'kernel'
+  - 'subspace'
+proof:
+  technique: 'kernel of the linear map T - lambda I; invariance because T commutes with T - lambda I'
+  derives_from: 'kernel'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'lambda not an eigenvalue: E_lambda = {0}, dimension 0'
+  - 'T = lambda I: E_lambda = V'
+counterexamples_when_dropped:
+  including_zero: 'the eigenvectors alone do not form a subspace (they miss 0), which is why every statement about ''the space of eigenvectors'' must mean E_lambda'
+  distinct_lambdas: 'E_lambda ∩ E_mu = {0} for lambda != mu, since a nonzero common element would give lambda v = mu v'
+common_misuse:
+  - 'adding eigenvectors for DIFFERENT eigenvalues and expecting an eigenvector: the sum is generally not one, which is exactly distinct_eigenvalues_independent'
+related:
+  required_by: ['algebraic_geometric_multiplicity', 'diagonalisability_criterion', 'generalised_eigenspace']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#eigenspace
+  specialization: validation/specialization-cases.md#eigenspace
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#eigenspace

@@ -1,0 +1,53 @@
+id: inner_product.projection_matrix_characterisation
+node: projection_matrix_characterisation
+status_label: proved_theorem
+display: 'Over R, a matrix P represents the ORTHOGONAL projection onto col(P) if and only if P^2 = P and P^T = P. (Over C: P^2 = P and P^* = P.) Idempotence alone gives only an oblique projection.'
+parseable: 'P orthogonal projection  <=>  P^2 = P and P^T = P;  then im P = col(P), ker P = col(P)^perp, rank P = tr P'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'P': 'type: element of R^{n x n}'
+  'tr P': 'equals rank P for such a P'
+type_check_status: well_formed
+type_check_note: 'Well-formed. TWO conditions, both necessary: idempotence makes it a projection, self-adjointness makes it orthogonal. This is the theorem `math-statistics` uses for the hat matrix.'
+hypotheses:
+  - 'F = R (or C with ^*)'
+preconditions: []
+dependencies:
+  - 'column_space'
+  - 'matrix_of_linear_map'
+  - 'orthogonal_decomposition'
+  - 'orthogonal_projection'
+  - 'real_number'
+  - 'transpose'
+proof:
+  technique: 'forward from orthogonal_projection. Conversely, P^2 = P gives V = im P (+) ker P; P^T = P gives ker P = (im P)^perp by adjoint_kernel_image, so the decomposition is orthogonal'
+  derives_from: 'orthogonal_decomposition'
+  lean_status: instance
+  lean_ref: 'LinAlg.proj_orth_idem_and_symmetric vs LinAlg.proj_oblique_idem_not_symmetric'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'P = I and P = 0: the trivial projections'
+  - 'the hat matrix H = X(X^TX)^{-1}X^T: symmetric and idempotent, hence orthogonal projection onto col(X)'
+  - 'tr P = rank P, since the eigenvalues of such a P are all 0 or 1 -- the identity behind residual degrees of freedom'
+counterexamples_when_dropped:
+  symmetry: 'P = [[1,1],[0,0]] satisfies P^2 = P and is a projection onto the x-axis, but ALONG the line x + y = 0, not along its orthogonal complement. It is oblique: P^T != P. In regression this is the difference between OLS and a general weighted or instrumental-variables fit'
+  idempotence: 'a symmetric non-idempotent matrix is not a projection at all'
+common_misuse:
+  - 'calling any idempotent matrix a projection matrix in a least-squares context, where the orthogonality is what gives the normal equations'
+  - 'using tr P = rank P for an oblique projection (it still holds for idempotents, but the geometric reading does not)'
+applications:
+  - 'the hat matrix and the residual-maker I - H in linear regression; Cochran''s theorem in ANOVA, which decomposes I into orthogonal idempotents'
+related:
+  equivalent_to: ['orthogonal_projection']
+  required_by: ['hat_matrix', 'spectral_decomposition']
+sources:
+  - 'strang_5e'
+  - 'rao_linear_statistical_inference'
+status: reviewed
+checks:
+  type: validation/type-checks.md#projection_matrix_characterisation
+  specialization: validation/specialization-cases.md#projection_matrix_characterisation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#projection_matrix_characterisation

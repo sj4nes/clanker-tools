@@ -1,0 +1,32 @@
+id: foundations.indexed_family
+node: indexed_family
+status_label: proved_theorem
+display: 'A family (x_i)_{i in I}: a function from an index set I. Allows infinite index sets while only finite subsums are ever formed.'
+parseable: 'A family (x_i)_{i in I}: a function from an index set I. Allows infinite index sets while only finite subsums are ever formed.'
+choice_grade: choice_free
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-sets-functions-cardinality:indexed_family'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-sets-functions-cardinality:indexed_family'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-sets-functions-cardinality:indexed_family'
+sources:
+  - 'math-sets-functions-cardinality'
+status: reviewed
+checks:
+  type: validation/type-checks.md#indexed_family
+  specialization: validation/specialization-cases.md#indexed_family
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#indexed_family

@@ -1,0 +1,43 @@
+id: linear_maps.linear_isomorphism
+node: linear_isomorphism
+status_label: definition
+display: 'An isomorphism is a bijective linear map. Its set-theoretic inverse is AUTOMATICALLY linear, so ''isomorphism'' needs no separate condition on the inverse.'
+parseable: 'T isomorphism  <=>  T linear and bijective;  and then T^{-1} is linear'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'T^{-1}': 'the inverse map, type: linear map W -> V'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The automatic linearity of the inverse is genuine content: T^{-1}(aw_1 + bw_2) = T^{-1}(aT(v_1) + bT(v_2)) = T^{-1}(T(av_1 + bv_2)) = av_1 + bv_2.'
+hypotheses:
+  - 'T linear and bijective'
+preconditions: []
+dependencies:
+  - 'bijection'
+  - 'coordinate_isomorphism'
+  - 'linear_map'
+proof:
+  technique: 'apply T to both sides of the claimed linearity of T^{-1} and use injectivity'
+  derives_from: 'bijection'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the coordinate map [.]_B is an isomorphism V -> F^n (coordinate_isomorphism)'
+  - 'V isomorphic to W iff dim V = dim W, for finite-dimensional spaces over the same field'
+counterexamples_when_dropped:
+  bijectivity: 'an injective non-surjective linear map has a left inverse but no two-sided one'
+  linearity_of_T: 'a nonlinear bijection has a nonlinear inverse, and none of the structure transfers'
+common_misuse:
+  - 'requiring separately that the inverse be linear -- it is free here, unlike for continuous maps (a continuous bijection need not have continuous inverse) or smooth maps'
+related:
+  required_by: ['invertible_operator', 'first_isomorphism_theorem']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#linear_isomorphism
+  specialization: validation/specialization-cases.md#linear_isomorphism
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#linear_isomorphism

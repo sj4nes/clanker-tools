@@ -1,0 +1,41 @@
+id: matrices.row_equivalence
+node: row_equivalence
+status_label: definition
+display: 'A ~_r B if B = EA for some product E of elementary matrices (equivalently, B arises from A by a finite sequence of row operations). An equivalence relation that PRESERVES the row space and the null space, but NOT the column space.'
+parseable: 'A ~_r B  <=>  B = EA with E invertible (a product of elementary matrices);  row(A) = row(B), null(A) = null(B)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '~_r': 'row equivalence, type: equivalence relation on F^{m x n}'
+type_check_status: well_formed
+type_check_note: 'Well-formed as an equivalence relation precisely because each elementary operation is invertible (reflexive via the empty product, symmetric via E^{-1}, transitive via composition).'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'elementary_matrix'
+  - 'equivalence_relation'
+proof:
+  technique: 'preservation: Ax = 0 iff EAx = 0 since E is invertible, giving null(A) = null(B); rows of EA are combinations of rows of A and conversely'
+  derives_from: 'elementary_matrix'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'E = I: A ~_r A'
+counterexamples_when_dropped:
+  column_space_is_NOT_preserved: 'A = [[1],[1]] and its RREF [[1],[0]] have different column spaces (the diagonal line versus the x-axis in F^2). What IS preserved is the DIMENSION of the column space and WHICH columns are pivot columns -- this distinction is the whole subtlety of row_rank_equals_column_rank'
+  invertibility_of_E: 'a singular E gives a relation that is not symmetric'
+common_misuse:
+  - 'reading a basis of the column space off the RREF''s columns: read off WHICH columns are pivots, then take the CORRESPONDING columns of the ORIGINAL A'
+related:
+  required_by: ['rref_uniqueness']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#row_equivalence
+  specialization: validation/specialization-cases.md#row_equivalence
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#row_equivalence

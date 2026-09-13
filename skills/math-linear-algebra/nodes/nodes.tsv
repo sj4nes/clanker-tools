@@ -1,0 +1,199 @@
+id	type	title	area	status	role	primary_statement
+set	bridge	Set (cited)	foundations	reviewed	foundation	A set in ZFC -- math-sets-functions-cardinality:set
+function	bridge	Function (cited)	foundations	reviewed	foundation	A function f: X -> Y as a functional relation -- math-sets-functions-cardinality:function
+bijection	bridge	Bijection (cited)	foundations	reviewed	foundation	A function that is injective and surjective; has a two-sided inverse -- math-sets-functions-cardinality:bijection
+equivalence_relation	bridge	Equivalence relation (cited)	foundations	reviewed	foundation	Reflexive, symmetric, transitive relation; partitions its underlying set -- math-sets-functions-cardinality:equivalence_relation
+quotient_set	bridge	Quotient set (cited)	foundations	reviewed	foundation	X/~, the set of equivalence classes, with the canonical projection -- math-sets-functions-cardinality:quotient_set
+finite_set	bridge	Finite set (cited)	foundations	reviewed	foundation	A set equinumerous with some {1,...,n} -- math-sets-functions-cardinality:finite_set
+indexed_family	bridge	Indexed family (cited)	foundations	reviewed	foundation	A function from an index set I into a set, written (x_i)_{i in I} -- math-sets-functions-cardinality:indexed_family
+zorns_lemma	bridge	Zorn's lemma (cited)	foundations	reviewed	foundation	Every nonempty poset in which every chain has an upper bound has a maximal element -- math-sets-functions-cardinality:zorn_lemma
+axiom_of_choice	bridge	Axiom of choice (cited)	foundations	reviewed	foundation	Every family of nonempty sets has a choice function; equivalent to Zorn -- math-sets-functions-cardinality:axiom_of_choice
+induction_principle	bridge	Induction (cited)	foundations	reviewed	foundation	Proof by weak and strong induction on N -- math-logic-and-proof:weak_induction
+real_number	bridge	The real field R (cited)	foundations	reviewed	foundation	R is a complete ordered field -- math-number-systems:real_number
+complex_number	bridge	The complex field C (cited)	foundations	reviewed	foundation	C = R[i]/(i^2+1), an algebraically closed field of characteristic 0; no capsule in this stack constructs it
+fundamental_theorem_of_algebra	bridge	Fundamental theorem of algebra (cited)	foundations	draft	boundary	Every nonconstant polynomial over C has a root; C is algebraically closed. Cited, not proved -- no capsule in the stack develops it
+compactness_cited	bridge	Compactness of the unit sphere (cited)	foundations	reviewed	foundation	The unit sphere in R^n is closed and bounded hence compact -- math-real-analysis:heine_borel
+extreme_value_cited	bridge	Extreme value theorem (cited)	foundations	reviewed	foundation	A continuous real function on a compact set attains its supremum -- math-real-analysis:extreme_value_theorem
+polynomial_ring	bridge	Polynomial ring F[t] (cited)	foundations	reviewed	foundation	F[t] with degree, division with remainder, and unique factorisation into irreducibles
+field	structure	Field	vector_spaces	reviewed	foundation	A commutative ring in which every nonzero element is invertible: (F,+,*,0,1) with 0 != 1
+characteristic_not_two	hypothesis	Characteristic not 2	vector_spaces	reviewed	hypothesis	1 + 1 != 0 in F. Required wherever a factor of 1/2 is taken
+algebraically_closed_field	hypothesis	Algebraically closed field	eigentheory	reviewed	hypothesis	Every nonconstant polynomial in F[t] splits into linear factors over F
+ordered_field_hyp	hypothesis	Ordered field	spectral	reviewed	hypothesis	F carries a total order compatible with + and *; needed to call a scalar positive
+finite_dimensional	hypothesis	Finite-dimensionality	vector_spaces	reviewed	hypothesis	V has a finite spanning set. A first-class hypothesis, never ambient
+index_convention	notation_convention	Index and shape convention	matrices	reviewed	convention	Vectors are columns; A in F^{m x n} has m rows and n columns; indices start at 1; A_{ij} is row i column j
+transpose_convention	notation_convention	Transpose vs conjugate transpose	matrices	reviewed	convention	A^T is the transpose, A^* the conjugate transpose; they coincide over R. Every Hermitian result says which it uses
+inner_product_convention	notation_convention	Inner-product linearity convention	inner_product	reviewed	convention	The complex inner product is linear in the FIRST argument and conjugate-linear in the second (the mathematician's convention)
+characteristic_polynomial_convention	notation_convention	Characteristic polynomial sign convention	eigentheory	reviewed	convention	p_A(t) = det(tI - A), monic. The variant det(A - tI) differs by (-1)^n
+vector_space	structure	Vector space	vector_spaces	reviewed	headline	An abelian group (V,+) with scalar multiplication F x V -> V satisfying distributivity, associativity, and 1v = v
+vector_space_basic_consequences	proposition	Elementary consequences of the axioms	vector_spaces	reviewed	support	0v = 0, (-1)v = -v, a0 = 0, and av = 0 implies a = 0 or v = 0
+subspace	definition	Subspace	vector_spaces	reviewed	headline	A subset U of V containing 0 and closed under + and scalar multiplication; equivalently a subset that is a vector space under the restricted operations
+subspace_criterion	proposition	Subspace criterion	vector_spaces	reviewed	support	Nonempty U is a subspace iff au + bw is in U for all a,b in F and u,w in U
+subspace_intersection	proposition	Intersections of subspaces are subspaces	vector_spaces	reviewed	support	An arbitrary intersection of subspaces is a subspace; a union of two subspaces is a subspace only if one contains the other
+linear_combination	definition	Linear combination	vector_spaces	reviewed	foundation	A finite sum sum_{i=1}^k a_i v_i with a_i in F and v_i in V
+span	definition	Span	vector_spaces	reviewed	headline	span(S) is the set of all finite linear combinations of elements of S: the smallest subspace containing S. span(empty) = {0}
+span_is_smallest_subspace	proposition	Span is the smallest containing subspace	vector_spaces	reviewed	support	span(S) is a subspace and is contained in every subspace containing S
+linear_independence	definition	Linear independence	vector_spaces	reviewed	headline	(v_i) is independent iff the only finite linear combination of them equal to 0 has all coefficients 0
+dependence_lemma	lemma	Linear dependence lemma	vector_spaces	reviewed	support	If (v_1,...,v_k) is dependent and v_1 != 0 then some v_j lies in span(v_1,...,v_{j-1}); removing it does not change the span
+basis	definition	Basis	vector_spaces	reviewed	headline	A linearly independent spanning set. Defined without reference to any number, so that dimension can be proved well-defined
+steinitz_exchange	lemma	Steinitz exchange lemma	vector_spaces	reviewed	headline	If (u_1,...,u_m) is independent and (w_1,...,w_n) spans V then m <= n, and the u's can be exchanged into the spanning list
+basis_existence_finite	theorem	Every finitely generated space has a basis	vector_spaces	reviewed	headline	A finite spanning set contains a basis and every independent set extends to a basis. Choice-free
+basis_existence_general	theorem	Every vector space has a basis (Zorn)	vector_spaces	reviewed	headline	Every vector space has a basis. Equivalent to the axiom of choice over ZF
+dimension_well_defined	theorem	Any two bases are equinumerous	vector_spaces	reviewed	headline	Any two bases of a finitely generated vector space have the same number of elements
+dimension	definition	Dimension	vector_spaces	reviewed	headline	dim V is the common cardinality of any basis of V; dim {0} = 0
+dimension_of_subspace	proposition	Subspace dimension	vector_spaces	reviewed	support	If U is a subspace of finite-dimensional V then dim U <= dim V, with equality iff U = V
+basis_unique_representation	proposition	Unique representation in a basis	vector_spaces	reviewed	support	B is a basis iff every v in V is a unique finite linear combination of elements of B
+ordered_basis	definition	Ordered basis and coordinates	vector_spaces	reviewed	headline	An ordered basis B = (b_1,...,b_n) gives the coordinate map [.]_B : V -> F^n, a linear bijection
+coordinate_isomorphism	theorem	Every n-dimensional space is isomorphic to F^n	vector_spaces	reviewed	headline	dim V = n implies V is isomorphic to F^n via coordinates; the isomorphism depends on the chosen basis
+sum_of_subspaces	definition	Sum of subspaces	vector_spaces	reviewed	foundation	U + W = {u + w : u in U, w in W}, the smallest subspace containing both
+direct_sum	definition	Direct sum	vector_spaces	reviewed	headline	V = U (+) W iff V = U + W and U ∩ W = {0}; equivalently every v decomposes uniquely as u + w
+dimension_formula_sum	theorem	Dimension of a sum (Grassmann formula)	vector_spaces	reviewed	headline	dim(U + W) = dim U + dim W - dim(U ∩ W) for finite-dimensional U and W
+quotient_space	construction	Quotient space V/U	vector_spaces	reviewed	headline	V/U with (v + U) + (w + U) = (v + w) + U and a(v + U) = av + U; well-defined because U is a subspace
+quotient_dimension	proposition	dim(V/U) = dim V - dim U	vector_spaces	reviewed	support	For finite-dimensional V and a subspace U, dim(V/U) = dim V - dim U
+linear_map	definition	Linear map	linear_maps	reviewed	headline	T: V -> W with T(au + bv) = aT(u) + bT(v) for all a,b in F and u,v in V
+linear_map_determined_by_basis	theorem	A linear map is determined by its values on a basis	linear_maps	reviewed	headline	Given a basis (b_i) of V and any (w_i) in W there is exactly one linear T with T(b_i) = w_i
+kernel	definition	Kernel (null space)	linear_maps	reviewed	headline	ker T = {v in V : T(v) = 0}, a subspace of V
+image_subspace	definition	Image (range)	linear_maps	reviewed	headline	im T = T(V) = {T(v) : v in V}, a subspace of W
+injective_iff_trivial_kernel	proposition	T injective iff ker T = {0}	linear_maps	reviewed	support	A linear map is injective exactly when its kernel is the zero subspace
+rank	definition	Rank of a linear map	linear_maps	reviewed	headline	rank T = dim(im T). Defined without the determinant, breaking the rank-determinant cycle
+nullity	definition	Nullity	linear_maps	reviewed	foundation	nullity T = dim(ker T)
+rank_nullity	theorem	Rank-nullity theorem	linear_maps	reviewed	headline	For T: V -> W with V finite-dimensional, dim V = rank T + nullity T
+injective_surjective_equivalence	corollary	On equal finite dimensions injective iff surjective	linear_maps	reviewed	headline	If dim V = dim W < infinity then T: V -> W is injective iff surjective iff bijective. Fails without finite-dimensionality
+linear_isomorphism	definition	Isomorphism	linear_maps	reviewed	headline	A bijective linear map; its set-inverse is automatically linear
+first_isomorphism_theorem	theorem	First isomorphism theorem	linear_maps	reviewed	headline	V/ker T is isomorphic to im T via v + ker T  maps to  T(v)
+space_of_linear_maps	structure	The space L(V,W)	linear_maps	reviewed	foundation	L(V,W) is a vector space under pointwise operations; dim L(V,W) = (dim V)(dim W) in finite dimension
+composition_of_linear_maps	proposition	Composition is linear and bilinear	linear_maps	reviewed	support	The composite of linear maps is linear; composition is associative and bilinear over L
+linear_operator	definition	Linear operator	linear_maps	reviewed	foundation	A linear map from V to itself; L(V) is an associative algebra under composition
+invertible_operator	definition	Invertible operator	linear_maps	reviewed	foundation	T in L(V) with a two-sided inverse in L(V); in finite dimension a one-sided inverse suffices
+dual_space	definition	Dual space	linear_maps	reviewed	headline	V^* = L(V, F), the space of linear functionals on V
+dual_basis	theorem	Dual basis	linear_maps	reviewed	headline	A basis (b_1,...,b_n) of finite-dimensional V yields a basis (b_1^*,...,b_n^*) of V^* with b_i^*(b_j) = delta_{ij}; hence dim V^* = dim V
+dual_map	definition	Dual (transpose) map	linear_maps	reviewed	headline	T^t: W^* -> V^* with T^t(g) = g o T; its matrix in dual bases is the transpose of the matrix of T
+double_dual	theorem	Canonical isomorphism V to V^**	linear_maps	reviewed	headline	Evaluation v  maps to  (f  maps to  f(v)) is injective always and an isomorphism when dim V is finite. Basis-independent, unlike V to V^*
+annihilator	definition	Annihilator of a subspace	linear_maps	reviewed	support	U^0 = {f in V^* : f(u) = 0 for all u in U}; dim U + dim U^0 = dim V in finite dimension
+matrix	definition	Matrix	matrices	reviewed	headline	A in F^{m x n} is a function {1..m} x {1..n} -> F, written as a rectangular array
+matrix_addition_scalar	definition	Matrix addition and scalar multiplication	matrices	reviewed	foundation	Entrywise operations making F^{m x n} a vector space of dimension mn
+matrix_multiplication	definition	Matrix multiplication	matrices	reviewed	headline	(AB)_{ij} = sum_k A_{ik} B_{kj}, defined when the inner shapes agree
+matrix_mult_is_composition	theorem	Matrix product represents composition	matrices	reviewed	headline	[S o T]_{D<-B} = [S]_{D<-C} [T]_{C<-B}; associativity of the matrix product follows from associativity of composition
+matrix_mult_noncommutative	counterexample	Matrix multiplication is not commutative	matrices	reviewed	support	AB != BA in general, with a 2x2 witness. Every identity manipulated as if the entries were scalars is suspect
+transpose	definition	Transpose	matrices	reviewed	headline	(A^T)_{ij} = A_{ji}; (AB)^T = B^T A^T and (A^T)^T = A
+conjugate_transpose	definition	Conjugate transpose	matrices	reviewed	headline	(A^*)_{ij} = conj(A_{ji}); over R it is the transpose. The correct adjoint for the complex inner product
+identity_matrix	definition	Identity matrix	matrices	reviewed	foundation	I_n with (I_n)_{ij} = delta_{ij}, the multiplicative identity of F^{n x n}
+invertible_matrix	definition	Invertible matrix	matrices	reviewed	headline	A in F^{n x n} with AB = BA = I for some B; the inverse is unique and (AB)^{-1} = B^{-1}A^{-1}
+one_sided_inverse_square	proposition	One-sided inverses of square matrices are two-sided	matrices	reviewed	support	For square A over a field, AB = I implies BA = I. Fails for non-square A and in infinite dimension
+elementary_row_operation	definition	Elementary row operations	matrices	reviewed	headline	Row swap, scaling a row by a nonzero scalar, and adding a multiple of one row to another
+elementary_matrix	construction	Elementary matrices	matrices	reviewed	headline	Each elementary row operation is left multiplication by an invertible elementary matrix
+row_equivalence	definition	Row equivalence	matrices	reviewed	foundation	A ~_r B iff B = EA for a product E of elementary matrices; preserves the row space and the null space
+row_echelon_form	definition	Row echelon and reduced row echelon form	matrices	reviewed	headline	Leading entries strictly rightward down the rows, zero rows last; RREF additionally has leading 1s that are the only nonzero entry in their column
+rref_uniqueness	theorem	The RREF of a matrix is unique	matrices	reviewed	headline	Every matrix is row equivalent to exactly one matrix in reduced row echelon form
+gaussian_elimination	algorithm	Gaussian elimination	matrices	reviewed	headline	Reduction to row echelon form by elementary operations, O(n^3) for n x n; solves Ax = b and computes rank and the inverse
+pivot_columns	definition	Pivot and free columns	matrices	reviewed	support	Pivot columns of the RREF index a basis of the column space of A; free columns parameterise the null space
+row_space	definition	Row space	matrices	reviewed	foundation	The span of the rows of A, a subspace of F^n, invariant under row operations
+column_space	definition	Column space	matrices	reviewed	foundation	The span of the columns of A; equals the image of x  maps to  Ax
+null_space	definition	Null space	matrices	reviewed	foundation	{x : Ax = 0}, the kernel of x  maps to  Ax
+left_null_space	definition	Left null space	matrices	reviewed	foundation	{y : A^T y = 0}, the null space of A^T
+four_subspaces	theorem	The four fundamental subspaces	matrices	reviewed	headline	row(A) and null(A) live in F^n with dimensions r and n-r; col(A) and null(A^T) in F^m with dimensions r and m-r. Orthogonality of the pairs needs an inner product
+row_rank_equals_column_rank	theorem	Row rank equals column rank	matrices	reviewed	headline	dim row(A) = dim col(A) = rank A, over any field
+matrix_rank	definition	Rank of a matrix	matrices	reviewed	headline	rank A = dim col(A); equals the number of pivots in any row echelon form of A
+rank_inequalities	theorem	Rank inequalities	matrices	reviewed	headline	rank(AB) <= min(rank A, rank B); rank(A+B) <= rank A + rank B; Sylvester: rank(AB) >= rank A + rank B - n
+invertibility_equivalences	theorem	Equivalent characterisations of invertibility	matrices	reviewed	headline	For square A: invertible iff rank n iff null(A) = {0} iff RREF is I iff a product of elementary matrices iff det A != 0 iff 0 is not an eigenvalue
+linear_system	definition	Linear system Ax = b	matrices	reviewed	headline	Ax = b is consistent iff b is in col(A); its solution set is x_p + null(A), an affine subspace
+lu_factorisation	construction	LU factorisation	matrices	reviewed	headline	A = LU with L unit lower triangular and U upper triangular when no pivoting is required; PA = LU in general
+lu_pivoting_regime	regime	When LU needs pivoting	matrices	reviewed	support	LU without row interchanges exists iff every leading principal minor is nonzero; partial pivoting is needed otherwise and for numerical stability
+block_matrix	definition	Block matrices	matrices	reviewed	foundation	Partitioned matrices multiply blockwise when the partitions are conformable
+schur_complement	construction	Schur complement	matrices	reviewed	headline	For M = [[A,B],[C,D]] with A invertible, the Schur complement is D - C A^{-1} B, and det M = det A * det(D - CA^{-1}B)
+trace	definition	Trace	matrices	reviewed	headline	tr(A) = sum_i A_{ii}, a linear functional on F^{n x n}
+trace_cyclic	proposition	Trace is cyclic and similarity-invariant	matrices	reviewed	headline	tr(AB) = tr(BA), hence tr(P^{-1}AP) = tr(A): trace is a property of the operator, not the basis
+triangular_matrix	definition	Triangular and diagonal matrices	matrices	reviewed	foundation	Upper and lower triangular and diagonal matrices; closed under products, invertible iff no diagonal entry is zero
+matrix_of_linear_map	construction	Matrix of a linear map	matrices	reviewed	headline	[T]_{C<-B} has as its j-th column the C-coordinates of T(b_j), which makes [S o T] = [S][T]
+change_of_basis	theorem	Change of basis	matrices	reviewed	headline	[T]_{B'} = P^{-1} [T]_B P where P is the change-of-basis matrix
+similarity	definition	Similarity	matrices	reviewed	headline	A ~ B iff B = P^{-1} A P for some invertible P; an equivalence relation whose classes are the operators up to choice of basis
+permutation_sign	definition	Permutations and sign	determinants	reviewed	foundation	S_n and the sign homomorphism sgn: S_n -> {+1,-1}, well-defined by the parity of any decomposition into transpositions
+multilinear_alternating_form	definition	Multilinear alternating form	determinants	reviewed	headline	D: (F^n)^n -> F linear in each column and zero whenever two columns are equal
+determinant	definition	Determinant	determinants	reviewed	headline	det is the unique multilinear alternating function of the columns with det(I) = 1. Defined without eigenvalues, breaking the det-eigenvalue cycle
+determinant_existence_uniqueness	theorem	Existence and uniqueness of the determinant	determinants	reviewed	headline	There is exactly one normalised alternating multilinear form on the columns of F^{n x n}
+leibniz_formula	theorem	Leibniz formula	determinants	reviewed	headline	det A = sum_{sigma in S_n} sgn(sigma) prod_i A_{i,sigma(i)}. A theorem here, not the definition
+determinant_row_operations	proposition	Determinant under row operations	determinants	reviewed	headline	A row swap negates det; scaling a row by c scales det by c; adding a multiple of a row leaves det unchanged
+determinant_triangular	proposition	Determinant of a triangular matrix	determinants	reviewed	support	The determinant of a triangular matrix is the product of its diagonal entries
+determinant_transpose	theorem	det(A^T) = det(A)	determinants	reviewed	headline	The determinant is unchanged by transposition, so every row statement has a column counterpart
+determinant_multiplicative	theorem	det(AB) = det(A)det(B)	determinants	reviewed	headline	The determinant is multiplicative over any field
+determinant_invertible_iff	theorem	det A != 0 iff A is invertible	determinants	reviewed	headline	A square matrix over a field is invertible exactly when its determinant is nonzero; then det(A^{-1}) = 1/det(A)
+laplace_expansion	theorem	Cofactor (Laplace) expansion	determinants	reviewed	headline	det A = sum_j (-1)^{i+j} A_{ij} M_{ij} along any row i, and likewise along any column
+adjugate	construction	Adjugate and the inverse formula	determinants	reviewed	headline	adj(A)_{ij} = (-1)^{i+j} M_{ji}; A adj(A) = adj(A) A = det(A) I, so A^{-1} = adj(A)/det(A) when det A != 0
+cramers_rule	corollary	Cramer's rule	determinants	reviewed	headline	For invertible A the unique solution of Ax = b has x_i = det(A_i)/det(A), where A_i replaces column i of A by b
+determinant_similarity_invariant	corollary	Determinant is similarity-invariant	determinants	reviewed	support	det(P^{-1}AP) = det(A), so det is a property of the operator
+determinant_rank_minors	theorem	Rank via minors	determinants	reviewed	support	rank A is the largest r such that some r x r minor of A is nonzero. A theorem, not the definition of rank
+determinant_volume	proposition	Determinant as a signed volume factor	determinants	reviewed	headline	Over R, the absolute value of det A is the factor by which A scales n-dimensional volume, and its sign records orientation
+vandermonde_determinant	identity	Vandermonde determinant	determinants	reviewed	support	The Vandermonde determinant on x_1..x_n is prod_{i<j}(x_j - x_i), nonzero iff the nodes are distinct
+eigenvalue	definition	Eigenvalue and eigenvector	eigentheory	reviewed	headline	lambda in F is an eigenvalue of T if Tv = lambda v for some v != 0; such a v is an eigenvector. Defined without the determinant
+eigenspace	definition	Eigenspace	eigentheory	reviewed	foundation	E_lambda = ker(T - lambda I), consisting of 0 and the eigenvectors for lambda
+characteristic_polynomial	definition	Characteristic polynomial	eigentheory	reviewed	headline	p_A(t) = det(tI - A), monic of degree n and a similarity invariant
+char_poly_roots_are_eigenvalues	theorem	Eigenvalues are exactly the roots of the characteristic polynomial	eigentheory	reviewed	headline	lambda is an eigenvalue of A iff p_A(lambda) = 0. The theorem linking the two independent definitions
+char_poly_coefficients	proposition	Trace and determinant from the characteristic polynomial	eigentheory	reviewed	support	p_A(t) = t^n - tr(A)t^{n-1} + ... + (-1)^n det(A); when p_A splits, tr is the sum and det the product of the eigenvalues with multiplicity
+eigenvalue_existence_closed	theorem	Every operator on a nonzero space over a closed field has an eigenvalue	eigentheory	reviewed	headline	Over an algebraically closed field every operator on a nonzero finite-dimensional space has an eigenvalue. Fails over R
+distinct_eigenvalues_independent	theorem	Eigenvectors for distinct eigenvalues are independent	eigentheory	reviewed	headline	Eigenvectors belonging to pairwise distinct eigenvalues are linearly independent
+algebraic_geometric_multiplicity	definition	Algebraic and geometric multiplicity	eigentheory	reviewed	headline	Algebraic multiplicity is the multiplicity as a root of p_A, geometric is dim E_lambda; always geometric <= algebraic
+diagonalisable	definition	Diagonalisable operator	eigentheory	reviewed	headline	T is diagonalisable if some basis of V consists of eigenvectors, equivalently A = PDP^{-1} with D diagonal
+diagonalisability_criterion	theorem	Diagonalisability criterion	eigentheory	reviewed	headline	T is diagonalisable iff p_T splits and every eigenvalue's geometric multiplicity equals its algebraic multiplicity, equivalently V is the direct sum of the eigenspaces
+distinct_eigenvalues_diagonalisable	corollary	n distinct eigenvalues implies diagonalisable	eigentheory	reviewed	support	An n x n matrix with n distinct eigenvalues in F is diagonalisable. Sufficient, not necessary
+non_diagonalisable_counterexample	counterexample	A non-diagonalisable matrix	eigentheory	reviewed	support	[[1,1],[0,1]] has p(t) = (t-1)^2 but a one-dimensional eigenspace; the defect is geometric < algebraic multiplicity
+minimal_polynomial	definition	Minimal polynomial	eigentheory	reviewed	headline	The monic generator m_T of the ideal of polynomials annihilating T; it divides every annihilating polynomial
+cayley_hamilton	theorem	Cayley-Hamilton theorem	eigentheory	reviewed	headline	Every square matrix satisfies its own characteristic polynomial: p_A(A) = 0
+minimal_polynomial_diagonalisable	theorem	Diagonalisable iff the minimal polynomial has distinct linear factors	eigentheory	reviewed	headline	T is diagonalisable iff m_T splits into distinct linear factors over F
+invariant_subspace	definition	Invariant subspace	eigentheory	reviewed	foundation	U with T(U) contained in U; the restriction is an operator on U and its minimal polynomial divides m_T
+schur_triangularisation	theorem	Schur triangularisation	eigentheory	reviewed	headline	Over C every square matrix is unitarily similar to an upper triangular matrix: A = QTQ^*
+nilpotent_operator	definition	Nilpotent operator	eigentheory	reviewed	headline	N with N^k = 0 for some k; its only eigenvalue is 0 and N^{dim V} = 0
+generalised_eigenspace	definition	Generalised eigenspace	eigentheory	reviewed	headline	G_lambda = ker((T - lambda I)^{dim V}); its dimension is the algebraic multiplicity of lambda
+primary_decomposition	theorem	Primary decomposition	eigentheory	reviewed	headline	If p_T splits, V is the direct sum of the generalised eigenspaces and T acts on each as lambda I plus a nilpotent
+jordan_normal_form	theorem	Jordan normal form (stated)	eigentheory	draft	boundary	Over an algebraically closed field every operator has a basis in which its matrix is block diagonal with Jordan blocks, unique up to block order. STATED, not proved in Release 0.1
+similar_invariants	proposition	Similarity invariants	eigentheory	reviewed	support	Similar matrices share rank, trace, determinant, characteristic polynomial, minimal polynomial, and eigenvalue multiplicities; the characteristic polynomial alone does not determine similarity
+inner_product	structure	Inner product	inner_product	reviewed	headline	A positive-definite form on V over R or C, linear in the first slot and conjugate-symmetric, with <v,v> > 0 for v != 0
+inner_product_space	structure	Inner product space	inner_product	reviewed	foundation	A vector space over R or C equipped with an inner product
+induced_norm	definition	Induced norm	inner_product	reviewed	headline	The norm ||v|| = sqrt(<v,v>): positive definite, absolutely homogeneous, and subadditive
+cauchy_schwarz	theorem	Cauchy-Schwarz inequality	inner_product	reviewed	headline	The absolute value of <u,v> is at most ||u|| ||v||, with equality iff u and v are linearly dependent
+triangle_inequality	corollary	Triangle inequality	inner_product	reviewed	support||	u + v|| <= ||u|| + ||v||, a consequence of Cauchy-Schwarz
+parallelogram_law	identity	Parallelogram law	inner_product	reviewed	support||	u+v||^2 + ||u-v||^2 = 2||u||^2 + 2||v||^2; characterises the norms that come from an inner product
+polarisation_identity	identity	Polarisation identity	inner_product	reviewed	support	The inner product is recovered from the norm; the real form needs a factor 1/2, hence characteristic not 2
+orthogonality	definition	Orthogonality	inner_product	reviewed	headline	u perp v iff <u,v> = 0; a set is orthogonal if its elements are pairwise orthogonal
+pythagorean_theorem	proposition	Pythagorean theorem	inner_product	reviewed	support	If u perp v then ||u+v||^2 = ||u||^2 + ||v||^2; over C the converse needs only the real part of <u,v> to vanish
+orthogonal_implies_independent	proposition	An orthogonal set of nonzero vectors is independent	inner_product	reviewed	support	Pairwise orthogonality plus nonvanishing forces linear independence
+orthonormal_basis	definition	Orthonormal set and basis	inner_product	reviewed	headline	Pairwise orthogonal unit vectors; an orthonormal basis gives coordinates by <v, e_i> with no matrix inversion
+gram_schmidt	algorithm	Gram-Schmidt orthogonalisation	inner_product	reviewed	headline	Converts an independent list into an orthonormal list with the same successive spans, so every finite-dimensional inner product space has an orthonormal basis
+bessel_inequality	proposition	Bessel's inequality	inner_product	reviewed	support	The sum of the squared coefficients over any orthonormal set is at most ||v||^2
+parseval_identity	theorem	Parseval's identity	inner_product	reviewed	headline	For an orthonormal BASIS, ||v||^2 equals the sum of the squared coefficients, and the inner product is the coefficient inner product
+orthogonal_complement	definition	Orthogonal complement	inner_product	reviewed	headline	U^perp = {v : <v,u> = 0 for all u in U}, a subspace; U^perp = (span U)^perp
+orthogonal_decomposition	theorem	Orthogonal decomposition theorem	inner_product	reviewed	headline	For a finite-dimensional subspace U, V = U (+) U^perp and (U^perp)^perp = U
+orthogonal_projection	construction	Orthogonal projection onto a subspace	inner_product	reviewed	headline	P_U v = sum_i <v, e_i> e_i for an orthonormal basis (e_i) of U, independent of which orthonormal basis is chosen
+projection_matrix_characterisation	theorem	A matrix is an orthogonal projection iff P^2 = P = P^T	inner_product	reviewed	headline	Over R, P represents orthogonal projection onto col(P) exactly when P is idempotent and symmetric. The result math-statistics uses for the hat matrix
+best_approximation	theorem	Best approximation theorem	inner_product	reviewed	headline	P_U v is the unique closest point of U to v: ||v - P_U v|| < ||v - u|| for every other u in U
+least_squares	theorem	Least squares and the normal equations	inner_product	reviewed	headline	A minimiser of ||Ax - b|| is exactly a solution of A^T A x = A^T b, unique iff A has full column rank, and then x = (A^TA)^{-1}A^Tb
+hat_matrix	construction	The hat matrix H = A(A^TA)^{-1}A^T	inner_product	reviewed	headline	H is the orthogonal projection onto col(A): symmetric, idempotent, of rank equal to rank A, with tr(H) = rank A
+qr_factorisation	construction	QR factorisation	inner_product	reviewed	headline	A = QR with Q having orthonormal columns and R upper triangular, from Gram-Schmidt on the columns; solves least squares without forming A^TA
+adjoint_operator	definition	Adjoint of a linear map	inner_product	reviewed	headline	The unique T^* with <Tv, w> = <v, T^*w>; its matrix in orthonormal bases is the conjugate transpose
+adjoint_kernel_image	theorem	ker(T^*) = (im T)^perp	inner_product	reviewed	headline	The four fundamental subspaces form two orthogonal pairs: null(A) = row(A)^perp and null(A^T) = col(A)^perp
+self_adjoint	definition	Self-adjoint (symmetric, Hermitian)	spectral	reviewed	headline	T = T^*; over R, A = A^T. The class for which the real spectral theorem holds
+orthogonal_matrix	definition	Orthogonal and unitary matrices	spectral	reviewed	headline	Q^TQ = I over R and U^*U = I over C; equivalently the columns are orthonormal and the map preserves the inner product
+isometry_characterisation	theorem	Norm-preserving iff inner-product-preserving iff unitary	spectral	reviewed	support	For a linear map on a finite-dimensional inner product space, preserving the norm, preserving the inner product, and U^*U = I are equivalent
+normal_matrix	definition	Normal matrix	spectral	reviewed	headline	AA^* = A^*A; contains the self-adjoint, skew-adjoint, and unitary matrices
+self_adjoint_real_eigenvalues	proposition	A self-adjoint operator has real eigenvalues	spectral	reviewed	headline	Every eigenvalue of a self-adjoint operator is real, and eigenvectors for distinct eigenvalues are orthogonal
+spectral_theorem_symmetric	theorem	Spectral theorem for real symmetric matrices	spectral	reviewed	headline	A real symmetric A has an orthonormal basis of eigenvectors: A = Q D Q^T with Q orthogonal and D real diagonal
+spectral_theorem_normal	theorem	Spectral theorem for normal matrices	spectral	reviewed	headline	Over C, A is unitarily diagonalisable iff A is normal: A = U D U^*
+spectral_decomposition	corollary	Spectral decomposition as a sum of projections	spectral	reviewed	headline	A self-adjoint A equals the sum over distinct eigenvalues of lambda_i P_i with P_i the orthogonal projections onto the eigenspaces, P_iP_j = 0 and sum P_i = I
+rayleigh_quotient	definition	Rayleigh quotient	spectral	reviewed	headline	R(x) = <Ax,x>/<x,x> for x != 0. A DEFINITION only: that its extrema over the unit sphere are the extreme eigenvalues is proved downstream (see courant_fischer), which is what keeps it usable inside the spectral theorem's own proof
+courant_fischer	theorem	Courant-Fischer min-max theorem	spectral	reviewed	headline	Each eigenvalue is a min-max of the Rayleigh quotient over subspaces of fixed dimension; yields eigenvalue interlacing under rank-one and submatrix perturbation
+quadratic_form	definition	Quadratic form	spectral	reviewed	headline	q(x) = x^T A x with A symmetric; the symmetric A is unique when the characteristic is not 2
+congruence	definition	Congruence of symmetric matrices	spectral	reviewed	foundation	A ~_c B iff B = P^T A P with P invertible: the change-of-variable relation for quadratic forms, distinct from similarity
+positive_definite	definition	Positive definite matrix	spectral	reviewed	headline	Symmetric A with x^T A x > 0 for every x != 0; positive semidefinite if the inequality is not strict
+psd_characterisations	theorem	Equivalent characterisations of positive definiteness	spectral	reviewed	headline	For real symmetric A: positive definite iff all eigenvalues positive iff all leading principal minors positive (Sylvester's criterion) iff A = B^TB with B of full column rank iff A has a Cholesky factorisation
+gram_matrix	construction	Gram matrix	spectral	reviewed	headline	G_{ij} = <v_i, v_j> is positive semidefinite, positive definite iff the v_i are independent, and rank G = dim span(v_i)
+cholesky_factorisation	construction	Cholesky factorisation	spectral	reviewed	headline	A positive definite real symmetric A factors uniquely as A = LL^T with L lower triangular with positive diagonal
+sylvester_law_of_inertia	theorem	Sylvester's law of inertia	spectral	reviewed	headline	The numbers of positive, negative, and zero eigenvalues of a real symmetric matrix are invariant under congruence; the signature classifies real quadratic forms
+simultaneous_diagonalisation	theorem	Simultaneous diagonalisation	spectral	reviewed	headline	Two real symmetric matrices with one positive definite are simultaneously diagonalisable by congruence; two normal matrices are simultaneously unitarily diagonalisable iff they commute
+singular_value_decomposition	theorem	Singular value decomposition	spectral	reviewed	headline	Every A in F^{m x n} factors as A = U Sigma V^* with U and V unitary and Sigma diagonal with nonnegative nonincreasing entries
+singular_values	definition	Singular values	spectral	reviewed	headline	The nonnegative square roots of the eigenvalues of A^*A; rank A is the number of nonzero singular values
+svd_four_subspaces	corollary	SVD bases for the four fundamental subspaces	spectral	reviewed	support	The first r columns of U and V give orthonormal bases of col(A) and row(A); the remaining columns give null(A^T) and null(A)
+moore_penrose_pseudoinverse	construction	Moore-Penrose pseudoinverse	spectral	reviewed	headline	A^+ = V Sigma^+ U^*, the unique matrix satisfying the four Penrose conditions; A^+b is the minimum-norm least-squares solution
+eckart_young	theorem	Eckart-Young low-rank approximation	spectral	reviewed	headline	The best rank-k approximation to A in the spectral and Frobenius norms is the truncated SVD, with errors sigma_{k+1} and the root-sum-of-squares of the discarded singular values
+matrix_norms	definition	Operator and Frobenius norms	spectral	reviewed	headline||	A||_2 = sigma_1 and ||A||_F = sqrt(tr(A^*A)) = root-sum-of-squares of the singular values; both submultiplicative
+condition_number	diagnostic	Condition number	spectral	reviewed	headline	kappa_2(A) = sigma_1/sigma_n bounds relative error amplification in solving Ax = b. A large kappa means ill-conditioned, not singular
+spectral_radius	definition	Spectral radius	spectral	reviewed	support	rho(A) = max of the absolute values of the eigenvalues; rho(A) <= ||A|| for every submultiplicative norm, with equality for normal A in the spectral norm
+infinite_dimensional_boundary	regime	Where finite-dimensionality is load-bearing	boundary	draft	boundary	A catalogue of results that fail in infinite dimension: rank-nullity, injective-iff-surjective, V isomorphic to V^**, existence of an eigenvalue, and a basis-free adjoint. STATED
+smith_normal_form_boundary	theorem	Modules over a PID (stated)	boundary	draft	boundary	Over a PID every finitely generated module is a direct sum of cyclic modules; the common home of the Jordan and Smith normal forms. STATED, out of scope

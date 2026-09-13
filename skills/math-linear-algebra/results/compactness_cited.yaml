@@ -1,0 +1,32 @@
+id: foundations.compactness_cited
+node: compactness_cited
+status_label: proved_theorem
+display: 'A subset of R^n is compact iff it is closed and bounded; in particular the unit sphere {x : ||x|| = 1} is compact.'
+parseable: 'A subset of R^n is compact iff it is closed and bounded; in particular the unit sphere {x : ||x|| = 1} is compact.'
+choice_grade: choice_free
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-real-analysis:heine_borel'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-real-analysis:heine_borel'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-real-analysis:heine_borel'
+sources:
+  - 'math-real-analysis'
+status: reviewed
+checks:
+  type: validation/type-checks.md#compactness_cited
+  specialization: validation/specialization-cases.md#compactness_cited
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#compactness_cited

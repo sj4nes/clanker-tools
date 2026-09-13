@@ -1,0 +1,55 @@
+id: spectral.sylvester_law_of_inertia
+node: sylvester_law_of_inertia
+status_label: proved_theorem
+display: 'The numbers (n_+, n_-, n_0) of positive, negative, and zero eigenvalues of a real symmetric A -- its INERTIA -- are invariant under congruence. Two real quadratic forms are congruent iff they have the same inertia, so the signature is a COMPLETE invariant.'
+parseable: 'A ~_c B  =>  inertia(A) = inertia(B);  and conversely.  Canonical form: diag(I_{n_+}, -I_{n_-}, 0)'
+field_scope: ordered_field
+choice_grade: choice_free
+symbols:
+  '(n_+, n_-, n_0)': 'the inertia'
+  'signature': 'n_+ - n_-'
+type_check_status: well_formed
+type_check_note: 'Well-formed over an ORDERED field (to classify signs). Over C every nondegenerate form is congruent to the identity, so the inertia carries no information -- the theorem is genuinely about real (or ordered-field) forms.'
+hypotheses:
+  - 'A real symmetric'
+  - 'F ordered'
+preconditions: []
+dependencies:
+  - 'congruence'
+  - 'dimension_formula_sum'
+  - 'ordered_field_hyp'
+  - 'positive_definite'
+  - 'quadratic_form'
+  - 'spectral_theorem_symmetric'
+proof:
+  technique: 'the spectral theorem plus scaling gives the canonical form diag(I,-I,0), so every A is congruent to one. Invariance: if P^TAP = diag(I_{p},-I_{q},0) and also = diag(I_{p''},-I_{q''},0), a dimension count on the maximal subspace where the form is positive definite (which is congruence-invariant) forces p = p'''
+  derives_from: 'congruence'
+  lean_status: instance
+  lean_ref: 'LinAlg.congruence_not_similarity'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A positive definite: inertia (n,0,0)'
+  - 'A = diag(1,-1) and B = diag(4,-9): congruent (P = diag(2,3)) with the SAME inertia, though with completely different eigenvalues -- the sharpest illustration of similarity versus congruence'
+  - 'the index n_- is the Morse index of a critical point'
+counterexamples_when_dropped:
+  the_ordered_field: 'over C, diag(1,-1) = P^T I P with P = diag(1, i), so every nondegenerate complex symmetric form is congruent to I and the inertia is meaningless. Ordering is essential'
+  eigenvalues_are_not_preserved: 'only their SIGNS are, as the diag(4,-9) example shows. Quoting eigenvalues as form invariants is the standard error'
+  symmetry: 'no inertia is defined for a non-symmetric matrix'
+common_misuse:
+  - 'using eigenvalues rather than their signs to compare quadratic forms'
+  - 'applying inertia over C'
+applications:
+  - 'the Morse index in optimisation and differential topology; the classification of conics and quadrics by signature'
+  - 'the inertia of the KKT matrix is the standard test that an interior-point step is a descent direction'
+related:
+  contrasts_with: ['similar_invariants']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#sylvester_law_of_inertia
+  specialization: validation/specialization-cases.md#sylvester_law_of_inertia
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#sylvester_law_of_inertia

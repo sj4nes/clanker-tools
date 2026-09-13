@@ -1,0 +1,40 @@
+id: matrices.matrix_addition_scalar
+node: matrix_addition_scalar
+status_label: definition
+display: 'Matrices of the same shape add entrywise and scale entrywise, making F^{m x n} a vector space of dimension mn with basis the matrix units E_{ij}.'
+parseable: '(A+B)_{ij} = A_{ij} + B_{ij};  (aA)_{ij} = a A_{ij};  dim F^{m x n} = mn'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'E_{ij}': 'the matrix unit with 1 in position (i,j) and 0 elsewhere'
+type_check_status: well_formed
+type_check_note: 'Well-formed only for matrices of EQUAL shape; unlike multiplication, addition has no conformability rule beyond equality.'
+hypotheses:
+  - 'equal shapes'
+preconditions: []
+dependencies:
+  - 'dimension'
+  - 'matrix'
+  - 'vector_space'
+proof:
+  technique: 'the axioms hold entrywise; the E_{ij} clearly span and are independent'
+  derives_from: 'vector_space'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'm = n = 1 recovers F itself'
+  - 'F^{n x 1} = F^n, so column vectors are the n x 1 case'
+counterexamples_when_dropped:
+  equal_shapes: 'adding a 2x3 and a 3x2 matrix is ill-typed, not merely false'
+common_misuse:
+  - 'assuming multiplication is also entrywise -- that is the Hadamard product, a different operation which does NOT represent composition'
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#matrix_addition_scalar
+  specialization: validation/specialization-cases.md#matrix_addition_scalar
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#matrix_addition_scalar

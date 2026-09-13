@@ -1,0 +1,41 @@
+id: linear_maps.invertible_operator
+node: invertible_operator
+status_label: definition
+display: 'T in L(V) is invertible if there is S in L(V) with ST = TS = I. In FINITE dimension a one-sided inverse is automatically two-sided.'
+parseable: 'T invertible  <=>  exists S in L(V) with ST = TS = I;  finite dim: ST = I => TS = I'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'S = T^{-1}': 'the inverse operator, unique when it exists'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Uniqueness of the inverse follows from associativity: S = S(TS'') = (ST)S'' = S''.'
+hypotheses:
+  - 'V finite-dimensional for the one-sided clause'
+preconditions: []
+dependencies:
+  - 'injective_surjective_equivalence'
+  - 'linear_isomorphism'
+  - 'linear_operator'
+proof:
+  technique: 'one-sided suffices: ST = I forces T injective, hence surjective by injective_surjective_equivalence, hence bijective'
+  derives_from: 'injective_surjective_equivalence'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = F^n: invertible operators correspond to invertible matrices (invertibility_equivalences)'
+counterexamples_when_dropped:
+  finite_dimensionality: 'on F[t] the shift operators L (delete the constant term) and R (multiply by t) satisfy LR = I but RL != I. A one-sided inverse is genuinely weaker in infinite dimension, and this pair is the standard witness'
+common_misuse:
+  - 'checking only ST = I for an operator on a function space and concluding invertibility'
+related:
+  required_by: ['invertible_matrix']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#invertible_operator
+  specialization: validation/specialization-cases.md#invertible_operator
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#invertible_operator

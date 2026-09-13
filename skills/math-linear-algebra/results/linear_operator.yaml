@@ -1,0 +1,36 @@
+id: linear_maps.linear_operator
+node: linear_operator
+status_label: definition
+display: 'A linear operator on V is a linear map T: V -> V. L(V) is an associative unital algebra under composition, with identity I.'
+parseable: 'T in L(V) := L(V,V);  (L(V), +, o, I) an associative unital F-algebra'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'I': 'the identity operator, type: element of L(V)'
+  'T^k': 'the k-fold composite, with T^0 := I'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Same domain and codomain is what makes powers T^k, hence polynomials in T, meaningful -- the whole of eigentheory depends on it.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'composition_of_linear_maps'
+  - 'linear_map'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = F^n: L(V) is isomorphic to the algebra F^{n x n}'
+  - 'p(T) for p in F[t] is defined because T^k makes sense -- the map p -> p(T) is the algebra homomorphism whose kernel defines minimal_polynomial'
+counterexamples_when_dropped:
+  equal_domain_and_codomain: 'for T: V -> W with V != W, T^2 is undefined, so eigenvalues, characteristic polynomials, and diagonalisability are all meaningless. This is why SVD (which handles rectangular A) needs two different bases'
+common_misuse:
+  - 'applying eigenvalue language to a non-square matrix -- use singular_values instead'
+related:
+  required_by: ['eigenvalue', 'invertible_operator', 'minimal_polynomial']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#linear_operator
+  specialization: validation/specialization-cases.md#linear_operator
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#linear_operator

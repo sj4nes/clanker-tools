@@ -1,0 +1,51 @@
+id: spectral.moore_penrose_pseudoinverse
+node: moore_penrose_pseudoinverse
+status_label: constructive_result
+display: 'A^+ = V Sigma^+ U^* where Sigma^+ inverts the nonzero singular values and transposes. It is the UNIQUE matrix satisfying the four Penrose conditions (AA^+A = A, A^+AA^+ = A^+, (AA^+)^* = AA^+, (A^+A)^* = A^+A). A^+b is the MINIMUM-NORM least-squares solution, and AA^+ is the orthogonal projection onto col(A).'
+parseable: 'A^+ := V Sigma^+ U^*;  the four Penrose conditions hold and characterise A^+;  A^+b = argmin{||x|| : x minimises ||Ax-b||}'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'A^+': 'the pseudoinverse, type: element of F^{n x m}'
+  'Sigma^+': 'diagonal with 1/sigma_i for sigma_i > 0, else 0'
+type_check_status: well_formed
+type_check_note: 'Well-formed for EVERY A, including rank-deficient and rectangular. Uniqueness under the four conditions is what makes A^+ canonical rather than one generalised inverse among many.'
+hypotheses:
+  - 'F = R or C'
+preconditions: []
+dependencies:
+  - 'least_squares'
+  - 'orthogonal_projection'
+  - 'singular_value_decomposition'
+  - 'svd_four_subspaces'
+proof:
+  technique: 'existence from the SVD by direct verification of the four conditions; uniqueness by a standard algebraic argument from them. The minimum-norm property because A^+b lies in row(A) = null(A)^perp, and any other minimiser adds an element of null(A), which by Pythagoras only increases the norm'
+  derives_from: 'singular_value_decomposition'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A invertible: A^+ = A^{-1}'
+  - 'A of full column rank: A^+ = (A^*A)^{-1}A^*, the least-squares formula'
+  - 'A of full row rank: A^+ = A^*(AA^*)^{-1}, the minimum-norm solution of an underdetermined system'
+  - 'A = 0: A^+ = 0'
+counterexamples_when_dropped:
+  discontinuity_in_A: 'A^+ is NOT a continuous function of A across a rank change: for A_eps = diag(1, eps), A_eps^+ = diag(1, 1/eps) blows up as eps -> 0, while A_0^+ = diag(1,0). This is the practical reason a truncated (regularised) pseudoinverse is used in practice, and the reason a rank tolerance is unavoidable'
+  (AB)^+ != B^+A^+: 'the reversal rule holds for inverses but FAILS for pseudoinverses in general -- a common and silent error'
+common_misuse:
+  - 'using the reversal rule for pseudoinverses'
+  - 'applying A^+ numerically without truncating tiny singular values'
+applications:
+  - 'the canonical solution of rank-deficient least squares; ridge regression as a regularised pseudoinverse; the minimum-norm solution in underdetermined inverse problems and in over-parameterised model fitting'
+related:
+  generalizes: ['invertible_matrix']
+sources:
+  - 'golub_van_loan_4e'
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#moore_penrose_pseudoinverse
+  specialization: validation/specialization-cases.md#moore_penrose_pseudoinverse
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#moore_penrose_pseudoinverse

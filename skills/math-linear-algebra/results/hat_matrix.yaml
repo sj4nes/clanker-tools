@@ -1,0 +1,51 @@
+id: inner_product.hat_matrix
+node: hat_matrix
+status_label: constructive_result
+display: 'For A of full column rank, H = A(A^TA)^{-1}A^T is the orthogonal projection onto col(A). It is symmetric, idempotent, of rank = rank A, and tr(H) = rank A. The residual maker is M = I - H, also an orthogonal projection, onto col(A)^perp, with tr(M) = m - rank A.'
+parseable: 'H := A(A^TA)^{-1}A^T;  H^2 = H = H^T;  rank H = tr H = rank A;  M = I - H, tr M = m - rank A'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'H': 'the hat matrix, type: element of R^{m x m}'
+  'M = I - H': 'the residual maker'
+type_check_status: well_formed
+type_check_note: 'Well-formed when A^TA is invertible, i.e. when A has full column rank -- which by psd_characterisations is exactly when the Gram matrix is positive DEFINITE rather than merely semidefinite.'
+hypotheses:
+  - 'rank A = n (full column rank)'
+preconditions: []
+dependencies:
+  - 'invertible_matrix'
+  - 'least_squares'
+  - 'matrix_rank'
+  - 'projection_matrix_characterisation'
+  - 'trace'
+proof:
+  technique: 'symmetry and idempotence by direct computation; H a = a for a in col(A) and Hb = 0 for b in col(A)^perp identify it as the projection; tr(H) = tr(A(A^TA)^{-1}A^T) = tr((A^TA)^{-1}A^TA) = tr(I_n) = n by trace_cyclic'
+  derives_from: 'projection_matrix_characterisation'
+  lean_status: instance
+  lean_ref: 'LinAlg.idempotent_trace_eq_rank_both'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A a single column a: H = aa^T/(a^Ta), the rank-one projection onto its span'
+  - 'A = I_m: H = I, tr = m'
+  - 'the diagonal entries h_ii are the LEVERAGES in regression, with sum equal to the number of parameters'
+counterexamples_when_dropped:
+  full_column_rank: 'if A is rank deficient, A^TA is singular and H is undefined by this formula. The projection onto col(A) still exists -- use AA^+ with the pseudoinverse'
+  orthogonality_needs_symmetry: 'a weighted fit uses H_W = A(A^TW A)^{-1}A^TW, which is idempotent but NOT symmetric: an OBLIQUE projection. Quoting tr H = rank still works, but the Pythagorean decomposition of sums of squares does not'
+common_misuse:
+  - 'applying the unweighted formula and the orthogonal sum-of-squares decomposition to a weighted or GLS fit'
+  - 'computing H explicitly for large m: it is m x m, while the fit needs only Ax'
+applications:
+  - 'THE object of linear regression diagnostics: leverages h_ii, Cook''s distance, and tr(M) = n - p as the residual degrees of freedom that make s^2 = RSS/(n-p) unbiased -- this is exactly what math-statistics'' unbiased_error_variance_estimator cites'
+related:
+  special_case_of: ['orthogonal_projection']
+sources:
+  - 'strang_5e'
+  - 'rao_linear_statistical_inference'
+status: reviewed
+checks:
+  type: validation/type-checks.md#hat_matrix
+  specialization: validation/specialization-cases.md#hat_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#hat_matrix

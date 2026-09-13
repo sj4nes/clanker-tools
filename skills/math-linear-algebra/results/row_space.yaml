@@ -1,0 +1,35 @@
+id: matrices.row_space
+node: row_space
+status_label: definition
+display: 'row(A) = span of the rows of A, a subspace of F^n. Invariant under row equivalence.'
+parseable: 'row(A) := span{A_{i.} : i = 1..m} subset F^n;  A ~_r B => row(A) = row(B)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_{i.}': 'the i-th row of A, regarded as an element of F^n'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Note row(A) lives in F^n (indexed by COLUMNS) while col(A) lives in F^m -- the two live in different spaces and cannot be compared as sets, only in dimension.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'matrix'
+  - 'span'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'row(A) = col(A^T), which is why every row statement has a transposed column counterpart'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a definition; the substance is its invariance under row_equivalence and its equality of dimension with col(A)'
+common_misuse:
+  - 'comparing row(A) and col(A) as subsets when m != n -- they are subspaces of different spaces'
+related:
+  dual_of: ['column_space']
+  required_by: ['four_subspaces', 'row_rank_equals_column_rank']
+sources:
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#row_space
+  specialization: validation/specialization-cases.md#row_space
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#row_space

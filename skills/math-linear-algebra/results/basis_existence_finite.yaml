@@ -1,0 +1,44 @@
+id: vector_spaces.basis_existence_finite
+node: basis_existence_finite
+status_label: proved_theorem
+display: 'If V is finite-dimensional then every finite spanning set CONTAINS a basis, and every linearly independent list EXTENDS to a basis. CHOICE-FREE: both processes terminate after finitely many steps.'
+parseable: 'V finite-dimensional  =>  (S finite spanning => some subfamily of S is a basis) and (L independent => L extends to a basis)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'S': 'a finite spanning set'
+  'L': 'an independent list'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The choice-freeness is a real content claim, not a technicality: it is what distinguishes this from basis_existence_general.'
+hypotheses:
+  - 'V finite-dimensional'
+preconditions: []
+dependencies:
+  - 'basis'
+  - 'dependence_lemma'
+  - 'finite_dimensional'
+proof:
+  technique: 'contains: repeatedly apply dependence_lemma to delete a redundant vector; the list is finite so this halts. Extends: adjoin any vector outside the current span, which preserves independence; Steinitz bounds the number of steps'
+  derives_from: 'dependence_lemma'
+  lean_status: partial
+  lean_ref: 'LinAlg.list_induction_skeleton -- the termination skeleton only; the dependence-lemma step is not formalised'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'S already independent: the basis is S itself'
+  - 'L empty: extending the empty list yields a basis from scratch'
+counterexamples_when_dropped:
+  finite_dimensionality: 'for an infinite-dimensional V the deletion process need not halt and the extension process needs transfinite recursion -- i.e. Zorn. See basis_existence_general, whose choice grade is needs_full_AC'
+common_misuse:
+  - 'believing every vector space has a CONSTRUCTIBLE basis: this theorem gives one only in the finitely generated case'
+related:
+  generalizes: []
+  contrasts_with: ['basis_existence_general']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#basis_existence_finite
+  specialization: validation/specialization-cases.md#basis_existence_finite
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#basis_existence_finite

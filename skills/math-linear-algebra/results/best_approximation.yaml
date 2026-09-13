@@ -1,0 +1,46 @@
+id: inner_product.best_approximation
+node: best_approximation
+status_label: proved_theorem
+display: 'For a finite-dimensional subspace U, P_U v is the UNIQUE closest point of U to v: ||v - P_U v|| < ||v - u|| for every u in U with u != P_U v.'
+parseable: '||v - P_U v|| < ||v - u||  for all u in U, u != P_U v'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'P_U v': 'the orthogonal projection, here characterised variationally'
+type_check_status: well_formed
+type_check_note: 'Well-formed, with a STRICT inequality -- uniqueness of the minimiser is part of the statement, and it is what makes least squares a well-posed problem.'
+hypotheses:
+  - 'U finite-dimensional'
+preconditions: []
+dependencies:
+  - 'induced_norm'
+  - 'orthogonal_decomposition'
+  - 'orthogonal_projection'
+  - 'pythagorean_theorem'
+proof:
+  technique: 'write v - u = (v - P_U v) + (P_U v - u) with the two terms orthogonal (the first is in U^perp, the second in U); Pythagoras gives ||v-u||^2 = ||v - P_U v||^2 + ||P_U v - u||^2, strictly larger unless u = P_U v'
+  derives_from: 'pythagorean_theorem'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'U = span(e): the closest point on a line, the elementary projection formula'
+  - 'U = col(A): the least-squares problem, giving least_squares'
+counterexamples_when_dropped:
+  finite_dimensionality_or_closedness_of_U: 'for a non-closed subspace the infimum need not be ATTAINED -- there is a nearest-point sequence but no nearest point. The same witness as orthogonal_decomposition (finitely-supported sequences in l^2)'
+  the_norm_being_induced: 'in a general normed space the nearest point need not be unique: in R^2 with the infinity-norm, the nearest point on a line to an off-line point can be a whole segment. Uniqueness comes from strict convexity of the Euclidean ball, i.e. from the inner product'
+common_misuse:
+  - 'assuming a unique best approximation in an L^1 or L^infinity sense -- that is a different (and generally non-unique) problem'
+applications:
+  - 'least squares in every form: regression, curve fitting, Fourier truncation (the partial sum is the best L^2 approximation), and conditional expectation'
+related:
+  required_by: ['least_squares']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#best_approximation
+  specialization: validation/specialization-cases.md#best_approximation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#best_approximation

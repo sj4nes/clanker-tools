@@ -1,0 +1,42 @@
+id: linear_maps.image_subspace
+node: image_subspace
+status_label: definition
+display: 'im T = T(V) = {T(v) : v in V}, the range of T. It is a subspace of W.'
+parseable: 'im T := {T(v) : v in V}'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'im T': 'type: subspace of W (the CODOMAIN)'
+type_check_status: well_formed
+type_check_note: 'Well-formed and a subspace: it contains T(0) = 0 and is closed because aT(u) + bT(v) = T(au + bv).'
+hypotheses:
+  - 'T linear'
+preconditions: []
+dependencies:
+  - 'linear_map'
+  - 'subspace'
+proof:
+  technique: 'closure from linearity'
+  derives_from: 'subspace_criterion'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T surjective: im T = W'
+  - 'T = 0: im T = {0}'
+  - 'T = x -> Ax: im T = col(A), the column space -- this identification is why column_space is defined as it is'
+counterexamples_when_dropped:
+  linearity: 'the image of a nonlinear map is usually not a subspace: x -> x^2 maps R onto [0, infinity)'
+common_misuse:
+  - 'conflating the image (a subspace of W) with the codomain W: T is surjective exactly when they coincide, which is a theorem to prove, not a definition'
+related:
+  required_by: ['rank', 'first_isomorphism_theorem']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#image_subspace
+  specialization: validation/specialization-cases.md#image_subspace
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#image_subspace

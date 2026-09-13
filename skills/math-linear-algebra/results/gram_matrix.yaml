@@ -1,0 +1,51 @@
+id: spectral.gram_matrix
+node: gram_matrix
+status_label: constructive_result
+display: 'For vectors v_1,...,v_k in an inner product space, G_{ij} = <v_j, v_i> (equivalently G = A^*A with A the matrix of columns). G is Hermitian positive SEMIdefinite, rank G = dim span(v_i), and G is positive DEFINITE iff the v_i are linearly independent.'
+parseable: 'G := A^*A, G_{ij} = <v_j,v_i>;  G >= 0 always;  G > 0  <=>  (v_i) independent;  rank G = rank A'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'G': 'the Gram matrix, type: k x k Hermitian PSD'
+  'det G': 'the Gram determinant, the squared volume of the parallelepiped'
+type_check_status: well_formed
+type_check_note: 'Well-formed; Hermitian because (A^*A)^* = A^*A, and PSD because x^*A^*Ax = ||Ax||^2 >= 0. Both facts are one line and are the reason PSD matrices are ubiquitous.'
+hypotheses:
+  - 'an inner product space'
+preconditions: []
+dependencies:
+  - 'inner_product'
+  - 'linear_independence'
+  - 'matrix_rank'
+  - 'positive_definite'
+proof:
+  technique: 'x^*Gx = ||Ax||^2 >= 0, with equality iff Ax = 0; so G is definite iff null(A) = {0} iff the columns are independent. rank G = rank A because null(A^*A) = null(A)'
+  derives_from: 'positive_definite'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.gram_psd, LinAlg.gram_psd_nonneg, LinAlg.gram_symmetric (n = 2)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k = 1: G = [||v_1||^2]'
+  - 'the v_i orthonormal: G = I'
+  - 'A^TA in the normal equations IS a Gram matrix, which is why least_squares has a unique solution exactly under full column rank'
+  - 'det G is the squared volume of the parallelepiped spanned by the v_i -- zero iff they are dependent'
+counterexamples_when_dropped:
+  independence_for_definiteness: 'with a repeated vector G is singular; in regression this is exact collinearity, and near-collinearity makes G nearly singular and the fit ill-conditioned (condition_number)'
+  null(A^*A) = null(A) needs the CONJUGATE: 'over C with A^TA instead, A = [[1, i]] gives a singular A^TA despite full rank -- see conjugate_transpose'
+common_misuse:
+  - 'forming the Gram matrix to solve least squares (it squares the condition number -- see least_squares)'
+  - 'using A^TA over C'
+applications:
+  - 'kernel matrices in machine learning ARE Gram matrices, which is why Mercer''s condition is positive semidefiniteness'
+  - 'the covariance matrix of a random vector is the Gram matrix of the centred variables under the E[XY] inner product'
+related:
+  required_by: ['psd_characterisations', 'singular_values']
+sources:
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#gram_matrix
+  specialization: validation/specialization-cases.md#gram_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#gram_matrix

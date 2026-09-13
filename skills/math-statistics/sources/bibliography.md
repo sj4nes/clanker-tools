@@ -121,3 +121,10 @@ Processing: Estimation Theory*, Prentice Hall, 1993 (the CRLB in signal
 processing). `schervish_theory_of_statistics`, `keener_theoretical_statistics`,
 `bickel_doksum` are alternative core-course texts cross-referenced where a
 particular treatment is cleaner.
+
+**`math-linear-algebra`** — the capsule BELOW this one, Release 0.1
+(2026-09-13). Discharges `linear_algebra_background`: vector spaces and
+subspaces, rank, transpose, inverse, symmetric and positive-(semi)definite
+matrices, the spectral theorem for real symmetric matrices, orthogonal
+projection and its idempotent symmetric matrix, trace, and quadratic forms.
+See `math-linear-algebra/edges/cross-capsule.md` for the discharge tables.

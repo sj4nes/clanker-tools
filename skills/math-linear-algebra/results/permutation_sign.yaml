@@ -1,0 +1,46 @@
+id: determinants.permutation_sign
+node: permutation_sign
+status_label: definition
+display: 'S_n is the group of bijections of {1..n}. Every permutation is a product of transpositions, and the PARITY of the number of transpositions is well-defined; sgn: S_n -> {+1,-1} is the resulting group homomorphism.'
+parseable: 'sgn(sigma) = (-1)^{#transpositions};  sgn(sigma tau) = sgn(sigma) sgn(tau);  sgn well-defined'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'S_n': 'the symmetric group, type: group of order n!'
+  'sgn': 'type: group homomorphism S_n -> {+1,-1}'
+type_check_status: well_formed
+type_check_note: 'The type check IS the well-definedness check: a permutation has many decompositions into transpositions, and the claim is that their parities agree. Proved by tracking the number of inversions, which changes parity under each transposition.'
+hypotheses:
+  - 'n finite'
+preconditions: []
+dependencies:
+  - 'bijection'
+  - 'finite_set'
+proof:
+  technique: 'inversion-count argument; the homomorphism property then follows by concatenating decompositions'
+  derives_from: 'bijection'
+  lean_status: cited
+  lean_ref: null
+well_definedness: 'Parity is independent of the decomposition because each transposition changes the inversion count by an odd number. Without this, ''sgn'' would not be a function and the Leibniz formula would be meaningless.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2: S_2 = {id, swap} with signs +1 and -1'
+  - 'a cycle of length k has sign (-1)^{k-1}'
+  - 'over a field of characteristic 2, +1 = -1 and sgn is trivial -- which is why the determinant over F_2 is the PERMANENT'
+counterexamples_when_dropped:
+  well_definedness_of_parity: 'if parity were decomposition-dependent, sgn would not exist and the alternating condition could not be expressed'
+  characteristic_two: 'over F_2 the alternating condition ''D = 0 when two columns are equal'' is strictly stronger than ''D changes sign under a swap'', because -1 = 1 makes the latter vacuous. This is why multilinear_alternating_form is defined by the VANISHING condition, not the sign-change condition'
+common_misuse:
+  - 'defining alternating as ''antisymmetric'' (sign-changing) -- equivalent only when char F != 2'
+related:
+  required_by: ['determinant_existence_uniqueness', 'leibniz_formula']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'dummit_foote_3e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#permutation_sign
+  specialization: validation/specialization-cases.md#permutation_sign
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#permutation_sign

@@ -1,0 +1,43 @@
+id: determinants.determinant_transpose
+node: determinant_transpose
+status_label: proved_theorem
+display: 'det(A^T) = det(A) for every square A over any field. Consequently every row statement about determinants has an identical column statement.'
+parseable: 'det(A^T) = det(A)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A^T': 'the transpose'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The result is not obvious from the definition, which privileges COLUMNS; it is what makes the row/column asymmetry of the setup disappear.'
+hypotheses:
+  - 'A square'
+preconditions: []
+dependencies:
+  - 'determinant'
+  - 'leibniz_formula'
+  - 'permutation_sign'
+  - 'transpose'
+proof:
+  technique: 'in the Leibniz sum, reindex by sigma^{-1}: prod_i A_{i,sigma(i)} = prod_j A_{sigma^{-1}(j), j}, and sgn(sigma^{-1}) = sgn(sigma)'
+  derives_from: 'leibniz_formula'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.det_transpose (n = 2)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A symmetric: the statement is trivially true'
+  - 'the reason ''det A != 0 iff the ROWS are independent'' and ''iff the COLUMNS are independent'' are the same criterion'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'true for every square matrix over every field. Over a noncommutative ring it fails, which is one reason determinants are a commutative-algebra notion'
+common_misuse:
+  - 'assuming the analogous det(A^*) = det(A) over C: in fact det(A^*) = conj(det A), so det(A^*A) = |det A|^2 is real and nonnegative -- a fact used constantly for Gram determinants'
+related:
+  required_by: ['determinant_multiplicative']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#determinant_transpose
+  specialization: validation/specialization-cases.md#determinant_transpose
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#determinant_transpose

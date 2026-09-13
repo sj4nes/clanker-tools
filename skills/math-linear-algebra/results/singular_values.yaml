@@ -1,0 +1,51 @@
+id: spectral.singular_values
+node: singular_values
+status_label: definition
+display: 'The singular values sigma_1 >= ... >= sigma_p >= 0 (p = min(m,n)) of A in F^{m x n} are the nonnegative square roots of the eigenvalues of A^*A (equivalently of AA^*). rank A = the number of NONZERO singular values.'
+parseable: 'sigma_i := sqrt(lambda_i(A^*A));  sigma_1 >= ... >= sigma_p >= 0;  rank A = #{i : sigma_i > 0}'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'sigma_i': 'type: nonnegative real'
+  'p': 'min(m,n)'
+type_check_status: well_formed
+type_check_note: 'Well-formed: A^*A is Hermitian POSITIVE SEMIDEFINITE (gram_matrix), so its eigenvalues are real and nonnegative (spectral_theorem_symmetric, positive_definite) and the square roots are real. Every step of this justification is a separate prerequisite, which is why the node has five incoming edges.'
+hypotheses:
+  - 'A in F^{m x n}'
+preconditions: []
+dependencies:
+  - 'conjugate_transpose'
+  - 'eigenvalue'
+  - 'gram_matrix'
+  - 'matrix_rank'
+  - 'positive_definite'
+  - 'spectral_theorem_symmetric'
+proof:
+  technique: 'A^*A is Hermitian PSD by gram_matrix; its spectrum is real and nonnegative; AA^* has the same nonzero eigenvalues (since AB and BA share nonzero spectrum)'
+  derives_from: 'gram_matrix'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A square symmetric PSD: the singular values ARE the eigenvalues'
+  - 'A square symmetric indefinite: sigma_i = |lambda_i| -- the absolute values, so SVD loses sign information the eigendecomposition keeps'
+  - 'A orthogonal: all singular values 1'
+  - 'A = uv^*: one nonzero singular value ||u|| ||v||'
+counterexamples_when_dropped:
+  singular_values_are_not_eigenvalues: '[[0,1],[0,0]] has both eigenvalues 0 but singular values 1 and 0. A nilpotent matrix can have large singular values -- the two spectra measure different things (spectral_radius versus norm)'
+  the_conjugate_matters: 'over C, using A^TA instead of A^*A gives the wrong (possibly negative or complex) values -- see conjugate_transpose'
+common_misuse:
+  - 'treating singular values as eigenvalues for a non-symmetric matrix'
+  - 'computing them by forming A^*A explicitly: that squares the condition number; use a direct SVD algorithm'
+related:
+  required_by: ['singular_value_decomposition', 'matrix_norms', 'condition_number']
+sources:
+  - 'horn_johnson_2e'
+  - 'trefethen_bau'
+status: reviewed
+checks:
+  type: validation/type-checks.md#singular_values
+  specialization: validation/specialization-cases.md#singular_values
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#singular_values

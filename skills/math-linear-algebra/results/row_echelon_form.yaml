@@ -1,0 +1,37 @@
+id: matrices.row_echelon_form
+node: row_echelon_form
+status_label: definition
+display: 'A is in row echelon form if all zero rows are at the bottom and each nonzero row''s leading entry (pivot) is strictly to the right of the one above. REDUCED row echelon form additionally requires every pivot to be 1 and to be the only nonzero entry in its column.'
+parseable: 'REF: zero rows last, pivot columns strictly increasing.  RREF: additionally pivots = 1 and pivot columns are standard basis vectors'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'pivot': 'the leftmost nonzero entry of a nonzero row'
+type_check_status: well_formed
+type_check_note: 'Well-formed. REF is not unique (any REF can be scaled); RREF is (rref_uniqueness), which is what makes it a canonical form.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'elementary_row_operation'
+  - 'matrix'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A invertible: its RREF is I'
+  - 'A = 0: already in RREF with no pivots'
+  - 'the number of pivots is the same for EVERY echelon form of A -- this is what matrix_rank is counting'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a definition; the substantive claim is uniqueness, stated separately'
+common_misuse:
+  - 'calling any upper-triangular matrix an echelon form -- the pivot positions must strictly increase, which a triangular matrix with a zero on the diagonal violates'
+related:
+  required_by: ['rref_uniqueness', 'gaussian_elimination', 'pivot_columns']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#row_echelon_form
+  specialization: validation/specialization-cases.md#row_echelon_form
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#row_echelon_form

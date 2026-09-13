@@ -1,0 +1,46 @@
+id: spectral.svd_four_subspaces
+node: svd_four_subspaces
+status_label: corollary
+display: 'With r = rank A: u_1..u_r is an orthonormal basis of col(A), u_{r+1}..u_m of null(A^*); v_1..v_r of row(A) (i.e. col(A^*)), and v_{r+1}..v_n of null(A). The SVD delivers ORTHONORMAL bases for all four fundamental subspaces at once.'
+parseable: 'col(A) = span(u_1..u_r);  null(A^*) = span(u_{r+1}..u_m);  row(A) = span(v_1..v_r);  null(A) = span(v_{r+1}..v_n)'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'r': 'rank A, = the number of nonzero singular values'
+type_check_status: well_formed
+type_check_note: 'Well-formed. This upgrades four_subspaces (dimensions) and adjoint_kernel_image (orthogonality) to explicit orthonormal bases -- the strongest form of the four-subspace picture.'
+hypotheses:
+  - 'A in F^{m x n}'
+  - 'F = R or C'
+preconditions: []
+dependencies:
+  - 'adjoint_kernel_image'
+  - 'four_subspaces'
+  - 'orthonormal_basis'
+  - 'singular_value_decomposition'
+proof:
+  technique: 'Av_i = sigma_i u_i shows Av_i = 0 exactly for i > r, giving the null space; the u_i for i <= r then span the image, and the orthogonal complements follow from adjoint_kernel_image'
+  derives_from: 'singular_value_decomposition'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A of full column rank: no v''s left over, null(A) = {0}'
+  - 'A square invertible: r = n = m and both null spaces are trivial'
+counterexamples_when_dropped:
+  numerical_rank: 'deciding r requires a THRESHOLD on the singular values in floating point; ''rank'' is not a computable property of a floating-point matrix, and the SVD makes this explicit (small nonzero sigma) where elimination hides it'
+common_misuse:
+  - 'reading r off exact zeros of Sigma in a numerical computation without a tolerance'
+related:
+  generalizes: ['four_subspaces']
+  required_by: ['moore_penrose_pseudoinverse']
+sources:
+  - 'strang_5e'
+  - 'trefethen_bau'
+status: reviewed
+checks:
+  type: validation/type-checks.md#svd_four_subspaces
+  specialization: validation/specialization-cases.md#svd_four_subspaces
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#svd_four_subspaces

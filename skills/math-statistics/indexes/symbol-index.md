@@ -1,7 +1,7 @@
 # Symbol / keyword index (ptx discovery + rg confirmation)
 
 ptx -A -W over a cleaned concatenation of results/*.yaml + notation.md
-(`build/_ptx.raw`, 58016 rotations). Per the ptx skill this is a
+(`build/_ptx.raw`, 58111 rotations). Per the ptx skill this is a
 DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 
 ## sup
@@ -22,6 +22,7 @@ DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 - kde_bias_variance_tradeoff
 - likelihood_function
 - likelihood_ratio_test
+- linear_algebra_background
 - linear_model
 - local_asymptotic_minimax
 - log_likelihood

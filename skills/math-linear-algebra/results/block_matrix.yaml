@@ -1,0 +1,38 @@
+id: matrices.block_matrix
+node: block_matrix
+status_label: definition
+display: 'A matrix partitioned into submatrix blocks. Conformably partitioned blocks multiply by the same formula as entries: (AB)_{ij} = sum_k A_{ik}B_{kj} with the products now matrix products, IN THAT ORDER.'
+parseable: 'A = [[A11, A12],[A21, A22]];  blocks multiply as entries provided the partitions conform'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_{ik}': 'a BLOCK, type: submatrix'
+type_check_status: well_formed
+type_check_note: 'Well-formed when the column partition of the left factor matches the row partition of the right. The order within each block product matters, since block entries do not commute -- unlike scalars.'
+hypotheses:
+  - 'conformable partitions'
+preconditions: []
+dependencies:
+  - 'index_convention'
+  - 'matrix'
+  - 'matrix_multiplication'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'block diagonal: the product is block diagonal with the blocks multiplied separately'
+  - 'block upper triangular: det is the product of the diagonal blocks'' determinants'
+counterexamples_when_dropped:
+  block_commutativity: 'the scalar 2x2 determinant formula ad - bc becomes AD - CB or AD - BC or ... none of which is generally right: det[[A,B],[C,D]] = det(AD - CB) requires C and D to COMMUTE. The correct general statement uses the schur_complement'
+  conformability: 'ill-typed otherwise'
+common_misuse:
+  - 'applying the 2x2 determinant formula to blocks without a commutativity hypothesis (see above) -- a very common error'
+related:
+  required_by: ['schur_complement']
+sources:
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#block_matrix
+  specialization: validation/specialization-cases.md#block_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#block_matrix

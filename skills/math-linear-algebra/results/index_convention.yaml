@@ -1,0 +1,32 @@
+id: matrices.index_convention
+node: index_convention
+status_label: definition
+display: 'Vectors are COLUMNS. A in F^{m x n} has m rows and n columns; A_{ij} is the entry in row i and column j; indices start at 1. A row vector is written x^T.'
+parseable: 'x in F^n means x is n x 1;  A in F^{m x n};  A_{ij} = row i, column j;  i in {1..m}, j in {1..n}'
+choice_grade: choice_free
+symbols:
+  'A_{ij}': 'the (i,j) entry, type: element of F'
+  'e_i': 'the i-th standard basis column of F^n, type: element of F^n'
+type_check_status: well_formed
+type_check_note: 'A convention, so there is nothing to prove -- but it is load-bearing: it fixes that Ax is a column, that the matrix of a map has the IMAGES of basis vectors as its columns (matrix_of_linear_map), and hence that [S o T] = [S][T] rather than the reverse.'
+hypotheses: []
+preconditions: []
+dependencies: []
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'under the opposite (row-vector) convention the composition rule becomes [S o T] = [T][S] and every matrix identity in this capsule transposes'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a convention has no hypotheses; the failure mode is INCONSISTENCY, not falsity -- mixing conventions mid-derivation silently transposes results'
+common_misuse:
+  - 'reading x^T A x with x a row vector: the shapes then do not conform'
+  - '0-based indexing when quoting the Leibniz formula or the cofactor sign (-1)^{i+j}, which shifts every sign'
+sources:
+  - 'hoffman_kunze_2e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#index_convention
+  specialization: validation/specialization-cases.md#index_convention
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#index_convention

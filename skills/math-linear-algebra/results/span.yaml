@@ -1,0 +1,38 @@
+id: vector_spaces.span
+node: span
+status_label: definition
+display: 'span(S) is the set of all linear combinations of finitely many elements of S. By convention span(empty) = {0}.'
+parseable: 'span(S) = {sum_{i=1}^k a_i v_i : k >= 0, a_i in F, v_i in S};  span(empty) = {0}'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'S': 'a subset of V, possibly infinite'
+  'span(S)': 'type: subspace of V'
+type_check_status: well_formed
+type_check_note: 'Well-formed for any S, finite or not, because only finite subsums are formed. The empty convention is forced by the empty-sum convention, not chosen freely.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'linear_combination'
+  - 'subspace'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'span of a single nonzero v is the line Fv'
+  - 'span(empty) = {0}, so the empty set is a basis of the zero space and dim{0} = 0'
+  - 'span of the standard basis of F^n is F^n'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'span is a definition with no hypotheses; the only trap is the empty case, which is why the convention is stated'
+common_misuse:
+  - 'confusing span(S) with S: span is closed under the operations, S need not be'
+  - 'assuming span(S) has |S| dimensions -- only if S is independent (dimension_well_defined)'
+related:
+  required_by: ['basis', 'row_space', 'column_space']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#span
+  specialization: validation/specialization-cases.md#span
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#span

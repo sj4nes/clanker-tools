@@ -1,0 +1,44 @@
+id: linear_maps.kernel
+node: kernel
+status_label: definition
+display: 'ker T = {v in V : T(v) = 0}, the null space of T. It is a subspace of V.'
+parseable: 'ker T := T^{-1}({0}) = {v in V : T(v) = 0}'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'ker T': 'type: subspace of V (the DOMAIN)'
+type_check_status: well_formed
+type_check_note: 'Well-formed and a subspace: 0 is in it, and linearity gives closure -- T(au + bv) = aT(u) + bT(v) = 0.'
+hypotheses:
+  - 'T linear'
+preconditions: []
+dependencies:
+  - 'linear_map'
+  - 'subspace'
+proof:
+  technique: 'subspace by the criterion applied to linearity'
+  derives_from: 'subspace_criterion'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T = 0: ker T = V'
+  - 'T injective: ker T = {0} (injective_iff_trivial_kernel)'
+  - 'T = differentiation on polynomials: ker T = the constants, dimension 1'
+counterexamples_when_dropped:
+  linearity_of_T: 'for a nonlinear f, f^{-1}(0) is generally not a subspace: the preimage of 0 under x -> x^2 - 1 on R is {-1, 1}'
+  the_target_being_zero: 'T^{-1}({w}) for w != 0 is an AFFINE subspace (a coset of ker T), not a subspace -- this is exactly the solution-set structure of linear_system'
+common_misuse:
+  - 'confusing ker T (in V) with the zero subspace of W'
+  - 'computing ''the kernel'' of a matrix without saying whether the matrix acts on the left or right -- null(A) and null(A^T) are different (left_null_space)'
+related:
+  required_by: ['rank_nullity', 'eigenspace', 'null_space']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#kernel
+  specialization: validation/specialization-cases.md#kernel
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#kernel

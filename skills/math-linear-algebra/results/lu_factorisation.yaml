@@ -1,0 +1,50 @@
+id: matrices.lu_factorisation
+node: lu_factorisation
+status_label: constructive_result
+display: 'A = LU with L unit lower triangular and U upper triangular, recording Gaussian elimination without row swaps. In general PA = LU with P a permutation. Solving then costs two triangular solves, ~n^2 each, after the ~(2/3)n^3 factorisation.'
+parseable: 'A = LU (no pivoting) or PA = LU (partial pivoting);  L unit lower triangular, U upper triangular, P a permutation'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'L': 'unit lower triangular (1s on the diagonal)'
+  'U': 'upper triangular'
+  'P': 'a permutation matrix'
+type_check_status: well_formed
+type_check_note: 'Well-formed; the L factor is exactly the record of the R3 multipliers, and unit-triangularity makes the factorisation unique when it exists.'
+hypotheses:
+  - 'every leading principal minor nonzero, for the unpivoted form'
+preconditions: []
+dependencies:
+  - 'elementary_matrix'
+  - 'gaussian_elimination'
+  - 'triangular_matrix'
+proof:
+  technique: 'each elimination step is left multiplication by a unit lower triangular elementary matrix; the product and the inverse of such matrices are again unit lower triangular'
+  derives_from: 'gaussian_elimination'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A symmetric positive definite: L can be taken with U = L^T scaled, which is cholesky_factorisation'
+  - 'A already upper triangular: L = I'
+counterexamples_when_dropped:
+  nonvanishing_leading_minors: 'A = [[0,1],[1,0]] admits NO unpivoted LU: the first pivot is 0. Yet it is perfectly invertible -- existence of LU is strictly stronger than invertibility, which is precisely why P is needed'
+  exact_arithmetic: 'even when LU exists, a tiny pivot makes it numerically useless (lu_pivoting_regime)'
+common_misuse:
+  - 'reusing an LU factorisation after modifying A: it must be recomputed (or updated by a rank-one update formula)'
+  - 'assuming LU always exists for invertible A'
+applications:
+  - 'the standard dense direct solver: factor once, solve for many right-hand sides; the basis of LAPACK''s dgesv'
+related:
+  special_case_of: []
+  required_by: ['lu_pivoting_regime', 'cholesky_factorisation']
+sources:
+  - 'golub_van_loan_4e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#lu_factorisation
+  specialization: validation/specialization-cases.md#lu_factorisation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#lu_factorisation

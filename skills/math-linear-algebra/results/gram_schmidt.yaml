@@ -1,0 +1,51 @@
+id: inner_product.gram_schmidt
+node: gram_schmidt
+status_label: constructive_result
+display: 'Given an independent list (v_1,...,v_k), define e_j recursively as (v_j - P_{span(e_1..e_{j-1})} v_j) normalised. The result is orthonormal with span(e_1..e_j) = span(v_1..v_j) for every j. Hence EVERY finite-dimensional inner product space has an orthonormal basis.'
+parseable: 'w_j := v_j - sum_{i<j} <v_j, e_i> e_i;  e_j := w_j / ||w_j||;  span(e_1..e_j) = span(v_1..v_j)'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'w_j': 'the un-normalised residual'
+  'e_j': 'the j-th orthonormal vector'
+type_check_status: well_formed
+type_check_note: 'Well-formed: w_j != 0 at every step BECAUSE the v''s are independent (v_j is not in the span of the earlier ones), so the division by ||w_j|| is legitimate. Independence is exactly the non-degeneracy condition the algorithm needs.'
+hypotheses:
+  - '(v_i) linearly independent'
+preconditions: []
+dependencies:
+  - 'induction_principle'
+  - 'linear_independence'
+  - 'orthogonal_projection'
+  - 'orthonormal_basis'
+  - 'span'
+proof:
+  technique: 'induction on j: orthogonality of e_j to earlier e_i by construction (the residual of a projection is orthogonal to the subspace); the span equality because each e_j is a combination of v_1..v_j with nonzero v_j-coefficient and conversely'
+  derives_from: 'orthogonal_projection'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k = 1: e_1 = v_1/||v_1||'
+  - 'the v''s already orthogonal: Gram-Schmidt only normalises'
+  - 'recording the coefficients gives exactly qr_factorisation, with R upper triangular because e_j uses only v_1..v_j'
+counterexamples_when_dropped:
+  independence: 'applied to a dependent list, some w_j = 0 and the normalisation divides by zero. The MODIFIED algorithm skips such j and produces an orthonormal basis of the span -- but the span-matching property is then lost for that index'
+  numerical_stability: 'CLASSICAL Gram-Schmidt loses orthogonality catastrophically in floating point; MODIFIED Gram-Schmidt (subtract projections one at a time, updating as you go) is far better, and Householder reflections better still. This is a numerical-analysis fact, CITED, not established here'
+common_misuse:
+  - 'implementing classical Gram-Schmidt for an ill-conditioned matrix and trusting the resulting Q to be orthogonal'
+  - 'applying it to a dependent list without handling the zero residual'
+applications:
+  - 'QR factorisation and hence the standard least-squares solver; the construction of orthogonal polynomial families (Legendre, Hermite) by Gram-Schmidt on 1, t, t^2, ... in an L^2 inner product'
+related:
+  required_by: ['qr_factorisation', 'orthogonal_decomposition', 'schur_triangularisation', 'singular_value_decomposition']
+sources:
+  - 'axler_lada_4e'
+  - 'trefethen_bau'
+status: reviewed
+checks:
+  type: validation/type-checks.md#gram_schmidt
+  specialization: validation/specialization-cases.md#gram_schmidt
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#gram_schmidt

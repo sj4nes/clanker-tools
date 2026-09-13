@@ -1,0 +1,42 @@
+id: matrices.rref_uniqueness
+node: rref_uniqueness
+status_label: proved_theorem
+display: 'Every matrix is row equivalent to EXACTLY ONE matrix in reduced row echelon form. RREF is therefore a canonical form for row equivalence.'
+parseable: 'for every A there is a unique R in RREF with A ~_r R'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'R = rref(A)': 'the canonical representative'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Existence is the elimination algorithm; uniqueness is the substantive half and is what licenses defining rank and pivot columns from the RREF.'
+hypotheses:
+  - 'F a field'
+preconditions: []
+dependencies:
+  - 'row_echelon_form'
+  - 'row_equivalence'
+proof:
+  technique: 'existence by Gaussian elimination. Uniqueness: row equivalence preserves null(A), and the RREF is determined by null(A) -- the pivot columns are those not expressible in terms of earlier columns, and the free columns'' entries are exactly the coefficients of that expression'
+  derives_from: 'row_equivalence'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A invertible: rref(A) = I, giving one clause of invertibility_equivalences'
+  - 'A a single nonzero row: rref(A) has leading 1 in the first nonzero column'
+counterexamples_when_dropped:
+  reducedness: 'non-reduced echelon forms are NOT unique: [[1,2],[0,1]] and [[1,0],[0,1]] are both REF for the same matrix. Only the RREF is canonical'
+  F_a_field: 'over Z one cannot scale a pivot to 1; the canonical form is instead Hermite (or Smith) normal form -- see smith_normal_form_boundary'
+common_misuse:
+  - 'assuming the intermediate echelon forms produced by different pivoting orders agree: only the final RREF does'
+related:
+  required_by: ['row_rank_equals_column_rank', 'invertibility_equivalences']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#rref_uniqueness
+  specialization: validation/specialization-cases.md#rref_uniqueness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#rref_uniqueness

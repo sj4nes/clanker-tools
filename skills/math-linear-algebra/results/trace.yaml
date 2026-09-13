@@ -1,0 +1,38 @@
+id: matrices.trace
+node: trace
+status_label: definition
+display: 'tr(A) = sum_{i=1}^n A_{ii} for square A. It is a LINEAR functional on F^{n x n}: tr(aA + bB) = a tr(A) + b tr(B).'
+parseable: 'tr(A) := sum_{i=1}^n A_{ii};  tr linear;  tr(A^T) = tr(A)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'tr(A)': 'type: element of F'
+type_check_status: well_formed
+type_check_note: 'Well-formed for SQUARE A only. Linearity is immediate; what is not immediate is that it is similarity-invariant (trace_cyclic), which is what makes it an operator invariant.'
+hypotheses:
+  - 'A square'
+preconditions: []
+dependencies:
+  - 'field'
+  - 'index_convention'
+  - 'matrix'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'tr(I_n) = n -- which over F_p can be 0, a genuine trap in finite characteristic'
+  - 'tr of a projection equals its rank (hat_matrix), the identity behind residual degrees of freedom'
+counterexamples_when_dropped:
+  squareness: 'undefined otherwise'
+  characteristic: 'over F_p, tr(I_p) = p = 0, so ''the trace of a rank-r projection is r'' must be read mod p'
+common_misuse:
+  - 'assuming tr(AB) = tr(A)tr(B): false in general (take A = B = I_2, giving 2 versus 4)'
+related:
+  required_by: ['trace_cyclic', 'char_poly_coefficients', 'matrix_norms']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#trace
+  specialization: validation/specialization-cases.md#trace
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#trace

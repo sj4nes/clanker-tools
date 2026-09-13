@@ -1,0 +1,41 @@
+id: vector_spaces.dimension
+node: dimension
+status_label: definition
+display: 'dim V is the common cardinality of any basis of V, well-defined by the preceding theorem. dim{0} = 0. Written dim_F V when the scalar field needs emphasis.'
+parseable: 'dim_F V := |B| for any basis B of V;  dim {0} = 0'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'dim V': 'type: natural number (finite case) or cardinal (general case)'
+  'dim_F V': 'dimension over the scalar field F'
+type_check_status: well_formed
+type_check_note: 'Well-formed only BECAUSE dimension_well_defined precedes it -- this is the definitional-order resolution recorded as cycle 4.'
+hypotheses:
+  - 'V finite-dimensional (for the natural-number-valued version)'
+preconditions: []
+dependencies:
+  - 'dimension_well_defined'
+  - 'finite_dimensional'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'dim F^n = n'
+  - 'dim {0} = 0 with the empty basis'
+  - 'dim_R C = 2 but dim_C C = 1: the subscript is not decorative'
+  - 'dim F^{m x n} = mn, the fact behind matrix_addition_scalar'
+counterexamples_when_dropped:
+  well_definedness: 'without dimension_well_defined the notation dim V would depend on the basis chosen and every counting argument in the capsule would collapse'
+  the_scalar_field: 'R has dimension 1 over R and infinite (continuum) dimension over Q'
+common_misuse:
+  - 'comparing dimensions over different fields'
+  - 'assuming dim(U + W) = dim U + dim W -- that needs the sum to be DIRECT (dimension_formula_sum)'
+related:
+  required_by: ['rank', 'nullity', 'rank_nullity']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#dimension
+  specialization: validation/specialization-cases.md#dimension
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#dimension

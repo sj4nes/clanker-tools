@@ -1,0 +1,41 @@
+id: linear_maps.linear_map_determined_by_basis
+node: linear_map_determined_by_basis
+status_label: proved_theorem
+display: 'Given a basis (b_i)_{i in I} of V and ANY family (w_i)_{i in I} in W, there is EXACTLY ONE linear T: V -> W with T(b_i) = w_i for every i.'
+parseable: 'B basis of V, (w_i) arbitrary in W  =>  exists! linear T with T(b_i) = w_i'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '(w_i)': 'arbitrary target vectors -- no condition on them whatsoever'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The strength is that (w_i) is ARBITRARY: unlike group or ring homomorphisms, there are no relations to respect, which is why linear algebra is classification-complete.'
+hypotheses:
+  - 'B a basis of V'
+preconditions: []
+dependencies:
+  - 'basis'
+  - 'basis_unique_representation'
+  - 'linear_map'
+proof:
+  technique: 'define T(sum a_i b_i) := sum a_i w_i, well-defined by uniqueness of coordinates; linearity is immediate, uniqueness because two linear maps agreeing on a spanning set agree everywhere'
+  derives_from: 'basis_unique_representation'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = F^n with the standard basis: T is determined by the n columns T(e_j), which is exactly matrix_of_linear_map'
+counterexamples_when_dropped:
+  B_being_a_basis: 'for a merely SPANNING family the map need not exist: prescribing T(e_1) = T(e_2) = 0 but T(e_1 + e_2) = w != 0 is inconsistent. For a merely INDEPENDENT family T exists but is not unique -- it is unconstrained off the span'
+common_misuse:
+  - 'forgetting that this fails for a dependent family and ''defining'' a map on a redundant generating set without checking consistency -- that check is exactly a well-definedness obligation'
+related:
+  required_by: ['space_of_linear_maps', 'dual_basis']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#linear_map_determined_by_basis
+  specialization: validation/specialization-cases.md#linear_map_determined_by_basis
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#linear_map_determined_by_basis

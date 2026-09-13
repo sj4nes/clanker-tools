@@ -294,7 +294,7 @@ not re-checked here.
 
 ## linear_algebra_background
 
-- **lean_status:** `cited` — linear-algebra:background-assumed
+- **lean_status:** `cited` — math-linear-algebra:vector_space
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## statistical_model

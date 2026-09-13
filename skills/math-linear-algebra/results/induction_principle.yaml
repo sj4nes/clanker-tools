@@ -1,0 +1,32 @@
+id: foundations.induction_principle
+node: induction_principle
+status_label: proved_theorem
+display: 'Weak and strong induction on N, with the well-ordering principle as the equivalent minimal-counterexample form.'
+parseable: 'Weak and strong induction on N, with the well-ordering principle as the equivalent minimal-counterexample form.'
+choice_grade: choice_free
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-logic-and-proof:weak_induction'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-logic-and-proof:weak_induction'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-logic-and-proof:weak_induction'
+sources:
+  - 'math-logic-and-proof'
+status: reviewed
+checks:
+  type: validation/type-checks.md#induction_principle
+  specialization: validation/specialization-cases.md#induction_principle
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#induction_principle

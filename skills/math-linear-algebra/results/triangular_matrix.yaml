@@ -1,0 +1,43 @@
+id: matrices.triangular_matrix
+node: triangular_matrix
+status_label: definition
+display: 'A is upper triangular if A_{ij} = 0 for i > j, lower triangular if A_{ij} = 0 for i < j, diagonal if both. Each class is closed under sums and products; a triangular matrix is invertible iff no diagonal entry is 0, and the inverse is triangular of the same type.'
+parseable: 'upper: A_{ij} = 0 for i > j;  closed under + and *;  invertible <=> all A_{ii} != 0'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_{ii}': 'the diagonal entries, which are the eigenvalues of a triangular matrix'
+type_check_status: well_formed
+type_check_note: 'Well-formed for square A. Closure under products is a direct index argument; closure of the inverse follows by back substitution.'
+hypotheses:
+  - 'A square'
+preconditions: []
+dependencies:
+  - 'invertible_matrix'
+  - 'matrix'
+  - 'matrix_multiplication'
+proof:
+  technique: 'products by index bookkeeping; invertibility because the determinant is the product of the diagonal (determinant_triangular), and the inverse by back substitution'
+  derives_from: 'matrix_multiplication'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'diagonal matrices commute with each other -- one of the few commuting families'
+  - 'the eigenvalues of a triangular matrix are exactly its diagonal entries, read off char_poly_roots_are_eigenvalues with determinant_triangular'
+counterexamples_when_dropped:
+  triangularity_is_basis_dependent: 'every matrix over C is SIMILAR to a triangular one (schur_triangularisation), so triangularity says nothing about the operator -- only about the basis chosen. Contrast diagonalisable, which IS a property of the operator'
+  upper_times_lower: 'the product of an upper and a LOWER triangular matrix is generally neither'
+common_misuse:
+  - 'assuming a triangular matrix is diagonalisable: [[1,1],[0,1]] is triangular and not diagonalisable (non_diagonalisable_counterexample)'
+related:
+  required_by: ['determinant_triangular', 'lu_factorisation', 'qr_factorisation', 'cholesky_factorisation']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#triangular_matrix
+  specialization: validation/specialization-cases.md#triangular_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#triangular_matrix

@@ -1,0 +1,38 @@
+id: vector_spaces.linear_combination
+node: linear_combination
+status_label: definition
+display: 'A linear combination of a family (v_i)_{i in I} is a finite sum sum_{i in J} a_i v_i with J a FINITE subset of I and a_i in F.'
+parseable: 'sum_{i in J} a_i v_i,  J finite subset of I,  a_i in F'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'J': 'a finite index subset, type: finite subset of I'
+  'a_i': 'coefficients, type: elements of F'
+type_check_status: well_formed
+type_check_note: 'Well-formed. FINITENESS of J is essential and is not a technicality: a vector space has no topology, so an infinite sum has no meaning. This is what keeps span, independence, and basis purely algebraic.'
+hypotheses:
+  - 'J finite'
+preconditions: []
+dependencies:
+  - 'indexed_family'
+  - 'vector_space'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'J empty: the empty sum is 0 by convention, which is why span(empty) = {0}'
+  - '|J| = 1: the combinations of a single v are the scalar multiples of v'
+counterexamples_when_dropped:
+  finiteness: 'allowing infinite sums requires convergence, hence a topology and completeness -- that is Hilbert space theory, not linear algebra. Under the algebraic definition, the standard basis of the space of ALL sequences does NOT span it: (1,1,1,...) is not a finite combination of the e_i. This single point is why a Hamel basis of an infinite-dimensional space is enormous and unusable'
+common_misuse:
+  - 'writing ''v = sum_{i=1}^infinity a_i e_i'' inside a vector-space argument -- that is a limit statement and needs a norm'
+related:
+  required_by: ['span', 'linear_independence']
+sources:
+  - 'axler_lada_4e'
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#linear_combination
+  specialization: validation/specialization-cases.md#linear_combination
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#linear_combination

@@ -1,0 +1,42 @@
+id: spectral.normal_matrix
+node: normal_matrix
+status_label: definition
+display: 'A is normal if AA^* = A^*A. The class contains the self-adjoint (A^* = A), skew-adjoint (A^* = -A), and unitary (A^* = A^{-1}) matrices, and is EXACTLY the class of unitarily diagonalisable matrices.'
+parseable: 'A normal  <=>  AA^* = A^*A;  contains Hermitian, skew-Hermitian, unitary;  = unitarily diagonalisable'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'A^*': 'the conjugate transpose'
+type_check_status: well_formed
+type_check_note: 'Well-formed for square A. The definition is a commutation condition, which is what makes the ''iff unitarily diagonalisable'' characterisation (spectral_theorem_normal) surprising and useful.'
+hypotheses:
+  - 'A square'
+preconditions: []
+dependencies:
+  - 'adjoint_operator'
+  - 'orthogonal_matrix'
+  - 'self_adjoint'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the three named subclasses above'
+  - 'a real ROTATION matrix is orthogonal hence normal, and is unitarily diagonalisable OVER C (eigenvalues e^{+-i theta}) though not over R'
+  - 'a diagonal matrix is normal'
+counterexamples_when_dropped:
+  normality_is_not_automatic: '[[1,1],[0,1]] has AA^* = [[2,1],[1,1]] and A^*A = [[1,1],[1,2]] -- not equal. It is not normal, and indeed not diagonalisable at all'
+  normal_does_not_mean_self_adjoint: 'a unitary matrix is normal with eigenvalues on the unit circle, generally not real'
+  sums_and_products_of_normals_need_not_be_normal: 'normality is not preserved by addition or multiplication unless the matrices commute'
+common_misuse:
+  - 'assuming a normal matrix has real eigenvalues (only the self-adjoint ones do)'
+  - 'assuming the normal matrices form an algebra'
+related:
+  generalizes: ['self_adjoint']
+  required_by: ['spectral_theorem_normal', 'spectral_radius']
+sources:
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#normal_matrix
+  specialization: validation/specialization-cases.md#normal_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#normal_matrix

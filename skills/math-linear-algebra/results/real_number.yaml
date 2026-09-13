@@ -1,0 +1,32 @@
+id: foundations.real_number
+node: real_number
+status_label: proved_theorem
+display: 'R is a complete ordered field: an ordered field in which every nonempty bounded-above subset has a least upper bound.'
+parseable: 'R is a complete ordered field: an ordered field in which every nonempty bounded-above subset has a least upper bound.'
+choice_grade: choice_free
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-number-systems:real_number'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-number-systems:real_number'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-number-systems:real_number'
+sources:
+  - 'math-number-systems'
+status: reviewed
+checks:
+  type: validation/type-checks.md#real_number
+  specialization: validation/specialization-cases.md#real_number
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#real_number

@@ -1,0 +1,47 @@
+id: determinants.adjugate
+node: adjugate
+status_label: constructive_result
+display: 'adj(A)_{ij} = C_{ji} = (-1)^{i+j} M_{ji} (the TRANSPOSED cofactor matrix). Then A adj(A) = adj(A) A = det(A) I, so A^{-1} = adj(A)/det(A) whenever det A != 0.'
+parseable: 'adj(A)_{ij} := (-1)^{i+j} M_{ji};  A adj(A) = adj(A) A = det(A) I'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'adj(A)': 'the adjugate (classical adjoint), type: element of F^{n x n}'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The TRANSPOSE in the definition is essential and is the usual slip. Note the identity A adj(A) = det(A) I holds for EVERY square A, including singular ones -- no invertibility is assumed.'
+hypotheses:
+  - 'A square'
+preconditions: []
+dependencies:
+  - 'determinant_invertible_iff'
+  - 'invertible_matrix'
+  - 'laplace_expansion'
+proof:
+  technique: 'the (i,i) entry of A adj(A) is the Laplace expansion along row i; an off-diagonal entry is the expansion of a matrix with two equal rows, hence 0'
+  derives_from: 'laplace_expansion'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.adjugate_identity (n = 2, singular X included)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2: adj([[a,b],[c,d]]) = [[d,-b],[-c,a]], the familiar swap-and-negate rule'
+  - 'A singular: A adj(A) = 0, and adj(A) has rank at most 1 when rank A = n-1'
+  - 'over Z: adj(A) has INTEGER entries, so A^{-1} is integral exactly when det A = +-1 -- the ring statement determinant_invertible_iff needs'
+counterexamples_when_dropped:
+  the_transpose: 'omitting it gives the cofactor matrix, for which the identity is false already at n = 2 unless the matrix is symmetric'
+  cost: 'computing A^{-1} via the adjugate costs O(n!) or at best O(n^4); elimination costs O(n^3)'
+common_misuse:
+  - 'using the adjugate formula as a numerical inverse'
+  - 'confusing adj(A) (classical adjoint) with A^* (the Hermitian adjoint) -- unrelated objects sharing an unfortunate name'
+applications:
+  - 'Cramer''s rule and the integrality criterion above; the adjugate is also how cayley_hamilton is proved in this release'
+related:
+  required_by: ['cramers_rule', 'cayley_hamilton']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#adjugate
+  specialization: validation/specialization-cases.md#adjugate
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#adjugate

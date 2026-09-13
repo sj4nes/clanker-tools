@@ -1,0 +1,33 @@
+id: eigentheory.characteristic_polynomial_convention
+node: characteristic_polynomial_convention
+status_label: definition
+display: 'p_A(t) = det(tI - A), which is MONIC of degree n. The common variant det(A - tI) equals (-1)^n p_A(t): same roots, opposite sign when n is odd, and a different constant term.'
+parseable: 'p_A(t) := det(tI - A) = t^n - tr(A) t^{n-1} + ... + (-1)^n det(A)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'p_A': 'the characteristic polynomial, type: monic element of F[t] of degree n'
+  't': 'the indeterminate, type: element of F[t]'
+type_check_status: well_formed
+type_check_note: 'A convention. Monicity is what makes ''the'' characteristic polynomial a definite description and makes the coefficient identities (char_poly_coefficients) hold with the signs stated.'
+hypotheses: []
+preconditions: []
+dependencies: []
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 1: p_A(t) = t - A_{11} under this convention, versus A_{11} - t under the other'
+  - 'n = 2: p_A(t) = t^2 - tr(A) t + det(A), the form used throughout the capsule''s 2x2 instance checks'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a convention; the failure mode is a sign error. Under det(A - tI) the constant term is det(A), not (-1)^n det(A), and quoting char_poly_coefficients across conventions produces wrong signs for odd n'
+common_misuse:
+  - 'quoting ''the constant term is det A'' without saying which convention -- true for det(A - tI), off by (-1)^n for det(tI - A)'
+sources:
+  - 'hoffman_kunze_2e'
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#characteristic_polynomial_convention
+  specialization: validation/specialization-cases.md#characteristic_polynomial_convention
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#characteristic_polynomial_convention

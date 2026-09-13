@@ -1,0 +1,46 @@
+id: matrices.schur_complement
+node: schur_complement
+status_label: constructive_result
+display: 'For M = [[A,B],[C,D]] with A invertible, the Schur complement of A is M/A = D - C A^{-1} B. Then det M = det(A) det(M/A), M is invertible iff M/A is, and for symmetric M, M is positive definite iff A and M/A both are.'
+parseable: 'M/A := D - C A^{-1} B;  det M = det A * det(M/A);  M > 0 <=> A > 0 and M/A > 0'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'M/A': 'the Schur complement, type: matrix of the same shape as D'
+type_check_status: well_formed
+type_check_note: 'Well-formed when A is invertible. It arises from the block elimination M = [[I,0],[CA^{-1},I]] [[A,0],[0,M/A]] [[I,A^{-1}B],[0,I]], which is block LU.'
+hypotheses:
+  - 'A invertible'
+preconditions: []
+dependencies:
+  - 'block_matrix'
+  - 'invertible_matrix'
+proof:
+  technique: 'the block factorisation above, then determinant multiplicativity on block triangular factors'
+  derives_from: 'block_matrix'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A = [a] a 1x1 scalar: M/A = D - cb/a, the ordinary elimination step'
+  - 'C = B^T and M symmetric: the positive-definiteness criterion, which is exactly how conditional covariance matrices in statistics are shown to be PSD'
+counterexamples_when_dropped:
+  invertibility_of_A: 'if A is singular the Schur complement is undefined; a generalised Schur complement using the pseudoinverse recovers part of the theory (see moore_penrose_pseudoinverse)'
+common_misuse:
+  - 'assuming the determinant identity without A invertible'
+applications:
+  - 'the conditional covariance of a Gaussian: Var(X|Y) is exactly the Schur complement of the Y-block, which is why conditional covariances are automatically PSD'
+  - 'block elimination in interior-point and KKT solvers'
+related:
+  generalizes: ['determinant_triangular']
+  required_by: ['psd_characterisations']
+sources:
+  - 'horn_johnson_2e'
+  - 'boyd_vandenberghe'
+status: reviewed
+checks:
+  type: validation/type-checks.md#schur_complement
+  specialization: validation/specialization-cases.md#schur_complement
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#schur_complement

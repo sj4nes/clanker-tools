@@ -1,0 +1,39 @@
+id: vector_spaces.subspace
+node: subspace
+status_label: definition
+display: 'A subset U of V is a subspace if 0 is in U and U is closed under addition and scalar multiplication. Equivalently, U is a vector space under the operations restricted from V.'
+parseable: '0 in U;  u, w in U => u + w in U;  a in F, u in U => au in U'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'U': 'the subspace, type: subset of V closed under the operations'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Requiring 0 in U rather than merely U nonempty is equivalent GIVEN closure under scalar multiplication (take a = 0), but stating it explicitly rules out the empty set, which satisfies both closure conditions vacuously and is NOT a vector space.'
+hypotheses:
+  - 'V a vector space'
+  - 'U a subset of V'
+preconditions: []
+dependencies:
+  - 'vector_space'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - '{0} and V are subspaces of V (the trivial ones)'
+  - 'in R^3: the origin, every line through the origin, every plane through the origin, and R^3 -- and nothing else'
+  - 'ker T and im T are subspaces, which is what makes rank and nullity dimensions'
+counterexamples_when_dropped:
+  containing_zero: 'the empty set is closed under both operations vacuously but is not a vector space -- the axioms require an identity'
+  closure_under_scalar_multiplication: 'the first quadrant of R^2 is closed under addition but not under multiplication by -1'
+  closure_under_addition: 'the union of the two coordinate axes in R^2 is closed under scalar multiplication but (1,0) + (0,1) leaves it -- this is why subspace_intersection is about INTERSECTIONS, not unions'
+common_misuse:
+  - 'calling an affine subspace (a line NOT through the origin) a subspace -- solution sets of Ax = b are affine, not linear, unless b = 0; see linear_system'
+related:
+  required_by: ['span', 'kernel', 'image_subspace']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#subspace
+  specialization: validation/specialization-cases.md#subspace
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#subspace

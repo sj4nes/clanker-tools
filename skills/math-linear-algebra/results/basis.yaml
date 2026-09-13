@@ -1,0 +1,40 @@
+id: vector_spaces.basis
+node: basis
+status_label: definition
+display: 'A basis of V is a linearly independent family that spans V. DEFINED WITHOUT REFERENCE TO ANY NUMBER -- this is what makes dimension provable rather than assumed (see edges/cycles.md, cycle 4).'
+parseable: '(b_i)_{i in I} basis of V  <=>  independent and span((b_i)) = V'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '(b_i)_{i in I}': 'the basis, type: indexed family in V; I may be infinite'
+type_check_status: well_formed
+type_check_note: 'Well-formed with no appeal to dimension. The definition is stated for arbitrary index sets, so it covers the infinite-dimensional case handled by basis_existence_general.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'linear_independence'
+  - 'span'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'the standard basis (e_1,...,e_n) of F^n'
+  - 'the empty family is a basis of {0}'
+  - '(1, t, t^2, ...) is a basis of F[t]: infinite, but every element is still a FINITE combination'
+  - '(1, i) is a basis of C as an R-vector space, but (1) is a basis of C as a C-vector space -- dimension depends on the field of scalars'
+counterexamples_when_dropped:
+  independence: 'a spanning set that is dependent gives non-unique coordinates: in R^2, (e_1, e_2, e_1+e_2) spans but 0 has infinitely many representations'
+  spanning: 'an independent family that does not span gives coordinates only on a proper subspace'
+common_misuse:
+  - 'assuming a basis is unique: every space of dimension >= 1 over an infinite field has infinitely many. What IS unique is the CARDINALITY (dimension_well_defined) and the coordinates relative to a FIXED ordered basis'
+  - 'assuming a basis of an infinite-dimensional space is countable or usable -- a Hamel basis of R over Q has cardinality of the continuum and cannot be exhibited'
+related:
+  required_by: ['steinitz_exchange', 'ordered_basis', 'dimension_well_defined']
+sources:
+  - 'axler_lada_4e'
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#basis
+  specialization: validation/specialization-cases.md#basis
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#basis

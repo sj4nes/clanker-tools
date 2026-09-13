@@ -1,0 +1,35 @@
+id: matrices.column_space
+node: column_space
+status_label: definition
+display: 'col(A) = span of the columns of A, a subspace of F^m. It equals the image of the map x -> Ax, so Ax = b is solvable exactly when b is in col(A).'
+parseable: 'col(A) := span{A_{.j}} = {Ax : x in F^n} = im(x -> Ax) subset F^m'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_{.j}': 'the j-th column'
+type_check_status: well_formed
+type_check_note: 'Well-formed; the identification with the image is immediate from reading Ax as a combination of the columns, which is what the index_convention fixes.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'matrix'
+  - 'span'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A a single column: col(A) is the line through it'
+  - 'A invertible n x n: col(A) = F^n'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a definition. The trap is that column space is NOT preserved by row operations (see row_equivalence)'
+common_misuse:
+  - 'computing it from the RREF''s columns rather than the original''s pivot columns'
+related:
+  required_by: ['matrix_rank', 'least_squares', 'linear_system']
+sources:
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#column_space
+  specialization: validation/specialization-cases.md#column_space
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#column_space

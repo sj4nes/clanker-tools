@@ -1,0 +1,36 @@
+id: matrices.identity_matrix
+node: identity_matrix
+status_label: definition
+display: 'I_n in F^{n x n} with (I_n)_{ij} = delta_{ij}. It is the two-sided multiplicative identity: I_m A = A = A I_n for A in F^{m x n}.'
+parseable: '(I_n)_{ij} = delta_{ij};  I_m A = A = A I_n'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'I_n': 'type: element of F^{n x n}'
+  'delta_{ij}': 'the Kronecker delta'
+type_check_status: well_formed
+type_check_note: 'Well-formed; the two identities use DIFFERENT identity matrices when A is rectangular, which the subscripts record.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'matrix'
+  - 'matrix_multiplication'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'I represents the identity operator in any basis -- one of very few matrices that is basis-independent'
+  - 'det I = 1 and tr I_n = n'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a definition'
+common_misuse:
+  - 'writing I without the size in a mixed-shape computation'
+related:
+  required_by: ['invertible_matrix', 'elementary_matrix']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#identity_matrix
+  specialization: validation/specialization-cases.md#identity_matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#identity_matrix

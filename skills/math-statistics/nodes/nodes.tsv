@@ -56,7 +56,7 @@ ra_mean_value_theorem	bridge	Mean value theorem (cited)	foundations	reviewed	fou
 ra_compactness	bridge	Compactness / extreme value (cited)	foundations	reviewed	foundation	a continuous function on a compact set attains its max -- math-real-analysis:compactness
 ra_convex_function	bridge	Convex function (cited)	foundations	reviewed	foundation	f(tx+(1-t)y) <= t f(x) + (1-t) f(y) -- math-real-analysis:convex_function
 ra_interchange_limit_integral	bridge	Differentiate under the integral (cited)	foundations	reviewed	foundation	dominated derivative => d/dtheta int f = int d/dtheta f -- math-real-analysis:interchange_limit_integral
-linear_algebra_background	bridge	Finite-dimensional linear algebra (cited, no capsule)	foundations	reviewed	foundation	vector space, rank, transpose, inverse, symmetric and PSD matrices, spectral theorem, orthogonal projection and its matrix, trace, quadratic forms
+linear_algebra_background	bridge	Finite-dimensional linear algebra (discharged by math-linear-algebra)	foundations	reviewed	foundation	vector space, rank, transpose, inverse, symmetric and PSD matrices, spectral theorem, orthogonal projection and its matrix, trace, quadratic forms -- all 11 developed in math-linear-algebra (see its edges/cross-capsule.md); NOT a tsort edge here, per that capsule's separate cross-capsule layer
 statistical_model	structure	Statistical model	model	reviewed	foundation	a family P = { P_theta : theta in Theta } of candidate distributions for the data
 parametric_model	definition	Parametric model	model	reviewed	core	a statistical model indexed by a finite-dimensional Theta subset of R^d
 parameter_space	definition	Parameter space	model	reviewed	core	the set Theta of admissible parameter values

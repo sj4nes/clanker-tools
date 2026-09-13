@@ -1,0 +1,702 @@
+# edges/dependencies.plan  --  math-linear-algebra Release 0.1
+#
+# Format: one "A B" edge per non-comment line. A is a NECESSARY PREREQUISITE
+# for correctly stating, proving, interpreting, or applying B, within scope.
+# Non-prerequisite relations (generalizes, equivalent_to, special_case_of,
+# dual_of, contrasts_with, ...) live in edges/relations.tsv, NOT here.
+#
+# Roots (no incoming edges): the 16 cited bridge nodes in area `foundations`,
+# plus `field` and the four notation_convention nodes.  See conventions.md.
+
+# =============================================================================
+# Foundations: what the cited roots are used for
+# =============================================================================
+# A field is a set with two operations; the vector space axioms quantify over
+# its elements.
+set field
+set vector_space
+# A linear map is a function first; linearity is a condition on a function.
+function linear_map
+# An isomorphism is a bijective linear map: bijectivity is the set-level notion.
+bijection linear_isomorphism
+# Row equivalence, similarity, and congruence are each verified to BE
+# equivalence relations; the definition of one is needed to state that.
+equivalence_relation row_equivalence
+equivalence_relation similarity
+equivalence_relation congruence
+# V/U is a quotient set carrying induced operations; well-definedness on classes
+# is the cited machinery.
+quotient_set quotient_space
+# "Finitely generated" means a spanning set that is a finite set.
+finite_set finite_dimensional
+# span, independence, and bases are stated over families indexed by an index set,
+# which may be infinite even when only finite subsums are taken.
+indexed_family linear_combination
+indexed_family linear_independence
+# Zorn on the poset of independent subsets ordered by inclusion is the proof;
+# AC is what the statement is equivalent to.
+zorns_lemma basis_existence_general
+axiom_of_choice basis_existence_general
+# Steinitz is an induction on the length of the independent list; dimension
+# well-definedness and the Cholesky construction are likewise inductive.
+induction_principle steinitz_exchange
+induction_principle dimension_well_defined
+induction_principle cholesky_factorisation
+induction_principle gram_schmidt
+# An inner product is real- or complex-valued and positive-definiteness needs
+# the order on R.
+real_number inner_product
+real_number ordered_field_hyp
+# The conjugate transpose needs complex conjugation; C is the algebraically
+# closed field the capsule actually uses.
+complex_number conjugate_transpose
+complex_number fundamental_theorem_of_algebra
+complex_number algebraically_closed_field
+# FTA is what makes the C-specific triangularisation and normal spectral
+# theorem available: it supplies the root the proofs peel off.
+fundamental_theorem_of_algebra schur_triangularisation
+fundamental_theorem_of_algebra spectral_theorem_normal
+# The real spectral theorem's existence-of-an-eigenvector step maximises the
+# Rayleigh quotient on the unit sphere: compactness gives a maximiser, EVT that
+# it is attained.  (An algebraic route via C is recorded as a proof_route.)
+compactness_cited spectral_theorem_symmetric
+extreme_value_cited spectral_theorem_symmetric
+# Characteristic and minimal polynomials are elements of F[t]; degree and
+# division with remainder are what make the minimal polynomial well-defined.
+polynomial_ring characteristic_polynomial
+polynomial_ring minimal_polynomial
+polynomial_ring cayley_hamilton
+
+# =============================================================================
+# Vector spaces
+# =============================================================================
+field vector_space
+field characteristic_not_two
+field algebraically_closed_field
+ordered_field_hyp positive_definite
+vector_space vector_space_basic_consequences
+vector_space subspace
+vector_space linear_combination
+subspace subspace_criterion
+subspace subspace_intersection
+subspace span
+linear_combination span
+span span_is_smallest_subspace
+subspace span_is_smallest_subspace
+linear_combination linear_independence
+# The dependence lemma is the engine of both Steinitz and "a spanning set
+# contains a basis".
+linear_independence dependence_lemma
+span dependence_lemma
+linear_independence basis
+span basis
+dependence_lemma steinitz_exchange
+basis steinitz_exchange
+finite_dimensional steinitz_exchange
+# A finite spanning set contains a basis (strip dependent vectors); an
+# independent set extends to one.  Choice-free because the process terminates.
+dependence_lemma basis_existence_finite
+basis basis_existence_finite
+finite_dimensional basis_existence_finite
+basis basis_existence_general
+# Two bases are equinumerous by applying Steinitz twice, in both directions.
+steinitz_exchange dimension_well_defined
+basis_existence_finite dimension_well_defined
+dimension_well_defined dimension
+finite_dimensional dimension
+dimension dimension_of_subspace
+basis_existence_finite dimension_of_subspace
+basis basis_unique_representation
+linear_independence basis_unique_representation
+basis ordered_basis
+basis_unique_representation ordered_basis
+dimension ordered_basis
+ordered_basis coordinate_isomorphism
+dimension coordinate_isomorphism
+subspace sum_of_subspaces
+span sum_of_subspaces
+sum_of_subspaces direct_sum
+subspace_intersection direct_sum
+basis_unique_representation direct_sum
+dimension dimension_formula_sum
+sum_of_subspaces dimension_formula_sum
+subspace_intersection dimension_formula_sum
+basis_existence_finite dimension_formula_sum
+finite_dimensional dimension_formula_sum
+subspace quotient_space
+vector_space quotient_space
+dimension quotient_dimension
+quotient_space quotient_dimension
+basis_existence_finite quotient_dimension
+finite_dimensional quotient_dimension
+
+# =============================================================================
+# Linear maps
+# =============================================================================
+vector_space linear_map
+linear_map linear_map_determined_by_basis
+basis linear_map_determined_by_basis
+basis_unique_representation linear_map_determined_by_basis
+linear_map kernel
+subspace kernel
+linear_map image_subspace
+subspace image_subspace
+kernel injective_iff_trivial_kernel
+linear_map injective_iff_trivial_kernel
+image_subspace rank
+dimension rank
+kernel nullity
+dimension nullity
+# Rank-nullity: extend a basis of ker T to a basis of V; the images of the
+# added vectors are a basis of im T.
+rank rank_nullity
+nullity rank_nullity
+basis_existence_finite rank_nullity
+finite_dimensional rank_nullity
+rank_nullity injective_surjective_equivalence
+injective_iff_trivial_kernel injective_surjective_equivalence
+dimension_of_subspace injective_surjective_equivalence
+finite_dimensional injective_surjective_equivalence
+linear_map linear_isomorphism
+coordinate_isomorphism linear_isomorphism
+quotient_space first_isomorphism_theorem
+kernel first_isomorphism_theorem
+image_subspace first_isomorphism_theorem
+linear_isomorphism first_isomorphism_theorem
+linear_map space_of_linear_maps
+vector_space space_of_linear_maps
+linear_map_determined_by_basis space_of_linear_maps
+linear_map composition_of_linear_maps
+space_of_linear_maps composition_of_linear_maps
+linear_map linear_operator
+composition_of_linear_maps linear_operator
+linear_operator invertible_operator
+linear_isomorphism invertible_operator
+injective_surjective_equivalence invertible_operator
+space_of_linear_maps dual_space
+field dual_space
+dual_space dual_basis
+basis dual_basis
+linear_map_determined_by_basis dual_basis
+finite_dimensional dual_basis
+dual_space dual_map
+composition_of_linear_maps dual_map
+dual_basis double_dual
+dual_space double_dual
+finite_dimensional double_dual
+dual_space annihilator
+subspace annihilator
+dual_basis annihilator
+
+# =============================================================================
+# Matrices, elimination, rank
+# =============================================================================
+index_convention matrix
+field matrix
+set matrix
+matrix matrix_addition_scalar
+vector_space matrix_addition_scalar
+dimension matrix_addition_scalar
+matrix matrix_multiplication
+index_convention matrix_multiplication
+# The matrix of a map is defined so that composition becomes the product; that
+# is the theorem, and it needs both sides in place.
+linear_map matrix_of_linear_map
+ordered_basis matrix_of_linear_map
+matrix matrix_of_linear_map
+index_convention matrix_of_linear_map
+matrix_of_linear_map matrix_mult_is_composition
+matrix_multiplication matrix_mult_is_composition
+composition_of_linear_maps matrix_mult_is_composition
+matrix_multiplication matrix_mult_noncommutative
+matrix transpose
+index_convention transpose
+transpose_convention transpose
+matrix_multiplication transpose
+transpose conjugate_transpose
+transpose_convention conjugate_transpose
+matrix identity_matrix
+matrix_multiplication identity_matrix
+identity_matrix invertible_matrix
+matrix_multiplication invertible_matrix
+invertible_matrix one_sided_inverse_square
+rank_nullity one_sided_inverse_square
+injective_surjective_equivalence one_sided_inverse_square
+matrix elementary_row_operation
+field elementary_row_operation
+elementary_row_operation elementary_matrix
+identity_matrix elementary_matrix
+matrix_multiplication elementary_matrix
+invertible_matrix elementary_matrix
+elementary_matrix row_equivalence
+matrix row_echelon_form
+elementary_row_operation row_echelon_form
+row_echelon_form rref_uniqueness
+row_equivalence rref_uniqueness
+row_echelon_form gaussian_elimination
+elementary_row_operation gaussian_elimination
+row_echelon_form pivot_columns
+rref_uniqueness pivot_columns
+matrix row_space
+span row_space
+matrix column_space
+span column_space
+matrix null_space
+kernel null_space
+transpose left_null_space
+null_space left_null_space
+column_space matrix_rank
+dimension matrix_rank
+rank matrix_rank
+pivot_columns matrix_rank
+# Row rank = column rank: row operations preserve the row space and the
+# dependence relations among columns, so both counts equal the pivot count.
+row_space row_rank_equals_column_rank
+column_space row_rank_equals_column_rank
+rref_uniqueness row_rank_equals_column_rank
+pivot_columns row_rank_equals_column_rank
+matrix_rank row_rank_equals_column_rank
+row_space four_subspaces
+column_space four_subspaces
+null_space four_subspaces
+left_null_space four_subspaces
+rank_nullity four_subspaces
+row_rank_equals_column_rank four_subspaces
+matrix_rank rank_inequalities
+matrix_multiplication rank_inequalities
+rank_nullity rank_inequalities
+column_space rank_inequalities
+matrix linear_system
+column_space linear_system
+null_space linear_system
+gaussian_elimination linear_system
+matrix triangular_matrix
+matrix_multiplication triangular_matrix
+invertible_matrix triangular_matrix
+triangular_matrix lu_factorisation
+gaussian_elimination lu_factorisation
+elementary_matrix lu_factorisation
+lu_factorisation lu_pivoting_regime
+matrix block_matrix
+matrix_multiplication block_matrix
+index_convention block_matrix
+block_matrix schur_complement
+invertible_matrix schur_complement
+matrix trace
+field trace
+index_convention trace
+trace trace_cyclic
+matrix_multiplication trace_cyclic
+similarity trace_cyclic
+matrix_of_linear_map change_of_basis
+ordered_basis change_of_basis
+invertible_matrix change_of_basis
+matrix_mult_is_composition change_of_basis
+coordinate_isomorphism change_of_basis
+change_of_basis similarity
+invertible_matrix similarity
+
+# =============================================================================
+# Determinants
+# =============================================================================
+bijection permutation_sign
+finite_set permutation_sign
+matrix multilinear_alternating_form
+field multilinear_alternating_form
+index_convention multilinear_alternating_form
+# Existence is proved by exhibiting the Leibniz sum; uniqueness by expanding
+# the columns in the standard basis and using alternation.  Both are stated
+# about normalised alternating forms, WITHOUT naming the determinant -- this is
+# what keeps the definition below from being circular (see edges/cycles.md).
+multilinear_alternating_form determinant_existence_uniqueness
+permutation_sign determinant_existence_uniqueness
+identity_matrix determinant_existence_uniqueness
+determinant_existence_uniqueness determinant
+multilinear_alternating_form determinant
+determinant leibniz_formula
+permutation_sign leibniz_formula
+determinant_existence_uniqueness leibniz_formula
+determinant determinant_row_operations
+multilinear_alternating_form determinant_row_operations
+elementary_row_operation determinant_row_operations
+determinant determinant_triangular
+leibniz_formula determinant_triangular
+triangular_matrix determinant_triangular
+determinant determinant_transpose
+leibniz_formula determinant_transpose
+transpose determinant_transpose
+permutation_sign determinant_transpose
+determinant determinant_multiplicative
+determinant_row_operations determinant_multiplicative
+elementary_matrix determinant_multiplicative
+matrix_multiplication determinant_multiplicative
+determinant determinant_invertible_iff
+determinant_multiplicative determinant_invertible_iff
+invertible_matrix determinant_invertible_iff
+rref_uniqueness determinant_invertible_iff
+determinant_row_operations determinant_invertible_iff
+determinant laplace_expansion
+leibniz_formula laplace_expansion
+multilinear_alternating_form laplace_expansion
+laplace_expansion adjugate
+determinant_invertible_iff adjugate
+invertible_matrix adjugate
+adjugate cramers_rule
+linear_system cramers_rule
+determinant_invertible_iff cramers_rule
+determinant_multiplicative determinant_similarity_invariant
+similarity determinant_similarity_invariant
+determinant_invertible_iff determinant_similarity_invariant
+determinant determinant_rank_minors
+matrix_rank determinant_rank_minors
+determinant_invertible_iff determinant_rank_minors
+laplace_expansion determinant_rank_minors
+determinant determinant_volume
+real_number determinant_volume
+determinant_multiplicative determinant_volume
+determinant vandermonde_determinant
+leibniz_formula vandermonde_determinant
+determinant_row_operations vandermonde_determinant
+
+# =============================================================================
+# Eigentheory
+# =============================================================================
+linear_operator eigenvalue
+vector_space eigenvalue
+eigenvalue eigenspace
+kernel eigenspace
+subspace eigenspace
+determinant characteristic_polynomial
+matrix_of_linear_map characteristic_polynomial
+characteristic_polynomial_convention characteristic_polynomial
+determinant_similarity_invariant characteristic_polynomial
+# The link theorem: lambda is an eigenvalue iff (A - lambda I) is singular iff
+# its determinant vanishes.  This is what joins the two independent definitions.
+eigenvalue char_poly_roots_are_eigenvalues
+characteristic_polynomial char_poly_roots_are_eigenvalues
+determinant_invertible_iff char_poly_roots_are_eigenvalues
+injective_iff_trivial_kernel char_poly_roots_are_eigenvalues
+characteristic_polynomial char_poly_coefficients
+leibniz_formula char_poly_coefficients
+trace char_poly_coefficients
+char_poly_roots_are_eigenvalues char_poly_coefficients
+algebraically_closed_field char_poly_coefficients
+# Over an algebraically closed field the characteristic polynomial has a root.
+characteristic_polynomial eigenvalue_existence_closed
+char_poly_roots_are_eigenvalues eigenvalue_existence_closed
+algebraically_closed_field eigenvalue_existence_closed
+finite_dimensional eigenvalue_existence_closed
+eigenvalue distinct_eigenvalues_independent
+linear_independence distinct_eigenvalues_independent
+induction_principle distinct_eigenvalues_independent
+characteristic_polynomial algebraic_geometric_multiplicity
+eigenspace algebraic_geometric_multiplicity
+dimension algebraic_geometric_multiplicity
+char_poly_roots_are_eigenvalues algebraic_geometric_multiplicity
+eigenvalue diagonalisable
+basis diagonalisable
+similarity diagonalisable
+triangular_matrix diagonalisable
+diagonalisable diagonalisability_criterion
+algebraic_geometric_multiplicity diagonalisability_criterion
+direct_sum diagonalisability_criterion
+eigenspace diagonalisability_criterion
+dimension_formula_sum diagonalisability_criterion
+distinct_eigenvalues_diagonalisable diagonalisability_criterion
+distinct_eigenvalues_independent distinct_eigenvalues_diagonalisable
+diagonalisable distinct_eigenvalues_diagonalisable
+dimension distinct_eigenvalues_diagonalisable
+diagonalisable non_diagonalisable_counterexample
+algebraic_geometric_multiplicity non_diagonalisable_counterexample
+characteristic_polynomial non_diagonalisable_counterexample
+linear_operator minimal_polynomial
+space_of_linear_maps minimal_polynomial
+characteristic_polynomial cayley_hamilton
+adjugate cayley_hamilton
+linear_operator cayley_hamilton
+minimal_polynomial minimal_polynomial_diagonalisable
+diagonalisability_criterion minimal_polynomial_diagonalisable
+direct_sum minimal_polynomial_diagonalisable
+cayley_hamilton minimal_polynomial_diagonalisable
+linear_operator invariant_subspace
+subspace invariant_subspace
+minimal_polynomial invariant_subspace
+eigenvalue_existence_closed schur_triangularisation
+invariant_subspace schur_triangularisation
+orthonormal_basis schur_triangularisation
+gram_schmidt schur_triangularisation
+orthogonal_matrix schur_triangularisation
+induction_principle schur_triangularisation
+linear_operator nilpotent_operator
+eigenvalue nilpotent_operator
+minimal_polynomial nilpotent_operator
+kernel generalised_eigenspace
+eigenspace generalised_eigenspace
+algebraic_geometric_multiplicity generalised_eigenspace
+nilpotent_operator generalised_eigenspace
+generalised_eigenspace primary_decomposition
+direct_sum primary_decomposition
+nilpotent_operator primary_decomposition
+algebraically_closed_field primary_decomposition
+minimal_polynomial primary_decomposition
+invariant_subspace primary_decomposition
+primary_decomposition jordan_normal_form
+nilpotent_operator jordan_normal_form
+algebraically_closed_field jordan_normal_form
+similarity similar_invariants
+trace_cyclic similar_invariants
+determinant_similarity_invariant similar_invariants
+characteristic_polynomial similar_invariants
+minimal_polynomial similar_invariants
+matrix_rank similar_invariants
+non_diagonalisable_counterexample similar_invariants
+# The omnibus invertibility theorem quotes every earlier characterisation, so
+# it sits downstream of all of them -- including the eigenvalue one.
+invertible_matrix invertibility_equivalences
+matrix_rank invertibility_equivalences
+null_space invertibility_equivalences
+rref_uniqueness invertibility_equivalences
+elementary_matrix invertibility_equivalences
+determinant_invertible_iff invertibility_equivalences
+char_poly_roots_are_eigenvalues invertibility_equivalences
+rank_nullity invertibility_equivalences
+
+# =============================================================================
+# Inner product spaces
+# =============================================================================
+vector_space inner_product
+inner_product_convention inner_product
+complex_number inner_product
+inner_product inner_product_space
+vector_space inner_product_space
+inner_product induced_norm
+real_number induced_norm
+inner_product cauchy_schwarz
+induced_norm cauchy_schwarz
+inner_product_space cauchy_schwarz
+cauchy_schwarz triangle_inequality
+induced_norm triangle_inequality
+induced_norm parallelogram_law
+inner_product parallelogram_law
+induced_norm polarisation_identity
+inner_product polarisation_identity
+characteristic_not_two polarisation_identity
+inner_product orthogonality
+inner_product_space orthogonality
+orthogonality pythagorean_theorem
+induced_norm pythagorean_theorem
+orthogonality orthogonal_implies_independent
+linear_independence orthogonal_implies_independent
+induced_norm orthogonal_implies_independent
+orthogonality orthonormal_basis
+basis orthonormal_basis
+induced_norm orthonormal_basis
+orthogonal_implies_independent orthonormal_basis
+orthonormal_basis gram_schmidt
+orthogonal_projection gram_schmidt
+linear_independence gram_schmidt
+span gram_schmidt
+orthonormal_basis bessel_inequality
+orthogonality bessel_inequality
+induced_norm bessel_inequality
+pythagorean_theorem bessel_inequality
+bessel_inequality parseval_identity
+orthonormal_basis parseval_identity
+basis_unique_representation parseval_identity
+finite_dimensional parseval_identity
+orthogonality orthogonal_complement
+subspace orthogonal_complement
+span orthogonal_complement
+orthogonal_complement orthogonal_decomposition
+direct_sum orthogonal_decomposition
+gram_schmidt orthogonal_decomposition
+finite_dimensional orthogonal_decomposition
+dimension_formula_sum orthogonal_decomposition
+# The projection formula is stated relative to an orthonormal basis of U, so
+# orthonormality comes first; Gram-Schmidt then supplies one (and its own
+# statement is phrased in terms of projecting off the previous vectors).
+orthonormal_basis orthogonal_projection
+orthogonality orthogonal_projection
+subspace orthogonal_projection
+linear_map orthogonal_projection
+orthogonal_projection orthogonal_decomposition
+orthogonal_projection projection_matrix_characterisation
+matrix_of_linear_map projection_matrix_characterisation
+transpose projection_matrix_characterisation
+orthogonal_decomposition projection_matrix_characterisation
+column_space projection_matrix_characterisation
+real_number projection_matrix_characterisation
+orthogonal_projection best_approximation
+pythagorean_theorem best_approximation
+orthogonal_decomposition best_approximation
+induced_norm best_approximation
+best_approximation least_squares
+orthogonal_projection least_squares
+column_space least_squares
+transpose least_squares
+linear_system least_squares
+matrix_rank least_squares
+least_squares hat_matrix
+projection_matrix_characterisation hat_matrix
+invertible_matrix hat_matrix
+trace hat_matrix
+matrix_rank hat_matrix
+gram_schmidt qr_factorisation
+orthonormal_basis qr_factorisation
+triangular_matrix qr_factorisation
+matrix_multiplication qr_factorisation
+least_squares qr_factorisation
+inner_product adjoint_operator
+linear_map adjoint_operator
+conjugate_transpose adjoint_operator
+orthonormal_basis adjoint_operator
+finite_dimensional adjoint_operator
+adjoint_operator adjoint_kernel_image
+orthogonal_complement adjoint_kernel_image
+kernel adjoint_kernel_image
+image_subspace adjoint_kernel_image
+four_subspaces adjoint_kernel_image
+
+# =============================================================================
+# Spectral theory, quadratic forms, SVD
+# =============================================================================
+adjoint_operator self_adjoint
+conjugate_transpose self_adjoint
+transpose_convention self_adjoint
+adjoint_operator orthogonal_matrix
+orthonormal_basis orthogonal_matrix
+invertible_matrix orthogonal_matrix
+conjugate_transpose orthogonal_matrix
+orthogonal_matrix isometry_characterisation
+induced_norm isometry_characterisation
+polarisation_identity isometry_characterisation
+inner_product isometry_characterisation
+adjoint_operator normal_matrix
+self_adjoint normal_matrix
+orthogonal_matrix normal_matrix
+self_adjoint self_adjoint_real_eigenvalues
+eigenvalue self_adjoint_real_eigenvalues
+inner_product self_adjoint_real_eigenvalues
+orthogonality self_adjoint_real_eigenvalues
+inner_product rayleigh_quotient
+self_adjoint rayleigh_quotient
+induced_norm rayleigh_quotient
+# The real spectral theorem: a Rayleigh maximiser on the compact unit sphere is
+# an eigenvector; restrict to its orthogonal complement (invariant because A is
+# self-adjoint) and induct.
+self_adjoint_real_eigenvalues spectral_theorem_symmetric
+rayleigh_quotient spectral_theorem_symmetric
+orthogonal_decomposition spectral_theorem_symmetric
+invariant_subspace spectral_theorem_symmetric
+orthonormal_basis spectral_theorem_symmetric
+orthogonal_matrix spectral_theorem_symmetric
+diagonalisable spectral_theorem_symmetric
+induction_principle spectral_theorem_symmetric
+finite_dimensional spectral_theorem_symmetric
+real_number spectral_theorem_symmetric
+normal_matrix spectral_theorem_normal
+schur_triangularisation spectral_theorem_normal
+orthogonal_matrix spectral_theorem_normal
+diagonalisable spectral_theorem_normal
+spectral_theorem_symmetric spectral_decomposition
+orthogonal_projection spectral_decomposition
+eigenspace spectral_decomposition
+direct_sum spectral_decomposition
+projection_matrix_characterisation spectral_decomposition
+spectral_theorem_symmetric courant_fischer
+rayleigh_quotient courant_fischer
+dimension_formula_sum courant_fischer
+orthonormal_basis courant_fischer
+quadratic_form courant_fischer
+self_adjoint quadratic_form
+transpose quadratic_form
+characteristic_not_two quadratic_form
+matrix quadratic_form
+quadratic_form congruence
+invertible_matrix congruence
+transpose congruence
+quadratic_form positive_definite
+self_adjoint positive_definite
+real_number positive_definite
+inner_product gram_matrix
+positive_definite gram_matrix
+matrix_rank gram_matrix
+linear_independence gram_matrix
+positive_definite cholesky_factorisation
+triangular_matrix cholesky_factorisation
+lu_factorisation cholesky_factorisation
+# The omnibus PSD theorem quotes the eigenvalue, minor, Gram, and Cholesky
+# characterisations, so all four must already exist.
+positive_definite psd_characterisations
+spectral_theorem_symmetric psd_characterisations
+determinant_rank_minors psd_characterisations
+cholesky_factorisation psd_characterisations
+gram_matrix psd_characterisations
+schur_complement psd_characterisations
+quadratic_form sylvester_law_of_inertia
+congruence sylvester_law_of_inertia
+spectral_theorem_symmetric sylvester_law_of_inertia
+positive_definite sylvester_law_of_inertia
+dimension_formula_sum sylvester_law_of_inertia
+ordered_field_hyp sylvester_law_of_inertia
+spectral_theorem_symmetric simultaneous_diagonalisation
+positive_definite simultaneous_diagonalisation
+cholesky_factorisation simultaneous_diagonalisation
+congruence simultaneous_diagonalisation
+spectral_theorem_normal simultaneous_diagonalisation
+diagonalisability_criterion simultaneous_diagonalisation
+# Singular values are the eigenvalues of A^*A, which is symmetric PSD -- so the
+# spectral theorem and positive-semidefiniteness come first.
+conjugate_transpose singular_values
+spectral_theorem_symmetric singular_values
+positive_definite singular_values
+eigenvalue singular_values
+matrix_rank singular_values
+gram_matrix singular_values
+singular_values singular_value_decomposition
+spectral_theorem_symmetric singular_value_decomposition
+orthonormal_basis singular_value_decomposition
+orthogonal_matrix singular_value_decomposition
+gram_schmidt singular_value_decomposition
+matrix_rank singular_value_decomposition
+singular_value_decomposition svd_four_subspaces
+four_subspaces svd_four_subspaces
+adjoint_kernel_image svd_four_subspaces
+orthonormal_basis svd_four_subspaces
+singular_value_decomposition moore_penrose_pseudoinverse
+least_squares moore_penrose_pseudoinverse
+orthogonal_projection moore_penrose_pseudoinverse
+svd_four_subspaces moore_penrose_pseudoinverse
+induced_norm matrix_norms
+singular_values matrix_norms
+trace matrix_norms
+conjugate_transpose matrix_norms
+matrix_multiplication matrix_norms
+matrix_norms eckart_young
+singular_value_decomposition eckart_young
+matrix_rank eckart_young
+courant_fischer eckart_young
+matrix_norms condition_number
+singular_values condition_number
+linear_system condition_number
+invertibility_equivalences condition_number
+eigenvalue spectral_radius
+matrix_norms spectral_radius
+normal_matrix spectral_radius
+
+# =============================================================================
+# Boundary nodes
+# =============================================================================
+# The boundary catalogue exists to name the results that BREAK without the
+# finite-dimensionality hypothesis, so it depends on each of them.
+finite_dimensional infinite_dimensional_boundary
+rank_nullity infinite_dimensional_boundary
+injective_surjective_equivalence infinite_dimensional_boundary
+double_dual infinite_dimensional_boundary
+eigenvalue_existence_closed infinite_dimensional_boundary
+adjoint_operator infinite_dimensional_boundary
+basis_existence_general infinite_dimensional_boundary
+one_sided_inverse_square infinite_dimensional_boundary
+jordan_normal_form smith_normal_form_boundary
+primary_decomposition smith_normal_form_boundary
+rref_uniqueness smith_normal_form_boundary

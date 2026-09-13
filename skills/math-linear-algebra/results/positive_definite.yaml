@@ -1,0 +1,48 @@
+id: spectral.positive_definite
+node: positive_definite
+status_label: definition
+display: 'A real SYMMETRIC A is positive definite (A > 0) if x^T A x > 0 for every x != 0, and positive SEMIdefinite (A >= 0) if x^TAx >= 0 for all x. Negative (semi)definite by reversing; INDEFINITE otherwise.'
+parseable: 'A > 0  <=>  A = A^T and x^TAx > 0 for all x != 0;  A >= 0  <=>  A = A^T and x^TAx >= 0'
+field_scope: ordered_field
+choice_grade: choice_free
+symbols:
+  'A > 0, A >= 0': 'the Loewner ordering notation; A >= B means A - B >= 0'
+type_check_status: well_formed
+type_check_note: 'Well-formed only over an ORDERED field (to say ''> 0'') and conventionally only for SYMMETRIC A (so that x^TAx captures all of A -- see quadratic_form). Both restrictions are why the node carries edges to ordered_field_hyp and self_adjoint.'
+hypotheses:
+  - 'A symmetric'
+  - 'F ordered (F = R here)'
+preconditions: []
+dependencies:
+  - 'ordered_field_hyp'
+  - 'quadratic_form'
+  - 'real_number'
+  - 'self_adjoint'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A = I: positive definite'
+  - 'A = 0: positive semidefinite but not definite'
+  - 'any Gram matrix is PSD, and definite iff the vectors are independent (gram_matrix)'
+  - 'a covariance matrix is PSD, and definite iff no linear combination of the variables is degenerate'
+counterexamples_when_dropped:
+  symmetry: 'for a NON-symmetric A the condition x^TAx > 0 depends only on (A+A^T)/2, so it cannot characterise A. [[1,-3],[3,1]] satisfies x^TAx = ||x||^2 > 0 yet has complex eigenvalues -- ''positive definite'' in the eigenvalue sense fails while the quadratic-form condition holds. The two notions agree ONLY for symmetric A, which is why symmetry is built into the definition'
+  the_ordered_field: 'over C, x^TAx is complex; the Hermitian form x^*Ax is real exactly when A is Hermitian, and that is the correct complex definition'
+  definite_versus_semidefinite: 'diag(1,0) is PSD, singular, and NOT positive definite -- the distinction is exactly invertibility'
+common_misuse:
+  - 'calling a non-symmetric matrix positive definite without saying which sense'
+  - 'assuming positive entries means positive definite: [[1,2],[2,1]] has all positive entries and eigenvalues 3, -1 -- INDEFINITE. Conversely [[2,-1],[-1,2]] has negative entries and is positive definite'
+applications:
+  - 'covariance matrices, Hessians at a minimum, kernel matrices in SVMs and Gaussian processes, and the mass and stiffness matrices of a stable structure'
+  - 'the Fisher information matrix in math-statistics is PSD, which is what makes the Cramer-Rao bound meaningful'
+related:
+  required_by: ['psd_characterisations', 'cholesky_factorisation', 'gram_matrix', 'singular_values']
+sources:
+  - 'horn_johnson_2e'
+  - 'boyd_vandenberghe'
+status: reviewed
+checks:
+  type: validation/type-checks.md#positive_definite
+  specialization: validation/specialization-cases.md#positive_definite
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#positive_definite

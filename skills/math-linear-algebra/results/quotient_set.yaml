@@ -1,0 +1,32 @@
+id: foundations.quotient_set
+node: quotient_set
+status_label: proved_theorem
+display: 'X/~, the set of equivalence classes, with the canonical projection x -> [x] and the well-definedness criterion for maps out of it.'
+parseable: 'X/~, the set of equivalence classes, with the canonical projection x -> [x] and the well-definedness criterion for maps out of it.'
+choice_grade: choice_free
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-sets-functions-cardinality:quotient_set'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-sets-functions-cardinality:quotient_set'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-sets-functions-cardinality:quotient_set'
+sources:
+  - 'math-sets-functions-cardinality'
+status: reviewed
+checks:
+  type: validation/type-checks.md#quotient_set
+  specialization: validation/specialization-cases.md#quotient_set
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#quotient_set

@@ -1,0 +1,55 @@
+id: spectral.singular_value_decomposition
+node: singular_value_decomposition
+status_label: proved_theorem
+display: 'Every A in F^{m x n} factors as A = U Sigma V^* with U in F^{m x m} and V in F^{n x n} unitary and Sigma in R^{m x n} diagonal with entries sigma_1 >= ... >= sigma_p >= 0. Equivalently A = sum_{i=1}^r sigma_i u_i v_i^* with r = rank A. NO hypothesis on A whatsoever -- not square, not symmetric, not full rank.'
+parseable: 'A = U Sigma V^*,  U^*U = I_m, V^*V = I_n, Sigma diagonal nonnegative nonincreasing;  A = sum_{i<=r} sigma_i u_i v_i^*'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'u_i, v_i': 'the left and right singular vectors'
+  'r': 'rank A'
+type_check_status: well_formed
+type_check_note: 'Well-formed for EVERY matrix over R or C. The unqualified generality is the point: where the eigendecomposition needs diagonalisability and the spectral theorem needs symmetry, the SVD needs nothing.'
+hypotheses:
+  - 'F = R or C'
+preconditions: []
+dependencies:
+  - 'gram_schmidt'
+  - 'matrix_rank'
+  - 'orthogonal_matrix'
+  - 'orthonormal_basis'
+  - 'singular_values'
+  - 'spectral_theorem_symmetric'
+proof:
+  technique: 'diagonalise the Hermitian PSD A^*A = V D V^* by spectral_theorem_symmetric; set sigma_i = sqrt(d_i) and u_i = Av_i/sigma_i for sigma_i > 0, which are orthonormal by construction; extend to an orthonormal basis of F^m by gram_schmidt'
+  derives_from: 'singular_values'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A symmetric PSD: U = V and the SVD is the eigendecomposition'
+  - 'A orthogonal: Sigma = I'
+  - 'A = uv^*: a single term, sigma_1 = ||u|| ||v||'
+  - 'the geometric reading: every linear map is a rotation, then an axis-aligned scaling, then another rotation'
+counterexamples_when_dropped:
+  uniqueness_fails: 'the singular VALUES are unique, but U and V are not: any repeated singular value allows rotating within its subspace, and even for distinct values each pair (u_i, v_i) can be multiplied by a common unit scalar. Claims of a ''unique SVD'' are wrong'
+  no_hypothesis_can_be_dropped_because_there_are_none: 'the only requirement is F in {R, C}. Over a general field there is no SVD, because there is no notion of nonnegative square root'
+common_misuse:
+  - 'expecting a unique U and V'
+  - 'interpreting singular vectors as eigenvectors of A'
+applications:
+  - 'principal component analysis (the SVD of the centred data matrix), latent semantic analysis, image compression, and every low-rank approximation method -- via eckart_young'
+  - 'the numerically definitive way to compute rank, null space, range, and pseudoinverse of a matrix'
+related:
+  generalizes: ['spectral_theorem_symmetric']
+  required_by: ['svd_four_subspaces', 'moore_penrose_pseudoinverse', 'eckart_young']
+sources:
+  - 'trefethen_bau'
+  - 'golub_van_loan_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#singular_value_decomposition
+  specialization: validation/specialization-cases.md#singular_value_decomposition
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#singular_value_decomposition

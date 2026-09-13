@@ -1,0 +1,43 @@
+id: eigentheory.distinct_eigenvalues_independent
+node: distinct_eigenvalues_independent
+status_label: proved_theorem
+display: 'Eigenvectors belonging to PAIRWISE DISTINCT eigenvalues are linearly independent. Consequently an operator on an n-dimensional space has at most n distinct eigenvalues.'
+parseable: 'lambda_1,...,lambda_k distinct, v_i != 0 with Tv_i = lambda_i v_i  =>  (v_1,...,v_k) independent'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'k': 'the number of distinct eigenvalues, at most dim V'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Note it takes ONE eigenvector per eigenvalue; the stronger statement that the eigenSPACES form a direct sum follows and is used by diagonalisability_criterion.'
+hypotheses:
+  - 'the eigenvalues pairwise distinct'
+preconditions: []
+dependencies:
+  - 'eigenvalue'
+  - 'induction_principle'
+  - 'linear_independence'
+proof:
+  technique: 'induction on k: apply (T - lambda_k I) to a vanishing combination, killing the last term and scaling the others by (lambda_i - lambda_k) != 0; the inductive hypothesis forces the remaining coefficients to vanish'
+  derives_from: 'linear_independence'
+  lean_status: core
+  lean_ref: 'LinAlg.distinct_eig_indep_step (the induction step)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k = 2: two eigenvectors for distinct eigenvalues cannot be proportional, since a proportional pair would satisfy both eigen-equations'
+  - 'k = n: n eigenvectors for n distinct eigenvalues form a basis, giving distinct_eigenvalues_diagonalisable'
+counterexamples_when_dropped:
+  distinctness: 'two eigenvectors for the SAME eigenvalue can certainly be dependent -- any two elements of a one-dimensional eigenspace are'
+  nonzero_eigenvectors: 'the zero vector satisfies every eigen-equation and would make any list dependent'
+common_misuse:
+  - 'concluding an operator with fewer than n distinct eigenvalues is not diagonalisable: repeated eigenvalues are fine provided the geometric multiplicities are full (I_n has one eigenvalue and is diagonal)'
+related:
+  required_by: ['distinct_eigenvalues_diagonalisable', 'diagonalisability_criterion']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#distinct_eigenvalues_independent
+  specialization: validation/specialization-cases.md#distinct_eigenvalues_independent
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#distinct_eigenvalues_independent

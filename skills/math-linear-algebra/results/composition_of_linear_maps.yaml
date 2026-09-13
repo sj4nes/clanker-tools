@@ -1,0 +1,41 @@
+id: linear_maps.composition_of_linear_maps
+node: composition_of_linear_maps
+status_label: proposition
+display: 'The composite of linear maps is linear; composition is associative, and bilinear in each argument: (S_1 + S_2)T = S_1T + S_2T, S(T_1 + T_2) = ST_1 + ST_2, (aS)T = S(aT) = a(ST).'
+parseable: 'S, T linear => S o T linear;  associative;  bilinear over L'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'S o T': 'written ST, type: linear map V -> X when T: V -> W and S: W -> X'
+type_check_status: well_formed
+type_check_note: 'Well-formed only when the shapes conform (codomain of T equals domain of S); this conformability is the abstract source of the matrix shape rule.'
+hypotheses:
+  - 'shapes conformable'
+preconditions: []
+dependencies:
+  - 'linear_map'
+  - 'space_of_linear_maps'
+proof:
+  technique: 'direct substitution; associativity is inherited from composition of functions'
+  derives_from: 'linear_map'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = W = X: L(V) becomes an associative unital algebra, the setting for minimal_polynomial and cayley_hamilton'
+counterexamples_when_dropped:
+  conformability: 'composing non-conformable maps is not a false statement but an ill-typed one -- the type check is the whole content'
+  commutativity_is_NOT_available: 'ST != TS in general; see matrix_mult_noncommutative'
+common_misuse:
+  - 'cancelling: ST = SU does not give T = U unless S is injective'
+related:
+  required_by: ['linear_operator', 'matrix_mult_is_composition', 'dual_map']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#composition_of_linear_maps
+  specialization: validation/specialization-cases.md#composition_of_linear_maps
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#composition_of_linear_maps

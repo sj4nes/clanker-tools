@@ -1,0 +1,41 @@
+id: matrices.matrix_rank
+node: matrix_rank
+status_label: definition
+display: 'rank A = dim col(A) = dim row(A) = the number of pivots in any echelon form of A = rank of the map x -> Ax.'
+parseable: 'rank A := dim col(A) = dim row(A) = #pivots'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'rank A': 'type: natural number, at most min(m, n)'
+type_check_status: well_formed
+type_check_note: 'Well-formed as a definite description because of row_rank_equals_column_rank and rref_uniqueness -- three descriptions, one number.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'column_space'
+  - 'dimension'
+  - 'pivot_columns'
+  - 'rank'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'rank A = 0 iff A = 0'
+  - 'rank A = min(m,n): full rank'
+  - 'rank of a rank-one matrix uv^T is 1 for nonzero u, v'
+counterexamples_when_dropped:
+  the_field: 'rank is FIELD-DEPENDENT for a matrix with entries in a subfield: [[1,1],[1,1]] has rank 1 over Q and over F_2; but consider [[1,1],[1,-1]] -- rank 2 over Q, rank 1 over F_2 since -1 = 1 there. Always state the field'
+  exact_arithmetic: 'numerically, rank is decided by a singular-value threshold, not by exact vanishing (condition_number)'
+common_misuse:
+  - 'reporting a floating-point rank without a tolerance'
+  - 'assuming rank(A+B) = rank A + rank B or rank(AB) = rank A * rank B -- see rank_inequalities'
+related:
+  required_by: ['rank_inequalities', 'invertibility_equivalences', 'singular_values']
+sources:
+  - 'strang_5e'
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#matrix_rank
+  specialization: validation/specialization-cases.md#matrix_rank
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#matrix_rank

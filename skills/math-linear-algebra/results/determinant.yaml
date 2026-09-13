@@ -1,0 +1,44 @@
+id: determinants.determinant
+node: determinant
+status_label: definition
+display: 'det: F^{n x n} -> F is THE unique normalised alternating multilinear function of the columns. Defined with no reference to eigenvalues (edges/cycles.md, cycle 1) and with no reference to minors, so rank stays determinant-free (cycle 3).'
+parseable: 'det := the unique D with D multilinear, alternating in the columns, D(I) = 1'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'det A': 'type: element of F'
+  '|A|': 'alternative notation, avoided here to prevent confusion with norms'
+type_check_status: well_formed
+type_check_note: 'Well-formed as a definite description ONLY because determinant_existence_uniqueness precedes it.'
+hypotheses:
+  - 'A square'
+preconditions: []
+dependencies:
+  - 'determinant_existence_uniqueness'
+  - 'multilinear_alternating_form'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 1: det[a] = a'
+  - 'n = 2: det = ad - bc'
+  - 'n = 3: the six-term Sarrus expansion -- valid ONLY for n = 3 and not a general pattern'
+counterexamples_when_dropped:
+  squareness: 'there is no determinant of a rectangular matrix; the nearest analogues are the Gram determinant det(A^TA) and the singular values'
+  commutativity_of_F: 'over a noncommutative division ring no function with these properties exists (the Dieudonne determinant lands in an abelianisation instead)'
+common_misuse:
+  - 'extending Sarrus'' rule to n >= 4, where it is simply wrong'
+  - 'reading det as a measure of how invertible A is: det != 0 is a yes/no test, and magnitude is not conditioning (condition_number)'
+applications:
+  - 'the Jacobian determinant as the local volume-change factor in the change-of-variables formula'
+  - 'the normalising constant of the multivariate normal density involves det(Sigma)'
+related:
+  required_by: ['leibniz_formula', 'determinant_multiplicative', 'characteristic_polynomial']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#determinant
+  specialization: validation/specialization-cases.md#determinant
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#determinant

@@ -1,0 +1,41 @@
+id: matrices.pivot_columns
+node: pivot_columns
+status_label: definition
+display: 'The pivot columns of A are the columns of A whose indices carry pivots in rref(A); the remaining columns are free. The PIVOT COLUMNS OF A (not of the RREF) form a basis of col(A); the free columns parameterise null(A).'
+parseable: 'pivot indices from rref(A);  {A_{.j} : j a pivot index} is a basis of col(A);  #free = dim null(A)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_{.j}': 'the j-th column of the ORIGINAL matrix'
+type_check_status: well_formed
+type_check_note: 'Well-formed by rref_uniqueness: the pivot INDEX SET is an invariant of A, even though the RREF''s columns are not the original columns.'
+hypotheses:
+  - 'rref(A) computed'
+preconditions: []
+dependencies:
+  - 'row_echelon_form'
+  - 'rref_uniqueness'
+proof:
+  technique: 'row operations preserve linear dependence relations among columns (they act on the left), so the original pivot columns are independent and the free ones are combinations of earlier pivot columns'
+  derives_from: 'rref_uniqueness'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A invertible: every column is a pivot column'
+  - 'A = [[1,2],[2,4]]: one pivot, col(A) is spanned by (1,2)^T, and the second column is free'
+counterexamples_when_dropped:
+  using_A_not_its_RREF: 'the RREF''s pivot columns span a DIFFERENT subspace: for A = [[1],[1]], rref(A) = [[1],[0]] and col(rref A) is the x-axis, not the diagonal. The index set transfers; the columns do not. This is the single most common elimination error'
+common_misuse:
+  - 'reading a column-space basis off the RREF columns (see above)'
+related:
+  required_by: ['matrix_rank', 'row_rank_equals_column_rank']
+sources:
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#pivot_columns
+  specialization: validation/specialization-cases.md#pivot_columns
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#pivot_columns

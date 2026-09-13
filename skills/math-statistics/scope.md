@@ -47,8 +47,13 @@ each pointing at a named `math-probability` node):
 
 ## What it takes as CITED BACKGROUND without a capsule (foundational gap)
 
-**Finite-dimensional linear algebra.** There is no `math-linear-algebra` capsule
-yet. A single `bridge` node `linear_algebra_background` enumerates exactly what
+**Finite-dimensional linear algebra.** *(Updated 2026-09-13: this gap is now
+CLOSED. The `math-linear-algebra` capsule, Release 0.1, develops all eleven
+items below and supplies all ten `tsort` consumers of this node — see
+[`math-linear-algebra/edges/cross-capsule.md`](../math-linear-algebra/edges/cross-capsule.md).
+The discharge is recorded as metadata, not as a graph edge, so this capsule's
+own graph is unchanged and still green.)* A single `bridge` node
+`linear_algebra_background` enumerates exactly what
 is assumed — vector space and subspace, matrix rank, transpose, inverse,
 symmetric and positive-(semi)definite matrices, the spectral theorem for real
 symmetric matrices, orthogonal projection onto a subspace and the projection
@@ -218,9 +223,12 @@ course that takes measure-based probability as given.
   a **cited root** — a `bridge` node with `lean_status: cited` and a pointer to
   the exact `math-probability` node. This capsule *uses* the CLT, the SLLN,
   Slutsky, the delta method, conditional expectation; it does not re-prove them.
-- **Finite-dimensional linear algebra is cited background** with no capsule (see
-  `linear_algebra_background`). This is the one acknowledged gap; a
-  `math-linear-algebra` capsule is the natural future floor.
+- **Finite-dimensional linear algebra is cited background** (see
+  `linear_algebra_background`). This was the one acknowledged gap; it is now
+  **discharged** by the `math-linear-algebra` capsule (Release 0.1, 2026-09-13),
+  which was built for exactly this purpose. It remains a cited *bridge* node
+  here — the discharge lives in that capsule's cross-capsule layer rather than
+  in this graph.
 - **The `t`, `χ²`, `F` distributions are constructed, not cited** — they are
   genuine `construction` nodes built from the probability capsule's `normal`
   and `gamma`. Their sampling-distribution roles (`(n−1)S²/σ² ~ χ²_{n−1}`,

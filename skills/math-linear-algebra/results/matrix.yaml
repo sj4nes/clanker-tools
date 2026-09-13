@@ -1,0 +1,40 @@
+id: matrices.matrix
+node: matrix
+status_label: definition
+display: 'A in F^{m x n} is a function {1..m} x {1..n} -> F, displayed as a rectangular array with m rows and n columns.'
+parseable: 'A : {1..m} x {1..n} -> F;  A_{ij} in F'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A': 'the matrix, type: element of F^{m x n}'
+  'm, n': 'the shape, type: positive integers'
+type_check_status: well_formed
+type_check_note: 'Well-formed. A matrix is data, not a map: it BECOMES a map only after the index_convention fixes that Ax means the column combination sum_j x_j A_{.j}, and the same array represents different maps under different bases.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'field'
+  - 'index_convention'
+  - 'set'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'm = n: a square matrix, the only shape for which eigenvalues, determinant, and trace are defined'
+  - 'n = 1: a column vector; m = 1: a row vector'
+  - 'm = n = 1: a scalar, under which every matrix identity in the capsule degenerates to field arithmetic'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'a definition. The trap is identifying the array with a map without naming the bases -- see matrix_of_linear_map'
+common_misuse:
+  - 'speaking of THE eigenvalues of a rectangular matrix (use singular_values)'
+  - 'treating a matrix as basis-independent: similarity classes, not matrices, correspond to operators'
+related:
+  required_by: ['matrix_multiplication', 'determinant']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#matrix
+  specialization: validation/specialization-cases.md#matrix
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#matrix

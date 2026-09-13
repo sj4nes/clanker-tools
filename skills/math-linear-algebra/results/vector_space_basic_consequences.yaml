@@ -1,0 +1,37 @@
+id: vector_spaces.vector_space_basic_consequences
+node: vector_space_basic_consequences
+status_label: proposition
+display: 'In any vector space: 0v = 0, a0 = 0, (-1)v = -v, and av = 0 implies a = 0 or v = 0.'
+parseable: '0v = 0;  a0 = 0;  (-1)v = -v;  av = 0 => (a = 0 or v = 0)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '0': 'context-dependent: the zero scalar on the left of 0v, the zero vector elsewhere'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The last clause is the ''no zero divisors'' statement and is exactly where the FIELD structure (invertibility of nonzero a) is used, not merely the ring axioms.'
+hypotheses:
+  - 'V a vector space over a field F'
+preconditions: []
+dependencies:
+  - 'vector_space'
+proof:
+  technique: '0v = (0+0)v = 0v + 0v, then cancel in the abelian group; for the last clause, if a != 0 multiply by a^{-1}'
+  derives_from: 'vector_space'
+  lean_status: core
+  lean_ref: 'LinAlg.smul_zero_eq_zero, LinAlg.zero_smul_vec, LinAlg.neg_one_smul, LinAlg.no_zero_smul_divisors'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'in F^n these are the componentwise facts, but the proof uses only the axioms and so holds in every V'
+counterexamples_when_dropped:
+  invertibility_of_nonzero_scalars: 'over the ring Z/6 as a module over itself, 2*3 = 0 with neither factor zero -- the no-zero-divisors clause genuinely needs F to be a field'
+common_misuse:
+  - 'treating 0v = 0 as an axiom: it is a consequence, and deriving it is the standard check that an axiom list is not redundant'
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#vector_space_basic_consequences
+  specialization: validation/specialization-cases.md#vector_space_basic_consequences
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#vector_space_basic_consequences

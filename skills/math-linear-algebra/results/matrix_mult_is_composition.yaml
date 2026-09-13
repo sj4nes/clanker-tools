@@ -1,0 +1,45 @@
+id: matrices.matrix_mult_is_composition
+node: matrix_mult_is_composition
+status_label: proved_theorem
+display: '[S o T]_{D<-B} = [S]_{D<-C} [T]_{C<-B}. Matrix multiplication represents composition; associativity of the product follows from associativity of composition, with no index computation.'
+parseable: '[S o T]_{D<-B} = [S]_{D<-C} [T]_{C<-B}'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'B, C, D': 'ordered bases of the three spaces involved'
+type_check_status: well_formed
+type_check_note: 'Well-formed: the middle basis C must be THE SAME on both factors, which is the conceptual content of the conformability rule.'
+hypotheses:
+  - 'all spaces finite-dimensional'
+  - 'bases fixed'
+preconditions: []
+dependencies:
+  - 'composition_of_linear_maps'
+  - 'matrix_multiplication'
+  - 'matrix_of_linear_map'
+proof:
+  technique: 'compute the j-th column of both sides: both equal the D-coordinates of S(T(b_j))'
+  derives_from: 'matrix_of_linear_map'
+  lean_status: dim_core
+  lean_ref: 'LinAlg.mul_assoc2, LinAlg.mul_one2 (n = 2)'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'S = I: recovers [T] = [T]'
+  - 'all spaces equal with one basis: L(V) is isomorphic to F^{n x n} as an algebra'
+counterexamples_when_dropped:
+  same_middle_basis: 'using different bases for the codomain of T and the domain of S silently inserts a change-of-basis matrix; this is the most common source of wrong products in applied work'
+  finite_dimensionality: 'no matrix representation exists otherwise'
+common_misuse:
+  - 'proving associativity of matrix multiplication by a triple-sum index manipulation and treating that as the explanation: the real reason is that function composition is associative'
+related:
+  required_by: ['change_of_basis']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#matrix_mult_is_composition
+  specialization: validation/specialization-cases.md#matrix_mult_is_composition
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#matrix_mult_is_composition

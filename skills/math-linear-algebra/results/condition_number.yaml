@@ -1,0 +1,53 @@
+id: spectral.condition_number
+node: condition_number
+status_label: definition
+display: 'kappa_2(A) = sigma_1/sigma_n = ||A||_2 ||A^{-1}||_2 for invertible A. It bounds the relative error amplification: ||dx||/||x|| <= kappa(A) (||db||/||b|| + ||dA||/||A||) to first order. LARGE kappa means ILL-CONDITIONED, which is NOT the same as singular.'
+parseable: 'kappa_2(A) := sigma_1/sigma_n = ||A||_2 ||A^{-1}||_2;  relative error amplification bounded by kappa;  kappa >= 1 always'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'kappa_2(A)': 'type: real >= 1'
+  'dx, db': 'perturbations'
+type_check_status: well_formed
+type_check_note: 'Well-formed for invertible A; for singular A, kappa = infinity by convention, and for rectangular A one uses sigma_1/sigma_r. Note kappa is SCALE-INVARIANT: kappa(cA) = kappa(A), unlike the determinant.'
+hypotheses:
+  - 'A invertible'
+preconditions: []
+dependencies:
+  - 'invertibility_equivalences'
+  - 'linear_system'
+  - 'matrix_norms'
+  - 'singular_values'
+proof:
+  technique: 'from ||A||_2 = sigma_1 and ||A^{-1}||_2 = 1/sigma_n; the perturbation bound by expanding (A+dA)(x+dx) = b+db and using submultiplicativity. The floating-point interpretation (roughly log10(kappa) digits lost) is a CITED numerical-analysis heuristic'
+  derives_from: 'matrix_norms'
+  lean_status: core
+  lean_ref: 'LinAlg.condition_ge_one'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A orthogonal: kappa = 1, the best possible -- which is why orthogonal transformations are the building block of stable algorithms'
+  - 'A = diag(1, 1e-10): kappa = 1e10, so about 10 digits are lost'
+  - 'kappa(A^TA) = kappa(A)^2 -- the reason the normal equations are avoided (least_squares)'
+  - 'the Hilbert matrix H_n has kappa growing like e^{3.5n}: catastrophic by n = 12'
+counterexamples_when_dropped:
+  determinant_is_not_conditioning: 'A = 1e-5 * I_{10} has det = 1e-50, vanishingly small, yet kappa = 1 -- perfectly conditioned. Conversely diag(1, 1e-10) has det = 1e-10 and kappa = 1e10. The determinant is scale-sensitive and conditioning is not; the two carry entirely different information. This is the single most important practical point in the node'
+  conditioning_is_a_property_of_the_PROBLEM: 'kappa bounds what ANY algorithm can achieve on this data; a backward-stable algorithm achieves it, an unstable one does worse. Conditioning and stability are different notions'
+common_misuse:
+  - 'using a small determinant as a near-singularity test (see above)'
+  - 'treating a large kappa as an algorithm''s fault: it is a property of the problem, and the remedy is reformulation (regularisation, scaling, a better basis), not a better solver'
+applications:
+  - 'the standard diagnostic for whether a linear system or regression is trustworthy; variance inflation factors in regression are a condition-number statement about the design matrix'
+  - 'the reason centring and scaling predictors, and using orthogonal polynomial bases, materially improve a fit'
+related:
+  contrasts_with: ['determinant_invertible_iff']
+  approximates: ['linear_system']
+sources:
+  - 'trefethen_bau'
+  - 'higham_asna_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#condition_number
+  specialization: validation/specialization-cases.md#condition_number
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#condition_number

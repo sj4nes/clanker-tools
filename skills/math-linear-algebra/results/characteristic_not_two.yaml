@@ -1,0 +1,35 @@
+id: vector_spaces.characteristic_not_two
+node: characteristic_not_two
+status_label: definition
+display: 'char F != 2, i.e. 1 + 1 != 0 in F. Required wherever a factor of 1/2 is taken, and wherever a symmetric bilinear form must be recoverable from its quadratic form.'
+parseable: '1 + 1 != 0 in F'
+field_scope: char_not_2
+choice_grade: choice_free
+symbols:
+  'char F': 'the characteristic: the least n > 0 with n*1 = 0, or 0 if none'
+type_check_status: well_formed
+type_check_note: 'Well-formed for any field. Note char F is either 0 or a prime.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'field'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'F = Q, R, C all have characteristic 0, so every char_not_2 result applies unconditionally there'
+  - 'F = F_3: 1 + 1 = 2 != 0, so the hypothesis holds over odd finite fields too'
+counterexamples_when_dropped:
+  char_not_2: 'over F_2 the polarisation identity fails: the map q(x) = x^T A x determines A only up to adding an alternating matrix, since q(x+y) - q(x) - q(y) = 2 x^T A y = 0. Symmetric and alternating forms cease to be distinguishable, and quadratic_form''s uniqueness of the symmetric representative is false'
+common_misuse:
+  - 'writing (A + A^T)/2 to symmetrise a matrix without checking the characteristic'
+related:
+  required_by: ['polarisation_identity', 'quadratic_form']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'lang_algebra_3e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#characteristic_not_two
+  specialization: validation/specialization-cases.md#characteristic_not_two
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#characteristic_not_two

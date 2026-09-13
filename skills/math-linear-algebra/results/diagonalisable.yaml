@@ -1,0 +1,46 @@
+id: eigentheory.diagonalisable
+node: diagonalisable
+status_label: definition
+display: 'T is diagonalisable if V has a basis of eigenvectors of T; equivalently its matrix is A = PDP^{-1} with D diagonal. A property of the OPERATOR, not of any matrix representing it.'
+parseable: 'T diagonalisable  <=>  exists a basis of eigenvectors  <=>  A = P D P^{-1} with D diagonal'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'P': 'the matrix whose COLUMNS are the eigenvectors'
+  'D': 'diag(lambda_1,...,lambda_n)'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The columns of P are the eigenvectors in the same order as the diagonal entries of D -- a correspondence that is easy to invert by mistake.'
+hypotheses:
+  - 'V finite-dimensional'
+preconditions: []
+dependencies:
+  - 'basis'
+  - 'eigenvalue'
+  - 'similarity'
+  - 'triangular_matrix'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'D itself is diagonalisable with P = I'
+  - 'any matrix with n distinct eigenvalues in F (distinct_eigenvalues_diagonalisable)'
+  - 'every real symmetric matrix, with P ORTHOGONAL (spectral_theorem_symmetric) -- a much stronger conclusion'
+counterexamples_when_dropped:
+  existence_of_a_full_eigenbasis: '[[1,1],[0,1]] is not diagonalisable over ANY field'
+  the_field: '[[0,-1],[1,0]] is not diagonalisable over R (no eigenvalues) but IS over C. Diagonalisability is field-relative'
+  similarity_versus_orthogonal_similarity: 'P is merely invertible here. Requiring P orthogonal is a strictly stronger property, available exactly for normal matrices'
+common_misuse:
+  - 'assuming P can be taken orthogonal for a general diagonalisable matrix: it can only for normal ones'
+  - 'using A = PDP^{-1} to compute A^k without checking diagonalisability first'
+applications:
+  - 'A^k = PD^kP^{-1} makes powers, matrix exponentials, and the long-run behaviour of linear recurrences and Markov chains computable in closed form'
+related:
+  required_by: ['diagonalisability_criterion', 'spectral_theorem_symmetric']
+sources:
+  - 'axler_lada_4e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#diagonalisable
+  specialization: validation/specialization-cases.md#diagonalisable
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#diagonalisable

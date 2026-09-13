@@ -1,0 +1,47 @@
+id: matrices.linear_system
+node: linear_system
+status_label: definition
+display: 'Ax = b with A in F^{m x n}, b in F^m. It is CONSISTENT iff b is in col(A); its solution set is then x_p + null(A), an AFFINE subspace (a coset), where x_p is any particular solution.'
+parseable: 'Ax = b consistent <=> b in col(A);  solution set = x_p + null(A)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'x_p': 'any particular solution'
+  'x_p + null(A)': 'type: coset of null(A) in F^n'
+type_check_status: well_formed
+type_check_note: 'Well-formed; the solution set is a subspace ONLY when b = 0. For b != 0 it is affine and contains no zero vector, which is why solution sets of inhomogeneous systems are not vector spaces.'
+hypotheses:
+  - 'b in col(A) for consistency'
+preconditions: []
+dependencies:
+  - 'column_space'
+  - 'gaussian_elimination'
+  - 'matrix'
+  - 'null_space'
+proof:
+  technique: 'if Ax_p = b then Ax = b iff A(x - x_p) = 0'
+  derives_from: 'column_space'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'b = 0: the solution set is null(A), a genuine subspace'
+  - 'A invertible: a unique solution x = A^{-1}b'
+  - 'rank A = m < n: consistent for every b, with an (n - m)-dimensional family of solutions'
+counterexamples_when_dropped:
+  consistency: 'if b is not in col(A) there is NO solution; least_squares then replaces the equation by minimising ||Ax - b||, which always has a solution'
+  affine_not_linear: 'treating the solution set as a subspace leads to the false claim that a sum of two solutions is a solution -- it solves Ax = 2b'
+common_misuse:
+  - 'averaging two solutions of an inhomogeneous system and expecting a solution: the AVERAGE is one (affine combinations are preserved), the SUM is not'
+  - 'concluding from ''more equations than unknowns'' that there is no solution -- that depends on rank, not on shape'
+related:
+  required_by: ['cramers_rule', 'least_squares', 'condition_number']
+sources:
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#linear_system
+  specialization: validation/specialization-cases.md#linear_system
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#linear_system

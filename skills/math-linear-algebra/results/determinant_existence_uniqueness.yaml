@@ -1,0 +1,45 @@
+id: determinants.determinant_existence_uniqueness
+node: determinant_existence_uniqueness
+status_label: proved_theorem
+display: 'There is EXACTLY ONE multilinear alternating form D on the columns of F^{n x n} with D(I) = 1. Stated deliberately WITHOUT naming ''the determinant'' -- this is what makes the subsequent definition non-circular (edges/cycles.md, cycle 2).'
+parseable: 'exists! D : (F^n)^n -> F multilinear, alternating, with D(e_1,...,e_n) = 1'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'D': 'the unique normalised alternating multilinear form'
+type_check_status: well_formed
+type_check_note: 'Well-formed as an existence-and-uniqueness statement about a class of functions, with no forward reference. Uniqueness is what makes ''the determinant'' a definite description.'
+hypotheses:
+  - 'F a commutative field'
+  - 'n fixed'
+preconditions: []
+dependencies:
+  - 'identity_matrix'
+  - 'multilinear_alternating_form'
+  - 'permutation_sign'
+proof:
+  technique: 'UNIQUENESS: expand each column in the standard basis by multilinearity, giving a sum over all index functions; alternation kills every non-injective one, leaving a sum over S_n with coefficients forced by the swap rule and D(I) = 1. EXISTENCE: verify that the resulting Leibniz sum is multilinear and alternating'
+  derives_from: 'multilinear_alternating_form'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2: uniqueness forces D = ad - bc'
+  - 'dropping the normalisation D(I) = 1 leaves a ONE-DIMENSIONAL space of alternating forms, all scalar multiples of det -- normalisation is what selects one'
+counterexamples_when_dropped:
+  the_normalisation: 'without D(I) = 1, D = 0 also qualifies and uniqueness fails outright'
+  alternation: 'without it, many multilinear forms exist (the permanent among them)'
+common_misuse:
+  - 'proving existence by writing the Leibniz formula and calling it the definition -- the point of this ordering is that the CHARACTERISATION comes first and the formula is derived'
+related:
+  required_by: ['determinant', 'leibniz_formula']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'lang_algebra_3e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#determinant_existence_uniqueness
+  specialization: validation/specialization-cases.md#determinant_existence_uniqueness
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#determinant_existence_uniqueness

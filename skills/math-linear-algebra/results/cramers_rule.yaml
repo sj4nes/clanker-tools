@@ -1,0 +1,46 @@
+id: determinants.cramers_rule
+node: cramers_rule
+status_label: corollary
+display: 'For invertible A, the unique solution of Ax = b is x_i = det(A_i)/det(A), where A_i is A with its i-th COLUMN replaced by b.'
+parseable: 'A invertible  =>  x_i = det(A_i)/det(A),  A_i = A with column i replaced by b'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_i': 'the modified matrix, type: element of F^{n x n}'
+type_check_status: well_formed
+type_check_note: 'Well-formed when det A != 0. Note the substitution is into a COLUMN, matching the column-multilinearity of det.'
+hypotheses:
+  - 'A square and invertible'
+preconditions: []
+dependencies:
+  - 'adjugate'
+  - 'determinant_invertible_iff'
+  - 'linear_system'
+proof:
+  technique: 'x = A^{-1}b = adj(A)b/det(A); the i-th entry of adj(A)b is the Laplace expansion of det(A_i)'
+  derives_from: 'adjugate'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 2: x_1 = (b_1 d - b_2 b)/det, the two-equation formula from school algebra'
+  - 'over Z with det A = +-1: the solution is automatically integral'
+counterexamples_when_dropped:
+  invertibility: 'for singular A the formula divides by zero; a consistent singular system has infinitely many solutions and Cramer says nothing about them'
+  cost: 'n+1 determinants, so O(n * n^3) at best against O(n^3) for elimination -- Cramer is exponentially worse if the determinants are computed by expansion'
+common_misuse:
+  - 'using it to solve systems of any real size'
+  - 'applying it to an underdetermined or inconsistent system'
+applications:
+  - 'still useful for SYMBOLIC 2x2 and 3x3 solves, and for proving that solutions depend rationally (hence smoothly) on the entries -- the implicit function theorem''s linear core'
+related:
+  historically_precedes: ['gaussian_elimination']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#cramers_rule
+  specialization: validation/specialization-cases.md#cramers_rule
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#cramers_rule

@@ -1,0 +1,42 @@
+id: foundations.fundamental_theorem_of_algebra
+node: fundamental_theorem_of_algebra
+status_label: proved_theorem
+display: 'Every nonconstant polynomial in C[t] has a root in C; equivalently every such polynomial splits into linear factors. C is algebraically closed. CITED, NOT PROVED -- every known proof needs analysis or topology that no capsule in this stack develops.'
+parseable: 'for all p in C[t] with deg p >= 1, there exists z in C with p(z) = 0'
+field_scope: algebraically_closed
+choice_grade: choice_free
+symbols:
+  'p': 'a polynomial, type: element of C[t]'
+  'z': 'a root, type: element of C'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Note the statement is about C specifically, not about fields in general -- most fields are not algebraically closed.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'complex_number'
+proof:
+  technique: 'cited; standard proofs use Liouville''s theorem, the argument principle, or a minimum-modulus/compactness argument, none available in this stack'
+  derives_from: null
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'degree 2 over R: t^2 + 1 has no real root but factors over C, which is the minimal instance of why R is not algebraically closed'
+counterexamples_when_dropped:
+  the_field_being_C: 'over R the theorem is false: t^2 + 1 is irreducible. This is precisely the hypothesis that eigenvalue_existence_closed needs, and why a real rotation matrix can have no real eigenvalue'
+  nonconstant: 'a nonzero constant polynomial has no root; the degree >= 1 hypothesis is not decorative'
+common_misuse:
+  - 'citing FTA to claim a REAL matrix has real eigenvalues -- it gives complex ones, and realness for symmetric matrices is a separate theorem (self_adjoint_real_eigenvalues)'
+  - 'treating this capsule''s use of it as proved: it is the capsule''s single largest cited gap'
+related:
+  required_by: ['schur_triangularisation', 'spectral_theorem_normal']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'horn_johnson_2e'
+status: draft
+checks:
+  type: validation/type-checks.md#fundamental_theorem_of_algebra
+  specialization: validation/specialization-cases.md#fundamental_theorem_of_algebra
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#fundamental_theorem_of_algebra

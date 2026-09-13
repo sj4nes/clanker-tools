@@ -1,0 +1,45 @@
+id: inner_product.bessel_inequality
+node: bessel_inequality
+status_label: proposition
+display: 'For any orthonormal set (e_1,...,e_k) and any v: sum_{i=1}^k |<v,e_i>|^2 <= ||v||^2.'
+parseable: 'sum_{i=1}^k |<v, e_i>|^2 <= ||v||^2'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  '<v,e_i>': 'the i-th Fourier coefficient of v'
+type_check_status: well_formed
+type_check_note: 'Well-formed for any orthonormal set, whether or not it is a basis. This is the point: Bessel needs no completeness, Parseval does.'
+hypotheses:
+  - '(e_i) orthonormal'
+preconditions: []
+dependencies:
+  - 'induced_norm'
+  - 'orthogonality'
+  - 'orthonormal_basis'
+  - 'pythagorean_theorem'
+proof:
+  technique: 'write v = P v + (v - P v) with P the projection onto span(e_i); Pythagoras gives ||v||^2 = ||Pv||^2 + ||v - Pv||^2 >= ||Pv||^2 = sum |<v,e_i>|^2'
+  derives_from: 'pythagorean_theorem'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'k = 1: |<v,e>|^2 <= ||v||^2, which is Cauchy-Schwarz for a unit vector'
+  - '(e_i) a BASIS: equality, which is parseval_identity'
+  - 'the deficit ||v||^2 - sum |<v,e_i>|^2 is exactly the squared distance from v to the span'
+counterexamples_when_dropped:
+  orthonormality: 'for a general independent set the sum of squared coefficients can EXCEED ||v||^2 -- take two nearly-parallel unit vectors in R^2 and v along their common direction'
+  equality_requires_a_basis: 'an orthonormal set that misses a direction leaves a strictly positive deficit'
+common_misuse:
+  - 'assuming equality without checking that the orthonormal set spans'
+related:
+  required_by: ['parseval_identity']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#bessel_inequality
+  specialization: validation/specialization-cases.md#bessel_inequality
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#bessel_inequality

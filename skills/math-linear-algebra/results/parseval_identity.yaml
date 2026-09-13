@@ -1,0 +1,48 @@
+id: inner_product.parseval_identity
+node: parseval_identity
+status_label: proved_theorem
+display: 'For an orthonormal BASIS (e_1,...,e_n): ||v||^2 = sum_i |<v,e_i>|^2, and more generally <u,v> = sum_i <u,e_i> conj(<v,e_i>). Coordinates in an orthonormal basis are an ISOMETRY onto F^n.'
+parseable: '||v||^2 = sum_i |<v,e_i>|^2;  <u,v> = sum_i <u,e_i> conj(<v,e_i>)'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  '(e_i)': 'an orthonormal BASIS, not merely an orthonormal set'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The statement is that the coordinate map is not just a linear isomorphism (coordinate_isomorphism) but an ISOMETRY -- it preserves the inner product, not only the linear structure.'
+hypotheses:
+  - '(e_i) an orthonormal basis'
+  - 'V finite-dimensional'
+preconditions: []
+dependencies:
+  - 'basis_unique_representation'
+  - 'bessel_inequality'
+  - 'finite_dimensional'
+  - 'orthonormal_basis'
+proof:
+  technique: 'expand v = sum <v,e_i> e_i and compute <u,v> using orthonormality; every cross term vanishes'
+  derives_from: 'bessel_inequality'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = F^n with the standard basis: the identity is the definition of the norm'
+  - 'the Fourier series case: sum |c_n|^2 = (1/2pi) integral |f|^2, the classical Parseval theorem -- infinite-dimensional and CITED'
+counterexamples_when_dropped:
+  spanning: 'for a non-spanning orthonormal set only Bessel''s INEQUALITY holds; the deficit is the squared distance to the span'
+  completeness_in_infinite_dimension: 'an orthonormal set can be maximal yet fail Parseval in an INCOMPLETE inner product space -- completeness is what upgrades maximal-orthonormal to Parseval, and this capsule does not develop it'
+common_misuse:
+  - 'applying Parseval to a truncated basis (that is Bessel)'
+  - 'assuming a maximal orthonormal set in an infinite-dimensional space satisfies Parseval without completeness'
+applications:
+  - 'the energy-preservation property of the Fourier and wavelet transforms; the decomposition of total variance into orthogonal components in PCA and ANOVA'
+related:
+  special_case_of: ['bessel_inequality']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#parseval_identity
+  specialization: validation/specialization-cases.md#parseval_identity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#parseval_identity

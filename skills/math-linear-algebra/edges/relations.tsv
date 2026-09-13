@@ -1,0 +1,38 @@
+relation	a	b	note
+generalizes	matrix_norms	induced_norm	the operator norm is the induced-norm construction applied to linear maps
+generalizes	moore_penrose_pseudoinverse	invertible_matrix	A^+ = A^{-1} exactly when A is invertible
+generalizes	singular_value_decomposition	spectral_theorem_symmetric	SVD is the rectangular, two-basis extension of the square orthogonal diagonalisation
+generalizes	spectral_theorem_normal	spectral_theorem_symmetric	the real symmetric case is the self-adjoint specialisation of the normal case over C
+generalizes	primary_decomposition	diagonalisability_criterion	diagonalisable is the case where every generalised eigenspace equals its eigenspace
+generalizes	jordan_normal_form	primary_decomposition	Jordan refines the primary decomposition by resolving each nilpotent part into blocks
+generalizes	schur_complement	determinant_triangular	block triangularisation is the block analogue of the triangular determinant
+generalizes	courant_fischer	rayleigh_quotient	min-max extends the extremal characterisation from the first and last eigenvalue to all of them
+special_case_of	cholesky_factorisation	lu_factorisation	Cholesky is LU specialised to positive definite symmetric A, with U = L^T
+special_case_of	hat_matrix	orthogonal_projection	the hat matrix is the projection onto col(A) written in coordinates
+special_case_of	least_squares	best_approximation	least squares is best approximation with U = col(A)
+special_case_of	qr_factorisation	gram_schmidt	QR is Gram-Schmidt on the columns, recorded as a matrix factorisation
+special_case_of	triangle_inequality	cauchy_schwarz	the triangle inequality is Cauchy-Schwarz squared and rearranged
+special_case_of	parseval_identity	bessel_inequality	Parseval is Bessel with equality, which holds exactly for a complete orthonormal system
+special_case_of	vandermonde_determinant	leibniz_formula	a closed form for one family of determinants
+equivalent_to	basis_existence_general	axiom_of_choice	over ZF, every vector space has a basis is equivalent to AC (Blass 1984)
+equivalent_to	projection_matrix_characterisation	orthogonal_projection	P^2 = P = P^T is the coordinate form of the basis-free projection
+equivalent_to	invertibility_equivalences	determinant_invertible_iff	one clause of the omnibus theorem; kept separate because the determinant route is only one of seven
+equivalent_to	minimal_polynomial_diagonalisable	diagonalisability_criterion	two criteria for the same property, one via multiplicities and one via m_T
+dual_of	row_space	column_space	row(A) = col(A^T); every column statement transposes to a row statement
+dual_of	null_space	left_null_space	null(A^T) is the left null space
+dual_of	dual_map	transpose	the transpose matrix represents the dual map in dual bases
+dual_of	annihilator	orthogonal_complement	the annihilator is the inner-product-free analogue of the orthogonal complement
+contrasts_with	similarity	congruence	P^{-1}AP preserves eigenvalues; P^T A P preserves only inertia. Confusing them is the standard quadratic-form error
+contrasts_with	condition_number	determinant_invertible_iff	a tiny determinant does NOT mean ill-conditioned and a large one does not mean well-conditioned; scaling changes det but not kappa
+contrasts_with	algebraic_geometric_multiplicity	diagonalisability_criterion	the gap between the two multiplicities is exactly the obstruction to diagonalisability
+contrasts_with	spectral_radius	matrix_norms	rho(A) is not a norm and rho(A) < 1 does not bound any single power of A
+contrasts_with	rank_inequalities	four_subspaces	rank is subadditive but the four subspaces partition dimension exactly
+approximates	eckart_young	singular_value_decomposition	the truncated SVD is the optimal rank-k approximation, with a named error in two norms
+approximates	condition_number	linear_system	kappa bounds relative solution error given relative data error; a bound, not a prediction
+illustrated_by	non_diagonalisable_counterexample	diagonalisability_criterion	the 2x2 Jordan block is the minimal witness of geometric < algebraic multiplicity
+illustrated_by	matrix_mult_noncommutative	matrix_multiplication	the minimal witness that matrix algebra is not scalar algebra
+illustrated_by	infinite_dimensional_boundary	finite_dimensional	the catalogue of what the hypothesis is actually buying
+proved_using	cayley_hamilton	adjugate	the release's route; the complexify-and-triangularise route is an alternative not encoded as an edge
+proved_using	spectral_theorem_symmetric	rayleigh_quotient	the release's route; complexify-and-use-FTA is the alternative
+proved_using	row_rank_equals_column_rank	rref_uniqueness	the release's route; the rank-factorisation route A = CR is an alternative
+historically_precedes	cramers_rule	gaussian_elimination	Cramer 1750 predates the systematic elimination theory, and is exponentially worse for n > 3

@@ -1,0 +1,41 @@
+id: matrices.lu_pivoting_regime
+node: lu_pivoting_regime
+status_label: definition
+display: 'Unpivoted LU exists iff every leading principal minor of A is nonzero. Partial pivoting (choose the largest-magnitude available pivot) is required otherwise, and is standard practice regardless for numerical stability.'
+parseable: 'A = LU without swaps  <=>  det(A_{1:k,1:k}) != 0 for k = 1..n;  otherwise PA = LU'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A_{1:k,1:k}': 'the leading k x k principal submatrix'
+type_check_status: well_formed
+type_check_note: 'Well-formed; the minors condition is exact-arithmetic. The stability claim is a numerical statement about floating-point behaviour and is labelled as such, not proved here.'
+hypotheses:
+  - 'exact arithmetic for the existence clause; floating point for the stability clause'
+preconditions: []
+dependencies:
+  - 'lu_factorisation'
+proof:
+  technique: 'existence by induction on k, the k-th pivot being the ratio of consecutive leading minors; the stability claim is CITED from numerical analysis, not established in this capsule'
+  derives_from: 'lu_factorisation'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A symmetric positive definite: all leading minors are positive (psd_characterisations), so no pivoting is needed for existence OR stability -- the reason Cholesky needs no pivoting'
+  - 'A strictly diagonally dominant: likewise pivot-free'
+counterexamples_when_dropped:
+  nonzero_leading_minors: '[[0,1],[1,0]] again: invertible, no unpivoted LU'
+  exactness_versus_stability: 'A = [[1e-20, 1],[1, 1]] HAS an unpivoted LU in exact arithmetic, but computing it in double precision returns a factorisation whose product is nowhere near A. Existence and usability are different questions'
+common_misuse:
+  - 'reading ''LU exists'' as ''LU is safe to compute'''
+  - 'treating growth factors and backward-error bounds as established here: they are cited numerical-analysis results, outside this capsule''s scope (see scope.md)'
+sources:
+  - 'golub_van_loan_4e'
+  - 'higham_asna_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#lu_pivoting_regime
+  specialization: validation/specialization-cases.md#lu_pivoting_regime
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#lu_pivoting_regime

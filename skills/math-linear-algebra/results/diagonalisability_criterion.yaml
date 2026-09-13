@@ -1,0 +1,48 @@
+id: eigentheory.diagonalisability_criterion
+node: diagonalisability_criterion
+status_label: proved_theorem
+display: 'T is diagonalisable if and only if p_T SPLITS over F and geom(lambda) = alg(lambda) for every eigenvalue; equivalently V is the DIRECT SUM of the eigenspaces; equivalently sum of the geometric multiplicities = dim V.'
+parseable: 'T diagonalisable  <=>  p_T splits and geom = alg for all lambda  <=>  V = (+)_lambda E_lambda  <=>  sum geom(lambda) = dim V'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '(+)': 'direct sum over the distinct eigenvalues'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Two conditions, BOTH necessary: splitting (which fails for the real rotation) and multiplicity equality (which fails for the Jordan block). They are logically independent.'
+hypotheses:
+  - 'V finite-dimensional'
+preconditions: []
+dependencies:
+  - 'algebraic_geometric_multiplicity'
+  - 'diagonalisable'
+  - 'dimension_formula_sum'
+  - 'direct_sum'
+  - 'distinct_eigenvalues_diagonalisable'
+  - 'eigenspace'
+proof:
+  technique: 'the eigenspaces for distinct eigenvalues form a direct sum by distinct_eigenvalues_independent; that sum is all of V iff the dimensions add to dim V, which by geom <= alg and sum alg = deg p_T = dim V (needs splitting) happens iff geom = alg throughout'
+  derives_from: 'algebraic_geometric_multiplicity'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n distinct eigenvalues: every alg = 1 forces geom = 1, so diagonalisable'
+  - 'T = lambda I: one eigenvalue with alg = geom = n'
+counterexamples_when_dropped:
+  splitting: '[[0,-1],[1,0]] over R: geom = alg vacuously (no eigenvalues) but p_T does not split, and it is not diagonalisable. So the multiplicity condition alone is insufficient'
+  multiplicity_equality: '[[1,1],[0,1]]: p splits completely, but geom(1) = 1 < 2 = alg(1). So splitting alone is insufficient. The two counterexamples together show the conditions are independent'
+common_misuse:
+  - 'checking only one of the two conditions'
+  - 'assuming a matrix over C is diagonalisable because p always splits there -- splitting is automatic over C, the MULTIPLICITY condition is what can fail'
+related:
+  equivalent_to: ['minimal_polynomial_diagonalisable']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#diagonalisability_criterion
+  specialization: validation/specialization-cases.md#diagonalisability_criterion
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#diagonalisability_criterion

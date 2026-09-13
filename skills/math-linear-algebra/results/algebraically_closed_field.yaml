@@ -1,0 +1,38 @@
+id: eigentheory.algebraically_closed_field
+node: algebraically_closed_field
+status_label: definition
+display: 'F is algebraically closed if every nonconstant polynomial in F[t] has a root in F, equivalently splits into linear factors. The hypothesis behind every ''there exists an eigenvalue'' statement.'
+parseable: 'for all p in F[t] with deg p >= 1, there exists a in F with p(a) = 0'
+field_scope: algebraically_closed
+choice_grade: choice_free
+symbols:
+  'F': 'the scalar field'
+type_check_status: well_formed
+type_check_note: 'Well-formed over any field. C is the instance this capsule uses, supplied by the cited fundamental_theorem_of_algebra.'
+hypotheses:
+  - 'F algebraically closed'
+preconditions: []
+dependencies:
+  - 'complex_number'
+  - 'field'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'F = C by the fundamental theorem of algebra'
+  - 'the algebraic closure of any field exists (needs AC in general), so every capsule result tagged algebraically_closed can be reached by passing to F-bar -- at the cost of leaving the original field'
+counterexamples_when_dropped:
+  algebraic_closure: 'over R the rotation by 90 degrees, [[0,-1],[1,0]], has characteristic polynomial t^2 + 1 and NO real eigenvalue. Every statement of the form ''an operator has an eigenvalue'', ''is triangularisable'', ''has a Jordan form'' fails over R for this matrix'
+  over_Q: 'even worse: [[0,2],[1,0]] has char poly t^2 - 2, with no root in Q'
+common_misuse:
+  - 'applying Jordan form or Schur triangularisation to a real matrix and expecting real output -- the output is complex unless the spectrum happens to be real, which for SYMMETRIC matrices is guaranteed by a different theorem'
+related:
+  required_by: ['eigenvalue_existence_closed', 'schur_triangularisation', 'primary_decomposition', 'jordan_normal_form']
+sources:
+  - 'axler_lada_4e'
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#algebraically_closed_field
+  specialization: validation/specialization-cases.md#algebraically_closed_field
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#algebraically_closed_field

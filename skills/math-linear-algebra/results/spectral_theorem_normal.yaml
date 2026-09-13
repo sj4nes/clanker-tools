@@ -1,0 +1,51 @@
+id: spectral.spectral_theorem_normal
+node: spectral_theorem_normal
+status_label: proved_theorem
+display: 'Over C, A is UNITARILY diagonalisable if and only if A is NORMAL: A = U D U^* with U unitary and D diagonal (generally complex).'
+parseable: 'A in C^{n x n}:  A = U D U^* with U^*U = I  <=>  AA^* = A^*A'
+field_scope: algebraically_closed
+choice_grade: choice_free
+symbols:
+  'U': 'unitary'
+  'D': 'complex diagonal'
+type_check_status: well_formed
+type_check_note: 'Well-formed over C. Note D is complex in general -- realness of the diagonal is the extra content of self-adjointness, not of normality.'
+hypotheses:
+  - 'F = C'
+  - 'finite-dimensional'
+preconditions: []
+dependencies:
+  - 'diagonalisable'
+  - 'fundamental_theorem_of_algebra'
+  - 'normal_matrix'
+  - 'orthogonal_matrix'
+  - 'schur_triangularisation'
+proof:
+  technique: 'forward: A = UDU^* gives AA^* = UDD^*U^* = UD^*DU^* = A^*A since diagonal matrices commute. Backward: by schur_triangularisation A = QTQ^* with T upper triangular; normality of A forces normality of T, and a normal triangular matrix is diagonal (compare the (1,1) entries of TT^* and T^*T and induct)'
+  derives_from: 'schur_triangularisation'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A Hermitian: D is real (self_adjoint_real_eigenvalues), recovering the complex form of spectral_theorem_symmetric'
+  - 'A unitary: D has entries of modulus 1'
+  - 'A skew-Hermitian: D is purely imaginary'
+counterexamples_when_dropped:
+  normality: '[[1,1],[0,1]] is not normal and not diagonalisable'
+  the_field_being_C: 'a real orthogonal rotation is normal and is unitarily diagonalisable over C, but NOT orthogonally diagonalisable over R -- its eigenvalues are not real. Over R the correct statement is the real normal form with 2x2 rotation blocks'
+  unitary_versus_merely_invertible: 'a diagonalisable non-normal matrix (e.g. [[1,1],[0,2]]) has A = PDP^{-1} with P invertible but NOT unitary. Normality is exactly the obstruction'
+common_misuse:
+  - 'expecting a real orthogonal diagonalisation of a real normal but non-symmetric matrix'
+  - 'confusing diagonalisable (P invertible) with unitarily diagonalisable (P unitary) -- the latter is strictly stronger and is what gives numerical stability'
+related:
+  generalizes: ['spectral_theorem_symmetric']
+sources:
+  - 'horn_johnson_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#spectral_theorem_normal
+  specialization: validation/specialization-cases.md#spectral_theorem_normal
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#spectral_theorem_normal

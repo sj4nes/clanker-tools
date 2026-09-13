@@ -1,0 +1,44 @@
+id: matrices.one_sided_inverse_square
+node: one_sided_inverse_square
+status_label: proposition
+display: 'For SQUARE A, B over a field: AB = I implies BA = I. A one-sided inverse of a square matrix is automatically two-sided.'
+parseable: 'A, B in F^{n x n},  AB = I  =>  BA = I  (and B = A^{-1})'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A, B': 'square matrices of the same size'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The proposition is a dimension statement in disguise and inherits its hypotheses from injective_surjective_equivalence.'
+hypotheses:
+  - 'A, B square of the same size'
+  - 'F a field'
+preconditions: []
+dependencies:
+  - 'injective_surjective_equivalence'
+  - 'invertible_matrix'
+  - 'rank_nullity'
+proof:
+  technique: 'AB = I makes the map x -> Ax surjective, hence injective by injective_surjective_equivalence, hence bijective; then B = A^{-1}'
+  derives_from: 'injective_surjective_equivalence'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 1: ab = 1 in a field gives ba = 1 by commutativity'
+counterexamples_when_dropped:
+  squareness: 'for A in F^{2x3} and B in F^{3x2} one can have AB = I_2 with BA != I_3 -- BA has rank at most 2 < 3, so it cannot be I_3'
+  finite_dimensionality: 'on F[t] the shift pair LR = I, RL != I is the standing counterexample (see invertible_operator)'
+  F_a_field: 'over the ring Z, A = [2] has no inverse at all, though over the module-theoretic analogue one-sidedness can behave worse'
+common_misuse:
+  - 'extending the convenience to rectangular matrices or to operators on function spaces'
+related:
+  illustrated_by: ['infinite_dimensional_boundary']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#one_sided_inverse_square
+  specialization: validation/specialization-cases.md#one_sided_inverse_square
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#one_sided_inverse_square

@@ -1,0 +1,42 @@
+id: determinants.determinant_similarity_invariant
+node: determinant_similarity_invariant
+status_label: corollary
+display: 'det(P^{-1}AP) = det(A). The determinant depends only on the operator, not on the basis, and is therefore a similarity invariant.'
+parseable: 'det(P^{-1} A P) = det(A)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'P': 'invertible'
+type_check_status: well_formed
+type_check_note: 'Well-formed. This is what licenses defining det(T) for an OPERATOR T, by taking the determinant of its matrix in any basis.'
+hypotheses:
+  - 'P invertible'
+preconditions: []
+dependencies:
+  - 'determinant_invertible_iff'
+  - 'determinant_multiplicative'
+  - 'similarity'
+proof:
+  technique: 'multiplicativity: det(P^{-1})det(A)det(P) = det(A) since det(P^{-1}) = 1/det(P) and F is commutative'
+  derives_from: 'determinant_multiplicative'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'P orthogonal: det(P) = +-1, so det is also a CONGRUENCE invariant in that special case'
+  - 'but for general congruence det(P^TAP) = det(P)^2 det(A), which is NOT invariant -- only its SIGN is (see sylvester_law_of_inertia)'
+counterexamples_when_dropped:
+  similarity_versus_congruence: 'under congruence the determinant scales by det(P)^2 > 0 over R. So congruence preserves the SIGN of det but not its value -- which is exactly the one-dimensional shadow of Sylvester''s law'
+common_misuse:
+  - 'assuming det is a congruence invariant'
+related:
+  required_by: ['characteristic_polynomial', 'similar_invariants']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#determinant_similarity_invariant
+  specialization: validation/specialization-cases.md#determinant_similarity_invariant
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#determinant_similarity_invariant

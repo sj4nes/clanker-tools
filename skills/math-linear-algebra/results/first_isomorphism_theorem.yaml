@@ -1,0 +1,48 @@
+id: linear_maps.first_isomorphism_theorem
+node: first_isomorphism_theorem
+status_label: proved_theorem
+display: 'For linear T: V -> W, the map v + ker T -> T(v) is a well-defined isomorphism V/ker T -> im T.'
+parseable: 'V / ker T  isomorphic to  im T,  via v + ker T -> T(v)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'V/ker T': 'the quotient by the kernel'
+  'im T': 'the image in W'
+type_check_status: well_formed
+type_check_note: 'The type check is the WELL-DEFINEDNESS check: if v + ker T = v'' + ker T then v - v'' is in ker T so T(v) = T(v''). This is the canonical instance of well_defined_on_quotient.'
+hypotheses:
+  - 'T linear'
+preconditions: []
+dependencies:
+  - 'image_subspace'
+  - 'kernel'
+  - 'linear_isomorphism'
+  - 'quotient_space'
+proof:
+  technique: 'well-definedness as above; injectivity because T(v) = 0 puts v in ker T, i.e. the coset is zero; surjectivity onto im T by construction'
+  derives_from: 'quotient_space'
+  lean_status: cited
+  lean_ref: null
+well_definedness: 'Independence of the coset representative is exactly the definition of ker T, so the map is well-defined for EVERY linear T with no extra hypothesis.'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T injective: V/{0} isomorphic to V, so T is an isomorphism onto its image'
+  - 'taking dimensions recovers rank_nullity via quotient_dimension -- the two theorems are the same fact, one counted and one structural'
+counterexamples_when_dropped:
+  linearity: 'for a nonlinear map the fibres are not cosets of a subspace and there is no quotient to form'
+  none_all_hypotheses_essential: 'no finite-dimensionality is needed: this is the structural statement that SURVIVES in infinite dimension while its dimension-counting shadow (rank_nullity) does not'
+common_misuse:
+  - 'treating V/ker T as a subspace of V: see quotient_space'
+related:
+  equivalent_to: []
+  required_by: []
+sources:
+  - 'hoffman_kunze_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#first_isomorphism_theorem
+  specialization: validation/specialization-cases.md#first_isomorphism_theorem
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#first_isomorphism_theorem

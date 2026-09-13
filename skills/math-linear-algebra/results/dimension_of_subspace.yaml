@@ -1,0 +1,40 @@
+id: vector_spaces.dimension_of_subspace
+node: dimension_of_subspace
+status_label: proposition
+display: 'If U is a subspace of a finite-dimensional V then U is finite-dimensional, dim U <= dim V, and dim U = dim V if and only if U = V.'
+parseable: 'U subspace of V, dim V < infinity  =>  dim U <= dim V, with equality iff U = V'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'U': 'a subspace of V'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The equality clause is the workhorse: it converts a dimension count into a set equality, which is how most ''these two subspaces coincide'' arguments in the capsule are closed.'
+hypotheses:
+  - 'V finite-dimensional'
+  - 'U a subspace of V'
+preconditions: []
+dependencies:
+  - 'basis_existence_finite'
+  - 'dimension'
+proof:
+  technique: 'a basis of U is independent in V so has at most dim V elements (Steinitz); if dim U = dim V, a basis of U is a maximal independent family in V hence spans V'
+  derives_from: 'steinitz_exchange'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'U = {0}: dimension 0 <= dim V'
+  - 'dim U = dim V - 1: a hyperplane, the kernel of a nonzero functional (see annihilator)'
+counterexamples_when_dropped:
+  finite_dimensionality_of_V: 'in F[t] the subspace of polynomials with zero constant term is a PROPER subspace with the same (infinite) dimension -- the equality clause fails outright. This is the same phenomenon as the infinite-dimensional failure of injective_surjective_equivalence'
+common_misuse:
+  - 'applying the equality clause without checking dim V is finite'
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#dimension_of_subspace
+  specialization: validation/specialization-cases.md#dimension_of_subspace
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#dimension_of_subspace

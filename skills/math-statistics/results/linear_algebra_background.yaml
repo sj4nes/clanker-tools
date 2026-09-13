@@ -1,8 +1,8 @@
 id: foundations.linear_algebra_background
 node: linear_algebra_background
 status_label: proved_theorem
-display: 'Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. FLAGGED for a future math-linear-algebra capsule.'
-parseable: 'Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. FLAGGED for a future math-linear-algebra capsule.'
+display: 'Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. DISCHARGED by the math-linear-algebra capsule (Release 0.1, 2026-09-13): all eleven items are developed nodes there, and all ten tsort consumers of THIS node are supplied. See math-linear-algebra/edges/cross-capsule.md for the per-item and per-consumer tables. Recorded as metadata, not as a tsort edge -- this capsule''s graph is unchanged.'
+parseable: 'Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. DISCHARGED by the math-linear-algebra capsule (Release 0.1, 2026-09-13): all eleven items are developed nodes there, and all ten tsort consumers of THIS node are supplied. See math-linear-algebra/edges/cross-capsule.md for the per-item and per-consumer tables. Recorded as metadata, not as a tsort edge -- this capsule''s graph is unchanged.'
 symbols: {}
 type_check_status: well_formed
 type_check_note: 'cited; well-formedness established upstream'
@@ -10,19 +10,19 @@ hypotheses: []
 preconditions: []
 dependencies: []
 proof:
-  technique: 'cited from linear-algebra:background-assumed'
+  technique: 'cited from math-linear-algebra:vector_space'
   derives_from: null
   lean_status: cited
-  lean_ref: 'linear-algebra:background-assumed'
+  lean_ref: 'math-linear-algebra:vector_space'
 uses_choice: false
 constructive: true
 specialization_cases: []
 counterexamples_when_dropped:
   none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
 common_misuse:
-  - 'treating this as proved here — it is imported from linear-algebra:background-assumed'
+  - 'treating this as proved here — it is imported from math-linear-algebra:vector_space'
 sources:
-  - 'linear-algebra'
+  - 'math-linear-algebra'
 status: reviewed
 checks:
   type: validation/type-checks.md#linear_algebra_background

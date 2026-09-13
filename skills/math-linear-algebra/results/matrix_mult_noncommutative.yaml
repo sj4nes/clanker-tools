@@ -1,0 +1,41 @@
+id: matrices.matrix_mult_noncommutative
+node: matrix_mult_noncommutative
+status_label: counterexample
+display: 'AB != BA in general. Minimal witness: A = [[0,1],[0,0]], B = [[0,0],[1,0]] give AB = [[1,0],[0,0]] and BA = [[0,0],[0,1]] -- not equal, and with DIFFERENT eigenvalue positions though the same spectrum {0,1}.'
+parseable: 'A = [[0,1],[0,0]], B = [[0,0],[1,0]]:  AB = [[1,0],[0,0]] != [[0,0],[0,1]] = BA'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'A, B': '2x2 nilpotent matrices over any field'
+type_check_status: well_formed
+type_check_note: 'Well-formed over any field; the entries are 0 and 1, so the witness works even over F_2.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'matrix_multiplication'
+proof:
+  technique: 'direct computation'
+  derives_from: 'matrix_multiplication'
+  lean_status: instance
+  lean_ref: 'LinAlg.ab_ne_ba, LinAlg.noncomm_but_trace_and_det_agree'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'tr(AB) = tr(BA) = 1 nevertheless -- the trace IS cyclic even though the product is not commutative (trace_cyclic)'
+  - 'det(AB) = det(BA) = 0, likewise: determinant is multiplicative hence commutative on products'
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'this IS a counterexample node; it exists to block the scalar-algebra habit'
+common_misuse:
+  - 'writing (A+B)^2 = A^2 + 2AB + B^2 (correct only if AB = BA)'
+  - 'writing e^{A}e^{B} = e^{A+B} (the Baker-Campbell-Hausdorff correction is exactly the failure of commutativity)'
+  - 'writing (AB)^{-1} = A^{-1}B^{-1} instead of B^{-1}A^{-1}'
+related:
+  illustrated_by: []
+sources:
+  - 'horn_johnson_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#matrix_mult_noncommutative
+  specialization: validation/specialization-cases.md#matrix_mult_noncommutative
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#matrix_mult_noncommutative

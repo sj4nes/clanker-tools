@@ -1,0 +1,40 @@
+id: matrices.elementary_row_operation
+node: elementary_row_operation
+status_label: definition
+display: 'Three operations on the rows of a matrix: (R1) swap two rows; (R2) multiply a row by a NONZERO scalar; (R3) add a scalar multiple of one row to a DIFFERENT row. Each is reversible.'
+parseable: 'R1: r_i <-> r_j;  R2: r_i -> c r_i with c != 0;  R3: r_i -> r_i + c r_j with i != j'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'r_i': 'the i-th row'
+  'c': 'a scalar, required nonzero in R2'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The two side conditions (c != 0 in R2, i != j in R3) are exactly what makes each operation invertible, hence what makes row_equivalence an equivalence relation.'
+hypotheses:
+  - 'c != 0 in R2'
+  - 'i != j in R3'
+preconditions: []
+dependencies:
+  - 'field'
+  - 'matrix'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'R3 with c = 0 is the identity operation, harmless but useless'
+  - 'R1 is expressible via three R3''s and one R2 over any field, so the swap is redundant in principle'
+counterexamples_when_dropped:
+  nonzero_scalar_in_R2: 'multiplying a row by 0 destroys information irreversibly, changes the row space, and can turn a nonsingular matrix singular'
+  distinct_rows_in_R3: 'r_i -> r_i + c r_i is R2 with factor (1 + c), which is NOT invertible when c = -1 -- allowing i = j would break reversibility'
+common_misuse:
+  - 'applying COLUMN operations while tracking the null space: row operations preserve null(A), column operations preserve col(A), and mixing them preserves neither'
+related:
+  required_by: ['elementary_matrix', 'row_echelon_form']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#elementary_row_operation
+  specialization: validation/specialization-cases.md#elementary_row_operation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#elementary_row_operation

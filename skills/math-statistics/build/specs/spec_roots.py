@@ -122,5 +122,5 @@ ROOT("ra_interchange_limit_integral", "math-real-analysis:interchange_limit_inte
      "If |d/dtheta f(x; theta)| <= g(x) with int g < inf, then d/dtheta int f(x; theta) dx = int d/dtheta f(x; theta) dx (dominated convergence).")
 
 # --- no capsule: finite-dimensional linear algebra ------------------------
-ROOT("linear_algebra_background", "linear-algebra:background-assumed",
-     "Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. FLAGGED for a future math-linear-algebra capsule.")
+ROOT("linear_algebra_background", "math-linear-algebra:vector_space",
+     "Assumed without a capsule: vector spaces and subspaces, rank, transpose, inverse; symmetric and positive-(semi)definite matrices; the spectral theorem for real symmetric matrices; orthogonal projection onto a subspace and its idempotent symmetric projection matrix; trace; quadratic forms x^T A x. DISCHARGED by the math-linear-algebra capsule (Release 0.1, 2026-09-13): all eleven items are developed nodes there, and all ten tsort consumers of THIS node are supplied. See math-linear-algebra/edges/cross-capsule.md for the per-item and per-consumer tables. Recorded as metadata, not as a tsort edge -- this capsule's graph is unchanged.")

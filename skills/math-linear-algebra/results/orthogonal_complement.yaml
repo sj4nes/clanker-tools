@@ -1,0 +1,45 @@
+id: inner_product.orthogonal_complement
+node: orthogonal_complement
+status_label: definition
+display: 'U^perp = {v in V : <v,u> = 0 for all u in U}, a SUBSPACE of V for any subset U, with U^perp = (span U)^perp.'
+parseable: 'U^perp := {v : <v,u> = 0 for all u in U};  U^perp = (span U)^perp;  U subset (U^perp)^perp always'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'U^perp': 'type: subspace of V'
+type_check_status: well_formed
+type_check_note: 'Well-formed for an arbitrary SUBSET U, since the defining conditions are linear in v. That U^perp is a subspace even when U is not is what makes the notation useful.'
+hypotheses: []
+preconditions: []
+dependencies:
+  - 'orthogonality'
+  - 'span'
+  - 'subspace'
+proof:
+  technique: 'intersection of the kernels of the functionals <., u>, hence a subspace'
+  derives_from: 'orthogonality'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - '{0}^perp = V and V^perp = {0} (the latter uses positive definiteness)'
+  - 'in R^3, a plane''s complement is its normal line'
+  - 'U^perp = null(A^T) when U = col(A) -- this is adjoint_kernel_image'
+counterexamples_when_dropped:
+  positive_definiteness: 'for a degenerate form, V^perp can be nonzero (the radical), and U + U^perp need not be V. Over F_2 with sum x_iy_i, the span of (1,1) is contained in its OWN perp'
+  double_perp_needs_finite_dimension: 'U subset (U^perp)^perp always, but equality needs U to be a finite-dimensional (or closed) subspace -- see orthogonal_decomposition'
+common_misuse:
+  - 'confusing U^perp (in V, needs an inner product) with the annihilator U^0 (in V^*, needs none)'
+  - 'assuming (U^perp)^perp = U for a non-closed subspace of an infinite-dimensional space'
+related:
+  dual_of: ['annihilator']
+  required_by: ['orthogonal_decomposition', 'adjoint_kernel_image']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#orthogonal_complement
+  specialization: validation/specialization-cases.md#orthogonal_complement
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#orthogonal_complement

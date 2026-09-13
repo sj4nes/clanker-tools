@@ -1,0 +1,45 @@
+id: determinants.multilinear_alternating_form
+node: multilinear_alternating_form
+status_label: definition
+display: 'D: (F^n)^n -> F is multilinear if it is linear in each column separately with the others fixed, and ALTERNATING if D(...) = 0 whenever two columns are EQUAL. Alternating implies sign-change under a swap; the converse needs char F != 2.'
+parseable: 'D linear in each argument;  D(..., v, ..., v, ...) = 0;  hence D(swap) = -D'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'D': 'type: function (F^n)^n -> F'
+  'the n arguments': 'the COLUMNS of a matrix, type: elements of F^n'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Defining alternating by VANISHING rather than by sign change is deliberate and is what makes the theory characteristic-independent (see permutation_sign''s counterexample).'
+hypotheses:
+  - 'D multilinear'
+preconditions: []
+dependencies:
+  - 'field'
+  - 'index_convention'
+  - 'matrix'
+proof:
+  technique: 'vanishing implies antisymmetry: expand D(u+v, u+v) = 0 by multilinearity and cancel the two vanishing terms'
+  derives_from: 'matrix'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'n = 1: the multilinear alternating forms on F^1 are exactly the scalar multiples of the identity, D(a) = ca'
+  - 'n = 2: D([a,c],[b,d]) = ad - bc up to a scalar'
+counterexamples_when_dropped:
+  the_vanishing_definition: 'over F_2, ''D changes sign under a swap'' is satisfied by the PERMANENT (which never changes sign, and -1 = 1), yet the permanent is not the determinant. The vanishing definition excludes it'
+  multilinearity: 'a form that is merely additive in each slot, without homogeneity, does not pin down D even with alternation'
+common_misuse:
+  - 'treating ''alternating'' and ''antisymmetric'' as synonyms in characteristic 2'
+related:
+  required_by: ['determinant_existence_uniqueness', 'determinant']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'lang_algebra_3e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#multilinear_alternating_form
+  specialization: validation/specialization-cases.md#multilinear_alternating_form
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#multilinear_alternating_form

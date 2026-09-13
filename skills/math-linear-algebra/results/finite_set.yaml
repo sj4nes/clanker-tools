@@ -1,0 +1,32 @@
+id: foundations.finite_set
+node: finite_set
+status_label: proved_theorem
+display: 'A set equinumerous with {1,...,n} for some n in N; n is well-defined (pigeonhole).'
+parseable: 'A set equinumerous with {1,...,n} for some n in N; n is well-defined (pigeonhole).'
+choice_grade: choice_free
+symbols: {}
+type_check_status: well_formed
+type_check_note: 'cited; well-formedness established upstream'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-sets-functions-cardinality:finite_set'
+  derives_from: null
+  lean_status: cited
+  lean_ref: 'math-sets-functions-cardinality:finite_set'
+uses_choice: false
+constructive: true
+specialization_cases: []
+counterexamples_when_dropped:
+  none_all_hypotheses_essential: 'every listed hypothesis is used; see the block above'
+common_misuse:
+  - 'treating this as proved here — it is imported from math-sets-functions-cardinality:finite_set'
+sources:
+  - 'math-sets-functions-cardinality'
+status: reviewed
+checks:
+  type: validation/type-checks.md#finite_set
+  specialization: validation/specialization-cases.md#finite_set
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#finite_set

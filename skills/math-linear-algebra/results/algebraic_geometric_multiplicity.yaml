@@ -1,0 +1,48 @@
+id: eigentheory.algebraic_geometric_multiplicity
+node: algebraic_geometric_multiplicity
+status_label: definition
+display: 'The ALGEBRAIC multiplicity of lambda is its multiplicity as a root of p_A; the GEOMETRIC multiplicity is dim E_lambda. Always 1 <= geometric <= algebraic, and the gap is exactly the obstruction to diagonalisability.'
+parseable: 'alg(lambda) := multiplicity of lambda in p_A;  geom(lambda) := dim ker(A - lambda I);  1 <= geom <= alg'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'alg(lambda), geom(lambda)': 'type: positive integers'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The inequality is the substantive content and requires proof; that geom >= 1 is just the definition of an eigenvalue.'
+hypotheses:
+  - 'lambda an eigenvalue of A'
+preconditions: []
+dependencies:
+  - 'char_poly_roots_are_eigenvalues'
+  - 'characteristic_polynomial'
+  - 'dimension'
+  - 'eigenspace'
+proof:
+  technique: 'extend a basis of E_lambda to a basis of V; in that basis A is block triangular with lambda I_g in the top-left block, so (t - lambda)^g divides p_A'
+  derives_from: 'characteristic_polynomial'
+  lean_status: core
+  lean_ref: 'LinAlg.geom_le_alg'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'A diagonalisable: geom = alg for every eigenvalue (diagonalisability_criterion)'
+  - 'A = [[1,1],[0,1]]: alg(1) = 2, geom(1) = 1 -- the minimal defective example'
+  - 'lambda a SIMPLE root (alg = 1): then geom = 1 forced, so simple eigenvalues never cause defectiveness'
+counterexamples_when_dropped:
+  the_inequality_is_strict_in_general: 'the Jordan block above; the deficiency alg - geom counts the number of Jordan blocks beyond the first'
+  the_reverse_inequality_is_false: 'geom > alg never happens, but assuming geom = alg is exactly the diagonalisability assumption'
+common_misuse:
+  - 'counting eigenvalues ''with multiplicity'' without saying WHICH multiplicity -- p_A uses algebraic, eigenspace dimensions use geometric'
+  - 'assuming a repeated eigenvalue means non-diagonalisable'
+related:
+  contrasts_with: ['diagonalisability_criterion']
+  required_by: ['generalised_eigenspace']
+sources:
+  - 'horn_johnson_2e'
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#algebraic_geometric_multiplicity
+  specialization: validation/specialization-cases.md#algebraic_geometric_multiplicity
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#algebraic_geometric_multiplicity

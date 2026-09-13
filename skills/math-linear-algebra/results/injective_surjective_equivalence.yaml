@@ -1,0 +1,46 @@
+id: linear_maps.injective_surjective_equivalence
+node: injective_surjective_equivalence
+status_label: corollary
+display: 'If dim V = dim W < infinity then for T: V -> W the conditions injective, surjective, and bijective are EQUIVALENT.'
+parseable: 'dim V = dim W < infinity  =>  (T injective <=> T surjective <=> T bijective)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'T': 'a linear map between spaces of equal finite dimension'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Both the equality of dimensions AND their finiteness are needed; the node carries edges to finite_dimensional for exactly this reason.'
+hypotheses:
+  - 'dim V = dim W'
+  - 'V finite-dimensional'
+preconditions: []
+dependencies:
+  - 'dimension_of_subspace'
+  - 'finite_dimensional'
+  - 'injective_iff_trivial_kernel'
+  - 'rank_nullity'
+proof:
+  technique: 'injective gives nullity 0, so rank = dim V = dim W, so im T = W by dimension_of_subspace; conversely surjective gives rank = dim W = dim V, so nullity 0'
+  derives_from: 'rank_nullity'
+  lean_status: core
+  lean_ref: 'LinAlg.inj_iff_surj_of_dim_eq'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'V = W = F^n: a square matrix is injective iff surjective iff invertible -- one clause of invertibility_equivalences'
+  - 'the finite-field analogue of the pigeonhole principle for linear maps'
+counterexamples_when_dropped:
+  finite_dimensionality: 'on F[t], multiplication by t is injective but not surjective (nothing maps to the constant 1); formal differentiation is surjective but not injective. Both live on the SAME space, so equality of dimensions holds trivially and it is finiteness alone that fails'
+  equal_dimensions: 'F^2 -> F^3 can be injective and never surjective; F^3 -> F^2 can be surjective and never injective'
+common_misuse:
+  - 'applying it to operators on function spaces, where it is exactly false and is the reason Fredholm theory exists'
+  - 'applying it to a non-square matrix'
+related:
+  illustrated_by: ['infinite_dimensional_boundary']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#injective_surjective_equivalence
+  specialization: validation/specialization-cases.md#injective_surjective_equivalence
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#injective_surjective_equivalence

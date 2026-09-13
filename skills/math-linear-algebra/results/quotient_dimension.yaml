@@ -1,0 +1,44 @@
+id: vector_spaces.quotient_dimension
+node: quotient_dimension
+status_label: proposition
+display: 'For a finite-dimensional V and a subspace U, dim(V/U) = dim V - dim U. The number dim(V/U) is the CODIMENSION of U in V.'
+parseable: 'dim(V/U) = dim V - dim U'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'codim U': '= dim(V/U), type: natural number'
+type_check_status: well_formed
+type_check_note: 'Well-formed; the subtraction is legitimate because dim U <= dim V by dimension_of_subspace.'
+hypotheses:
+  - 'V finite-dimensional'
+  - 'U a subspace'
+preconditions: []
+dependencies:
+  - 'basis_existence_finite'
+  - 'dimension'
+  - 'finite_dimensional'
+  - 'quotient_space'
+proof:
+  technique: 'extend a basis of U to a basis of V; the images of the added vectors form a basis of V/U'
+  derives_from: 'basis_existence_finite'
+  lean_status: core
+  lean_ref: 'LinAlg.dim_quotient'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'U = {0}: dim(V/U) = dim V'
+  - 'U a hyperplane: codimension 1, and V/U is one-dimensional -- the setting of a single linear functional'
+counterexamples_when_dropped:
+  finite_dimensionality: 'codimension can be finite while both dimensions are infinite (the polynomials with zero constant term have codimension 1 in F[t]), so the SUBTRACTION is meaningless even though the quotient is fine. Codimension, not dimension, is the robust notion'
+common_misuse:
+  - 'computing codimension as dim V - dim U when V is infinite-dimensional: define it as dim(V/U) directly'
+related:
+  required_by: ['first_isomorphism_theorem']
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#quotient_dimension
+  specialization: validation/specialization-cases.md#quotient_dimension
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#quotient_dimension

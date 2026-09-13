@@ -322,9 +322,90 @@ linear model with Gauss–Markov. Per-result `regime:` tag
 `linear_algebra_background`); LAN/Hajek/LAM proved not stated; martingale +
 sequential methods; deeper empirical-process layer; GLMs beyond the exp-family
 mention.
-- [ ] **math-statistics:** acknowledged gap — no `math-linear-algebra` capsule;
-      `linear_algebra_background` is a single cited `bridge` node. Candidate for
-      a future capsule below this one.
+- [x] **math-statistics:** acknowledged gap CLOSED — `math-linear-algebra`
+      Release 0.1 built 2026-09-13 (see its own section below). All 11 items
+      `linear_algebra_background` enumerated are developed nodes there, and all
+      10 `tsort` consumers of that node inside `math-statistics` are supplied.
+      Discharge recorded as metadata in
+      `math-linear-algebra/edges/cross-capsule.md` (11-row item table + 10-row
+      per-consumer table), NOT as a graph edge — the
+      `math-sets-functions-cardinality` 0.2 / `physics-thermoacoustics` pattern.
+      `math-statistics` side updated the same day: the `nodes.tsv` row, the
+      `spec_roots.py` ROOT stub (the "FLAGGED for a future capsule" note
+      replaced by the citation), `scope.md` (both passages), and
+      `sources/bibliography.md`. `sh build/all.sh` still green for
+      `math-statistics` — its graph is untouched.
+
+### math-linear-algebra  (new capsule — Release 0.1 COMPLETE, 2026-09-13)
+
+The floor under `math-statistics`, built to discharge its
+`linear_algebra_background` node. 198 nodes, 599 `tsort` edges, **acyclic on
+the first pass**, 0 isolated, 19 roots.
+
+- [x] **math-linear-algebra:** Release 0.1 — graph, all 198 entries, Lean, `bc`,
+      seven indexes, `SKILL.md`/`README.md`/`CHANGELOG.md`. Areas: matrices 39,
+      vector spaces 28, spectral 27, inner product 25, eigentheory 24, linear
+      maps 20, determinants 17, foundations 16, boundary 2. Coverage runs from
+      the vector-space axioms through rank-nullity and duality, elimination and
+      the four subspaces, the determinant, eigentheory (Cayley-Hamilton, minimal
+      polynomial, Schur, primary decomposition), inner product spaces
+      (Gram-Schmidt, projection, least squares, QR) to spectral theory (both
+      spectral theorems, Courant-Fischer, definiteness, Sylvester inertia, SVD,
+      pseudoinverse, Eckart-Young, condition number).
+- [x] **math-linear-algebra:** **`field_scope`** as the headline per-result tag
+      (`any_field` 121 / `real_or_complex` 45 / `algebraically_closed` 8 /
+      `ordered_field` 5 / `char_not_2` 3; 16 untagged roots+conventions) — the
+      analogue of `math-statistics`'s `regime`, and the tag that does the most
+      work in this domain. Plus `choice_grade` inherited from
+      `math-sets-functions-cardinality`: 197 `choice_free`,
+      `basis_existence_general` the sole `needs_full_AC` (Blass 1984).
+- [x] **math-linear-algebra:** five would-be cycles designed out during edge
+      derivation, not discovered afterwards (`edges/cycles.md`):
+      determinant↔eigenvalue (eigenvalue defined by `Av=λv`, determinant as the
+      unique normalised alternating form), determinant↔its own existence theorem
+      (the theorem is stated about alternating forms WITHOUT naming det),
+      rank↔determinant (rank = `dim im T`; minors downstream), basis↔dimension
+      (Steinitz first), Gram-Schmidt↔orthogonal projection.
+- [x] **math-linear-algebra:** **new `lean_status` value `dim_core`** —
+      universal in the matrix entries at a FIXED dimension. Stronger than a
+      numeric instance (every entry is a bound variable), weaker than the
+      theorem (which quantifies over n). 13 `core`, 19 `dim_core`, 8 `instance`,
+      1 `partial`, 110 `cited`, 2 `stated_not_proved`. Lean 4.33 Mathlib-free,
+      exit 0, no `sorry`/`axiom`/warnings, 87 declarations.
+- [x] **math-linear-algebra:** **three build guards** added, each answering a
+      problem the sibling capsules had to be audited for retrospectively:
+      (1) `build/leanmap.py` is the single authoritative lean_status/lean_ref
+      table, applied OVER spec claims, forcing unmapped nodes to `cited` — a
+      spec cannot overclaim; (2) `build/check-lean-refs.py` verifies every
+      `LinAlg.*` named actually exists in the `.lean` (55 refs / 87
+      declarations) and that no `cited` node names one; (3) the `bc` step
+      INSPECTS ITS OUTPUT rather than its exit status — `bc`'s `quit` always
+      exits 0, so the sibling capsules' `all.sh` would pass a run whose checks
+      had failed. Negative-contrast tested by corrupting a check.
+- [x] **math-linear-algebra:** `bc` instance checks, 12 sections, all passing.
+      Section 6 reproduces **`math-statistics`'s own OLS design exactly**
+      (β̂ = (7/6, 1/2), tr H = 2, residual orthogonality) as an arithmetic check
+      on the cross-capsule discharge. Also the `det(kA) = kⁿ det A` trap, and
+      the condition-number-vs-determinant trap (`10⁻⁵·I₄` has a vanishing
+      determinant and κ = 1; `diag(1,10⁻⁵)` has a larger determinant and
+      κ = 10⁵). Portability find recorded in the file header: **`abs` is a
+      RESERVED name in macOS `bc`** — `define abs(x)` fails with "bad function
+      definition" even without `-l`; the helper is called `aval`.
+- [ ] **math-linear-algebra:** Release 0.2 — prove the Jordan normal form via
+      cyclic subspaces (currently a `draft` boundary node, prerequisites
+      developed); tensor/exterior algebra (which would demote the determinant's
+      alternating-form definition from definition to consequence); modules over
+      a PID.
+- [ ] **math-linear-algebra:** discharge the three stack-internal cited roots —
+      `real_number` against `math-number-systems`, `compactness_cited` and
+      `extreme_value_cited` against `math-real-analysis`. (`complex_number`,
+      `polynomial_ring`, and `fundamental_theorem_of_algebra` are genuine gaps
+      with no capsule in the stack; FTA is the capsule's largest cited
+      dependency.)
+- [ ] **math-linear-algebra:** `upmd` tutorial via `theorem-tree-tutorial` —
+      the `field_scope` tag is a natural beat (run the same statement over R and
+      over F_2 and watch it break), as is the paired orthogonal-vs-oblique
+      projection Lean check.
 
 **`statistics`** — analysis-methodology skill (sibling of
 `design-of-experiments`, `unknown-discovery`), **not** a capsule: the
@@ -649,6 +730,14 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       from the 16 README Verification rows. Skeletons in `templates/verification/`
       (`run.sh`, `checks.bc`, `README.md`). README Verification section links both.
       (2026-09-08)
+- [ ] **docs/verifying-skills.md:** fold in two findings from the
+      `math-linear-algebra` build (2026-09-13): (a) **`bc`'s `quit` always exits
+      0**, so a `run.sh` that checks only the exit status will pass a harness
+      whose assertions failed — the output must be inspected, and every capsule
+      using the `bc` pattern should be re-checked for this; (b) **`abs` is a
+      reserved name in macOS `bc`**. Both belong in that doc's portability
+      rules.
+
 - [x] **capsule build dedup:** hoisted the identical `validation/graph-check.sh`
       + `build/build-tree.sh` (canonical variants: the comment-stripping
       graph-check from `math-logic-and-proof`, the `node-deps.txt` build-tree

@@ -1,0 +1,36 @@
+id: foundations.complex_number
+node: complex_number
+status_label: proved_theorem
+display: 'C = R[i] with i^2 = -1: a field of characteristic 0 carrying the conjugation a + bi -> a - bi, with |z|^2 = z conj(z) >= 0. Cited: NO capsule in this stack constructs C.'
+parseable: 'C := R[t]/(t^2 + 1);  conj(a + bi) = a - bi;  |z|^2 = z conj(z)'
+choice_grade: choice_free
+symbols:
+  'C': 'the complex field, type: field of characteristic 0'
+  'conj(z)': 'complex conjugation, type: field automorphism C -> C fixing R'
+  '|z|': 'modulus, type: function C -> R_{>=0}'
+type_check_status: well_formed
+type_check_note: 'Cited. Well-formed as a quotient of the polynomial ring R[t] by the maximal ideal (t^2 + 1); the quotient is a field because that polynomial is irreducible over R.'
+hypotheses: []
+preconditions: []
+dependencies: []
+proof:
+  technique: 'cited from math-number-systems (R) plus the standard quadratic extension; the extension itself is NOT developed in this stack'
+  derives_from: null
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'restricting conjugation to R gives the identity, which is why every real result is the b = 0 case of its complex counterpart'
+counterexamples_when_dropped:
+  positive_definiteness_of_the_form: 'over C the bilinear form sum z_i w_i is NOT positive definite (take z = (1, i): sum z_i^2 = 0 with z != 0). This is exactly why the complex inner product must conjugate one slot -- see inner_product_convention'
+common_misuse:
+  - 'treating C as an ordered field -- it admits no order compatible with its arithmetic, which is why positive_definite is tagged ordered_field and stated over R'
+sources:
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#complex_number
+  specialization: validation/specialization-cases.md#complex_number
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#complex_number

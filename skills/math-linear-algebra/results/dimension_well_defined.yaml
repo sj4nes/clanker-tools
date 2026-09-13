@@ -1,0 +1,44 @@
+id: vector_spaces.dimension_well_defined
+node: dimension_well_defined
+status_label: proved_theorem
+display: 'Any two bases of a finitely generated vector space have the same (finite) number of elements.'
+parseable: 'B, B'' bases of V, V finitely generated  =>  |B| = |B''|'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  '|B|': 'the cardinality of the basis, type: natural number'
+type_check_status: well_formed
+type_check_note: 'Well-formed and logically prior to ''dimension'': this theorem is what makes the definition of dim V a definite description rather than a choice.'
+hypotheses:
+  - 'V finitely generated'
+preconditions: []
+dependencies:
+  - 'basis_existence_finite'
+  - 'induction_principle'
+  - 'steinitz_exchange'
+proof:
+  technique: 'apply steinitz_exchange twice: B independent and B'' spanning gives |B| <= |B''|; swapping the roles gives the reverse'
+  derives_from: 'steinitz_exchange'
+  lean_status: core
+  lean_ref: 'LinAlg.basis_card_eq'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'F^n: every basis has exactly n elements, so dim F^n = n'
+  - 'C over R has dimension 2; C over C has dimension 1 -- the theorem fixes the number only once the SCALAR FIELD is fixed'
+counterexamples_when_dropped:
+  finite_generation: 'for infinite-dimensional spaces the statement survives as a cardinality equality, but only with AC-dependent cardinal arithmetic; the elementary Steinitz argument does not apply'
+  F_being_a_field: 'over a general ring the analogous statement (the invariant basis number property) can FAIL: there are rings with R isomorphic to R^2 as modules. Fields always have IBN'
+common_misuse:
+  - 'assuming two bases are related by a permutation -- they are related by an invertible change_of_basis matrix, which is far more general'
+related:
+  required_by: ['dimension']
+sources:
+  - 'axler_lada_4e'
+  - 'hoffman_kunze_2e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#dimension_well_defined
+  specialization: validation/specialization-cases.md#dimension_well_defined
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#dimension_well_defined

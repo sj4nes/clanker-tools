@@ -1,0 +1,42 @@
+id: matrices.matrix_multiplication
+node: matrix_multiplication
+status_label: definition
+display: 'For A in F^{m x n} and B in F^{n x p}, (AB)_{ij} = sum_{k=1}^n A_{ik} B_{kj}, giving AB in F^{m x p}. Defined only when the INNER shapes agree.'
+parseable: '(AB)_{ij} = sum_{k=1}^n A_{ik} B_{kj};  (m x n)(n x p) = (m x p)'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'k': 'the summation index, ranging over the shared inner dimension'
+type_check_status: well_formed
+type_check_note: 'Well-formed exactly when the inner dimensions match. The rule looks arbitrary as a formula and is forced as soon as one asks that it represent composition -- see matrix_mult_is_composition.'
+hypotheses:
+  - 'inner shapes conformable'
+preconditions: []
+dependencies:
+  - 'index_convention'
+  - 'matrix'
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'B a column vector: Ab is the combination of the columns of A with coefficients b, the reading that drives column_space'
+  - 'A a row vector and B a column: a 1x1 product, the scalar a^T b'
+  - 'A = I: IB = B'
+counterexamples_when_dropped:
+  conformability: 'ill-typed otherwise'
+  commutativity_is_absent: 'see matrix_mult_noncommutative'
+common_misuse:
+  - 'cancelling a common factor: AB = AC does not give B = C unless A is injective (has a left inverse)'
+  - 'assuming (AB)^k = A^k B^k, which needs AB = BA'
+applications:
+  - 'the composition of linear layers in a neural network; the transition-matrix product in a Markov chain; the design-matrix products X^T X and X^T y in least squares'
+related:
+  required_by: ['matrix_mult_is_composition', 'invertible_matrix', 'trace_cyclic']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'strang_5e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#matrix_multiplication
+  specialization: validation/specialization-cases.md#matrix_multiplication
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#matrix_multiplication

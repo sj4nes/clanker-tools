@@ -1,0 +1,48 @@
+id: boundary.smith_normal_form_boundary
+node: smith_normal_form_boundary
+status_label: proved_theorem
+display: 'STATED, OUT OF SCOPE: over a principal ideal domain R, every finitely generated module is a direct sum of cyclic modules R/(d_1) (+) ... (+) R/(d_k) (+) R^f with d_1 | d_2 | ... | d_k. Specialising R = F[t] to the module V made into an F[t]-module by t acting as T gives the RATIONAL and JORDAN canonical forms; specialising R = Z gives the classification of finitely generated abelian groups, and the Smith normal form of an integer matrix.'
+parseable: 'R a PID, M finitely generated  =>  M = R^f (+) R/(d_1) (+) ... (+) R/(d_k), d_1 | ... | d_k;  R = F[t] gives rational/Jordan form; R = Z gives Smith form'
+field_scope: any_field
+choice_grade: choice_free
+symbols:
+  'd_i': 'the invariant factors'
+  'R^f': 'the free part, f its rank'
+type_check_status: well_formed
+type_check_note: 'Well-formed as a statement of module theory. It is the SINGLE theorem that explains why row reduction over a field gives RREF (rref_uniqueness) and over Z gives Smith normal form -- two canonical forms that look unrelated until this common generalisation.'
+hypotheses:
+  - 'R a PID'
+  - 'M finitely generated'
+preconditions: []
+dependencies:
+  - 'jordan_normal_form'
+  - 'primary_decomposition'
+  - 'rref_uniqueness'
+proof:
+  technique: 'cited; the proof is the structure theorem for finitely generated modules over a PID, developed in a graduate algebra course and out of scope for this release'
+  derives_from: 'primary_decomposition'
+  lean_status: stated_not_proved
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'R = F a field: every module is free, invariant factors are trivial, and the theorem degenerates to ''every vector space has a basis'' -- which is why linear algebra over a field is so much simpler'
+  - 'R = F[t] with t acting as T: the invariant factors are the invariant factors of T, the last one being m_T; the primary decomposition into (t - lambda)^k pieces is exactly jordan_normal_form'
+  - 'R = Z: finitely generated abelian groups, and the Smith normal form diag(d_1,...,d_r,0,...) of an integer matrix'
+counterexamples_when_dropped:
+  R_being_a_PID: 'over a non-PID such as Z[x] or F[x,y] the structure theorem fails; modules can be badly behaved and no canonical form exists'
+  finite_generation: 'an infinitely generated module over a PID need not decompose (the rationals Q as a Z-module are not a direct sum of cyclics)'
+common_misuse:
+  - 'expecting a Jordan-like form over a general commutative ring'
+  - 'treating this release''s jordan_normal_form as proved: it is stated, and its natural proof is this theorem'
+related:
+  generalizes: ['jordan_normal_form', 'rref_uniqueness']
+sources:
+  - 'dummit_foote_3e'
+  - 'lang_algebra_3e'
+status: draft
+checks:
+  type: validation/type-checks.md#smith_normal_form_boundary
+  specialization: validation/specialization-cases.md#smith_normal_form_boundary
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#smith_normal_form_boundary

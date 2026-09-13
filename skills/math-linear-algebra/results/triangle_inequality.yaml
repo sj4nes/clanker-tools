@@ -1,0 +1,41 @@
+id: inner_product.triangle_inequality
+node: triangle_inequality
+status_label: corollary
+display: '||u + v|| <= ||u|| + ||v||, with equality iff one of u, v is a NONNEGATIVE real multiple of the other.'
+parseable: '||u+v|| <= ||u|| + ||v||;  equality <=> u = cv or v = cu with c >= 0 real'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'c': 'a nonnegative real scalar in the equality case'
+type_check_status: well_formed
+type_check_note: 'Well-formed. Note the equality condition is strictly stronger than in Cauchy-Schwarz: dependence is not enough, the multiple must be NONNEGATIVE REAL.'
+hypotheses:
+  - 'induced norm'
+preconditions: []
+dependencies:
+  - 'cauchy_schwarz'
+  - 'induced_norm'
+proof:
+  technique: '||u+v||^2 = ||u||^2 + 2 Re<u,v> + ||v||^2 <= ||u||^2 + 2|<u,v>| + ||v||^2 <= (||u||+||v||)^2 by Cauchy-Schwarz'
+  derives_from: 'cauchy_schwarz'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'v = -u: ||0|| = 0 <= 2||u||, strict unless u = 0 -- the multiple -1 is negative, so no equality, illustrating the sharper condition'
+  - 'the reverse triangle inequality | ||u|| - ||v|| | <= ||u - v|| follows by substitution'
+counterexamples_when_dropped:
+  the_equality_condition: 'u and v = -u are dependent (so Cauchy-Schwarz is tight) but ||u + v|| = 0 < 2||u||. Dependence gives equality in Cauchy-Schwarz, not in the triangle inequality'
+common_misuse:
+  - 'quoting ''equality iff dependent'' for the triangle inequality'
+related:
+  special_case_of: ['cauchy_schwarz']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#triangle_inequality
+  specialization: validation/specialization-cases.md#triangle_inequality
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#triangle_inequality

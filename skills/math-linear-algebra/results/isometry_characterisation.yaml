@@ -1,0 +1,47 @@
+id: spectral.isometry_characterisation
+node: isometry_characterisation
+status_label: proved_theorem
+display: 'For a linear T on a finite-dimensional inner product space the following are equivalent: T preserves the norm (||Tv|| = ||v||); T preserves the inner product (<Tv,Tw> = <v,w>); T^*T = I; T maps some (hence every) orthonormal basis to an orthonormal basis.'
+parseable: '||Tv|| = ||v||  <=>  <Tv,Tw> = <v,w>  <=>  T^*T = I  <=>  T maps orthonormal bases to orthonormal bases'
+field_scope: real_or_complex
+choice_grade: choice_free
+symbols:
+  'T': 'a linear map on a finite-dimensional inner product space'
+type_check_status: well_formed
+type_check_note: 'Well-formed. The step from norm-preservation to inner-product-preservation is POLARISATION, which is why the node depends on polarisation_identity and hence indirectly on char != 2.'
+hypotheses:
+  - 'T linear'
+  - 'V finite-dimensional'
+preconditions: []
+dependencies:
+  - 'induced_norm'
+  - 'inner_product'
+  - 'orthogonal_matrix'
+  - 'polarisation_identity'
+proof:
+  technique: 'norm-preserving implies inner-product-preserving by polarisation; inner-product-preserving says <T^*Tv, w> = <v,w> for all w, hence T^*T = I; the basis statement by direct computation'
+  derives_from: 'polarisation_identity'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T orthogonal/unitary: the matrix form of the theorem'
+  - 'T a permutation of an orthonormal basis: an isometry'
+counterexamples_when_dropped:
+  linearity: 'the Mazur-Ulam phenomenon aside, a NONLINEAR norm-preserving map need not preserve inner products -- e.g. any norm-preserving bijection of the sphere that is not a rotation'
+  finite_dimensionality: 'in infinite dimension T^*T = I (an isometry) does NOT give TT^* = I: the right shift on l^2 is a non-surjective isometry. Surjectivity is an extra hypothesis there, supplied automatically here by injective_surjective_equivalence'
+  char_two: 'polarisation fails, so norm-preservation would not recover the form'
+common_misuse:
+  - 'assuming an isometry is invertible in infinite dimension (the shift again)'
+  - 'using a real polarisation argument over C'
+related:
+  special_case_of: ['cauchy_schwarz']
+sources:
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#isometry_characterisation
+  specialization: validation/specialization-cases.md#isometry_characterisation
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#isometry_characterisation

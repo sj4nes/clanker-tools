@@ -1,0 +1,51 @@
+id: eigentheory.primary_decomposition
+node: primary_decomposition
+status_label: proved_theorem
+display: 'If p_T splits over F then V is the DIRECT SUM of the generalised eigenspaces, V = (+)_lambda G_lambda, each is T-invariant, and T acts on G_lambda as lambda I + N with N nilpotent. (Equivalently: T = D + N with D diagonalisable, N nilpotent, DN = ND -- the Jordan-Chevalley decomposition.)'
+parseable: 'p_T splits  =>  V = (+)_lambda G_lambda;  T|_{G_lambda} = lambda I + N_lambda with N_lambda nilpotent;  T = D + N, DN = ND'
+field_scope: algebraically_closed
+choice_grade: choice_free
+symbols:
+  'D': 'the diagonalisable (semisimple) part'
+  'N': 'the nilpotent part'
+type_check_status: well_formed
+type_check_note: 'Well-formed given splitting. The uniqueness of the D + N decomposition subject to commuting is part of the content and is what makes ''the semisimple part'' well-defined.'
+hypotheses:
+  - 'p_T splits over F'
+  - 'V finite-dimensional'
+preconditions: []
+dependencies:
+  - 'algebraically_closed_field'
+  - 'direct_sum'
+  - 'generalised_eigenspace'
+  - 'invariant_subspace'
+  - 'minimal_polynomial'
+  - 'nilpotent_operator'
+proof:
+  technique: 'write p_T = prod (t - lambda_i)^{a_i}; the factors are pairwise coprime, so by the Chinese remainder theorem in F[t] the projections onto ker((T - lambda_i)^{a_i}) are polynomials in T, summing to I and annihilating each other'
+  derives_from: 'generalised_eigenspace'
+  lean_status: cited
+  lean_ref: null
+uses_choice: false
+constructive: true
+specialization_cases:
+  - 'T diagonalisable: every N_lambda = 0 and the decomposition is into eigenspaces'
+  - 'T nilpotent: one generalised eigenspace G_0 = V, with D = 0'
+  - 'refining each nilpotent part into cyclic blocks gives jordan_normal_form -- the step NOT taken in this release'
+counterexamples_when_dropped:
+  splitting: 'over R the rotation has no eigenvalues, so no generalised eigenspaces and no decomposition. The RATIONAL canonical form is the field-independent substitute and is out of scope'
+  commutativity_of_D_and_N: 'without requiring DN = ND the decomposition into a diagonalisable plus a nilpotent part is NOT unique -- any matrix can be written as a sum of a diagonalisable and a nilpotent one in many ways'
+common_misuse:
+  - 'quoting the Jordan-Chevalley decomposition without the commuting condition, losing uniqueness'
+  - 'applying it over R without checking that the spectrum is real'
+related:
+  required_by: ['jordan_normal_form', 'smith_normal_form_boundary']
+sources:
+  - 'hoffman_kunze_2e'
+  - 'axler_lada_4e'
+status: reviewed
+checks:
+  type: validation/type-checks.md#primary_decomposition
+  specialization: validation/specialization-cases.md#primary_decomposition
+  instances: validation/instance-checks.bc
+  proof: validation/proof-checks.md#primary_decomposition

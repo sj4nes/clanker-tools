@@ -1,0 +1,45 @@
+# char_poly_coefficients
+
+## Type
+proposition
+
+## Statement
+p_A(t) = t^n - tr(A) t^{n-1} + ... + (-1)^n det(A). When p_A SPLITS over F, tr(A) is the sum and det(A) the product of the eigenvalues counted with algebraic multiplicity. In general the coefficient of t^{n-k} is (-1)^k times the sum of the k x k principal minors.
+
+## Symbols
+- `E_k` — the sum of the k x k principal minors, = the k-th elementary symmetric function of the eigenvalues when p_A splits
+
+## Epistemic status
+proposition  ·  field_scope: algebraically_closed
+
+## Prerequisites (tsort edges into this node)
+algebraically_closed_field, char_poly_roots_are_eigenvalues, characteristic_polynomial, leibniz_formula, trace
+
+## Hypotheses
+p_A splits over F, for the eigenvalue interpretation
+
+## Proof provenance
+technique: expand det(tI - A) by the Leibniz formula and collect powers of t; when p_A = prod(t - lambda_i), expand the product and match coefficients
+derives_from: leibniz_formula
+lean_status: dim_core — LinAlg.charpoly_2 (n = 2: p(t) = t^2 - tr t + det)
+
+## Type / well-formedness check
+Well-formed over any field. The identification with symmetric functions of the eigenvalues requires p_A to SPLIT, which is why the node carries an edge to algebraically_closed_field.
+
+## Specialization / boundary cases
+- n = 2: p(t) = t^2 - (l_1 + l_2)t + l_1 l_2
+- A = [[0,-1],[1,0]] over R: tr = 0 and det = 1, and indeed the complex eigenvalues +-i sum to 0 and multiply to 1 -- the COEFFICIENT identities hold over R even though the eigenvalues do not live there
+
+## Hypothesis-dropped counterexamples
+- **splitting_of_p_A**: over R the rotation above has no eigenvalues, so 'the sum of the eigenvalues' is literally undefined -- yet tr A = 0 is still a fact about A. The coefficient statement is field-independent; the eigenvalue reading is not
+- **algebraic_multiplicity**: counting eigenvalues without multiplicity breaks both identities: [[1,1],[0,1]] has one distinct eigenvalue 1 but tr = 2
+
+## Common misuse
+- writing 'tr A = sum of eigenvalues' for a real matrix with complex spectrum without passing to C
+- forgetting multiplicity
+
+## In the wild
+- the trace and determinant as the two cheapest spectral summaries: tr(A) is the sum of the modes' growth rates, det(A) the volume growth
+
+## Sources
+horn_johnson_2e
