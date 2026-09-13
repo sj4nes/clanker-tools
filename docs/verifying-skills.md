@@ -228,6 +228,9 @@ One per `verification/` directory. Sections:
 5. **Findings folded back into the skill** — every fix, with the target file.
    If nothing in the skill body needed a correctness fix, say that explicitly.
 6. **The gates are necessary, not sufficient** — name what stays human.
+7. For a behaviour-modification skill (§7): the **displacement table** —
+   section → default behaviour displaced → where that default visibly fails,
+   with `judgement` rows marked as such.
 
 ---
 
@@ -262,7 +265,78 @@ quantity to 1e-25, which is inexpressible in double. Those stay in `bc`.
 
 ---
 
-## 7. Checklist before marking a skill verified
+## 7. What the document itself must be: a nudge, or a reference
+
+Verification usually asks "does the prescribed workflow get the right answer?"
+There is a second question, and it has an evidence base: **does the document
+change what the agent does at all, or does it restate what the model would have
+done anyway?**
+
+The evidence is danluu's "How well do agents use test/verification techniques?"
+(Sept 2026). Given only the name of a technique or library, agents fell back to
+poor default testing across **all 26 conditions tested**. The skill that helped
+most was a five-bullet nudge. Several tutorial-style skills — including ones
+from repositories with ~250k stars — performed **worse than no skill at all**.
+A skill modifies a default behaviour distribution; it does not teach from zero,
+and prose that reads like a tutorial spends context restating the default it
+was supposed to displace.
+
+That does not make reference material bad. It makes the *kind* of skill
+decisive, and this repo has both kinds:
+
+| | behaviour-modification skill | tool-fact skill |
+|---|---|---|
+| examples | `test-writing`, `statistics`, `simulation`, `design-of-experiments`, `unknown-discovery`, `citation-check` | `bc`, `ed`, `csplit`, `tsort`, `ptx`, `octave`, `uv`, `typst` |
+| the agent's prior | already has a default behaviour, and it is **wrong** | genuinely **does not know** — BSD `bc` rejects `_` in identifiers, BSD `tsort` exits 0 on a cycle, `abs` is reserved on macOS |
+| what the document is | a short list of displacements | facts the agent cannot derive, organised for lookup |
+| how it fails | tutorial prose restates what the model already does — measurably worse than nothing | vagueness or omission; one missing quirk costs a run |
+
+For the left-hand column the rule is checkable, not stylistic:
+
+> **Every section must name the default behaviour it displaces, and the
+> verification must show that default failing.**
+
+So author a **displacement table** and keep it with the verification, not in
+`SKILL.md`:
+
+| `SKILL.md` section | default behaviour it displaces | where the default visibly fails |
+|---|---|---|
+| behaviour 3, "expected value from somewhere other than the code" | pasting in what the implementation printed | fixture subject A — the captured-output suite passes the bug **and fails the fix** |
+| … | … | … |
+
+`test-writing` is the worked example: six behaviours, six planted bugs, six
+naive suites that run green over them — see
+[`skills/test-writing/verification/README.md`](../skills/test-writing/verification/README.md)
+for the filled-in table.
+
+- An empty **second** cell is tutorial material. Move it to `references/`
+  (loaded on demand) or to `verification/README.md`, where the detail is free.
+- An empty **third** cell is advice — *unless* the row is explicitly a
+  **judgement** step: choosing what is risky, choosing the estimand,
+  adjudicating evidence. No fixture can falsify those, because the fixture
+  hands you the subject. Mark such rows `judgement`, and name them in the
+  skill's "the gates are necessary, not sufficient" section.
+- What is not allowed is an **unmarked** row: a section that neither displaces
+  a demonstrable default nor declares itself judgement. Two of `test-writing`'s
+  eight rows are judgement, and both are about *choosing* what to test.
+
+Two corollaries, and one caution:
+
+- **Length is a symptom, not the metric.** Do not pad a nudge skill toward the
+  length of a reference skill, and do not crash-diet a reference skill whose
+  payload *is* the table. `bc`'s portability rules are the payload.
+- **Do not verify the document by reading it.** Reading rewards fluent prose,
+  which is the failure mode. Verify it by the displacement table having no
+  empty cells.
+- **Calibration.** This is one eval, on testing tasks. The mechanism — a skill
+  shifts a distribution the model already has — generalises; the effect size
+  measured there does not automatically transfer to, say, a statistics
+  workflow. Treat "worse than no skill" as a demonstrated possibility to design
+  against, not as a measured property of every long document.
+
+---
+
+## 8. Checklist before marking a skill verified
 
 - [ ] `sh verification/run.sh` exits 0 from a clean checkout, from any directory.
 - [ ] Every prescribed check has a visible `PASS` line **and** a negative
@@ -281,3 +355,8 @@ quantity to 1e-25, which is inexpressible in double. Those stay in `bc`.
       folded-back findings (or "no correctness fix needed in the skill body").
 - [ ] The README Verification table has a row with the tool versions and the
       headline numbers.
+- [ ] **For a behaviour-modification skill: a displacement table with no empty
+      cells** (§7) — every `SKILL.md` section names the default behaviour it
+      displaces, and the verification shows that default failing.
+- [ ] Prose that displaces no nameable default has been moved out of
+      `SKILL.md` into `references/` or `verification/README.md`.

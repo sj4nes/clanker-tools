@@ -121,6 +121,15 @@ known-answer case with the skill's own workflow" bar, and the `bc` / Python /
 `tsort` / `lean` / `upmd` portability rules that each row below rediscovered
 once. Skeletons in [`templates/verification/`](templates/verification/).
 
+Its §7 adds a second question to the contract, with an evidence base: **does the
+document change what the agent does, or restate what the model would have done
+anyway?** For a behaviour-modification skill every `SKILL.md` section must name
+the default behaviour it displaces and the verification must show that default
+failing — a **displacement table**, with rows no fixture can falsify marked
+`judgement` rather than left blank. Tool-fact skills (`bc`, `ed`, `tsort`,
+`octave`, …) are explicitly exempt: there the reference table is the payload and
+the agent's prior is genuinely empty.
+
 | Skill | Status | Notes |
 |---|---|---|
 | `ed` | verified | All `SKILL.md` and `references/` examples run as written on BSD `ed`. |

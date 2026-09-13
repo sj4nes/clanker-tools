@@ -703,11 +703,37 @@ not a tutorial.
       `simulation` is where the model-based oracle becomes a whole model with its
       own V&V problem; `design-of-experiments` is where the randomized comparison
       is the deliverable rather than the test.
-- [ ] **test-writing → docs/verifying-skills.md + methodology-skill-builder:**
-      fold in the eval's meta-finding as an explicit rule — *a skill that reads
-      like a human tutorial degrades performance*; skills modify a default
-      behaviour distribution, they do not teach from zero. (ECC, Hegel, and
-      Trail-of-Bits skills all underperformed no-skill.)
+- [x] **test-writing → docs/verifying-skills.md:** meta-finding folded in
+      (2026-09-13) as new **§7, "What the document itself must be: a nudge, or a
+      reference"**, with §7 renumbering the checklist to §8. Made *checkable*
+      rather than advisory: for a behaviour-modification skill, **every
+      `SKILL.md` section must name the default behaviour it displaces, and the
+      verification must show that default failing** — authored as a
+      **displacement table** kept with the verification, not in `SKILL.md`. An
+      empty "default" cell means tutorial material (move to `references/` or
+      `verification/README.md`); an empty "where it fails" cell means advice,
+      *unless* the row is marked `judgement` (choosing what is risky, choosing
+      the estimand, adjudicating evidence — unfalsifiable by a fixture, which
+      hands you the subject). Unmarked rows are the thing forbidden.
+      §7 also draws the distinction that keeps the rule honest: this repo has
+      **behaviour-modification** skills (the eval's finding applies) and
+      **tool-fact** skills (`bc`, `ed`, `tsort`, `octave`, …) where the
+      reference table *is* the payload and the agent's prior is genuinely empty
+      — BSD `tsort` exiting 0 on a cycle is not something a model can derive.
+      Length is named as a symptom, not the metric, and the finding is
+      calibrated (one eval, on testing tasks; the mechanism generalises, the
+      effect size does not automatically).
+      `skills/test-writing/verification/README.md` now carries the worked
+      table — and it surfaced a real finding: **2 of 8 rows are `judgement`**,
+      both behaviours 1 and 2, i.e. exactly the "choose what to test" half. The
+      closing "gates are necessary, not sufficient" section now names those two
+      rows instead of gesturing at judgement in general. §6's
+      `verification/README.md` section list gains the table as item 7, and §8's
+      checklist gains two items.
+- [ ] **methodology-skill-builder (BACKLOG-BACKLOG):** when built, it must
+      *emit* the §7 displacement table as a required artifact, and refuse a
+      section that neither displaces a nameable default nor declares itself
+      judgement. Row annotated.
 
 ## Tutorials
 
@@ -780,6 +806,22 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       from the 16 README Verification rows. Skeletons in `templates/verification/`
       (`run.sh`, `checks.bc`, `README.md`). README Verification section links both.
       (2026-09-08)
+- [ ] **displacement tables, retro-fit:** `docs/verifying-skills.md` §7 now
+      requires one per behaviour-modification skill, and exactly one skill has
+      one (`test-writing`, where the rule was derived). A repo-wide rule that
+      only the newest skill follows is not a rule. Retro-fit, in descending
+      order of expected yield — the long ones are where tutorial prose hides:
+      `statistics` (437 lines), `nonfiction-book`, `agent-automation`,
+      `unattended-automation`, `local-first-backup`, `simulation`,
+      `design-of-experiments`, `control-systems`, `unknown-discovery`,
+      `temporal-data-modeling`, `hypergraph-reasoning`, `causal-sandbox`,
+      `skill-evolution`, `citation-check`, `simple-technical-english`.
+      Expect the table to surface (a) sections displacing nothing nameable →
+      move to `references/`, and (b) `judgement` rows currently written as
+      though the harness covered them. Do **not** apply it to the tool-fact
+      skills (`bc`, `ed`, `csplit`, `tsort`, `ptx`, `octave`, `uv`, `typst`) —
+      §7's two-column distinction exists precisely to protect their reference
+      tables, which are the payload, not padding.
 ### octave  (new skill — built 2026-09-13)
 
 - [x] **octave:** new CLI-primitive skill scoped to **matrix verification** —

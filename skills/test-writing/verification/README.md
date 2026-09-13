@@ -63,6 +63,29 @@ produced ≥ 400 such cases), C asserts its table is asymmetric off-diagonal, D
 asserts the generator reached the branch at all. A check whose fixture cannot
 discriminate is the naive test wearing a costume.
 
+## Displacement table
+
+Required by [`docs/verifying-skills.md`](../../../docs/verifying-skills.md) §7
+for a behaviour-modification skill: every `SKILL.md` section must name the
+default behaviour it displaces, and the verification must show that default
+failing. A row that does neither is tutorial prose and belongs elsewhere; a row
+that cannot be falsified by a fixture must say `judgement` out loud.
+
+| `SKILL.md` section | default behaviour it displaces | where that default visibly fails |
+|---|---|---|
+| 1 — name the risky area | test what is easy to reach: getters, the happy path, the code you just wrote | **judgement** — no fixture can show this, because the fixture hands you the subject |
+| 2 — state the likely mistake and the alternative interpretation | assert the behaviour you just observed, without naming a rival reading of the spec | **judgement, partly demonstrated** — subjects A ("half-up or truncate?") and D ("last-wins or first-wins?") *are* two-reading ambiguities, and the discriminating input exists only because the rival reading was named; naming it stays judgement |
+| 3 — expected value from somewhere other than the code | paste in what the implementation printed; "diff against a second implementation" that shares the defect | subject A (captured-output suite passes the bug **and fails the fix**) and subject F (two algorithms, one bad helper, green diff) |
+| 4 — break fixture symmetry and assert you did | symmetric tables, palindromic buffers, identical streams, equal lengths, round numbers | subjects B and C; the assertion half is `prescribed_b`'s ≥ 400 non-palindromes and `prescribed_c`'s off-diagonal asymmetry check |
+| 5 — randomize structurally, report the coverage number | uniform random input, reported as "I fuzzed it" | subject D — **0.0000%** of 20 000 random-byte inputs reach the branch under test, vs **72.3%** for the steered generator |
+| 6 — run the check against code you believe correct | run the new check only against the bug it was written for | matrix cell 2, and corruption NC3: a vacuous `return False` scores as a perfect detector until that cell exists |
+| "properties must discriminate" | ship a property that is true of every possible answer | subject E — `min <= median <= max` passes the lower-middle bug; metamorphic negation symmetry does not |
+| "before you call it tested" | — | a pre-ship gate over the six behaviours, not a seventh behaviour |
+
+Two of the eight rows are `judgement`, and both are about *choosing* what to
+test. That is the same boundary the closing section names, now located
+precisely rather than gestured at.
+
 ## Negative-contrast audit of this harness
 
 Four independent corruptions. The first three are each caught by a *different*
@@ -101,10 +124,12 @@ Reverted after each; `sh run.sh` exits 0.
 ## The gates are necessary, not sufficient
 
 `run.sh` proves that six specific checks beat six specific naive tests on six
-planted bugs. It cannot prove an agent will *notice* which shape it is facing —
-choosing what is risky, what the likely mistake is, and what an independent
-oracle would even be for the code in front of it stays human (or stays with the
-agent, and is why the skill is a nudge and not a checklist).
+planted bugs. It cannot prove an agent will *notice* which shape it is facing.
+The displacement table above names exactly which parts are unfalsifiable here:
+**behaviours 1 and 2** — choosing what is risky, and naming the likely mistake
+and the rival reading of the spec. A fixture hands you the subject and the bug;
+those two steps are the ones that have to find them. That is why the skill is a
+nudge and not a checklist.
 
 ---
 
