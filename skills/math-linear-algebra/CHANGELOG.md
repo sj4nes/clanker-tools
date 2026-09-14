@@ -30,6 +30,10 @@ asserts each is caught: 5/5, at 198 of 198 nodes falsifiable.
 
 ## Release 0.1 — 2026-09-13
 
+*(This release is the skill's `1.0.0` — "as verified at release" — under
+[`docs/skill-versioning.md`](../../docs/skill-versioning.md); it predates the
+version field being given semantics on 2026-09-13.)*
+
 First release. Built with the
 [`math-theorem-tree`](../math-theorem-tree/SKILL.md) method.
 

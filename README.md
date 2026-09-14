@@ -140,8 +140,12 @@ MAJOR.
 The test is whether a **published state** ever carried the error: a fix to text
 no reader could have been holding is how the skill reached `1.0.0`, and the
 Verification table below is the record of those. (`bc`'s margin was six minutes
-— committed 13:38, copied into `~/.claude/skills` 13:44, corrected 14:10.) `sh tools/check-skills.sh`
-gates the shape of the field and the health of every `.claude/skills` symlink.
+— committed 13:38, copied into `~/.claude/skills` 13:44, corrected 14:10.) Every skill also carries a
+[`CHANGELOG.md`](docs/skill-versioning.md) beside its `SKILL.md` — per-skill,
+not repo-level, because a skill copied into `~/.claude/skills` travels alone and
+a root changelog would not go with it. `sh tools/check-skills.sh` gates the
+shape of the version field, the presence of a changelog whose newest entry
+*equals* that field, and the health of every `.claude/skills` symlink.
 
 Its §7 adds a second question to the contract, with an evidence base: **does the
 document change what the agent does, or restate what the model would have done

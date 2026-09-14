@@ -42,6 +42,10 @@ asserts each is caught: 5/5, at 206 of 206 nodes falsifiable.
 
 ## Release 0.1 — 2026-09-08
 
+*(This release is the skill's `1.0.0` — "as verified at release" — under
+[`docs/skill-versioning.md`](../../docs/skill-versioning.md); it predates the
+version field being given semantics on 2026-09-13.)*
+
 First release. Mathematical statistics from the statistical model to the
 classical large-sample theory, the exact Gaussian core, and the Gaussian linear
 model, built with the [`math-theorem-tree`](../math-theorem-tree/SKILL.md)

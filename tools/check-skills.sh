@@ -7,6 +7,8 @@
 #   3. every SKILL.md `name:` matches its directory name
 #   4. every .claude/skills entry resolves, and points at ../../skills/<name>
 #   5. every skills/*/ is wired into .claude/skills
+#   6. every skills/*/ has a CHANGELOG.md whose NEWEST version heading is the
+#      version in SKILL.md  (see docs/skill-versioning.md §4)
 #
 # Exists because two of these went wrong silently: `math-probability`'s symlink
 # dangled for a week (a 131-node capsule that was never loadable), and the
@@ -49,6 +51,23 @@ for d in skills/*/; do
     nm=$(sed -n 's/^name: *//p' "$f" | head -1)
     if [ "$nm" != "$s" ]; then
         echo "*** FAIL: $s declares name '$nm'"; fail=$((fail + 1))
+    fi
+
+    # changelog present, and its newest entry agrees with `version:`.  A bump
+    # with no entry is how a version number goes back to being decoration --
+    # the reader can see the number moved and not why.
+    cl="$d/CHANGELOG.md"
+    if [ ! -f "$cl" ]; then
+        echo "*** FAIL: $s has no CHANGELOG.md"; fail=$((fail + 1))
+    else
+        top=$(sed -n 's/^## \([0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*\).*/\1/p' "$cl" | head -1)
+        if [ -z "$top" ]; then
+            echo "*** FAIL: $s CHANGELOG.md has no '## MAJOR.MINOR.PATCH' heading"
+            fail=$((fail + 1))
+        elif [ "$top" != "$v" ]; then
+            echo "*** FAIL: $s is version $v but its CHANGELOG.md newest entry is $top"
+            fail=$((fail + 1))
+        fi
     fi
 
     # wired in?  Distinguish ABSENT from DANGLING -- a dangling link is the

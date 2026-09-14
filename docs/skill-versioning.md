@@ -239,6 +239,43 @@ Still, prefer under-counting when the history is genuinely ambiguous. An
 inflated `MAJOR` is a false claim about the skill's past, and this field exists
 to stop false claims, not to make new ones.
 
+## 3b. `CHANGELOG.md`: where a bump says what it was
+
+Every skill carries a `CHANGELOG.md` beside its `SKILL.md`. Per-skill, not
+repo-level, for the same reason the version field is per-skill: a skill copied
+into `~/.claude/skills` **travels alone**, and a root changelog would not go
+with it. That is the `bc` failure again — two copies, one number, nothing to
+tell them apart.
+
+The contract is small, and `tools/check-skills.sh` gates it:
+
+- one `## MAJOR.MINOR.PATCH — YYYY-MM-DD` heading per version the skill has
+  held, newest first;
+- the newest heading **equals** the `version:` in `SKILL.md`. A bump with no
+  entry is how the number goes back to being decoration — the reader sees it
+  moved and not why;
+- each entry opens with the level (`**MAJOR.**`) and says what a reader has to
+  *do*, per §1, then cites the commit.
+
+**Version-anchored, not per-commit.** One entry per version, not one per
+change; `git log -- skills/<name>/` is the full record and does not need
+copying. Two capsules (`math-linear-algebra`, `math-statistics`) additionally
+carry hand-written release narratives, which is a welcome superset, not the
+requirement.
+
+**A changelog edit never moves the version.** `CHANGELOG.md` is metadata about
+the instruction content, not the content — the same standing as `verification/`
+in §2. (It also has to be true mechanically: if adding an entry bumped the
+version, the newest entry could never match the field.)
+
+The corpus was backfilled on 2026-09-14 from git history and §3/§2b/§2c of this
+document — 44 files, 21 of them with post-release entries. Those entries say
+they were reconstructed, because they were: they record the version history,
+not every change, and nothing in them was invented. A skill with no documented
+post-release change has exactly one entry.
+
+---
+
 ## 4. Mechanics
 
 - Bump in the same commit as the change. A version that lags is worse than no
