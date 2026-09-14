@@ -18,7 +18,7 @@ description: >-
   `math-statistics` capsule. NOT for designing the data collection (that is
   `design-of-experiments`), and not a licence to call an observational
   association causal.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [statistics, statistical-inference, estimation, confidence-intervals, hypothesis-testing, likelihood, bootstrap, regression, multiple-testing, bayesian-inference, model-checking, regime]
 ---

@@ -15,7 +15,7 @@ description: >-
   and maintained per, the physics-formula-tree method. Excludes statistical
   mechanics, open systems and chemical potential, phase equilibria, and real-gas
   equations of state.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [physics, thermodynamics, entropy, carnot, ideal-gas, first-law, second-law, formulas, dependencies, knowledge-capsule]
 ---

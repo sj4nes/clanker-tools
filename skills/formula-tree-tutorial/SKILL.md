@@ -10,7 +10,7 @@ description: >-
   graph, or build runnable course material from one. This is a META skill: it
   consumes a `physics-formula-tree` capsule and orchestrates the `bc`, `tsort`,
   and `lean` skills; the deliverable is an `upmd`-executable `.md`.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [tutorial, upmd, executable-markdown, teaching, physics, formula-tree, meta-skill]
 ---

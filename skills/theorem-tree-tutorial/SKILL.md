@@ -13,7 +13,7 @@ description: >-
   skill: it consumes a `math-theorem-tree` capsule and orchestrates the `lean`,
   `bc`, and `tsort` skills; the deliverable is an `upmd`-executable `.md`. The
   math analogue of `formula-tree-tutorial` (which does physics).
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [tutorial, upmd, executable-markdown, teaching, mathematics, theorem-tree, lean, meta-skill]
 ---

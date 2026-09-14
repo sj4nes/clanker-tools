@@ -4,7 +4,12 @@ description: >-
   One or two sentences. State what the skill does and, critically, the
   conditions under which an agent should reach for it ("Use when...").
   This text is the only thing matched against a task, so make triggers explicit.
-version: 0.1.0
+version: 1.0.0
+# MAJOR.MINOR.PATCH, per docs/skill-versioning.md.  1.0.0 = as verified at
+# release.  Then: MAJOR = the skill was WRONG (the reader must re-do work);
+# MINOR = a statement changed or grew (re-read, nothing to re-do); PATCH =
+# nothing semantic.  Bump in the SAME COMMIT as the change; `sh
+# tools/check-skills.sh` asserts the shape, not the honesty.
 author: Your Name
 tags: [topic, tool, domain]
 ---

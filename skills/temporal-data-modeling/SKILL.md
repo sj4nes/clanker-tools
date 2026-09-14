@@ -19,7 +19,7 @@ description: >-
   intervals must agree. NOT a time-series forecasting method, not a
   temporal-database product guide, and not a licence to call a snapshot
   sequence a temporal model.
-version: 0.2.0
+version: 1.1.0
 author: Simon Janes
 tags: [temporal-data, time-varying, longitudinal, panel-data, event-log, point-in-time, persistent-cumulative, entity-resolution, data-modeling, provenance, narratives, sheaves, llm-memory]
 ---

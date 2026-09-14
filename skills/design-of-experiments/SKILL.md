@@ -14,7 +14,7 @@ description: >-
   integrity, ethics tiering, and calibrated causal language. NOT for analyzing
   data from an experiment already run to a fixed plan (that is downstream
   statistics), and not a licence to call an observational comparison causal.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [design-of-experiments, doe, experiment-design, causal-inference, randomization, factorial, power-analysis, ab-testing, pre-registration]
 ---

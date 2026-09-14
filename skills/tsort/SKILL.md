@@ -7,7 +7,7 @@ description: >-
   phases, package installation, deployment stages, and multi-file edit plans.
   Covers deriving evidence-backed edges, detecting and resolving cycles,
   handling multiple valid orders, and keeping planning separate from execution.
-version: 1.0.0
+version: 2.0.0
 author: Simon Janes
 tags: [planning, tsort, dependencies, topological-sort, migrations, deployment, terminal]
 ---

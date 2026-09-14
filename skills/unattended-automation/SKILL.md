@@ -18,7 +18,7 @@ description: >-
   ordering, per-stage idempotency, and compensations. NOT for automations whose
   decisions are made by a language model (that is `agent-automation`), and not a
   substitute for a real workflow engine when you need one.
-version: 0.2.0
+version: 1.1.0
 author: Simon Janes
 tags: [automation, cron, scheduled-jobs, pipelines, idempotency, reliability, error-handling, retries, observability, runbook, ci-cd, etl]
 ---

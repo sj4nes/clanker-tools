@@ -21,7 +21,7 @@ description: >-
   `unattended-automation` and the interactive setup/recovery-coach agent to
   `agent-automation`. NOT a cloud-backup-service picker, and not a licence to
   call a successful backup job "recoverable data" without a restore test.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [backup, restic, borg, kopia, zfs, snapshots, 3-2-1, ransomware, disaster-recovery, retention, encryption, restore-testing, runbook]
 ---

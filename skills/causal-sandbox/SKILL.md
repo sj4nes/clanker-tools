@@ -25,7 +25,7 @@ description: >-
   domains where you have only input–output behavior and no defensible rules,
   NOT a reachability checker for "can the system ever reach a bad state", and
   NOT a licence to call a traced run proof about the real system.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [causal-sandbox, agent-tooling, state-transition, rule-engine, causality, counterfactual, confluence, what-if, branching-time, simulation]
 ---

@@ -16,7 +16,7 @@ description: >-
   needs_full_AC). Use when you need the set-theoretic foundation a proof rests
   on, the prerequisite chain for a cardinality fact, or to know exactly which
   form of choice a result uses. Built with the math-theorem-tree method.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [mathematics, foundations, set-theory, cardinality, axiom-of-choice, dependencies, knowledge-capsule, lean]
 ---

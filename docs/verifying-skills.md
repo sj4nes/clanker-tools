@@ -398,3 +398,11 @@ Two corollaries, and one caution:
       displaces, and the verification shows that default failing.
 - [ ] Prose that displaces no nameable default has been moved out of
       `SKILL.md` into `references/` or `verification/README.md`.
+- [ ] **`version:` bumped in the same commit**, at the right level
+      ([`skill-versioning.md`](skill-versioning.md)): MAJOR if the skill was
+      *wrong*, MINOR if a statement changed or grew, PATCH if nothing semantic.
+      A release-verification fix does not bump anything — that is how the skill
+      reached `1.0.0`.
+- [ ] **`sh tools/check-skills.sh` exits 0** — version shape, `name:` matching
+      the directory, and the `.claude/skills` symlink resolving. A built skill
+      nobody wired in is shelfware; a dangling link looks wired and is worse.

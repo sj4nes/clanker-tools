@@ -13,7 +13,7 @@ description: >-
   when deciding between standing-wave and traveling-wave configurations. Built
   with, and maintained per, the physics-formula-tree method. Assumes the
   physics-newtonian capsule plus elementary thermodynamics.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [physics, thermoacoustics, acoustics, thermodynamics, rott, stirling, engines, refrigerators]
 ---

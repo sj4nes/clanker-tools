@@ -10,7 +10,7 @@ description: >-
   (verified / verified-with-correction / likely / ambiguous / unresolved /
   contradicted) with an auditable evidence packet. NOT a bibliography formatter,
   and "unresolved" is never reported as "does not exist".
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [citations, references, verification, bibliography, evidence, research-integrity, doi, isbn]
 ---

@@ -17,7 +17,7 @@ description: >-
   calibrated language. NOT a way to enumerate genuine unknown unknowns on
   demand, and not a licence to turn an unobserved possibility into a confident
   forecast.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [foresight, uncertainty, assumptions, premortem, red-team, competing-hypotheses, horizon-scanning, anomaly-detection, value-of-information, forecasting, calibration]
 ---

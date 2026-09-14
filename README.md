@@ -121,6 +121,17 @@ known-answer case with the skill's own workflow" bar, and the `bc` / Python /
 `tsort` / `lean` / `upmd` portability rules that each row below rediscovered
 once. Skeletons in [`templates/verification/`](templates/verification/).
 
+[`docs/skill-versioning.md`](docs/skill-versioning.md) is the companion
+contract for the `version:` field, written after both copies of `bc` were found
+reading `1.0.0` across a 29-line divergence that included a correctness fix.
+`1.0.0` means "as verified at release"; from there **MAJOR = the skill was
+wrong** (re-do work done under the old text), **MINOR = a statement changed or
+grew** (re-read it), **PATCH = nothing semantic**. So `MAJOR − 1` counts the
+times a skill has been wrong since release — four skills carry a `2.0.0`.
+Release-pass fixes do not bump anything; they are how a skill reached `1.0.0`,
+and the Verification table below is their record. `sh tools/check-skills.sh`
+gates the shape of the field and the health of every `.claude/skills` symlink.
+
 Its §7 adds a second question to the contract, with an evidence base: **does the
 document change what the agent does, or restate what the model would have done
 anyway?** For a behaviour-modification skill every `SKILL.md` section must name

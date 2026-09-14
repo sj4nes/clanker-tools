@@ -8,7 +8,7 @@ description: >-
   only: not a source-code parser or a safe way to independently edit
   syntactically connected program fragments. Output is always a derived
   artifact; the original is preserved and every piece is verified.
-version: 1.0.0
+version: 2.0.0
 author: Simon Janes
 tags: [text-processing, csplit, splitting, logs, markdown, fixtures, terminal]
 ---

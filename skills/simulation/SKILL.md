@@ -14,7 +14,7 @@ description: >-
   reporting a decision with its limits. NOT for generic numerical computation
   with a known closed form, and not a licence to state that a simulation proves
   reality.
-version: 0.2.0
+version: 1.1.0
 author: Simon Janes
 tags: [simulation, modeling, monte-carlo, discrete-event, agent-based, uncertainty, verification-validation, decision-analysis]
 ---

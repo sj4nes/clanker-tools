@@ -17,7 +17,7 @@ description: >-
   simulation → SIL → HIL → shadow → pilot deployment ladder. NOT for offline data
   analysis or system identification alone, and not a licence to state that
   passing simulation proves a controller is safe on the real plant.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [control-theory, systems-engineering, feedback, pid, lqr, mpc, state-estimation, stability, robustness, safety, real-time]
 ---

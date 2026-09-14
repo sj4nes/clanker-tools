@@ -1,6 +1,7 @@
 ---
 name: physics-formula-atlas
 description: A bridge capsule connecting physics-newtonian, physics-thermodynamics, physics-thermoacoustics, and physics-acoustics with real cross-capsule requires edges (not prose-only discharge -- this hierarchy has no mutual-grounding cycle), plus a working prereq-path.py tool that walks any formula's full prerequisite chain backward across capsule boundaries down to its terminal primitives, axioms, assumptions, and conventions. Use when you need to trace a physics formula's complete dependency chain back to constants or dimensions, when adding a formula to physics-thermodynamics or physics-thermoacoustics and you need to know whether a "new" primitive is actually a duplicate of an already-developed node in an upstream capsule, or when auditing whether a capsule's assumed background is a real edge or just a prose claim. Built with the physics-formula-tree method's tsort/edge discipline, adapted across capsule boundaries.
+version: 1.0.0
 ---
 
 # physics-formula-atlas

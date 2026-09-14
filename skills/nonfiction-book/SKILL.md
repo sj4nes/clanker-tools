@@ -16,7 +16,7 @@ description: >-
   unknown-discovery, tsort, csplit, ed, bc, and typst (typesetting a
   self-published interior or a formatted sample). NOT a ghostwriter (voice stays
   the author's), and not a book-marketing or distribution skill.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [nonfiction, book, writing, editorial, claim-ledger, positioning, developmental-editing, fact-checking, meta-skill]
 ---

@@ -7,7 +7,7 @@ description: >-
   unknown. A discovery aid only — every lead must be confirmed with `rg`/`grep`
   or code-aware tools, and no code, architecture, security, or dependency
   conclusion may rest on `ptx` output alone.
-version: 1.0.0
+version: 1.1.0
 author: Simon Janes
 tags: [discovery, ptx, indexing, search, terminology, documentation, terminal]
 ---

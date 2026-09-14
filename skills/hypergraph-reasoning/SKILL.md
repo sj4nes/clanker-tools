@@ -18,7 +18,7 @@ description: >-
   answers that name their evidence and their gaps. NOT a graph database, not an
   entity-linking or knowledge-graph-embedding pipeline, and not a licence to
   treat an extracted or inferred edge as a source-backed fact.
-version: 0.1.0
+version: 1.0.0
 author: Simon Janes
 tags: [hypergraph, situation-model, n-ary-relations, provenance, knowledge-representation, retrieval, preconditions, contradiction-detection, temporal-reasoning, grounded-action]
 ---

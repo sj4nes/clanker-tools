@@ -17,7 +17,7 @@ description: >-
   a tamper-evident structured audit trail. Grounded in the OWASP AI Agent
   Security guidance. NOT for one-off manual agent tasks a human is watching, and
   not a licence to let a model call arbitrary APIs from raw prose.
-version: 0.3.0
+version: 1.2.0
 author: Simon Janes
 tags: [agent-automation, ai-agent-security, llm-safety, tool-use, policy-engine, human-in-the-loop, idempotency, audit-logging, least-privilege, circuit-breaker, owasp]
 ---

@@ -8,7 +8,7 @@ description: >-
   base conversion, and parameterized or iterative calculations. Covers the
   precision policy, explicit rounding (bc truncates, it does not round), and
   validation each calculation needs.
-version: 1.0.0
+version: 2.0.0
 author: Simon Janes
 tags: [calculation, bc, arithmetic, precision, rounding, finance, terminal]
 ---

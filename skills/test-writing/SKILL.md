@@ -12,7 +12,7 @@ description: >-
   possible answer, and checks never run against code believed correct. NOT a
   tutorial on a test framework or a runner, not a coverage-percentage target,
   and not a substitute for deciding what in the system is actually risky.
-version: 0.1.0
+version: 1.1.0
 author: Simon Janes
 tags: [testing, verification, oracles, property-testing, fuzzing, fixtures, code-review]
 ---

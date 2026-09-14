@@ -887,12 +887,45 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       `math-probability` link taught: a 131-node capsule with a full tutorial
       that had never once been loadable. Worth a standing check — a link-health
       sweep is three lines of shell and belongs in whatever runs the harnesses.
-- [ ] **version fields do not move when a skill is edited.** Both `bc` copies
-      read `version: 1.0.0` despite a 29-line divergence including a verified
-      correctness fix, so a stale fork was indistinguishable from the fixed one
-      by metadata. Either bump `version` on every substantive edit (and say so
-      in `templates/skill-template/SKILL.md`) or drop the field as decorative.
-      Surfaced by the `~/.claude/skills` drift.
+- [x] **version semantics defined + corpus re-based** (2026-09-13) —
+      `docs/skill-versioning.md`. The field's job is to let a reader tell
+      whether the text in front of them is current *and how much it matters if
+      it is not*, so the levels are blast-radius, not semver's API break:
+      **MAJOR = the skill was WRONG** (re-do work done under the old text),
+      **MINOR = a statement changed or grew** (re-read; nothing to re-do,
+      additions included), **PATCH = nothing semantic**. `MAJOR − 1` is
+      therefore the number of times the skill has been wrong since release.
+      Two rules make the number readable rather than a drafting log:
+      *verification-only changes do not bump* (the harness is how we find out
+      whether the content is right, not the content), and **release-pass fixes
+      do not bump** — everything fixed during a skill's first verification is
+      how it *reached* `1.0.0`, and the README Verification table is its record.
+      Without that second rule every skill would start at 2.0.0–3.0.0 from
+      authoring mess alone.
+      All 46 re-based to `1.0.0` = "as verified at release", which also retires
+      the old accidental convention where the leading digit encoded *kind*
+      (1.0.0 = CLI-primitive, 0.1.0 = methodology) and four skills had no field
+      at all. Then applied to documented post-release history: **MAJOR** for
+      `bc` (the `x / 1` idiom), `tsort` (cycle-by-exit-status), `csplit`
+      (GNU-only flags in the template), `math-probability`
+      (`Prob.markov_finite`'s body missing behind a header claiming it);
+      **MINOR** for `ptx`, `test-writing`, `simulation`,
+      `unattended-automation`, `temporal-data-modeling` and `agent-automation`
+      (1.2.0 — two recorded revisions). 14 skills are marked "verified,
+      **fixed**" in the README but only 4 bump, because the other 10 were fixed
+      during their release pass. **The backfill deliberately under-counts**:
+      where the record does not say clearly whether the *instruction content* or
+      the *harness* was wrong, the skill stays `1.0.0`. An inflated MAJOR is a
+      false claim, and this field exists to stop those.
+- [x] **`tools/check-skills.sh`** (2026-09-13) — the gate that makes the above
+      more than a convention: every skill has exactly one semver `version:`
+      inside its frontmatter, `name:` matches the directory, and every
+      `.claude/skills` entry resolves and points at `../../skills/<name>`.
+      Negative-contrast tested with five corruptions, one per check, all caught.
+      Distinguishes **absent** from **DANGLING** — a dangling link looks wired
+      and is the worse failure, and is exactly what `math-probability` was.
+      Wired into `docs/verifying-skills.md` §8. **A field nothing checks is
+      decoration** — that is the whole lesson of the `bc` fork.
 - [ ] **user-level symlinks are absolute** (`/Users/sjanes/work26/clanker-tools/...`)
       because `~/.claude/skills` cannot use a relative path into the repo. They
       break if the repo moves or is renamed. Note it in the README's setup

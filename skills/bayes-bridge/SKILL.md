@@ -1,6 +1,7 @@
 ---
 name: bayes-bridge
 description: The Bayesian inferential apparatus as a bridge between the `math-probability` capsule's Bayes' theorem and the `math-statistics` skill's estimation machinery — priors/likelihood/posterior, worked conjugate families (Beta-Bernoulli, Normal-Normal, Gamma-Poisson), Bayes factors and marginal likelihood, Bayesian model comparison with Lindley's paradox as its hypothesis-dropped counterexample, and a credible-vs-confidence-interval contrast on the same worked example. A `bridge`-archetype knowledge capsule -- roots imported (cited, not redeveloped) from math-probability and math-statistics; native content is the connective tissue neither endpoint states. Use when you need to link a probability-theory Bayes'-theorem statement to a statistics-skill estimation result, to state or check a Bayes factor / marginal likelihood / conjugate-update computation, or to explain precisely how a credible interval differs from a confidence interval. Built with the math-theorem-tree method.
+version: 1.0.0
 ---
 
 # bayes-bridge
