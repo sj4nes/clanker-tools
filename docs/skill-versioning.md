@@ -33,8 +33,22 @@ worth being reluctant to increment.
 
 ## 2. When each one moves
 
-**MAJOR** — the skill told you something false, and someone following it would
-get a wrong result. Real examples from this repo:
+**MAJOR** — the skill prescribed something that **does not work**, or that
+**produces an incorrect result**. Both limbs count, and the difference between
+them is worth naming because it is tempting to bump only the first:
+
+- *silently wrong* — you get an answer, it is wrong, and nothing tells you
+  (`bc`'s rounding, `tsort`'s cycle check, `math-number-systems`' truncated
+  `meaning`). The dangerous kind.
+- *loudly broken* — the recipe errors or hangs, so you never build on a wrong
+  result (`csplit`'s GNU-only flags, the four capsule READMEs that hung).
+
+A loud break is still MAJOR: the reader was told to do something that does not
+work and has to change their approach. "Loud or silent" is also a judgement
+call that would produce inconsistent bumps, where "did the prescribed thing
+work?" is checkable.
+
+Real examples from this repo:
 
 - `bc` prescribed `((x * f + 0.5) / 1) / f` for rounding. `x / 1` does not
   truncate on the `bc` that ships with macOS, so the idiom silently returned
@@ -63,28 +77,50 @@ table alignment, a rewrapped paragraph.
 ### Which files count
 
 The version tracks the skill's **instruction content**: `SKILL.md`,
-`references/`, `templates/`. For a capsule skill it also covers `nodes/` and
-`validation/` — a wrong formula check or a missing Lean theorem body is a wrong
-claim, and claims are the deliverable.
+`references/`, `templates/`. For a capsule skill it also covers `nodes/`,
+`results/`, `validation/`, **and the capsule's own `README.md`** — a wrong
+formula check, a missing Lean theorem body, a silently truncated `meaning`
+field, or a documented command that does not run are all wrong claims, and
+claims are the deliverable. (The capsule README is how a reader runs the
+capsule; it earns its place on this list because four capsules documented a
+`bc` invocation that **hung**, waiting on stdin.)
 
 A change to `verification/` alone does **not** move the version. The harness is
 how we find out whether the instruction content is right; it is not the
 content. (When a harness fix *reveals* that the content was wrong, the content
 change is what bumps the number.)
 
-### Release-verification fixes do not count
+### The test is whether a reader could already have been holding the old text
 
-A skill reaches `1.0.0` when it has been verified. Everything fixed **during
-that first verification pass** — the wrong constant in a reference snippet, the
-`bc` identifier that does not parse, the Lean tactic that needs Mathlib — is how
-it *got* to `1.0.0`. Those are not corrections to a shipped skill and they do
-not bump anything.
+The first formulation of this rule was "release-verification fixes do not
+count", and adjudicating the corpus on 2026-09-13 showed that to be the wrong
+cut. It is not *when in the process* the fix happened, it is **whether the wrong
+text was ever published**:
+
+> A correction bumps `MAJOR` if there was a published state carrying the error —
+> a commit a reader could have read, copied, or been served. A fix applied to
+> text that never left the authoring session is how the skill reached `1.0.0`.
+
+The worked example is `bc`, and the margin is six minutes:
+
+    13:38  9dd8165  bc, csplit, tsort, ptx, ed committed
+    13:44           copied into ~/.claude/skills   <-- a reader now holds it
+    14:10  ffc32ff  bc / csplit / tsort portability bugs fixed
+    15:10  6fa714f  ptx keyword-regex behaviour corrected and extended
+
+Those look like a release verification pass, and by intent they were one. But
+the text had already been published and copied, and the copy went on serving
+`bc`'s broken rounding idiom for a week. So they are `MAJOR` (and `ptx`'s
+additions are `MINOR`). Meanwhile the capsules whose verification ran *inside*
+their release commit — `physics-thermodynamics`, `math-real-analysis`,
+`math-sets-functions-cardinality` and the rest — never exposed a wrong state,
+and stay at `1.0.0` no matter how much was fixed on the way in.
 
 This is what keeps `MAJOR` readable. Without it, every skill would start at
 `2.0.0` or `3.0.0` purely from drafting, and the number would record how messy
-the authoring was rather than how often the published text has been wrong. The
-README's Verification table is where release-pass findings live; that is their
-record, not the version.
+the authoring was rather than how often a reader was misled. The README's
+Verification table is where release-pass findings live; that is their record,
+not the version.
 
 ## 3. The 2026-09-13 re-base
 
@@ -102,6 +138,8 @@ rules above applied to what is documented to have happened *since*:
 | `tsort` | 1.0.0 | **2.0.0** | cycle detection by exit status does not work on BSD |
 | `csplit` | 1.0.0 | **2.0.0** | the transactional template used GNU-only flags |
 | `math-probability` | 0.1.0 | **2.0.0** | `Prob.markov_finite`'s body was missing behind a header that claimed it |
+| `math-number-systems` | 0.1.0 | **2.0.0** | an unquoted comma in a `{ … }` flow scalar **silently truncated** `meaning` in three `results/*.yaml` (`integer`, `rational_number`, `lub_property`) for two days |
+| `physics-newtonian`, `physics-thermoacoustics`, `chemistry-foundations`, `chemistry-electrochemistry` | 0.1.0 | **2.0.0** | each README documented `bc -q -l validation/…bc` with no stdin redirect, so the capsule's own validation command **hung** when run as written — for 8 days |
 | `ptx` | 1.0.0 | **1.1.0** | `-W` and `-A` added post-release |
 | `test-writing` | 0.1.0 | **1.1.0** | behaviours 5–6 and fixture subject F added post-release |
 | `simulation`, `unattended-automation`, `temporal-data-modeling` | 0.2.0 | **1.1.0** | one recorded post-release revision each, preserved as a minor |
@@ -109,15 +147,25 @@ rules above applied to what is documented to have happened *since*:
 | `bayes-bridge`, `physics-acoustics`, `math-linear-algebra`, `physics-formula-atlas` | *(none)* | **1.0.0** | field was missing entirely |
 | everything else | 0.1.0 / 1.0.0 | **1.0.0** | verified at release; no documented post-release change |
 
-Fourteen skills are marked "verified, **fixed**" in the README Verification
-table. Only four of those bump, because the other ten were fixed *during* their
-release verification pass — see the rule above. `ed` was the one installed copy
-that had not drifted at all, and stays `1.0.0`.
+Nine skills carry a `2.0.0`. Fourteen are marked "verified, **fixed**" in the
+README Verification table, and the two sets overlap only partly — the marker
+records *that something was fixed*, not whether a reader was ever exposed to the
+broken text, which is the question this field answers. `ed` was the one
+installed copy that had not drifted at all, and stays `1.0.0`.
 
-**The backfill under-counts on purpose.** Where the record does not say clearly
-whether the *instruction content* was wrong or the *harness* was, the skill
-stays at `1.0.0`. An inflated `MAJOR` is a false claim about the skill's
-history, and this field exists to stop false claims, not to make new ones.
+**The first pass under-counted and was corrected.** Four skills were left at
+`1.0.0` because the README's prose did not make clear whether the *instruction
+content* or the *harness* had been wrong. Adjudicating them against git history
+on 2026-09-13 moved five skills to `2.0.0` and confirmed `ptx` at `1.1.0`, and
+it changed two of this document's own rules — the published-state test above
+replaced "release-verification fixes do not count", and the capsule `README.md`
+joined the list of files that count. The lesson: **a version backfill is a
+git-history question, not a changelog-prose question.** Prose records what the
+author noticed; history records what a reader could have been holding.
+
+Still, prefer under-counting when the history is genuinely ambiguous. An
+inflated `MAJOR` is a false claim about the skill's past, and this field exists
+to stop false claims, not to make new ones.
 
 ## 4. Mechanics
 

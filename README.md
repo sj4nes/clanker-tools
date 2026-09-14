@@ -127,9 +127,11 @@ reading `1.0.0` across a 29-line divergence that included a correctness fix.
 `1.0.0` means "as verified at release"; from there **MAJOR = the skill was
 wrong** (re-do work done under the old text), **MINOR = a statement changed or
 grew** (re-read it), **PATCH = nothing semantic**. So `MAJOR − 1` counts the
-times a skill has been wrong since release — four skills carry a `2.0.0`.
-Release-pass fixes do not bump anything; they are how a skill reached `1.0.0`,
-and the Verification table below is their record. `sh tools/check-skills.sh`
+times a skill has been wrong since release — **nine skills carry a `2.0.0`**.
+The test is whether a **published state** ever carried the error: a fix to text
+no reader could have been holding is how the skill reached `1.0.0`, and the
+Verification table below is the record of those. (`bc`'s margin was six minutes
+— committed 13:38, copied into `~/.claude/skills` 13:44, corrected 14:10.) `sh tools/check-skills.sh`
 gates the shape of the field and the health of every `.claude/skills` symlink.
 
 Its §7 adds a second question to the contract, with an evidence base: **does the

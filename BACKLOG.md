@@ -917,6 +917,38 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       where the record does not say clearly whether the *instruction content* or
       the *harness* was wrong, the skill stays `1.0.0`. An inflated MAJOR is a
       false claim, and this field exists to stop those.
+- [x] **the 4 ambiguous version cases adjudicated from git history**
+      (2026-09-13). The first backfill left `ptx`, `physics-newtonian`,
+      `physics-thermoacoustics` and `math-number-systems` unresolved because the
+      README's prose did not say whether the *instruction content* or the
+      *harness* had been wrong. Verdicts, on evidence:
+      - **`math-number-systems` → 2.0.0.** `b2cc9ae`: an unquoted comma inside a
+        `{ … }` flow scalar split the value into a spurious null key and
+        **silently truncated** `meaning` in `integer.yaml`,
+        `rational_number.yaml`, `lub_property.yaml`. Silently wrong capsule
+        content, published 2026-09-06, fixed 2026-09-08.
+      - **`physics-newtonian`, `physics-thermoacoustics` → 2.0.0**, and the same
+        evidence caught **`chemistry-foundations`, `chemistry-electrochemistry`
+        → 2.0.0** (not in the original four): each capsule README documented
+        `bc -q -l validation/…bc` with no stdin redirect, so the capsule's own
+        validation command **hung** when run as written, for 8 days. Fixed in
+        `735a81a` with `</dev/null`.
+      - **`ptx` → 1.1.0 confirmed.** `6fa714f` replaced a hedged "may split / do
+        not assume" with the verified letters-only regex fact and added
+        `-W`/`-A`. Additions and a confirmation, not a correction.
+      Two of `docs/skill-versioning.md`'s own rules changed as a result:
+      (1) "release-verification fixes do not count" was the wrong cut — the test
+      is **whether a published state ever carried the error**. `bc`'s margin was
+      **six minutes**: committed 13:38, copied into `~/.claude/skills` 13:44,
+      fixed 14:10 — so those *are* MAJOR, while capsules whose verification ran
+      inside their release commit never exposed a wrong state and stay `1.0.0`.
+      (2) the capsule's own `README.md` joined the files that count, since it is
+      how a reader runs the capsule. Also recorded: a loud break (hang, error) is
+      still MAJOR, because "loud or silent" is a judgement call while "did the
+      prescribed thing work?" is checkable.
+      **A version backfill is a git-history question, not a changelog-prose
+      question** — prose records what the author noticed, history records what a
+      reader could have been holding. Nine skills now carry a `2.0.0`.
 - [x] **`tools/check-skills.sh`** (2026-09-13) — the gate that makes the above
       more than a convention: every skill has exactly one semver `version:`
       inside its frontmatter, `name:` matches the directory, and every

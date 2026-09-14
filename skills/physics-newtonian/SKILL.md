@@ -10,7 +10,7 @@ description: >-
   need the minimum prerequisite chain for a mechanics formula, or when you must
   know whether a formula is valid in a given regime. Built with, and maintained
   per, the physics-formula-tree method.
-version: 1.0.0
+version: 2.0.0
 author: Simon Janes
 tags: [physics, mechanics, newtonian, formulas, dependencies, knowledge-capsule]
 ---

@@ -17,7 +17,7 @@ description: >-
   standard state) a formula depends on. Built with, and maintained per, the
   physics-formula-tree method. Excludes kinetics, electrochemistry, colligative
   properties, quantum/orbital bonding, and non-ideal solution theory.
-version: 1.0.0
+version: 2.0.0
 author: Simon Janes
 tags: [chemistry, general-chemistry, stoichiometry, thermochemistry, equilibrium, acid-base, redox, formulas, dependencies, knowledge-capsule]
 ---
