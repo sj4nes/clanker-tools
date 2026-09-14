@@ -874,16 +874,19 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       carrying the same `version: 1.0.0` and a byte-identical description, so
       nothing distinguished it from the fixed one. Now symlinks into this repo.
       Backed up and diffed first; no content existed only in the copies.
-- [ ] **skill wiring, the remaining 12:** left unwired deliberately (46 skill
-      descriptions is a real prompt-context cost), but the decision should be
-      recorded rather than implicit: `agent-automation`, `unattended-automation`,
-      `local-first-backup`, `hypergraph-reasoning`, `nonfiction-book`,
-      `bayes-bridge`, `math-statistics`, `math-linear-algebra`,
-      `chemistry-foundations`, `chemistry-electrochemistry`, `physics-acoustics`,
-      `physics-formula-atlas`. Decide per skill: wire it, or state in the README
-      that it is a reference capsule read by humans and other skills rather than
-      loaded as an agent skill. **A built skill nobody wired in is shelfware** —
-      that is what the `math-probability` link taught.
+- [x] **skill wiring COMPLETE** (2026-09-13) — the remaining 12 wired:
+      `agent-automation`, `unattended-automation`, `local-first-backup`,
+      `hypergraph-reasoning`, `nonfiction-book`, `bayes-bridge`,
+      `math-statistics`, `math-linear-algebra`, `chemistry-foundations`,
+      `chemistry-electrochemistry`, `physics-acoustics`,
+      `physics-formula-atlas`. **All 46 repo skills now resolve**, every link
+      uniform (`../../skills/<name>`), every target carrying a `SKILL.md` whose
+      `name:` matches its directory. The earlier "deliberately unwired" reading
+      was wrong — the deferral was only a usage-limit interruption.
+      **A built skill nobody wired in is shelfware**, which is what the dangling
+      `math-probability` link taught: a 131-node capsule with a full tutorial
+      that had never once been loadable. Worth a standing check — a link-health
+      sweep is three lines of shell and belongs in whatever runs the harnesses.
 - [ ] **version fields do not move when a skill is edited.** Both `bc` copies
       read `version: 1.0.0` despite a 29-line divergence including a verified
       correctness fix, so a stale fork was indistinguishable from the fixed one
