@@ -27,6 +27,7 @@ almost_sure
 abstract_integral
 probability_space
 independence_events
+independence_sigma_algebras
 inclusion_exclusion
 conditional_probability
 borel_cantelli_second
@@ -43,7 +44,6 @@ conditional_expectation_abstract
 stochastic_process
 indicator_rv
 pairwise_not_mutual
-independence_sigma_algebras
 distribution_pushforward
 discrete_rv
 convergence_in_probability
@@ -119,13 +119,13 @@ law_of_total_variance
 conditional_expectation_l2_projection
 weak_law_large_numbers
 standard_normal
-normal_affine_closure
 mgf_sum_independent
 levy_continuity_theorem
 central_limit_theorem
 binomial_distribution
 slutsky_theorem
 hoeffding_inequality
+normal_affine_closure
 lindeberg_clt
 delta_method
 poisson_limit_theorem

@@ -5,6 +5,8 @@ cd "$(dirname "$0")/.."
 
 echo "=== graph-check + tsort + reverse deps ==="
 sh build/build-tree.sh
+python3 build/check-edge-evidence.py    # edge TRUTH: node text vs the graph
+sh validation/mutation-check.sh        # do the graph checks still catch a broken graph?
 
 echo
 echo "=== views ==="

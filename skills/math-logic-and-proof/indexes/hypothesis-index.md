@@ -169,6 +169,7 @@ transitively (reverse reachability over the prerequisite graph).
 - atomic_formula
 - coincidence_lemma
 - compactness_fol
+- compactness_prop
 - consistency_fol
 - derivability_fol
 - disproof_by_counterexample
@@ -195,6 +196,7 @@ transitively (reverse reachability over the prerequisite graph).
 - nd_rules_quantifier
 - non_categoricity
 - non_finite_axiomatizability
+- post_completeness_theorem
 - prenex_normal_form
 - quantifier_distribution
 - quantifier_negation
@@ -203,6 +205,7 @@ transitively (reverse reachability over the prerequisite graph).
 - sentence
 - skolem_paradox
 - soundness_fol
+- soundness_prop
 - structure
 - substitution
 - substitution_lemma_semantic
@@ -409,6 +412,7 @@ transitively (reverse reachability over the prerequisite graph).
 - assignment
 - coincidence_lemma
 - compactness_fol
+- compactness_prop
 - disproof_by_counterexample
 - equality_congruence
 - exists_forall_duality
@@ -419,6 +423,7 @@ transitively (reverse reachability over the prerequisite graph).
 - model
 - non_categoricity
 - non_finite_axiomatizability
+- post_completeness_theorem
 - prenex_normal_form
 - quantifier_distribution
 - quantifier_negation
@@ -426,6 +431,7 @@ transitively (reverse reachability over the prerequisite graph).
 - semantic_consequence_fol
 - skolem_paradox
 - soundness_fol
+- soundness_prop
 - structure
 - substitution_lemma_semantic
 - tarski_satisfaction

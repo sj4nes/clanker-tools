@@ -13,7 +13,7 @@ ker(T^*) = (im T)^perp and im(T^*) = (ker T)^perp. In matrix terms: null(A^T) = 
 proved_theorem  ·  field_scope: real_or_complex
 
 ## Prerequisites (tsort edges into this node)
-adjoint_operator, four_subspaces, image_subspace, kernel, orthogonal_complement
+adjoint_operator, four_subspaces, image_subspace, kernel, orthogonal_complement, orthogonal_decomposition
 
 ## Hypotheses
 F = R or C, finite-dimensional

@@ -9,7 +9,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: [P_nonempty, every_chain_has_an_upper_bound]
 preconditions: []
-dependencies: [partial_order, chain_antichain, maximal_element, bounds_extrema, axiom_of_choice]
+dependencies: [partial_order, chain_antichain, maximal_element, bounds_extrema, axiom_of_choice, function]
 proof:
   technique: >-
     suppose no maximal element. Using a choice function, transfinitely build a

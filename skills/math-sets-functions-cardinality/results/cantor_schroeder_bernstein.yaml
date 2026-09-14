@@ -9,7 +9,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: [injection_each_way]
 preconditions: []
-dependencies: [cardinal_le, bijection, function_composition]
+dependencies: [cardinal_le, bijection, function_composition, partition]
 proof:
   technique: >-
     partition X by "ancestry": each x traces back g^{-1}, f^{-1}, ... until it

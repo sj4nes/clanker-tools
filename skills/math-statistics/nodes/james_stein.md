@@ -15,7 +15,7 @@ For X ~ N(theta, I_d) with d >= 3, the estimator theta_hat_JS = (1 - (d - 2)/||X
 counterexample  ·  regime: exact
 
 ## Prerequisites (tsort edges into this node)
-admissibility, maximum_likelihood_estimator, mean_squared_error, prob_normal, risk_function
+admissibility, maximum_likelihood_estimator, mean_squared_error, mse_bias_variance_decomposition, prob_normal, risk_function
 
 ## Hypotheses
 (none — unconditional within scope)

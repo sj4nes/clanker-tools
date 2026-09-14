@@ -10,9 +10,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: [flat_improper_prior, known_variance]
 preconditions: [n_ge_1]
-dependencies: [credible_interval_cited, normal_mean_ci_known_variance_cited,
-               coverage_probability_cited, bernstein_von_mises_cited,
-               posterior_prop_prior_times_likelihood]
+dependencies: [credible_interval_cited, normal_mean_ci_known_variance_cited, coverage_probability_cited, bernstein_von_mises_cited, posterior_prop_prior_times_likelihood, conjugate_families]
 proof:
   technique: 'direct computation: flat prior + Normal likelihood gives posterior N(xbar, sigma_sq/n) by conjugate_families Normal-Normal at tau0_sq -> infinity; its central 95% region matches the z-interval termwise'
   derives_from: posterior_prop_prior_times_likelihood

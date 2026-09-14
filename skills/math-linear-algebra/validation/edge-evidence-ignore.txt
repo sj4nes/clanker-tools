@@ -1,0 +1,5 @@
+# Adjudicated soft hits from build/check-edge-evidence.py -- see docs/verifying-skills.md §5.
+# <node>	<referenced node>	<verdict>	<note>   (tab-separated)
+determinant_multiplicative	function	english-word	"alternating multilinear function"
+permutation_sign	function	english-word	"would not be a function"
+spectral_theorem_symmetric	schur_triangularisation	cited-not-used	the prose itself says ALTERNATIVE ROUTE not encoded as edges

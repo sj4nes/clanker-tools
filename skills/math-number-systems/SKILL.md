@@ -12,7 +12,7 @@ description: >-
   field", the prerequisite chain for a number-system fact, or to know exactly
   which axiom (Peano, choice) a result rests on. Built with, and maintained per,
   the math-theorem-tree method; discharges the primitives of math-real-analysis.
-version: 2.0.0
+version: 3.0.0
 author: Simon Janes
 tags: [mathematics, foundations, number-systems, construction-of-reals, dependencies, knowledge-capsule, lean]
 ---

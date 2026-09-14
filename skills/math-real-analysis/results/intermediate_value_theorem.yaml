@@ -4,9 +4,9 @@ status_label: nonconstructive_result
 display: 'If $f$ is continuous on $[a,b]$ and $y$ lies between $f(a)$ and $f(b)$, then $f(c)=y$ for some $c\in[a,b]$.'
 parseable: 'continuousOn(f,[a,b]) and between(y, f a, f b) -> exists c in [a,b], f c = y'
 symbols:
-  f: { meaning: a real function on [a,b], type: function }
-  y: { meaning: an intermediate value, type: real }
-  c: { meaning: a point where f attains y, type: real }
+  f: { meaning: 'a real function on [a,b]', type: 'function' }
+  y: { meaning: 'an intermediate value', type: 'real' }
+  c: { meaning: 'a point where f attains y', type: 'real' }
 type_check_status: well_formed
 hypotheses: [continuity_on_closed_interval]
 preconditions: [a_le_b]

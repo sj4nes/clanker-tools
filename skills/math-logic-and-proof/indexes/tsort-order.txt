@@ -79,15 +79,14 @@ equality_congruence
 uniqueness_proof
 double_negation
 distributivity_prop
-soundness_prop
 tautology_decidable
 de_morgan_prop
 contraposition
 lindenbaum_lemma_fol
 henkin_constants
 godel_incompleteness_second
-soundness_fol
 biconditional_as_conjunction
+soundness_prop
 quantifier_order
 quantifier_distribution
 substitution_of_equivalents
@@ -108,6 +107,7 @@ negation_normal_form
 duality_principle
 proof_by_contrapositive
 post_completeness_theorem
+soundness_fol
 biconditional_proof
 prenex_normal_form
 wlog

@@ -5,6 +5,8 @@ cd "$(dirname "$0")/.."
 echo "== graph + tsort =="
 sh build/build-tree.sh
 
+python3 build/check-edge-evidence.py    # edge TRUTH: node text vs the graph
+sh validation/mutation-check.sh        # do the graph checks still catch a broken graph?
 echo ""
 echo "== bc instance checks =="
 # `bc`'s `quit` ALWAYS exits 0, so `&& echo ok` reports success even when every

@@ -4,7 +4,7 @@ status_label: proved_theorem
 display: '$2^{\omega}$ (equivalently $\mathcal{P}(\omega)$, $[0,1]$, $\mathbb{R}$) is uncountable.'
 parseable: 'not exists surjection omega -> 2^omega'
 symbols:
-  '2^omega': { meaning: the set of functions omega -> {0,1}, type: set }
+  '2^omega': { meaning: 'the set of functions omega -> {0,1}', type: 'set' }
 type_check_status: well_formed
 hypotheses: []
 preconditions: []

@@ -14,7 +14,7 @@ Over R, a matrix P represents the ORTHOGONAL projection onto col(P) if and only 
 proved_theorem  ·  field_scope: real_or_complex
 
 ## Prerequisites (tsort edges into this node)
-column_space, matrix_of_linear_map, orthogonal_decomposition, orthogonal_projection, real_number, transpose
+adjoint_kernel_image, column_space, matrix_of_linear_map, orthogonal_decomposition, orthogonal_projection, real_number, transpose
 
 ## Hypotheses
 F = R (or C with ^*)

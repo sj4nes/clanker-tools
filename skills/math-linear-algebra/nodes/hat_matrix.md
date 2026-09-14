@@ -14,7 +14,7 @@ For A of full column rank, H = A(A^TA)^{-1}A^T is the orthogonal projection onto
 constructive_result  ·  field_scope: real_or_complex
 
 ## Prerequisites (tsort edges into this node)
-invertible_matrix, least_squares, matrix_rank, projection_matrix_characterisation, trace
+invertible_matrix, least_squares, matrix_rank, projection_matrix_characterisation, trace, trace_cyclic
 
 ## Hypotheses
 rank A = n (full column rank)

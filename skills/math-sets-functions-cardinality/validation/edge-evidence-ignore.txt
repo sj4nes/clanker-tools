@@ -1,0 +1,3 @@
+# Adjudicated soft hits from build/check-edge-evidence.py -- see docs/verifying-skills.md §5.
+# <node>	<referenced node>	<verdict>	<note>   (tab-separated)
+recursion_theorem	transfinite_recursion	cited-not-used	remark that it is a special case; the proof does not use it

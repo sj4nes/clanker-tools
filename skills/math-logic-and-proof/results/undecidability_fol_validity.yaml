@@ -9,7 +9,7 @@ type_check_status: well_formed
 type_check_note: '"algorithm" / "decidable" via church_turing_thesis (informal primitive decidability). The claim is about the set of valid sentences of a sufficiently rich language.'
 hypotheses: [language_expressive_enough, church_turing_thesis]
 preconditions: []
-dependencies: [decidability, church_turing_thesis, derivability_fol, godel_completeness_theorem]
+dependencies: [decidability, church_turing_thesis, derivability_fol, godel_completeness_theorem, halting_problem, validity]
 proof:
   technique: 'NOT PROVED HERE (scope). Standard proof: reduce the halting problem (or the Post correspondence problem, or the word problem for semigroups) to first-order validity -- encode a Turing machine computation as a first-order sentence that is valid iff the machine halts. Semidecidability is from godel_completeness_theorem: enumerate all derivations.'
   derives_from: church_turing_thesis

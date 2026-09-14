@@ -14,7 +14,7 @@ phi_X is uniformly continuous with |phi_X| <= 1, phi_X(0) = 1, phi_{-X} = conjug
 proved_theorem
 
 ## Prerequisites (tsort edges into this node)
-characteristic_function, distribution_pushforward, dominated_convergence_theorem
+characteristic_function, distribution_pushforward, dominated_convergence_theorem, moment
 
 ## Hypotheses
 (none — unconditional within scope)

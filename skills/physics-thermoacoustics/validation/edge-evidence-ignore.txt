@@ -1,0 +1,3 @@
+# Adjudicated soft hits from build/check-edge-evidence.py -- see docs/verifying-skills.md §5.
+# <node>	<referenced node>	<verdict>	<note>   (tab-separated)
+rott_momentum_equation	frequency	english-word	"single-frequency"; the node already depends on angular_frequency

@@ -14,7 +14,7 @@ The false discovery rate is FDR = E[ (false rejections) / max(1, total rejection
 proposition  ·  regime: distribution_free
 
 ## Prerequisites (tsort edges into this node)
-multiple_testing_fwer, p_value
+multiple_testing_fwer, p_value, p_value_uniform_under_null
 
 ## Hypotheses
 (none — unconditional within scope)

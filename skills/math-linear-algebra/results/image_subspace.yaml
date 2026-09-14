@@ -15,6 +15,7 @@ preconditions: []
 dependencies:
   - 'linear_map'
   - 'subspace'
+  - 'subspace_criterion'
 proof:
   technique: 'closure from linearity'
   derives_from: 'subspace_criterion'

@@ -14,7 +14,7 @@ There is a unique measure lambda on B(R) with lambda([a,b]) = b - a. It is built
 constructive_result (non-constructive) (uses choice)
 
 ## Prerequisites (tsort edges into this node)
-borel_sigma_algebra, measure, real_field
+borel_sigma_algebra, dynkin_pi_lambda, measure, real_field
 
 ## Hypotheses
 (none — unconditional within scope)

@@ -4,15 +4,15 @@ status_label: axiom
 display: 'For every family $\{A_i\}_{i\in I}$ of nonempty sets there is a function $c$ with $c(i)\in A_i$ for all $i$.'
 parseable: '(forall i, A_i != emptyset) -> exists c, forall i, c(i) in A_i'
 symbols:
-  '{A_i}': { meaning: an indexed family of nonempty sets, type: family }
-  c: { meaning: a choice function, type: function }
+  '{A_i}': { meaning: 'an indexed family of nonempty sets', type: 'family' }
+  c: { meaning: 'a choice function', type: 'function' }
 type_check_status: well_formed
 type_check_note: 'a DEFINABLE selector (least element of a well-order; the unique element of a singleton; a canonical representative) is not a use of AC -- objects.md rule 7.'
 hypotheses: []
 preconditions: []
 dependencies: [predicate_logic]
 proof:
-  technique: none — an axiom, independent of ZF (Godel 1938: Con(ZF) -> Con(ZFC); Cohen 1963: Con(ZF) -> Con(ZF + not AC))
+  technique: 'none — an axiom, independent of ZF (Godel 1938: Con(ZF) -> Con(ZFC); Cohen 1963: Con(ZF) -> Con(ZF + not AC))'
   derives_from: null
   lean_status: none
   lean_ref: null

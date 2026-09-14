@@ -12,7 +12,7 @@ description: >-
   ODE/PDE theory, graph theory), or to add/change a result in an existing tree.
   This is a META skill: it orchestrates the `tsort`, `lean`, `bc`, `ptx`,
   `csplit`, and `ed` skills — invoke it before starting such work.
-version: 1.0.0
+version: 1.1.0
 author: Simon Janes
 tags: [mathematics, knowledge-engineering, tsort, lean, dependencies, theorems, meta-skill]
 ---

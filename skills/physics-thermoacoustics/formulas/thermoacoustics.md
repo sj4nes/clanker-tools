@@ -109,7 +109,8 @@ engine: Detailed study," *JASA* **107**, 3148 (2000).
 - Label: derived_exact (combine linearized continuity + Euler + adiabatic EOS).
 - Assumptions: linearization; inviscid; no wall / boundary layer; uniform mean
   state.
-- Prereqs: linearized_continuity, linearized_euler, adiabatic_sound_speed.
+- Prereqs: linearized_continuity, linearized_euler, adiabatic_sound_speed,
+  partial_derivative, linearization.
 - Special case: harmonic solutions give `ω = a k` (dispersionless).
 - Failure: inside a stack/regenerator — replaced by the Rott wave equation with
   `f_ν`, `f_κ`, and `dT_m/dx`.
@@ -144,7 +145,7 @@ engine: Detailed study," *JASA* **107**, 3148 (2000).
 
 ## specific_acoustic_impedance — `z = p₁ / u₁`
 - z: Pa·s/m, `M L^-2 T^-1`, generally **complex**. Prereqs: acoustic_pressure,
-  acoustic_velocity, characteristic_impedance.
+  acoustic_velocity, characteristic_impedance, standing_wave.
 - Label: definition. Special case: `z` real ⇒ travelling-wave phasing, maximum
   power transport; `z` purely imaginary ⇒ standing-wave phasing, zero net power.
 - Failure: undefined where `u₁ = 0` (pressure antinode) — use the reciprocal or
@@ -202,8 +203,8 @@ engine: Detailed study," *JASA* **107**, 3148 (2000).
 - r_h: m, `L`. A_gas: open flow area, `L^2`. Π: wetted perimeter, `L`.
 - Label: definition. Special case: parallel plates gap `2y₀` ⇒ `r_h = y₀`;
   circular pore radius `r` ⇒ `r_h = r/2`.
-- Prereqs: (geometry primitive) — feeds `stack_regime`, `regenerator_regime`,
-  and the `f` functions.
+- Prereqs: none (root geometry primitive; feeds the stack/regenerator regimes
+  and the `f` functions — see `indexes/reverse-dependencies.txt`).
 - Failure: highly irregular or partly blocked passages.
 - Source: Swift2002 §4.
 
@@ -253,7 +254,7 @@ engine: Detailed study," *JASA* **107**, 3148 (2000).
   dimensionless. `[dp₁/dx] = M L^-2 T^-2` (dimensional check passes).
 - Label: derived_exact — `x`-momentum of the linearized, wall-bounded, laminar,
   single-frequency flow, channel-averaged.
-- Assumptions: laminar; no mean flow; single frequency; `f_ν` captures all wall
+- Assumptions: laminar, no_mean_flow, single frequency; `f_ν` captures all wall
   viscous effects.
 - Prereqs: linearized_navier_stokes, thermoacoustic_function_fnu,
   volume_flow_rate, angular_frequency, mean_density, ordinary_differential_equation.
@@ -269,7 +270,7 @@ engine: Detailed study," *JASA* **107**, 3148 (2000).
   mean temperature gradient. Second term is the thermoacoustic coupling.
 - Label: derived_exact; carried draft pending term-by-term source reconciliation
   (Swift2002 §4).
-- Assumptions: ideal gas; single frequency; no mean flow; `dT_m/dx` imposed.
+- Assumptions: ideal gas, single frequency, no_mean_flow; `dT_m/dx` imposed.
 - Prereqs: linearized_continuity, linearized_energy_equation,
   thermoacoustic_function_fkappa, thermoacoustic_function_fnu,
   heat_capacity_ratio, mean_pressure, mean_temperature_gradient, prandtl_number,

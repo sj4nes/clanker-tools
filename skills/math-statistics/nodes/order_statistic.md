@@ -14,7 +14,7 @@ The order statistics of X_1, ..., X_n are the sorted values X_(1) <= X_(2) <= ..
 definition  ·  regime: distribution_free
 
 ## Prerequisites (tsort edges into this node)
-iid_sample
+iid_sample, prob_binomial
 
 ## Hypotheses
 (none — unconditional within scope)

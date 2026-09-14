@@ -22,6 +22,7 @@ misuse outside that assumption is visible in the graph. Source:
   - acoustic_density
   - acoustic_pressure
   - acoustic_velocity
+  - acoustic_wave_equation
   - linearized_continuity
   - linearized_euler
 

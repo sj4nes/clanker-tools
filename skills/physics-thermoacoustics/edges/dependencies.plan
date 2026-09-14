@@ -334,3 +334,7 @@ carnot_limit relative_carnot_performance
 
 # ================= diagnostics =================
 SI_units dimension_analysis
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# text declared these dependencies but the graph did not carry them.
+linearization acoustic_wave_equation  # entry Assumptions line

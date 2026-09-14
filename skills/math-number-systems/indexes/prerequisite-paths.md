@@ -713,7 +713,7 @@ _(57 prerequisites)_
 - real_is_ordered_field
 
 ## real_uniqueness
-_(65 prerequisites)_
+_(67 prerequisites)_
 
 - set
 - cartesian_product
@@ -722,10 +722,12 @@ _(65 prerequisites)_
 - equivalence_relation
 - equivalence_class
 - commutative_monoid
+- surjection
 - peano_axioms
 - injection
 - quotient_set
 - commutative_semiring
+- bijection
 - natural_number
 - induction_principle
 - well_defined_on_quotient
@@ -936,7 +938,7 @@ _(67 prerequisites)_
 - rational_dense_in_real
 
 ## real_uncountable
-_(68 prerequisites)_
+_(70 prerequisites)_
 
 - set
 - cartesian_product
@@ -945,10 +947,12 @@ _(68 prerequisites)_
 - equivalence_relation
 - equivalence_class
 - commutative_monoid
+- surjection
 - peano_axioms
 - injection
 - quotient_set
 - commutative_semiring
+- bijection
 - natural_number
 - induction_principle
 - well_defined_on_quotient

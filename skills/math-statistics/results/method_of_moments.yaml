@@ -12,12 +12,14 @@ type_check_note: 'A system of d equations in d unknowns. Consistency follows fro
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'consistency'
   - 'iid_sample'
   - 'parameter_space'
   - 'prob_cauchy_no_mean'
   - 'prob_chebyshev_ineq'
   - 'prob_lotus'
   - 'prob_moment'
+  - 'prob_wlln'
 proof:
   technique: 'LLN: sample moments -> population moments; continuous mapping through the (assumed invertible) moment map gives consistency; CLT + delta method give asymptotic normality'
   derives_from: 'prob_wlln'

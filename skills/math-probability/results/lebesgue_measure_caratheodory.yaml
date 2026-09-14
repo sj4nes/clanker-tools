@@ -12,6 +12,7 @@ hypotheses: []
 preconditions: []
 dependencies:
   - 'borel_sigma_algebra'
+  - 'dynkin_pi_lambda'
   - 'measure'
   - 'real_field'
 proof:

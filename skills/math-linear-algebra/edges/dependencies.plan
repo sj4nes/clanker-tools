@@ -700,3 +700,25 @@ one_sided_inverse_square infinite_dimensional_boundary
 jordan_normal_form smith_normal_form_boundary
 primary_decomposition smith_normal_form_boundary
 rref_uniqueness smith_normal_form_boundary
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text cites these results; the graph did not carry the edge.
+orthogonal_decomposition adjoint_kernel_image
+injective_surjective_equivalence char_poly_roots_are_eigenvalues
+schur_complement cholesky_factorisation
+basis determinant_existence_uniqueness
+rref_uniqueness gaussian_elimination
+trace_cyclic hat_matrix
+subspace_criterion image_subspace
+subspace_criterion kernel
+adjoint_kernel_image least_squares
+linear_map_determined_by_basis matrix_of_linear_map
+parallelogram_law polarisation_identity
+adjoint_kernel_image projection_matrix_characterisation
+determinant schur_complement
+rank_inequalities similar_invariants
+dimension space_of_linear_maps
+subspace_criterion span_is_smallest_subspace
+spectral_theorem_normal spectral_radius
+subspace_criterion subspace_intersection
+determinant triangular_matrix

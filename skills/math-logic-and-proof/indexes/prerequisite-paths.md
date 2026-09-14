@@ -63,19 +63,25 @@ in practice.
 - de_morgan_prop
 - lindenbaum_lemma_fol
 - henkin_constants
-- soundness_fol
+- soundness_prop
 - henkin_theory
 - term_model
 - quantifier_negation
+- soundness_fol
 - truth_lemma_fol
 - godel_completeness_theorem
 
 ## compactness_prop
 - symbol
+- naive_collection
 - metatheoretic_induction
 - inductive_definition
+- first_order_logic_with_equality
 - finite_sequence
+- signature
+- structure
 - string
+- assignment
 - wff_syntax
 - formula_complexity
 - true_false_constants
@@ -101,8 +107,8 @@ in practice.
 - satisfiability
 - logical_equivalence
 - implication_as_disjunction
-- soundness_prop
 - de_morgan_prop
+- soundness_prop
 - truth_lemma_prop
 - post_completeness_theorem
 
@@ -190,10 +196,11 @@ in practice.
 - de_morgan_prop
 - lindenbaum_lemma_fol
 - henkin_constants
-- soundness_fol
+- soundness_prop
 - henkin_theory
 - term_model
 - quantifier_negation
+- soundness_fol
 - truth_lemma_fol
 
 ## godel_incompleteness_first
@@ -342,10 +349,11 @@ in practice.
 - de_morgan_prop
 - lindenbaum_lemma_fol
 - henkin_constants
-- soundness_fol
+- soundness_prop
 - henkin_theory
 - term_model
 - quantifier_negation
+- soundness_fol
 - truth_lemma_fol
 - godel_completeness_theorem
 
@@ -366,10 +374,15 @@ in practice.
 
 ## post_completeness_theorem
 - symbol
+- naive_collection
 - metatheoretic_induction
 - inductive_definition
+- first_order_logic_with_equality
 - finite_sequence
+- signature
+- structure
 - string
+- assignment
 - wff_syntax
 - formula_complexity
 - true_false_constants
@@ -394,8 +407,8 @@ in practice.
 - semantic_consequence
 - logical_equivalence
 - implication_as_disjunction
-- soundness_prop
 - de_morgan_prop
+- soundness_prop
 - truth_lemma_prop
 
 ## quantifier_negation
@@ -451,6 +464,8 @@ in practice.
 - formula_complexity
 - atomic_formula
 - term_evaluation
+- true_false_constants
+- truth_assignment
 - nd_rules_propositional
 - modus_ponens
 - hilbert_system_prop
@@ -465,25 +480,35 @@ in practice.
 - recursion_on_wff
 - free_bound_variables
 - eigenvariable_condition
+- derivability
 - tarski_satisfaction
+- truth_value_recursion
 - sentence
 - free_for
 - substitution
 - equality_axioms
 - nd_rules_quantifier
 - coincidence_lemma
+- satisfaction
 - model
 - hilbert_quantifier_axioms
 - derivability_fol
 - substitution_lemma_semantic
+- semantic_consequence
 - semantic_consequence_fol
+- soundness_prop
 
 ## soundness_prop
 - symbol
+- naive_collection
 - metatheoretic_induction
 - inductive_definition
+- first_order_logic_with_equality
 - finite_sequence
+- signature
+- structure
 - string
+- assignment
 - wff_syntax
 - formula_complexity
 - true_false_constants
@@ -517,6 +542,7 @@ in practice.
 - signature
 - structure
 - string
+- halting_problem
 - assignment
 - wff_syntax
 - term_syntax
@@ -558,6 +584,7 @@ in practice.
 - consistency_fol
 - substitution_lemma_semantic
 - semantic_consequence
+- validity
 - semantic_consequence_fol
 - logical_equivalence_fol
 - logical_equivalence
@@ -565,10 +592,11 @@ in practice.
 - de_morgan_prop
 - lindenbaum_lemma_fol
 - henkin_constants
-- soundness_fol
+- soundness_prop
 - henkin_theory
 - term_model
 - quantifier_negation
+- soundness_fol
 - truth_lemma_fol
 - godel_completeness_theorem
 

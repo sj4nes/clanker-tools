@@ -14,7 +14,7 @@ If X is a random variable with a <= X <= b a.s. and E[X] = 0, then M_X(t) = E[e^
 proved_lemma
 
 ## Prerequisites (tsort edges into this node)
-convex_function, expectation, jensen_inequality, mgf
+convex_function, expectation, jensen_inequality, mgf, variance
 
 ## Hypotheses
 (none — unconditional within scope)

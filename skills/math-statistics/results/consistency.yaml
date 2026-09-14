@@ -12,10 +12,12 @@ type_check_note: 'An asymptotic (n -> inf) property; says nothing about any fixe
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'bias'
   - 'estimator'
   - 'iid_sample'
   - 'prob_chebyshev_ineq'
   - 'prob_conv_p'
+  - 'prob_wlln'
 proof:
   technique: 'typically: a law of large numbers for the estimating equation plus continuity (or: Var -> 0 and bias -> 0, via Chebyshev)'
   derives_from: 'prob_wlln'

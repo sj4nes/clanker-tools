@@ -13,7 +13,7 @@ lambda is an eigenvalue of A if and only if p_A(lambda) = 0. THE THEOREM JOINING
 proved_theorem  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-characteristic_polynomial, determinant_invertible_iff, eigenvalue, injective_iff_trivial_kernel
+characteristic_polynomial, determinant_invertible_iff, eigenvalue, injective_iff_trivial_kernel, injective_surjective_equivalence
 
 ## Hypotheses
 A square, V finite-dimensional

@@ -13,7 +13,7 @@ A rule delta* is minimax if it minimizes the worst-case risk: sup_theta R(theta,
 definition
 
 ## Prerequisites (tsort edges into this node)
-risk_function
+bayes_risk, risk_function
 
 ## Hypotheses
 (none — unconditional within scope)

@@ -14,7 +14,7 @@ In the Gaussian linear model, (beta_hat_j - beta_j^0) / se(beta_hat_j) ~ t_{n-p}
 proposition  ·  regime: exact
 
 ## Prerequisites (tsort edges into this node)
-ols_distribution_under_normal_errors, students_t_distribution, unbiased_error_variance_estimator
+ols_distribution_under_normal_errors, students_t_distribution, t_statistic_distribution, unbiased_error_variance_estimator
 
 ## Hypotheses
 (none — unconditional within scope)

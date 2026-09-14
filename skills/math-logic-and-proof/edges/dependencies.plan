@@ -350,3 +350,13 @@ godel_incompleteness_first tarski_undefinability
 tarski_satisfaction tarski_undefinability
 godel_incompleteness_first incompleteness_of_PA_ZFC
 godel_incompleteness_second incompleteness_of_PA_ZFC
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# text declared these dependencies but the graph did not carry them.
+halting_problem undecidability_fol_validity  # related.requires (the reduction)
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text uses these results; the graph did not carry the edge.
+assignment soundness_prop
+soundness_prop soundness_fol
+validity undecidability_fol_validity

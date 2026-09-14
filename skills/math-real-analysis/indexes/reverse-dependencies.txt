@@ -37,7 +37,7 @@ function_limit: derivative lhopital_rule sequential_criterion_limit
 geometric_series: p_series ratio_test root_test
 heine_borel: extreme_value_theorem sequential_compactness
 heine_cantor: continuous_implies_integrable
-induction: partial_sum taylor_theorem
+induction: ftc_part2 partial_sum taylor_theorem
 infimum: darboux_sums limsup_liminf riemann_integral
 integral_mvt: ftc_part1
 interior_extremum_theorem: rolles_theorem

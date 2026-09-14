@@ -1,7 +1,7 @@
 amount_from_mass: empirical_formula limiting_reagent
 amount_of_substance: ideal_gas_law molar_mass molarity mole_fraction mole_ratio number_from_amount
 arrhenius_acid_base: bronsted_lowry strong_acid_base_ph
-atom: atomic_mass_unit chemical_reaction conservation_of_mass element ion
+atom: atomic_mass_unit chemical_reaction conservation_of_mass element ion atomic_number
 atomic_mass_unit: relative_atomic_mass
 atomic_number: element isotope periodic_trends
 atomic_structure: atomic_number covalent_bond ion isotope octet_rule
@@ -69,7 +69,7 @@ reaction_quotient: ice_table q_versus_k
 relative_atomic_mass: molar_mass_from_formula
 reversible_reaction: dynamic_equilibrium
 si_units: atomic_mass_unit avogadro_constant dimensional_analysis gas_constant molar_mass specific_heat_capacity standard_state system_surroundings
-solution: arrhenius_acid_base dilute_ideal_solution molarity
+solution: arrhenius_acid_base dilute_ideal_solution molarity balancing_redox_half_reactions
 solution_stoichiometry: titration
 specific_heat_capacity: calorimetry
 standard_enthalpy_of_formation: enthalpy_from_formation_enthalpies

@@ -17,6 +17,7 @@ preconditions: []
 dependencies:
   - 'prob_continuous_mapping'
   - 'score_test'
+  - 'statistic'
   - 'wald_test'
   - 'wilks_theorem'
 proof:

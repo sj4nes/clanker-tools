@@ -13,7 +13,7 @@ For M = [[A,B],[C,D]] with A invertible, the Schur complement of A is M/A = D - 
 constructive_result  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-block_matrix, invertible_matrix
+block_matrix, determinant, invertible_matrix
 
 ## Hypotheses
 A invertible

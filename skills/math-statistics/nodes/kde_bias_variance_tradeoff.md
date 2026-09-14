@@ -15,7 +15,7 @@ For a KDE with a second-order kernel and twice-differentiable f, at a fixed x: b
 definition  ·  regime: asymptotic
 
 ## Prerequisites (tsort edges into this node)
-kernel_density_estimator, prob_variance, ra_taylor_theorem
+kernel_density_estimator, mse_bias_variance_decomposition, prob_variance, ra_taylor_theorem
 
 ## Hypotheses
 (none — unconditional within scope)

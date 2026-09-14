@@ -13,7 +13,7 @@ ker T = {v in V : T(v) = 0}, the null space of T. It is a subspace of V.
 definition  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-linear_map, subspace
+linear_map, subspace, subspace_criterion
 
 ## Hypotheses
 T linear

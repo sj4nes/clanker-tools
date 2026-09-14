@@ -10,7 +10,7 @@ type_check_status: well_formed
 type_check_note: 'metatheory: naive_collections. The delicate cases are forall-E / exists-I (need substitution_lemma_semantic, hence free_for) and the eigenvariable rules (need coincidence_lemma + the eigenvariable_condition).'
 hypotheses: [rules_truth_preserving, eigenvariable_condition_enforced]
 preconditions: []
-dependencies: [derivability_fol, semantic_consequence_fol, substitution_lemma_semantic, coincidence_lemma, eigenvariable_condition, structural_induction_wff]
+dependencies: [derivability_fol, semantic_consequence_fol, substitution_lemma_semantic, coincidence_lemma, eigenvariable_condition, structural_induction_wff, soundness_prop]
 proof:
   technique: 'induction on the derivation (structural_induction_wff over derivability_fol). Propositional rules as in soundness_prop. forall-E: from A |= forall x phi and substitution_lemma_semantic, A |= phi[t/x]. exists-I: converse. forall-I: the eigenvariable y is not free in Gamma or the conclusion, so from A |= phi[s(y -> a)] for the arbitrary a (by IH, since y ranges freely) conclude A |= forall y phi; coincidence_lemma discharges the "not free in Gamma" bookkeeping. Equality axioms: valid since = is interpreted as identity.'
   derives_from: derivability_fol

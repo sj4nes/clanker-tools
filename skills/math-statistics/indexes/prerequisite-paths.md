@@ -171,11 +171,13 @@ _(14 prerequisites)_
 - mean_squared_error
 
 ## consistency
-_(11 prerequisites)_
+_(14 prerequisites)_
 
+- prob_wlln
 - prob_random_variable
 - prob_probability_space
 - prob_iid
+- prob_expectation
 - prob_conv_p
 - prob_chebyshev_ineq
 - statistical_model
@@ -184,6 +186,7 @@ _(11 prerequisites)_
 - iid_sample
 - statistic
 - estimator
+- bias
 
 ## umvue
 _(13 prerequisites)_
@@ -517,16 +520,18 @@ _(21 prerequisites)_
 - posterior_mean_rule
 
 ## james_stein
-_(25 prerequisites)_
+_(29 prerequisites)_
 
 - ra_continuity
 - ra_compactness
+- prob_variance
 - prob_random_variable
 - prob_probability_space
 - prob_pdf
 - prob_normal
 - prob_joint_distribution
 - prob_iid
+- prob_expectation_linearity
 - prob_expectation
 - statistical_model
 - parametric_model
@@ -538,10 +543,12 @@ _(25 prerequisites)_
 - statistic
 - estimator
 - likelihood_function
+- bias
 - test_function
 - maximum_likelihood_estimator
 - mean_squared_error
 - decision_rule
+- mse_bias_variance_decomposition
 - risk_function
 - admissibility
 
@@ -619,7 +626,7 @@ _(20 prerequisites)_
 - basu_theorem
 
 ## scaled_sample_variance_chi_squared
-_(26 prerequisites)_
+_(27 prerequisites)_
 
 - prob_standard_normal
 - prob_random_variable
@@ -636,6 +643,7 @@ _(26 prerequisites)_
 - prob_cdf
 - linear_algebra_background
 - chi_squared_distribution
+- chi_squared_additivity
 - statistical_model
 - iid_sample
 - cochran_theorem
@@ -649,7 +657,7 @@ _(26 prerequisites)_
 - normal_sample_mean_variance_independence
 
 ## t_statistic_distribution
-_(29 prerequisites)_
+_(30 prerequisites)_
 
 - prob_standard_normal
 - prob_random_variable
@@ -667,6 +675,7 @@ _(29 prerequisites)_
 - prob_cdf
 - linear_algebra_background
 - chi_squared_distribution
+- chi_squared_additivity
 - statistical_model
 - iid_sample
 - students_t_distribution
@@ -707,7 +716,7 @@ _(13 prerequisites)_
 - size_of_test
 
 ## normal_mean_ci_unknown_variance
-_(35 prerequisites)_
+_(36 prerequisites)_
 
 - prob_standard_normal
 - prob_random_variable
@@ -725,6 +734,7 @@ _(35 prerequisites)_
 - prob_cdf
 - linear_algebra_background
 - chi_squared_distribution
+- chi_squared_additivity
 - statistical_model
 - parametric_model
 - parameter_space
@@ -746,7 +756,7 @@ _(35 prerequisites)_
 - t_statistic_distribution
 
 ## wald_interval
-_(22 prerequisites)_
+_(23 prerequisites)_
 
 - ra_differentiability
 - prob_variance
@@ -757,6 +767,7 @@ _(22 prerequisites)_
 - prob_joint_distribution
 - prob_iid
 - prob_conv_d
+- prob_clt
 - statistical_model
 - parametric_model
 - parameter_space
@@ -946,11 +957,13 @@ _(9 prerequisites)_
 - empirical_cdf
 
 ## bootstrap
-_(11 prerequisites)_
+_(14 prerequisites)_
 
+- prob_slln
 - prob_random_variable
 - prob_probability_space
 - prob_iid
+- prob_conv_as
 - prob_cdf
 - prob_bernoulli
 - statistical_model
@@ -958,6 +971,7 @@ _(11 prerequisites)_
 - empirical_cdf
 - statistic
 - plug_in_principle
+- glivenko_cantelli
 - plug_in_estimator
 
 ## linear_model
@@ -1000,7 +1014,7 @@ _(19 prerequisites)_
 - unbiased_estimator
 
 ## ols_distribution_under_normal_errors
-_(32 prerequisites)_
+_(33 prerequisites)_
 
 - ra_differentiability
 - prob_standard_normal
@@ -1020,6 +1034,7 @@ _(32 prerequisites)_
 - prob_cdf
 - linear_algebra_background
 - chi_squared_distribution
+- chi_squared_additivity
 - statistical_model
 - linear_model
 - iid_sample

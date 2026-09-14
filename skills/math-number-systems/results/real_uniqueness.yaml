@@ -8,7 +8,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: [both_are_ordered_fields, both_are_dedekind_complete]
 preconditions: []
-dependencies: [real_is_ordered_field, lub_property, rational_dense_in_real, real_archimedean, recursion_theorem]
+dependencies: [real_is_ordered_field, lub_property, rational_dense_in_real, real_archimedean, recursion_theorem, bijection]
 proof:
   technique: >-
     every ordered field contains a canonical copy of Q (prime field, ordered).

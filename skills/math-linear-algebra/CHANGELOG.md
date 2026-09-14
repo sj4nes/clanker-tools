@@ -1,5 +1,23 @@
 # Changelog — math-linear-algebra
 
+## 2.0.0 — 2026-09-14
+
+**MAJOR: 19 prerequisite edges were missing.** `build/check-edge-evidence.py`
+(new; see [`docs/verifying-skills.md` §5a](../../docs/verifying-skills.md)) read
+each node's proof prose and found 19 results the proofs cite that the graph did
+not carry — among them `subspace_criterion -> kernel` / `image_subspace` /
+`span_is_smallest_subspace` / `subspace_intersection`, `trace_cyclic ->
+hat_matrix`, `orthogonal_decomposition -> adjoint_kernel_image`,
+`rref_uniqueness -> gaussian_elimination`, and `spectral_theorem_normal ->
+spectral_radius`. Any prerequisite chain queried before this commit was
+incomplete, silently. Now 618 edges; still acyclic; `results/` and `nodes/`
+regenerated from the graph.
+
+Four soft hits adjudicated in `validation/edge-evidence-ignore.txt` (three
+English-word matches, one route the prose itself marks as not-an-edge).
+`validation/mutation-check.sh` (new) plants five graph defects per build and
+asserts each is caught: 5/5, at 198 of 198 nodes falsifiable.
+
 ## Release 0.1 — 2026-09-13
 
 First release. Built with the

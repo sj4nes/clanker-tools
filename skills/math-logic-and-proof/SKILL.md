@@ -20,7 +20,7 @@ description: >-
   metatheorem, or to know exactly which classical principle a law uses. Built
   with the math-theorem-tree method; discharges the logic primitives of
   math-sets-functions-cardinality.
-version: 1.0.0
+version: 2.0.0
 author: Simon Janes
 tags: [mathematics, logic, proof-theory, model-theory, foundations, natural-deduction, completeness, compactness, incompleteness, dependencies, knowledge-capsule, lean]
 ---

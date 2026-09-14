@@ -15,6 +15,7 @@ hypotheses:
   - 'full column rank for uniqueness'
 preconditions: []
 dependencies:
+  - 'adjoint_kernel_image'
   - 'best_approximation'
   - 'column_space'
   - 'linear_system'

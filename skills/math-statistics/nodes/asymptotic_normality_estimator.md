@@ -14,7 +14,7 @@ theta_hat_n is asymptotically normal with rate sqrt(n) if sqrt(n)(theta_hat_n - 
 definition  ·  regime: asymptotic
 
 ## Prerequisites (tsort edges into this node)
-estimator, prob_conv_d, prob_standard_normal
+estimator, prob_clt, prob_conv_d, prob_standard_normal
 
 ## Hypotheses
 (none — unconditional within scope)

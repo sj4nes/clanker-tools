@@ -11,6 +11,7 @@ hypotheses: []
 preconditions: []
 dependencies:
   - 'distribution_pushforward'
+  - 'dynkin_pi_lambda'
   - 'mgf'
 proof:
   technique: 'analytic continuation of M to the complex strip |Re z| < h; on the imaginary axis it is the characteristic function, whose inversion determines the law'

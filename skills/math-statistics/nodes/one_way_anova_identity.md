@@ -15,7 +15,7 @@ For data X_ij (group i = 1..k, observation j = 1..n_i, total N = sum n_i), the t
 mathematical_identity  ·  regime: exact
 
 ## Prerequisites (tsort edges into this node)
-cochran_theorem, linear_algebra_background, sample_mean
+chi_squared_additivity, cochran_theorem, linear_algebra_background, sample_mean
 
 ## Hypotheses
 (none — unconditional within scope)

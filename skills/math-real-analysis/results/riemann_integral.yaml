@@ -4,10 +4,10 @@ status_label: definition
 display: '$\int_a^b f = \inf_P U(f,P) = \sup_P L(f,P)$ when the two agree; then $f$ is Riemann integrable on $[a,b]$.'
 parseable: 'integrable(f,[a,b]) iff inf_P U(f,P) = sup_P L(f,P) ; the common value is int_a^b f'
 symbols:
-  f: { meaning: a bounded real function on [a,b], type: function }
-  P: { meaning: a partition of [a,b], type: partition }
-  'U(f,P)': { meaning: upper Darboux sum, type: real }
-  'L(f,P)': { meaning: lower Darboux sum, type: real }
+  f: { meaning: 'a bounded real function on [a,b]', type: 'function' }
+  P: { meaning: 'a partition of [a,b]', type: 'partition' }
+  'U(f,P)': { meaning: 'upper Darboux sum', type: 'real' }
+  'L(f,P)': { meaning: 'lower Darboux sum', type: 'real' }
 type_check_status: well_formed
 hypotheses: [bounded_function, compact_interval]
 preconditions: [a_lt_b]

@@ -14,7 +14,7 @@ type_check_note: >-
   belongs to every inductive set }.
 hypotheses: []
 preconditions: []
-dependencies: [set, axiom_infinity, axiom_separation, empty_set, binary_union_intersection]
+dependencies: [set, axiom_infinity, axiom_separation, empty_set, binary_union_intersection, subset]
 proof:
   technique: >-
     Infinity gives an inductive I_0. Let omega = { x in I_0 : forall inductive

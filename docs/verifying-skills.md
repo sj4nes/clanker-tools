@@ -189,12 +189,7 @@ scale = 12
 
 **`tsort`** (capsule graph checks) — BSD `tsort` **exits 0 on a cycle** and
 writes `cycle in data` to stderr. Cycle detection must grep stderr, not check
-`$?`:
-
-```sh
-err=$(tsort edges.txt 2>&1 >order.txt)
-case $err in *cycle*) echo "CYCLE: $err"; exit 1;; esac
-```
+`$?`. That, and the rest of the graph rubric, is §5a below.
 
 **`lean`** (capsule cores) — assume **no Mathlib**. `ring`, `sub_nonneg`,
 complex numbers, and most `field_simp` are unavailable. Fall back to:
@@ -215,6 +210,114 @@ they `SKIP` cleanly when `lean` is absent. Verify with `upmd --ci --all`.
 `cache_key` splits into `cache` + `key`; pass `-W '[A-Za-z0-9_]+'` to keep
 identifiers whole. `ptx -A -r` errors on multi-file input — feed one cleaned
 stream.
+
+---
+
+## 5a. Graph artifacts (`tsort`): what the checks can and cannot catch
+
+`bc`'s hole was that a false claim is a *value*, not an error, so the harness
+reported a pass. The graph layer had the same shape of hole, for the same
+reason: `graph-check.sh` and `build-tree.sh` check the emitted order against
+**the edge list they were handed**. Restating the edges and comparing them to
+themselves certifies nothing — the same point §3 makes about restating a
+formula. This was established by planting defects, not by reading the scripts:
+
+| planted defect | caught before 2026-09-14? | by what |
+|---|---|---|
+| a cycle (reverse an edge) | ✅ | the stderr guard in `build-tree.sh` |
+| an edge to an unregistered node | ✅ | the endpoint `comm` in `graph-check.sh` |
+| a self-edge | ✅ | the field/self-edge `awk` |
+| **a real edge deleted** | ❌ **exit 0** | nothing |
+| **a spurious edge added** | ❌ **exit 0** | nothing |
+
+The first three are *hygiene* — is the graph well-formed? The last two are
+*truth* — are these the right edges? Hygiene has no opinion about truth, and
+a capsule can be perfectly well-formed and still wrong.
+
+### The oracle: node text, written independently of the edge list
+
+Every node carries text that was written separately from the edge list — a
+`dependencies:` list, a `related.requires` naming, a proof or derivation clause,
+a formula entry's `Prereqs:` line. That independence is what makes it an oracle
+rather than a restatement. `build/check-edge-evidence.py` reads it and gates on
+two classes:
+
+| class | evidence | rule |
+|---|---|---|
+| **hard** | the node's own `dependencies:` list, or a formula entry's `Prereqs:` / `Assumptions:` line | must equal the graph's edges into that node, **exactly** — the same claim written twice |
+| **hard** | `related.requires` / `related.uses` | must lie in the prerequisite closure |
+| **soft** | another node id appearing verbatim in `proof` / `derivation` / `well_definedness` prose | must be adjudicated once, in `validation/edge-evidence-ignore.txt` |
+
+Deliberately **not** evidence: `common_misuse`, `counterexamples_when_dropped`,
+`related.complement_of`, a formula entry's `Special case:` / `Failure:` clauses,
+and symbol-definition lines. Those name what a result is *contrasted with* —
+precisely where an edge would be **wrong**. Widening the net widens the noise,
+not the yield; two rounds of widening and re-narrowing produced that list.
+
+A soft hit on a **descendant** is a forward reference — normal prose, reported
+and never failed. A hit on anything else is a candidate missing edge, and stays
+a build failure until someone rules on it:
+
+| verdict | meaning |
+|---|---|
+| `english-word` | the id is an ordinary word here — "the *structure* of phi", "in infinite *dimension*" |
+| `homonym` | a different concept with the same name — a capsule can hold a propositional `satisfaction` node *and* first-order satisfaction prose |
+| `forward-ref` | names a downstream result |
+| `cited-not-used` | an alternative route, an attribution, a scope remark |
+| `stated-elsewhere` / `judged-independent` | the residue; say why in the note |
+
+A **stale** entry — one adjudicating a hit that no longer occurs — also fails.
+The file is an audit trail, not a mute button, and it converges.
+
+### The rubric
+
+**Per edge — evidence grade, computed not annotated.** A hand-maintained grade
+on ~3,800 edges would rot, so `check-edge-evidence.py` derives one and prints
+the three counts:
+
+| grade | meaning |
+|---|---|
+| `derived` | the target's proof / derivation prose names this prereq — the strongest backing a capsule holds |
+| `declared` | the target's dependency list names it, and the hard gate holds that list equal to the graph |
+| `unbacked` | the target carries **no text at all**; nothing in the capsule could contradict this edge |
+
+`unbacked` is the number to watch — it is the per-edge form of falsifiable
+coverage, and it is what a half-populated capsule is really reporting when its
+build says ok. At the first run: 0 unbacked in `math-probability`,
+`math-linear-algebra`, `math-statistics` and both chemistry capsules; 236 of 316
+in `math-logic-and-proof` and 195 of 248 in `math-real-analysis`, whose node
+entries are written for a fraction of their registered nodes.
+
+**Per graph — falsifiability.** `validation/mutation-check.sh` plants all five
+defects from the table above on every run and asserts each is caught. Two of
+them (a deleted edge, a spurious edge) are only catchable by node text, so they
+are planted on a node that **has** text; the fraction of nodes that do is
+reported as `falsifiable coverage`, because on a node with no entry the graph
+is not falsifiable by anything. Report both numbers. A capsule with no entries
+at all plants 3 mutations and says so, rather than claiming 5/5.
+
+**Per order — fitness.** The order is one of many valid linearisations, so
+assert only the properties you rely on: every supplied edge respected
+(`build-tree.sh`), no node duplicated, order-nodes ≡ edge-nodes, and
+determinism — feed `tsort` the `LC_ALL=C sort -u` edge file, never the raw
+plan, or the tie-break shifts with input order.
+
+### What the first run of this rubric found (2026-09-14)
+
+Over 14 capsules: **18 hard violations** (5 formula entries whose `Prereqs:`
+line disagreed with the graph, 1 with no `Prereqs:` line at all, 1 holding prose
+where the list belongs, and 11 dependencies a YAML declared that the graph never
+carried); **~55 soft hits**, of which **36 were real missing edges** and the rest
+adjudicated; and — found only because the checker tried to *load* every YAML —
+**7 result files in two capsules that did not parse at all**, in the two capsules
+that had no `check-consistency.py` to load them. Nothing had ever read them.
+
+Two of the corrections were to this harness rather than to a capsule, which is
+the expected yield of building it: the soft scan first fired on contrast text
+and symbol lines (~180 hits, mostly noise), and the deleted-edge mutation
+matched the plan line *literally*, so a trailing `# evidence` comment made the
+deletion silently do nothing — a mutation that reports itself as surviving.
+Both are in the scripts' comments now.
 
 ---
 
@@ -388,6 +491,12 @@ Two corollaries, and one caution:
       suppressed banner for the banner clause.
 - [ ] Python imports stdlib only; every RNG stream is seeded from an argument.
 - [ ] Capsule graph checks read `tsort` stderr for `cycle`.
+- [ ] **For a capsule graph (§5a): `sh validation/mutation-check.sh` exits 0**,
+      and the `falsifiable coverage` line is reported alongside it. Hygiene
+      checks pass on a graph with a deleted or invented edge; only node text
+      catches those, and only where node text exists.
+- [ ] **`python3 build/check-edge-evidence.py` exits 0**, with every soft hit
+      adjudicated in `validation/edge-evidence-ignore.txt` and no stale entry.
 - [ ] Lean cores are Mathlib-free or labelled as requiring it.
 - [ ] `verification/README.md` has the step→check→result table and the
       folded-back findings (or "no correctness fix needed in the skill body").

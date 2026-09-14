@@ -421,7 +421,7 @@ Source keys: `BLM` Brown/LeMay 14e; `Atkins` Atkins' Physical Chemistry 11e;
 
 ## standard_hydrogen_electrode — `2H⁺(a = 1) + 2e⁻ ⇌ H₂(1 bar)` with `E°(SHE) ≡ 0` at every temperature
 - Label: convention. Pt-black electrode, `a(H⁺) = 1`, `p(H₂) = 1 bar`.
-- Prereqs: half_reaction, standard_state, electric_potential.
+- Prereqs: half_reaction, standard_state, electric_potential, electrode.
 - Special case: it is a *chosen zero*, not a measurement — every `E°` is a
   difference from it.
 - Failure: treating `E°(SHE) = 0` as a physical fact about hydrogen rather than
@@ -528,7 +528,8 @@ Source keys: `BLM` Brown/LeMay 14e; `Atkins` Atkins' Physical Chemistry 11e;
 ## nernst_equation — `E = E° − (R T / z F) ln Q`
 - Label: derived_exact. From `ΔG = ΔG° + RT ln Q` with `ΔG = −zFE`, `ΔG° = −zFE°`.
 - Prereqs: gibbs_from_cell_potential, standard_cell_potential, reaction_quotient,
-  reaction_isotherm, gas_constant, faraday_constant, electrons_per_formula_unit.
+  reaction_isotherm, gas_constant, faraday_constant, electrons_per_formula_unit,
+  dilute_ideal_solution.
 - Dimensional check: `[(RT/zF) ln Q]` = V (as in `equilibrium_from_cell_potential`);
   matches `[E°]` (consistent). Lean check 6.
 - Special case: at equilibrium `Q = K`, `E = 0` — a fully discharged cell.
@@ -571,7 +572,7 @@ Source keys: `BLM` Brown/LeMay 14e; `Atkins` Atkins' Physical Chemistry 11e;
 ## current_density — `j = I / A`, current normalised to electrode area
 - Label: definition. `A/m²`, `I L⁻²`. The intensive variable for electrode
   kinetics and for sizing a stack.
-- Prereqs: electric_current.
+- Prereqs: electric_current, electrode.
 - Special case: water electrolysers run at `0.5–3 A/cm²`; flow-battery stacks at
   `0.05–0.3 A/cm²`; higher `j` means more power per unit area but more
   overpotential.
@@ -697,7 +698,8 @@ Source keys: `BLM` Brown/LeMay 14e; `Atkins` Atkins' Physical Chemistry 11e;
 ## competing_electrode_reactions — more than one half-reaction is thermodynamically possible at a given electrode potential
 - Label: qualitative_rule. The one that actually runs is set by `E`, kinetics
   (overpotential / `j₀`), and concentration.
-- Prereqs: standard_reduction_potential, half_reaction, electrode.
+- Prereqs: standard_reduction_potential, half_reaction, electrode,
+  overpotential.
 - Special case: at a cathode in aqueous solution, metal deposition competes with
   `H₂` evolution; at an anode, the target oxidation competes with `O₂` evolution
   (and `Cl₂` if chloride is present).

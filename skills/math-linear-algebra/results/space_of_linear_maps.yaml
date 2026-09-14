@@ -14,6 +14,7 @@ hypotheses:
   - 'V, W over the same field F'
 preconditions: []
 dependencies:
+  - 'dimension'
   - 'linear_map'
   - 'linear_map_determined_by_basis'
   - 'vector_space'

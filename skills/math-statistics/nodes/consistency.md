@@ -14,7 +14,7 @@ A sequence of estimators theta_hat_n is (weakly) consistent for theta if theta_h
 definition  ·  regime: asymptotic
 
 ## Prerequisites (tsort edges into this node)
-estimator, iid_sample, prob_chebyshev_ineq, prob_conv_p
+bias, estimator, iid_sample, prob_chebyshev_ineq, prob_conv_p, prob_wlln
 
 ## Hypotheses
 (none — unconditional within scope)

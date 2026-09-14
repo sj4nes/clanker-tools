@@ -14,7 +14,7 @@ L(V,W) is the set of linear maps V -> W, a vector space under (S+T)(v) = S(v) + 
 definition  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-linear_map, linear_map_determined_by_basis, vector_space
+dimension, linear_map, linear_map_determined_by_basis, vector_space
 
 ## Hypotheses
 V, W over the same field F

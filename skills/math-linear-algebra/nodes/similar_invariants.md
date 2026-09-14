@@ -13,7 +13,7 @@ Similar matrices share rank, trace, determinant, characteristic polynomial, mini
 proposition  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-characteristic_polynomial, determinant_similarity_invariant, matrix_rank, minimal_polynomial, non_diagonalisable_counterexample, similarity, trace_cyclic
+characteristic_polynomial, determinant_similarity_invariant, matrix_rank, minimal_polynomial, non_diagonalisable_counterexample, rank_inequalities, similarity, trace_cyclic
 
 ## Hypotheses
 A ~ B

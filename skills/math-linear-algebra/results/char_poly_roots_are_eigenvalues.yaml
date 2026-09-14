@@ -18,6 +18,7 @@ dependencies:
   - 'determinant_invertible_iff'
   - 'eigenvalue'
   - 'injective_iff_trivial_kernel'
+  - 'injective_surjective_equivalence'
 proof:
   technique: 'Av = lambda v for some v != 0 iff ker(lambda I - A) != {0} iff lambda I - A is not injective iff not invertible (injective_surjective_equivalence) iff det(lambda I - A) = 0 (determinant_invertible_iff)'
   derives_from: 'determinant_invertible_iff'

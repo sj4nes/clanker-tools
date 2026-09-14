@@ -16,6 +16,7 @@ preconditions: []
 dependencies:
   - 'elementary_row_operation'
   - 'row_echelon_form'
+  - 'rref_uniqueness'
 proof:
   technique: 'correctness because each step is an elementary operation and the terminal shape is echelon by construction; uniqueness of the result from rref_uniqueness'
   derives_from: 'row_echelon_form'

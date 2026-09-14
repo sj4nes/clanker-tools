@@ -12,6 +12,7 @@ type_check_note: 'A statistic. RSS is a quadratic form in y with the idempotent 
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'cochran_theorem'
   - 'ols_is_projection'
 proof:
   technique: 'RSS/sigma^2 = (eps/sigma)^T (I - H) (eps/sigma) with (I - H) idempotent of rank n - p; Cochran => chi^2_{n-p}'

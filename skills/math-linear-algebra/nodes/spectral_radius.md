@@ -13,7 +13,7 @@ rho(A) = max_i |lambda_i| over the eigenvalues of A. It satisfies rho(A) <= ||A|
 definition  ·  field_scope: real_or_complex
 
 ## Prerequisites (tsort edges into this node)
-eigenvalue, matrix_norms, normal_matrix
+eigenvalue, matrix_norms, normal_matrix, spectral_theorem_normal
 
 ## Hypotheses
 eigenvalues taken over C

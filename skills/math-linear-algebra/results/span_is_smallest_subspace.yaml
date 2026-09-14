@@ -15,6 +15,7 @@ preconditions: []
 dependencies:
   - 'span'
   - 'subspace'
+  - 'subspace_criterion'
 proof:
   technique: 'closure of span(S) from the criterion; minimality because a subspace containing S is closed under the finite combinations that make up span(S), by induction on the number of terms'
   derives_from: 'subspace_criterion'

@@ -14,6 +14,7 @@ hypotheses:
   - 'F = R (or C with ^*)'
 preconditions: []
 dependencies:
+  - 'adjoint_kernel_image'
   - 'column_space'
   - 'matrix_of_linear_map'
   - 'orthogonal_decomposition'

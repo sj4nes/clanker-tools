@@ -17,6 +17,7 @@ dependencies:
   - 'characteristic_not_two'
   - 'induced_norm'
   - 'inner_product'
+  - 'parallelogram_law'
 proof:
   technique: 'expand each squared norm and collect; over C the four terms isolate the real and imaginary parts of <u,v> separately'
   derives_from: 'parallelogram_law'

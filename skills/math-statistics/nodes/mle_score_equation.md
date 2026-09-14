@@ -13,7 +13,7 @@ If the MLE theta_hat lies in the interior of Theta and ell is differentiable the
 proposition  ·  regime: exact
 
 ## Prerequisites (tsort edges into this node)
-maximum_likelihood_estimator, score_function, true_parameter_interior
+maximum_likelihood_estimator, ra_mean_value_theorem, score_function, true_parameter_interior
 
 ## Hypotheses
 true_parameter_interior

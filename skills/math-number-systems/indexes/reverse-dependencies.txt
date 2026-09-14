@@ -1,5 +1,5 @@
 axiom_of_choice: countable_choice
-bijection: finite_set inverse_function nat_pairing_bijection schroeder_bernstein
+bijection: finite_set inverse_function nat_pairing_bijection real_uncountable real_uniqueness schroeder_bernstein
 cantor_diagonal_argument: real_uncountable
 cartesian_product: integer integer_relation_equivalence rational_number rational_relation_equivalence relation
 cauchy_completion: dedekind_cauchy_equivalent
@@ -80,6 +80,6 @@ recursion_theorem: nat_addition nat_exponentiation nat_multiplication nth_root_e
 relation: equivalence_relation function ordered_ring
 set: axiom_of_choice cantor_theorem cartesian_product commutative_monoid dedekind_cut peano_axioms real_number
 sqrt2_irrational: rational_incomplete_cauchy rational_incomplete_lub
-surjection: bijection cantor_theorem
+surjection: bijection cantor_theorem real_uncountable
 well_defined_on_quotient: integer_operations_well_defined rational_operations_well_defined
 well_ordering_principle: integer_well_ordering nat_division_with_remainder

@@ -10,6 +10,7 @@ type_check_note: 'The rule with the best guarantee against an adversarial Nature
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'bayes_risk'
   - 'risk_function'
 uses_choice: false
 constructive: true

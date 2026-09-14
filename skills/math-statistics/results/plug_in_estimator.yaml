@@ -13,6 +13,7 @@ hypotheses: []
 preconditions: []
 dependencies:
   - 'empirical_cdf'
+  - 'glivenko_cantelli'
   - 'plug_in_principle'
 proof:
   technique: 'functional delta method: T(P_hat_n) = T(P) + (1/n) sum IF(X_i) + o_p(n^{-1/2}); CLT on the average of the influence-function terms'

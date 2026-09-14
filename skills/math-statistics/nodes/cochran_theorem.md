@@ -14,7 +14,7 @@ Let Z ~ N(0, I_n) and write Z^T Z = sum_{j=1}^m Q_j with each Q_j = Z^T A_j Z a 
 proved_theorem  ·  regime: exact
 
 ## Prerequisites (tsort edges into this node)
-chi_squared_distribution, linear_algebra_background, prob_independence_rv, prob_standard_normal
+chi_squared_additivity, chi_squared_distribution, linear_algebra_background, prob_independence_rv, prob_standard_normal
 
 ## Hypotheses
 (none — unconditional within scope)

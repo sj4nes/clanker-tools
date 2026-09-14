@@ -9,7 +9,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: [f_integrable_on_interval, G_antiderivative_on_closed_interval]
 preconditions: [a_lt_b]
-dependencies: [ftc_part1, mean_value_theorem, riemann_criterion]
+dependencies: [ftc_part1, mean_value_theorem, riemann_criterion, induction]
 proof:
   technique: >-
     for any partition P, G(b) - G(a) = sum (G(t_i) - G(t_{i-1})) = sum f(c_i) dt_i

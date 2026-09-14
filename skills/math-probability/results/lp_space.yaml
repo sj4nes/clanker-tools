@@ -13,6 +13,7 @@ preconditions: []
 dependencies:
   - 'convex_function'
   - 'expectation'
+  - 'expectation_monotonicity'
   - 'moment'
 well_definedness: '||.||_p is a genuine norm on the quotient by a.s.-equality (||X||_p = 0 iff X = 0 a.s., by expectation_monotonicity); Minkowski gives the triangle inequality.'
 uses_choice: false

@@ -1,0 +1,4 @@
+# Adjudicated soft hits from build/check-edge-evidence.py -- see docs/verifying-skills.md §5.
+# <node>	<referenced node>	<verdict>	<note>   (tab-separated)
+asymptotic_efficiency	mle_asymptotic_normality	cited-not-used	a remark that the MLE attains the bound; the bound does not depend on it
+m_estimator	mle_asymptotic_normality	cited-not-used	the MLE is the leading special case; the master theorem does not rest on it

@@ -8,7 +8,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: []
 preconditions: []
-dependencies: [cantor_diagonal_argument, countable_set, real_number, rational_dense_in_real]
+dependencies: [cantor_diagonal_argument, countable_set, real_number, rational_dense_in_real, bijection, surjection]
 proof:
   technique: >-
     suppose f : N -> R is a surjection. Then f restricted to a bijection with a

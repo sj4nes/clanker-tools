@@ -14,7 +14,7 @@ If X, Y are independent with densities f_X, f_Y, then X + Y has density (f_X * f
 proved_theorem
 
 ## Prerequisites (tsort edges into this node)
-abstract_integral, fubini_tonelli, independence_random_variables, pdf
+abstract_integral, fubini_tonelli, independence_random_variables, jacobian_transformation, pdf
 
 ## Hypotheses
 (none — unconditional within scope)

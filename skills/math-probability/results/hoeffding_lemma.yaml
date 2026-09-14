@@ -15,6 +15,7 @@ dependencies:
   - 'expectation'
   - 'jensen_inequality'
   - 'mgf'
+  - 'variance'
 proof:
   technique: 'convex bound of e^{tx} by its chord on [a,b]; take E; the log of the bound has second derivative <= (b-a)^2/4 (it is the variance of a tilted [a,b]-valued law); integrate twice from psi(0) = psi''(0) = 0'
   derives_from: 'convex_function'

@@ -507,3 +507,18 @@ probability_space stochastic_process
 stochastic_process kolmogorov_extension_theorem
 joint_distribution kolmogorov_extension_theorem
 lebesgue_measure_caratheodory kolmogorov_extension_theorem
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# text declared these dependencies but the graph did not carry them.
+dynkin_pi_lambda independence_sigma_algebras  # related.requires
+dynkin_pi_lambda mgf_uniqueness  # related.requires
+mgf_sum_independent normal_affine_closure  # related.requires
+mgf_uniqueness normal_affine_closure  # related.requires
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text uses these results; the graph did not carry the edge.
+moment cf_properties
+jacobian_transformation convolution_formula
+variance hoeffding_lemma
+dynkin_pi_lambda lebesgue_measure_caratheodory
+expectation_monotonicity lp_space

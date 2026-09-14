@@ -1,0 +1,5 @@
+# Adjudicated soft hits from build/check-edge-evidence.py -- see docs/verifying-skills.md §5.
+# <node>	<referenced node>	<verdict>	<note>   (tab-separated)
+ohms_law	electrolyte	cited-not-used	a scope remark on where the law holds, not a prerequisite
+ionic_conduction	anode	cited-not-used	names the drift direction; conduction needs the field, not the convention
+ionic_conduction	cathode	cited-not-used	as above

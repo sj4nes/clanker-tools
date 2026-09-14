@@ -14,7 +14,7 @@ L^p(P) = { X : E[|X|^p] < inf } for p >= 1, a normed vector space with ||X||_p =
 definition
 
 ## Prerequisites (tsort edges into this node)
-convex_function, expectation, moment
+convex_function, expectation, expectation_monotonicity, moment
 
 ## Hypotheses
 (none — unconditional within scope)

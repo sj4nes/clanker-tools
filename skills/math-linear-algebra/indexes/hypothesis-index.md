@@ -12,6 +12,7 @@ node that has it as a (possibly indirect) prerequisite.
 - schur_triangularisation
 - simultaneous_diagonalisation
 - smith_normal_form_boundary
+- spectral_radius
 - spectral_theorem_normal
 
 ## characteristic_not_two
@@ -224,6 +225,7 @@ node that has it as a (possibly indirect) prerequisite.
 - char_poly_roots_are_eigenvalues
 - characteristic_polynomial
 - cholesky_factorisation
+- composition_of_linear_maps
 - condition_number
 - congruence
 - coordinate_isomorphism
@@ -237,9 +239,14 @@ node that has it as a (possibly indirect) prerequisite.
 - dimension_of_subspace
 - dimension_well_defined
 - distinct_eigenvalues_diagonalisable
+- distinct_eigenvalues_independent
 - double_dual
 - dual_basis
+- dual_map
+- dual_space
 - eckart_young
+- eigenspace
+- eigenvalue
 - eigenvalue_existence_closed
 - first_isomorphism_theorem
 - four_subspaces
@@ -248,19 +255,23 @@ node that has it as a (possibly indirect) prerequisite.
 - hat_matrix
 - infinite_dimensional_boundary
 - injective_surjective_equivalence
+- invariant_subspace
 - invertibility_equivalences
 - invertible_operator
 - isometry_characterisation
 - jordan_normal_form
 - least_squares
 - linear_isomorphism
+- linear_operator
 - matrix_addition_scalar
 - matrix_mult_is_composition
 - matrix_norms
 - matrix_of_linear_map
 - matrix_rank
+- minimal_polynomial
 - minimal_polynomial_diagonalisable
 - moore_penrose_pseudoinverse
+- nilpotent_operator
 - non_diagonalisable_counterexample
 - normal_matrix
 - nullity
@@ -290,6 +301,7 @@ node that has it as a (possibly indirect) prerequisite.
 - singular_value_decomposition
 - singular_values
 - smith_normal_form_boundary
+- space_of_linear_maps
 - spectral_decomposition
 - spectral_radius
 - spectral_theorem_normal
@@ -442,6 +454,7 @@ node that has it as a (possibly indirect) prerequisite.
 - eigenvalue
 - eigenvalue_existence_closed
 - generalised_eigenspace
+- hat_matrix
 - infinite_dimensional_boundary
 - invariant_subspace
 - invertibility_equivalences
@@ -476,6 +489,7 @@ node that has it as a (possibly indirect) prerequisite.
 ## vector_space
 - adjoint_kernel_image
 - adjoint_operator
+- adjugate
 - algebraic_geometric_multiplicity
 - annihilator
 - basis
@@ -499,8 +513,16 @@ node that has it as a (possibly indirect) prerequisite.
 - courant_fischer
 - cramers_rule
 - dependence_lemma
+- determinant
+- determinant_existence_uniqueness
+- determinant_invertible_iff
+- determinant_multiplicative
 - determinant_rank_minors
+- determinant_row_operations
 - determinant_similarity_invariant
+- determinant_transpose
+- determinant_triangular
+- determinant_volume
 - diagonalisability_criterion
 - diagonalisable
 - dimension
@@ -537,8 +559,10 @@ node that has it as a (possibly indirect) prerequisite.
 - isometry_characterisation
 - jordan_normal_form
 - kernel
+- laplace_expansion
 - least_squares
 - left_null_space
+- leibniz_formula
 - linear_combination
 - linear_independence
 - linear_isomorphism
@@ -546,6 +570,8 @@ node that has it as a (possibly indirect) prerequisite.
 - linear_map_determined_by_basis
 - linear_operator
 - linear_system
+- lu_factorisation
+- lu_pivoting_regime
 - matrix_addition_scalar
 - matrix_mult_is_composition
 - matrix_norms
@@ -586,6 +612,7 @@ node that has it as a (possibly indirect) prerequisite.
 - rayleigh_quotient
 - row_rank_equals_column_rank
 - row_space
+- schur_complement
 - schur_triangularisation
 - self_adjoint
 - self_adjoint_real_eigenvalues
@@ -611,5 +638,7 @@ node that has it as a (possibly indirect) prerequisite.
 - sylvester_law_of_inertia
 - trace_cyclic
 - triangle_inequality
+- triangular_matrix
+- vandermonde_determinant
 - vector_space_basic_consequences
 

@@ -14,7 +14,7 @@ An M-estimator maximizes an empirical criterion theta_hat = argmax_theta (1/n) s
 definition  ·  regime: asymptotic
 
 ## Prerequisites (tsort edges into this node)
-maximum_likelihood_estimator, score_function
+consistency, estimator, maximum_likelihood_estimator, score_function
 
 ## Hypotheses
 (none — unconditional within scope)

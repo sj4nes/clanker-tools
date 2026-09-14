@@ -14,6 +14,7 @@ hypotheses: []
 preconditions: []
 dependencies:
   - 'kernel_density_estimator'
+  - 'mse_bias_variance_decomposition'
   - 'prob_variance'
   - 'ra_taylor_theorem'
 proof:

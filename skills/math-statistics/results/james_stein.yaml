@@ -16,6 +16,7 @@ dependencies:
   - 'admissibility'
   - 'maximum_likelihood_estimator'
   - 'mean_squared_error'
+  - 'mse_bias_variance_decomposition'
   - 'prob_normal'
   - 'risk_function'
 proof:

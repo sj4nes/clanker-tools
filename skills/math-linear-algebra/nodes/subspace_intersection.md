@@ -13,7 +13,7 @@ An arbitrary intersection of subspaces of V is a subspace. A UNION of two subspa
 proposition  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-subspace
+subspace, subspace_criterion
 
 ## Hypotheses
 each U_i a subspace of V

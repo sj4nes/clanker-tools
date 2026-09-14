@@ -13,7 +13,7 @@ If M_X(t) = M_Y(t) < inf for all t in an open interval around 0, then P_X = P_Y.
 proved_theorem
 
 ## Prerequisites (tsort edges into this node)
-distribution_pushforward, mgf
+distribution_pushforward, dynkin_pi_lambda, mgf
 
 ## Hypotheses
 (none — unconditional within scope)

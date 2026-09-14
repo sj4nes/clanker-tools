@@ -544,3 +544,31 @@ ra_mean_value_theorem mle_asymptotic_normality
 # --- credible interval: a posterior-probability region -----------------------
 prob_conditional_distribution credible_interval
 bayes_estimator credible_interval
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# text declared these dependencies but the graph did not carry them.
+chi_squared_additivity cochran_theorem  # related.requires
+mse_bias_variance_decomposition kde_bias_variance_tradeoff  # related.requires
+bayes_risk minimax_rule  # related.requires
+chi_squared_additivity one_way_anova_identity  # related.requires
+prob_binomial order_statistic  # related.requires
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text cites these results; the graph did not carry the edge.
+prob_clt asymptotic_normality_estimator
+p_value_uniform_under_null benjamini_hochberg_fdr
+t_statistic_distribution coefficient_t_test
+bias consistency
+prob_wlln consistency
+mse_bias_variance_decomposition james_stein
+consistency m_estimator
+estimator m_estimator
+consistency method_of_moments
+prob_wlln method_of_moments
+ra_mean_value_theorem mle_score_equation
+score_test pearson_chi_squared_gof
+statistic pearson_chi_squared_gof
+glivenko_cantelli plug_in_estimator
+posterior_mean_rule posterior_median_rule
+cochran_theorem residual_sum_of_squares
+statistic three_tests_asymptotically_equivalent

@@ -16,6 +16,7 @@ dependencies:
   - 'eigenvalue'
   - 'matrix_norms'
   - 'normal_matrix'
+  - 'spectral_theorem_normal'
 proof:
   technique: 'rho <= ||A|| because ||Av|| = |lambda| ||v|| for an eigenvector; equality for normal A from spectral_theorem_normal, since the singular values are then the |lambda_i|. Gelfand''s formula is CITED'
   derives_from: 'matrix_norms'

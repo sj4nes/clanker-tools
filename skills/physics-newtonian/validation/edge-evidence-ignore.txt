@@ -1,0 +1,4 @@
+# Adjudicated soft hits from build/check-edge-evidence.py -- see docs/verifying-skills.md §5.
+# <node>	<referenced node>	<verdict>	<note>   (tab-separated)
+weight	limit	english-word	"uniform-field limit" is the English word, not the math node
+friction_kinetic	speed	english-word	"speed-independent" asserts NON-dependence

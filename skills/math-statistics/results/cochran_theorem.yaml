@@ -12,6 +12,7 @@ type_check_note: 'A quadratic-forms decomposition theorem for the spherical Gaus
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'chi_squared_additivity'
   - 'chi_squared_distribution'
   - 'linear_algebra_background'
   - 'prob_independence_rv'

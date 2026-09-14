@@ -14,6 +14,7 @@ preconditions: []
 dependencies:
   - 'multiple_testing_fwer'
   - 'p_value'
+  - 'p_value_uniform_under_null'
 proof:
   technique: 'Benjamini-Hochberg 1995 (independence); Benjamini-Yekutieli 2001 (PRDS, and a log-factor-corrected version for arbitrary dependence)'
   derives_from: 'p_value_uniform_under_null'

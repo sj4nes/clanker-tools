@@ -14,6 +14,7 @@ dependencies:
   - 'characteristic_function'
   - 'distribution_pushforward'
   - 'dominated_convergence_theorem'
+  - 'moment'
 proof:
   technique: 'uniform continuity by DCT; the inversion formula by Fubini on the Dirichlet kernel; smoothness by differentiating under the integral (DCT) when the moment exists'
   derives_from: 'dominated_convergence_theorem'

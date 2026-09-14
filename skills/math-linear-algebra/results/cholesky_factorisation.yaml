@@ -17,6 +17,7 @@ dependencies:
   - 'induction_principle'
   - 'lu_factorisation'
   - 'positive_definite'
+  - 'schur_complement'
   - 'triangular_matrix'
 proof:
   technique: 'induction on n: A = [[a, b^T],[b, A'']] with a > 0 (since e_1^TAe_1 = a); factor out, and the remaining block is the Schur complement A'' - bb^T/a, which is again positive definite (schur_complement)'

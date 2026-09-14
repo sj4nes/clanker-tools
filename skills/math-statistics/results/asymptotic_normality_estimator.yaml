@@ -13,6 +13,7 @@ hypotheses: []
 preconditions: []
 dependencies:
   - 'estimator'
+  - 'prob_clt'
   - 'prob_conv_d'
   - 'prob_standard_normal'
 proof:

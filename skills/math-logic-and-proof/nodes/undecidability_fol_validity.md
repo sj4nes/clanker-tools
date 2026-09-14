@@ -15,7 +15,7 @@ set of valid sentences is **recursively enumerable but not decidable**
 
 ## Prerequisites (tsort edges into this node)
 `decidability`, `church_turing_thesis`, `derivability_fol`,
-`godel_completeness_theorem`.
+`godel_completeness_theorem`, `halting_problem`.
 
 ## Proof (sketch — not formalised here)
 **Reduce the `halting_problem`**: for a Turing machine `M` and input `w`,

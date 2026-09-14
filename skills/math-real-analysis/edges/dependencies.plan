@@ -523,3 +523,7 @@ real_number power_series
 power_series radius_of_convergence
 root_test radius_of_convergence
 limsup_liminf radius_of_convergence
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text uses these results; the graph did not carry the edge.
+induction ftc_part2

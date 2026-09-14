@@ -22,7 +22,7 @@ description: >-
   builds on chemistry-foundations. Butler-Volmer is stated, not derived;
   electrode microkinetics, the double layer, photo-electrochemistry, corrosion
   engineering, and non-flow battery chemistries are out of scope.
-version: 2.0.0
+version: 3.0.0
 author: Simon Janes
 tags: [chemistry, electrochemistry, electrolysis, electrosynthesis, faraday, nernst, flow-battery, redox, knowledge-capsule]
 ---

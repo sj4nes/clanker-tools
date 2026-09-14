@@ -13,7 +13,7 @@ For T: V -> W with ordered bases B of V and C of W, [T]_{C<-B} is the matrix who
 constructive_result  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-index_convention, linear_map, matrix, ordered_basis
+index_convention, linear_map, linear_map_determined_by_basis, matrix, ordered_basis
 
 ## Hypotheses
 V, W finite-dimensional, bases fixed and ORDERED

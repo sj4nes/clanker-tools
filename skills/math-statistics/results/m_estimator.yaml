@@ -12,6 +12,8 @@ type_check_note: 'Generalizes the MLE by decoupling the criterion from the true 
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'consistency'
+  - 'estimator'
   - 'maximum_likelihood_estimator'
   - 'score_function'
 proof:

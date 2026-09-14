@@ -325,7 +325,7 @@ _(44 prerequisites)_
 - integral_mvt
 
 ## ftc_part2
-_(49 prerequisites)_
+_(50 prerequisites)_
 
 - set
 - real_number
@@ -334,6 +334,7 @@ _(49 prerequisites)_
 - natural_number
 - interval
 - infimum
+- induction
 - function
 - bounded_set
 - absolute_value

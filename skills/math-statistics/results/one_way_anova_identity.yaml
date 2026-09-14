@@ -13,6 +13,7 @@ type_check_note: 'An exact algebraic (Pythagorean) identity -- the cross term va
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'chi_squared_additivity'
   - 'cochran_theorem'
   - 'linear_algebra_background'
   - 'sample_mean'

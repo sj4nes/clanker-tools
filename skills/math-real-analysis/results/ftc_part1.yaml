@@ -4,9 +4,9 @@ status_label: proved_theorem
 display: 'If $f$ is integrable on $[a,b]$ and continuous at $x_0\in[a,b]$, then $F(x)=\int_a^x f$ is differentiable at $x_0$ with $F''(x_0)=f(x_0)$.'
 parseable: 'integrable(f,[a,b]) and continuousAt(f,x0) -> deriv F x0 = f x0  where F x = int_a^x f'
 symbols:
-  f: { meaning: an integrable real function on [a,b], type: function }
-  F: { meaning: 'the integral function x |-> int_a^x f', type: function }
-  x0: { meaning: a point of continuity of f, type: real }
+  f: { meaning: 'an integrable real function on [a,b]', type: 'function' }
+  F: { meaning: 'the integral function x |-> int_a^x f', type: 'function' }
+  x0: { meaning: 'a point of continuity of f', type: 'real' }
 type_check_status: well_formed
 hypotheses: [f_integrable_on_interval, f_continuous_at_x0]
 preconditions: []

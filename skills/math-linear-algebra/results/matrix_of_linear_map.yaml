@@ -16,6 +16,7 @@ preconditions: []
 dependencies:
   - 'index_convention'
   - 'linear_map'
+  - 'linear_map_determined_by_basis'
   - 'matrix'
   - 'ordered_basis'
 proof:

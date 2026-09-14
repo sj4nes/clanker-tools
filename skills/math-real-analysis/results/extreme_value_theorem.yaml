@@ -4,9 +4,9 @@ status_label: nonconstructive_result
 display: 'A continuous $f:[a,b]\to\mathbb{R}$ attains a maximum and a minimum on $[a,b]$.'
 parseable: 'continuousOn(f,[a,b]) -> exists p q in [a,b], forall x in [a,b], f p <= f x <= f q'
 symbols:
-  f: { meaning: a real function on [a,b], type: function }
-  p: { meaning: a minimizer, type: real }
-  q: { meaning: a maximizer, type: real }
+  f: { meaning: 'a real function on [a,b]', type: 'function' }
+  p: { meaning: 'a minimizer', type: 'real' }
+  q: { meaning: 'a maximizer', type: 'real' }
 type_check_status: well_formed
 hypotheses: [continuity_on_closed_interval]
 preconditions: [a_le_b]

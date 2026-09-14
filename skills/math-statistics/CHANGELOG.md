@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.0.0 — 2026-09-14
+
+**MAJOR: 17 prerequisite edges were missing.** `build/check-edge-evidence.py`
+(new; see [`docs/verifying-skills.md` §5a](../../docs/verifying-skills.md))
+found 17 results the node text cites that the graph did not carry — including
+`prob_clt -> asymptotic_normality_estimator`, `t_statistic_distribution ->
+coefficient_t_test`, `chi_squared_additivity -> cochran_theorem` and
+`one_way_anova_identity`, `prob_wlln -> consistency` / `method_of_moments`,
+`glivenko_cantelli -> plug_in_estimator`, and `cochran_theorem ->
+residual_sum_of_squares`. Five of them were declared in the node's own
+`related.requires` and simply never made it into `edges/dependencies.plan`. Any
+prerequisite chain queried before this commit was incomplete, silently. Now 418
+edges; still acyclic; `results/` and `nodes/` regenerated from the graph.
+
+Two soft hits adjudicated in `validation/edge-evidence-ignore.txt`.
+`validation/mutation-check.sh` (new) plants five graph defects per build and
+asserts each is caught: 5/5, at 206 of 206 nodes falsifiable.
+
 ## Release 0.1 — 2026-09-08
 
 First release. Mathematical statistics from the statistical model to the

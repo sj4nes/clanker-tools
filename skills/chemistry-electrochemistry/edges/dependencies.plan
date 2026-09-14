@@ -415,3 +415,8 @@ electric_potential	electrical_double_layer
 kohlrausch_law	debye_huckel_onsager
 molar_conductivity	debye_huckel_onsager
 dilute_ideal_solution	debye_huckel_onsager
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14)
+electrode standard_hydrogen_electrode       # the SHE *is* an electrode
+electrode current_density                   # j = I / A over the electrode area
+overpotential competing_electrode_reactions # selectivity is set by overpotential

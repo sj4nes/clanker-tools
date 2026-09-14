@@ -14,7 +14,7 @@ Reduce A to (reduced) row echelon form by elementary row operations: locate a pi
 constructive_result  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-elementary_row_operation, row_echelon_form
+elementary_row_operation, row_echelon_form, rref_uniqueness
 
 ## Hypotheses
 F a field (so pivots can be inverted)

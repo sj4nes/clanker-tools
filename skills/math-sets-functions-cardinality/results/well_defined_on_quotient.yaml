@@ -1,11 +1,11 @@
 id: equivalence.well_defined_on_quotient
 node: well_defined_on_quotient
 status_label: proved_theorem
-display: 'A rule $[x]\mapsto h(x)$ defines a function $X/\!\sim\;\to Z$ if and only if $x\sim x'\Rightarrow h(x)=h(x')$ (h respects $\sim$).'
+display: 'A rule $[x]\mapsto h(x)$ defines a function $X/\!\sim\;\to Z$ if and only if $x\sim x''\Rightarrow h(x)=h(x'')$ (h respects $\sim$).'
 parseable: '[x] -> h(x) is a function iff (x ~ x'' implies h(x) = h(x''))'
 symbols:
-  h: { meaning: a rule on representatives, type: 'X -> Z' }
-  '[x] -> h(x)': { meaning: the induced map on classes, type: 'X/~ -> Z' }
+  h: { meaning: 'a rule on representatives', type: 'X -> Z' }
+  '[x] -> h(x)': { meaning: 'the induced map on classes', type: 'X/~ -> Z' }
 type_check_status: well_formed
 type_check_note: 'this IS objects.md rule 1 -- the recurring obligation in every quotient construction (Z, Q in math-number-systems; every quotient group/ring/module downstream).'
 hypotheses: []

@@ -9,7 +9,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: [rules_are_truth_preserving]
 preconditions: []
-dependencies: [derivability, semantic_consequence, nd_rules_propositional, structural_induction_wff]
+dependencies: [derivability, semantic_consequence, nd_rules_propositional, structural_induction_wff, assignment]
 proof:
   technique: 'induction on the derivation (structural_induction_wff applied to nd_derivation). Show each rule preserves the property "every assignment satisfying the open assumptions satisfies the conclusion": axioms/assumptions trivially; and-I, or-I, ->E, etc. by the truth-value clauses; ->I discharges an assumption; RAA uses that if every assignment satisfying Gamma, not phi gives a contradiction then every assignment satisfying Gamma satisfies phi (classical step).'
   derives_from: nd_rules_propositional

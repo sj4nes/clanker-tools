@@ -4,6 +4,8 @@ set -eu
 cd "$(dirname "$0")/.."
 echo "== graph + tsort =="
 sh build/build-tree.sh
+python3 build/check-edge-evidence.py    # edge TRUTH: node text vs the graph
+sh validation/mutation-check.sh        # do the graph checks still catch a broken graph?
 echo
 echo "== result entries + node pages =="
 python3 build/gen-results.py

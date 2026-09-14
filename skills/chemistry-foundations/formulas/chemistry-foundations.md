@@ -105,7 +105,7 @@ Exactness labels used: `primitive`, `definition`, `conservation_law`,
 
 ## atomic_number — `Z` = number of protons in the nucleus
 - Label: definition. `Z` fixes the element; a neutral atom has `Z` electrons.
-- Prereqs: atomic_structure.
+- Prereqs: atomic_structure, atom.
 - Special case: an ion has `Z` protons but `Z − q` electrons for charge `+q`.
 - Failure: confusing `Z` with mass number `A = Z + N`.
 - Source: `BLM` ch. 2.
@@ -1063,7 +1063,8 @@ Exactness labels used: `primitive`, `definition`, `conservation_law`,
 ## balancing_redox_half_reactions — balance each half (atoms, then O with H₂O, H with H⁺, charge with e⁻), scale to equal electrons, add
 - Label: bookkeeping_procedure. Basic solution: then add OH⁻ to both sides to
   neutralize H⁺ and simplify.
-- Prereqs: half_reaction, balancing_chemical_equations, conservation_of_charge.
+- Prereqs: half_reaction, balancing_chemical_equations, conservation_of_charge,
+  solution.
 - Special case: MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O (electrons: 5 = 5×1).
 - Failure: electrons left in the final equation; not clearing H⁺ for a
   basic-solution answer; net charge not equal on both sides after adding.

@@ -14,7 +14,7 @@ Sub-sigma-algebras G_1, ..., G_n of F are independent if P(bigcap_i A_i) = prod_
 definition
 
 ## Prerequisites (tsort edges into this node)
-independence_events, sigma_algebra
+dynkin_pi_lambda, independence_events, sigma_algebra
 
 ## Hypotheses
 (none — unconditional within scope)

@@ -209,73 +209,44 @@ node's own formula at real-world parameters (the PAC sample-complexity bound,
 the polling margin of error), that is a *specialization* and a tutorial may make
 it a runnable block.
 
-## `validation/graph-check.sh`
+## `validation/graph-check.sh` and `build/build-tree.sh`
 
-```sh
-#!/bin/sh
-set -eu
-cd "$(dirname "$0")/.."
-mkdir -p build
+Both scripts are **identical across every capsule**, so they are not duplicated
+per capsule and are no longer inlined here — a listing in prose is a copy that
+drifts. Each capsule carries a two-line shim that `exec`s the single canonical
+implementation:
 
-grep -Ev '^[[:space:]]*(#|$)' edges/dependencies.plan > edges/dependencies.edges
+| file | canonical source |
+|---|---|
+| `validation/graph-check.sh` | `skills/math-theorem-tree/lib/graph-check.sh` |
+| `build/build-tree.sh` | `skills/math-theorem-tree/lib/build-tree.sh` |
 
-awk 'NF != 2 { print "line " NR ": expected 2 fields, got " NF > "/dev/stderr"; bad=1 }
-     $1 == $2 { print "line " NR ": self-edge " $1 > "/dev/stderr"; bad=1 }
-     END { exit bad+0 }' edges/dependencies.edges
+Physics and chemistry capsules shim through
+`skills/physics-formula-tree/lib/`, which re-exports the same two files.
+A stand-alone capsule outside this repo copies the two files verbatim.
 
-awk -F '\t' 'NR>1 { print $1 }' nodes/nodes.tsv | LC_ALL=C sort -u > build/node-ids.txt
-awk '{ print $1; print $2 }' edges/dependencies.edges | LC_ALL=C sort -u > build/edge-node-ids.txt
-comm -23 build/edge-node-ids.txt build/node-ids.txt > build/unknown-edge-nodes.txt
-if [ -s build/unknown-edge-nodes.txt ]; then
-  echo "edges reference unregistered nodes:" >&2
-  cat build/unknown-edge-nodes.txt >&2
-  exit 1
-fi
+`graph-check.sh` — **hygiene only**: node registry (7 tab fields, non-empty ids,
+no duplicates); `edges/dependencies.plan` stripped of full-line *and* trailing
+`# evidence` comments into `edges/dependencies.edges`; two fields per edge and
+no self-edges; every endpoint a registered node; a deterministic `LC_ALL=C
+sort -u` edge file at `build/dependencies.sorted.edges` (never sorting *within*
+a pair).
 
-LC_ALL=C sort -u edges/dependencies.edges > build/dependencies.sorted.edges
-echo "graph-check: ok"
-```
+`build-tree.sh` — runs `graph-check.sh`, then `tsort` with a **stderr** cycle
+guard (BSD `tsort` exits 0 on a cycle and emits a meaningless order), an
+order-violation check of every supplied edge against the emitted order, a
+node-coverage diff with a duplicate-node check, and the generated views:
+`indexes/tsort-order.txt`, `indexes/reverse-dependencies.txt`,
+`build/isolated-nodes.txt`, and `build/node-deps.txt` (the per-node
+incoming-edge list that `gen-results.py`, `check-consistency.py` and
+`check-edge-evidence.py` read).
 
-## `build/build-tree.sh`
-
-```sh
-#!/bin/sh
-set -eu
-cd "$(dirname "$0")/.."
-sh validation/graph-check.sh
-
-# BSD tsort exits 0 on a cycle and prints to stderr -- check both.
-tsort build/dependencies.sorted.edges > indexes/tsort-order.txt 2> validation/tsort-errors.txt || true
-if [ -s validation/tsort-errors.txt ]; then
-  echo "tsort reported a problem (cycle?):" >&2
-  cat validation/tsort-errors.txt >&2
-  exit 1
-fi
-
-# every supplied edge must be respected by the emitted order
-awk 'NR==FNR { pos[$1]=NR; next }
-     { if (!($1 in pos) || !($2 in pos) || pos[$1] >= pos[$2]) {
-         print "order violation: " $1 " must precede " $2 > "/dev/stderr"; bad=1 } }
-     END { exit bad+0 }' indexes/tsort-order.txt build/dependencies.sorted.edges
-
-# reverse dependencies
-awk '{ u[$1] = u[$1] " " $2 } END { for (n in u) print n ":" u[n] }' \
-  build/dependencies.sorted.edges | LC_ALL=C sort > indexes/reverse-dependencies.txt
-
-# node coverage: registered nodes with no edge are roots/isolated, list them
-awk '{ print $1; print $2 }' build/dependencies.sorted.edges | LC_ALL=C sort -u > build/edge-node-ids.txt
-comm -23 build/node-ids.txt build/edge-node-ids.txt > build/isolated-nodes.txt
-
-echo "build-tree: ok ($(wc -l < indexes/tsort-order.txt) ordered nodes)"
-```
-
-The two scripts above are identical across capsules, so the shipped capsules in
-this repo carry a **two-line shim** at `validation/graph-check.sh` and
-`build/build-tree.sh` that `exec`s a shared copy in
-`skills/math-theorem-tree/lib/`. The listings here are the canonical source for
-that copy — a new stand-alone capsule can inline them instead. The shared
-`build-tree.sh` also writes `build/node-deps.txt` (per-node incoming-edge list)
-for `gen-results.py` / `check-consistency.py`.
+Every check in both files is hygiene or internal consistency: the emitted order
+is checked against the edge list it was built from. **A spurious edge and a
+missing edge both pass**, which `validation/mutation-check.sh` demonstrates
+rather than asserts. Edge *truth* is `build/check-edge-evidence.py`'s job. See
+[`docs/verifying-skills.md` §5](../../../docs/verifying-skills.md) for the
+graph-artifact rubric.
 
 Isolated/root nodes are merged into presentation views by a controlled append —
 never by adding a fake prerequisite edge to force them into `tsort` output. A

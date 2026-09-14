@@ -19,6 +19,8 @@ dependencies:
   - 'prob_binomial'
   - 'prob_clt'
   - 'prob_poisson'
+  - 'score_test'
+  - 'statistic'
 proof:
   technique: 'multivariate CLT for the cell counts -> N(0, Sigma); X^2 is the corresponding quadratic form; a rank argument gives df k - 1, reduced by d for efficiently estimated parameters (Fisher''s df correction)'
   derives_from: 'score_test'

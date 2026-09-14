@@ -122,6 +122,41 @@ the authoring was rather than how often a reader was misled. The README's
 Verification table is where release-pass findings live; that is their record,
 not the version.
 
+## 2b. The 2026-09-14 graph-evidence round
+
+Eleven capsules went `MAJOR` in one commit, which is worth explaining rather
+than leaving as an unexplained cluster.
+
+`build/check-edge-evidence.py` (see
+[`verifying-skills.md` §5a](verifying-skills.md)) checks the dependency graph
+against the node text, which was written independently of it. It found **36
+prerequisite edges the node text uses and the graph did not carry**, spread over
+eleven capsules, plus **7 `results/*.yaml` in two capsules that did not parse at
+all**.
+
+A missing edge is `MAJOR` under §2's silently-wrong limb. Every capsule's
+`SKILL.md` offers "the minimum prerequisite chain for a result" as a headline
+use; a chain with a required result missing is an **incorrect answer** presented
+as complete, and nothing told the reader. The published state carried it, so the
+published-state test is met too.
+
+Two changes in the same commit are deliberately **not** `MAJOR`:
+
+- `physics-newtonian` → `2.1.0`. One formula entry had no `Prereqs:` line at
+  all. The *graph* was right, so a prerequisite query answered correctly; the
+  human-facing entry merely omitted the list. Missing information the graph
+  still holds is `MINOR`.
+- `physics-acoustics` and `physics-thermodynamics` → **unchanged**. Their only
+  diffs are harness wiring and a regenerated `tsort` order that is a different
+  but equally valid linearisation. Nothing a reader relied on was wrong.
+
+`math-theorem-tree` and `physics-formula-tree` went `1.1.0`: they now prescribe
+two checks they did not before. What they prescribed previously was not false —
+the hygiene checks did exactly what they claimed, they just never claimed to
+catch a wrong edge.
+
+---
+
 ## 3. The 2026-09-13 re-base
 
 Before this document, the leading digit encoded **kind**, not maturity: all ten

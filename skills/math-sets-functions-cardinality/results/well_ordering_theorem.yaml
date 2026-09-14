@@ -8,7 +8,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: []
 preconditions: []
-dependencies: [well_order, zorn_lemma, axiom_of_choice]
+dependencies: [well_order, zorn_lemma, axiom_of_choice, function]
 proof:
   technique: >-
     apply Zorn to the set of well-orderings of subsets of X, ordered by

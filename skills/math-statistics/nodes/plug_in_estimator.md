@@ -14,7 +14,7 @@ The plug-in estimator of a statistical functional theta = T(P) is theta_hat = T(
 definition  ·  regime: distribution_free
 
 ## Prerequisites (tsort edges into this node)
-empirical_cdf, plug_in_principle
+empirical_cdf, glivenko_cantelli, plug_in_principle
 
 ## Hypotheses
 (none — unconditional within scope)

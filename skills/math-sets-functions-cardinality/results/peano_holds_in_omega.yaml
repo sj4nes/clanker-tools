@@ -8,7 +8,7 @@ symbols:
 type_check_status: well_formed
 hypotheses: []
 preconditions: []
-dependencies: [omega_construction, axiom_infinity, axiom_extensionality]
+dependencies: [omega_construction, axiom_infinity, axiom_extensionality, subset]
 proof:
   technique: >-
     0 in omega and S maps omega to omega (omega inductive). 0 is not a successor:

@@ -14,7 +14,7 @@ The method of moments estimates a d-dimensional theta by equating the first d po
 constructive_result  ·  regime: asymptotic
 
 ## Prerequisites (tsort edges into this node)
-iid_sample, parameter_space, prob_cauchy_no_mean, prob_chebyshev_ineq, prob_lotus, prob_moment
+consistency, iid_sample, parameter_space, prob_cauchy_no_mean, prob_chebyshev_ineq, prob_lotus, prob_moment, prob_wlln
 
 ## Hypotheses
 (none — unconditional within scope)

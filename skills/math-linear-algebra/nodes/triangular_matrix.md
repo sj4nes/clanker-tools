@@ -13,7 +13,7 @@ A is upper triangular if A_{ij} = 0 for i > j, lower triangular if A_{ij} = 0 fo
 definition  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-invertible_matrix, matrix, matrix_multiplication
+determinant, invertible_matrix, matrix, matrix_multiplication
 
 ## Hypotheses
 A square

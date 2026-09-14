@@ -13,6 +13,8 @@ preconditions: []
 dependencies:
   - 'characteristic_function'
   - 'convolution_formula'
+  - 'mgf_sum_independent'
+  - 'mgf_uniqueness'
   - 'normal_distribution'
   - 'standard_normal'
   - 'transformation_univariate'

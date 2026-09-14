@@ -13,7 +13,7 @@ span(S) is a subspace containing S, and it is contained in every subspace of V c
 proposition  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-span, subspace
+span, subspace, subspace_criterion
 
 ## Hypotheses
 U a subspace containing S

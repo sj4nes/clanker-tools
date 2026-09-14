@@ -18,6 +18,7 @@ dependencies:
   - 'matrix_rank'
   - 'minimal_polynomial'
   - 'non_diagonalisable_counterexample'
+  - 'rank_inequalities'
   - 'similarity'
   - 'trace_cyclic'
 proof:

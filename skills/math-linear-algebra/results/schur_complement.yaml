@@ -14,6 +14,7 @@ hypotheses:
 preconditions: []
 dependencies:
   - 'block_matrix'
+  - 'determinant'
   - 'invertible_matrix'
 proof:
   technique: 'the block factorisation above, then determinant multiplicativity on block triangular factors'

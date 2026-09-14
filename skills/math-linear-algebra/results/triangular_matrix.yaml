@@ -13,6 +13,7 @@ hypotheses:
   - 'A square'
 preconditions: []
 dependencies:
+  - 'determinant'
   - 'invertible_matrix'
   - 'matrix'
   - 'matrix_multiplication'

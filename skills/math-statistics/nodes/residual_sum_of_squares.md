@@ -14,7 +14,7 @@ The residual sum of squares is RSS = || y - X beta_hat ||^2 = y^T (I - H) y = su
 definition  ·  regime: exact
 
 ## Prerequisites (tsort edges into this node)
-ols_is_projection
+cochran_theorem, ols_is_projection
 
 ## Hypotheses
 (none — unconditional within scope)

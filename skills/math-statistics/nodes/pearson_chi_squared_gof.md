@@ -15,7 +15,7 @@ For n observations classified into k cells with null cell probabilities p_j(thet
 proved_theorem  ·  regime: asymptotic
 
 ## Prerequisites (tsort edges into this node)
-chi_squared_distribution, likelihood_ratio_test, prob_binomial, prob_clt, prob_poisson
+chi_squared_distribution, likelihood_ratio_test, prob_binomial, prob_clt, prob_poisson, score_test, statistic
 
 ## Hypotheses
 fisher_information_positive_definite

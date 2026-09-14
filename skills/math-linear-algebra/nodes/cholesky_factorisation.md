@@ -14,7 +14,7 @@ A real symmetric POSITIVE DEFINITE A factors UNIQUELY as A = LL^T with L lower t
 constructive_result  ·  field_scope: ordered_field
 
 ## Prerequisites (tsort edges into this node)
-induction_principle, lu_factorisation, positive_definite, triangular_matrix
+induction_principle, lu_factorisation, positive_definite, schur_complement, triangular_matrix
 
 ## Hypotheses
 A symmetric positive definite

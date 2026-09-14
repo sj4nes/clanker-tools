@@ -19,6 +19,7 @@ dependencies:
   - 'image_subspace'
   - 'kernel'
   - 'orthogonal_complement'
+  - 'orthogonal_decomposition'
 proof:
   technique: 'w in ker T^* iff <v, T^*w> = 0 for all v iff <Tv, w> = 0 for all v iff w perp im T. The second identity follows by applying the first to T^* and using (T^*)^* = T plus orthogonal_decomposition'
   derives_from: 'adjoint_operator'

@@ -249,35 +249,6 @@ _(27 prerequisites)_
 - injection
 
 ## zorn_lemma
-_(25 prerequisites)_
-
-- proposition_logic
-- predicate_logic
-- axiom_separation
-- axiom_replacement
-- axiom_of_choice
-- axiom_foundation
-- axiom_extensionality
-- axiom_empty_set
-- axiom_union
-- axiom_power_set
-- axiom_pairing
-- axiom_infinity
-- zf
-- set
-- subset
-- ordered_pair
-- power_set
-- cartesian_product
-- relation
-- relation_properties
-- partial_order
-- maximal_element
-- bounds_extrema
-- total_order
-- chain_antichain
-
-## well_ordering_theorem
 _(27 prerequisites)_
 
 - proposition_logic
@@ -299,9 +270,42 @@ _(27 prerequisites)_
 - power_set
 - cartesian_product
 - relation
+- domain_range
 - relation_properties
 - partial_order
 - maximal_element
+- function
+- bounds_extrema
+- total_order
+- chain_antichain
+
+## well_ordering_theorem
+_(29 prerequisites)_
+
+- proposition_logic
+- predicate_logic
+- axiom_separation
+- axiom_replacement
+- axiom_of_choice
+- axiom_foundation
+- axiom_extensionality
+- axiom_empty_set
+- axiom_union
+- axiom_power_set
+- axiom_pairing
+- axiom_infinity
+- zf
+- set
+- subset
+- ordered_pair
+- power_set
+- cartesian_product
+- relation
+- domain_range
+- relation_properties
+- partial_order
+- maximal_element
+- function
 - bounds_extrema
 - total_order
 - chain_antichain
@@ -373,25 +377,6 @@ _(29 prerequisites)_
 - transfinite_recursion
 
 ## omega_construction
-_(15 prerequisites)_
-
-- proposition_logic
-- predicate_logic
-- axiom_separation
-- axiom_replacement
-- axiom_foundation
-- axiom_extensionality
-- axiom_empty_set
-- axiom_union
-- axiom_power_set
-- axiom_pairing
-- axiom_infinity
-- zf
-- set
-- binary_union_intersection
-- empty_set
-
-## peano_holds_in_omega
 _(16 prerequisites)_
 
 - proposition_logic
@@ -408,6 +393,27 @@ _(16 prerequisites)_
 - zf
 - set
 - binary_union_intersection
+- subset
+- empty_set
+
+## peano_holds_in_omega
+_(17 prerequisites)_
+
+- proposition_logic
+- predicate_logic
+- axiom_separation
+- axiom_replacement
+- axiom_foundation
+- axiom_extensionality
+- axiom_empty_set
+- axiom_union
+- axiom_power_set
+- axiom_pairing
+- axiom_infinity
+- zf
+- set
+- binary_union_intersection
+- subset
 - empty_set
 - omega_construction
 
@@ -440,7 +446,7 @@ _(24 prerequisites)_
 - function
 
 ## cantor_schroeder_bernstein
-_(25 prerequisites)_
+_(27 prerequisites)_
 
 - proposition_logic
 - predicate_logic
@@ -455,9 +461,11 @@ _(25 prerequisites)_
 - axiom_infinity
 - zf
 - set
+- set_difference
 - subset
 - ordered_pair
 - power_set
+- partition
 - cartesian_product
 - relation
 - domain_range
@@ -720,7 +728,7 @@ _(49 prerequisites)_
 - countable_closure_properties
 
 ## continuum_hypothesis
-_(60 prerequisites)_
+_(62 prerequisites)_
 
 - proposition_logic
 - proof_methods
@@ -738,12 +746,14 @@ _(60 prerequisites)_
 - axiom_infinity
 - zf
 - set
+- set_difference
 - binary_union_intersection
 - subset
 - ordered_pair
 - empty_set
 - power_set
 - omega_construction
+- partition
 - cartesian_product
 - relation
 - domain_range

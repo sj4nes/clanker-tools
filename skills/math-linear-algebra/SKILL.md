@@ -23,7 +23,7 @@ description: >
   result actually rests on, over which field it holds, the minimum prerequisite
   chain for a theorem, or what breaks without finite-dimensionality. Built with
   the math-theorem-tree method; discharges math-statistics' linear_algebra_background.
-version: 1.0.0
+version: 2.0.0
 ---
 
 # Linear algebra — a dependency-ordered knowledge capsule

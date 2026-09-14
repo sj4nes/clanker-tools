@@ -13,7 +13,7 @@ Over R: <u,v> = (||u+v||^2 - ||u-v||^2)/4. Over C: <u,v> = (1/4) sum_{k=0}^3 i^k
 mathematical_identity  ·  field_scope: char_not_2
 
 ## Prerequisites (tsort edges into this node)
-characteristic_not_two, induced_norm, inner_product
+characteristic_not_two, induced_norm, inner_product, parallelogram_law
 
 ## Hypotheses
 char F != 2, F = R or C

@@ -13,6 +13,7 @@ hypotheses: []
 preconditions: []
 dependencies:
   - 'iid_sample'
+  - 'prob_binomial'
 proof:
   technique: 'the event {X_(k) <= x} = {at least k of the X_i are <= x} ~ Binomial(n, F(x)) tail'
   derives_from: 'prob_binomial'

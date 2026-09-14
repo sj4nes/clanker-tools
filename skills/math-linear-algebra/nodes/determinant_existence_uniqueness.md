@@ -13,7 +13,7 @@ There is EXACTLY ONE multilinear alternating form D on the columns of F^{n x n} 
 proved_theorem  ·  field_scope: any_field
 
 ## Prerequisites (tsort edges into this node)
-identity_matrix, multilinear_alternating_form, permutation_sign
+basis, identity_matrix, multilinear_alternating_form, permutation_sign
 
 ## Hypotheses
 F a commutative field, n fixed

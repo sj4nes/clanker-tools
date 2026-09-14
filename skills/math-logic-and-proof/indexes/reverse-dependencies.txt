@@ -1,5 +1,5 @@
 alpha_equivalence: godel_completeness_theorem prenex_normal_form
-assignment: tarski_satisfaction term_evaluation
+assignment: soundness_prop tarski_satisfaction term_evaluation
 assumption_discharge: direct_proof nd_hilbert_equivalence
 atomic_formula: first_order_wff
 biconditional_as_conjunction: biconditional_proof
@@ -33,6 +33,7 @@ functional_completeness: sheffer_stroke
 godel_completeness_theorem: compactness_fol lowenheim_skolem_down undecidability_fol_validity
 godel_incompleteness_first: godel_incompleteness_second incompleteness_of_PA_ZFC tarski_undefinability
 godel_incompleteness_second: incompleteness_of_PA_ZFC
+halting_problem: undecidability_fol_validity
 henkin_constants: henkin_theory
 henkin_theory: godel_completeness_theorem term_model truth_lemma_fol
 hilbert_derivation: deduction_theorem derivability nd_hilbert_equivalence
@@ -70,7 +71,7 @@ semantic_consequence_fol: godel_completeness_theorem logical_equivalence_fol sou
 sentence: model
 signature: atomic_formula henkin_constants lowenheim_skolem_down structure term_syntax
 soundness_fol: godel_completeness_theorem
-soundness_prop: compactness_prop post_completeness_theorem
+soundness_prop: compactness_prop post_completeness_theorem soundness_fol
 string: wff_syntax
 strong_induction: induction_equivalence
 structural_induction_wff: coincidence_lemma recursion_on_wff soundness_fol soundness_prop structural_induction truth_lemma_fol
@@ -91,6 +92,7 @@ truth_lemma_prop: post_completeness_theorem
 truth_table: binary_boolean_functions_16 dnf_from_truth_table tautology tautology_decidable
 truth_value_recursion: satisfaction
 vacuous_quantification: vacuous_trivial_proof
+validity: undecidability_fol_validity
 weak_induction: induction_equivalence strong_induction well_ordering_principle
 well_ordering_principle: induction_equivalence
 wff_syntax: first_order_wff formula_complexity hilbert_system_prop modus_ponens nd_derivation nd_rules_propositional structural_induction_wff subformula true_false_constants truth_assignment wff_unique_readability

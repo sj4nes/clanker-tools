@@ -14,7 +14,7 @@ Under H0 and local alternatives theta_n = theta_0 + h/sqrt(n), the Wald, score, 
 proved_theorem  ·  regime: asymptotic
 
 ## Prerequisites (tsort edges into this node)
-prob_continuous_mapping, score_test, wald_test, wilks_theorem
+prob_continuous_mapping, score_test, statistic, wald_test, wilks_theorem
 
 ## Hypotheses
 true_parameter_interior, fisher_information_positive_definite, log_likelihood_smooth

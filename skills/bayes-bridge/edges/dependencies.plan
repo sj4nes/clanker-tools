@@ -71,3 +71,7 @@ normal_mean_ci_known_variance_cited	credible_vs_confidence
 coverage_probability_cited	credible_vs_confidence
 bernstein_von_mises_cited	credible_vs_confidence
 posterior_prop_prior_times_likelihood	credible_vs_confidence
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text uses these results; the graph did not carry the edge.
+conjugate_families credible_vs_confidence

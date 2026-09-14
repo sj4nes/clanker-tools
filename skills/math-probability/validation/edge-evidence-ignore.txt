@@ -1,0 +1,6 @@
+# Adjudicated soft hits from build/check-edge-evidence.py -- see docs/verifying-skills.md §5.
+# <node>	<referenced node>	<verdict>	<note>   (tab-separated)
+normal_distribution	moment	cited-not-used	a bc-check note ("second moment 1"), not a dependency of the definition
+poisson_limit_theorem	mgf_uniqueness	cited-not-used	an ALTERNATIVE proof route; the node takes the direct limit
+strong_law_large_numbers	martingale	cited-not-used	a citation to the martingale proof in the source, not the route taken
+variance_of_sum	moment	cited-not-used	describes the identity as raw-moment; deps are variance and covariance

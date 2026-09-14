@@ -100,7 +100,7 @@ _(14 prerequisites)_
 - probability_space
 
 ## probability_integral_transform
-_(32 prerequisites)_
+_(33 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -112,6 +112,7 @@ _(32 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -150,7 +151,7 @@ _(10 prerequisites)_
 - finite_additivity
 
 ## independence_random_variables
-_(20 prerequisites)_
+_(21 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -160,6 +161,7 @@ _(20 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -168,8 +170,8 @@ _(20 prerequisites)_
 - measurable_function
 - probability_space
 - independence_events
-- random_variable
 - independence_sigma_algebras
+- random_variable
 - distribution_pushforward
 - joint_distribution
 
@@ -215,7 +217,7 @@ _(17 prerequisites)_
 - expectation
 
 ## lotus
-_(24 prerequisites)_
+_(25 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -225,6 +227,7 @@ _(24 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -346,7 +349,7 @@ _(19 prerequisites)_
 - variance
 
 ## hoeffding_inequality
-_(47 prerequisites)_
+_(48 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -357,6 +360,7 @@ _(47 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -369,12 +373,12 @@ _(47 prerequisites)_
 - abstract_integral
 - probability_space
 - independence_events
+- independence_sigma_algebras
 - random_variable
 - radon_nikodym
 - fubini_tonelli
 - expectation
 - indicator_rv
-- independence_sigma_algebras
 - distribution_pushforward
 - discrete_rv
 - joint_distribution
@@ -397,7 +401,7 @@ _(47 prerequisites)_
 - mgf_sum_independent
 
 ## binomial_distribution
-_(43 prerequisites)_
+_(44 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -407,6 +411,7 @@ _(43 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -417,12 +422,12 @@ _(43 prerequisites)_
 - abstract_integral
 - probability_space
 - independence_events
+- independence_sigma_algebras
 - random_variable
 - radon_nikodym
 - fubini_tonelli
 - expectation
 - indicator_rv
-- independence_sigma_algebras
 - distribution_pushforward
 - discrete_rv
 - joint_distribution
@@ -444,7 +449,7 @@ _(43 prerequisites)_
 - mgf_sum_independent
 
 ## normal_distribution
-_(24 prerequisites)_
+_(25 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -454,6 +459,7 @@ _(24 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -472,7 +478,7 @@ _(24 prerequisites)_
 - pdf
 
 ## convergence_implications
-_(48 prerequisites)_
+_(49 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -485,6 +491,7 @@ _(48 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -524,7 +531,7 @@ _(48 prerequisites)_
 - portmanteau_theorem
 
 ## weak_law_large_numbers
-_(46 prerequisites)_
+_(47 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -535,6 +542,7 @@ _(46 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -547,11 +555,11 @@ _(46 prerequisites)_
 - abstract_integral
 - probability_space
 - independence_events
+- independence_sigma_algebras
 - random_variable
 - radon_nikodym
 - expectation
 - indicator_rv
-- independence_sigma_algebras
 - distribution_pushforward
 - discrete_rv
 - convergence_in_probability
@@ -574,7 +582,7 @@ _(46 prerequisites)_
 - characteristic_function
 
 ## strong_law_large_numbers
-_(44 prerequisites)_
+_(45 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -586,6 +594,7 @@ _(44 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -602,12 +611,12 @@ _(44 prerequisites)_
 - abstract_integral
 - probability_space
 - independence_events
+- independence_sigma_algebras
 - random_variable
 - borel_cantelli_first
 - convergence_almost_sure
 - radon_nikodym
 - expectation
-- independence_sigma_algebras
 - distribution_pushforward
 - discrete_rv
 - joint_distribution
@@ -622,7 +631,7 @@ _(44 prerequisites)_
 - moment
 
 ## central_limit_theorem
-_(52 prerequisites)_
+_(54 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -634,6 +643,7 @@ _(52 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -646,12 +656,12 @@ _(52 prerequisites)_
 - abstract_integral
 - probability_space
 - independence_events
+- independence_sigma_algebras
 - random_variable
 - radon_nikodym
 - fubini_tonelli
 - expectation
 - dominated_convergence_theorem
-- independence_sigma_algebras
 - distribution_pushforward
 - discrete_rv
 - cdf
@@ -669,6 +679,7 @@ _(52 prerequisites)_
 - convergence_in_distribution
 - normal_distribution
 - lotus
+- moment
 - mgf
 - independence_expectation
 - characteristic_function
@@ -678,7 +689,7 @@ _(52 prerequisites)_
 - levy_continuity_theorem
 
 ## levy_continuity_theorem
-_(35 prerequisites)_
+_(37 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -690,6 +701,7 @@ _(35 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -713,11 +725,12 @@ _(35 prerequisites)_
 - pdf
 - convergence_in_distribution
 - lotus
+- moment
 - characteristic_function
 - cf_properties
 
 ## tower_property
-_(33 prerequisites)_
+_(35 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -728,6 +741,7 @@ _(33 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -744,6 +758,7 @@ _(33 prerequisites)_
 - conditional_expectation_abstract
 - distribution_pushforward
 - discrete_rv
+- expectation_monotonicity
 - expectation_linearity
 - absolutely_continuous_rv
 - pmf
@@ -754,7 +769,7 @@ _(33 prerequisites)_
 - conditional_expectation_existence
 
 ## law_of_total_variance
-_(36 prerequisites)_
+_(38 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -765,6 +780,7 @@ _(36 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -781,6 +797,7 @@ _(36 prerequisites)_
 - conditional_expectation_abstract
 - distribution_pushforward
 - discrete_rv
+- expectation_monotonicity
 - expectation_linearity
 - absolutely_continuous_rv
 - variance
@@ -794,7 +811,7 @@ _(36 prerequisites)_
 - tower_property
 
 ## conditional_expectation_l2_projection
-_(32 prerequisites)_
+_(34 prerequisites)_
 
 - set_algebra
 - series_convergence
@@ -805,6 +822,7 @@ _(32 prerequisites)_
 - sigma_algebra
 - measurable_space
 - generated_sigma_algebra
+- dynkin_pi_lambda
 - measure
 - kolmogorov_axioms
 - borel_sigma_algebra
@@ -821,6 +839,7 @@ _(32 prerequisites)_
 - conditional_expectation_abstract
 - distribution_pushforward
 - discrete_rv
+- expectation_monotonicity
 - absolutely_continuous_rv
 - pmf
 - pdf

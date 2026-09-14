@@ -11,6 +11,7 @@ type_check_note: 'the right level of generality: independence of random variable
 hypotheses: []
 preconditions: []
 dependencies:
+  - 'dynkin_pi_lambda'
   - 'independence_events'
   - 'sigma_algebra'
 well_definedness: 'the set of A_1 for which the factorization holds (with A_2, ..., A_n fixed in generating pi-systems) is a lambda-system; pi-lambda extends it to all of G_1, then iterate.'

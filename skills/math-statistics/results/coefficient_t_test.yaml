@@ -14,6 +14,7 @@ preconditions: []
 dependencies:
   - 'ols_distribution_under_normal_errors'
   - 'students_t_distribution'
+  - 't_statistic_distribution'
   - 'unbiased_error_variance_estimator'
 proof:
   technique: 'ols_distribution_under_normal_errors supplies numerator normality, denominator chi^2_{n-p}, and their independence; assemble t_{n-p}'

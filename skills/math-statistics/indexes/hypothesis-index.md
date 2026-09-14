@@ -102,6 +102,7 @@ node that has it as a (possibly indirect) prerequisite.
 - local_asymptotic_minimax
 - minimax_rate
 - mle_asymptotic_normality
+- pearson_chi_squared_gof
 - sandwich_variance
 - score_identity
 - score_test
@@ -131,6 +132,7 @@ node that has it as a (possibly indirect) prerequisite.
 - local_asymptotic_minimax
 - minimax_rate
 - mle_asymptotic_normality
+- pearson_chi_squared_gof
 - sandwich_variance
 - score_test
 - three_tests_asymptotically_equivalent
@@ -289,6 +291,7 @@ node that has it as a (possibly indirect) prerequisite.
 - local_asymptotic_minimax
 - minimax_rate
 - mle_asymptotic_normality
+- pearson_chi_squared_gof
 - sandwich_variance
 - score_identity
 - score_test

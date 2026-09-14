@@ -14,7 +14,7 @@ If X ~ N(mu, sigma^2) then aX + b ~ N(a mu + b, a^2 sigma^2) for a != 0. If X ~ 
 proposition
 
 ## Prerequisites (tsort edges into this node)
-characteristic_function, convolution_formula, normal_distribution, standard_normal, transformation_univariate
+characteristic_function, convolution_formula, mgf_sum_independent, mgf_uniqueness, normal_distribution, standard_normal, transformation_univariate
 
 ## Hypotheses
 (none — unconditional within scope)

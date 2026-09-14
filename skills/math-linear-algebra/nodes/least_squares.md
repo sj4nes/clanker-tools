@@ -14,7 +14,7 @@ x minimises ||Ax - b|| if and only if A^T A x = A^T b (the NORMAL EQUATIONS). A 
 proved_theorem  ·  field_scope: real_or_complex
 
 ## Prerequisites (tsort edges into this node)
-best_approximation, column_space, linear_system, matrix_rank, orthogonal_projection, transpose
+adjoint_kernel_image, best_approximation, column_space, linear_system, matrix_rank, orthogonal_projection, transpose
 
 ## Hypotheses
 F = R (or C with ^*), full column rank for uniqueness

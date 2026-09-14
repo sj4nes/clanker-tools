@@ -348,3 +348,11 @@ aleph_hierarchy continuum
 continuum continuum_hypothesis
 aleph_hierarchy continuum_hypothesis
 cardinal_lt continuum_hypothesis
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text uses these results; the graph did not carry the edge.
+partition cantor_schroeder_bernstein
+subset omega_construction
+subset peano_holds_in_omega
+function well_ordering_theorem
+function zorn_lemma

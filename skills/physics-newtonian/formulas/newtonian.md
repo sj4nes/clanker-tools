@@ -260,6 +260,7 @@ Sources: `HRW` = Halliday, Resnick & Walker, *Fundamentals of Physics*, 11th ed.
 - th: angle in **radians**, dimensionless.
 - Label: approximation. Assumptions: `|th| << 1` (radians); truncated Taylor
   series.
+- Prereqs: limit, trigonometry.
 - Special case: leading error of `sin th ~ th` is `-th^3/6`
   (bc: `sin(0.1) - 0.1 = -1.67e-4`).
 - Failure: th in degrees; angles not small (pendulum at large amplitude, where

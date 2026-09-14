@@ -13,7 +13,7 @@ Under absolute-error loss L(theta, a) = |theta - a|, the Bayes estimator is a po
 proved_theorem  ·  regime: bayesian
 
 ## Prerequisites (tsort edges into this node)
-bayes_estimator
+bayes_estimator, posterior_mean_rule
 
 ## Hypotheses
 (none — unconditional within scope)

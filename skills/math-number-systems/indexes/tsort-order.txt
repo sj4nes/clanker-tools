@@ -95,6 +95,6 @@ rational_dense_in_real
 nth_root_exists
 dedekind_cauchy_equivalent
 cantor_diagonal_argument
-real_absolute_value
 real_uniqueness
 real_uncountable
+real_absolute_value

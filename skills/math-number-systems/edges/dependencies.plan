@@ -392,3 +392,9 @@ cantor_diagonal_argument real_uncountable
 countable_set real_uncountable
 real_number real_uncountable
 rational_dense_in_real real_uncountable
+
+# --- edges recovered by build/check-edge-evidence.py (2026-09-14): the node
+# proof text uses these results; the graph did not carry the edge.
+bijection real_uncountable
+surjection real_uncountable
+bijection real_uniqueness
