@@ -38,7 +38,7 @@ description: >-
   exact-finite-sample or only asymptotic. Built with, and maintained per, the
   math-theorem-tree method. Excludes computation (MCMC, EM), experimental design,
   causal inference, time series, and high-dimensional / post-selection inference.
-version: 2.0.0
+version: 3.0.0
 author: Simon Janes
 tags: [mathematics, statistics, mathematical-statistics, inference, likelihood, sufficiency, cramer-rao, maximum-likelihood, hypothesis-testing, neyman-pearson, confidence-intervals, linear-regression, bootstrap, decision-theory, bayesian, dependencies, knowledge-capsule, lean]
 ---

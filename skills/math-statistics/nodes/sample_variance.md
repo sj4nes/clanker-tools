@@ -22,7 +22,7 @@ iid_sample, sample_mean
 ## Proof provenance
 technique: the divisor n - 1 is justified by E[sum (X_i - Xbar)^2] = (n-1) sigma^2 -- see bias_of_sample_variance
 derives_from: bias_of_sample_variance
-lean_status: core
+lean_status: none
 
 ## Type / well-formedness check
 A statistic. The n - 1 comes from one degree of freedom being spent estimating the mean: sum (X_i - Xbar)^2 has only n - 1 free deviations (they sum to 0).

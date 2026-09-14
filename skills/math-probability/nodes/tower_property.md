@@ -22,7 +22,7 @@ conditional_expectation_abstract, conditional_expectation_existence, expectation
 ## Proof provenance
 technique: for A in H subset G: integral_A E[E[X|G]|H] = integral_A E[X|G] = integral_A X = integral_A E[X|H]; both outer terms are H-measurable with equal integrals on all H-sets, so equal a.s.
 derives_from: conditional_expectation_existence
-lean_status: core — validation/proof-checks.lean -- linearity core; the tower is the defining-property chase
+lean_status: cited
 
 ## Type / well-formedness check
 the smaller sigma-algebra wins: conditioning on more then less information equals conditioning on less. Proof: E[X | H] is H-measurable (hence G-measurable) and its integral matches X on H-sets; check that E[X|G] has the same integrals on H-sets (it does, since H subset G).

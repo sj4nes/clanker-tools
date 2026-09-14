@@ -128,12 +128,15 @@ reading `1.0.0` across a 29-line divergence that included a correctness fix.
 wrong** (re-do work done under the old text), **MINOR = a statement changed or
 grew** (re-read it), **PATCH = nothing semantic**. So `MAJOR − 1` counts the
 times a skill has been wrong since release — **fifteen skills now carry a MAJOR
-above 1, five of them a `3.0.0`**, eleven of those bumps landing together on
-2026-09-14 when `check-edge-evidence.py` found 36 prerequisite edges the capsule
-node text uses and the graphs did not carry (see
-[`docs/verifying-skills.md` §5a](docs/verifying-skills.md) for the rubric and
-[`docs/skill-versioning.md` §2b](docs/skill-versioning.md) for why a missing
-edge is MAJOR).
+above 1, and two a `4.0.0`**. Most of those bumps landed on 2026-09-14, when two
+audits in the shape of the `bc` one found what the capsule build could not fail
+on: `check-edge-evidence.py` found **36 prerequisite edges** the node text uses
+and the graphs did not carry, and `check-lean-cores.py` found **41 claims of
+Lean verification** — 19 of them `lean_status: core` with an empty `lean_ref` —
+that nothing backed. See [`docs/verifying-skills.md` §5a and
+§5b](docs/verifying-skills.md) for the two rubrics and
+[`docs/skill-versioning.md` §2b](docs/skill-versioning.md) for why each is
+MAJOR.
 The test is whether a **published state** ever carried the error: a fix to text
 no reader could have been holding is how the skill reached `1.0.0`, and the
 Verification table below is the record of those. (`bc`'s margin was six minutes

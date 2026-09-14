@@ -15,7 +15,7 @@ proof:
   technique: 'left-to-right by induction on the length of the Hilbert derivation of psi from Gamma, phi (metatheoretic_induction). Cases: psi an axiom or in Gamma -> psi -> (phi -> psi) is axiom 1, then MP; psi = phi -> use the proof of phi -> phi; psi by MP from chi and chi -> psi -> IH gives phi -> chi and phi -> (chi -> psi), then axiom 2 + MP twice. Right-to-left is one MP.'
   derives_from: hilbert_derivation
   lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- induction over the Deriv_H inductive predicate.'
+  lean_ref: 'validation/proof-checks.lean -- deduction (induction over the Deriv_H inductive predicate)'
 uses_choice: false
 constructive: true
 constructive_grade: intuitionistic

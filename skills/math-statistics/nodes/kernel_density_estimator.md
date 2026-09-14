@@ -23,7 +23,7 @@ iid_sample, prob_pdf
 ## Proof provenance
 technique: E[f_hat_h(x)] = (K_h * f)(x), a convolution smoothing of f; Var[f_hat_h(x)] = (n h)^{-1} f(x) R(K) + O(1/n)
 derives_from: kde_bias_variance_tradeoff
-lean_status: core
+lean_status: none
 
 ## Type / well-formedness check
 A statistic-valued function; a smoothed version of the empirical measure. It is biased for f (unlike the ECDF for F) -- density estimation is genuinely nonparametric, with a bias-variance tradeoff controlled by h (kde_bias_variance_tradeoff).

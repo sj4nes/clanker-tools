@@ -19,7 +19,7 @@ dependencies:
 proof:
   technique: 'minimize the Bayes risk r(pi, delta) = E_X E_{theta|X}[L] by minimizing the inner (posterior) expectation for each x -- see bayes_rule_minimizes_bayes_risk'
   derives_from: 'bayes_rule_minimizes_bayes_risk'
-  lean_status: core
+  lean_status: none
   lean_ref: null
 uses_choice: false
 constructive: true

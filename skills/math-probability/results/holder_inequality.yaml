@@ -19,7 +19,7 @@ dependencies:
 proof:
   technique: 'normalize, apply Young''s inequality (from convexity of exp / concavity of log) pointwise, integrate'
   derives_from: 'jensen_inequality'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

@@ -21,7 +21,7 @@ p_value, prob_cdf, prob_uniform_continuous
 ## Proof provenance
 technique: probability integral transform: if T ~ F_0 continuous then F_0(T) ~ Uniform(0,1), so p(X) = 1 - F_0(T(X)) ~ Uniform(0,1)
 derives_from: prob_cdf
-lean_status: core — the PIT step F(T) ~ Uniform is cited to math-probability:probability_integral_transform; the corollary is one line
+lean_status: cited
 
 ## Type / well-formedness check
 An exact distributional fact, a direct corollary of the probability integral transform (F_0(T) ~ Uniform when T ~ F_0 continuous). It is what makes the p-value a calibrated evidence scale and lets p-values be combined (Fisher's method, etc.).

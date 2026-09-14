@@ -16,8 +16,8 @@ dependencies:
 proof:
   technique: 'E[|theta - a|] has left-derivative P(theta <= a) - P(theta > a); it is <= 0 for a below the median and >= 0 above => minimized at the median'
   derives_from: 'posterior_mean_rule'
-  lean_status: core
-  lean_ref: 'the sign-change-at-the-median argument; instance check in instance-checks.bc'
+  lean_status: cited
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

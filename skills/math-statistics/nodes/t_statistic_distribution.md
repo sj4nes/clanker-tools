@@ -23,7 +23,7 @@ normal_sample_mean_variance_independence, prob_normal_affine_closure, scaled_sam
 ## Proof provenance
 technique: assemble the definition of t_{n-1} from Z ~ N(0,1), V ~ chi^2_{n-1}, Z _||_ V -- the three pieces supplied by the CLT-exact normal mean, the scaled sample variance, and the independence theorem
 derives_from: students_t_distribution
-lean_status: core — the assembly is definitional; the three inputs are their own nodes. instance-checks.bc tabulates t_{n-1} quantiles vs the normal for small n
+lean_status: cited
 
 ## Type / well-formedness check
 An exact sampling-distribution identity. Proof: sqrt(n)(Xbar - mu)/S = [ sqrt(n)(Xbar - mu)/sigma ] / [ S/sigma ] = Z / sqrt(V/(n-1)) with Z ~ N(0,1), V = (n-1)S^2/sigma^2 ~ chi^2_{n-1}, and Z _||_ V by normal_sample_mean_variance_independence. That is exactly the definition of t_{n-1}.

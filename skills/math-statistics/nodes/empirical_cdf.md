@@ -22,7 +22,7 @@ iid_sample, prob_bernoulli, prob_cdf
 ## Proof provenance
 technique: pointwise: n F_hat_n(x) is a sum of iid Bernoulli(F(x)) indicators
 derives_from: prob_bernoulli
-lean_status: core
+lean_status: none
 
 ## Type / well-formedness check
 A statistic-valued function. For each fixed x, n F_hat_n(x) ~ Binomial(n, F(x)), so E[F_hat_n(x)] = F(x) (unbiased) and Var(F_hat_n(x)) = F(x)(1 - F(x))/n. As a process it is the basis of all distribution-free inference.

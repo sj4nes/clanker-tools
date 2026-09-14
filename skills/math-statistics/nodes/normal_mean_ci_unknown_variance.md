@@ -22,7 +22,7 @@ pivot_method, t_statistic_distribution
 ## Proof provenance
 technique: pivot method with Q = sqrt(n)(Xbar - mu)/S ~ t_{n-1}
 derives_from: t_statistic_distribution
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 Exact. Invert the pivot sqrt(n)(Xbar - mu)/S ~ t_{n-1} (t_statistic_distribution). The t quantile (wider than z) is the exact price of estimating sigma.

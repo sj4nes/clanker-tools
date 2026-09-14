@@ -13,7 +13,7 @@ description: >-
   for a theorem, or when you must know which hypothesis a result actually needs
   and what breaks without it. Built with, and maintained per, the
   math-theorem-tree method.
-version: 2.0.0
+version: 2.1.0
 author: Simon Janes
 tags: [mathematics, real-analysis, calculus, theorems, dependencies, knowledge-capsule, lean]
 ---

@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'Pythagorean identity TSS = (explained SS) + RSS (from ols_is_projection, since y - ybar 1 decomposes orthogonally); R^2 = explained/total'
   derives_from: 'sample_variance'
-  lean_status: core
+  lean_status: none
   lean_ref: null
 uses_choice: false
 constructive: true

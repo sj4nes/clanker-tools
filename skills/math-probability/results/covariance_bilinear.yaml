@@ -18,7 +18,7 @@ proof:
   technique: 'expand the centered products and use expectation_linearity in each slot; symmetry is commutativity of the product; Cov(X,X) = Var(X) >= 0'
   derives_from: 'expectation_linearity'
   lean_status: core
-  lean_ref: null
+  lean_ref: 'validation/proof-checks.lean Prob.cov_bilinear_raw (GENUINE raw-moment bilinearity)'
 uses_choice: false
 constructive: true
 specialization_cases:

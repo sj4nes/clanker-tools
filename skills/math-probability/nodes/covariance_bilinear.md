@@ -22,7 +22,7 @@ covariance, expectation_linearity, variance
 ## Proof provenance
 technique: expand the centered products and use expectation_linearity in each slot; symmetry is commutativity of the product; Cov(X,X) = Var(X) >= 0
 derives_from: expectation_linearity
-lean_status: core
+lean_status: core — validation/proof-checks.lean Prob.cov_bilinear_raw (GENUINE raw-moment bilinearity)
 
 ## Type / well-formedness check
 bilinearity is linearity of expectation applied in each argument after centering; constants have zero covariance with everything, so Cov(X + c, Y) = Cov(X, Y).

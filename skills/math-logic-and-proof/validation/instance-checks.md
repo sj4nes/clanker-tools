@@ -9,7 +9,7 @@ literature or downstream of a cited result, not fully re-checked here.
 
 ## wff_unique_readability
 
-- **lean_status:** `core` — validation/proof-checks.lean -- Wff as an inductive type makes this the injectivity + no-confusion of the constructors (rfl-level); the string-grammar version is cited.
+- **lean_status:** `core` — validation/proof-checks.lean -- conj_injective, conj_ne_disj (Wff as an inductive type makes readability structural)
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## de_morgan_prop
@@ -19,12 +19,12 @@ literature or downstream of a cited result, not fully re-checked here.
 
 ## functional_completeness
 
-- **lean_status:** `core` — validation/proof-checks.lean -- constructive: the wff is built from the table. instance checks: reconstruct xor, majority-of-3, the 16 binary functions.
+- **lean_status:** `core` — validation/proof-checks.lean -- nand, not_from_nand, and_from_nand, or_from_nand, binary_dnf
 - **bc:** `validation/instance-checks.bc` (numeric worksheet)
 
 ## deduction_theorem
 
-- **lean_status:** `core` — validation/proof-checks.lean -- induction over the Deriv_H inductive predicate.
+- **lean_status:** `core` — validation/proof-checks.lean -- deduction (induction over the Deriv_H inductive predicate)
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## nd_hilbert_equivalence
@@ -34,7 +34,7 @@ literature or downstream of a cited result, not fully re-checked here.
 
 ## soundness_prop
 
-- **lean_status:** `core` — validation/proof-checks.lean -- induction over Deriv_ND; each rule case discharged by the truth_value_recursion clauses.
+- **lean_status:** `core` — validation/proof-checks.lean -- soundness (induction over Deriv_ND; each rule case)
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## post_completeness_theorem
@@ -94,7 +94,7 @@ literature or downstream of a cited result, not fully re-checked here.
 
 ## induction_equivalence
 
-- **lean_status:** `core` — validation/proof-checks.lean -- all three implications over Nat, plain Lean (Nat.strong_induction_on / a well-ordering lemma), no Mathlib needed.
+- **lean_status:** `core` — validation/proof-checks.lean -- strong_of_weak, well_ordering (all three implications over Nat, plain Lean)
 - **bc:** `validation/instance-checks.bc` (numeric worksheet)
 
 ## undecidability_fol_validity

@@ -22,7 +22,7 @@ power_function, size_of_test, t_statistic_distribution
 ## Proof provenance
 technique: t_statistic_distribution: under H0 the statistic is exactly t_{n-1}, free of the nuisance sigma^2; so P_{H0}(|t| > t_{n-1,1-alpha/2}) = alpha for every sigma^2
 derives_from: t_statistic_distribution
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 An exact-level test. The statistic is pivotal under the whole composite null {mu = mu_0, sigma^2 > 0} because its null law t_{n-1} does not involve sigma^2 -- so the size is alpha for every sigma^2.

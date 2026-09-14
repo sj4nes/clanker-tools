@@ -1,5 +1,27 @@
 # Changelog
 
+## 3.0.0 — 2026-09-14
+
+**MAJOR: 16 nodes claimed Lean verification that nothing backed.** Thirteen
+carried `lean_status: core` — "the general statement is proved in Lean" — with
+an **empty** `lean_ref`; two pointed only at `instance-checks.bc` (bc
+arithmetic, not Lean); one named no declaration and no section. `lean
+proof-checks.lean && echo ok` cannot see any of this: it exits 0 on `sorry`, on
+an `axiom`, and on a numeral-only "core" (see
+[`docs/verifying-skills.md` §5b](../../docs/verifying-skills.md)).
+
+No proof was wrong — `validation/proof-checks.lean` compiled clean before and
+after, with no `sorry` and no `axiom`. The **index** was wrong: the honest count
+of machine-verified nodes drops from **44 claimed to 28**. Definitions with
+nothing to prove are now `none`; sourced results with no Lean here are `cited`.
+
+New: `build/check-lean-cores.py` (source hygiene, compile gate including the
+`declaration uses 'sorry'` grep, status vocabulary, ref locatability, and the
+`core`-overclaim guard) and `validation/lean-mutation-check.sh`, which plants
+six defects per build and asserts each is caught — only one of the six is
+caught by `lean` itself. Also: `if_true`/`if_false` → `ite_true`/`ite_false`,
+so the file is warning-free and its header's "no warnings" claim is true again.
+
 ## 2.0.0 — 2026-09-14
 
 **MAJOR: 17 prerequisite edges were missing.** `build/check-edge-evidence.py`

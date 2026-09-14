@@ -7,6 +7,8 @@ sh build/build-tree.sh
 
 python3 build/check-edge-evidence.py    # edge TRUTH: node text vs the graph
 sh validation/mutation-check.sh        # do the graph checks still catch a broken graph?
+python3 build/check-lean-cores.py         # lean TRUTH: the machine-verification claims
+sh validation/lean-mutation-check.sh     # do those lean checks still catch a sorry?
 echo ""
 echo "== bc instance checks =="
 # `bc`'s `quit` ALWAYS exits 0, so `&& echo ok` reports success even when every

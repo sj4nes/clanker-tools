@@ -23,7 +23,7 @@ convex_function, expectation_monotonicity, jensen_inequality, lp_space
 ## Proof provenance
 technique: normalize, apply Young's inequality (from convexity of exp / concavity of log) pointwise, integrate
 derives_from: jensen_inequality
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 Young's inequality ab <= a^p/p + b^q/q (a convexity fact) applied pointwise to a = |X|/||X||_p, b = |Y|/||Y||_q, then take expectations: E[|XY|]/(||X||_p ||Y||_q) <= 1/p + 1/q = 1.

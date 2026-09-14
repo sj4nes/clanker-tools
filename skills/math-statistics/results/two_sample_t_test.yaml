@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'Xbar - Ybar ~ N(mu_X - mu_Y, sigma^2(1/n + 1/m)); (n+m-2)S_p^2/sigma^2 ~ chi^2_{n+m-2} independent of it (sum of two independent scaled sample variances); assemble the t definition'
   derives_from: 't_statistic_distribution'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

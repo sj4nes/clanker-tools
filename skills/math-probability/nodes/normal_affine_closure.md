@@ -22,7 +22,7 @@ characteristic_function, convolution_formula, mgf_sum_independent, mgf_uniquenes
 ## Proof provenance
 technique: affine: change of variables on the density. Sum: mgf_sum_independent then mgf_uniqueness -- the exponents add
 derives_from: mgf_sum_independent
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 affine closure by transformation_univariate; the sum by multiplying MGFs: exp(mu_1 t + s_1^2 t^2/2) exp(mu_2 t + s_2^2 t^2/2) = exp((mu_1+mu_2) t + (s_1^2 + s_2^2) t^2/2), then mgf_uniqueness.

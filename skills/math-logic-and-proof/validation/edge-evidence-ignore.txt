@@ -3,5 +3,4 @@
 free_for	structure	english-word	"structure of phi", not the model-theoretic Structure node
 nd_hilbert_equivalence	structure	english-word	"structure of the derivation"
 post_completeness_theorem	model	cited-not-used	names the model-existence FORM of the theorem
-substitution_lemma_semantic	satisfaction	homonym	as above
 tarski_satisfaction	satisfaction	homonym	as above -- this node IS first-order satisfaction

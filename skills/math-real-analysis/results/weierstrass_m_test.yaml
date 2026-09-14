@@ -17,7 +17,7 @@ proof:
     uniformly in x. Hence the partial sums are uniformly Cauchy
     (uniform_cauchy_criterion) -> uniformly convergent.
   derives_from: uniform_cauchy_criterion
-  lean_status: core-arith
+  lean_status: partial
   lean_ref: 'validation/proof-checks.lean §1 (triangle inequality for the partial sum bound), §5 (geometric ratio bound for the common M_n = c^n case)'
 uses_choice: false
 constructive: true

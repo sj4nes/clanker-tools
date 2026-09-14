@@ -20,8 +20,8 @@ proof:
     (a+d=b+c and c+f=d+e give a+f=b+e after adding and cancelling c+d); take Z to
     be the set of classes.
   derives_from: integer_relation_equivalence
-  lean_status: core-arith
-  lean_ref: 'validation/proof-checks.lean §1 (transitivity, omega, universal)'
+  lean_status: partial
+  lean_ref: 'validation/proof-checks.lean -- z_rel_trans, z_add_well_defined, z_le_well_defined (§1; the construction itself is not formalised)'
 uses_choice: false
 constructive: true
 well_definedness: >-

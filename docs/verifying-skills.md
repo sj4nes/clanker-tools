@@ -191,7 +191,9 @@ scale = 12
 writes `cycle in data` to stderr. Cycle detection must grep stderr, not check
 `$?`. That, and the rest of the graph rubric, is §5a below.
 
-**`lean`** (capsule cores) — assume **no Mathlib**. `ring`, `sub_nonneg`,
+**`lean`** (capsule cores) — the exit status does **not** fall to a `sorry` or an
+`axiom`; see §5b for that and for the `lean_status` rubric. On tactics, assume
+**no Mathlib**. `ring`, `sub_nonneg`,
 complex numbers, and most `field_simp` are unavailable. Fall back to:
 
 - `omega` for linear integer / nat goals (universal, but not division by a
@@ -200,7 +202,8 @@ complex numbers, and most `field_simp` are unavailable. Fall back to:
 - complex numbers as `(re, im)` integer pairs,
 - rewrite `½ x` cores as `(2 * x) / 2` to survive integer division.
 
-Record what stays unproven — a `lean_status` per node, not a silent gap.
+Record what stays unproven — a `lean_status` per node, not a silent gap — and
+make the status carry a `lean_ref` a machine can resolve (§5b).
 
 **`upmd`** (tutorials) — no native Lean runner (`Language not supported: lean`).
 Lean beats are `bash` blocks that invoke `lean` on a heredoc and check exit 0;
@@ -320,6 +323,74 @@ deletion silently do nothing — a mutation that reports itself as surviving.
 Both are in the scripts' comments now.
 
 ---
+
+---
+
+## 5b. Lean cores: what "machine-checked" is actually claiming
+
+`lean file.lean && echo ok` is the **same hole as `bc ... && echo ok`**, and it
+was found the same way — by planting defects in a real capsule file, not by
+reading the script. All three of these exit **0**:
+
+| planted in `math-probability/validation/proof-checks.lean` | `lean` exit | what it means |
+|---|---|---|
+| `theorem t : ∀ n, n + 0 = n := by sorry` | **0** | a warning on stderr, nothing else. The theorem is unproved. |
+| `axiom cheat : ∀ n : Nat, n = n + 1` | **0** | silent — and `3 = 4` now follows from it |
+| `theorem "core" : (2:Nat) + 2 = 4 := by decide` | **0** | true, and proves nothing general |
+| `theorem t : ∀ n, n + 1 = n := by omega` | 1 | the one case the exit status does catch |
+
+The exit status catches a **broken** file — a syntax error, a genuinely false
+claim — and never an **unproved** or **overclaimed** one. The `sorry` warning
+does not rescue it: it arrives on the same stream as benign deprecation
+warnings, so it has to be grepped for by name, exactly like `*** FAIL` in §3.
+
+And the compile gate says nothing at all about the claim that matters. A node
+asserting `lean_status: core` is claiming *this capsule's `.lean` file proves the
+general statement of this node*. Nothing about compiling the file tests that.
+
+### `build/check-lean-cores.py`
+
+| gate | rule |
+|---|---|
+| source hygiene | no `sorry`, `admit`, `axiom`, `native_decide`. `axiom` makes everything provable; `native_decide` moves the trust base from the kernel to the compiler |
+| compile | exit 0, no `error:`, **no `declaration uses 'sorry'`**. Other warnings are counted and reported, never failed — a deprecation is not an unsound proof |
+| vocabulary | `lean_status` ∈ `core` / `dim_core` / `instance` / `partial` / `cited` / `none` / `stated_not_proved` |
+| locatability | every status claiming machine verification carries a `lean_ref` naming something a machine can **find**: a declaration, or a `/-! ## N.` (math) or `-- N.` (formula) section header. Anonymous `example … := by decide` blocks can only be cited by section, which is why sections count |
+| overclaim | `core` means the **general** statement is proved, so its ref must name a real declaration whose statement **binds a variable**. A `core` backed only by a section of `decide` instances is an `instance` |
+
+An empty ref, a prose ref, or a ref pointing only at a `.bc` file is not
+evidence. That is the Lean form of *annotate, do not assert*: it reads as
+verification and provides none.
+
+`validation/lean-mutation-check.sh` plants all six defects per build and asserts
+each is caught. Only **one** of the six is caught by `lean` itself.
+
+### What the first run found (2026-09-14)
+
+**41 problems across six capsules. `math-linear-algebra` had zero** — it is the
+control: it already carried `build/leanmap.py` (an authoritative status map whose
+default is the weakest status, so a spec cannot overclaim) plus
+`build/check-lean-refs.py`. The guard works; it had simply never been copied to
+its six siblings.
+
+| finding | count | |
+|---|---|---|
+| `lean_status: core` with an **empty** `lean_ref` | 19 | 6 in `math-probability`, 13 in `math-statistics` — a claim of machine verification with nothing behind it at all |
+| a Lean status whose ref points only at `instance-checks.bc` | 7 | the evidence is bc arithmetic; the node claimed Lean |
+| a `core` whose ref names no declaration and no existing section | 10 | prose describing a proof technique |
+| `lean_status: core-arith`, outside any vocabulary | 5 | → `partial`: the arithmetic core is proved, the theorem is not |
+
+After the fixes, `math-probability`'s honest count of machine-verified nodes
+went from **36 claimed to 25**, and `math-statistics`' from **44 to 28**. No
+proof was wrong — every `.lean` file compiled clean before and after, with no
+`sorry` and no `axiom` anywhere in the repo. What was wrong was the **index**:
+a third of the claims pointed at nothing.
+
+Three conventions for `lean_ref` were in use (bare namespaced declarations;
+file + declaration in prose; file + `§N`). All three are now accepted, because
+all three are locatable — but a fourth, free prose, is not, and that is what the
+19 empty and 10 unlocatable refs collapsed into.
+
 
 ## 6. `verification/README.md` for the skill
 
@@ -498,6 +569,12 @@ Two corollaries, and one caution:
 - [ ] **`python3 build/check-edge-evidence.py` exits 0**, with every soft hit
       adjudicated in `validation/edge-evidence-ignore.txt` and no stale entry.
 - [ ] Lean cores are Mathlib-free or labelled as requiring it.
+- [ ] **`python3 build/check-lean-cores.py` exits 0** (§5b): no `sorry` /
+      `admit` / `axiom` / `native_decide`, no `declaration uses 'sorry'`, and
+      every `lean_status` claiming machine verification resolves to a
+      declaration or an existing section. `lean` exits 0 on all of those.
+- [ ] **`sh validation/lean-mutation-check.sh` exits 0** — five of its six
+      planted defects are invisible to `lean` itself.
 - [ ] `verification/README.md` has the step→check→result table and the
       folded-back findings (or "no correctness fix needed in the skill body").
 - [ ] The README Verification table has a row with the tool versions and the

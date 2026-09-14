@@ -22,7 +22,7 @@ kolmogorov_axioms, measure_continuity, sequence_limit, set_algebra
 ## Proof provenance
 technique: measure_continuity with mu = P; from above via complements
 derives_from: measure_continuity
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 the specialisation of measure_continuity to a finite (probability) measure; continuity from above needs no extra hypothesis because P(A_1) <= 1 < inf.

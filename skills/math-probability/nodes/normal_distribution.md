@@ -23,7 +23,7 @@ abstract_integral, expectation, pdf, variance
 ## Proof provenance
 technique: normalization by the Gaussian integral integral e^{-x^2/2} dx = sqrt(2 pi); MGF by completing the square; E = mu, Var = sigma^2 from M''(0)
 derives_from: abstract_integral
-lean_status: core — validation/instance-checks.bc -- standard normal pdf integrates to 1, second moment 1
+lean_status: none
 
 ## Type / well-formedness check
 parameterized by the VARIANCE sigma^2 (not sigma). The universal limit law (CLT), the maximum-entropy law for a given mean and variance, closed under affine maps and independent sums, and the only law where zero correlation implies independence (jointly).

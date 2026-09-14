@@ -17,7 +17,7 @@ dependencies:
 proof:
   technique: 'pivot method with Q = sqrt(n)(Xbar - mu)/S ~ t_{n-1}'
   derives_from: 't_statistic_distribution'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

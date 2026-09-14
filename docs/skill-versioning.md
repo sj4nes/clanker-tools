@@ -157,6 +157,43 @@ catch a wrong edge.
 
 ---
 
+## 2c. The 2026-09-14 Lean-core round
+
+The same day's second audit, same shape. `lean file.lean && echo ok` exits **0**
+on a `sorry`, on an `axiom` (which makes `3 = 4` provable), and on a "core"
+that is a closed numeral identity — so nothing in any capsule build had ever
+tested a `lean_status` claim. `check-lean-cores.py` found **41 problems in six
+capsules**, including **19 nodes claiming `lean_status: core` with an empty
+`lean_ref`**.
+
+`MAJOR` where the claim was **false**: a node asserting `core` is asserting
+*this capsule's `.lean` file proves the general statement*, and a reader who
+trusted it skipped verification they would otherwise have done. That is the
+same failure the 2026-09-13 re-base already charged `math-probability` `2.0.0`
+for — "`Prob.markov_finite`'s body was missing behind a header that claimed
+it" — now found at scale. So `math-probability` → `4.0.0`,
+`math-statistics` → `3.0.0`, and `math-number-systems` / `math-sets-functions-
+cardinality` → `4.0.0` / `3.0.0` for statuses whose only evidence was a **bc**
+check.
+
+`MINOR` where the claim was **true but unverifiable by machine**:
+`math-logic-and-proof`'s five `core` refs described the proof technique in prose
+instead of naming the declaration — and the declarations were all there, exactly
+as claimed. Nobody was misled; the refs just could not be checked. Likewise
+`math-real-analysis`'s four `core-arith` labels, a vocabulary outside the
+documented set pointing at real, existing sections.
+
+No proof anywhere was wrong: every `.lean` file compiled clean before and after,
+and the repo contains no `sorry` and no `axiom`. What was wrong was the index.
+That distinction is what keeps these bumps meaningful — `MAJOR` is for a reader
+who was told something false, not for a repository that tightened its own gates.
+
+`math-linear-algebra` had **zero** findings and takes a `PATCH` for a changelog
+note. It already carried the guard (`leanmap.py` + `check-lean-refs.py`); the
+audit generalised it to its six siblings.
+
+---
+
 ## 3. The 2026-09-13 re-base
 
 Before this document, the leading digit encoded **kind**, not maturity: all ten

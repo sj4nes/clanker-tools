@@ -22,7 +22,7 @@ expectation, mgf, pmf, series_convergence, variance
 ## Proof provenance
 technique: mean: sum k e^{-lambda} lambda^k/k! = lambda sum e^{-lambda} lambda^{k-1}/(k-1)! = lambda. Variance via E[X(X-1)] = lambda^2 then Var = lambda^2 + lambda - lambda^2. MGF: sum e^{tk} e^{-lambda} lambda^k/k! = e^{-lambda} e^{lambda e^t}
 derives_from: series_convergence
-lean_status: core — validation/instance-checks.bc -- Poisson(2) E and Var = 2
+lean_status: none
 
 ## Type / well-formedness check
 the law of counts of rare events: the limit of Binomial(n, lambda/n) as n -> inf (poisson_limit_theorem), and the one-parameter family with equal mean and variance. Sums of independent Poissons are Poisson (rates add).

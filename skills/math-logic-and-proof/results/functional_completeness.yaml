@@ -15,7 +15,7 @@ proof:
   technique: 'DNF from the truth table: for each row where f = 1, form the conjunction of literals (atom or its negation) matching that row; disjoin those conjunctions. The n=0 cases give T and bottom. Then {not,and,or} reduces to {not,or} by De Morgan, to {not,imp} by (p or q)=(not p -> q), to {nand} by p and q = not(p nand q), etc.'
   derives_from: dnf_from_truth_table
   lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- constructive: the wff is built from the table. instance checks: reconstruct xor, majority-of-3, the 16 binary functions.'
+  lean_ref: 'validation/proof-checks.lean -- nand, not_from_nand, and_from_nand, or_from_nand, binary_dnf'
 uses_choice: false
 constructive: true
 constructive_grade: intuitionistic

@@ -22,7 +22,7 @@ pivot_method, scaled_sample_variance_chi_squared
 ## Proof provenance
 technique: pivot method with Q = (n-1)S^2/sigma^2 ~ chi^2_{n-1}
 derives_from: scaled_sample_variance_chi_squared
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 Exact under normality. Invert the pivot (n-1)S^2/sigma^2 ~ chi^2_{n-1}. Equal-tailed is conventional but far from shortest for small n.

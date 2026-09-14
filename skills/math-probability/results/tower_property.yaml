@@ -17,8 +17,8 @@ dependencies:
 proof:
   technique: 'for A in H subset G: integral_A E[E[X|G]|H] = integral_A E[X|G] = integral_A X = integral_A E[X|H]; both outer terms are H-measurable with equal integrals on all H-sets, so equal a.s.'
   derives_from: 'conditional_expectation_existence'
-  lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- linearity core; the tower is the defining-property chase'
+  lean_status: cited
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

@@ -16,7 +16,7 @@ proof:
     a convergent subsequence x_{n_j} -> L (bolzano_weierstrass); the Cauchy
     condition then forces the whole sequence -> L.
   derives_from: bolzano_weierstrass
-  lean_status: core-arith
+  lean_status: partial
   lean_ref: 'validation/proof-checks.lean §1 (triangle inequality, both directions use it)'
 uses_choice: false
 constructive: false

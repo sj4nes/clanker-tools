@@ -22,7 +22,7 @@ prob_normal_affine_closure, size_of_test, t_statistic_distribution
 ## Proof provenance
 technique: Xbar - Ybar ~ N(mu_X - mu_Y, sigma^2(1/n + 1/m)); (n+m-2)S_p^2/sigma^2 ~ chi^2_{n+m-2} independent of it (sum of two independent scaled sample variances); assemble the t definition
 derives_from: t_statistic_distribution
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 Exact under normality + equal variances (the pooled statistic is pivotal, ~ t_{n+m-2}). Welch's version is only approximately t-distributed (the Behrens-Fisher problem has no exact solution with a pivotal statistic).

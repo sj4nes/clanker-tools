@@ -21,7 +21,7 @@ f_distribution, scaled_sample_variance_chi_squared, size_of_test
 ## Proof provenance
 technique: (n-1)S_X^2/sigma_X^2 ~ chi^2_{n-1} _||_ (m-1)S_Y^2/sigma_Y^2 ~ chi^2_{m-1}; under H0 the sigma^2's cancel in the ratio, giving F_{n-1,m-1} by definition
 derives_from: f_distribution
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 Exact under normality (ratio of independent scaled chi-squares). Its Achilles heel: the F-test for variances is extremely sensitive to kurtosis -- far more than the t-test for means. Levene's and Brown-Forsythe tests are robust alternatives.

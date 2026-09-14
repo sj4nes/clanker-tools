@@ -17,8 +17,8 @@ dependencies:
 proof:
   technique: 'probability integral transform: if T ~ F_0 continuous then F_0(T) ~ Uniform(0,1), so p(X) = 1 - F_0(T(X)) ~ Uniform(0,1)'
   derives_from: 'prob_cdf'
-  lean_status: core
-  lean_ref: 'the PIT step F(T) ~ Uniform is cited to math-probability:probability_integral_transform; the corollary is one line'
+  lean_status: cited
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

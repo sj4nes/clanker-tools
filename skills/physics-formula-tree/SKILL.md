@@ -10,7 +10,7 @@ description: >-
   circuits, orbital mechanics), or to add/change a formula in an existing tree.
   This is a META skill: it orchestrates the `tsort`, `bc`, `lean`, `ptx`,
   `csplit`, and `ed` skills — invoke it before starting such work.
-version: 1.1.0
+version: 1.2.0
 author: Simon Janes
 tags: [physics, knowledge-engineering, tsort, dependencies, formulas, meta-skill]
 ---

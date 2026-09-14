@@ -15,7 +15,7 @@ proof:
   technique: 'weak -> strong: apply weak induction to Q(n) := "P(k) for all k <= n". strong -> well-ordering: contrapositive -- if a set S has no least element, prove by strong induction that n not in S for all n, so S = empty. well-ordering -> weak: if P(0) and P(n)->P(n+1) but P fails somewhere, the set {n : not P(n)} has a least element m > 0, and P(m-1) holds so P(m) holds -- contradiction.'
   derives_from: weak_induction
   lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- all three implications over Nat, plain Lean (Nat.strong_induction_on / a well-ordering lemma), no Mathlib needed.'
+  lean_ref: 'validation/proof-checks.lean -- strong_of_weak, well_ordering (all three implications over Nat, plain Lean)'
 uses_choice: false
 constructive: false
 constructive_grade: needs_DNE

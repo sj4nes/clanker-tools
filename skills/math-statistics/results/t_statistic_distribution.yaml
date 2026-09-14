@@ -20,8 +20,8 @@ dependencies:
 proof:
   technique: 'assemble the definition of t_{n-1} from Z ~ N(0,1), V ~ chi^2_{n-1}, Z _||_ V -- the three pieces supplied by the CLT-exact normal mean, the scaled sample variance, and the independence theorem'
   derives_from: 'students_t_distribution'
-  lean_status: core
-  lean_ref: 'the assembly is definitional; the three inputs are their own nodes. instance-checks.bc tabulates t_{n-1} quantiles vs the normal for small n'
+  lean_status: cited
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

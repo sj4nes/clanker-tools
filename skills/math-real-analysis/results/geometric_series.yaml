@@ -14,7 +14,7 @@ proof:
     partial sum s_n = (1 - r^{n+1})/(1 - r) (algebra: (1-r) s_n telescopes).
     For |r| < 1, r^{n+1} -> 0, so s_n -> 1/(1-r).
   derives_from: partial_sum
-  lean_status: core-arith
+  lean_status: partial
   lean_ref: 'validation/proof-checks.lean §6 ((1-r)(1+r+...+r^n) = 1 - r^{n+1}, instance r=3,n=4)'
 uses_choice: false
 constructive: true

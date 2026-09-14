@@ -22,7 +22,7 @@ prob_correlation, residual_sum_of_squares, sample_variance
 ## Proof provenance
 technique: Pythagorean identity TSS = (explained SS) + RSS (from ols_is_projection, since y - ybar 1 decomposes orthogonally); R^2 = explained/total
 derives_from: sample_variance
-lean_status: core
+lean_status: none
 
 ## Type / well-formedness check
 A descriptive statistic in [0,1] (for a model with an intercept). NOT a goodness-of-fit test, NOT a measure of correct specification, and NOT comparable across different response variables or transformations. R^2 never decreases when a predictor is added -- hence adjusted R^2.

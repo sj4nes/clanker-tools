@@ -129,11 +129,11 @@ theorem markov_finite (a : Int) (ha : 1 ≤ a) :
       ih (fun q hq => hpos q (by simp [hq]))
     simp only [tailmass, wsum, Int.mul_add]
     by_cases hc : a ≤ x
-    · simp only [hc, if_true]
+    · simp only [hc, ite_true]
       have h1 : a * p ≤ x * p := Int.mul_le_mul_of_nonneg_right hc hp
       have h2 : x * p = p * x := Int.mul_comm x p
       omega
-    · simp only [hc, if_false, Int.mul_zero]
+    · simp only [hc, ite_false, Int.mul_zero]
       have h3 : 0 ≤ p * x := Int.mul_nonneg hp hx
       omega
 

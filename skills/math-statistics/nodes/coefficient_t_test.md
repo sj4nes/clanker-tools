@@ -22,7 +22,7 @@ ols_distribution_under_normal_errors, students_t_distribution, t_statistic_distr
 ## Proof provenance
 technique: ols_distribution_under_normal_errors supplies numerator normality, denominator chi^2_{n-p}, and their independence; assemble t_{n-p}
 derives_from: t_statistic_distribution
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 Exact under the Gaussian linear model. The numerator ~ N(0, sigma^2 (X^TX)^{-1}_jj) is independent of sigma_hat^2, and (n-p)sigma_hat^2/sigma^2 ~ chi^2_{n-p}, so the ratio is exactly t_{n-p} (assemble the t definition).

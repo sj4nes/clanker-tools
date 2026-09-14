@@ -17,8 +17,8 @@ dependencies:
 proof:
   technique: 'Z = (X - mu)/sigma for X ~ N(mu, sigma^2) via transformation_univariate; phi_Z(t) = e^{-t^2/2} by completing the square in E[e^{itZ}]'
   derives_from: 'transformation_univariate'
-  lean_status: core
-  lean_ref: 'validation/instance-checks.bc -- Phi(1) = 0.8413...'
+  lean_status: none
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

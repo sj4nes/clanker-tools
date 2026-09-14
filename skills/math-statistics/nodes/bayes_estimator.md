@@ -23,7 +23,7 @@ loss_function, prob_conditional_distribution, risk_function
 ## Proof provenance
 technique: minimize the Bayes risk r(pi, delta) = E_X E_{theta|X}[L] by minimizing the inner (posterior) expectation for each x -- see bayes_rule_minimizes_bayes_risk
 derives_from: bayes_rule_minimizes_bayes_risk
-lean_status: core
+lean_status: none
 
 ## Type / well-formedness check
 An argmin over actions of the posterior risk. Well-posed whenever the posterior exists (proper, or improper with a finite normalizer) and the posterior loss is finite. It is automatically a function of a sufficient statistic.

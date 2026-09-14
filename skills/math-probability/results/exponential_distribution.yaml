@@ -19,8 +19,8 @@ dependencies:
 proof:
   technique: 'normalization integral_0^inf lambda e^{-lambda x} dx = 1; E[X] = integral x lambda e^{-lambda x} dx = 1/lambda by parts; memorylessness from P(X > t) = e^{-lambda t}'
   derives_from: 'pdf'
-  lean_status: core
-  lean_ref: 'validation/instance-checks.bc -- Exponential(0.5): E=2, Var=4, memoryless check'
+  lean_status: none
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

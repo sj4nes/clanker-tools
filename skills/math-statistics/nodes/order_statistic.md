@@ -22,7 +22,7 @@ iid_sample, prob_binomial
 ## Proof provenance
 technique: the event {X_(k) <= x} = {at least k of the X_i are <= x} ~ Binomial(n, F(x)) tail
 derives_from: prob_binomial
-lean_status: core
+lean_status: none
 
 ## Type / well-formedness check
 A statistic (permutation of the data). For a continuous parent, X_(k) has density n C(n-1, k-1) F(x)^{k-1} (1 - F(x))^{n-k} f(x); F(X_(k)) ~ Beta(k, n - k + 1).

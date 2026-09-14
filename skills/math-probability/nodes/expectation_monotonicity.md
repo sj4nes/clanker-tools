@@ -21,7 +21,7 @@ abstract_integral, almost_sure, expectation
 ## Proof provenance
 technique: integral of a nonnegative function is >= 0; apply to Y - X; the triangle inequality |E X| <= E|X| from -|X| <= X <= |X|
 derives_from: abstract_integral
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 monotonicity of the Lebesgue integral: Y - X >= 0 a.s. so E[Y - X] = integral (Y-X) dP >= 0, then linearity. The a.s. qualifier is enough (null sets do not affect the integral).

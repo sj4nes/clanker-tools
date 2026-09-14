@@ -21,7 +21,7 @@ conditional_probability
 ## Proof provenance
 technique: P(A|B) P(B) = [P(A cap B)/P(B)] P(B) = P(A cap B); induct for the n-fold version
 derives_from: conditional_probability
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 a rearrangement of the definition of conditional probability, iterated. The order of the A_i can be permuted; each requires its predecessor-intersection to have positive probability.

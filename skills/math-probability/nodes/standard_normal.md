@@ -22,7 +22,7 @@ characteristic_function, normal_distribution, transformation_univariate
 ## Proof provenance
 technique: Z = (X - mu)/sigma for X ~ N(mu, sigma^2) via transformation_univariate; phi_Z(t) = e^{-t^2/2} by completing the square in E[e^{itZ}]
 derives_from: transformation_univariate
-lean_status: core — validation/instance-checks.bc -- Phi(1) = 0.8413...
+lean_status: none
 
 ## Type / well-formedness check
 the reference point: any N(mu, sigma^2) variable is mu + sigma Z, and any normal probability reduces to Phi. The CLT limit is stated as convergence to Z.

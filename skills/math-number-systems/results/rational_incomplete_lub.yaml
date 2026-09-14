@@ -17,8 +17,8 @@ proof:
     an upper bound, so p is not least. p^2 = 2 is impossible (sqrt2_irrational).
     So no rational is a least upper bound.
   derives_from: sqrt2_irrational
-  lean_status: instance
-  lean_ref: 'validation/instance-checks.bc (decimal search: square < 2 forever, next tick > 2)'
+  lean_status: none
+  lean_ref: null
 uses_choice: false
 constructive: true
 solving_for: null

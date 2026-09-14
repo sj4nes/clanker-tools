@@ -17,7 +17,7 @@ dependencies:
 proof:
   technique: 'pivot method with Q = (n-1)S^2/sigma^2 ~ chi^2_{n-1}'
   derives_from: 'scaled_sample_variance_chi_squared'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

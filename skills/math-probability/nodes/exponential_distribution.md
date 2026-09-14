@@ -22,7 +22,7 @@ expectation, memorylessness, mgf, pdf, variance
 ## Proof provenance
 technique: normalization integral_0^inf lambda e^{-lambda x} dx = 1; E[X] = integral x lambda e^{-lambda x} dx = 1/lambda by parts; memorylessness from P(X > t) = e^{-lambda t}
 derives_from: pdf
-lean_status: core — validation/instance-checks.bc -- Exponential(0.5): E=2, Var=4, memoryless check
+lean_status: none
 
 ## Type / well-formedness check
 the unique memoryless distribution on [0, inf): P(X > s + t | X > s) = P(X > t). The waiting time between events of a rate-lambda Poisson process; the continuous analogue of the geometric.

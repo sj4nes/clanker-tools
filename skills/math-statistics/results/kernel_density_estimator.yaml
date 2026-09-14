@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'E[f_hat_h(x)] = (K_h * f)(x), a convolution smoothing of f; Var[f_hat_h(x)] = (n h)^{-1} f(x) R(K) + O(1/n)'
   derives_from: 'kde_bias_variance_tradeoff'
-  lean_status: core
+  lean_status: none
   lean_ref: null
 uses_choice: false
 constructive: true

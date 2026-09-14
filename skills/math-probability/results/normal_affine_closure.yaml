@@ -21,7 +21,7 @@ dependencies:
 proof:
   technique: 'affine: change of variables on the density. Sum: mgf_sum_independent then mgf_uniqueness -- the exponents add'
   derives_from: 'mgf_sum_independent'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

@@ -17,8 +17,8 @@ dependencies:
 proof:
   technique: 'E[e^{t(X+Y)}] = E[e^{tX} e^{tY}] = E[e^{tX}] E[e^{tY}] by independence_expectation applied to g(X) = e^{tX}, h(Y) = e^{tY}'
   derives_from: 'independence_expectation'
-  lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- binomial MGF^n instance'
+  lean_status: cited
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

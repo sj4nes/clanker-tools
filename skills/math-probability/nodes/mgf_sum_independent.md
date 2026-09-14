@@ -21,7 +21,7 @@ characteristic_function, independence_expectation, independence_random_variables
 ## Proof provenance
 technique: E[e^{t(X+Y)}] = E[e^{tX} e^{tY}] = E[e^{tX}] E[e^{tY}] by independence_expectation applied to g(X) = e^{tX}, h(Y) = e^{tY}
 derives_from: independence_expectation
-lean_status: core — validation/proof-checks.lean -- binomial MGF^n instance
+lean_status: cited
 
 ## Type / well-formedness check
 e^{t(X+Y)} = e^{tX} e^{tY} is a product of independent (functions of independent) variables, so its expectation factors by independence_expectation. Same for e^{it(X+Y)}.

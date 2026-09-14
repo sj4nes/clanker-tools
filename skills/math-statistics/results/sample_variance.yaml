@@ -17,7 +17,7 @@ dependencies:
 proof:
   technique: 'the divisor n - 1 is justified by E[sum (X_i - Xbar)^2] = (n-1) sigma^2 -- see bias_of_sample_variance'
   derives_from: 'bias_of_sample_variance'
-  lean_status: core
+  lean_status: none
   lean_ref: null
 uses_choice: false
 constructive: true

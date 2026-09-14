@@ -17,7 +17,7 @@ proof:
     L(f,P) and U(f,P). Since f is integrable, these squeeze to int_a^b f
     (riemann_criterion).
   derives_from: mean_value_theorem
-  lean_status: core-arith
+  lean_status: partial
   lean_ref: 'validation/proof-checks.lean §4 (telescope: sum (G(t_i)-G(t_{i-1})) = G(b)-G(a), genuine induction) + §3 (squeeze between L and U)'
 uses_choice: false
 constructive: true

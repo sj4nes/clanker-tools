@@ -14,7 +14,7 @@ proof:
   technique: 'induction on the derivation (structural_induction_wff applied to nd_derivation). Show each rule preserves the property "every assignment satisfying the open assumptions satisfies the conclusion": axioms/assumptions trivially; and-I, or-I, ->E, etc. by the truth-value clauses; ->I discharges an assumption; RAA uses that if every assignment satisfying Gamma, not phi gives a contradiction then every assignment satisfying Gamma satisfies phi (classical step).'
   derives_from: nd_rules_propositional
   lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- induction over Deriv_ND; each rule case discharged by the truth_value_recursion clauses.'
+  lean_ref: 'validation/proof-checks.lean -- soundness (induction over Deriv_ND; each rule case)'
 uses_choice: false
 constructive: true
 constructive_grade: needs_DNE

@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'pointwise: n F_hat_n(x) is a sum of iid Bernoulli(F(x)) indicators'
   derives_from: 'prob_bernoulli'
-  lean_status: core
+  lean_status: none
   lean_ref: null
 uses_choice: false
 constructive: true

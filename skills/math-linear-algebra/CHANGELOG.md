@@ -1,5 +1,15 @@
 # Changelog — math-linear-algebra
 
+## 2.0.1 — 2026-09-14
+
+No content change. The repo-wide Lean-core audit
+([`docs/verifying-skills.md` §5b](../../docs/verifying-skills.md)) found **41
+problems across six capsules and zero here** — this capsule already carried
+`build/leanmap.py` (an authoritative status map defaulting to the weakest
+status, so a spec cannot overclaim) and `build/check-lean-refs.py`. Those two
+are the pattern the shared `build/check-lean-cores.py` generalises to the other
+six; this capsule is where it was shown to work.
+
 ## 2.0.0 — 2026-09-14
 
 **MAJOR: 19 prerequisite edges were missing.** `build/check-edge-evidence.py`

@@ -221,9 +221,9 @@ theorem crlb_cauchy_schwarz (a1 a2 s1 s2 : Int) :
 theorem neyman_pearson_swap (f0 f1 k phi : Int) (h0 : 0 ≤ phi) (h1 : phi ≤ 1) :
     0 ≤ ((if k * f0 < f1 then 1 else 0) - phi) * (f1 - k * f0) := by
   by_cases hc : k * f0 < f1
-  · simp only [hc, if_true]
+  · simp only [hc, ite_true]
     exact Int.mul_nonneg (by omega) (by omega)
-  · simp only [hc, if_false]
+  · simp only [hc, ite_false]
     have e : (0 - phi) * (f1 - k * f0) = phi * (k * f0 - f1) := by grind
     rw [e]
     exact Int.mul_nonneg (by omega) (by omega)

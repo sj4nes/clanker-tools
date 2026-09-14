@@ -16,7 +16,7 @@ dependencies:
 proof:
   technique: 'integral of a nonnegative function is >= 0; apply to Y - X; the triangle inequality |E X| <= E|X| from -|X| <= X <= |X|'
   derives_from: 'abstract_integral'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

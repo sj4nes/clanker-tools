@@ -21,7 +21,7 @@ pivot_method, prob_normal, prob_standard_normal, sample_mean
 ## Proof provenance
 technique: pivot method with Q = sqrt(n)(Xbar - mu)/sigma ~ N(0,1)
 derives_from: pivot_method
-lean_status: core
+lean_status: cited
 
 ## Type / well-formedness check
 Exact. Invert the pivot sqrt(n)(Xbar - mu)/sigma ~ N(0,1). Width 2 z sigma/sqrt(n) is NON-random (sigma known) -- the only randomness is the center.

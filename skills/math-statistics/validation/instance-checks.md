@@ -591,7 +591,7 @@ not re-checked here.
 ## bayes_estimator
 
 - definition/axiom — see the type check
-- **lean_status:** `core`
+- **lean_status:** `none`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## posterior_mean_rule
@@ -601,7 +601,7 @@ not re-checked here.
 
 ## posterior_median_rule
 
-- **lean_status:** `core` — the sign-change-at-the-median argument; instance check in instance-checks.bc
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## conjugate_prior
@@ -690,7 +690,7 @@ not re-checked here.
 ## sample_variance
 
 - definition/axiom — see the type check
-- **lean_status:** `core`
+- **lean_status:** `none`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## bias_of_sample_variance
@@ -710,7 +710,7 @@ not re-checked here.
 
 ## t_statistic_distribution
 
-- **lean_status:** `core` — the assembly is definitional; the three inputs are their own nodes. instance-checks.bc tabulates t_{n-1} quantiles vs the normal for small n
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## cochran_theorem
@@ -725,17 +725,17 @@ not re-checked here.
 
 ## one_sample_t_test
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## two_sample_t_test
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## f_test_equality_of_variances
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## confidence_set
@@ -765,17 +765,17 @@ not re-checked here.
 
 ## normal_mean_ci_known_variance
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## normal_mean_ci_unknown_variance
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## normal_variance_ci
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## wald_interval
@@ -873,7 +873,7 @@ not re-checked here.
 
 ## p_value_uniform_under_null
 
-- **lean_status:** `core` — the PIT step F(T) ~ Uniform is cited to math-probability:probability_integral_transform; the corollary is one line
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## pearson_chi_squared_gof
@@ -899,13 +899,13 @@ not re-checked here.
 ## empirical_cdf
 
 - definition/axiom — see the type check
-- **lean_status:** `core`
+- **lean_status:** `none`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## order_statistic
 
 - definition/axiom — see the type check
-- **lean_status:** `core`
+- **lean_status:** `none`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## sample_quantile
@@ -943,7 +943,7 @@ not re-checked here.
 ## kernel_density_estimator
 
 - definition/axiom — see the type check
-- **lean_status:** `core`
+- **lean_status:** `none`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## kde_bias_variance_tradeoff
@@ -995,7 +995,7 @@ not re-checked here.
 
 ## coefficient_t_test
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## overall_f_test
@@ -1006,7 +1006,7 @@ not re-checked here.
 ## r_squared
 
 - definition/axiom — see the type check
-- **lean_status:** `core`
+- **lean_status:** `none`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## partitioned_regression

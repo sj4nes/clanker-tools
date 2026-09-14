@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'pivot method with Q = sqrt(n)(Xbar - mu)/sigma ~ N(0,1)'
   derives_from: 'pivot_method'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

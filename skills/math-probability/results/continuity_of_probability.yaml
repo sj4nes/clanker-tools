@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 'measure_continuity with mu = P; from above via complements'
   derives_from: 'measure_continuity'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

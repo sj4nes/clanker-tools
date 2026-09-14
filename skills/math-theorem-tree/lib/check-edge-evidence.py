@@ -121,7 +121,10 @@ def yaml_nodes(root, ids):
         for f in PROSE_FIELDS:
             v = d.get(f)
             if isinstance(v, dict):
-                prose += [str(x) for x in v.values()]
+                # `lean_status` / `lean_ref` live in the same block but are Lean
+                # bookkeeping, not mathematical prose -- a declaration name like
+                # `cov_bilinear_raw` is not a claim that this node USES `moment`.
+                prose += [str(x) for k, x in v.items() if not str(k).startswith("lean")]
             elif v:
                 prose.append(str(v))
         yield nid, declared, "\n".join(prose), own

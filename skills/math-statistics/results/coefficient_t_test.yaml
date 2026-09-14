@@ -19,7 +19,7 @@ dependencies:
 proof:
   technique: 'ols_distribution_under_normal_errors supplies numerator normality, denominator chi^2_{n-p}, and their independence; assemble t_{n-p}'
   derives_from: 't_statistic_distribution'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

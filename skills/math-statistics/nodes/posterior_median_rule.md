@@ -21,7 +21,7 @@ bayes_estimator, posterior_mean_rule
 ## Proof provenance
 technique: E[|theta - a|] has left-derivative P(theta <= a) - P(theta > a); it is <= 0 for a below the median and >= 0 above => minimized at the median
 derives_from: posterior_mean_rule
-lean_status: core — the sign-change-at-the-median argument; instance check in instance-checks.bc
+lean_status: cited
 
 ## Type / well-formedness check
 An argmin: d/da E[|theta - a| | x] = P(theta < a | x) - P(theta > a | x), which changes sign at the median. The median minimizes expected absolute deviation -- the L^1 analogue of the mean minimizing expected squared deviation.

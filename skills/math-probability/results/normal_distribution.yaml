@@ -19,8 +19,8 @@ dependencies:
 proof:
   technique: 'normalization by the Gaussian integral integral e^{-x^2/2} dx = sqrt(2 pi); MGF by completing the square; E = mu, Var = sigma^2 from M''''(0)'
   derives_from: 'abstract_integral'
-  lean_status: core
-  lean_ref: 'validation/instance-checks.bc -- standard normal pdf integrates to 1, second moment 1'
+  lean_status: none
+  lean_ref: null
 uses_choice: false
 constructive: true
 specialization_cases:

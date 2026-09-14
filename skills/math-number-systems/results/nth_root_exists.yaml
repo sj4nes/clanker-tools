@@ -18,8 +18,8 @@ proof:
     y^n > x (some t slightly below y is an upper bound), leaving y^n = x.
     Uniqueness: t -> t^n is strictly increasing on the positives.
   derives_from: lub_property
-  lean_status: instance
-  lean_ref: 'validation/instance-checks.bc (bisection for 2^(1/3), 7^(1/2))'
+  lean_status: none
+  lean_ref: null
 uses_choice: false
 constructive: true
 constructive_note: 'the sup is a specific cut; bisection computes y to any precision (instance-checks.bc).'

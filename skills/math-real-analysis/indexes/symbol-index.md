@@ -1,7 +1,7 @@
 # Symbol / keyword index (ptx discovery + rg confirmation)
 
 ptx -A -W over a cleaned concatenation of results/*.yaml + notation.md
-(`build/_ptx.raw`, 4641 rotations). Per the ptx skill this is a
+(`build/_ptx.raw`, 4637 rotations). Per the ptx skill this is a
 DISCOVERY aid only; each list below is rg-CONFIRMED result nodes.
 
 ## sup

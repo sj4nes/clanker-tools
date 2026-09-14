@@ -14,7 +14,7 @@ dependencies:
 proof:
   technique: 'P(A|B) P(B) = [P(A cap B)/P(B)] P(B) = P(A cap B); induct for the n-fold version'
   derives_from: 'conditional_probability'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

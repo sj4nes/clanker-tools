@@ -16,7 +16,7 @@ proof:
   technique: 'induction on formula length (formula_complexity). Key combinatorial lemma: every proper nonempty prefix of a wff has more left than right parentheses, so no wff is a proper prefix of another; hence the split point after "(" ... principal connective is forced.'
   derives_from: wff_syntax
   lean_status: core
-  lean_ref: 'validation/proof-checks.lean -- Wff as an inductive type makes this the injectivity + no-confusion of the constructors (rfl-level); the string-grammar version is cited.'
+  lean_ref: 'validation/proof-checks.lean -- conj_injective, conj_ne_disj (Wff as an inductive type makes readability structural)'
 uses_choice: false
 constructive: true
 constructive_grade: intuitionistic

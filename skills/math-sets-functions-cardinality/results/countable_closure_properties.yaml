@@ -16,8 +16,8 @@ proof:
     union: for each n CHOOSE an injection e_n : A_n -> omega (countable choice),
     then (n, a) -> pairing(n, e_n(a)) injects the union into omega.
   derives_from: nat_times_nat_countable
-  lean_status: instance
-  lean_ref: 'validation/instance-checks.bc (pairing tabulated; Q+ enumerated via the inverse pairing); the choice step is cited'
+  lean_status: none
+  lean_ref: null
 uses_choice: true
 choice_grade: needs_countable_choice
 choice_note: 'only the countable-UNION clause needs choice. Subsets, images, and finite products are choice-free. If each A_n comes with a GIVEN enumeration, the union is choice-free too.'

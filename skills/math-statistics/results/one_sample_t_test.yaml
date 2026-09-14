@@ -18,7 +18,7 @@ dependencies:
 proof:
   technique: 't_statistic_distribution: under H0 the statistic is exactly t_{n-1}, free of the nuisance sigma^2; so P_{H0}(|t| > t_{n-1,1-alpha/2}) = alpha for every sigma^2'
   derives_from: 't_statistic_distribution'
-  lean_status: core
+  lean_status: cited
   lean_ref: null
 uses_choice: false
 constructive: true

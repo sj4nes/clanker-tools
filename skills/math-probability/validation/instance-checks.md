@@ -169,7 +169,7 @@ not re-checked here.
 
 ## continuity_of_probability
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## borel_cantelli_first
@@ -189,7 +189,7 @@ not re-checked here.
 
 ## multiplication_rule
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## law_of_total_probability
@@ -343,7 +343,7 @@ not re-checked here.
 
 ## expectation_monotonicity
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## markov_inequality
@@ -383,7 +383,7 @@ not re-checked here.
 
 ## covariance_bilinear
 
-- **lean_status:** `core`
+- **lean_status:** `core` — validation/proof-checks.lean Prob.cov_bilinear_raw (GENUINE raw-moment bilinearity)
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## cauchy_schwarz_expectation
@@ -427,7 +427,7 @@ not re-checked here.
 
 ## holder_inequality
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## mgf
@@ -457,7 +457,7 @@ not re-checked here.
 
 ## mgf_sum_independent
 
-- **lean_status:** `core` — validation/proof-checks.lean -- binomial MGF^n instance
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## chernoff_bound
@@ -494,7 +494,7 @@ not re-checked here.
 ## poisson_distribution
 
 - definition/axiom — see the type check
-- **lean_status:** `core` — validation/instance-checks.bc -- Poisson(2) E and Var = 2
+- **lean_status:** `none`
 - **bc:** see `validation/instance-checks.bc`
 
 ## poisson_limit_theorem
@@ -510,7 +510,7 @@ not re-checked here.
 ## exponential_distribution
 
 - definition/axiom — see the type check
-- **lean_status:** `core` — validation/instance-checks.bc -- Exponential(0.5): E=2, Var=4, memoryless check
+- **lean_status:** `none`
 - **bc:** see `validation/instance-checks.bc`
 
 ## memorylessness
@@ -532,18 +532,18 @@ not re-checked here.
 ## normal_distribution
 
 - definition/axiom — see the type check
-- **lean_status:** `core` — validation/instance-checks.bc -- standard normal pdf integrates to 1, second moment 1
+- **lean_status:** `none`
 - **bc:** see `validation/instance-checks.bc`
 
 ## standard_normal
 
 - definition/axiom — see the type check
-- **lean_status:** `core` — validation/instance-checks.bc -- Phi(1) = 0.8413...
+- **lean_status:** `none`
 - **bc:** see `validation/instance-checks.bc`
 
 ## normal_affine_closure
 
-- **lean_status:** `core`
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## cauchy_no_mean
@@ -638,7 +638,7 @@ not re-checked here.
 
 ## tower_property
 
-- **lean_status:** `core` — validation/proof-checks.lean -- linearity core; the tower is the defining-property chase
+- **lean_status:** `cited`
 - **bc:** (no numeric worksheet; the type check and specialization cases apply)
 
 ## law_of_total_variance

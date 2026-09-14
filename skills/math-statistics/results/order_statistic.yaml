@@ -17,7 +17,7 @@ dependencies:
 proof:
   technique: 'the event {X_(k) <= x} = {at least k of the X_i are <= x} ~ Binomial(n, F(x)) tail'
   derives_from: 'prob_binomial'
-  lean_status: core
+  lean_status: none
   lean_ref: null
 uses_choice: false
 constructive: true
