@@ -253,40 +253,66 @@ def gate_terminal_live(deck, ids, edges):
 
 
 def gate_coverage(deck, ids, edges):
-    """Is there a path to a terminal, under the rules actually in force, that
-    omits a required role? If so the agent can finish without wearing it."""
+    """Can a terminal be reached without wearing a role it requires?
+
+    `required_roles` is either a LIST (one requirement for every exit) or a
+    MAP from terminal card id to its own list. The map form exists because the
+    decide deck forced it: with three exits you cannot commit without wearing
+    BLACK, but you can legitimately drop a decision without ever running a
+    probe. A single global requirement makes every exit as heavy as the
+    heaviest, which is how a `defer` card ends up demanding an experiment.
+    """
     by_id = {c["id"]: c for c in deck["cards"]}
-    required = set(deck.get("required_roles", []))
-    if not required:
+    spec = deck.get("required_roles")
+    terminals = [c["id"] for c in deck["cards"] if c.get("terminal")]
+    if not spec:
         ok("coverage", "no required roles declared")
         return
-    skipped = []
-    for role in required:
-        start = tuple(0 for _ in ids)
-        seen = {start}
-        q = deque([start])
-        found = False
-        while q and not found:
-            st = q.popleft()
-            if B.is_terminal(deck, dict(zip(ids, st))):
-                found = True
-                break
-            for m in edges.get(st, []):
-                if by_id[m]["role"] == role:
-                    continue
-                j = ids.index(m)
-                nxt = tuple(n + 1 if k == j else n for k, n in enumerate(st))
-                if nxt not in seen:
-                    seen.add(nxt)
-                    q.append(nxt)
-        if found:
-            skipped.append(role)
-    if skipped:
-        fail("coverage",
-             f"a terminal is reachable WITHOUT these required roles: "
-             f"{sorted(skipped)} -- the deck permits finishing without them")
+    if isinstance(spec, list):
+        per_terminal = {t: list(spec) for t in terminals}
     else:
-        ok("coverage", f"every path to a terminal wears all of {sorted(required)}")
+        per_terminal = {t: list(spec.get(t, [])) for t in terminals}
+        unknown = set(spec) - set(terminals)
+        if unknown:
+            fail("coverage", f"required_roles names non-terminal card(s): "
+                             f"{sorted(unknown)}")
+            return
+
+    problems = []
+    for t, roles in sorted(per_terminal.items()):
+        for role in sorted(roles):
+            if by_id[t]["role"] == role:
+                continue                      # the exit itself wears it
+            # can we make `t` legal using only cards of other roles?
+            start = tuple(0 for _ in ids)
+            seen = {start}
+            q = deque([start])
+            escaped = False
+            while q and not escaped:
+                st = q.popleft()
+                played = dict(zip(ids, st))
+                if B.is_terminal(deck, played):
+                    continue
+                for m in edges.get(st, []):
+                    if m == t:
+                        escaped = True
+                        break
+                    if by_id[m]["role"] == role:
+                        continue
+                    j = ids.index(m)
+                    nxt = tuple(n + 1 if k == j else n for k, n in enumerate(st))
+                    if nxt not in seen:
+                        seen.add(nxt)
+                        q.append(nxt)
+            if escaped:
+                problems.append((t, role))
+    if problems:
+        for t, role in problems:
+            fail("coverage", f"'{t}' is reachable without ever wearing {role} "
+                             f"-- the deck permits that exit without it")
+    else:
+        summary = ", ".join(f"{t}:{len(r)}" for t, r in sorted(per_terminal.items()))
+        ok("coverage", f"every exit wears its required roles ({summary})")
 
 
 def gate_no_orphans(deck):

@@ -56,8 +56,12 @@ $PY run_deck.py init --deck "$DECK" --seed 91137 --ledger "$LED" >/dev/null
 i=0
 while [ $i -lt 20 ]; do
     i=$((i + 1))
+    # `drawn` is null once only exits remain: an exit is AGENT-CHOSEN, never
+    # drawn, so the harness picks one the way an agent would.
     card=$($PY run_deck.py next --ledger "$LED" \
-           | $PY -c 'import json,sys;print(json.load(sys.stdin).get("drawn","DONE"))')
+           | $PY -c 'import json,sys
+d=json.load(sys.stdin)
+print(d.get("drawn") or (d.get("choose_an_exit") or ["DONE"])[0] if not d.get("done") else "DONE")')
     [ "$card" = DONE ] && break
     # fill every declared field with placeholder prose
     $PY - "$DECK" "$card" "$ART" <<'PYEOF'
@@ -73,10 +77,11 @@ PYEOF
 print(next((c.get("instrument") or "") for c in d["cards"] if c["id"]==sys.argv[2]))' \
         "$DECK" "$card")
     if [ -n "$inst" ]; then
-        $PY run_deck.py play --ledger "$LED" --artifact-file "$ART" \
-            --command "echo grounded-$card" >/dev/null 2>&1
+        $PY run_deck.py play --ledger "$LED" --card "$card" \
+            --artifact-file "$ART" --command "echo grounded-$card" >/dev/null 2>&1
     else
-        $PY run_deck.py play --ledger "$LED" --artifact-file "$ART" >/dev/null
+        $PY run_deck.py play --ledger "$LED" --card "$card" \
+            --artifact-file "$ART" >/dev/null
     fi
 done
 $PY run_deck.py verify --ledger "$LED" >/dev/null \
@@ -143,13 +148,21 @@ want_refused "--command supplied to a card that declares no instrument" \
     $PY run_deck.py play --ledger "$LED" --artifact-file "$ART" --command "true"
 echo
 
+want_refused "choosing an exit that has not been earned" \
+    $PY run_deck.py play --ledger "$LED" --card close --artifact-file "$ART"
+echo
+
 echo "=== tamper (the ledger is edited behind the runner's back) ==="
 $PY run_deck.py init --deck "$DECK" --seed 91137 --ledger "$LED" >/dev/null
 i=0
 while [ $i -lt 20 ]; do
     i=$((i + 1))
+    # `drawn` is null once only exits remain: an exit is AGENT-CHOSEN, never
+    # drawn, so the harness picks one the way an agent would.
     card=$($PY run_deck.py next --ledger "$LED" \
-           | $PY -c 'import json,sys;print(json.load(sys.stdin).get("drawn","DONE"))')
+           | $PY -c 'import json,sys
+d=json.load(sys.stdin)
+print(d.get("drawn") or (d.get("choose_an_exit") or ["DONE"])[0] if not d.get("done") else "DONE")')
     [ "$card" = DONE ] && break
     $PY - "$DECK" "$card" "$ART" <<'PYEOF'
 import json,sys
@@ -164,10 +177,11 @@ PYEOF
 print(next((c.get("instrument") or "") for c in d["cards"] if c["id"]==sys.argv[2]))' \
         "$DECK" "$card")
     if [ -n "$inst" ]; then
-        $PY run_deck.py play --ledger "$LED" --artifact-file "$ART" \
-            --command "echo grounded-$card" >/dev/null 2>&1
+        $PY run_deck.py play --ledger "$LED" --card "$card" \
+            --artifact-file "$ART" --command "echo grounded-$card" >/dev/null 2>&1
     else
-        $PY run_deck.py play --ledger "$LED" --artifact-file "$ART" >/dev/null
+        $PY run_deck.py play --ledger "$LED" --card "$card" \
+            --artifact-file "$ART" >/dev/null
     fi
 done
 

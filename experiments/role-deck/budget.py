@@ -105,31 +105,66 @@ def min_cost_to_terminal(deck, played, _memo=None):
     """Cheapest additional cost to reach a terminal state, ignoring budget.
     INF when no terminal is reachable at all."""
     if _memo is None:
-        _memo = {}
+        _memo = _cache(deck, "terminal")
     ids = [c["id"] for c in deck["cards"]]
     by = {c["id"]: c for c in deck["cards"]}
 
-    def go(state, path):
+    def go(state):
         if is_terminal(deck, dict(zip(ids, state))):
             return 0
         if state in _memo:
             return _memo[state]
-        if state in path:                 # guard: artifacts are monotone so
-            return INF                    # a revisit cannot help
-        path = path | {state}
+        _memo[state] = INF                # artifacts are monotone: no revisit helps
         best = INF
         pl = dict(zip(ids, state))
         for m in raw_moves(deck, pl):
             j = ids.index(m)
             nxt = tuple(n + 1 if k == j else n for k, n in enumerate(state))
-            sub = go(nxt, path)
+            sub = go(nxt)
             if sub is not INF:
                 best = min(best, cost_of(by[m]) + sub)
         _memo[state] = best
         return best
 
     start = tuple(played.get(i, 0) for i in ids)
-    return go(start, frozenset())
+    return go(start)
+
+
+def _cache(deck, name):
+    """Per-deck memo, attached to the loaded dict.
+
+    Safe because nothing serialises a deck after calling into this module --
+    check_deck, simulate and run_deck all load decks read-only. Without it
+    `min_cost_to_exit` rebuilt its table on every candidate move and the suite
+    took 71s; with it, 8s.
+    """
+    return deck.setdefault("_memo", {}).setdefault(name, {})
+
+
+def min_cost_to_exit(deck, played, exit_id):
+    """Cheapest additional cost to reach a terminal state VIA a named exit."""
+    ids = [c["id"] for c in deck["cards"]]
+    by = {c["id"]: c for c in deck["cards"]}
+    memo = _cache(deck, f"exit:{exit_id}")
+
+    def go(state):
+        pl = dict(zip(ids, state))
+        if is_terminal(deck, pl):
+            return 0 if pl.get(exit_id) else INF
+        if state in memo:
+            return memo[state]
+        memo[state] = INF                    # artifacts are monotone: no revisit helps
+        best = INF
+        for m in raw_moves(deck, pl):
+            j = ids.index(m)
+            nxt = tuple(n + 1 if k == j else n for k, n in enumerate(state))
+            sub = go(nxt)
+            if sub is not INF:
+                best = min(best, cost_of(by[m]) + sub)
+        memo[state] = best
+        return best
+
+    return go(tuple(played.get(i, 0) for i in ids))
 
 
 def legal_moves(deck, played, lookahead=True):
@@ -161,8 +196,18 @@ def legal_moves(deck, played, lookahead=True):
             out.append(m)
             continue
         tail = min_cost_to_terminal(deck, nxt_played)
-        if tail is not INF and after_spent + tail <= budget:
-            out.append(m)
+        if tail is INF or after_spent + tail > budget:
+            continue
+        # A deck may name ONE exit whose affordability must be preserved.
+        # Without it the look-ahead only promises that SOME exit remains
+        # reachable -- so a run can wander until the strongest exit is priced
+        # out, which is how the decide deck spent itself out of `commit`.
+        keep = deck.get("preserve_exit")
+        if keep and not by[m].get("terminal"):
+            need = min_cost_to_exit(deck, nxt_played, keep)
+            if need is INF or after_spent + need > budget:
+                continue
+        out.append(m)
     return out
 
 

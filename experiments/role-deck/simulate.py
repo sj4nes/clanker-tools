@@ -16,7 +16,9 @@ declared weights rather than merely being deterministic.
 Sections:
   1. exact enumeration     paths, and the probability mass (must be 1)
   2. process cost          distribution of length and spend
-  3. per-card frequency    P(played at all), expected plays per run
+  3. per-card frequency    P(played at all), expected plays per run. Terminal
+                           rows assume a uniform agent -- the runner lets the
+                           agent choose its exit, so those are not deck facts.
   4. ordering              P(A before B) for every card pair that co-occurs
   5. assertions            the deck's declared `expected_order`, verified
   6. cross-check           exact vs the real die over N sampled seeds
@@ -126,7 +128,14 @@ def main(path, trials):
     for c in deck["cards"]:
         cid = c["id"]
         flag = ""
-        if atleast[cid] < 0.05:
+        if c.get("terminal"):
+            # The runner does NOT draw exits -- the agent chooses among the ones
+            # it has earned. These frequencies therefore describe a hypothetical
+            # uniform agent, not the deck. Read them as "how often this exit was
+            # AVAILABLE and taken by a coin flip", never as a property of the
+            # process.
+            flag = "   <- exit: AGENT-CHOSEN, not drawn"
+        elif atleast[cid] < 0.05:
             flag = "   <- almost never played"
         elif atleast[cid] > 0.999:
             flag = "   (every run)"
@@ -198,15 +207,42 @@ def main(path, trials):
         s = sample_path(deck, rng.randrange(1, 2**31))
         if s is not None:
             seen[s] += 1
-    tv = 0.5 * sum(abs(seen[s] / trials - exact.get(s, 0.0))
-                   for s in set(seen) | set(exact))
+    # Total-variation distance over PATHS is only meaningful when the sample
+    # can populate the path space. decide has 25,767 paths; at 3,000 draws most
+    # paths are seen 0 or 1 times and TV is large no matter how good the die is.
+    # The first version of this check fired on decide for exactly that reason --
+    # a gate that trips on deck SIZE rather than on a defect. When the space is
+    # too big, compare MARGINALS instead, which do converge at this sample size.
     samp_len = sum(len(s) * n for s, n in seen.items()) / max(1, sum(seen.values()))
     print(f"   distinct paths seen: {len(seen)} of {len(paths)}")
     print(f"   mean length: exact {exp_len:.3f}, sampled {samp_len:.3f}")
-    print(f"   total-variation distance: {tv:.4f}")
-    if tv > 0.15:
-        print(f"*** FAIL [die] the real die's path distribution is far from uniform "
-              f"(TV {tv:.3f}) -- the exact model does not describe it")
+    if trials >= 10 * len(paths):
+        tv = 0.5 * sum(abs(seen[s] / trials - exact.get(s, 0.0))
+                       for s in set(seen) | set(exact))
+        print(f"   total-variation distance over paths: {tv:.4f}")
+        bad = tv > 0.15
+        detail = f"TV {tv:.3f}"
+    else:
+        # per-card expected plays, exact vs sampled
+        samp_exp = defaultdict(float)
+        for sq, n in seen.items():
+            for cid in sq:
+                samp_exp[cid] += n / max(1, sum(seen.values()))
+        worst_card, worst = None, 0.0
+        for c in deck["cards"]:
+            cid = c["id"]
+            gap = abs(samp_exp[cid] - expect[cid])
+            if gap > worst:
+                worst_card, worst = cid, gap
+        print(f"   path space too large for TV at {trials} draws "
+              f"({len(paths)} paths); comparing marginals instead")
+        print(f"   largest per-card gap in E[plays]: {worst_card} "
+              f"{worst:.4f}  (mean-length gap {abs(samp_len-exp_len):.4f})")
+        bad = worst > 0.08 or abs(samp_len - exp_len) > 0.25
+        detail = f"worst card gap {worst:.3f}"
+    if bad:
+        print(f"*** FAIL [die] the real die departs from the declared weights "
+              f"({detail})")
         FAILS.append("die")
     else:
         print(f"   ok: the hash die tracks the weighted model within sampling error")

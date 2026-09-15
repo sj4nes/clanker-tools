@@ -111,14 +111,41 @@ def rerolls_spent(led):
     return sum(p.get("rerolls", 0) for p in led["plays"]) + led.get("pending_rerolls", 0)
 
 
+def by_id_terminal(deck, card_id):
+    return bool({c["id"]: c for c in deck["cards"]}[card_id].get("terminal"))
+
+
+def legal_exits(deck, counts):
+    """Terminal cards currently legal.
+
+    The die decides WHAT WORK TO DO NEXT. It must never decide WHAT THE ANSWER
+    IS. Committing, deferring and dropping are not interchangeable moves -- they
+    are the output the whole process exists to produce, and which one is right
+    depends on what the analysis found, which is exactly what a state-independent
+    draw cannot see.
+
+    So terminal cards are AGENT-CHOSEN, not drawn. This does not reopen the
+    route-around-the-caution-hat problem: `coverage` already guarantees each
+    exit's preconditions, so the agent may only choose among exits it has
+    actually earned. Only the conclusion is free.
+    """
+    by = {c["id"]: c for c in deck["cards"]}
+    return sorted(m for m in B.legal_moves(deck, counts, lookahead=True)
+                  if by[m].get("terminal"))
+
+
 def current_draw(deck, led):
     st = state_of(deck, led)
     if st["terminal"]:
         return None, st
     counts = played_counts(deck, led)
-    w = B.weights_for(deck, counts, sorted(st["legal"]))
+    by = {c["id"]: c for c in deck["cards"]}
+    work = sorted(m for m in st["legal"] if not by[m].get("terminal"))
+    if not work:
+        return None, st                     # only exits remain; the agent chooses
+    w = B.weights_for(deck, counts, work)
     return draw(led["seed"], st["step"], led.get("pending_rerolls", 0),
-                st["legal"], w), st
+                work, w), st
 
 
 # ---------------------------------------------------------------- instruments
@@ -248,11 +275,25 @@ def cmd_next(a):
                           "spent": st["spent"]}, indent=2))
         return 0
     by = {c["id"]: c for c in deck["cards"]}
+    exits = legal_exits(deck, played_counts(deck, led))
+    if card is None:
+        print(json.dumps({
+            "step": st["step"],
+            "drawn": None,
+            "choose_an_exit": exits,
+            "note": "no work remains; pick an exit you have earned",
+            "exit_fields": {e: deck["artifacts"][by[e]["produces"]]["fields"]
+                            for e in exits},
+        }, indent=2))
+        return 0
     c = by[card]
     atype = c["produces"]
     print(json.dumps({
         "step": st["step"],
         "drawn": card,
+        "choose_an_exit": exits,
+        "exit_note": ("an exit is agent-chosen, never drawn: play --card <exit>"
+                      if exits else None),
         "role": c["role"],
         "brief": c["brief"],
         "instrument": c.get("instrument"),
@@ -274,9 +315,19 @@ def cmd_play(a):
     if st["terminal"]:
         print("*** run is already complete", file=sys.stderr)
         return 1
+    exits = legal_exits(deck, played_counts(deck, led))
     if a.card and a.card != card:
-        print(f"*** refused: the die drew '{card}', not '{a.card}'. "
-              f"Spend a reroll if you want a different move.", file=sys.stderr)
+        if a.card in exits:
+            card = a.card                   # an earned exit is the agent's call
+        else:
+            print(f"*** refused: the die drew '{card}', not '{a.card}'. "
+                  f"Legal exits you could choose instead: {exits or 'none'}. "
+                  f"Spend a reroll if you want a different work card.",
+                  file=sys.stderr)
+            return 1
+    if card is None:
+        print(f"*** refused: no work remains. Choose an exit with "
+              f"--card: {exits}", file=sys.stderr)
         return 1
     try:
         artifact = json.loads(a.artifact) if a.artifact else load(a.artifact_file)
@@ -310,8 +361,12 @@ def cmd_play(a):
               f"so --command is not accepted", file=sys.stderr)
         return 1
 
+    is_exit = card in exits
     led["plays"].append({
-        "n": st["step"], "drawn": card, "played": card,
+        "n": st["step"],
+        "drawn": None if is_exit else card,     # an exit was never drawn
+        "chosen_exit": is_exit,
+        "played": card,
         "rerolls": led.get("pending_rerolls", 0),
         "artifact": artifact,
         "instrument": block,
@@ -365,13 +420,30 @@ def cmd_verify(a):
             break
         if p.get("n") != st["step"]:
             problems.append(f"play {i} claims step {p.get('n')}, replay is at {st['step']}")
-        rw = B.weights_for(deck, played_counts(deck, replay), sorted(st["legal"]))
-        expect = draw(led["seed"], st["step"], p.get("rerolls", 0), st["legal"], rw)
-        if p.get("drawn") != expect:
-            problems.append(f"play {i}: ledger says the die drew '{p.get('drawn')}', "
-                            f"replay says '{expect}' -- the draw does not reproduce")
-        if p["played"] != p.get("drawn"):
-            problems.append(f"play {i}: played '{p['played']}' but drew '{p.get('drawn')}'")
+        counts_now = played_counts(deck, replay)
+        exits_now = legal_exits(deck, counts_now)
+        if p.get("chosen_exit"):
+            # An exit is the agent's call, so there is no draw to reproduce --
+            # but it must have been an exit the agent had actually EARNED.
+            if p["played"] not in exits_now:
+                problems.append(f"play {i}: '{p['played']}' was recorded as a chosen "
+                                f"exit but was not a legal exit "
+                                f"(legal exits were {exits_now})")
+            if p.get("drawn") is not None:
+                problems.append(f"play {i}: a chosen exit must record no draw, "
+                                f"ledger has drawn='{p.get('drawn')}'")
+        else:
+            work = sorted(m for m in st["legal"]
+                          if not by_id_terminal(deck, m))
+            rw = B.weights_for(deck, counts_now, work)
+            expect = draw(led["seed"], st["step"], p.get("rerolls", 0), work, rw)
+            if p.get("drawn") != expect:
+                problems.append(f"play {i}: ledger says the die drew "
+                                f"'{p.get('drawn')}', replay says '{expect}' "
+                                f"-- the draw does not reproduce")
+            if p["played"] != p.get("drawn"):
+                problems.append(f"play {i}: played '{p['played']}' but drew "
+                                f"'{p.get('drawn')}'")
         if p["played"] not in st["legal"]:
             problems.append(f"play {i}: '{p['played']}' was not a legal move "
                             f"(legal were {st['legal']})")

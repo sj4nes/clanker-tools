@@ -15,6 +15,7 @@ Not a skill yet: no `SKILL.md`, deliberately outside `skills/` so
 | `mutation-check.sh` | plants one defect per gate and asserts each is caught |
 | `run_deck.py` | the runner: external draw, artifact validation, append-only ledger, replay-based `verify` |
 | `runner-check.sh` | eight refusals and ten ledger-tamper cases, all asserted caught |
+| `decks/decide.json` | the second deck, chosen because diagnose exercises none of: optional hats, multiple terminals, ordering freedom |
 | `simulate.py` | what the deck actually generates: every complete path with its exact probability, plus the declared orderings verified |
 
 A deck is a bounded state machine: state is the multiset of cards played, a
@@ -255,6 +256,69 @@ than a second round of evidence-gathering, because it can separate hypotheses
 the first test left tied. Expected spend 10.84, and P(a minimal run) rises from
 0.3% to 2.1%.
 
+## The decide deck, and what a second deck was for
+
+`diagnose` exercises one capability: multiplicity. All eight cards play in
+100% of runs, there is one terminal, and since v0.6.0 every ordering is forced.
+`decide` was chosen to hit the three untested ones — optional hats, multiple
+exits, ordering freedom — and it broke something on each.
+
+**Finding 10: multiple terminals make orphaning easy.** The naive v0.1.0 had
+*three* decorative hats (WHITE, GREEN and EXECUTE all produced artifacts
+nothing consumed) and a floor of **5**: `frame → criteria → steelman → attack →
+defer`. You could defer a decision having gathered no evidence, considered no
+alternatives and run no probe. With one exit, the precedence chain to the
+terminal pulls most cards in behind it; with three, **only the shortest exit's
+requirements bind**, and everything else floats free.
+
+The fix made each exit earn its own preconditions, which forced a machinery
+change: **`coverage` had to become per-terminal.** You cannot commit without
+wearing BLACK, but you can legitimately drop a decision without ever running a
+probe. A single global requirement makes every exit as heavy as the heaviest,
+which is how a `defer` card ends up demanding an experiment. `required_roles`
+now accepts a map from exit to its own list; the list form still means "all
+exits", so diagnose is unchanged.
+
+Two of the fixes are substantive claims about deciding, now expressible:
+you may not say *"none of these work"* without having tried to invent one that
+does (`drop` requires GREEN's alternative), and you may not commit over a
+disputed fact the attack turned up (`commit` requires the probe result).
+
+**Finding 11: the die must never choose the answer.** v0.2.0 committed in only
+**14.5%** of runs — a magic 8-ball that says "ask again later" 85% of the time.
+Weighting `commit` up to 8 only reached 26.4%, because `defer` and `drop`
+become legal the moment `attack` lands while `commit` needs one more card: the
+die ends the run before committing is even an option.
+
+But the real error was upstream. Exits are not interchangeable moves — they are
+the **output the process exists to produce**, and which one is right depends on
+what the analysis found, which is exactly what a state-independent draw cannot
+see. So terminal cards are now **agent-chosen, never drawn**. This does not
+reopen the route-around-the-caution-hat problem, because `coverage` already
+guarantees each exit's preconditions: the agent may only choose among exits it
+has *earned*. The die decides what work to do next; only the conclusion is free.
+
+The simulator's exit rows are now labelled `AGENT-CHOSEN, not drawn`, because
+those percentages describe a hypothetical uniform agent and are not facts about
+the deck.
+
+**Finding 12: the look-ahead preserves *an* exit, not *your* exit.** A real
+playthrough spent 10 of 12 on repeats and arrived with `commit` priced out —
+probe costs 2, and 2 remained. Not a strand: `defer` and `drop` were still
+reachable, so every gate was satisfied. The die had simply spent the run out of
+its best ending. A deck may now name `preserve_exit`, and legality additionally
+requires that exit to stay affordable. On decide it cut the space from 149
+states / 25,767 paths to **88 / 4,613**, and `commit` is affordable from every
+reachable state.
+
+**Finding 13: a cross-check that trips on size is not a check.** The
+exact-vs-die comparison used total-variation distance over paths, and fired on
+decide at TV 0.557 — not because the die was biased but because 25,767 paths
+cannot be populated by 3,000 draws. TV is the wrong statistic when paths ≫
+samples. It now compares **marginals** (mean length, per-card expected plays)
+below that threshold: largest per-card gap 0.014. The die was always fine; the
+gate was measuring deck size.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -276,9 +340,21 @@ the first test left tied. Expected spend 10.84, and P(a minimal run) rises from
   quality, one level down, and it is where the human stays.
 - **The runner executes what it is given**, with `shell=True` and a timeout.
   Fine for a local tool whose deck and operator you trust; it is not a sandbox.
-- **One deck.** Every finding here is from `diagnose`. The four other goal
-  shapes from the design sketch (decide, build, invent, improve) are unwritten,
-  and `invent` is the one most likely to break these assumptions.
+- **Two decks.** `build` would likely be *more* forced than diagnose and test
+  little. `invent` needs a legality primitive we do not have: every predicate
+  here is artifact-based, and invent's terminal condition is a judgement
+  (*"good enough"*), not a precondition. `improve` is the one shape this
+  machinery structurally **cannot** express — L5 means the process revises
+  itself, and every gate assumes the deck is fixed for the duration of a run.
+- **Cards do not know about options.** "Steelman and attack each option at
+  matched depth" is a symmetry constraint over a variable-length list, and
+  there is no way to say *play this once per option*. It stays a human check.
+- **Conditional requirements are inexpressible.** `commit` requires a probe
+  result unconditionally, though not every attack raises a disputed fact worth
+  probing. There is no *"required only if"*.
+- **The suite is 34s**, over the repo's seconds-not-minutes bar. Most of it is
+  process spawn across ~80 python invocations in the mutation harnesses; user
+  time is 10s.
 - **Weights are state-independent.** `weight * decay^plays` depends only on how
   often a card has been played, not on what else is in the artifact set. A card
   cannot become more attractive *because* a particular result came back — which

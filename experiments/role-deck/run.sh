@@ -7,6 +7,10 @@ python3 check_deck.py decks/diagnose.json
 echo
 python3 simulate.py decks/diagnose.json 2000
 echo
+python3 check_deck.py decks/decide.json
+echo
+python3 simulate.py decks/decide.json 800
+echo
 sh mutation-check.sh
 echo
 sh runner-check.sh

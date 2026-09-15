@@ -1,0 +1,269 @@
+{
+  "deck": "decide",
+  "version": "0.4.0",
+  "goal_shape": "Several options are on the table and one of them has to be chosen, deferred, or refused.",
+  "_note": "Hand-written first. v0.1.0 had THREE decorative hats and a floor of 5 that let you defer having gathered nothing. v0.2.0 gave each exit its own requirements, which forced `coverage` to become per-terminal. v0.3.0 made YELLOW wait for the evidence, and made the exits AGENT-CHOSEN rather than drawn -- the die decides what work to do next, never what the answer is. v0.4.0 preserves the affordability of `commit`: without it the die spends the budget on repeats and prices the strongest exit out of reach. See FINDINGS.md.",
+  "instrument_kinds": [
+    "retrieval",
+    "execution"
+  ],
+  "instrumented_roles": [
+    "WHITE",
+    "EXECUTE"
+  ],
+  "required_roles": {
+    "commit": [
+      "WHITE",
+      "RED",
+      "GREEN",
+      "YELLOW",
+      "BLACK",
+      "EXECUTE"
+    ],
+    "defer": [
+      "WHITE",
+      "YELLOW",
+      "BLACK"
+    ],
+    "drop": [
+      "WHITE",
+      "GREEN",
+      "YELLOW",
+      "BLACK"
+    ]
+  },
+  "budget": 12,
+  "repeat_decay": 0.5,
+  "artifacts": {
+    "decision": {
+      "fields": [
+        "question",
+        "options",
+        "reversibility",
+        "deadline"
+      ]
+    },
+    "criteria": {
+      "fields": [
+        "dimensions",
+        "tiebreak"
+      ]
+    },
+    "hunch": {
+      "fields": [
+        "gut_favourite"
+      ]
+    },
+    "evidence": {
+      "fields": [
+        "observations",
+        "provenance"
+      ]
+    },
+    "alternative": {
+      "fields": [
+        "new_option",
+        "why_it_was_missed"
+      ]
+    },
+    "support": {
+      "fields": [
+        "steelman"
+      ]
+    },
+    "faults": {
+      "fields": [
+        "attack"
+      ]
+    },
+    "probe_result": {
+      "fields": [
+        "observed"
+      ]
+    },
+    "commitment": {
+      "fields": [
+        "chosen",
+        "because",
+        "revisit_when"
+      ]
+    },
+    "deferral": {
+      "fields": [
+        "what_would_change_my_mind",
+        "by_when"
+      ]
+    },
+    "withdrawal": {
+      "fields": [
+        "why_none_acceptable"
+      ]
+    }
+  },
+  "expected_order": [
+    [
+      "hunch",
+      "gather"
+    ],
+    [
+      "hunch",
+      "steelman"
+    ],
+    [
+      "hunch",
+      "attack"
+    ],
+    [
+      "criteria",
+      "steelman"
+    ],
+    [
+      "gather",
+      "steelman"
+    ],
+    [
+      "steelman",
+      "attack"
+    ],
+    [
+      "gather",
+      "attack"
+    ]
+  ],
+  "cards": [
+    {
+      "id": "frame",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [],
+      "produces": "decision",
+      "instrument": null,
+      "brief": "The question, the options on the table, how reversible the choice is, and when it must be made."
+    },
+    {
+      "id": "criteria",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [
+        "decision"
+      ],
+      "produces": "criteria",
+      "instrument": null,
+      "brief": "What would make one option better, and how a tie is broken. Written BEFORE the options are examined."
+    },
+    {
+      "id": "hunch",
+      "role": "RED",
+      "copies": 1,
+      "requires": [
+        "decision"
+      ],
+      "produces": "hunch",
+      "instrument": null,
+      "brief": "Which option you already want, in one line, deliberately WITHOUT justification."
+    },
+    {
+      "id": "gather",
+      "role": "WHITE",
+      "copies": 2,
+      "requires": [
+        "decision",
+        "hunch"
+      ],
+      "produces": "evidence",
+      "instrument": "retrieval",
+      "brief": "Observations bearing on the options. No interpretation, no ranking."
+    },
+    {
+      "id": "alternatives",
+      "role": "GREEN",
+      "copies": 1,
+      "requires": [
+        "decision"
+      ],
+      "produces": "alternative",
+      "instrument": null,
+      "brief": "An option nobody put on the table, and why it was missed."
+    },
+    {
+      "id": "steelman",
+      "role": "YELLOW",
+      "copies": 2,
+      "requires": [
+        "criteria",
+        "evidence"
+      ],
+      "produces": "support",
+      "instrument": null,
+      "brief": "The strongest honest case FOR each option, against the criteria."
+    },
+    {
+      "id": "attack",
+      "role": "BLACK",
+      "copies": 2,
+      "requires": [
+        "support"
+      ],
+      "produces": "faults",
+      "instrument": null,
+      "brief": "The strongest honest case AGAINST each option, at the same depth as its steelman."
+    },
+    {
+      "id": "probe",
+      "role": "EXECUTE",
+      "copies": 1,
+      "cost": 2,
+      "requires": [
+        "faults"
+      ],
+      "produces": "probe_result",
+      "instrument": "execution",
+      "brief": "Resolve a disputed fact that the attack turned up. Costs 2: this hat spends real resources."
+    },
+    {
+      "id": "commit",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [
+        "faults",
+        "hunch",
+        "evidence",
+        "alternative",
+        "probe_result"
+      ],
+      "produces": "commitment",
+      "instrument": null,
+      "terminal": true,
+      "brief": "The option chosen, why, and when the choice gets revisited."
+    },
+    {
+      "id": "defer",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [
+        "faults",
+        "evidence",
+        "alternative"
+      ],
+      "produces": "deferral",
+      "instrument": null,
+      "terminal": true,
+      "brief": "Not yet: what specifically would change the answer, and by when."
+    },
+    {
+      "id": "drop",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [
+        "faults",
+        "evidence",
+        "alternative"
+      ],
+      "produces": "withdrawal",
+      "instrument": null,
+      "terminal": true,
+      "brief": "None of these are acceptable, and why the decision is being refused."
+    }
+  ],
+  "preserve_exit": "commit"
+}
