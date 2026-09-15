@@ -1,0 +1,164 @@
+{
+  "deck": "diagnose",
+  "deck_version": "0.7.0",
+  "deck_path": "decks/diagnose.json",
+  "seed": 20260915,
+  "rerolls_allowed": 2,
+  "pending_rerolls": 0,
+  "plays": [
+    {
+      "n": 1,
+      "drawn": "open",
+      "chosen_exit": false,
+      "played": "open",
+      "rerolls": 0,
+      "artifact": {
+        "scope": "StructOrder (~/work26/twim): the must-ship capability claims in design-artifacts/A-Product-Brief/project-brief.md, checked against what exists and is tested in core/ and app/. Excludes UI polish, infra, and anything the brief does not claim as must-ship.",
+        "symptom": "The brief carries its own Open Question for this round: 'Is the current mental model of what we provide users actually correct, or has it drifted from what has been built?' Two specific signals prompted it: 5-1 (assemble a Direction) is called the signature differentiator and sits in backlog, and 9-2 (in-draft drift warning) is backlog while compute-scene-drift.ts is implemented and tested.",
+        "stop_condition": "A per-capability inventory of the brief's must-ship claims, each marked built-and-tested / built-untested / partial / absent, sufficient to say which of the competing drift explanations holds and therefore what this round should target."
+      },
+      "instrument": null
+    },
+    {
+      "n": 2,
+      "drawn": "hunch",
+      "chosen_exit": false,
+      "played": "hunch",
+      "rerolls": 0,
+      "artifact": {
+        "gut_call": "The build is ahead of the brief on infrastructure and behind it on the signature feature: plumbing (graph, schema, manuscript, subscription) is further along than the brief implies, while the Direction assembly that the brief calls the differentiator is barely started."
+      },
+      "instrument": null
+    },
+    {
+      "n": 3,
+      "drawn": "gather",
+      "chosen_exit": false,
+      "played": "gather",
+      "rerolls": 0,
+      "artifact": {
+        "observations": "Retrieved the brief's Current Build State block and the sprint status file, which is what the brief's claims are indexed against. Recording status labels verbatim, no interpretation: the captured output is the evidence.",
+        "provenance": "design-artifacts/A-Product-Brief/project-brief.md and _bmad-output/sprint-status.yaml in ~/work26/twim, read at HEAD (last commit 2026-09-07)."
+      },
+      "instrument": {
+        "kind": "retrieval",
+        "command": "cd ~/work26/twim && sed -n '/## Current Build State/,/## This Round/p' design-artifacts/A-Product-Brief/project-brief.md | grep -E '^- ' | head -30",
+        "exit": 0,
+        "output": "- Epic 0 (design tokens, component library, accessibility, microcopy) \u2014 **done**\n- Epic 1 (auth, trial, Stripe subscription, lapsed-subscription handling) \u2014 **done**, except plan/payment management (1-4, backlog) and first-scene onboarding (1-6, in review)\n- Epic 2 (entity types, Spacetime DAG, deletion, conditions) \u2014 **done**\n- Epic 3 (chapters/scenes, sandwich editor, mentions, prose variants, crash recovery) \u2014 **done**\n- Epic 8 (Draft/Plan/Audit modes, saved layouts, command palette) \u2014 **done**\n- **4-1 \u2014 compile/export to EPUB and Markdown** (must-ship, backlog)\n- **5-1 \u2014 assemble a Direction** (must-ship, the signature differentiator, backlog)\n- **Epic 6 \u2014 corkboard (6-1) and graph canvas (6-2)** \u2014 backlog; this round's focus (see below)\n- 9-2 (in-draft drift warning) and 9-3 (chronology timeline view) \u2014 backlog\n- 7-3 (continuity audit findings as task list) \u2014 in review\n",
+        "output_sha256": "d849420adff69d83c888e9d1acc4cf419aa3c803eb35f8bc802a9e8ff8485cdb",
+        "truncated": false,
+        "elapsed_s": 0.01
+      }
+    },
+    {
+      "n": 4,
+      "drawn": "gather",
+      "chosen_exit": false,
+      "played": "gather",
+      "rerolls": 0,
+      "artifact": {
+        "observations": "The claim side is recorded. This retrieves the implementation side for the four capabilities the brief names as must-ship or signature: Direction assembly (5-1), compile/export (4-1), in-draft drift warning (9-2), continuity audit findings (7-3). Counting source files and test files for each, so 'absent' and 'built but untested' are distinguishable rather than conflated.",
+        "provenance": "core/ and app/ in ~/work26/twim at HEAD; file counts and test counts per capability keyword, node_modules and _bmad excluded."
+      },
+      "instrument": {
+        "kind": "retrieval",
+        "command": "cd ~/work26/twim && for k in direction compile export drift audit; do src=$(find core app -iname \"*$k*\" -name '*.ts*' 2>/dev/null | grep -v node_modules | grep -v '.test.' | wc -l); tst=$(find core app -iname \"*$k*\" -name '*.test.ts*' 2>/dev/null | grep -v node_modules | wc -l); echo \"$k: src=$src test=$tst\"; done; echo '--- direction files ---'; find core app -ipath '*direction*' -name '*.ts*' 2>/dev/null | grep -v node_modules | head -12",
+        "exit": 0,
+        "output": "direction: src=       6 test=       2\ncompile: src=       1 test=       1\nexport: src=       1 test=       1\ndrift: src=       1 test=       1\naudit: src=       2 test=       2\n--- direction files ---\ncore/manuscript/copy-open-loop-direction.test.ts\ncore/manuscript/copy-open-loop-direction.ts\ncore/schema/direction.ts\ncore/direction/directive-catalog.test.ts\ncore/direction/directive-catalog.ts\ncore/direction/direction-builder.ts\ncore/direction/direction-builder.test.ts\ncore/direction/assemble-direction.ts\ncore/direction/request-identifier.ts\ncore/direction/request-identifier.test.ts\napp/actions/accept-direction-paste.ts\napp/actions/direction.ts\n",
+        "output_sha256": "3e7640e49fc38eace4ecf4bc48de898f6a03995071812e2199321c3916a73881",
+        "truncated": false,
+        "elapsed_s": 0.086
+      }
+    },
+    {
+      "n": 5,
+      "drawn": "hypothesize",
+      "chosen_exit": false,
+      "played": "hypothesize",
+      "rerolls": 0,
+      "artifact": {
+        "candidates": [
+          "H1 STATUS LAG: the build is ahead of the brief. 5-1 was substantially implemented after the brief's snapshot (2026-07-28) and the status labels were never updated, so 'backlog' describes the tracker rather than the code. Predicts direction/ files postdate the brief snapshot and carry real logic and tests.",
+          "H2 SCAFFOLD ILLUSION: the direction/ files exist as stubs, types or scaffolding rather than a working assembler. 'backlog' is accurate about capability and the file count is misleading. Predicts thin files, few assertions, or an assembler that throws/returns placeholder.",
+          "H3 DEFINITIONAL GAP: the code implements a NARROWER 'Direction' than the brief means. The brief's Direction is a canon-aware instruction package built from the entity graph; the code may assemble a directive from a catalog without pulling canon. Predicts assemble-direction.ts does not read the entity graph or manuscript canon.",
+          "H4 SURFACING GAP: the assembler works and is tested, but nothing in app/ reaches it from a user-facing path, so the capability exists in core and is unreachable in the product. Predicts app actions exist but no route, page or command palette entry invokes them."
+        ]
+      },
+      "instrument": null
+    },
+    {
+      "n": 6,
+      "drawn": "support",
+      "chosen_exit": false,
+      "played": "support",
+      "rerolls": 0,
+      "artifact": {
+        "explains": "H1 status lag explains the file inventory best on current evidence: six source files plus two tests under a dedicated core/direction/ module is not how an untouched backlog item looks, and the brief's own snapshot is dated 2026-07-28 while HEAD is 2026-09-07 -- six weeks in which the labels could go stale. It also explains why the founder wrote the Open Question at all: you write that when you suspect the map is behind the territory. H2 scaffold illusion explains the same file count with the opposite meaning and must be ruled out before H1 can be believed, because file existence is the weakest possible evidence of capability -- it is the same 'presence is not quality' trap the deck warns about. H3 definitional gap would explain a genuinely uncomfortable outcome: both the tracker AND the file count could be right while the product still cannot do what the brief promises, because 'Direction' in the code means something smaller than 'Direction' in the brief. H4 surfacing gap is the one with a precedent already in evidence: compute-scene-drift.ts is implemented and tested while 9-2 in-draft drift warning is backlog, which is exactly a working core with no user-facing surface -- so the same shape is demonstrably possible in this codebase and H4 cannot be dismissed as speculative."
+      },
+      "instrument": null
+    },
+    {
+      "n": 7,
+      "drawn": "falsify",
+      "chosen_exit": false,
+      "played": "falsify",
+      "rerolls": 0,
+      "artifact": {
+        "test": "Four measurements on core/direction/assemble-direction.ts in one pass, chosen because each hypothesis predicts a different combination: (a) line count and whether the exported assembler has a real body or a stub/throw; (b) its imports -- specifically whether it reaches entity/graph/canon modules, which is what makes a Direction canon-aware rather than a template fill; (c) the assertion count in its test file, distinguishing tested logic from a type-only shim; (d) whether any app/ route, page or command-palette entry transitively invokes it, distinguishing reachable from core-only. Plus git log dates on core/direction/ against the brief's 2026-07-28 snapshot.",
+        "predicted_outcomes": "H1 STATUS LAG: substantial body, canon imports present, real assertions, reachable from app, and commits AFTER 2026-07-28. H2 SCAFFOLD ILLUSION: thin body or throw, few/no assertions -- and then the file count meant nothing regardless of dates. H3 DEFINITIONAL GAP: substantial body and real assertions but NO imports of entity/graph/canon modules -- it assembles a directive from a catalog without pulling the world model, so the brief's promise is unmet even though the tracker and the code both look fine. H4 SURFACING GAP: substantial body, canon imports, real assertions, but NO app route reaches it -- the same shape already proven possible here by compute-scene-drift.ts with 9-2 in backlog. The four are mutually exclusive on this evidence, which is what makes it a discriminator rather than a confirmation."
+      },
+      "instrument": null
+    },
+    {
+      "n": 8,
+      "drawn": "run",
+      "chosen_exit": false,
+      "played": "run",
+      "rerolls": 0,
+      "artifact": {
+        "observed": "Ran the four-part discriminator plus the git dating. Recording exactly what the instrument returned; the interpretation belongs to the close-out, not here."
+      },
+      "instrument": {
+        "kind": "execution",
+        "command": "cd ~/work26/twim && echo '(a) SIZE'; wc -l core/direction/assemble-direction.ts; echo '(b) IMPORTS'; grep -E \"^import|from '\" core/direction/assemble-direction.ts | head -12; echo '(c) ASSERTIONS in tests'; grep -c 'expect(' core/direction/*.test.ts; echo '(d) REACHABILITY from app'; grep -rl 'assemble-direction\\|assembleDirection' app core --include='*.ts*' | grep -v node_modules | grep -v 'core/direction/'; echo '(e) DATES vs brief snapshot 2026-07-28'; git log --format='%ad' --date=short -- core/direction/ | sort -u | head -5",
+        "exit": 0,
+        "output": "(a) SIZE\n       7 core/direction/assemble-direction.ts\n(b) IMPORTS\n(c) ASSERTIONS in tests\ncore/direction/direction-builder.test.ts:29\ncore/direction/directive-catalog.test.ts:7\ncore/direction/request-identifier.test.ts:10\n(d) REACHABILITY from app\napp/actions/open-loop.ts\napp/actions/direction.ts\napp/api/direction/audit-direction/route.test.ts\napp/api/direction/audit-direction/route.ts\napp/api/direction/assemble/route.test.ts\napp/api/direction/assemble/route.ts\napp/api/direction/delivery/route.test.ts\napp/api/direction/delivery/route.ts\ncore/manuscript/copy-open-loop-direction.ts\n(e) DATES vs brief snapshot 2026-07-28\n2026-07-25\n2026-07-28\n2026-08-05\n2026-08-18\n2026-08-22\n",
+        "output_sha256": "e8596c4a5643abb3f275757e7b4eec013f3ee3bed384dec1046512d301ca4837",
+        "truncated": false,
+        "elapsed_s": 0.161
+      }
+    },
+    {
+      "n": 9,
+      "drawn": "falsify",
+      "chosen_exit": false,
+      "played": "falsify",
+      "rerolls": 1,
+      "artifact": {
+        "test": "Corrected discriminator for H3 (definitional gap), to be run next round: probe core/direction/direction-builder.ts -- the file carrying the 29 assertions -- not assemble-direction.ts, which measured 7 lines because it is a re-export barrel. Ask whether the builder imports from core/entity-types, core/graph or core/manuscript, i.e. whether a Direction is assembled FROM THE WORLD MODEL or merely from core/schema/directive-catalog.ts.",
+        "predicted_outcomes": "H3 HOLDS if direction-builder.ts imports only the directive catalog and schema: a Direction is then a template package, the brief's 'canon-aware instruction package' is unmet, and no status label anywhere is wrong -- the gap is in the definition, which is the most expensive kind to find late. H3 IS REFUTED if it imports entity/graph/manuscript modules, in which case H1 status lag is the whole story and the only corrective action is updating the tracker. This is recorded rather than executed: spend is 10 of budget 11, and running it costs 2."
+      },
+      "instrument": null
+    },
+    {
+      "n": 10,
+      "drawn": null,
+      "chosen_exit": true,
+      "played": "close",
+      "rerolls": 0,
+      "artifact": {
+        "conclusion": "H1 STATUS LAG holds for the Direction capability: the build is ahead of the brief, not behind it. 5-1 'assemble a Direction' is labelled backlog and called the signature differentiator, while core/direction/ carries 46 test assertions across three modules and three TESTED API routes (assemble, audit-direction, delivery), with commits running to 2026-08-22 -- six weeks past the brief's 2026-07-28 snapshot. The label describes the tracker, not the code. THE OPENING HUNCH WAS HALF WRONG: I predicted infrastructure ahead and the signature feature behind. Infrastructure ahead was right; 'behind on the signature feature' was wrong in the most useful way, because it was wrong about the thing the founder is most likely to be wrong about too. So the answer to the brief's Open Question is yes, the mental model has drifted -- but in the reassuring direction, and the corrective action is updating the tracker rather than building.",
+        "residual_uncertainty": "H3 DEFINITIONAL GAP IS UNRESOLVED, and it is the one that would matter. My discriminator probed assemble-direction.ts, which measured 7 lines with no imports -- it is a re-export barrel, not the implementation, so the import evidence that would settle H3 was never gathered. If a Direction is assembled only from core/schema/directive-catalog.ts and not from the entity graph, then every status label is accurate, the file count is real, and the brief's promise of a CANON-AWARE instruction package is still unmet -- the most expensive shape of gap because nothing in the tracker would show it. The corrected test is recorded in this run's second discriminator: probe direction-builder.ts for imports of core/entity-types, core/graph or core/manuscript. SCOPE ALSO EXCEEDED BUDGET: the opening question scoped a per-capability inventory across all must-ship claims, and 11 budget bought depth on Direction alone. 4-1 compile/export, 9-2 drift warning and 7-3 audit findings have only the single file-count datapoint from the second gather.",
+        "ranking": "H1 confirmed on direct evidence (assertions, tested routes, commit dates). H2 scaffold illusion refuted -- 46 assertions and three tested routes are not scaffolding. H4 surfacing gap refuted for Direction -- the API routes exist and are tested -- though the shape remains real elsewhere in this codebase, since compute-scene-drift.ts is implemented and tested while 9-2 sits in backlog. H3 not tested, and it is now the highest-value question in the round."
+      },
+      "instrument": null
+    }
+  ],
+  "reroll_log": [
+    {
+      "step": 9,
+      "away_from": "hypothesize",
+      "reason": "Four hypotheses already recorded and H2/H4 are refuted; a fifth explanation is not what is missing. The open gap is that my discriminator probed assemble-direction.ts, which turned out to be a 7-line barrel, so H3 (definitional gap) is unresolved for a reason of test design rather than evidence. Rerolling toward a card that can record a corrected discriminator."
+    }
+  ]
+}
