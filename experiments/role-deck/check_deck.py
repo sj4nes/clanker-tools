@@ -66,10 +66,32 @@ def gate_schema(deck):
 def gate_exclusivity(deck):
     """Hat bleed made mechanical: GREEN shipping a `ranking` field means BLACK
     already ran, silently."""
+    # An INDEX field is legitimately shared: `option` on both `support` and
+    # `faults` is the same coordinate on two artifacts, not one hat producing
+    # another's output. The exemption is narrow on purpose -- it covers exactly
+    # the field the deck declares as its option index, on artifacts whose
+    # producer is per_option, and nothing else.
+    src = B.option_source(deck)
+    idx = src.get("index_field") if src else None
+    per_option_arts = {c["produces"] for c in deck["cards"] if c.get("per_option")}
     owner = {}
     clash = False
+    # The exemption REMOVES the legitimate claims, so an illegitimate one would
+    # sit unopposed and collide with nothing. So the index field is also
+    # forbidden outright anywhere else -- without this, adding `option` to
+    # `evidence` passed cleanly.
+    if idx:
+        stray = sorted(a for a, sp in deck["artifacts"].items()
+                       if idx in sp["fields"] and a not in per_option_arts)
+        if stray:
+            fail("exclusivity",
+                 f"index field '{idx}' appears on {stray}, which no per-option "
+                 f"card produces -- the index is only meaningful per option")
+            clash = True
     for aname, spec in deck["artifacts"].items():
         for f in spec["fields"]:
+            if idx and f == idx and aname in per_option_arts:
+                continue
             if f in owner:
                 fail("exclusivity",
                      f"field '{f}' is claimed by both '{owner[f]}' and '{aname}' "
@@ -78,7 +100,9 @@ def gate_exclusivity(deck):
             else:
                 owner[f] = aname
     if not clash:
-        ok("exclusivity", f"{len(owner)} fields, each owned by exactly one artifact")
+        note = f" (+ index field '{idx}' shared by {sorted(per_option_arts)})" if idx else ""
+        ok("exclusivity",
+           f"{len(owner)} fields, each owned by exactly one artifact{note}")
 
 
 def gate_instrument_grounding(deck):
@@ -134,6 +158,62 @@ def gate_weights(deck):
         ok("weights", f"all positive; repeat_decay {decay}"
                       + (f"; re-weighted cards: {tuned}" if tuned else
                          "; no per-card weights"))
+
+
+def gate_options(deck):
+    """A per-option deck must be well formed at every option count it allows.
+
+    `option_source` names the field whose length sets how many copies a
+    per-option card gets. The bound is what keeps this checkable: the deck is
+    expanded once per count and every gate runs on each expansion."""
+    src = B.option_source(deck)
+    per = [c["id"] for c in deck["cards"] if c.get("per_option")]
+    alls = {r for c in deck["cards"] for r in c.get("requires_all", [])}
+    if not src:
+        if per or alls:
+            fail("options", f"cards use per_option/requires_all but the deck "
+                            f"declares no option_source")
+        else:
+            ok("options", "no per-option cards")
+        return
+    art = deck["artifacts"].get(src["artifact"])
+    if art is None or src["field"] not in art.get("fields", []):
+        fail("options", f"option_source names {src['artifact']}.{src['field']}, "
+                        f"which is not a declared field")
+        return
+    if not isinstance(src.get("max"), int) or src["max"] < 1:
+        fail("options", f"option_source needs an integer max >= 1 to stay checkable")
+        return
+    if not per:
+        fail("options", "an option_source is declared but no card is per_option")
+        return
+    producer = {c["produces"]: c["id"] for c in deck["cards"]}
+    for r in alls:
+        if r not in producer:
+            fail("options", f"requires_all names '{r}', which no card produces")
+            return
+        if not {c["id"] for c in deck["cards"]
+                if c["produces"] == r and c.get("per_option")}:
+            fail("options", f"requires_all names '{r}', but its producer "
+                            f"'{producer[r]}' is not per_option -- 'once per "
+                            f"option' is meaningless for a fixed-count card")
+            return
+    idx = src.get("index_field")
+    if not idx:
+        fail("options", "option_source needs an index_field: each per-option "
+                        "artifact must name which option it addresses, and that "
+                        "is what makes distinctness -- and therefore counting -- "
+                        "possible")
+        return
+    for cid in per:
+        art_name = {c["id"]: c["produces"] for c in deck["cards"]}[cid]
+        if idx not in deck["artifacts"][art_name]["fields"]:
+            fail("options", f"per-option card '{cid}' produces '{art_name}', which "
+                            f"does not declare the index field '{idx}'")
+            return
+    ok("options", f"option_source {src['artifact']}.{src['field']} (max "
+                  f"{src['max']}); index '{idx}'; per-option cards {per}; "
+                  f"requires_all {sorted(alls)}")
 
 
 def gate_conditions(deck):
@@ -391,6 +471,7 @@ def gate_no_orphans(deck):
     consumed = set()
     for c in deck["cards"]:
         consumed.update(c["requires"])
+        consumed.update(c.get("requires_all", []))
     # An artifact required only when a condition fires is still consumed --
     # `probe_result` is not decorative just because the probe is optional.
     for cond in B.conditions(deck):
@@ -416,6 +497,7 @@ def main(path):
     gate_exclusivity(deck)
     gate_instrument_grounding(deck)
     gate_weights(deck)
+    gate_options(deck)
     gate_conditions(deck)
     gate_acyclic(deck)
     if any(g in FAILS for g in ("schema", "acyclic")):
@@ -429,6 +511,13 @@ def main(path):
         print("\n*** budget is infeasible; skipping state-space gates")
         gate_no_orphans(deck)
     else:
+        counts_to_check = (range(1, B.max_options(deck) + 1)
+                           if B.option_source(deck) else [1])
+        worst = max(counts_to_check)
+        if B.option_source(deck):
+            print(f"    --  option counts to verify: "
+                  f"{list(counts_to_check)}; full detail at n={worst}")
+        deck = B.expand(deck, worst) if B.option_source(deck) else deck
         ids, seen, edges = B.explore(deck, lookahead=True)
         _, wall, _ = B.explore(deck, lookahead=False)
         pruned = len(wall) - len(seen)
@@ -442,6 +531,36 @@ def main(path):
         gate_terminal_live(deck, ids, edges)
         gate_coverage(deck, ids, edges)
         gate_no_orphans(deck)
+
+        # every other option count must pass the state-space gates too
+        if B.option_source(deck) and len(list(counts_to_check)) > 1:
+            before = len(FAILS)
+            quiet = []
+            import contextlib, io
+            for n in counts_to_check:
+                if n == worst:
+                    continue
+                dn = B.expand(deck, n)
+                idn, seenn, edgn = B.explore(dn, lookahead=True)
+                mark = len(FAILS)
+                buf = io.StringIO()
+                with contextlib.redirect_stdout(buf):
+                    gate_reachable_cards(dn, idn, edgn)
+                    gate_no_deadlock(dn, idn, edgn)
+                    gate_terminal_live(dn, idn, edgn)
+                    gate_coverage(dn, idn, edgn)
+                if len(FAILS) > mark:        # only a failing count gets detail
+                    print(f"    -- at n={n}:")
+                    for line in buf.getvalue().splitlines():
+                        if line.startswith("***"):
+                            print(f"  {line}")
+                quiet.append((n, len(seenn), len(FAILS) - mark))
+            # collapse the per-n chatter into one line
+            print(f"    --  option-count sweep: " +
+                  ", ".join(f"n={n}:{st} states"
+                            + (f" ({f} FAIL)" if f else "") for n, st, f in quiet))
+            if len(FAILS) == before:
+                ok("options-sweep", "every option count passes the state-space gates")
 
     print()
     if FAILS:

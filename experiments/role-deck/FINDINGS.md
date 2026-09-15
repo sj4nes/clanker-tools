@@ -10,13 +10,13 @@ Not a skill yet: no `SKILL.md`, deliberately outside `skills/` so
 | File | What it is |
 |---|---|
 | `decks/diagnose.json` | the rulebook: artifact types with fields, cards (role, copies, requires, produces, instrument), required roles |
-| `check_deck.py` | thirteen static gates over the deck, by exhaustive state-space exploration |
+| `check_deck.py` | fourteen static gates over the deck, by exhaustive state-space exploration |
 | `budget.py` | the budget model, and why it enters through legality rather than as a wall |
 | `mutation-check.sh` | plants one defect per gate and asserts each is caught |
 | `run_deck.py` | the runner: external draw, artifact validation, append-only ledger, replay-based `verify` |
 | `runner-check.sh` | eight refusals and ten ledger-tamper cases, all asserted caught |
 | `decks/decide.json` | the second deck, chosen because diagnose exercises none of: optional hats, multiple terminals, ordering freedom |
-| `condition-check.py` | property test: `commit` is never offered over an unresolved disputed fact, driven by the real die |
+| `condition-check.py` | property tests driven by the real die: no commit over an unresolved disputed fact, and no commit/drop before every option has both a steelman and an attack |
 | `simulate.py` | what the deck actually generates: every complete path with its exact probability, plus the declared orderings verified |
 
 A deck is a bounded state machine: state is the multiset of cards played, a
@@ -373,6 +373,54 @@ and at the runner level, `condition-check.py` drives 300–400 real runs through
 the die and checks the invariant at every exit-decision point: 1218 points,
 **0 violations**.
 
+## Per-option cards and matched depth
+
+*"Steelman and attack each option at matched depth"* is a symmetry constraint
+over a list whose length is unknown until the run starts. It looked
+inexpressible. Two observations made it checkable:
+
+**Options are symmetric to the deck.** It does not care *which* option a
+steelman addresses, only that every option got one. So if the runner enforces
+that each per-option play names a **distinct** option, the static model needs
+only counts: *all options covered* reduces to `count(producer) >= n_options`.
+Distinctness at runtime is what buys countability at check time.
+
+**The list is bounded.** `option_source` declares a maximum, and the checker
+**expands the deck once per possible option count and runs every gate on
+each** — the same move as branching on a condition: enumerate the parameter
+rather than model it. decide verifies at n=1 (59 states), n=2 (135) and n=3
+(259).
+
+Matched depth is then just `commit` and `drop` declaring
+`requires_all: [support, faults]`. `defer` deliberately does not — the one
+exit that does not need every option examined, because "not yet" is a
+legitimate thing to say halfway through. And you may not **refuse** a field you
+have not examined, which is why `drop` carries the same burden as `commit`.
+
+**Finding 15: an exemption that removes the legitimate claims leaves the
+illegitimate one unopposed.** A per-option artifact needs an index field
+(`option`) naming which option it addresses, and two of them carrying the same
+field is not hat bleed — it is one coordinate on two artifacts. So
+`exclusivity` exempts the declared index field on per-option artifacts. That
+exemption *silently permitted* adding `option` to `evidence`: exempting
+`support` and `faults` meant nothing was left to collide with. The gate now
+also forbids the index field outright anywhere a per-option card does not
+produce. The planted mutation survived until it did.
+
+A run of three options, watched through the runner:
+
+    6. steelman  [opts left: buy,build,partner]
+    9. steelman  [opts left: build,partner]
+   10. steelman  [opts left: partner]
+   12. attack    [opts left: build,partner]
+   13. attack    [opts left: partner]
+       exits: commit,defer,drop
+
+`commit` appears only after the thirteenth play — the moment the last option
+has both. `condition-check.py` asserts that as a property over 300 die-driven
+runs: 1195 exit-decision points, 485 with commit or drop on offer,
+**0 violations**.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -400,16 +448,19 @@ the die and checks the invariant at every exit-decision point: 1218 points,
   (*"good enough"*), not a precondition. `improve` is the one shape this
   machinery structurally **cannot** express — L5 means the process revises
   itself, and every gate assumes the deck is fixed for the duration of a run.
-- **Cards do not know about options.** "Steelman and attack each option at
-  matched depth" is a symmetry constraint over a variable-length list, and
-  there is no way to say *play this once per option*. It stays a human check.
+- **Matched depth is matched COUNT, not matched effort.** The deck can require
+  every option to have a steelman and an attack. It cannot tell a two-line
+  attack from a page of one, which is the sense in which a steelman is usually
+  unfair. Field presence is not field quality, once more.
+- **One index only.** A card can be per-option; it cannot be per-option-per-
+  criterion. Nested indices are unmodelled.
 - **A condition is only as honest as the declaration.** Nothing verifies that
   `disputed_fact` is null *truthfully*. The gate moves the lie from silent to
   logged; it does not prevent it. That is the same boundary as "a command is
   not the right command", one level up.
 - **Conditions key on presence, not value.** `is the field non-null` is the
   only predicate. There is no *"if cost > X"* or comparison of any kind.
-- **The suite is 39s**, over the repo's seconds-not-minutes bar. Most of it is
+- **The suite is 43s**, over the repo's seconds-not-minutes bar. Most of it is
   process spawn across ~80 python invocations in the mutation harnesses; user
   time is 10s.
 - **Weights are state-independent.** `weight * decay^plays` depends only on how

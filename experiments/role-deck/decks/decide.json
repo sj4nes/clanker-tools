@@ -1,8 +1,8 @@
 {
   "deck": "decide",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "goal_shape": "Several options are on the table and one of them has to be chosen, deferred, or refused.",
-  "_note": "Hand-written first. v0.1.0 had THREE decorative hats and a floor of 5 that let you defer having gathered nothing. v0.2.0 gave each exit its own requirements, which forced `coverage` to become per-terminal. v0.3.0 made YELLOW wait for the evidence, and made the exits AGENT-CHOSEN rather than drawn -- the die decides what work to do next, never what the answer is. v0.4.0 preserves the affordability of `commit`: without it the die spends the budget on repeats and prices the strongest exit out of reach. v0.5.0 makes the probe CONDITIONAL on the attack declaring a disputed fact. See FINDINGS.md.",
+  "_note": "Hand-written first. v0.1.0 had THREE decorative hats and a floor of 5 that let you defer having gathered nothing. v0.2.0 gave each exit its own requirements, which forced `coverage` to become per-terminal. v0.3.0 made YELLOW wait for the evidence, and made the exits AGENT-CHOSEN rather than drawn -- the die decides what work to do next, never what the answer is. v0.4.0 preserves the affordability of `commit`: without it the die spends the budget on repeats and prices the strongest exit out of reach. v0.5.0 makes the probe CONDITIONAL on the attack declaring a disputed fact. v0.6.0 makes YELLOW and BLACK per-option and requires MATCHED DEPTH: commit and drop need every option steelmanned and attacked. See FINDINGS.md.",
   "instrument_kinds": [
     "retrieval",
     "execution"
@@ -31,7 +31,7 @@
       "BLACK"
     ]
   },
-  "budget": 12,
+  "budget": 15,
   "repeat_decay": 0.5,
   "artifacts": {
     "decision": {
@@ -67,11 +67,13 @@
     },
     "support": {
       "fields": [
+        "option",
         "steelman"
       ]
     },
     "faults": {
       "fields": [
+        "option",
         "attack",
         "disputed_fact"
       ],
@@ -191,25 +193,27 @@
     {
       "id": "steelman",
       "role": "YELLOW",
-      "copies": 2,
       "requires": [
         "criteria",
         "evidence"
       ],
       "produces": "support",
       "instrument": null,
-      "brief": "The strongest honest case FOR each option, against the criteria."
+      "brief": "The strongest honest case FOR ONE option, against the criteria. Name the option in `option`; each play must take a different one.",
+      "per_option": true,
+      "copies": 3
     },
     {
       "id": "attack",
       "role": "BLACK",
-      "copies": 2,
+      "copies": 3,
       "requires": [
         "support"
       ],
       "produces": "faults",
       "instrument": null,
-      "brief": "The strongest honest case AGAINST each option, at the same depth as its steelman. Set `disputed_fact` if resolving something would change the answer, else null -- that declaration gates the probe."
+      "brief": "The strongest honest case AGAINST ONE option, at the same depth as its steelman. Name the option; set `disputed_fact` if resolving something would change the answer, else null.",
+      "per_option": true
     },
     {
       "id": "probe",
@@ -236,7 +240,11 @@
       "produces": "commitment",
       "instrument": null,
       "terminal": true,
-      "brief": "The option chosen, why, and when the choice gets revisited."
+      "brief": "The option chosen, why, and when the choice gets revisited. Requires every option to have been steelmanned AND attacked.",
+      "requires_all": [
+        "support",
+        "faults"
+      ]
     },
     {
       "id": "defer",
@@ -250,7 +258,7 @@
       "produces": "deferral",
       "instrument": null,
       "terminal": true,
-      "brief": "Not yet: what specifically would change the answer, and by when."
+      "brief": "Not yet: what specifically would change the answer, and by when. The one exit that does NOT need every option examined."
     },
     {
       "id": "drop",
@@ -264,7 +272,11 @@
       "produces": "withdrawal",
       "instrument": null,
       "terminal": true,
-      "brief": "None of these are acceptable, and why the decision is being refused."
+      "brief": "None of these are acceptable, and why. Requires every option to have been steelmanned AND attacked -- you may not refuse a field you have not examined.",
+      "requires_all": [
+        "support",
+        "faults"
+      ]
     }
   ],
   "preserve_exit": "commit",
@@ -279,5 +291,11 @@
       },
       "why": "You may not commit over an unresolved disputed fact. But not every attack raises one, and requiring a probe unconditionally made EXECUTE mandatory on the commit path for no reason."
     }
-  ]
+  ],
+  "option_source": {
+    "artifact": "decision",
+    "field": "options",
+    "max": 3,
+    "index_field": "option"
+  }
 }

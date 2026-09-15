@@ -168,6 +168,22 @@ cplant "a condition keyed on a field the artifact does not have" \
        "conditions" \
        'd["conditions"][0]["field"]="imaginary"'
 
+cplant "requires_all on an artifact whose producer is fixed-count" \
+       "options" \
+       'cards["steelman"].pop("per_option",None)'
+
+cplant "a per-option artifact with no index field" \
+       "options" \
+       'd["artifacts"]["support"]["fields"]=["steelman"]'
+
+cplant "an option_source with no declared bound" \
+       "options" \
+       'd["option_source"].pop("max",None)'
+
+cplant "an index field shared by an artifact that is NOT per-option" \
+       "exclusivity" \
+       'd["artifacts"]["evidence"]["fields"].append("option")'
+
 echo
 echo "=== ordering regression (simulate.py) ==="
 # The v0.5.0 bug, replanted: with `gather` no longer requiring `hunch`, the die

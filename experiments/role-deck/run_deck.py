@@ -93,6 +93,43 @@ def played_counts(deck, led):
     return counts
 
 
+def options_of(deck, led):
+    """The option list this run is working on, read from the artifact that
+    declared it. Nothing is stored: like the condition flags, it is recomputed
+    from the ledger, so `verify` cannot be fooled by editing a count."""
+    src = B.option_source(deck)
+    if not src:
+        return []
+    by = {c["id"]: c for c in deck["cards"]}
+    for p in led["plays"]:
+        if by[p["played"]]["produces"] == src["artifact"]:
+            v = p.get("artifact", {}).get(src["field"])
+            if isinstance(v, list):
+                return v
+            if isinstance(v, str):
+                return [x.strip() for x in v.split(",") if x.strip()]
+    return []
+
+
+def live_deck(deck, led):
+    """The deck expanded for this run's option count. Before the options are
+    declared, assume the maximum -- pessimism again: never offer a move that
+    the real option count could not afford."""
+    if not B.option_source(deck):
+        return deck
+    opts = options_of(deck, led)
+    n = len(opts) if opts else B.max_options(deck)
+    return B.expand(deck, min(max(n, 1), B.max_options(deck)))
+
+
+def options_used(deck, led, card_id):
+    """Which options a per-option card has already addressed."""
+    src = B.option_source(deck)
+    idx = src["index_field"] if src else None
+    return [p["artifact"].get(idx) for p in led["plays"]
+            if p["played"] == card_id and idx]
+
+
 def flags_of(deck, led):
     """Condition flags, recomputed from what the artifacts actually say.
 
@@ -301,7 +338,7 @@ def cmd_init(a):
 
 def cmd_next(a):
     led = load(a.ledger)
-    deck = load(led["deck_path"])
+    deck = live_deck(load(led["deck_path"]), led)
     card, st = current_draw(deck, led)
     if st["terminal"]:
         print(json.dumps({"done": True, "plays": len(led["plays"]),
@@ -332,6 +369,9 @@ def cmd_next(a):
         "instrument": c.get("instrument"),
         "command_required": c.get("instrument") is not None,
         "produce_artifact": atype,
+        "options_remaining": ([o for o in options_of(deck, led)
+                               if o not in options_used(deck, led, card)]
+                              if c.get("per_option") else None),
         "fields_required": deck["artifacts"][atype]["fields"],
         "cost": B.cost_of(c),
         "spent": st["spent"], "budget": st["budget"],
@@ -343,7 +383,7 @@ def cmd_next(a):
 
 def cmd_play(a):
     led = load(a.ledger)
-    deck = load(led["deck_path"])
+    deck = live_deck(load(led["deck_path"]), led)
     card, st = current_draw(deck, led)
     if st["terminal"]:
         print("*** run is already complete", file=sys.stderr)
@@ -375,6 +415,27 @@ def cmd_play(a):
         for p in problems:
             print(f"      - {p}", file=sys.stderr)
         return 1
+
+    src = B.option_source(deck)
+    if src and {c["id"]: c for c in deck["cards"]}[card].get("per_option"):
+        idx = src["index_field"]
+        opts = options_of(deck, led)
+        named = artifact.get(idx)
+        used = options_used(deck, led, card)
+        if not opts:
+            print(f"*** refused: no options have been declared yet", file=sys.stderr)
+            return 1
+        if named not in opts:
+            print(f"*** refused: '{card}' names option {named!r}, which is not one "
+                  f"of {opts}", file=sys.stderr)
+            return 1
+        if named in used:
+            remaining = [o for o in opts if o not in used]
+            print(f"*** refused: '{card}' has already addressed {named!r}. "
+                  f"Each play must take a DIFFERENT option -- that distinctness is "
+                  f"what makes 'every option covered' countable. "
+                  f"Still to do: {remaining}", file=sys.stderr)
+            return 1
 
     kind = instrument_of(deck, card)
     block = None
@@ -414,7 +475,7 @@ def cmd_play(a):
 
 def cmd_reroll(a):
     led = load(a.ledger)
-    deck = load(led["deck_path"])
+    deck = live_deck(load(led["deck_path"]), led)
     if rerolls_spent(led) >= led["rerolls_allowed"]:
         print(f"*** refused: no rerolls left "
               f"({led['rerolls_allowed']} allowed, all spent)", file=sys.stderr)
@@ -437,7 +498,8 @@ def cmd_verify(a):
     artifact is re-validated. This is what makes a hand-edited ledger or a
     bypassed runner detectable."""
     led = load(a.ledger)
-    deck = load(led["deck_path"])
+    base = load(led["deck_path"])
+    deck = live_deck(base, led)
     problems = []
 
     if led.get("deck_version") != deck.get("version"):
@@ -453,6 +515,7 @@ def cmd_verify(a):
             break
         if p.get("n") != st["step"]:
             problems.append(f"play {i} claims step {p.get('n')}, replay is at {st['step']}")
+        deck = live_deck(base, replay)          # option count grows with the replay
         counts_now = played_counts(deck, replay)
         exits_now = legal_exits(deck, counts_now, flags_of(deck, replay))
         if p.get("chosen_exit"):
@@ -523,7 +586,7 @@ def cmd_verify(a):
 
 def cmd_log(a):
     led = load(a.ledger)
-    deck = load(led["deck_path"])
+    deck = live_deck(load(led["deck_path"]), led)
     by = {c["id"]: c for c in deck["cards"]}
     print(f"=== {led['deck']} v{led['deck_version']}  seed={led['seed']} ===")
     for p in led["plays"]:

@@ -56,6 +56,54 @@ than adding a dimension to it: no state-space blow-up.
 # which is the finding-12 problem wearing a different hat.
 
 
+# ---------------------------------------------------------------- options
+#
+# "Steelman and attack each option at matched depth" is a symmetry constraint
+# over a list whose length is not known until the run starts. Two things make
+# it expressible without losing static checking:
+#
+#   1. OPTIONS ARE SYMMETRIC to the deck. It does not care WHICH option a
+#      steelman addresses, only that every option got one. So if the runner
+#      enforces that each per-option play names a DISTINCT option, the static
+#      model needs only COUNTS: "all options covered" reduces to
+#      "count(producer) >= n_options". Distinctness at runtime is what buys
+#      countability at check time.
+#
+#   2. THE LIST IS BOUNDED. The deck declares a maximum, and the checker
+#      expands it once per possible option count and runs every gate on each.
+#      Same trick as branching on a condition: enumerate the parameter rather
+#      than model it.
+#
+# `requires_all` is then a threshold on a count, and matched depth is
+# `commit` requiring ALL of both `support` and `faults`.
+
+
+def option_source(deck):
+    return deck.get("option_source")
+
+
+def max_options(deck):
+    src = option_source(deck)
+    return src["max"] if src else 1
+
+
+def n_options(deck):
+    """Option count this deck instance is expanded for."""
+    return deck.get("_n_options", 1)
+
+
+def expand(deck, n):
+    """A concrete deck for exactly n options: per-option cards get n copies."""
+    import copy as _copy
+    d = _copy.deepcopy(deck)
+    d.pop("_memo", None)
+    d["_n_options"] = n
+    for c in d["cards"]:
+        if c.get("per_option"):
+            c["copies"] = n
+    return d
+
+
 def conditions(deck):
     return deck.get("conditions", [])
 
@@ -165,9 +213,21 @@ def raw_moves(deck, played, flags=None):
     if flags is None:
         flags = no_flags(deck)
     have = artifacts_of(deck, played)
-    return [c["id"] for c in deck["cards"]
-            if played.get(c["id"], 0) < c["copies"]
-            and all(r in have for r in effective_requires(deck, c["id"], flags))]
+    n = n_options(deck)
+    producer = {c["produces"]: c["id"] for c in deck["cards"]}
+    out = []
+    for c in deck["cards"]:
+        if played.get(c["id"], 0) >= c["copies"]:
+            continue
+        if not all(r in have for r in effective_requires(deck, c["id"], flags)):
+            continue
+        # `requires_all`: that artifact must exist ONCE PER OPTION. Because the
+        # runner forces distinct options, the count is the coverage.
+        if any(played.get(producer.get(r, ""), 0) < n
+               for r in c.get("requires_all", [])):
+            continue
+        out.append(c["id"])
+    return out
 
 
 INF = float("inf")
