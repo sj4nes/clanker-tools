@@ -1248,3 +1248,22 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       were read, so the error was diagnosable in seconds rather than mysterious.
       That is the audit trail earning its keep in failure, which is the only
       time it matters.  (2026-09-15)
+
+- [ ] **claim-fixture: the method has never returned a POSITIVE.** Both case
+      studies refuted their claims (8/8 each). Nothing demonstrates the method
+      can confirm a true claim rather than being biased toward refutation —
+      possibly because the fixtures are built by someone motivated to be
+      thorough, possibly because both claims were simply false. The control is
+      a fixture against a default that is already known real: danluu's eval
+      (cited by `test-writing`) found agents fall back to poor default testing
+      across all 26 conditions, so a fixture reproducing that shape SHOULD come
+      back positive. If it does not, the method is broken rather than the
+      claims being false, and every result from it is suspect.  (2026-09-15)
+
+- [ ] **claim-fixture: subject naivety is asserted, not verified.** Both case
+      studies used fresh agents with filesystem access to a repo documenting
+      the hypotheses under test. Unforgeable scoring means priming could not
+      fake a result, but nothing measured whether subjects read that material,
+      and a primed subject inflates a positive. Options: run subjects in a
+      directory with no repo access, or instrument what they read.
+      (2026-09-15)
