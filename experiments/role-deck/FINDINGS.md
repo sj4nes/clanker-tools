@@ -10,7 +10,7 @@ Not a skill yet: no `SKILL.md`, deliberately outside `skills/` so
 | File | What it is |
 |---|---|
 | `decks/diagnose.json` | the rulebook: artifact types with fields, cards (role, copies, requires, produces, instrument), required roles |
-| `check_deck.py` | eleven static gates over the deck, by exhaustive state-space exploration |
+| `check_deck.py` | twelve static gates over the deck, by exhaustive state-space exploration |
 | `budget.py` | the budget model, and why it enters through legality rather than as a wall |
 | `mutation-check.sh` | plants one defect per gate and asserts each is caught |
 | `run_deck.py` | the runner: external draw, artifact validation, append-only ledger, replay-based `verify` |
@@ -208,6 +208,53 @@ That is probably right for diagnosis, where evidence really must precede
 hypotheses; it would be wrong for an *invent* deck, where ordering freedom is
 the point. Ordering rigidity is a design choice the simulator makes visible.
 
+## Weights: what they control, and what they do not
+
+`copies` bounds how many times a hat MAY be worn — a resource limit. `weight`
+bounds how likely it is to be drawn when legal — a bias. They were deliberately
+not conflated. And because a flat weight cannot tell a card's first play from
+its third (it is the same card), weight decays per prior play:
+
+    effective = weight * repeat_decay ** (times already played)
+
+Decay 1.0 reproduces the uniform draw exactly, so the feature is backward
+compatible by construction. Weights never affect legality, so the state space,
+the budget look-ahead, and every gate are untouched by them.
+
+**Finding 9: the budget sets the cost, the weights set the shape.** Finding 8
+named weighting as the lever for process cost. It is not. Measured head to head:
+
+| lever | paths | E[spend] | P(minimal run) |
+|---|---|---|---|
+| baseline, budget 11 | 59 | 10.96 | 0.3% |
+| `repeat_decay` 0.35 | 59 | 10.67 | 5.2% |
+| budget 11 → 10 | 12 | **10.00** | 0.3% |
+| budget 11 → 9 (the floor) | 1 | **9.00** | 100% |
+| `gather`/`hypothesize` copies 2 → 1 | 4 | 10.00 | 16.7% |
+
+A 65% weight reduction on every repeat moves expected spend by **0.29**. Cutting
+the budget by one moves it by **0.96**, exactly. Two reasons, both structural:
+
+- **Suppressing one repeat frees budget for another.** As decay falls from 1.0
+  to 0.35, P(a second `falsify`) *rises* from 14.8% to 24.3%. The draw
+  redistributes the slack rather than returning it.
+- **The budget is spent before the exit is legal.** Weighting `close` up to 12
+  only moves expected spend from 10.67 to 10.45, because by the time `close`
+  becomes legal the optional cards have already been played. You cannot fix
+  process cost by making the exit attractive; the decision that cost you
+  happened five steps earlier.
+
+So there is a variety/cost frontier, and every unit of budget on it is fully
+spent: **budget 9 → 1 path**, budget 10 → 12 paths, budget 11 → 59 paths. Pick
+the budget for the cost you will accept, then use weights to shape which of the
+runs you get.
+
+The diagnose deck ships at `repeat_decay` 0.5 and `falsify` weight 2 — a claim
+*about diagnosis*, now expressible: a second discriminating test is worth more
+than a second round of evidence-gathering, because it can separate hypotheses
+the first test left tied. Expected spend 10.84, and P(a minimal run) rises from
+0.3% to 2.1%.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -232,8 +279,9 @@ the point. Ordering rigidity is a design choice the simulator makes visible.
 - **One deck.** Every finding here is from `diagnose`. The four other goal
   shapes from the design sketch (decide, build, invent, improve) are unwritten,
   and `invent` is the one most likely to break these assumptions.
-- **Uniform draw only.** The simulator models, and `run_deck` implements, a
-  uniform choice over legal moves. Weighted draws (card multiplicity as a
-  weight, or a bias toward finishing) are unimplemented, and finding 8 says
-  they are the obvious next lever.
+- **Weights are state-independent.** `weight * decay^plays` depends only on how
+  often a card has been played, not on what else is in the artifact set. A card
+  cannot become more attractive *because* a particular result came back — which
+  is exactly what an adaptive process would want, and what finding 9 says the
+  budget cannot give you either.
 

@@ -14,7 +14,7 @@ choice has nothing to verify; a bounded machine with resources has deadlocks,
 unreachable terminals, decorative hats, and paths that skip the hat you most
 wanted worn. Those are design bugs you cannot playtest your way to.
 
-Eleven gates. See budget.py for why the budget enters through legality rather
+Twelve gates. See budget.py for why the budget enters through legality rather
 than as a wall.
 
 Usage:  python3 check_deck.py decks/diagnose.json
@@ -107,6 +107,33 @@ def gate_instrument_grounding(deck):
         ok("instrument-grounding",
            f"roles {sorted(must)} are grounded; {len(grounded)} card(s) carry an "
            f"instrument: {grounded}")
+
+
+def gate_weights(deck):
+    """Weights bias selection; they must never silently remove a card.
+
+    A zero or negative weight makes a card unreachable in practice while
+    `reachable-cards` still passes -- it is legal, it is simply never drawn.
+    That is the one way weights can lie, so it is gated."""
+    problems = []
+    for c in deck["cards"]:
+        w = c.get("weight", 1.0)
+        if not isinstance(w, (int, float)) or w <= 0:
+            problems.append(f"card '{c['id']}' has weight {w!r}; a card with no "
+                            f"positive weight is legal but never drawn")
+        d = c.get("repeat_decay", deck.get("repeat_decay", 1.0))
+        if not isinstance(d, (int, float)) or not (0 < d <= 1):
+            problems.append(f"card '{c['id']}' has repeat_decay {d!r}; "
+                            f"must be in (0, 1]")
+    if problems:
+        for pr in problems:
+            fail("weights", pr)
+    else:
+        decay = deck.get("repeat_decay", 1.0)
+        tuned = [c["id"] for c in deck["cards"] if c.get("weight", 1.0) != 1.0]
+        ok("weights", f"all positive; repeat_decay {decay}"
+                      + (f"; re-weighted cards: {tuned}" if tuned else
+                         "; no per-card weights"))
 
 
 def gate_acyclic(deck):
@@ -286,6 +313,7 @@ def main(path):
     gate_schema(deck)
     gate_exclusivity(deck)
     gate_instrument_grounding(deck)
+    gate_weights(deck)
     gate_acyclic(deck)
     if any(g in FAILS for g in ("schema", "acyclic")):
         print("\n*** structural gates failed; skipping budget and state-space gates")

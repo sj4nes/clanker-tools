@@ -37,6 +37,40 @@ def cost_of(card):
     return card.get("cost", 1)
 
 
+def weight_of(deck, card_id, counts):
+    """How attractive this card is to the die RIGHT NOW.
+
+    Two separate things, deliberately not conflated:
+
+      `copies`  -- how many times a hat MAY be worn. A resource limit.
+      `weight`  -- how likely it is to be drawn when it is legal. A bias.
+
+    A flat weight cannot tell a card's first play from its third -- it is the
+    same card. So the weight decays per prior play:
+
+        effective = weight * repeat_decay ** (times already played)
+
+    That is the lever finding 8 named. A uniform draw plays an optional card
+    whenever it is legal, so budget slack is always spent; a decay under 1
+    makes the second `gather` genuinely optional instead of merely permitted.
+    Decay 1.0 (the default) reproduces the uniform draw exactly.
+
+    Weights never affect LEGALITY, only selection -- so the reachable state
+    space, the budget look-ahead, and every gate in check_deck.py are unchanged
+    by them.
+    """
+    by = {c["id"]: c for c in deck["cards"]}
+    card = by[card_id]
+    w = card.get("weight", 1.0)
+    decay = card.get("repeat_decay", deck.get("repeat_decay", 1.0))
+    return w * (decay ** counts.get(card_id, 0))
+
+
+def weights_for(deck, counts, legal):
+    """Effective weights for the legal moves, in the order given."""
+    return [weight_of(deck, c, counts) for c in legal]
+
+
 def deck_total_cost(deck):
     return sum(cost_of(c) * c["copies"] for c in deck["cards"])
 

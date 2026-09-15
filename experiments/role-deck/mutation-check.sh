@@ -124,6 +124,14 @@ plant "an instrument kind the deck never declares" \
       "instrument-grounding" \
       'cards["gather"]["instrument"]="vibes"'
 
+plant "a zero-weight card: legal for ever, drawn never" \
+      "weights" \
+      'cards["falsify"]["weight"]=0'
+
+plant "a repeat_decay outside (0, 1]" \
+      "weights" \
+      'd["repeat_decay"]=1.5'
+
 echo
 echo "=== ordering regression (simulate.py) ==="
 # The v0.5.0 bug, replanted: with `gather` no longer requiring `hunch`, the die

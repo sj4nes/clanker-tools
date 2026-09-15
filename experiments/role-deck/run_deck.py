@@ -44,15 +44,34 @@ STDOUT_CAP = 4000        # bytes of captured output stored in the ledger
 
 
 # ---------------------------------------------------------------- the die
-def draw(seed, step, rerolls, legal):
-    """Deterministic external draw. Pure in (seed, step, rerolls) so that
-    `verify` can recompute it; `legal` is sorted so the result cannot depend
-    on dict or file ordering."""
+def draw(seed, step, rerolls, legal, weights=None):
+    """Deterministic external draw, weighted.
+
+    Pure in (seed, step, rerolls, legal, weights) so `verify` can recompute it.
+    `legal` is sorted so the result cannot depend on dict or file ordering, and
+    the hash is mapped into the cumulative weight interval.
+
+    With all weights equal this is a uniform choice -- but NOT the same
+    selection as the pre-weighting implementation, so a ledger written before
+    weights existed will not replay. That is caught already: `verify` refuses a
+    ledger whose deck version differs from the deck on disk.
+    """
     if not legal:
         return None
+    legal = sorted(legal)
+    w = list(weights) if weights is not None else [1.0] * len(legal)
+    total = sum(w)
+    if total <= 0:
+        return legal[0]
     key = f"{seed}:{step}:{rerolls}".encode()
     h = int(hashlib.sha256(key).hexdigest(), 16)
-    return sorted(legal)[h % len(legal)]
+    point = (h % (2 ** 64)) / float(2 ** 64) * total
+    acc = 0.0
+    for card, wi in zip(legal, w):
+        acc += wi
+        if point < acc:
+            return card
+    return legal[-1]
 
 
 # ---------------------------------------------------------------- ledger
@@ -96,7 +115,10 @@ def current_draw(deck, led):
     st = state_of(deck, led)
     if st["terminal"]:
         return None, st
-    return draw(led["seed"], st["step"], led.get("pending_rerolls", 0), st["legal"]), st
+    counts = played_counts(deck, led)
+    w = B.weights_for(deck, counts, sorted(st["legal"]))
+    return draw(led["seed"], st["step"], led.get("pending_rerolls", 0),
+                st["legal"], w), st
 
 
 # ---------------------------------------------------------------- instruments
@@ -343,7 +365,8 @@ def cmd_verify(a):
             break
         if p.get("n") != st["step"]:
             problems.append(f"play {i} claims step {p.get('n')}, replay is at {st['step']}")
-        expect = draw(led["seed"], st["step"], p.get("rerolls", 0), st["legal"])
+        rw = B.weights_for(deck, played_counts(deck, replay), sorted(st["legal"]))
+        expect = draw(led["seed"], st["step"], p.get("rerolls", 0), st["legal"], rw)
         if p.get("drawn") != expect:
             problems.append(f"play {i}: ledger says the die drew '{p.get('drawn')}', "
                             f"replay says '{expect}' -- the draw does not reproduce")

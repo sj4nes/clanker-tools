@@ -7,10 +7,11 @@ what their generative objects generate -- you intend "BLACK lands after the
 second GREEN" and it does, 62% of the time.
 
 The state space is small, so this does not sample: it enumerates EVERY complete
-path with its exact probability (the product of 1/|legal moves| at each step,
-because the draw is uniform over legal moves). Monte Carlo is used only as an
+path with its exact probability (the product of the drawn card's
+share of the legal weight at each step). Monte Carlo is used only as an
 independent cross-check, and it runs through run_deck.draw -- the real hash-based
-die -- so the comparison also tests whether that die is actually uniform.
+die -- so the comparison also tests whether that die honours the deck's
+declared weights rather than merely being deterministic.
 
 Sections:
   1. exact enumeration     paths, and the probability mass (must be 1)
@@ -36,7 +37,7 @@ FAILS = []
 
 
 def enumerate_paths(deck):
-    """Every complete path, with its exact probability under a uniform draw."""
+    """Every complete path, with its exact probability under the declared weights."""
     ids = [c["id"] for c in deck["cards"]]
     paths = []
 
@@ -47,11 +48,16 @@ def enumerate_paths(deck):
         moves = sorted(B.legal_moves(deck, counts, lookahead=True))
         if not moves:
             return
-        share = prob / len(moves)
-        for m in moves:
+        w = B.weights_for(deck, counts, moves)
+        total = sum(w)
+        if total <= 0:
+            return
+        for m, wi in zip(moves, w):
+            if wi <= 0:
+                continue                       # a zero-weight card is never drawn
             nxt = dict(counts)
             nxt[m] = nxt.get(m, 0) + 1
-            walk(nxt, seq + [m], share)
+            walk(nxt, seq + [m], prob * wi / total)
 
     walk({i: 0 for i in ids}, [], 1.0)
     return paths
@@ -67,7 +73,8 @@ def sample_path(deck, seed):
         moves = sorted(B.legal_moves(deck, counts, lookahead=True))
         if not moves:
             return None
-        card = run_deck.draw(seed, step, 0, moves)
+        card = run_deck.draw(seed, step, 0, moves,
+                             B.weights_for(deck, counts, sorted(moves)))
         counts[card] += 1
         seq.append(card)
         step += 1
@@ -202,7 +209,7 @@ def main(path, trials):
               f"(TV {tv:.3f}) -- the exact model does not describe it")
         FAILS.append("die")
     else:
-        print(f"   ok: the hash die tracks the uniform model within sampling error")
+        print(f"   ok: the hash die tracks the weighted model within sampling error")
     print()
 
     if FAILS:
