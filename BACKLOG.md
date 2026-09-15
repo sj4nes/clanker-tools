@@ -1133,17 +1133,19 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       `evaluator-integrity`'s look-count sweep suggests it is not small.
       (2026-09-14)
 
-- [ ] **role-deck: the `invent` deck (TBD).** Blocked on a missing legality
-      primitive, not on effort. Every predicate in the deck model is
-      ARTIFACT-BASED — a card is legal when the artifacts it requires exist.
-      Invent's terminal condition is "good enough", a *judgement*, and there is
-      no artifact whose existence means "stop inventing". Expressing it needs a
-      new primitive (`legal after N plays`, or `legal when remaining budget
-      < k`), which is perhaps an hour of work. The real question is a design
-      one and should be settled first: a judgement-gated terminal hands the
-      agent the decision to stop, which is exactly the decision the external
-      draw exists to take away. Terminating by exhaustion is at least
-      incorruptible. Decide that before coding it.  (2026-09-15)
+- [x] **role-deck: the `invent` deck.** DONE 2026-09-15. The missing legality
+      primitive is `unlock`, keying on resources only — plays, spend, remaining
+      budget, per-card counts. It cost NO state-space growth, because all four
+      are already functions of the counts vector (conditions needed a flag
+      dimension; per-option cards needed expansion). The design question is
+      settled in favour of resources: a judgement-gated terminal hands back the
+      one decision the external draw exists to remove. But the claim recorded
+      here when the deck was deferred — "terminating by exhaustion is at least
+      incorruptible" — was WRONG, and the deck proved it: gated on exhaustion
+      alone, the laziest legal run padded six `generate` plays to burn budget
+      down to the unlock and ran exactly ONE trial. Exhaustion measures SPEND,
+      NOT WORK. Fixed by pairing `remaining_at_most` with `played_at_least`.
+      (`skills/role-deck`, v2.0.0)
 
 - [ ] **role-deck: the `improve` deck (TBD).** The RSI loop — diagnose the
       bottleneck, propose, verify, retain, revise the improver — is the one
@@ -1170,3 +1172,13 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       on a real bias — nothing plants a biased die and confirms detection;
       (5) `decide`'s `expected_order` has no regression mutation, where
       `diagnose`'s does.  (2026-09-15)
+
+- [ ] **role-deck: no laziness search in the harness.** Finding 16 — that an
+      exhaustion unlock is satisfiable by padding with the cheapest legal card
+      — was found by hand, by searching for the complete run that does the
+      least work while staying legal. `invent` v0.1.0 passed every gate and
+      every simulator check and was still wrong, so this is a class of defect
+      the whole existing harness cannot see. The search is cheap (a DFS over
+      the same state space the gates already build) and should be a gate:
+      report the laziest legal run for any deck carrying an `unlock`, and let
+      the author look at it.  (2026-09-15)

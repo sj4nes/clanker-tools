@@ -15,7 +15,7 @@ description: >-
   a procedure shipped on intuition rather than simulated. NOT a workflow engine,
   not a task queue, and not a way to make a model's judgement trustworthy —
   it constrains WHEN and WHETHER, never how good the thinking is.
-version: 1.0.0
+version: 2.0.0
 author: Simon Janes
 tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
 ---
@@ -79,14 +79,17 @@ runs it — exhaustively, over every reachable state.
    reliably wrong about what their generative objects generate. Every deck in
    [`decks/`](decks/) was hand-written naive first and was wrong — decorative
    hats, an exit reachable with no evidence, a gut call recorded *after* the
-   evidence in half of all runs. None of that was visible by reading.
+   evidence in half of all runs. None of that was visible by reading. And the
+   check that a deck **passes** is not the end of it: `invent` v0.1.0 passed
+   every gate and every simulator check and was still wrong, because nothing
+   asked what its **laziest legal run** looked like.
 
 ## Workflow
 
 ```sh
 # design-time — run both, always, before a deck is used
-python3 check_deck.py decks/<name>.json      # 14 gates, exhaustive
-python3 simulate.py  decks/<name>.json       # every path, exact probability
+python3 check_deck.py decks/<name>.json      # 15 gates, exhaustive
+python3 simulate.py  decks/<name>.json       # exact marginals, by DP over states
 
 # run-time
 python3 run_deck.py init --deck decks/<name>.json --seed N --ledger run.json
@@ -101,9 +104,10 @@ python3 run_deck.py verify --ledger run.json                  # replay and re-ch
 exits you have earned. Fill the fields; play; repeat. Pick an exit when one is
 offered and you are ready.
 
-Two decks ship: [`diagnose`](decks/diagnose.json) (something is wrong and the
-cause is unknown) and [`decide`](decks/decide.json) (several options, one has
-to be chosen, deferred, or refused).
+Three decks ship: [`diagnose`](decks/diagnose.json) (something is wrong and the
+cause is unknown), [`decide`](decks/decide.json) (several options, one has to be
+chosen, deferred, or refused), and [`invent`](decks/invent.json) (something new
+is wanted and nobody knows what it is yet).
 
 ## Writing a deck
 
@@ -124,6 +128,12 @@ the design:
   still lie — but the lie is now logged and auditable instead of silent.
 - **Per-option cards need an index field and a declared maximum.** Distinctness
   at runtime is what makes "every option covered" a countable thing.
+- **An `unlock` gates a card on resources, never on judgement.** It is the only
+  way to say *"you may not stop yet"*, because no artifact's existence means
+  *enough*. Exhaustion alone is not sufficient: it measures **spend, not
+  work**, and is satisfiable by padding with the cheapest card — pair
+  `remaining_at_most` with a `played_at_least` on the card that is the real
+  work.
 
 ## What a deck cannot do
 
@@ -147,6 +157,9 @@ Everything here constrains **when** and **whether**. None of it touches quality:
 - the deck's **floor** is a larger process than the task deserves — a six-phase
   deck on a trivial question is pure cost, and the floor is printed so you can
   see it;
+- a deck has an `unlock` and nobody has asked what the **laziest legal run**
+  looks like — an exhaustion gate is padded, not respected, by an agent with a
+  cheap card available;
 - `check_deck.py` fails and the fix is to relax a gate rather than the deck;
 - you want the die to choose an **outcome** rather than a step;
 - the procedure's steps cannot be written down and defended — then this is the
@@ -154,13 +167,14 @@ Everything here constrains **when** and **whether**. None of it touches quality:
 
 ## Verification
 
-[`verification/`](verification/) runs four harnesses: 14 gates over both decks,
-22 planted deck defects each asserted caught by the gate that claims it, both
-simulators, two die-driven property tests, and 19 runner refusal/tamper cases.
-73 assertions. `sh verification/run.sh`, ~43 s.
+[`verification/`](verification/) runs four harnesses: 15 gates over three decks,
+26 planted deck defects each asserted caught by the gate that claims it, three
+simulators, two die-driven property tests, and 20 runner refusal/tamper cases.
+100 assertions. `sh verification/run.sh`, ~48 s.
 
-Fifteen findings from building it — including three cases where *the test was
-broken rather than the thing under test* — are in
+Eighteen findings from building it — including three cases where *the test was
+broken rather than the thing under test*, and one where the skill itself
+shipped a broken check — are in
 [`references/findings.md`](references/findings.md).
 
 ## Related skills

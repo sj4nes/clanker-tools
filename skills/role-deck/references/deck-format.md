@@ -37,12 +37,46 @@ Field reference for a deck JSON. Every field here is exercised by
 | `cost` | no | default 1. Counts against the budget |
 | `weight` | no | default 1.0. How likely the die is to pick it when legal — a bias, *not* a limit |
 | `terminal` | no | an exit. **Agent-chosen, never drawn** |
+| `unlock` | no | a resource predicate that must hold before the card is legal; see *Resource unlocks* |
 | `requires_all` | no | artifact types needed **once per option** |
 | `per_option` | no | `copies` becomes the option count |
 
 `copies` and `weight` are deliberately separate: *how many times may I* versus
 *how likely am I to be asked*. `repeat_decay` exists because a flat weight
 cannot tell a card's first play from its third — it is the same card.
+
+## Resource unlocks
+
+```json
+"unlock": {"remaining_at_most": 2, "played_at_least": {"card": "try", "n": 2}}
+```
+
+Every other predicate is artifact-based: a card is legal when the artifacts it
+requires exist. That cannot say *"you may not stop yet"*, because no artifact's
+existence means *enough*. An unlock keys on **resources only** — never on
+content, never on judgement:
+
+| Key | Opens when |
+|---|---|
+| `plays_at_least` | n cards have been played |
+| `spent_at_least` | n budget consumed |
+| `remaining_at_most` | budget left ≤ n — the **exhaustion** gate |
+| `played_at_least` | `{card, n}` — that card played n times |
+
+Keys are ANDed. They cost nothing structurally: plays, spend and per-card
+counts are all functions of the counts vector, which is **already the state**,
+so unlike conditions (which add a flag dimension) or per-option cards (which
+expand the deck) the state space does not grow at all.
+
+The choice of primitive is a design decision. A *judgement*-gated terminal
+("stop when it is good enough") hands the agent back the one decision the
+external draw exists to remove. A *resource*-gated one cannot be talked out
+of — at the cost of not being able to stop early when you got lucky.
+
+**But exhaustion alone measures spend, not work**, and is satisfiable by
+padding with the cheapest legal card — see finding 16. Pair
+`remaining_at_most` with a `played_at_least` on the card that represents real
+work.
 
 ## Conditional requirements
 
@@ -86,6 +120,7 @@ the deck at every option count.
 | `weights` | a non-positive weight; a `repeat_decay` outside (0, 1] |
 | `options` | per-option cards with no bound, index, or a `requires_all` on a fixed-count producer |
 | `conditions` | a condition on a non-nullable field, or one that never changes what is legal |
+| `unlocks` | an unknown unlock key; an unlock that never blocks (decorative) or never opens (unplayable) |
 | `acyclic` | a precedence cycle |
 | `budget-feasible` | a budget below the floor; no reachable terminal |
 | `budget-binding` | a budget at or above the whole deck's cost — decorative |

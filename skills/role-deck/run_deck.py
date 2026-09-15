@@ -558,7 +558,20 @@ def cmd_verify(a):
 
     roles_worn = {next(c["role"] for c in deck["cards"] if c["id"] == p["played"])
                   for p in led["plays"]}
-    missing = set(deck.get("required_roles", [])) - roles_worn
+    # `required_roles` is a LIST (one requirement for every exit) or a MAP from
+    # exit card id to its own list. `set(a_dict)` yields the KEYS -- card ids --
+    # which were then compared against role names, so a completed map-form run
+    # always reported its own exit as a missing role. Latent since coverage
+    # became per-terminal: diagnose is list-form, and no map-form run had ever
+    # been played to a terminal until the invent deck was.
+    spec = deck.get("required_roles") or []
+    if isinstance(spec, dict):
+        exit_played = next((p["played"] for p in reversed(led["plays"])
+                            if by_id_terminal(deck, p["played"])), None)
+        need = set(spec.get(exit_played, [])) if exit_played else set()
+    else:
+        need = set(spec)
+    missing = need - roles_worn
     if st["terminal"] and missing:
         problems.append(f"run completed without wearing required roles: {sorted(missing)}")
 

@@ -56,6 +56,60 @@ than adding a dimension to it: no state-space blow-up.
 # which is the finding-12 problem wearing a different hat.
 
 
+# ---------------------------------------------------------------- unlocks
+#
+# Every legality predicate so far is ARTIFACT-BASED: a card is legal when the
+# artifacts it requires exist. That cannot express "you may not stop yet",
+# because there is no artifact whose existence means *enough*. An `invent` deck
+# needs exactly that, and the choice of primitive is a design decision, not a
+# coding one:
+#
+#   - a JUDGEMENT-gated terminal ("stop when it is good enough") hands the
+#     agent back the single decision the external draw exists to remove;
+#   - a RESOURCE-gated terminal ("stop when the budget is nearly gone") is
+#     incorruptible, and costs you the ability to stop early when you got
+#     lucky.
+#
+# So an unlock keys only on resources, never on content or judgement. Which
+# turns out to cost nothing structurally: plays, spend and per-card counts are
+# all FUNCTIONS OF THE COUNTS VECTOR, and the counts vector is already the
+# state. Conditions needed a flag dimension; per-option cards needed expanding
+# the deck once per count; this needs neither. The state space does not grow
+# at all.
+#
+# Four predicates, deliberately few, all monotone in play order:
+#
+#   plays_at_least      n   total cards played so far
+#   spent_at_least      n   budget consumed so far
+#   remaining_at_most   n   budget left  -- the exhaustion gate
+#   played_at_least   {card, n}
+
+UNLOCK_KEYS = ("plays_at_least", "spent_at_least", "remaining_at_most",
+               "played_at_least")
+
+
+def unlock_open(deck, card, counts):
+    """Is this card's resource unlock satisfied in this state?"""
+    u = card.get("unlock")
+    if not u:
+        return True
+    plays = sum(counts.values())
+    sp = spent(deck, counts)
+    if "plays_at_least" in u and plays < u["plays_at_least"]:
+        return False
+    if "spent_at_least" in u and sp < u["spent_at_least"]:
+        return False
+    if "remaining_at_most" in u:
+        budget = deck.get("budget")
+        if budget is None or budget - sp > u["remaining_at_most"]:
+            return False
+    if "played_at_least" in u:
+        pa = u["played_at_least"]
+        if counts.get(pa["card"], 0) < pa["n"]:
+            return False
+    return True
+
+
 # ---------------------------------------------------------------- options
 #
 # "Steelman and attack each option at matched depth" is a symmetry constraint
@@ -220,6 +274,8 @@ def raw_moves(deck, played, flags=None):
         if played.get(c["id"], 0) >= c["copies"]:
             continue
         if not all(r in have for r in effective_requires(deck, c["id"], flags)):
+            continue
+        if not unlock_open(deck, c, played):
             continue
         # `requires_all`: that artifact must exist ONCE PER OPTION. Because the
         # runner forces distinct options, the count is the coverage.

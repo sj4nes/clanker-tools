@@ -10,6 +10,30 @@ skill has held. The full record is
 
     git log -- skills/role-deck/
 
+## 2.0.0 — 2026-09-15
+
+**MAJOR — the skill was wrong.** `run_deck.py verify` reported *"run completed
+without wearing required roles"* on a **valid completed run** of any deck whose
+`required_roles` is a map (per-exit) rather than a list. `set(a_dict)` yields
+the keys — card ids — which were compared against role names. Latent since
+`coverage` became per-terminal; invisible because `diagnose` is list-form and no
+map-form deck had ever been played to a terminal until `invent` was. Anyone who
+ran `decide` to completion under 1.0.0 got a spurious failure. Re-verify any
+ledger that reported one. A completed map-form run is now in `runner-check.sh`.
+
+Also in this version, all additive:
+
+- a **resource `unlock`** primitive — the only way to say "you may not stop
+  yet", keying on plays / spend / remaining budget / per-card counts and never
+  on judgement. It costs no state-space growth, because all four are already
+  functions of the counts vector.
+- the **`invent` deck**, previously recorded as blocked on that primitive.
+- `simulate.py` rewritten from **path enumeration to state-space DP**. Same
+  numbers, reproduced to the digit on `diagnose`; `invent` has 22,302,788 paths
+  over 1,182 states and did not previously return. Now 0.66 s.
+- a new **`unlocks`** gate (15 total), four unlock mutations (26 total), and a
+  completed map-form runner case (20 total). 100 assertions.
+
 ## 1.0.0 — 2026-09-15
 
 First release, verified at release. Promoted from `experiments/role-deck/`,

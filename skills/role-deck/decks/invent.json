@@ -1,0 +1,192 @@
+{
+  "deck": "invent",
+  "version": "0.2.0",
+  "goal_shape": "Something new is wanted and nobody knows what it is yet.",
+  "_note": "Hand-written first. v0.1.0 passed every gate and every simulator check, and was still wrong: its exhaustion unlock was satisfiable by padding with the cheapest card, so the laziest legal run generated six candidates and tried exactly ONE. v0.2.0 gates on work done as well as budget spent. See references/findings.md.",
+  "instrument_kinds": [
+    "retrieval",
+    "execution"
+  ],
+  "instrumented_roles": [
+    "WHITE",
+    "EXECUTE"
+  ],
+  "required_roles": {
+    "harvest": [
+      "WHITE",
+      "RED",
+      "GREEN",
+      "YELLOW",
+      "BLACK",
+      "EXECUTE"
+    ]
+  },
+  "budget": 16,
+  "repeat_decay": 0.75,
+  "artifacts": {
+    "brief": {
+      "fields": [
+        "want",
+        "constraints",
+        "what_counts_as_new"
+      ]
+    },
+    "priorart": {
+      "fields": [
+        "found",
+        "provenance"
+      ]
+    },
+    "provocation": {
+      "fields": [
+        "prompt",
+        "what_it_disturbs"
+      ]
+    },
+    "candidate": {
+      "fields": [
+        "idea",
+        "from_provocation"
+      ]
+    },
+    "development": {
+      "fields": [
+        "taken_further",
+        "now_concrete_enough_to_try"
+      ]
+    },
+    "cull_note": {
+      "fields": [
+        "killed",
+        "why"
+      ]
+    },
+    "trial": {
+      "fields": [
+        "observed"
+      ]
+    },
+    "harvest": {
+      "fields": [
+        "kept",
+        "what_the_budget_bought",
+        "worth_continuing"
+      ]
+    }
+  },
+  "expected_order": [
+    [
+      "frame",
+      "generate"
+    ],
+    [
+      "oblique",
+      "harvest"
+    ],
+    [
+      "develop",
+      "cull"
+    ]
+  ],
+  "cards": [
+    {
+      "id": "frame",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [],
+      "produces": "brief",
+      "instrument": null,
+      "brief": "What is wanted, what constrains it, and what would count as genuinely new rather than a rearrangement."
+    },
+    {
+      "id": "survey",
+      "role": "WHITE",
+      "copies": 2,
+      "requires": [
+        "brief"
+      ],
+      "produces": "priorart",
+      "instrument": "retrieval",
+      "brief": "What already exists in this space. Observations only -- not yet a judgement about whether it is good."
+    },
+    {
+      "id": "oblique",
+      "role": "RED",
+      "copies": 2,
+      "requires": [
+        "brief"
+      ],
+      "produces": "provocation",
+      "instrument": null,
+      "brief": "A deliberately oblique prompt, and what assumption it disturbs. It does not have to be reasonable."
+    },
+    {
+      "id": "generate",
+      "role": "GREEN",
+      "copies": 6,
+      "weight": 2.0,
+      "requires": [
+        "brief"
+      ],
+      "produces": "candidate",
+      "instrument": null,
+      "brief": "One candidate. Name the provocation it came from, or say it came from the brief directly."
+    },
+    {
+      "id": "develop",
+      "role": "YELLOW",
+      "copies": 3,
+      "requires": [
+        "candidate",
+        "priorart"
+      ],
+      "produces": "development",
+      "instrument": null,
+      "brief": "Take one candidate far enough to be testable. Against the prior art, not in a vacuum."
+    },
+    {
+      "id": "cull",
+      "role": "BLACK",
+      "copies": 3,
+      "requires": [
+        "development"
+      ],
+      "produces": "cull_note",
+      "instrument": null,
+      "brief": "Kill a candidate and say why. Culling is how the survivors earn their place."
+    },
+    {
+      "id": "try",
+      "role": "EXECUTE",
+      "copies": 2,
+      "cost": 2,
+      "requires": [
+        "development"
+      ],
+      "produces": "trial",
+      "instrument": "execution",
+      "brief": "Actually build or run the smallest version of a developed candidate. Costs 2."
+    },
+    {
+      "id": "harvest",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [
+        "trial",
+        "cull_note",
+        "provocation"
+      ],
+      "produces": "harvest",
+      "instrument": null,
+      "terminal": true,
+      "unlock": {
+        "remaining_at_most": 2,
+        "played_at_least": {
+          "card": "try",
+          "n": 2
+        }
+      },
+      "brief": "What survived, what the budget bought, and whether another round is worth it. UNLOCKS ONLY near exhaustion AND after two real trials -- exhaustion alone measures SPEND, not work, and is satisfiable by padding with the cheapest card."
+    }
+  ]
+}

@@ -185,6 +185,46 @@ cplant "an index field shared by an artifact that is NOT per-option" \
        'd["artifacts"]["evidence"]["fields"].append("option")'
 
 echo
+echo "=== resource unlocks (decks/invent.json) ==="
+INV=decks/invent.json
+uplant () {   # uplant <name> <expected-gate> <python-mutation>
+    n=$((n + 1))
+    name="$1"; gate="$2"; mut="$3"
+    $PY - "$INV" "$TMP" <<PYEOF
+import json,sys
+d=json.load(open(sys.argv[1]))
+cards={c["id"]:c for c in d["cards"]}
+$mut
+json.dump(d,open(sys.argv[2],"w"),indent=2)
+PYEOF
+    out=$($PY check_deck.py "$TMP" 2>&1) && status=0 || status=$?
+    fired=$(printf '%s\n' "$out" | sed -n 's/^\*\*\* FAIL \[\([a-z-]*\)\].*/\1/p' | sort -u | tr '\n' ' ')
+    if [ "$status" -eq 0 ]; then
+        echo "  *** SURVIVED: $name"; fails=$((fails + 1))
+    elif ! printf '%s\n' "$fired" | grep -q "$gate"; then
+        echo "  *** WRONG GATE: $name -- wanted [$gate], fired [$fired]"; fails=$((fails + 1))
+    else
+        echo "  caught: $name  ->  [$fired]"
+    fi
+}
+
+uplant "an unlock key the model does not define" \
+       "unlocks" \
+       'cards["harvest"]["unlock"]={"when_it_feels_done": True}'
+
+uplant "a decorative unlock: it never blocks anything" \
+       "unlocks" \
+       'cards["harvest"]["unlock"]={"remaining_at_most": 99}'
+
+uplant "an unlock that can never open: more trials than copies exist" \
+       "unlocks" \
+       'cards["harvest"]["unlock"]={"played_at_least":{"card":"try","n":9}}'
+
+uplant "an unlock on remaining budget in a deck with no budget" \
+       "unlocks" \
+       'd.pop("budget",None)'
+
+echo
 echo "=== ordering regression (simulate.py) ==="
 # The v0.5.0 bug, replanted: with `gather` no longer requiring `hunch`, the die
 # is free to schedule the gut call AFTER the evidence -- which every static gate

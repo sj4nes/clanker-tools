@@ -11,6 +11,10 @@ python3 check_deck.py decks/decide.json
 echo
 python3 simulate.py decks/decide.json 800
 echo
+python3 check_deck.py decks/invent.json
+echo
+python3 simulate.py decks/invent.json 800
+echo
 echo "=== conditional-requirement property test ==="
 python3 verification/condition-check.py 300
 echo

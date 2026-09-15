@@ -89,6 +89,44 @@ $PY run_deck.py verify --ledger "$LED" >/dev/null \
     || { echo "  *** baseline run does not verify"; exit 1; }
 echo
 
+# A COMPLETED map-form run. `required_roles` may be a list (every exit) or a
+# map (per exit); only the list form was ever played to a terminal here, and
+# the map form reported its own exit card as a missing ROLE for as long as that
+# went unexercised. Cheap to keep, and it is the only completed map-form run in
+# the harness.
+echo "=== a clean completed run of a map-form deck (decks/invent.json) ==="
+$PY run_deck.py init --deck decks/invent.json --seed 31337 --ledger "$LED" >/dev/null
+i=0
+while [ $i -lt 30 ]; do
+    i=$((i + 1))
+    card=$($PY run_deck.py next --ledger "$LED" \
+           | $PY -c 'import json,sys
+d=json.load(sys.stdin)
+print("DONE" if d.get("done") else (d.get("drawn") or (d.get("choose_an_exit") or ["DONE"])[0]))')
+    [ "$card" = DONE ] && break
+    $PY - decks/invent.json "$card" "$ART" <<'PYEOF'
+import json,sys
+deck=json.load(open(sys.argv[1])); card=sys.argv[2]
+t={c["id"]:c for c in deck["cards"]}[card]["produces"]
+json.dump({f:f"<{f}>" for f in deck["artifacts"][t]["fields"]}, open(sys.argv[3],"w"))
+PYEOF
+    inst=$($PY -c 'import json,sys;d=json.load(open("decks/invent.json"));
+print(next((c.get("instrument") or "") for c in d["cards"] if c["id"]==sys.argv[1]))' "$card")
+    if [ -n "$inst" ]; then
+        $PY run_deck.py play --ledger "$LED" --card "$card" --artifact-file "$ART" \
+            --command "echo grounded" >/dev/null 2>&1
+    else
+        $PY run_deck.py play --ledger "$LED" --card "$card" --artifact-file "$ART" >/dev/null 2>&1
+    fi
+done
+n=$((n + 1))
+if $PY run_deck.py verify --ledger "$LED" 2>&1 | grep -q "LEDGER VERIFIED"; then
+    echo "  ok: a completed map-form run verifies"
+else
+    echo "  *** a completed map-form run does NOT verify"; fails=$((fails + 1))
+fi
+echo
+
 echo "=== refusals (checked mid-run, on a fresh ledger) ==="
 $PY run_deck.py init --deck "$DECK" --seed 91137 --ledger "$LED" >/dev/null
 DRAWN=$($PY run_deck.py next --ledger "$LED" \

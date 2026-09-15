@@ -421,6 +421,62 @@ has both. `condition-check.py` asserts that as a property over 300 die-driven
 runs: 1195 exit-decision points, 485 with commit or drop on offer,
 **0 violations**.
 
+## Resource unlocks, and the `invent` deck
+
+`invent` was the shape the machinery could not express: every legality
+predicate was artifact-based, and invent's terminal condition is *"good
+enough"* — a judgement, with no artifact whose existence means stop.
+
+The primitive that fixes it turned out to need **no new machinery at all**.
+Plays, spend and per-card counts are functions of the counts vector, and the
+counts vector is already the state — so unlike conditions (a flag dimension) or
+per-option cards (expansion), an `unlock` does not grow the state space by a
+single node. The design decision was the whole of the work: a *judgement*-gated
+terminal hands back the one decision the external draw exists to remove, so
+unlocks key on **resources only**.
+
+**Finding 16: exhaustion measures spend, not work.** `invent` v0.1.0 gated
+`harvest` on `remaining_at_most: 2` and **passed every gate and every simulator
+check on the first draft** — the only deck of the three to do so. It was still
+wrong. Searching for the laziest legal complete run:
+
+    frame generate generate generate generate generate generate
+    oblique oblique survey develop try cull harvest
+
+Six `generate` plays — its entire copy limit — to burn budget down to the
+unlock, and **exactly one trial**. The exhaustion gate is satisfiable by
+padding with the cheapest legal card. This refutes the claim written into
+`BACKLOG.md` when the deck was deferred, that "terminating by exhaustion is at
+least incorruptible": it cannot be *talked* out of stopping early, but it can
+be *padded* into it. The fix pairs exhaustion with work:
+`played_at_least: {card: try, n: 2}`, after which the laziest run does two real
+trials.
+
+Note what found this. Not a gate, not the simulator — an explicit search for
+the run that does the least work while staying legal. That search is worth
+running on any deck with an unlock, and it is the thing to add next.
+
+**Finding 17: the path space is exponential in the state space.** The simulator
+enumerated every complete path, which was exact and fine at 59 paths
+(`diagnose`) and 261,243 (`decide`) — and simply did not return for `invent`,
+which has **1,182 reachable states and 22,302,788 paths**. The fix is a
+different algorithm for the same numbers: dynamic programming over the state
+space, exact rather than sampled, because a state's future does not depend on
+how it was reached. Ordering is the one figure that is not a plain state
+marginal, so each pair gets a three-valued latch (neither seen / a first /
+b first) — still linear in the state space. `invent` now reports in **0.66 s**,
+and `diagnose`'s numbers are reproduced to the digit.
+
+**Finding 18: a check that has never run is not a check — including this
+harness's own.** The completed `invent` run failed `verify` with *"run
+completed without wearing required roles: ['harvest']"*. `required_roles` is a
+list or a map, and `set(a_dict)` yields the **keys** — card ids — which were
+then compared against role names. Latent since `coverage` became per-terminal:
+`diagnose` is list-form, and **no map-form deck had ever been played to a
+terminal**, because every `decide` playthrough stopped at the exits rather than
+taking one. The skill shipped at 1.0.0 with it. A completed map-form run is now
+part of `runner-check.sh`.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -442,12 +498,16 @@ runs: 1195 exit-decision points, 485 with commit or drop on offer,
   quality, one level down, and it is where the human stays.
 - **The runner executes what it is given**, with `shell=True` and a timeout.
   Fine for a local tool whose deck and operator you trust; it is not a sandbox.
-- **Two decks.** `build` would likely be *more* forced than diagnose and test
-  little. `invent` needs a legality primitive we do not have: every predicate
-  here is artifact-based, and invent's terminal condition is a judgement
-  (*"good enough"*), not a precondition. `improve` is the one shape this
-  machinery structurally **cannot** express — L5 means the process revises
-  itself, and every gate assumes the deck is fixed for the duration of a run.
+- **Three decks.** `build` would likely be *more* forced than diagnose and test
+  little. `improve` is the one shape this machinery structurally **cannot**
+  express — L5 means the process revises itself, and every gate assumes the
+  deck is fixed for the duration of a run.
+- **No laziness search in the harness.** Finding 16 was found by hand, by
+  searching for the legal run that does the least work. Nothing runs that
+  search automatically, so the next deck with an unlock can repeat the mistake.
+- **An unlock cannot key on artifact content**, deliberately — that is what
+  keeps it incorruptible, and it is also why it cannot express "stop when the
+  result is good", which remains outside the model.
 - **Matched depth is matched COUNT, not matched effort.** The deck can require
   every option to have a steelman and an attack. It cannot tell a two-line
   attack from a page of one, which is the sense in which a steelman is usually
@@ -460,7 +520,7 @@ runs: 1195 exit-decision points, 485 with commit or drop on offer,
   not the right command", one level up.
 - **Conditions key on presence, not value.** `is the field non-null` is the
   only predicate. There is no *"if cost > X"* or comparison of any kind.
-- **The suite is 43s**, over the repo's seconds-not-minutes bar. Most of it is
+- **The suite is 48s**, over the repo's seconds-not-minutes bar. Most of it is
   process spawn across ~80 python invocations in the mutation harnesses; user
   time is 10s.
 - **Weights are state-independent.** `weight * decay^plays` depends only on how

@@ -14,7 +14,7 @@ choice has nothing to verify; a bounded machine with resources has deadlocks,
 unreachable terminals, decorative hats, and paths that skip the hat you most
 wanted worn. Those are design bugs you cannot playtest your way to.
 
-Thirteen gates. See budget.py for why the budget enters through legality rather
+Fifteen gates. See budget.py for why the budget enters through legality rather
 than as a wall.
 
 Usage:  python3 check_deck.py decks/diagnose.json
@@ -158,6 +158,74 @@ def gate_weights(deck):
         ok("weights", f"all positive; repeat_decay {decay}"
                       + (f"; re-weighted cards: {tuned}" if tuned else
                          "; no per-card weights"))
+
+
+def gate_unlocks(deck):
+    """A resource unlock must be well formed, must BITE, and must OPEN.
+
+    Same spirit as `conditions` and `no-orphans`: an unlock that never blocks
+    anything reads as a constraint while permitting everything, and one that
+    never opens makes its card unplayable. Both are checked over the reachable
+    state space rather than argued about."""
+    carded = [c for c in deck["cards"] if c.get("unlock")]
+    if not carded:
+        ok("unlocks", "none declared")
+        return
+    problems = []
+    for c in carded:
+        u = c["unlock"]
+        for k in u:
+            if k not in B.UNLOCK_KEYS:
+                problems.append(f"card '{c['id']}' declares unknown unlock key "
+                                f"'{k}' (known: {list(B.UNLOCK_KEYS)})")
+        for k in ("plays_at_least", "spent_at_least", "remaining_at_most"):
+            if k in u and (not isinstance(u[k], int) or u[k] < 0):
+                problems.append(f"card '{c['id']}' unlock {k}={u[k]!r}; "
+                                f"needs a non-negative integer")
+        if "remaining_at_most" in u and deck.get("budget") is None:
+            problems.append(f"card '{c['id']}' unlocks on remaining budget, "
+                            f"but the deck declares no budget")
+        pa = u.get("played_at_least")
+        if pa is not None:
+            if not isinstance(pa, dict) or "card" not in pa or "n" not in pa:
+                problems.append(f"card '{c['id']}' played_at_least needs "
+                                f"{{card, n}}")
+            elif pa["card"] not in {x["id"] for x in deck["cards"]}:
+                problems.append(f"card '{c['id']}' unlocks on unknown card "
+                                f"'{pa['card']}'")
+    if problems:
+        for pr in problems:
+            fail("unlocks", pr)
+        return
+
+    ids = [c["id"] for c in deck["cards"]]
+    _, seen, _ = B.explore(deck)
+    bites = {c["id"]: False for c in carded}
+    opens = {c["id"]: False for c in carded}
+    for st in seen:
+        counts = dict(zip(ids, st[0] if isinstance(st[0], tuple) else st))
+        have = B.artifacts_of(deck, counts)
+        for c in carded:
+            if counts.get(c["id"], 0) >= c["copies"]:
+                continue
+            # would this card be legal but for the unlock?
+            if not all(r in have for r in c["requires"]):
+                continue
+            if B.unlock_open(deck, c, counts):
+                opens[c["id"]] = True
+            else:
+                bites[c["id"]] = True
+    for c in carded:
+        if not bites[c["id"]]:
+            fail("unlocks", f"card '{c['id']}' has an unlock that never blocks it "
+                            f"in any reachable state -- it is decorative")
+        elif not opens[c["id"]]:
+            fail("unlocks", f"card '{c['id']}' has an unlock that never opens "
+                            f"in any reachable state -- the card is unplayable")
+    if all(bites.values()) and all(opens.values()):
+        desc = ", ".join(f"{c['id']}:{sorted(c['unlock'])}" for c in carded)
+        ok("unlocks", f"{len(carded)} resource unlock(s), each both blocks and "
+                      f"opens somewhere ({desc})")
 
 
 def gate_options(deck):
@@ -497,6 +565,7 @@ def main(path):
     gate_exclusivity(deck)
     gate_instrument_grounding(deck)
     gate_weights(deck)
+    gate_unlocks(deck)
     gate_options(deck)
     gate_conditions(deck)
     gate_acyclic(deck)
