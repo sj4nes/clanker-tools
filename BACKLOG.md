@@ -1104,3 +1104,31 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       indexes; `sh build/all.sh` green.  (2026-09-06)
 - [x] **simulation:** new skill — SKILL.md + 4 references + M/M/1 DES verification
       run; merged to main.  (2026-09-06)
+
+- [ ] **evaluator-integrity:** five harness gaps from the displacement table
+      (`skills/evaluator-integrity/verification/README.md`) — (1) an
+      evaluator-CALL budget section, showing a loop that wins on query count
+      alone at equal compute (b2 claims call-matching; only attempt-matching
+      is demonstrated); (2) early stopping on the reporting set, a different
+      leak channel from the argmax selection already covered (b3); (3) coupled
+      solver+evaluator co-evolution, where BOTH move and attribution fails —
+      the paper's central L5 problem, and b5's "hold one fixed" has no fixture;
+      (4) anchor noise, a small/noisy anchor producing a wrong ACCEPT, where
+      the harness supplies a perfect anchor by construction; (5) protocol-link
+      families (`references/headroom-index.md` §1) — the rule gating whether
+      two scores may be pooled at all is unchecked and sits upstream of every
+      verified formula.  (2026-09-14)
+
+- [ ] **experience-library:** four harness gaps from the displacement table
+      (`skills/experience-library/verification/README.md`) — (1) cross-executor
+      transfer (b6): no fixture plants an artifact that helps executor A and
+      HURTS executor B, which is exactly the claim; (2) the promotion gate
+      (b1): "a tool is admitted only after it compiles and runs" has no
+      fixture, and the recurrence criterion is unmodelled; (3) activation and
+      execution as interventions (b5): `bc` §5 supplies the three factors
+      rather than generating them from a realistic retrieval or
+      instruction-following failure; (4) staged admission (b2): HDSO runs the
+      comparison in stages of increasing size, the harness runs one fixed-n
+      comparison, and the sequential multiplicity is unmodelled —
+      `evaluator-integrity`'s look-count sweep suggests it is not small.
+      (2026-09-14)

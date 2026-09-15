@@ -1,0 +1,330 @@
+/* Exact-arithmetic checks for the `evaluator-integrity` skill.
+ * Run:  bc -lq skills/evaluator-integrity/verification/checks.bc   (needs -l)
+ *
+ * bc truncates; scale is set explicitly. Lowercase identifiers only, no `_`,
+ * no single uppercase letters.  `abs` is reserved on macOS -- use `aval`.
+ * EVERY CLAIM IS ASSERTED via chk() and prints a FAIL line, because bc's
+ * `quit` always exits 0 and the runner greps the output.
+ * See docs/verifying-skills.md and docs/bc-verification-audit.md.
+ *
+ * Sections:
+ *   1. budget confound      -- pass@k rises with zero ability change
+ *   2. headroom             -- equal raw deltas, unequal real progress (HCI)
+ *   3. source weighting     -- the naive mean of self-reports runs high
+ *   4. family aggregation   -- sqrt(n) weighting vs the naive mean
+ *   5. leniency             -- a judge's score and its accuracy move apart
+ */
+scale = 12
+
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {        /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+
+fails = 0
+bad = 0
+tol = 0.000000001
+
+/* ---------------------------------------------------------------- *
+ * 1. THE BUDGET CONFOUND
+ *
+ * A solver whose per-attempt success probability is FIXED at p. Give the
+ * loop k independent attempts and score it pass@k = 1 - (1-p)^k. Nothing
+ * about the solver changed between rounds; only the sampling budget did.
+ * The reported score still climbs, and climbs a lot.
+ *
+ * The independent oracle for this closed form is the Monte Carlo in
+ * evalsim.py section 1, which draws the attempts rather than computing
+ * the complement.  Here we assert the arithmetic and, crucially, the
+ * CONTRAST: the budget-driven gain is larger than a real ability gain
+ * that a reader would find impressive.
+ * ---------------------------------------------------------------- */
+print "1. budget confound (pass@k at fixed ability)\n"
+
+pp = 0.35                       /* per-attempt success, unchanged */
+passat1 = 1 - (1 - pp)^1
+passat4 = 1 - (1 - pp)^4
+
+print "   pass@1 = ", passat1, "\n"
+print "   pass@4 = ", passat4, "\n"
+
+bad = chk(passat1 - 0.35, tol)
+if (bad) { print "*** FAIL: pass@1 must equal p itself\n" }
+fails += bad
+
+/* 1 - 0.65^4 = 1 - 0.17850625 = 0.82149375, exactly */
+bad = chk(passat4 - 0.82149375, tol)
+if (bad) { print "*** FAIL: pass@4 closed form wrong\n" }
+fails += bad
+
+budgetgain = passat4 - passat1
+print "   apparent gain from budget alone = ", budgetgain, "\n"
+
+/* Now a solver that GENUINELY improved, p 0.35 -> 0.50, scored at fixed k=1 */
+realgain = 0.50 - 0.35
+print "   gain from a real 15-point ability improvement = ", realgain, "\n"
+
+bad = chk(budgetgain > realgain, 0)   /* want TRUE, i.e. the expression is 1 */
+if (chk(1 - (budgetgain > realgain), tol)) {
+  print "*** FAIL: the budget confound should dwarf the real gain here\n"
+  fails += 1
+}
+
+/* The matched-budget correction: compare at the SAME k. Under k=4 the
+ * improved solver reaches 1-0.5^4 = 0.9375, and the gap that survives
+ * budget-matching is the only gain that was ever real. */
+improvedat4 = 1 - (1 - 0.50)^4
+bad = chk(improvedat4 - 0.9375, tol)
+if (bad) { print "*** FAIL: matched-budget pass@4 for p=0.5 wrong\n" }
+fails += bad
+
+matchedgap = improvedat4 - passat4
+print "   matched-budget (both at k=4) gap = ", matchedgap, "\n"
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 2. HEADROOM: EQUAL RAW DELTAS, UNEQUAL PROGRESS
+ *
+ * Headroom-Closed Index, Duan et al. 2026 Eq. 2:
+ *     H = 100 * (s - f0) / (100 - f0)
+ * where f0 is the 90th-percentile score in the benchmark's entry year.
+ * H = 0 is the entry-year frontier, H = 100 is a perfect score.
+ *
+ * Two benchmarks each move +4 raw points. A naive mean of raw deltas
+ * calls them equal progress. They are not: one closed half of what was
+ * left, the other closed a fifteenth.
+ * ---------------------------------------------------------------- */
+print "2. headroom (equal raw deltas, unequal progress)\n"
+
+/* benchmark a: near ceiling. entry-year frontier 50, score 92 -> 96 */
+af0 = 50
+aold = 92
+anew = 96
+ahold = 100 * (aold - af0) / (100 - af0)
+ahnew = 100 * (anew - af0) / (100 - af0)
+
+/* benchmark b: wide open. entry-year frontier 10, score 40 -> 44 */
+bf0 = 10
+bold = 40
+bnew = 44
+bhold = 100 * (bold - bf0) / (100 - bf0)
+bhnew = 100 * (bnew - bf0) / (100 - bf0)
+
+bad = chk(ahold - 84, tol)
+if (bad) { print "*** FAIL: hci for benchmark a, old\n" }
+fails += bad
+bad = chk(ahnew - 92, tol)
+if (bad) { print "*** FAIL: hci for benchmark a, new\n" }
+fails += bad
+
+/* (40-10)/90*100 = 33.333..., (44-10)/90*100 = 37.777... */
+bad = chk(bhold - 33.333333333333, 0.00000001)
+if (bad) { print "*** FAIL: hci for benchmark b, old\n" }
+fails += bad
+bad = chk(bhnew - 37.777777777777, 0.00000001)
+if (bad) { print "*** FAIL: hci for benchmark b, new\n" }
+fails += bad
+
+rawdeltaa = anew - aold
+rawdeltab = bnew - bold
+bad = chk(rawdeltaa - rawdeltab, tol)
+if (bad) { print "*** FAIL: the two raw deltas were meant to be identical\n" }
+fails += bad
+print "   raw delta a = ", rawdeltaa, ",  raw delta b = ", rawdeltab, "  (identical)\n"
+
+/* The sharper statement: fraction of the REMAINING headroom closed.
+ * a closes 4 of the 8 points that were left = 50%.
+ * b closes 4 of the 60 points that were left = 6.667%. */
+fraca = (anew - aold) / (100 - aold)
+fracb = (bnew - bold) / (100 - bold)
+bad = chk(fraca - 0.5, tol)
+if (bad) { print "*** FAIL: remaining-headroom fraction for a\n" }
+fails += bad
+bad = chk(fracb - 0.066666666666, 0.00000001)
+if (bad) { print "*** FAIL: remaining-headroom fraction for b\n" }
+fails += bad
+
+ratio = fraca / fracb
+print "   remaining headroom closed: a = ", fraca, ",  b = ", fracb, "\n"
+print "   ratio = ", ratio, "x  -- from two identical raw deltas\n"
+bad = chk(ratio - 7.5, 0.0000001)
+if (bad) { print "*** FAIL: the a:b progress ratio should be 7.5\n" }
+fails += bad
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 3. SOURCE WEIGHTING
+ *
+ * Weighted consensus, Duan et al. 2026 Eq. 1:
+ *     sbar = sum(w_i * s_i) / sum(w_i)
+ * with base weights: benchmark-owner table 3, independent common-harness
+ * evaluation 2.5, combined benchmark/model report 2, model-author table 1;
+ * and first-party values multiplied by a further 0.75.
+ *
+ * The default is an unweighted mean over whatever numbers were found.
+ * With a self-report in the pool that mean runs high.
+ * ---------------------------------------------------------------- */
+print "3. source weighting (the naive mean of a pool containing a self-report)\n"
+
+sowner = 80                     /* benchmark-owner table */
+sauthor = 90                    /* model-author self-report */
+wowner = 3
+wauthor = 1 * 0.75              /* first-party discount */
+
+consensus = (wowner * sowner + wauthor * sauthor) / (wowner + wauthor)
+naivemean = (sowner + sauthor) / 2
+
+/* (3*80 + 0.75*90) / 3.75 = (240 + 67.5) / 3.75 = 307.5 / 3.75 = 82 */
+bad = chk(consensus - 82, tol)
+if (bad) { print "*** FAIL: weighted consensus wrong\n" }
+fails += bad
+bad = chk(naivemean - 85, tol)
+if (bad) { print "*** FAIL: naive mean wrong\n" }
+fails += bad
+
+print "   weighted consensus = ", consensus, "\n"
+print "   naive unweighted mean = ", naivemean, "\n"
+print "   the naive mean runs ", naivemean - consensus, " points high\n"
+
+bad = chk((naivemean > consensus) - 1, tol)
+if (bad) { print "*** FAIL: naive mean should exceed the weighted consensus here\n" }
+fails += bad
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 4. FAMILY AGGREGATION
+ *
+ * Domain trajectory, Duan et al. 2026 Eq. 3: benchmark families are
+ * combined with weight sqrt(n), n = number of distinct models on that
+ * family-year frontier. A family with one model must not weigh the same
+ * as a family with sixteen -- and must not dominate either, which is why
+ * the weight is sqrt(n) and not n.
+ * ---------------------------------------------------------------- */
+print "4. family aggregation (sqrt(n) weighting)\n"
+
+qwell = 60                      /* well-covered family */
+nwell = 16
+qthin = 90                      /* one model reported, a high number */
+nthin = 1
+
+wwell = sqrt(nwell)             /* 4 */
+wthin = sqrt(nthin)             /* 1 */
+bad = chk(wwell - 4, tol)
+if (bad) { print "*** FAIL: sqrt(16) should be 4\n" }
+fails += bad
+
+domain = (wwell * qwell + wthin * qthin) / (wwell + wthin)
+naivedom = (qwell + qthin) / 2
+
+/* (4*60 + 1*90)/5 = 330/5 = 66 */
+bad = chk(domain - 66, tol)
+if (bad) { print "*** FAIL: sqrt-weighted domain value wrong\n" }
+fails += bad
+bad = chk(naivedom - 75, tol)
+if (bad) { print "*** FAIL: naive domain mean wrong\n" }
+fails += bad
+
+print "   sqrt(n)-weighted domain value = ", domain, "\n"
+print "   naive mean over families       = ", naivedom, "\n"
+print "   thin single-model family moves the naive number by ", naivedom - domain, " points\n"
+
+/* And the contrast with weight n, which WOULD let the big family dominate:
+ * (16*60 + 1*90)/17 = 1050/17 = 61.76 -- the thin family nearly vanishes. */
+lineardom = (nwell * qwell + nthin * qthin) / (nwell + nthin)
+bad = chk(lineardom - 61.764705882352, 0.00000001)
+if (bad) { print "*** FAIL: linear-n domain value wrong\n" }
+fails += bad
+print "   linear-n weighting would give  = ", lineardom, " (thin family nearly erased)\n"
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 5. LENIENCY: SCORE AND ACCURACY MOVE APART
+ *
+ * A judge admits a candidate when its observed quality exceeds a
+ * threshold t. The anchor's true threshold is 0.50. Candidate quality is
+ * uniform on [0,1], so for a judge at threshold t:
+ *
+ *     reported score = P(q >= t)      = 1 - t
+ *     agreement with anchor           = 1 - |t - 0.5|
+ *
+ * because the judge and the anchor disagree exactly on the interval
+ * between t and 0.5. Selecting the judge with the HIGHER SCORE walks
+ * monotonically to t = 0, where the score is a perfect 1.0 and the
+ * agreement with ground truth is 0.5 -- a coin flip.
+ *
+ * evalsim.py section 4 draws this rather than integrating it.
+ * ---------------------------------------------------------------- */
+print "5. leniency (score rises as accuracy falls)\n"
+
+define jscore(t) {
+  return (1 - t)
+}
+define jagree(t) {
+  return (1 - aval(t - 0.5))
+}
+
+tstrict = 0.50
+tlenient = 0.20
+tvery = 0.00
+
+sstrict = jscore(tstrict)
+slenient = jscore(tlenient)
+svery = jscore(tvery)
+astrict = jagree(tstrict)
+alenient = jagree(tlenient)
+avery = jagree(tvery)
+
+bad = chk(sstrict - 0.5, tol)
+if (bad) { print "*** FAIL: score at the correct threshold\n" }
+fails += bad
+bad = chk(astrict - 1.0, tol)
+if (bad) { print "*** FAIL: the judge at the anchor's threshold must agree perfectly\n" }
+fails += bad
+bad = chk(slenient - 0.8, tol)
+if (bad) { print "*** FAIL: score at t=0.2\n" }
+fails += bad
+bad = chk(alenient - 0.7, tol)
+if (bad) { print "*** FAIL: agreement at t=0.2\n" }
+fails += bad
+bad = chk(svery - 1.0, tol)
+if (bad) { print "*** FAIL: score at t=0\n" }
+fails += bad
+bad = chk(avery - 0.5, tol)
+if (bad) { print "*** FAIL: agreement at t=0\n" }
+fails += bad
+
+print "   t=0.50 (anchor):  score ", sstrict, "  agreement ", astrict, "\n"
+print "   t=0.20:           score ", slenient, "  agreement ", alenient, "\n"
+print "   t=0.00:           score ", svery, "  agreement ", avery, "\n"
+
+/* The two selection rules disagree, and that is the whole point:
+ * "adopt the judge with the higher score" is MONOTONE in leniency and so
+ * has no interior optimum; "adopt the judge that best matches the anchor"
+ * has its maximum exactly at the truth. */
+bad = chk((svery > sstrict) - 1, tol)
+if (bad) { print "*** FAIL: score-selection should prefer the most lenient judge\n" }
+fails += bad
+bad = chk((astrict > avery) - 1, tol)
+if (bad) { print "*** FAIL: anchor-selection should prefer the correct judge\n" }
+fails += bad
+
+print "   score-selection picks t=0.00 (agreement 0.5, a coin flip)\n"
+print "   anchor-selection picks t=0.50 (agreement 1.0)\n"
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * summary
+ * ---------------------------------------------------------------- */
+if (fails == 0) { print "ALL BC CHECKS PASSED\n" }
+if (fails > 0)  { print "*** ", fails, " BC CHECK(S) FAILED\n" }
+
+/* Backstop: bc has no assert and `quit` always exits 0, so force a
+ * documented math error. Must come AFTER the summary -- a math error
+ * halts bc immediately and the diagnostics above would be lost. */
+if (fails > 0) { zz = 1/0 }
+
+quit

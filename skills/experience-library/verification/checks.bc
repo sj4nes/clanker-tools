@@ -1,0 +1,314 @@
+/* Exact-arithmetic checks for the `experience-library` skill.
+ * Run:  bc -lq skills/experience-library/verification/checks.bc   (needs -l)
+ *
+ * bc truncates; scale is set explicitly. Lowercase identifiers only, no `_`,
+ * no single uppercase letters.  `abs` is reserved on macOS -- use `aval`.
+ * EVERY CLAIM IS ASSERTED via chk() and prints a FAIL line, because bc's
+ * `quit` always exits 0 and the runner greps the output.
+ * See docs/verifying-skills.md and docs/bc-verification-audit.md.
+ *
+ * Sections:
+ *   1. the drift curve   -- coverage rises, retrieval falls, the product peaks
+ *   2. the cap           -- an unbounded library falls BELOW a tiny one
+ *   3. over-retirement   -- and an over-aggressive cap is worse than no cap
+ *   4. paired admission  -- why the A/B gate is paired, in variance terms
+ *   5. three-way decomp  -- identical task scores, different diagnoses
+ */
+scale = 12
+
+define aval(x) {
+  if (x < 0) { return (-x) }
+  return (x)
+}
+define chk(claim, tol) {        /* 1 on FAILURE, else 0 */
+  if (aval(claim) <= tol) { return (0) }
+  return (1)
+}
+
+fails = 0
+bad = 0
+tol = 0.000000001
+
+/* ---------------------------------------------------------------- *
+ * THE MODEL
+ *
+ * A library of n entries. Two effects pull in opposite directions:
+ *
+ *   coverage(n)  = 1 - (1-cc)^n        rises with n
+ *       each entry is relevant to a fraction cc of tasks, independently,
+ *       so the chance SOME entry applies grows as the library grows.
+ *
+ *   retrieval(n) = (1-qq)^(n-1)        falls with n
+ *       the relevant entry is ranked first unless a distractor outranks
+ *       it; each of the other n-1 entries does so with probability qq.
+ *
+ *   benefit(n)   = coverage(n) * retrieval(n)
+ *
+ * This is the Library Drift mechanism in closed form: an entry that is
+ * useful in isolation still costs every other entry some retrieval
+ * probability, so the library has an interior optimum and a growing
+ * store walks past it. evalsim.py section 1 DRAWS this rather than
+ * computing it, as an independent oracle.
+ * ---------------------------------------------------------------- */
+cc = 0.02                       /* each entry covers 2% of tasks */
+qq = 0.01                       /* each distractor outranks the right entry 1% */
+
+define coverage(n) {
+  return (1 - (1 - 0.02)^n)
+}
+define retrieval(n) {
+  return ((1 - 0.01)^(n - 1))
+}
+define benefit(n) {
+  return (coverage(n) * retrieval(n))
+}
+
+/* ---------------------------------------------------------------- *
+ * 1. THE DRIFT CURVE
+ * ---------------------------------------------------------------- */
+print "1. the drift curve (coverage up, retrieval down, benefit peaks)\n"
+
+b10 = benefit(10)
+b100 = benefit(100)
+b200 = benefit(200)
+
+print "   n=  10   coverage ", coverage(10), "  retrieval ", retrieval(10), "  benefit ", b10, "\n"
+print "   n= 100   coverage ", coverage(100), "  retrieval ", retrieval(100), "  benefit ", b100, "\n"
+print "   n= 200   coverage ", coverage(200), "  retrieval ", retrieval(200), "  benefit ", b200, "\n"
+
+/* coverage is strictly increasing, retrieval strictly decreasing */
+bad = chk((coverage(200) > coverage(100)) - 1, tol)
+if (bad) { print "*** FAIL: coverage must increase with n\n" }
+fails += bad
+bad = chk((retrieval(200) < retrieval(100)) - 1, tol)
+if (bad) { print "*** FAIL: retrieval must decrease with n\n" }
+fails += bad
+
+/* Find the optimum by SCAN rather than asserting a remembered value.
+ * The first draft of this file hard-coded n=54 and the backstop caught
+ * it: the crossover f(n+1)/f(n) = 1 sits at n = 54.05, so 55 is the
+ * integer argmax. Scanning states the claim the section is making --
+ * that a maximum exists and is interior -- instead of a constant that
+ * silently rots when cc or qq is retuned. */
+nbest = 1
+bbest = benefit(1)
+for (n = 2; n <= 300; n++) {
+  bn = benefit(n)
+  if (bn > bbest) { bbest = bn; nbest = n }
+}
+bopt = bbest
+
+print "   scan over n = 1..300:  argmax at n = ", nbest, ", benefit ", bopt, "\n"
+
+/* the peak is INTERIOR -- not at either end of the scan */
+bad = chk((nbest > 1) - 1, tol)
+if (bad) { print "*** FAIL: the optimum must not sit at the low end of the scan\n" }
+fails += bad
+bad = chk((nbest < 300) - 1, tol)
+if (bad) { print "*** FAIL: the optimum must not sit at the high end of the scan\n" }
+fails += bad
+bad = chk(nbest - 55, tol)
+if (bad) { print "*** FAIL: the integer argmax should be 55\n" }
+fails += bad
+
+/* and it really is a local max: both neighbours are below it */
+bad = chk((bopt > benefit(nbest - 1)) - 1, tol)
+if (bad) { print "*** FAIL: the argmax should beat its left neighbour\n" }
+fails += bad
+bad = chk((bopt > benefit(nbest + 1)) - 1, tol)
+if (bad) { print "*** FAIL: the argmax should beat its right neighbour\n" }
+fails += bad
+
+/* cross-check against the analytic crossover. f(n+1)/f(n) = 1 when
+ * 0.98^n = qq/(cc - cc*qq + qq... ) -- solved directly: with
+ * x = 0.98^n, 1 - 0.98x = (1-x)/0.99  =>  x = 0.01/0.0298.
+ * This is an INDEPENDENT route to the same n: closed form vs scan. */
+xstar = 0.01 / 0.0298
+nstar = l(xstar) / l(0.98)
+print "   analytic crossover at n = ", nstar, " (so the integer argmax is 55)\n"
+bad = chk(nstar - 54.05, 0.02)
+if (bad) { print "*** FAIL: the analytic crossover should land just below 55\n" }
+fails += bad
+bad = chk((nstar < nbest) - 1, tol)
+if (bad) { print "*** FAIL: the crossover must sit below the integer argmax\n" }
+fails += bad
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 2. THE CAP: AN UNBOUNDED LIBRARY FALLS BELOW A TINY ONE
+ *
+ * This is the finding that makes capping a behaviour rather than
+ * housekeeping. Growth is not merely subject to diminishing returns --
+ * it goes NEGATIVE, and a 200-entry library is worse than a 10-entry
+ * one despite covering five times as many tasks.
+ * ---------------------------------------------------------------- */
+print "2. the cap (unbounded growth falls below a tiny library)\n"
+
+bad = chk((b200 < b10) - 1, tol)
+if (bad) { print "*** FAIL: the 200-entry library should fall BELOW the 10-entry one\n" }
+fails += bad
+
+print "   n= 10 benefit ", b10, "   (coverage only ", coverage(10), ")\n"
+print "   n=200 benefit ", b200, "   (coverage ", coverage(200), " -- and still worse)\n"
+print "   ratio capped:unbounded = ", bopt / b200, "x\n"
+
+bad = chk((bopt / b200 > 2.5) - 1, tol)
+if (bad) { print "*** FAIL: the capped library should beat the unbounded one by a wide margin\n" }
+fails += bad
+
+/* The crucial asymmetry: task SCORE is what a team watches, and it is
+ * still rising at n=100 relative to n=10. The collapse arrives later.
+ * So "scores are still going up" is not evidence the library is healthy. */
+bad = chk((b100 > b10) - 1, tol)
+if (bad) { print "*** FAIL: n=100 should still be above n=10 -- the collapse is not yet visible\n" }
+fails += bad
+print "   note: at n=100 benefit ", b100, " is still ABOVE n=10 --\n"
+print "         the score is rising while the library is already past its peak\n"
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 3. OVER-RETIREMENT IS WORSE THAN NO GOVERNANCE
+ *
+ * The Library Drift study's second finding, and the one that stops this
+ * skill from prescribing "retire aggressively": a cap set far below the
+ * optimum starves coverage, and does so more severely than unbounded
+ * growth degrades retrieval over the same range.
+ * ---------------------------------------------------------------- */
+print "3. over-retirement (a too-tight cap is worse than no cap at all)\n"
+
+b5 = benefit(5)
+print "   aggressive cap n=  5   benefit ", b5, "\n"
+print "   governed cap   n= 55   benefit ", bopt, "\n"
+print "   no cap         n=100   benefit ", b100, "\n"
+
+bad = chk((b5 < b100) - 1, tol)
+if (bad) { print "*** FAIL: the aggressive cap should be WORSE than no cap\n" }
+fails += bad
+bad = chk((bopt > b100) - 1, tol)
+if (bad) { print "*** FAIL: the governed cap should beat no cap\n" }
+fails += bad
+bad = chk((bopt > b5) - 1, tol)
+if (bad) { print "*** FAIL: the governed cap should beat the aggressive cap\n" }
+fails += bad
+
+print "   ordering: governed > none > aggressive -- the policy is a U, not a slope\n"
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 4. WHY THE ADMISSION GATE IS PAIRED
+ *
+ * HDSO runs the SAME tasks twice -- control (current library) and
+ * treatment (library + candidate) -- rather than comparing a treatment
+ * run against a historical average. The reason is variance.
+ *
+ * With per-task difficulty dd shared by both arms and independent
+ * measurement noise ee in each:
+ *
+ *   unpaired difference variance = 2*vd + 2*ve
+ *   paired   difference variance =        2*ve      (dd cancels)
+ *
+ * The detectable effect scales with the standard deviation, so the
+ * ratio of detectable effects is sqrt((vd+ve)/ve).
+ * ---------------------------------------------------------------- */
+print "4. paired admission (why the same tasks, twice)\n"
+
+vd = 0.09                       /* task-difficulty variance, shared */
+ve = 0.01                       /* measurement noise, independent */
+
+vunpaired = 2 * vd + 2 * ve
+vpaired = 2 * ve
+
+bad = chk(vunpaired - 0.20, tol)
+if (bad) { print "*** FAIL: unpaired difference variance\n" }
+fails += bad
+bad = chk(vpaired - 0.02, tol)
+if (bad) { print "*** FAIL: paired difference variance\n" }
+fails += bad
+
+print "   unpaired variance ", vunpaired, "   paired variance ", vpaired, "\n"
+
+varratio = vunpaired / vpaired
+bad = chk(varratio - 10, tol)
+if (bad) { print "*** FAIL: the variance ratio should be 10\n" }
+fails += bad
+
+/* effect sizes scale as the sd, so sqrt(10) = 3.162... */
+effratio = sqrt(varratio)
+bad = chk(effratio - 3.162277660168, 0.00000001)
+if (bad) { print "*** FAIL: the detectable-effect ratio should be sqrt(10)\n" }
+fails += bad
+print "   variance ratio ", varratio, "x  ->  detectable effect ", effratio, "x smaller when paired\n"
+
+/* Equivalently, to detect the same effect unpaired you need `varratio`
+ * times as many tasks -- 10x the evaluation budget for the same gate. */
+print "   i.e. an unpaired gate needs ", varratio, "x the tasks for equal power\n"
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * 5. RETENTION / ACTIVATION / EXECUTION
+ *
+ * An artifact helps only if it is retained AND retrieved AND followed:
+ *
+ *   realised = retention * activation * execution
+ *
+ * Three libraries with very different pathologies produce the SAME
+ * end-to-end number, which is why one task score cannot diagnose any
+ * of them.
+ * ---------------------------------------------------------------- */
+print "5. retention / activation / execution (one score, three diagnoses)\n"
+
+/* library a: entries are found and followed, but few were ever kept */
+ra = 0.3
+aa = 1.0
+ea = 1.0
+/* library b: everything kept and followed, but retrieval rarely fires */
+rb = 1.0
+ab = 0.3
+eb = 1.0
+/* library c: everything kept and found, but the agent does not follow it */
+rc = 1.0
+ac = 1.0
+ec = 0.3
+
+reala = ra * aa * ea
+realb = rb * ab * eb
+realc = rc * ac * ec
+
+print "   library a   retention ", ra, "  activation ", aa, "  execution ", ea, "  realised ", reala, "\n"
+print "   library b   retention ", rb, "  activation ", ab, "  execution ", eb, "  realised ", realb, "\n"
+print "   library c   retention ", rc, "  activation ", ac, "  execution ", ec, "  realised ", realc, "\n"
+
+bad = chk(reala - realb, tol)
+if (bad) { print "*** FAIL: a and b should realise the same benefit\n" }
+fails += bad
+bad = chk(realb - realc, tol)
+if (bad) { print "*** FAIL: b and c should realise the same benefit\n" }
+fails += bad
+
+print "   identical realised benefit ", reala, " -- and three different repairs:\n"
+print "     a needs a looser admission gate, b needs better retrieval,\n"
+print "     c needs the artifact rewritten so it can be followed\n"
+
+/* And the trap: 'improve the library' usually means raising retention,
+ * which is the WRONG lever for b and c. Raising a's retention to 1.0
+ * triples its benefit; raising b's does nothing at all. */
+bad = chk((1.0 * aa * ea) - 1.0, tol)
+if (bad) { print "*** FAIL: fixing a's retention should realise 1.0\n" }
+fails += bad
+bad = chk((1.0 * ab * eb) - 0.3, tol)
+if (bad) { print "*** FAIL: fixing b's retention should change nothing\n" }
+fails += bad
+print "   raising retention to 1.0:  a -> 1.0 (fixed),  b -> 0.3 (no change)\n"
+print "\n"
+
+/* ---------------------------------------------------------------- *
+ * summary
+ * ---------------------------------------------------------------- */
+if (fails == 0) { print "ALL BC CHECKS PASSED\n" }
+if (fails > 0)  { print "*** ", fails, " BC CHECK(S) FAILED\n" }
+
+/* Backstop: bc has no assert and `quit` always exits 0, so force a
+ * documented math error. Must come AFTER the summary. */
+if (fails > 0) { zz = 1/0 }
+
+quit
