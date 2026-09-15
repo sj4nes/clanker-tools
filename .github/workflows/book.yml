@@ -1,0 +1,95 @@
+name: book
+
+# Manual only. The PDF is a RELEASE ARTIFACT, not a tracked file -- docs/book/
+# carries the source and .gitignores build/. Running this is a deliberate act,
+# not something a push should trigger.
+on:
+  workflow_dispatch:
+    inputs:
+      make_release:
+        description: "Also attach the PDF to a GitHub release"
+        type: boolean
+        default: false
+      tag:
+        description: "Release tag (required when make_release is true)"
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+env:
+  # Pinned: the typst skill requires recording the version a document was built
+  # with, and an unpinned toolchain is an unreproducible build.
+  TYPST_VERSION: "0.15.1"
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Typst ${{ env.TYPST_VERSION }}
+        run: |
+          set -euo pipefail
+          url="https://github.com/typst/typst/releases/download/v${TYPST_VERSION}/typst-x86_64-unknown-linux-musl.tar.xz"
+          curl -fsSL "$url" -o typst.tar.xz
+          tar -xJf typst.tar.xz
+          sudo install -m755 typst-x86_64-unknown-linux-musl/typst /usr/local/bin/typst
+          typst --version
+
+      - name: Compile
+        run: |
+          set -euo pipefail
+          mkdir -p build
+          typst compile docs/book/book.typ build/missing-manual.pdf
+
+      # A clean exit is not verification -- the book's own Part III is about
+      # exactly this. Assert the artifact is a real, non-trivial PDF.
+      - name: Verify the artifact
+        run: |
+          set -euo pipefail
+          f=build/missing-manual.pdf
+          test -s "$f" || { echo "::error::no PDF produced"; exit 1; }
+          head -c4 "$f" | grep -q '%PDF' || { echo "::error::not a PDF"; exit 1; }
+          bytes=$(wc -c < "$f")
+          pages=$(strings "$f" | grep -c '/Type[[:space:]]*/Page[^s]' || true)
+          echo "bytes=$bytes pages~=$pages"
+          [ "$bytes" -gt 20000 ] || { echo "::error::PDF suspiciously small ($bytes bytes)"; exit 1; }
+          { echo "### Book rendered"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| typst | \`$TYPST_VERSION\` |"
+            echo "| bytes | $bytes |"
+            echo "| pages (approx) | $pages |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: missing-manual-pdf
+          path: build/missing-manual.pdf
+          if-no-files-found: error
+          retention-days: 90
+
+  release:
+    needs: render
+    if: inputs.make_release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write        # only this job can write, and only when asked
+    steps:
+      - name: Require a tag
+        if: inputs.tag == ''
+        run: echo "::error::make_release was set but no tag was given"; exit 1
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: missing-manual-pdf
+          path: build
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          files: build/missing-manual.pdf
+          fail_on_unmatched_files: true
