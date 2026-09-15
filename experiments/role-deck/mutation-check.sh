@@ -125,6 +125,28 @@ plant "an instrument kind the deck never declares" \
       'cards["gather"]["instrument"]="vibes"'
 
 echo
+echo "=== ordering regression (simulate.py) ==="
+# The v0.5.0 bug, replanted: with `gather` no longer requiring `hunch`, the die
+# is free to schedule the gut call AFTER the evidence -- which every static gate
+# passes and which destroys what RED is for. Only the simulator sees it.
+$PY - "$DECK" "$TMP" <<'PYEOF'
+import json,sys
+d=json.load(open(sys.argv[1]))
+for c in d["cards"]:
+    if c["id"]=="gather": c["requires"]=["question"]
+json.dump(d,open(sys.argv[2],"w"),indent=2)
+PYEOF
+n=$((n + 1))
+simout=$($PY simulate.py "$TMP" 400 2>&1) && simstatus=0 || simstatus=$?
+if [ "$simstatus" -eq 0 ]; then
+    echo "  *** SURVIVED: the hunch may follow the evidence and simulate.py passed"
+    fails=$((fails + 1))
+else
+    echo "  caught: RED scheduled after the evidence"
+    printf '%s\n' "$simout" | sed -n 's/^\*\*\* FAIL \[order\] /          -> /p' | head -2
+fi
+
+echo
 echo "=== regression: disabling look-ahead must reintroduce strands ==="
 $PY - <<'PYEOF'
 import json, budget as B

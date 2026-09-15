@@ -5,6 +5,8 @@ set -e
 cd "$(dirname "$0")"
 python3 check_deck.py decks/diagnose.json
 echo
+python3 simulate.py decks/diagnose.json 2000
+echo
 sh mutation-check.sh
 echo
 sh runner-check.sh

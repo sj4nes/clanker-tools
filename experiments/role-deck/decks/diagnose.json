@@ -1,8 +1,8 @@
 {
   "deck": "diagnose",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "goal_shape": "Something is wrong and the cause is not known.",
-  "_note": "Hand-written first, then corrected by check_deck.py at every step. v0.1.0 had RED and YELLOW decorative; v0.3.0 added a budget, which cannot be a hard wall; v0.5.0 grounds WHITE and EXECUTE in instruments the runner actually invokes. See FINDINGS.md.",
+  "_note": "Hand-written first, then corrected by the tooling at every step. v0.1.0 had RED and YELLOW decorative; v0.3.0 added a budget, which cannot be a hard wall; v0.5.0 grounded WHITE and EXECUTE in real instruments; v0.6.0 forces RED before any evidence exists, after simulate.py found the hunch landing AFTER the evidence in half of all runs. See FINDINGS.md.",
   "artifacts": {
     "question": {
       "fields": [
@@ -74,7 +74,8 @@
       "role": "WHITE",
       "copies": 2,
       "requires": [
-        "question"
+        "question",
+        "hunch"
       ],
       "produces": "evidence",
       "instrument": "retrieval",
@@ -160,5 +161,35 @@
   "instrumented_roles": [
     "WHITE",
     "EXECUTE"
+  ],
+  "expected_order": [
+    [
+      "hunch",
+      "gather"
+    ],
+    [
+      "hunch",
+      "hypothesize"
+    ],
+    [
+      "hunch",
+      "falsify"
+    ],
+    [
+      "hunch",
+      "run"
+    ],
+    [
+      "gather",
+      "hypothesize"
+    ],
+    [
+      "support",
+      "falsify"
+    ],
+    [
+      "falsify",
+      "run"
+    ]
   ]
 }

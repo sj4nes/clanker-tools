@@ -14,7 +14,8 @@ Not a skill yet: no `SKILL.md`, deliberately outside `skills/` so
 | `budget.py` | the budget model, and why it enters through legality rather than as a wall |
 | `mutation-check.sh` | plants one defect per gate and asserts each is caught |
 | `run_deck.py` | the runner: external draw, artifact validation, append-only ledger, replay-based `verify` |
-| `runner-check.sh` | six refusals and seven ledger-tamper cases, all asserted caught |
+| `runner-check.sh` | eight refusals and ten ledger-tamper cases, all asserted caught |
+| `simulate.py` | what the deck actually generates: every complete path with its exact probability, plus the declared orderings verified |
 
 A deck is a bounded state machine: state is the multiset of cards played, a
 card is legal when a copy remains and its required artifacts are present, play
@@ -160,6 +161,53 @@ That is the finding of the original audit, produced by the runner rather than
 asserted by the model. The stored output is hashed, so editing it after the
 fact fails `verify`.
 
+## The simulator
+
+The gates say what is *possible*. They say nothing about how often — and a deck
+is a generative object, which designers are reliably wrong about. The state
+space is small, so `simulate.py` does not sample: it **enumerates every
+complete path with its exact probability** (the product of 1/|legal moves| per
+step). Monte Carlo runs only as an independent cross-check, and it goes through
+the real hash-based die in `run_deck.draw`, so the comparison also tests whether
+that die is uniform. It is: total-variation distance 0.042 over 4000 seeds,
+mean length 9.955 exact vs 9.956 sampled.
+
+**Finding 7: the hunch was landing after the evidence, half the time.** In
+v0.5.0 the ordering table read:
+
+    gather    before hunch          50.0%
+    hunch     before hypothesize    75.0%
+    falsify   before hunch           6.2%
+
+RED exists so the gut call is on the table *before* it can be rationalised by
+what you have seen. A hunch recorded after the evidence is not a hunch, it is a
+post-hoc summary — and in 6% of runs it was recorded after the discriminating
+test had already been designed. **Every static gate passed this.** `no-orphans`
+confirmed the hunch was consumed; `coverage` confirmed RED was always worn.
+Both true, and both blind to *when*.
+
+The fix is one edge: `gather` now requires `hunch`, so no evidence can exist
+until the prior is recorded. Paths fell **458 → 59**, states **61 → 36**, and
+every co-occurring pair now has a forced order. Decks can declare an
+`expected_order` and the simulator verifies it — which turns designer intent
+into an assertion instead of a hope. The bug is replanted in
+`mutation-check.sh` as a regression.
+
+**Finding 8: budget slack is spent, not saved.** 96% of runs cost exactly 11,
+the full budget, against a floor of 9 — mean 10.96. A uniform draw has no
+preference for finishing, so an optional card is played whenever it is legal.
+The budget is therefore not a ceiling you rarely touch; it *is* the expected
+process cost. The honest answer to "what does this deck cost" is **~10 plays,
+essentially always**, not "9 to 11 depending". If runs should finish earlier
+the lever is the draw (weight it toward terminal-advancing cards) or fewer
+optional copies — not a bigger budget.
+
+One consequence worth noticing: the diagnose deck is now a **fixed pipeline
+with a variable number of repeats**. The die decides multiplicity, not order.
+That is probably right for diagnosis, where evidence really must precede
+hypotheses; it would be wrong for an *invent* deck, where ordering freedom is
+the point. Ordering rigidity is a design choice the simulator makes visible.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -181,7 +229,11 @@ fact fails `verify`.
   quality, one level down, and it is where the human stays.
 - **The runner executes what it is given**, with `shell=True` and a timeout.
   Fine for a local tool whose deck and operator you trust; it is not a sandbox.
-- **No simulator.** The gates say what is *possible*; they say nothing about
-  the *distribution* of sequences a random draw actually produces. That is the
-  thing designers are reliably wrong about.
+- **One deck.** Every finding here is from `diagnose`. The four other goal
+  shapes from the design sketch (decide, build, invent, improve) are unwritten,
+  and `invent` is the one most likely to break these assumptions.
+- **Uniform draw only.** The simulator models, and `run_deck` implements, a
+  uniform choice over legal moves. Weighted draws (card multiplicity as a
+  weight, or a bias toward finishing) are unimplemented, and finding 8 says
+  they are the obvious next lever.
 
