@@ -304,6 +304,19 @@ def validate_artifact(deck, card_id, artifact):
         else:
             problems.append(f"field '{f}' is not declared by any artifact")
     nullable = set(deck["artifacts"][atype].get("nullable", []))
+    # A brief that says "at least two competing explanations" while the runner
+    # accepts one is prose pretending to be a gate -- the same shape as a bc
+    # harness annotating a claim instead of asserting it. `min_items` makes the
+    # cardinality a rule.
+    for f, n in deck["artifacts"][atype].get("min_items", {}).items():
+        if f not in got:
+            continue
+        v = artifact[f]
+        if not isinstance(v, list):
+            problems.append(f"field '{f}' must be a list of at least {n}")
+        elif len(v) < n:
+            problems.append(f"field '{f}' has {len(v)} item(s); this card "
+                            f"requires at least {n} -- one is not a competing set")
     for f in sorted(declared & got):
         v = artifact[f]
         empty = (v is None or (isinstance(v, (str, list, dict)) and len(v) == 0)

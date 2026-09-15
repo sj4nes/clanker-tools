@@ -44,3 +44,14 @@ when they diverge, which is correct behaviour and makes an archived ledger
 useless as a version-independent regression test. It would fail on the next
 legitimate edit to `decks/diagnose.json` and teach nothing. It is a **record**,
 not a test.
+
+**This has since happened, which is the point.** The ledger was written against
+diagnose `0.7.0`; the deck is now `0.8.0` (`candidates` gained a `min_items`
+rule), so `verify` reports:
+
+    *** FAIL ledger was written against deck version 0.7.0, deck is now 0.8.0
+
+That is the check working, not the example rotting. The run it records is still
+exactly what happened on 2026-09-15 under 0.7.0, and the version mismatch is
+the ledger refusing to pretend otherwise. Had this been wired into
+`verification/`, the suite would now be red for no defect at all.

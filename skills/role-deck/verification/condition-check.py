@@ -76,8 +76,11 @@ def main(trials=400):
                 break
             card = run_deck.draw(led["seed"], step, 0, work,
                                  B.weights_for(deck, counts, work))
-            art = {f: f"<{f}>"
-                   for f in deck["artifacts"][by[card]["produces"]]["fields"]}
+            spec = deck["artifacts"][by[card]["produces"]]
+            mi = spec.get("min_items", {})
+            art = {f: ([f"<{f} {i+1}>" for i in range(mi[f])] if f in mi
+                       else f"<{f}>")
+                   for f in spec["fields"]}
             if card == "frame":
                 art[src["field"]] = list(opts) if src else art.get("options")
             if src and by[card].get("per_option"):

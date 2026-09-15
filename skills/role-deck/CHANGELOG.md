@@ -10,6 +10,21 @@ skill has held. The full record is
 
     git log -- skills/role-deck/
 
+## 2.3.0 — 2026-09-15
+
+**MINOR.** Closes the plurality gap: `hypothesize` demanded "at least two
+competing explanations" in prose and the runner accepted one. Artifacts may now
+declare `min_items`; the runner enforces it; a new `min-items` gate (17 total)
+checks the rule is well formed; `diagnose` 0.8.0 declares `candidates >= 2`.
+Found by a design question, not a gate — deciding whether the ordering fixture
+needed one arm or two required knowing whether the deck *enforced* the
+discipline or merely asked for it.
+
+Also adds `verification/ordering-fixture/` — built and pre-registered, **not
+run**. Tests whether an agent, having formed a plausible explanation, asks
+*"how do I confirm this?"* rather than *"what else would produce this
+symptom?"*. Scored by executing the subject's own fix.
+
 ## 2.2.0 — 2026-09-15
 
 **MINOR — the skill's stated REASON was wrong; none of its prescriptions were.**

@@ -18,7 +18,7 @@ description: >-
   work that would otherwise go undone. NOT a workflow engine,
   not a task queue, and not a way to make a model's judgement trustworthy —
   it constrains WHEN and WHETHER, never how good the thinking is.
-version: 2.2.0
+version: 2.3.0
 author: Simon Janes
 tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
 ---

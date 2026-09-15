@@ -14,7 +14,7 @@ choice has nothing to verify; a bounded machine with resources has deadlocks,
 unreachable terminals, decorative hats, and paths that skip the hat you most
 wanted worn. Those are design bugs you cannot playtest your way to.
 
-Sixteen gates. See budget.py for why the budget enters through legality rather
+Seventeen gates. See budget.py for why the budget enters through legality rather
 than as a wall.
 
 Usage:  python3 check_deck.py decks/diagnose.json
@@ -61,6 +61,38 @@ def gate_schema(deck):
         return
     ok("schema", f"{len(deck['cards'])} cards, {len(arts)} artifact types, "
                  f"one producer each")
+
+
+def gate_min_items(deck):
+    """A cardinality demanded in prose must be declared as a rule.
+
+    The `hypothesize` card said "at least two competing explanations" and the
+    runner accepted one; only an empty list was refused. Prose is not a gate.
+    This asserts every declared `min_items` names a real field and is sane, and
+    reports which cards actually carry one."""
+    problems = []
+    carried = []
+    for aname, spec in deck["artifacts"].items():
+        mi = spec.get("min_items", {})
+        if not isinstance(mi, dict):
+            problems.append(f"artifact '{aname}' min_items must be a map")
+            continue
+        for f, n in mi.items():
+            if f not in spec["fields"]:
+                problems.append(f"artifact '{aname}' min_items names '{f}', "
+                                f"not one of its fields")
+            elif not isinstance(n, int) or n < 2:
+                problems.append(f"artifact '{aname}'.{f} min_items is {n!r}; "
+                                f"a minimum below 2 constrains nothing that "
+                                f"the empty-field check does not already")
+            else:
+                carried.append(f"{aname}.{f}>={n}")
+    if problems:
+        for pr in problems:
+            fail("min-items", pr)
+    else:
+        ok("min-items", f"{len(carried)} cardinality rule(s): {carried}"
+                        if carried else "none declared")
 
 
 def gate_exclusivity(deck):
@@ -627,6 +659,7 @@ def main(path):
           f"({path}) ===\n")
 
     gate_schema(deck)
+    gate_min_items(deck)
     gate_exclusivity(deck)
     gate_instrument_grounding(deck)
     gate_weights(deck)

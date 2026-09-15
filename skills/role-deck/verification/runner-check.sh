@@ -69,7 +69,9 @@ import json,sys
 deck=json.load(open(sys.argv[1])); card=sys.argv[2]
 by={c["id"]:c for c in deck["cards"]}
 t=by[card]["produces"]
-json.dump({f:f"<{f} for {card}>" for f in deck["artifacts"][t]["fields"]},
+spec=deck["artifacts"][t]; mi=spec.get("min_items",{})
+json.dump({f:([f"<{f} {i+1} for {card}>" for i in range(mi[f])] if f in mi
+              else f"<{f} for {card}>") for f in spec["fields"]},
           open(sys.argv[3],"w"))
 PYEOF
     # cards declaring an instrument may not be played on introspection alone
@@ -108,7 +110,9 @@ print("DONE" if d.get("done") else (d.get("drawn") or (d.get("choose_an_exit") o
 import json,sys
 deck=json.load(open(sys.argv[1])); card=sys.argv[2]
 t={c["id"]:c for c in deck["cards"]}[card]["produces"]
-json.dump({f:f"<{f}>" for f in deck["artifacts"][t]["fields"]}, open(sys.argv[3],"w"))
+spec=deck["artifacts"][t]; mi=spec.get("min_items",{})
+json.dump({f:([f"<{f} {i+1}>" for i in range(mi[f])] if f in mi else f"<{f}>")
+           for f in spec["fields"]}, open(sys.argv[3],"w"))
 PYEOF
     inst=$($PY -c 'import json,sys;d=json.load(open("decks/invent.json"));
 print(next((c.get("instrument") or "") for c in d["cards"] if c["id"]==sys.argv[1]))' "$card")
@@ -171,7 +175,9 @@ while :; do
 import json,sys
 deck=json.load(open(sys.argv[1])); card=sys.argv[2]
 t={c["id"]:c for c in deck["cards"]}[card]["produces"]
-json.dump({f:f"<{f}>" for f in deck["artifacts"][t]["fields"]}, open(sys.argv[3],"w"))
+spec=deck["artifacts"][t]; mi=spec.get("min_items",{})
+json.dump({f:([f"<{f} {i+1}>" for i in range(mi[f])] if f in mi else f"<{f}>")
+           for f in spec["fields"]}, open(sys.argv[3],"w"))
 PYEOF
     $PY run_deck.py play --ledger "$LED" --artifact-file "$ART" >/dev/null
 done
@@ -207,7 +213,9 @@ import json,sys
 deck=json.load(open(sys.argv[1])); card=sys.argv[2]
 by={c["id"]:c for c in deck["cards"]}
 t=by[card]["produces"]
-json.dump({f:f"<{f} for {card}>" for f in deck["artifacts"][t]["fields"]},
+spec=deck["artifacts"][t]; mi=spec.get("min_items",{})
+json.dump({f:([f"<{f} {i+1} for {card}>" for i in range(mi[f])] if f in mi
+              else f"<{f} for {card}>") for f in spec["fields"]},
           open(sys.argv[3],"w"))
 PYEOF
     # cards declaring an instrument may not be played on introspection alone
