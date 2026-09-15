@@ -12,7 +12,7 @@
 # expected case, not the exceptional one. A guard that only works when the
 # agent cooperates is not a guard.
 set -e
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 PY=python3
 DECK=decks/diagnose.json
 LED=/tmp/role-deck-check.json

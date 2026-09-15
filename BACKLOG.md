@@ -1132,3 +1132,41 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       comparison, and the sequential multiplicity is unmodelled —
       `evaluator-integrity`'s look-count sweep suggests it is not small.
       (2026-09-14)
+
+- [ ] **role-deck: the `invent` deck (TBD).** Blocked on a missing legality
+      primitive, not on effort. Every predicate in the deck model is
+      ARTIFACT-BASED — a card is legal when the artifacts it requires exist.
+      Invent's terminal condition is "good enough", a *judgement*, and there is
+      no artifact whose existence means "stop inventing". Expressing it needs a
+      new primitive (`legal after N plays`, or `legal when remaining budget
+      < k`), which is perhaps an hour of work. The real question is a design
+      one and should be settled first: a judgement-gated terminal hands the
+      agent the decision to stop, which is exactly the decision the external
+      draw exists to take away. Terminating by exhaustion is at least
+      incorruptible. Decide that before coding it.  (2026-09-15)
+
+- [ ] **role-deck: the `improve` deck (TBD).** The RSI loop — diagnose the
+      bottleneck, propose, verify, retain, revise the improver — is the one
+      goal shape this machinery structurally CANNOT express. L5 means the
+      process revises itself, and every gate assumes the deck is fixed for the
+      duration of a run: exhaustive enumeration, exact path probability, the
+      budget look-ahead and `preserve_exit` all depend on a static rulebook.
+      Supporting it is not a feature but a different architecture (a deck that
+      emits a successor deck, with the gates re-run on the successor and some
+      inheritance rule between them). Note the irony for the record: this whole
+      line of work started from an RSI survey, and the RSI loop is the shape it
+      cannot model.  (2026-09-15)
+
+- [ ] **role-deck: five verification gaps** from the displacement table
+      (`skills/role-deck/verification/README.md`) — (1) THE FOUNDING PREMISE IS
+      UNFIXTURED: that an agent left to choose its own sequence will skip the
+      expensive hat is why the skill exists, and nothing demonstrates it; it
+      rests on `evaluator-integrity`'s argument and on a deck *permitting* the
+      skip, not on a measured agent. This is the most important gap.
+      (2) the reroll log is claimed as a behavioural signal and never exercised
+      — no fixture drives an agent that systematically rerolls away from a hat;
+      (3) `terminal-live` and `options-sweep` have no isolating mutation, so
+      neither has been seen to fail alone; (4) the `die` gate has never fired
+      on a real bias — nothing plants a biased die and confirms detection;
+      (5) `decide`'s `expected_order` has no regression mutation, where
+      `diagnose`'s does.  (2026-09-15)

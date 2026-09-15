@@ -9,7 +9,7 @@
 # Same argument as docs/verifying-skills.md §5a/§5b: the hygiene checks pass
 # on a deck that is well-formed and wrong.
 set -e
-cd "$(dirname "$0")"
+cd "$(dirname "$0")/.."
 PY=python3
 DECK=decks/diagnose.json
 TMP=/tmp/role-deck-mutant.json

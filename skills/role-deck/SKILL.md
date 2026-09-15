@@ -1,0 +1,191 @@
+---
+name: role-deck
+description: >-
+  Run a goal-directed process as an executable rulebook whose next step is
+  drawn EXTERNALLY, so the agent cannot route around the expensive phase. Use
+  when a multi-phase procedure has to be followed the same way every time and
+  the record has to be trustworthy afterwards — a diagnosis, a decision, a
+  review, an incident walkthrough, an intake — or when designing, auditing, or
+  debugging such a procedure. A deck is roles as cards, each declaring the
+  typed artifact it produces and the artifacts it requires; a bounded state
+  machine that can be checked exhaustively before anyone runs it. Six
+  behaviours that displace the known default failure modes: an agent choosing
+  its own next step, a phase that attests instead of executing, a process with
+  no bound, a claim that a step happened, a hat that bleeds into the next, and
+  a procedure shipped on intuition rather than simulated. NOT a workflow engine,
+  not a task queue, and not a way to make a model's judgement trustworthy —
+  it constrains WHEN and WHETHER, never how good the thinking is.
+version: 1.0.0
+author: Simon Janes
+tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
+---
+
+# Running a process you can audit afterwards
+
+A procedure an agent follows on its own honour is not a procedure. It will
+reach the answer by the cheapest route, skip the step that would have caught
+the error, and report that it followed the process — and nothing in the
+transcript will contradict it.
+
+A **role deck** makes the procedure an object: roles are cards, each card
+declares the artifact it produces and the artifacts it requires, and **the next
+card is drawn externally**. The agent's job is to fill in the drawn card's
+artifact. That is the whole mechanism, and everything below follows from it.
+
+Because a deck is a bounded state machine, it can be checked *before* anyone
+runs it — exhaustively, over every reachable state.
+
+## The six behaviours
+
+1. **Externalise the draw; never let the agent pick its own next step.** An
+   agent that chooses its sequence chooses the one that omits the costly hat,
+   and no instruction fixes that, because the instruction is what is being
+   optimised against. `python3 run_deck.py next` computes the legal moves and
+   the die picks one. **But the die decides what work to do next, never what
+   the answer is** — terminal cards are agent-chosen, from the exits it has
+   actually earned. A random verdict would be absurd; a random *order of work*
+   is the point.
+
+2. **Ground evaluative phases in an instrument that runs.** A card declaring an
+   instrument may not be played without `--command`; the runner executes it and
+   records the output, so the agent cannot forge a result it never obtained.
+   The weak version of this — "cite your source" — is another field a model can
+   fabricate. A nonzero exit is not a refusal: a failing test is a result.
+
+3. **Bound the process through legality, not a wall.** A budget enforced as
+   "stop when you hit it" strands the run: the agent spends early and cannot
+   afford the mandatory tail. A move is legal only if a terminal remains
+   reachable within the remaining budget afterwards — **you cannot bankrupt
+   yourself.** The budget is what stops planning-for-planning, and the deck's
+   *floor* is the number to argue with when someone asks if the process is
+   worth its overhead.
+
+4. **Keep a ledger that replays.** The draw is a pure function of
+   `(seed, step, rerolls)`, so `verify` recomputes every draw from an empty
+   state. A hand-edited ledger, a bypassed runner, or a play the runner never
+   authorised does not survive replay. Rerolls are *priced and logged with the
+   card they avoided* — "rerolled away from the caution hat four times in five"
+   is then a measurement, not a suspicion.
+
+5. **Type every artifact, and let the schema catch the bleed.** Each card's
+   artifact is validated against its declared fields **exactly**. A missing
+   field is an unfinished hat; an **extra** field is hat bleed — an agent still
+   wearing the last hat or reaching into the next. This is the check that does
+   not depend on the model complying, which matters because non-compliance is
+   the expected case, not the exceptional one.
+
+6. **Check and simulate a deck before you run it.** The gates say what is
+   possible; the simulator says what actually happens, and designers are
+   reliably wrong about what their generative objects generate. Every deck in
+   [`decks/`](decks/) was hand-written naive first and was wrong — decorative
+   hats, an exit reachable with no evidence, a gut call recorded *after* the
+   evidence in half of all runs. None of that was visible by reading.
+
+## Workflow
+
+```sh
+# design-time — run both, always, before a deck is used
+python3 check_deck.py decks/<name>.json      # 14 gates, exhaustive
+python3 simulate.py  decks/<name>.json       # every path, exact probability
+
+# run-time
+python3 run_deck.py init --deck decks/<name>.json --seed N --ledger run.json
+python3 run_deck.py next   --ledger run.json                  # what to do, and what to fill
+python3 run_deck.py play   --ledger run.json --artifact-file a.json [--command '...']
+python3 run_deck.py reroll --ledger run.json --reason '...'   # priced, logged
+python3 run_deck.py verify --ledger run.json                  # replay and re-check
+```
+
+`next` returns the drawn card, its brief, the exact fields to fill, whether a
+`--command` is required, which options remain for a per-option card, and any
+exits you have earned. Fill the fields; play; repeat. Pick an exit when one is
+offered and you are ready.
+
+Two decks ship: [`diagnose`](decks/diagnose.json) (something is wrong and the
+cause is unknown) and [`decide`](decks/decide.json) (several options, one has
+to be chosen, deferred, or refused).
+
+## Writing a deck
+
+The full field reference is in
+[`references/deck-format.md`](references/deck-format.md). The parts that carry
+the design:
+
+- **`requires` is precedence, and precedence is the real constraint.** Order is
+  not a suggestion you write in a brief; it is which artifacts must exist.
+- **Every non-terminal card's output must be consumed by something.** An
+  artifact nothing requires means a decorative hat — a role present in the deck
+  whose output feeds nothing. Two of the first draft's roles were decorative.
+- **Each exit earns its own preconditions** (`required_roles` as a map). With
+  several exits, only the *shortest* one's requirements bind, so a cheap escape
+  hatch silently voids the rest of the process.
+- **Conditional requirements go through a declared nullable field.** The agent
+  writes it or leaves it null; code enforces the consequence. The agent can
+  still lie — but the lie is now logged and auditable instead of silent.
+- **Per-option cards need an index field and a declared maximum.** Distinctness
+  at runtime is what makes "every option covered" a countable thing.
+
+## What a deck cannot do
+
+Everything here constrains **when** and **whether**. None of it touches quality:
+
+- **Field presence is not field quality.** Nothing checks that a discriminator
+  discriminates, or that an attack is as serious as its steelman. Matched depth
+  is matched *count*.
+- **A command is not the right command.** `--command true` satisfies grounding.
+- **A condition is only as honest as its declaration.** Nothing verifies a
+  nullable field was left null truthfully.
+- **Tamper-evident, not tamper-proof.** `verify` catches drift, editing and a
+  bypassed runner. It does not stop someone who runs the same draw algorithm
+  and forges a consistent ledger. The threat model is a model that wanders, not
+  one that attacks.
+- **The runner executes what it is given** (`shell=True`, with a timeout). It
+  is not a sandbox.
+
+## Guardrails — stop and escalate when
+
+- the deck's **floor** is a larger process than the task deserves — a six-phase
+  deck on a trivial question is pure cost, and the floor is printed so you can
+  see it;
+- `check_deck.py` fails and the fix is to relax a gate rather than the deck;
+- you want the die to choose an **outcome** rather than a step;
+- the procedure's steps cannot be written down and defended — then this is the
+  wrong tool, and `unknown-discovery` or plain judgement is the right one.
+
+## Verification
+
+[`verification/`](verification/) runs four harnesses: 14 gates over both decks,
+22 planted deck defects each asserted caught by the gate that claims it, both
+simulators, two die-driven property tests, and 19 runner refusal/tamper cases.
+73 assertions. `sh verification/run.sh`, ~43 s.
+
+Fifteen findings from building it — including three cases where *the test was
+broken rather than the thing under test* — are in
+[`references/findings.md`](references/findings.md).
+
+## Related skills
+
+- **`agent-automation`** — the principle underneath behaviours 1, 2 and the
+  conditional field: the model proposes, deterministic code authorises and
+  records.
+- **`tla-checker`** — the same bounded-state-machine argument, for concurrent
+  systems rather than processes.
+- **`causal-sandbox`** — authored-rule transitions an agent drives; a deck is
+  that shape applied to its own process.
+- **`unknown-discovery`** — supplies the *content* of a diagnose deck's cards
+  (ACH, diagnosticity, premortem) where this supplies the sequencing.
+- **`evaluator-integrity`** — why the draw must be external: the selector is
+  otherwise optimising against the thing being measured.
+- **`experience-library`** — the deck is a capped library; cards compete, and
+  the contribution log is the reroll log's sibling.
+
+## Completion report
+
+State, briefly:
+
+- the deck, its floor, and the budget the run was given;
+- the sequence actually played, and any rerolls with the card each avoided;
+- every instrument invoked, with its exit status;
+- which conditions fired and which exits were earned;
+- the exit chosen and why that one;
+- that `verify` passed — and what the ledger still cannot tell you.

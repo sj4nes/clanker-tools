@@ -18,11 +18,16 @@ runner refuses cards the die did not draw, so most of its plays were silently
 rejected and it proved nothing.
 """
 import json
+import os
 import random
 import sys
 
-import budget as B
-import run_deck
+# This harness lives in verification/ but drives the skill's modules, which sit
+# one level up. Python puts the SCRIPT's directory on sys.path, not the cwd.
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+
+import budget as B          # noqa: E402
+import run_deck             # noqa: E402
 
 DECK = "decks/decide.json"
 
