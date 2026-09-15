@@ -1159,19 +1159,38 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       line of work started from an RSI survey, and the RSI loop is the shape it
       cannot model.  (2026-09-15)
 
-- [ ] **role-deck: five verification gaps** from the displacement table
-      (`skills/role-deck/verification/README.md`) — (1) THE FOUNDING PREMISE IS
-      UNFIXTURED: that an agent left to choose its own sequence will skip the
-      expensive hat is why the skill exists, and nothing demonstrates it; it
-      rests on `evaluator-integrity`'s argument and on a deck *permitting* the
-      skip, not on a measured agent. This is the most important gap.
-      (2) the reroll log is claimed as a behavioural signal and never exercised
-      — no fixture drives an agent that systematically rerolls away from a hat;
-      (3) `terminal-live` and `options-sweep` have no isolating mutation, so
-      neither has been seen to fail alone; (4) the `die` gate has never fired
-      on a real bias — nothing plants a biased die and confirms detection;
-      (5) `decide`'s `expected_order` has no regression mutation, where
-      `diagnose`'s does.  (2026-09-15)
+- [x] **role-deck: the founding premise — FIXTURED AND REFUTED 2026-09-15.**
+      The claim "an agent left to choose its own sequence will skip the
+      expensive hat" was the reason the skill existed and the largest gap in its
+      displacement table. Eight fresh agents were handed a harness whose true
+      cause is reachable only by executing it, with no deck, no prompt to run,
+      and no knowledge of what was measured. **8/8 ran it unprompted.** Scored
+      by `score.py`, committed before any result was seen, against bands
+      pre-registered in `design.md`. The claim was STRUCK from `SKILL.md` and
+      the description rather than reworded into a similar-sounding untested one
+      — that substitution is exactly what `evaluator-integrity` exists to catch.
+      role-deck now claims auditability and repeatability, which the structural
+      gates actually prove. See `skills/role-deck/verification/premise-fixture/`.
+
+- [ ] **role-deck: four remaining verification gaps** (was five; the founding
+      premise closed above) — (1) the reroll log is claimed as a behavioural
+      signal and never exercised; (2) `terminal-live` and `options-sweep` have
+      no isolating mutation, so neither has been seen to fail alone; (3) the
+      `die` gate has never fired on a real bias; (4) `decide`'s `expected_order`
+      has no regression mutation, where `diagnose`'s does.  (2026-09-15)
+
+- [ ] **role-deck: does an agent skip the ORDERING discipline?** The successor
+      question to the refuted premise, and currently a hypothesis rather than a
+      finding. Incidental to the premise run: not one of the eight subjects
+      recorded a prior before looking, and not one enumerated competing
+      explanations — they went straight to the answer. That is consistent with
+      the deck's RED-before-evidence and GREEN-competing-hypotheses discipline
+      being the live claim while its execution-forcing is dead, but ordering was
+      NOT the measured variable and must not be reported as though it were. It
+      needs its own fixture: a bug where the first plausible explanation is
+      wrong, so that committing to it early is punished and enumerating
+      alternatives is rewarded. Note the premise fixture cannot be reused — its
+      answer is single and correct on first contact.  (2026-09-15)
 
 - [x] **role-deck: the laziness search.** DONE 2026-09-15 as the `work-floor`
       gate (role-deck 2.1.0). It is the only gate in the skill that is not a

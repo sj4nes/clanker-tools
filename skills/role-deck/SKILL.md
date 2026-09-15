@@ -9,23 +9,34 @@ description: >-
   debugging such a procedure. A deck is roles as cards, each declaring the
   typed artifact it produces and the artifacts it requires; a bounded state
   machine that can be checked exhaustively before anyone runs it. Six
-  behaviours that displace the known default failure modes: an agent choosing
-  its own next step, a phase that attests instead of executing, a process with
-  no bound, a claim that a step happened, a hat that bleeds into the next, and
-  a procedure shipped on intuition rather than simulated. NOT a workflow engine,
+  behaviours: an externally drawn sequence so a run is auditable and
+  repeatable, a phase grounded in an instrument that executes rather than
+  attests, a process bounded through legality, a ledger that replays, typed
+  artifacts that catch a hat bleeding into the next, and a deck simulated
+  before it is used. Measured, not assumed: agents do NOT skip cheap grounding
+  unprompted (8/8 ran it), so this buys auditability and repeatability, not
+  work that would otherwise go undone. NOT a workflow engine,
   not a task queue, and not a way to make a model's judgement trustworthy —
   it constrains WHEN and WHETHER, never how good the thinking is.
-version: 2.1.0
+version: 2.2.0
 author: Simon Janes
 tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
 ---
 
 # Running a process you can audit afterwards
 
-A procedure an agent follows on its own honour is not a procedure. It will
-reach the answer by the cheapest route, skip the step that would have caught
-the error, and report that it followed the process — and nothing in the
-transcript will contradict it.
+A procedure an agent follows on its own honour leaves no evidence that it was
+followed. It may have gone straight to the answer, skipped the step that would
+have caught the error, or done the work perfectly — and the transcript reads
+the same either way.
+
+**What this skill does not claim.** An earlier version of this page asserted
+that an unconstrained agent *will* skip the expensive step. That was measured
+and is false: eight fresh agents, given a bug whose true cause is only visible
+by running the code, all ran it unprompted, with no deck and no prompting
+([`verification/premise-fixture/RESULT.md`](verification/premise-fixture/RESULT.md)).
+For cheap grounding, agents self-ground. The claim is struck rather than
+rewritten into something that sounds similar and is equally untested.
 
 A **role deck** makes the procedure an object: roles are cards, each card
 declares the artifact it produces and the artifacts it requires, and **the next
@@ -37,10 +48,12 @@ runs it — exhaustively, over every reachable state.
 
 ## The six behaviours
 
-1. **Externalise the draw; never let the agent pick its own next step.** An
-   agent that chooses its sequence chooses the one that omits the costly hat,
-   and no instruction fixes that, because the instruction is what is being
-   optimised against. `python3 run_deck.py next` computes the legal moves and
+1. **Externalise the draw; never let the agent pick its own next step.** Not
+   because an agent would otherwise skip the work — it demonstrably does the
+   cheap work unasked — but because a self-chosen sequence is **unauditable and
+   unrepeatable**: nothing distinguishes a run that considered three
+   explanations from one that committed to the first, and two runs of the same
+   question need not resemble each other. `python3 run_deck.py next` computes the legal moves and
    the die picks one. **But the die decides what work to do next, never what
    the answer is** — terminal cards are agent-chosen, from the exits it has
    actually earned. A random verdict would be absurd; a random *order of work*

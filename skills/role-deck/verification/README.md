@@ -21,33 +21,35 @@ actually generates matches what its author intended.
 sh skills/role-deck/verification/run.sh
 ```
 
-Tooling: Python 3 (stdlib only), macOS `/bin/sh`. ~43 s wall, of which ~17 s is
-user time — the rest is process spawn across ~90 python invocations in the
-mutation harnesses. Runs from any directory. Four harnesses:
+Tooling: Python 3 (stdlib only), macOS `/bin/sh`. ~50 s wall, of which ~18 s is
+user time — the rest is process spawn across ~100 python invocations in the
+mutation harnesses. Runs from any directory. Five harnesses:
 
 | Harness | What it does |
 |---|---|
-| `check_deck.py` × 2 decks | 14 gates, exhaustive over every reachable state |
-| `simulate.py` × 2 decks | every complete path with its exact probability; declared orderings asserted; the real die cross-checked |
-| `mutation-check.sh` | 22 planted deck defects, each asserted caught **by the gate that claims it** |
+| `check_deck.py` × 3 decks | 16 gates, exhaustive over every reachable state |
+| `simulate.py` × 3 decks | exact marginals by DP over the state space; declared orderings asserted; the real die cross-checked |
+| `mutation-check.sh` | 30 planted deck defects, each asserted caught **by the gate that claims it** |
 | `condition-check.py` | two invariants over 300 die-driven runs |
-| `runner-check.sh` | 8 refusals and 11 ledger-tamper cases |
+| `runner-check.sh` | 8 refusals, 11 ledger-tamper cases, and a completed map-form run |
 
-**73 assertions.**
+**107 assertions**, plus the premise fixture (run separately; see
+`premise-fixture/RESULT.md`).
 
 ## Why decks, not a closed-form case
 
 A methodology skill usually re-solves a problem with a known answer. Here the
 object under test *is* a formal one — a deck is a bounded state machine — so
-the known answer is available directly: exhaustive enumeration of the reachable
-state space, and exact path probabilities rather than sampled ones. Monte Carlo
+the known answer is available directly: exhaustive exploration of the reachable
+state space, and exact marginals by dynamic programming rather than sampling. Monte Carlo
 appears only as an **independent oracle** for the closed forms, run through the
 real hash die so the comparison also tests that the die honours the declared
 weights.
 
-Both shipped decks were **hand-written naive first and were wrong.** That is
-the evidence base: the fixture is not a toy built to pass, it is two real decks
-whose defects the tooling found.
+All three shipped decks were **hand-written naive first and were wrong.** That
+is the evidence base: not a toy built to pass, but three real decks whose
+defects the tooling found — `invent` v0.1.0 passed every gate and the simulator
+and was wrong anyway.
 
 ## What each behaviour demonstrates
 
@@ -82,7 +84,7 @@ fail is labelled as one rather than counted as coverage.
 
 ## Findings folded back
 
-Fifteen, in [`../references/findings.md`](../references/findings.md). The three
+Nineteen, in [`../references/findings.md`](../references/findings.md). The three
 that changed the design rather than a deck:
 
 - **a global budget cannot be a hard wall** — it enters through legality;
@@ -103,7 +105,7 @@ do", and they are the honest boundary of the whole idea.
 
 | `SKILL.md` section | Default behaviour it displaces | Where the default visibly fails |
 |---|---|---|
-| b1 externalise the draw | the agent picks its own next step, by the cheapest route | `decide` v0.1.0 floor of 5 — an exit with no evidence, alternatives or probe |
+| b1 externalise the draw | the agent picks its own next step, leaving an unauditable and unrepeatable record | `decide` v0.1.0 floor of 5 — an exit with no evidence, alternatives or probe. **Note:** the stronger claim, that an agent would SKIP the work, was fixtured and REFUTED 8/8 — see `premise-fixture/RESULT.md` |
 | b1 die never picks the outcome | let the draw end the run | commit 14.5%, unfixable by weights (26.4% at weight 8) |
 | b2 instruments execute | attest that you consulted something | refusal without `--command`; 3 instrument tamper cases |
 | b3 budget through legality | a hard spending cap | 7 dead ends at a wall, 0 with look-ahead |
@@ -117,15 +119,18 @@ do", and they are the honest boundary of the whole idea.
 | tamper-evident, not tamper-proof | assume verification is adversarial security | `judgement` |
 | guardrails (floor too big; relax a gate; steps undefendable) | run the process because it exists | `judgement` |
 
-**7 covered · 5 judgement · 1 tool-fact · 5 gaps.**
+**7 covered · 5 judgement · 1 tool-fact · 4 gaps** (one closed by the premise
+fixture — which refuted the claim it was testing).
 
 ### Gaps — logged in [`BACKLOG.md`](../../../BACKLOG.md)
 
-1. **The founding premise is unfixtured.** That an agent left to choose its own
-   sequence *will* skip the expensive hat is the reason this skill exists, and
-   nothing here demonstrates it. It rests on `evaluator-integrity`'s argument
-   and on the structural fact that a deck *permits* it, not on a measured
-   agent. This is the most important gap in the skill.
+1. ~~**The founding premise is unfixtured.**~~ **CLOSED 2026-09-15 — and the
+   premise was REFUTED.** 8 fresh agents, given a bug whose cause is visible
+   only by running the code, all ran it unprompted. The claim was struck from
+   `SKILL.md` rather than reworded. See `premise-fixture/RESULT.md`. The
+   successor question — whether agents skip the *ordering* discipline, which
+   none of the 8 exhibited — is a hypothesis, not a finding, and needs its own
+   fixture.
 2. **The reroll log is claimed as a behavioural signal** and never exercised —
    no fixture drives an agent that systematically rerolls away from a hat and
    confirms the log makes it visible.

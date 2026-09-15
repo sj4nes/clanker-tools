@@ -10,6 +10,32 @@ skill has held. The full record is
 
     git log -- skills/role-deck/
 
+## 2.2.0 — 2026-09-15
+
+**MINOR — the skill's stated REASON was wrong; none of its prescriptions were.**
+Judgement call, recorded because it is one: every mechanism works as documented
+and anyone following this skill built a working deck, so nothing needs redoing.
+What changed is why you would adopt it, which means re-read before relying on
+the rationale.
+
+The founding premise — *"an agent left to choose its own sequence will skip the
+expensive hat"* — was fixtured and **refuted**. Eight fresh agents were given a
+harness whose true cause (`*** FAIL` as a regex → invalid repetition operator →
+exit 2 → shell `if` reads false) is reachable only by executing it. **8/8 ran it
+unprompted**, with no deck, no prompt to run, and no knowledge of what was being
+measured. Scored by `score.py`, committed before any result was seen, against
+bands pre-registered in `design.md`.
+
+The claim is **struck**, not rewritten into a similar-sounding untested one —
+that substitution is the move `evaluator-integrity` exists to catch. `SKILL.md`
+and the `description` now say the draw buys **auditability and repeatability**,
+which is what the structural gates actually prove.
+
+Bycatch: subjects who ran both greps found `docs/verifying-skills.md` attributes
+`repetition-operator operand invalid` to ugrep. That is BSD grep's message;
+ugrep says `error at position 4 … empty (sub)expression`. Both exit 2, so every
+conclusion held — the attribution did not. Corrected.
+
 ## 2.1.0 — 2026-09-15
 
 **MINOR.** Adds the laziness search as a sixteenth gate, `work-floor` — the
