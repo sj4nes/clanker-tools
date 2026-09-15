@@ -1,8 +1,8 @@
 {
   "deck": "decide",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "goal_shape": "Several options are on the table and one of them has to be chosen, deferred, or refused.",
-  "_note": "Hand-written first. v0.1.0 had THREE decorative hats and a floor of 5 that let you defer having gathered nothing. v0.2.0 gave each exit its own requirements, which forced `coverage` to become per-terminal. v0.3.0 made YELLOW wait for the evidence, and made the exits AGENT-CHOSEN rather than drawn -- the die decides what work to do next, never what the answer is. v0.4.0 preserves the affordability of `commit`: without it the die spends the budget on repeats and prices the strongest exit out of reach. See FINDINGS.md.",
+  "_note": "Hand-written first. v0.1.0 had THREE decorative hats and a floor of 5 that let you defer having gathered nothing. v0.2.0 gave each exit its own requirements, which forced `coverage` to become per-terminal. v0.3.0 made YELLOW wait for the evidence, and made the exits AGENT-CHOSEN rather than drawn -- the die decides what work to do next, never what the answer is. v0.4.0 preserves the affordability of `commit`: without it the die spends the budget on repeats and prices the strongest exit out of reach. v0.5.0 makes the probe CONDITIONAL on the attack declaring a disputed fact. See FINDINGS.md.",
   "instrument_kinds": [
     "retrieval",
     "execution"
@@ -17,8 +17,7 @@
       "RED",
       "GREEN",
       "YELLOW",
-      "BLACK",
-      "EXECUTE"
+      "BLACK"
     ],
     "defer": [
       "WHITE",
@@ -73,7 +72,11 @@
     },
     "faults": {
       "fields": [
-        "attack"
+        "attack",
+        "disputed_fact"
+      ],
+      "nullable": [
+        "disputed_fact"
       ]
     },
     "probe_result": {
@@ -206,7 +209,7 @@
       ],
       "produces": "faults",
       "instrument": null,
-      "brief": "The strongest honest case AGAINST each option, at the same depth as its steelman."
+      "brief": "The strongest honest case AGAINST each option, at the same depth as its steelman. Set `disputed_fact` if resolving something would change the answer, else null -- that declaration gates the probe."
     },
     {
       "id": "probe",
@@ -228,8 +231,7 @@
         "faults",
         "hunch",
         "evidence",
-        "alternative",
-        "probe_result"
+        "alternative"
       ],
       "produces": "commitment",
       "instrument": null,
@@ -265,5 +267,17 @@
       "brief": "None of these are acceptable, and why the decision is being refused."
     }
   ],
-  "preserve_exit": "commit"
+  "preserve_exit": "commit",
+  "conditions": [
+    {
+      "id": "disputed",
+      "artifact": "faults",
+      "field": "disputed_fact",
+      "adds_requirement": {
+        "card": "commit",
+        "artifact": "probe_result"
+      },
+      "why": "You may not commit over an unresolved disputed fact. But not every attack raises one, and requiring a probe unconditionally made EXECUTE mandatory on the commit path for no reason."
+    }
+  ]
 }

@@ -133,6 +133,42 @@ plant "a repeat_decay outside (0, 1]" \
       'd["repeat_decay"]=1.5'
 
 echo
+echo "=== conditional requirements (decks/decide.json) ==="
+DEC=decks/decide.json
+cplant () {   # cplant <name> <expected-gate> <python-mutation>
+    n=$((n + 1))
+    name="$1"; gate="$2"; mut="$3"
+    $PY - "$DEC" "$TMP" <<PYEOF
+import json,sys
+d=json.load(open(sys.argv[1]))
+cards={c["id"]:c for c in d["cards"]}
+$mut
+json.dump(d,open(sys.argv[2],"w"),indent=2)
+PYEOF
+    out=$($PY check_deck.py "$TMP" 2>&1) && status=0 || status=$?
+    fired=$(printf '%s\n' "$out" | sed -n 's/^\*\*\* FAIL \[\([a-z-]*\)\].*/\1/p' | sort -u | tr '\n' ' ')
+    if [ "$status" -eq 0 ]; then
+        echo "  *** SURVIVED: $name"; fails=$((fails + 1))
+    elif ! printf '%s\n' "$fired" | grep -q "$gate"; then
+        echo "  *** WRONG GATE: $name -- wanted [$gate], fired [$fired]"; fails=$((fails + 1))
+    else
+        echo "  caught: $name  ->  [$fired]"
+    fi
+}
+
+cplant "a condition keyed on a field that can never be null" \
+       "conditions" \
+       'd["artifacts"]["faults"]["nullable"]=[]'
+
+cplant "a decorative condition: it never changes what is legal" \
+       "conditions" \
+       'd["conditions"][0]["adds_requirement"]={"card":"commit","artifact":"faults"}'
+
+cplant "a condition keyed on a field the artifact does not have" \
+       "conditions" \
+       'd["conditions"][0]["field"]="imaginary"'
+
+echo
 echo "=== ordering regression (simulate.py) ==="
 # The v0.5.0 bug, replanted: with `gather` no longer requiring `hunch`, the die
 # is free to schedule the gut call AFTER the evidence -- which every static gate
@@ -161,8 +197,11 @@ import json, budget as B
 d=json.load(open("decks/diagnose.json"))
 for la in (True, False):
     ids,seen,edges=B.explore(d, lookahead=la)
+    # a state is (counts, flags) since conditional requirements branch the
+    # space -- unpacking it as a bare counts tuple made every TERMINAL state
+    # look like a strand, which is how this probe reported 8 phantom strands
     strands=sum(1 for st,mv in edges.items()
-                if not mv and not B.is_terminal(d,dict(zip(ids,st))))
+                if not mv and not B.is_terminal(d,dict(zip(ids,st[0]))))
     print(f"  lookahead={str(la):<5} -> {len(seen):>3} states, {strands:>2} strands")
     if la and strands: raise SystemExit("  *** look-ahead left strands")
     if not la and not strands: raise SystemExit("  *** wall left no strands: gate is vacuous")

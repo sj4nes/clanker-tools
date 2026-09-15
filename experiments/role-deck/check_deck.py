@@ -14,7 +14,7 @@ choice has nothing to verify; a bounded machine with resources has deadlocks,
 unreachable terminals, decorative hats, and paths that skip the hat you most
 wanted worn. Those are design bugs you cannot playtest your way to.
 
-Twelve gates. See budget.py for why the budget enters through legality rather
+Thirteen gates. See budget.py for why the budget enters through legality rather
 than as a wall.
 
 Usage:  python3 check_deck.py decks/diagnose.json
@@ -136,6 +136,67 @@ def gate_weights(deck):
                          "; no per-card weights"))
 
 
+def gate_conditions(deck):
+    """A declared condition must actually change something, and must be
+    declarable.
+
+    Same spirit as `no-orphans`: a conditional requirement that never alters
+    the legal set is decorative, and worse than decorative -- it reads as a
+    safeguard while permitting everything. So this asserts the flag makes a
+    difference in some reachable state, and that the field it keys on is both
+    declared and nullable (a field that can never be null is not a condition,
+    it is a requirement)."""
+    conds = B.conditions(deck)
+    if not conds:
+        ok("conditions", "none declared")
+        return
+    problems = []
+    for cond in conds:
+        art = deck["artifacts"].get(cond["artifact"])
+        if art is None:
+            problems.append(f"condition '{cond['id']}' keys on undeclared "
+                            f"artifact '{cond['artifact']}'")
+            continue
+        if cond["field"] not in art["fields"]:
+            problems.append(f"condition '{cond['id']}' keys on field "
+                            f"'{cond['field']}', not a field of '{cond['artifact']}'")
+        if cond["field"] not in art.get("nullable", []):
+            problems.append(f"condition '{cond['id']}' keys on '{cond['field']}', "
+                            f"which is not nullable -- a field that can never be "
+                            f"null is a requirement, not a condition")
+        add = cond["adds_requirement"]
+        if add["card"] not in {c["id"] for c in deck["cards"]}:
+            problems.append(f"condition '{cond['id']}' adds a requirement to "
+                            f"unknown card '{add['card']}'")
+        if add["artifact"] not in deck["artifacts"]:
+            problems.append(f"condition '{cond['id']}' requires undeclared "
+                            f"artifact '{add['artifact']}'")
+    if problems:
+        for pr in problems:
+            fail("conditions", pr)
+        return
+
+    # does each condition bite? find a state where the flag changes legality
+    ids = [c["id"] for c in deck["cards"]]
+    _, seen, _ = B.explore(deck)
+    bites = {c["id"]: False for c in conds}
+    for counts, flags in seen:
+        pl = dict(zip(ids, counts))
+        for i, cond in enumerate(conds):
+            on = tuple(True if k == i else v for k, v in enumerate(flags))
+            off = tuple(False if k == i else v for k, v in enumerate(flags))
+            if set(B.raw_moves(deck, pl, on)) != set(B.raw_moves(deck, pl, off)):
+                bites[cond["id"]] = True
+    dead = [k for k, v in bites.items() if not v]
+    if dead:
+        for k in dead:
+            fail("conditions", f"condition '{k}' never changes what is legal "
+                              f"in any reachable state -- it is decorative")
+    else:
+        ok("conditions", f"{len(conds)} condition(s), each alters legality "
+                         f"in some reachable state")
+
+
 def gate_acyclic(deck):
     producer = {c["produces"]: c["id"] for c in deck["cards"]}
     adj = {c["id"]: set() for c in deck["cards"]}
@@ -197,6 +258,20 @@ def gate_budget_binding(deck):
 
 
 # ---------------------------------------------------------------- state space
+def succ(deck, ids, st, m):
+    """Successor states of (counts, flags) after playing m -- plural, because a
+    play that can trigger a condition branches into both outcomes."""
+    counts, flags = st
+    j = ids.index(m)
+    nc = tuple(n + 1 if k == j else n for k, n in enumerate(counts))
+    return [(nc, nf) for nf in B.branch(deck, dict(zip(ids, nc)), flags, m)]
+
+
+def counts_of(st):
+    return st[0]
+
+
+
 def gate_reachable_cards(deck, ids, edges):
     playable = set()
     for moves in edges.values():
@@ -214,7 +289,7 @@ def gate_no_deadlock(deck, ids, edges):
     not only on the deck."""
     stuck = []
     for st, moves in edges.items():
-        played = dict(zip(ids, st))
+        played = dict(zip(ids, counts_of(st)))
         if not moves and not B.is_terminal(deck, played):
             stuck.append({i: n for i, n in played.items() if n})
     if stuck:
@@ -226,14 +301,13 @@ def gate_no_deadlock(deck, ids, edges):
 
 
 def gate_terminal_live(deck, ids, edges):
-    term = {st for st in edges if B.is_terminal(deck, dict(zip(ids, st)))}
+    term = {st for st in edges if B.is_terminal(deck, dict(zip(ids, counts_of(st))))}
     rev = {st: set() for st in edges}
     for st, moves in edges.items():
         for m in moves:
-            j = ids.index(m)
-            nxt = tuple(n + 1 if k == j else n for k, n in enumerate(st))
-            if nxt in rev:
-                rev[nxt].add(st)
+            for nxt in succ(deck, ids, st, m):
+                if nxt in rev:
+                    rev[nxt].add(st)
     live = set(term)
     q = deque(term)
     while q:
@@ -244,7 +318,7 @@ def gate_terminal_live(deck, ids, edges):
                 q.append(p)
     dead = [st for st in edges if st not in live]
     if dead:
-        example = {i: n for i, n in zip(ids, dead[0]) if n}
+        example = {i: n for i, n in zip(ids, counts_of(dead[0])) if n}
         fail("terminal-live",
              f"{len(dead)} reachable state(s) from which NO terminal is reachable; "
              f"e.g. after playing {example or '{}'}")
@@ -284,14 +358,13 @@ def gate_coverage(deck, ids, edges):
             if by_id[t]["role"] == role:
                 continue                      # the exit itself wears it
             # can we make `t` legal using only cards of other roles?
-            start = tuple(0 for _ in ids)
+            start = (tuple(0 for _ in ids), B.no_flags(deck))
             seen = {start}
             q = deque([start])
             escaped = False
             while q and not escaped:
                 st = q.popleft()
-                played = dict(zip(ids, st))
-                if B.is_terminal(deck, played):
+                if B.is_terminal(deck, dict(zip(ids, counts_of(st)))):
                     continue
                 for m in edges.get(st, []):
                     if m == t:
@@ -299,11 +372,10 @@ def gate_coverage(deck, ids, edges):
                         break
                     if by_id[m]["role"] == role:
                         continue
-                    j = ids.index(m)
-                    nxt = tuple(n + 1 if k == j else n for k, n in enumerate(st))
-                    if nxt not in seen:
-                        seen.add(nxt)
-                        q.append(nxt)
+                    for nxt in succ(deck, ids, st, m):
+                        if nxt not in seen:
+                            seen.add(nxt)
+                            q.append(nxt)
             if escaped:
                 problems.append((t, role))
     if problems:
@@ -319,6 +391,10 @@ def gate_no_orphans(deck):
     consumed = set()
     for c in deck["cards"]:
         consumed.update(c["requires"])
+    # An artifact required only when a condition fires is still consumed --
+    # `probe_result` is not decorative just because the probe is optional.
+    for cond in B.conditions(deck):
+        consumed.add(cond["adds_requirement"]["artifact"])
     orphans = [(c["id"], c["role"], c["produces"]) for c in deck["cards"]
                if not c.get("terminal") and c["produces"] not in consumed]
     if orphans:
@@ -340,6 +416,7 @@ def main(path):
     gate_exclusivity(deck)
     gate_instrument_grounding(deck)
     gate_weights(deck)
+    gate_conditions(deck)
     gate_acyclic(deck)
     if any(g in FAILS for g in ("schema", "acyclic")):
         print("\n*** structural gates failed; skipping budget and state-space gates")
@@ -355,7 +432,8 @@ def main(path):
         ids, seen, edges = B.explore(deck, lookahead=True)
         _, wall, _ = B.explore(deck, lookahead=False)
         pruned = len(wall) - len(seen)
-        term = sum(1 for st in edges if B.is_terminal(deck, dict(zip(ids, st))))
+        term = sum(1 for st in edges
+                   if B.is_terminal(deck, dict(zip(ids, counts_of(st)))))
         print(f"    --  {len(seen)} reachable states, {term} distinct complete runs")
         print(f"    --  look-ahead legality prunes {pruned} states a hard wall "
               f"would have allowed\n")

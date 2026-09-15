@@ -93,16 +93,43 @@ def played_counts(deck, led):
     return counts
 
 
+def flags_of(deck, led):
+    """Condition flags, recomputed from what the artifacts actually say.
+
+    Nothing about the flags is stored. The agent's declaration lives in a
+    normal artifact field, so forging a flag means forging the field -- which
+    is already covered by the artifact checks and the draw replay.
+    """
+    conds = B.conditions(deck)
+    if not conds:
+        return ()
+    by = {c["id"]: c for c in deck["cards"]}
+    out = []
+    for cond in conds:
+        fired = False
+        for p in led["plays"]:
+            if by[p["played"]]["produces"] != cond["artifact"]:
+                continue
+            v = p.get("artifact", {}).get(cond["field"])
+            if v is not None and str(v).strip() != "":
+                fired = True
+        out.append(fired)
+    return tuple(out)
+
+
 def state_of(deck, led):
     """Everything derivable from the play history. Nothing here is stored."""
     counts = played_counts(deck, led)
+    flags = flags_of(deck, led)
     return {
         "counts": counts,
+        "flags": flags,
+        "conditions_fired": [c["id"] for c, f in zip(B.conditions(deck), flags) if f],
         "spent": B.spent(deck, counts),
         "budget": deck.get("budget"),
         "artifacts": sorted(B.artifacts_of(deck, counts)),
         "terminal": B.is_terminal(deck, counts),
-        "legal": sorted(B.legal_moves(deck, counts, lookahead=True)),
+        "legal": sorted(B.legal_moves(deck, counts, lookahead=True, flags=flags)),
         "step": len(led["plays"]) + 1,
     }
 
@@ -115,7 +142,7 @@ def by_id_terminal(deck, card_id):
     return bool({c["id"]: c for c in deck["cards"]}[card_id].get("terminal"))
 
 
-def legal_exits(deck, counts):
+def legal_exits(deck, counts, flags=None):
     """Terminal cards currently legal.
 
     The die decides WHAT WORK TO DO NEXT. It must never decide WHAT THE ANSWER
@@ -130,7 +157,7 @@ def legal_exits(deck, counts):
     actually earned. Only the conclusion is free.
     """
     by = {c["id"]: c for c in deck["cards"]}
-    return sorted(m for m in B.legal_moves(deck, counts, lookahead=True)
+    return sorted(m for m in B.legal_moves(deck, counts, lookahead=True, flags=flags)
                   if by[m].get("terminal"))
 
 
@@ -239,11 +266,17 @@ def validate_artifact(deck, card_id, artifact):
                 f"-- HAT BLEED: this card is producing another hat's output")
         else:
             problems.append(f"field '{f}' is not declared by any artifact")
+    nullable = set(deck["artifacts"][atype].get("nullable", []))
     for f in sorted(declared & got):
         v = artifact[f]
-        if v is None or (isinstance(v, (str, list, dict)) and len(v) == 0) \
-                or (isinstance(v, str) and not v.strip()):
+        empty = (v is None or (isinstance(v, (str, list, dict)) and len(v) == 0)
+                 or (isinstance(v, str) and not v.strip()))
+        if empty and f not in nullable:
             problems.append(f"field '{f}' is empty")
+        # A nullable field left empty is a DECLARATION, not an omission: the
+        # agent is asserting the condition does not hold. It is logged, and it
+        # is the one place the agent can shorten its own process -- which is
+        # why it is a field rather than an inference.
     return problems
 
 
@@ -275,7 +308,7 @@ def cmd_next(a):
                           "spent": st["spent"]}, indent=2))
         return 0
     by = {c["id"]: c for c in deck["cards"]}
-    exits = legal_exits(deck, played_counts(deck, led))
+    exits = legal_exits(deck, played_counts(deck, led), flags_of(deck, led))
     if card is None:
         print(json.dumps({
             "step": st["step"],
@@ -315,7 +348,7 @@ def cmd_play(a):
     if st["terminal"]:
         print("*** run is already complete", file=sys.stderr)
         return 1
-    exits = legal_exits(deck, played_counts(deck, led))
+    exits = legal_exits(deck, played_counts(deck, led), flags_of(deck, led))
     if a.card and a.card != card:
         if a.card in exits:
             card = a.card                   # an earned exit is the agent's call
@@ -421,7 +454,7 @@ def cmd_verify(a):
         if p.get("n") != st["step"]:
             problems.append(f"play {i} claims step {p.get('n')}, replay is at {st['step']}")
         counts_now = played_counts(deck, replay)
-        exits_now = legal_exits(deck, counts_now)
+        exits_now = legal_exits(deck, counts_now, flags_of(deck, replay))
         if p.get("chosen_exit"):
             # An exit is the agent's call, so there is no draw to reproduce --
             # but it must have been an exit the agent had actually EARNED.
@@ -476,7 +509,10 @@ def cmd_verify(a):
         return 1
     used = [(p["played"], p["instrument"]["kind"], p["instrument"]["exit"])
             for p in led["plays"] if p.get("instrument")]
+    fired = st.get("conditions_fired") or []
     print(f"    roles worn: {sorted(roles_worn)}")
+    if B.conditions(deck):
+        print(f"    conditions fired: {fired or 'none'}")
     print(f"    instruments invoked: {len(used)}")
     for cid, kind, code in used:
         print(f"      {cid} [{kind}] exit {code}")

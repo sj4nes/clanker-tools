@@ -33,6 +33,76 @@ than adding a dimension to it: no state-space blow-up.
 """
 
 
+# ---------------------------------------------------------------- conditions
+#
+# A conditional requirement makes a card's preconditions depend on WHAT AN
+# EARLIER ARTIFACT SAID, not on which cards were played. That is outside the
+# state model -- legality would depend on prose -- so two things make it
+# checkable:
+#
+#   1. The condition is a DECLARED, TYPED FIELD. The agent writes
+#      `disputed_fact` or leaves it null; deterministic code enforces the
+#      consequence. The agent can still lie to skip the probe, but that is now
+#      an explicit, logged, auditable claim rather than a silent omission.
+#      (The agent-automation split again: the model proposes, code enforces.)
+#
+#   2. The state space BRANCHES on it. State becomes (counts, flags), and
+#      every gate is checked on both branches -- the deck must be sound whether
+#      or not the condition fires. Flags latch: once a disputed fact is raised
+#      it stays raised, so the space is counts x 2^k, bounded.
+#
+# The look-ahead is PESSIMISTIC: it assumes every condition that can still fire
+# does. Otherwise an agent could be stranded by its own honest declaration,
+# which is the finding-12 problem wearing a different hat.
+
+
+def conditions(deck):
+    return deck.get("conditions", [])
+
+
+def no_flags(deck):
+    return tuple(False for _ in conditions(deck))
+
+
+def effective_requires(deck, card_id, flags):
+    by = {c["id"]: c for c in deck["cards"]}
+    req = list(by[card_id]["requires"])
+    for i, cond in enumerate(conditions(deck)):
+        add = cond["adds_requirement"]
+        if flags[i] and add["card"] == card_id and add["artifact"] not in req:
+            req.append(add["artifact"])
+    return req
+
+
+def settable(deck, counts, i):
+    """Can condition i still become true? Only if its triggering artifact can
+    still be produced."""
+    cond = conditions(deck)[i]
+    for c in deck["cards"]:
+        if c["produces"] == cond["artifact"] and counts.get(c["id"], 0) < c["copies"]:
+            return True
+    return False
+
+
+def worst_flags(deck, counts, flags):
+    """Every condition that is true, or could still become true."""
+    return tuple(f or settable(deck, counts, i) for i, f in enumerate(flags))
+
+
+def branch(deck, counts, flags, card_id):
+    """Flag states reachable by playing `card_id`. Two branches for each
+    still-open condition this card's artifact can trigger."""
+    by = {c["id"]: c for c in deck["cards"]}
+    produced = by[card_id]["produces"]
+    out = [flags]
+    for i, cond in enumerate(conditions(deck)):
+        if cond["artifact"] == produced and not flags[i]:
+            out = [f for g in out
+                   for f in (g, tuple(True if k == i else v
+                                      for k, v in enumerate(g)))]
+    return out
+
+
 def cost_of(card):
     return card.get("cost", 1)
 
@@ -90,22 +160,28 @@ def is_terminal(deck, played):
     return any(by[cid].get("terminal") and n for cid, n in played.items())
 
 
-def raw_moves(deck, played):
+def raw_moves(deck, played, flags=None):
     """Legal ignoring budget entirely: a copy remains and requirements are met."""
+    if flags is None:
+        flags = no_flags(deck)
     have = artifacts_of(deck, played)
     return [c["id"] for c in deck["cards"]
             if played.get(c["id"], 0) < c["copies"]
-            and all(r in have for r in c["requires"])]
+            and all(r in have for r in effective_requires(deck, c["id"], flags))]
 
 
 INF = float("inf")
 
 
-def min_cost_to_terminal(deck, played, _memo=None):
-    """Cheapest additional cost to reach a terminal state, ignoring budget.
+def min_cost_to_terminal(deck, played, flags=None, _memo=None):
+    """Cheapest additional cost to reach a terminal state, ignoring budget,
+    assuming the worst case for every condition still open.
     INF when no terminal is reachable at all."""
+    if flags is None:
+        flags = no_flags(deck)
+    wf = worst_flags(deck, played, flags)
     if _memo is None:
-        _memo = _cache(deck, "terminal")
+        _memo = _cache(deck, f"terminal:{wf}")
     ids = [c["id"] for c in deck["cards"]]
     by = {c["id"]: c for c in deck["cards"]}
 
@@ -117,7 +193,7 @@ def min_cost_to_terminal(deck, played, _memo=None):
         _memo[state] = INF                # artifacts are monotone: no revisit helps
         best = INF
         pl = dict(zip(ids, state))
-        for m in raw_moves(deck, pl):
+        for m in raw_moves(deck, pl, wf):
             j = ids.index(m)
             nxt = tuple(n + 1 if k == j else n for k, n in enumerate(state))
             sub = go(nxt)
@@ -141,11 +217,15 @@ def _cache(deck, name):
     return deck.setdefault("_memo", {}).setdefault(name, {})
 
 
-def min_cost_to_exit(deck, played, exit_id):
-    """Cheapest additional cost to reach a terminal state VIA a named exit."""
+def min_cost_to_exit(deck, played, exit_id, flags=None):
+    """Cheapest additional cost to reach a terminal state VIA a named exit,
+    assuming the worst case for every condition still open."""
     ids = [c["id"] for c in deck["cards"]]
     by = {c["id"]: c for c in deck["cards"]}
-    memo = _cache(deck, f"exit:{exit_id}")
+    if flags is None:
+        flags = no_flags(deck)
+    wf = worst_flags(deck, played, flags)
+    memo = _cache(deck, f"exit:{exit_id}:{wf}")
 
     def go(state):
         pl = dict(zip(ids, state))
@@ -155,7 +235,7 @@ def min_cost_to_exit(deck, played, exit_id):
             return memo[state]
         memo[state] = INF                    # artifacts are monotone: no revisit helps
         best = INF
-        for m in raw_moves(deck, pl):
+        for m in raw_moves(deck, pl, wf):
             j = ids.index(m)
             nxt = tuple(n + 1 if k == j else n for k, n in enumerate(state))
             sub = go(nxt)
@@ -167,18 +247,20 @@ def min_cost_to_exit(deck, played, exit_id):
     return go(tuple(played.get(i, 0) for i in ids))
 
 
-def legal_moves(deck, played, lookahead=True):
+def legal_moves(deck, played, lookahead=True, flags=None):
     """Budget-aware legality.
 
     With `lookahead`, a move is offered only if a terminal remains reachable
     within the remaining budget afterwards -- so the rulebook never hands the
     die a move that strands the run.
     """
+    if flags is None:
+        flags = no_flags(deck)
     budget = deck.get("budget")
     ids = [c["id"] for c in deck["cards"]]
     by = {c["id"]: c for c in deck["cards"]}
     out = []
-    for m in raw_moves(deck, played):
+    for m in raw_moves(deck, played, flags):
         if budget is None:
             out.append(m)
             continue
@@ -195,44 +277,65 @@ def legal_moves(deck, played, lookahead=True):
         if is_terminal(deck, nxt_played):
             out.append(m)
             continue
-        tail = min_cost_to_terminal(deck, nxt_played)
+        tail = min_cost_to_terminal(deck, nxt_played, flags)
         if tail is INF or after_spent + tail > budget:
             continue
-        # A deck may name ONE exit whose affordability must be preserved.
-        # Without it the look-ahead only promises that SOME exit remains
-        # reachable -- so a run can wander until the strongest exit is priced
-        # out, which is how the decide deck spent itself out of `commit`.
-        keep = deck.get("preserve_exit")
-        if keep and not by[m].get("terminal"):
-            need = min_cost_to_exit(deck, nxt_played, keep)
-            if need is INF or after_spent + need > budget:
-                continue
         out.append(m)
+
+    # A deck may name ONE exit whose affordability must be preserved. Without
+    # it the look-ahead only promises that SOME exit remains reachable, so a
+    # run can wander until the strongest exit is priced out -- which is how
+    # the decide deck spent itself out of `commit`.
+    #
+    # But preservation must YIELD rather than strand. Enforcing it strictly
+    # deadlocked decide v0.5.0: it pruned `alternatives` because commit would
+    # no longer be affordable afterwards, and every exit requires `alternative`,
+    # so nothing at all was legal. A preference that can produce a dead end is
+    # not a preference, it is a bug.
+    keep = deck.get("preserve_exit")
+    if keep:
+        kept = []
+        for m in out:
+            if by[m].get("terminal"):
+                kept.append(m)
+                continue
+            nxt_played = dict(played)
+            nxt_played[m] = nxt_played.get(m, 0) + 1
+            need = min_cost_to_exit(deck, nxt_played, keep, flags)
+            if need is not INF and spent(deck, played) + cost_of(by[m]) + need <= budget:
+                kept.append(m)
+        if kept:
+            return kept
     return out
 
 
 def explore(deck, lookahead=True):
-    """BFS the reachable state space under the budget rule in force."""
+    """BFS the reachable state space. A state is (counts, flags): a play that
+    can trigger a condition branches into both outcomes, so every gate sees
+    the deck with the condition fired and not fired."""
     from collections import deque
     ids = [c["id"] for c in deck["cards"]]
-    start = tuple(0 for _ in ids)
+    start = (tuple(0 for _ in ids), no_flags(deck))
     seen = {start}
     edges = {}
     q = deque([start])
     while q:
         st = q.popleft()
-        played = dict(zip(ids, st))
+        counts, flags = st
+        played = dict(zip(ids, counts))
         if is_terminal(deck, played):
             edges[st] = []
             continue
-        moves = legal_moves(deck, played, lookahead=lookahead)
+        moves = legal_moves(deck, played, lookahead=lookahead, flags=flags)
         edges[st] = moves
         for m in moves:
             j = ids.index(m)
-            nxt = tuple(n + 1 if k == j else n for k, n in enumerate(st))
-            if nxt not in seen:
-                seen.add(nxt)
-                q.append(nxt)
+            nc = tuple(n + 1 if k == j else n for k, n in enumerate(counts))
+            for nf in branch(deck, dict(zip(ids, nc)), flags, m):
+                nxt = (nc, nf)
+                if nxt not in seen:
+                    seen.add(nxt)
+                    q.append(nxt)
     return ids, seen, edges
 
 
