@@ -2,9 +2,9 @@
 name: role-deck
 description: >-
   Run a goal-directed process as an executable rulebook whose next step is
-  drawn EXTERNALLY, so the agent cannot route around the expensive phase. Use
-  when a multi-phase procedure has to be followed the same way every time and
-  the record has to be trustworthy afterwards — a diagnosis, a decision, a
+  drawn EXTERNALLY, so the run is auditable and repeatable rather than
+  improvised. Use when a multi-phase procedure has to be followed the same way
+  every time and the record has to be trustworthy afterwards — a diagnosis, a decision, a
   review, an incident walkthrough, an intake — or when designing, auditing, or
   debugging such a procedure. A deck is roles as cards, each declaring the
   typed artifact it produces and the artifacts it requires; a bounded state
@@ -18,7 +18,7 @@ description: >-
   work that would otherwise go undone. NOT a workflow engine,
   not a task queue, and not a way to make a model's judgement trustworthy —
   it constrains WHEN and WHETHER, never how good the thinking is.
-version: 2.3.0
+version: 2.4.0
 author: Simon Janes
 tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
 ---
@@ -30,13 +30,23 @@ followed. It may have gone straight to the answer, skipped the step that would
 have caught the error, or done the work perfectly — and the transcript reads
 the same either way.
 
-**What this skill does not claim.** An earlier version of this page asserted
-that an unconstrained agent *will* skip the expensive step. That was measured
-and is false: eight fresh agents, given a bug whose true cause is only visible
-by running the code, all ran it unprompted, with no deck and no prompting
-([`verification/premise-fixture/RESULT.md`](verification/premise-fixture/RESULT.md)).
-For cheap grounding, agents self-ground. The claim is struck rather than
-rewritten into something that sounds similar and is equally untested.
+**What this skill does not claim — twice measured, twice false.** Earlier
+versions of this page asserted that an unconstrained agent *will* skip the
+expensive step, and then that it will confirm its first explanation rather than
+discriminate between rivals. Both were fixtured against fresh agents and both
+are refuted, 8/8:
+
+| Claim | Fixture | Result |
+|---|---|---|
+| skips the expensive hat | a cause visible only by executing | **8/8 executed** |
+| confirms rather than discriminates | a second cause, invisible in the output | **8/8 found it**; 4/8 also found a third hole that was never planted |
+
+See [`verification/premise-fixture/RESULT.md`](verification/premise-fixture/RESULT.md)
+and [`verification/ordering-fixture/RESULT.md`](verification/ordering-fixture/RESULT.md).
+Both claims are **struck** rather than reworded into similar-sounding untested
+ones. **So this skill does not make an agent more thorough, and nothing here
+should be read as claiming it does.** What it provides is a record that can be
+replayed and a process that is the same every time — demonstrated, not assumed.
 
 A **role deck** makes the procedure an object: roles are cards, each card
 declares the artifact it produces and the artifacts it requires, and **the next

@@ -1179,18 +1179,18 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       `die` gate has never fired on a real bias; (4) `decide`'s `expected_order`
       has no regression mutation, where `diagnose`'s does.  (2026-09-15)
 
-- [ ] **role-deck: does an agent skip the ORDERING discipline?** The successor
-      question to the refuted premise, and currently a hypothesis rather than a
-      finding. Incidental to the premise run: not one of the eight subjects
-      recorded a prior before looking, and not one enumerated competing
-      explanations — they went straight to the answer. That is consistent with
-      the deck's RED-before-evidence and GREEN-competing-hypotheses discipline
-      being the live claim while its execution-forcing is dead, but ordering was
-      NOT the measured variable and must not be reported as though it were. It
-      needs its own fixture: a bug where the first plausible explanation is
-      wrong, so that committing to it early is punished and enumerating
-      alternatives is rewarded. Note the premise fixture cannot be reused — its
-      answer is single and correct on first contact.  (2026-09-15)
+- [x] **role-deck: does an agent skip the ORDERING discipline? — FIXTURED AND
+      REFUTED 2026-09-15.** Sharpened from "do they enumerate" (unmeasurable,
+      self-report) to the user's framing: having formed a plausible
+      explanation, does an agent ask "how do I confirm this?" rather than "what
+      else would produce this symptom?" That version IS measurable, by executing
+      the subject's own fix. 8 agents, a gate with a visible cause that fully
+      explains the symptom and a second cause invisible in the output: **8/8
+      found both**, 8/8 constructed the stderr-only test case themselves, 8/8
+      also tested the all-pass case unprompted, and **4/8 closed a third hole
+      that was never planted**. Both behavioural justifications for this skill
+      are now measured and false; what survives is auditability and
+      repeatability. See `verification/ordering-fixture/RESULT.md`.
 
 - [x] **role-deck: the laziness search.** DONE 2026-09-15 as the `work-floor`
       gate (role-deck 2.1.0). It is the only gate in the skill that is not a

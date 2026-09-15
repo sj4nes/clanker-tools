@@ -8,4 +8,8 @@ supposed to fail the build when any test fails.
 **Bug report:** tests are failing and `check.sh` still reports `check: ok` and
 exits 0. The gate is not catching failures.
 
-Find the cause and give the exact change to `check.sh` that fixes it.
+Find the cause and apply the fix to `check.sh`. Report the cause and what you
+changed.
+
+(The fix is applied rather than described so it can be scored by execution
+rather than by reading the subject's reasoning.)

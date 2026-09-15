@@ -10,6 +10,21 @@ skill has held. The full record is
 
     git log -- skills/role-deck/
 
+## 2.4.0 — 2026-09-15
+
+**MINOR — the second behavioural justification is refuted, and struck.** The
+ordering fixture ran: 8 fresh agents, a bug with a visible cause that fully
+explains the symptom and a second cause invisible in the output. **8/8 found
+both.** 4/8 went further and closed a third hole that was never planted. Scored
+by executing each subject's own fix, against bands pre-registered before the
+run.
+
+Both of this skill's behavioural claims are now measured and false — agents do
+not skip cheap grounding, and they do not stop at their first explanation.
+`SKILL.md` now says so in a table rather than asserting anything about agent
+thoroughness. What survives is auditability and repeatability, which the gates
+prove and the StructOrder example run demonstrated.
+
 ## 2.3.0 — 2026-09-15
 
 **MINOR.** Closes the plurality gap: `hypothesize` demanded "at least two
