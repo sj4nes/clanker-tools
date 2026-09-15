@@ -18,6 +18,7 @@ description: >-
   physics-formula-tree method. Excludes kinetics, electrochemistry, colligative
   properties, quantum/orbital bonding, and non-ideal solution theory.
 version: 3.0.0
+archetype: capsule
 author: Simon Janes
 tags: [chemistry, general-chemistry, stoichiometry, thermochemistry, equilibrium, acid-base, redox, formulas, dependencies, knowledge-capsule]
 ---

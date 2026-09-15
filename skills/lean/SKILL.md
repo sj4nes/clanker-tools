@@ -11,6 +11,7 @@ description: >-
   benchmarking, or debugging ordinary code, and not as proof of production
   behavior whose assumptions live outside Lean.
 version: 1.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [formal-methods, lean, lean4, theorem-proving, mathlib, verification, proofs]
 ---

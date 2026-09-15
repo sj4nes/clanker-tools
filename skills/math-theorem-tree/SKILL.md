@@ -13,6 +13,7 @@ description: >-
   This is a META skill: it orchestrates the `tsort`, `lean`, `bc`, `ptx`,
   `csplit`, and `ed` skills — invoke it before starting such work.
 version: 1.2.0
+archetype: meta
 author: Simon Janes
 tags: [mathematics, knowledge-engineering, tsort, lean, dependencies, theorems, meta-skill]
 ---

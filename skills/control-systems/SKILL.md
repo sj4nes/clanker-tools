@@ -18,6 +18,7 @@ description: >-
   analysis or system identification alone, and not a licence to state that
   passing simulation proves a controller is safe on the real plant.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [control-theory, systems-engineering, feedback, pid, lqr, mpc, state-estimation, stability, robustness, safety, real-time]
 ---

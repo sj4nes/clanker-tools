@@ -21,6 +21,7 @@ description: >-
   with the math-theorem-tree method; discharges the logic primitives of
   math-sets-functions-cardinality.
 version: 2.1.0
+archetype: capsule
 author: Simon Janes
 tags: [mathematics, logic, proof-theory, model-theory, foundations, natural-deduction, completeness, compactness, incompleteness, dependencies, knowledge-capsule, lean]
 ---

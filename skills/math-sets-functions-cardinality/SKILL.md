@@ -17,6 +17,7 @@ description: >-
   on, the prerequisite chain for a cardinality fact, or to know exactly which
   form of choice a result uses. Built with the math-theorem-tree method.
 version: 3.0.0
+archetype: capsule
 author: Simon Janes
 tags: [mathematics, foundations, set-theory, cardinality, axiom-of-choice, dependencies, knowledge-capsule, lean]
 ---

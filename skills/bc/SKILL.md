@@ -9,6 +9,7 @@ description: >-
   precision policy, explicit rounding (bc truncates, it does not round), and
   validation each calculation needs.
 version: 2.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [calculation, bc, arithmetic, precision, rounding, finance, terminal]
 ---

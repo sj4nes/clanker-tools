@@ -11,6 +11,7 @@ description: >-
   know whether a formula is valid in a given regime. Built with, and maintained
   per, the physics-formula-tree method.
 version: 2.1.0
+archetype: capsule
 author: Simon Janes
 tags: [physics, mechanics, newtonian, formulas, dependencies, knowledge-capsule]
 ---

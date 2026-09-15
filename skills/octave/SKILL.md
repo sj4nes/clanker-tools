@@ -14,6 +14,7 @@ description: >-
   doubles are structurally unable to follow), not a proof tool (that is `lean`),
   and not a general scripting or plotting environment.
 version: 1.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [verification, octave, linear-algebra, matrices, numerics, tolerance, conditioning]
 ---

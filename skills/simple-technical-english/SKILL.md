@@ -13,6 +13,7 @@ description: >-
   prose editor or a style beautifier, and not for brainstorming, analysis, or
   creative writing where constraint removes useful nuance.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [writing, technical-english, ste, asd-ste100, controlled-language, instructions, prompts, runbooks, specifications]
 ---

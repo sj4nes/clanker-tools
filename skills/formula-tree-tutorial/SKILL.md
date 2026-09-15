@@ -11,6 +11,7 @@ description: >-
   consumes a `physics-formula-tree` capsule and orchestrates the `bc`, `tsort`,
   and `lean` skills; the deliverable is an `upmd`-executable `.md`.
 version: 1.0.0
+archetype: meta
 author: Simon Janes
 tags: [tutorial, upmd, executable-markdown, teaching, physics, formula-tree, meta-skill]
 ---

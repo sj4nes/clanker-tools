@@ -1292,3 +1292,20 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       not one skill about doing that. Same shape as the refuted premises: the
       thing most relied on was the thing never written down. Decide whether it
       is a distinct workflow or a chapter of `skill-authoring`.  (2026-09-15)
+
+- [ ] **Corpus remediation: 35 archetype-standard failures across 29 skills.**
+      Found by `skills/skill-authoring/verification/check_authoring.py` on its
+      first run, and gated by a RATCHET (`baseline.txt`) so the count cannot
+      grow while remediation proceeds. By gate:
+      **13 `scope`** — descriptions stating no boundary at all, so nothing says
+      where the skill stops applying (ed, tsort, uv, math-linear-algebra,
+      math-real-analysis, math-sets-functions-cardinality, math-theorem-tree,
+      physics-acoustics, physics-formula-tree, physics-newtonian,
+      physics-thermoacoustics, formula-tree-tutorial, theorem-tree-tutorial);
+      **10 `displacement`** — behaviour skills with no displacement table,
+      because §7 was applied going forward and never backfilled;
+      **9 `frontmatter`** — missing `author:` or `tags:`;
+      **3 `harness`** — verification/ with a run.sh and no README.md, which is
+      a §6 violation of the same kind `statistics` had.
+      Remediation lowers baseline.txt. Note the ratchet's known weakness: it
+      cannot distinguish "fixed two, broke two".  (2026-09-15)

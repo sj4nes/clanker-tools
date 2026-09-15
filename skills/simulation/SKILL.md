@@ -15,6 +15,7 @@ description: >-
   with a known closed form, and not a licence to state that a simulation proves
   reality.
 version: 1.1.0
+archetype: behaviour
 author: Simon Janes
 tags: [simulation, modeling, monte-carlo, discrete-event, agent-based, uncertainty, verification-validation, decision-analysis]
 ---

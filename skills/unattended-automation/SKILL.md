@@ -19,6 +19,7 @@ description: >-
   decisions are made by a language model (that is `agent-automation`), and not a
   substitute for a real workflow engine when you need one.
 version: 1.1.0
+archetype: behaviour
 author: Simon Janes
 tags: [automation, cron, scheduled-jobs, pipelines, idempotency, reliability, error-handling, retries, observability, runbook, ci-cd, etl]
 ---

@@ -17,6 +17,7 @@ description: >-
   computing the statistics a chart displays (that is analysis), and not a
   licence to imply causation from a correlation or an arrow.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [visualization, data-visualization, charts, diagrams, dataviz, tufte, graphical-integrity, accessibility, information-design, diagram-as-code]
 ---

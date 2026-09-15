@@ -9,6 +9,7 @@ description: >-
   syntactically connected program fragments. Output is always a derived
   artifact; the original is preserved and every piece is verified.
 version: 2.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [text-processing, csplit, splitting, logs, markdown, fixtures, terminal]
 ---

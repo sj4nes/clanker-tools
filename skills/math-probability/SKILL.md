@@ -32,6 +32,7 @@ description: >-
   per, the math-theorem-tree method. Excludes the construction of the abstract
   integral, stochastic processes, and statistical inference.
 version: 4.0.0
+archetype: capsule
 author: Simon Janes
 tags: [mathematics, probability, measure-theory, random-variables, expectation, independence, limit-theorems, central-limit-theorem, conditional-expectation, dependencies, knowledge-capsule, lean]
 ---

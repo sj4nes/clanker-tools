@@ -19,6 +19,7 @@ description: >-
   not a task queue, and not a way to make a model's judgement trustworthy —
   it constrains WHEN and WHETHER, never how good the thinking is.
 version: 2.4.0
+archetype: behaviour
 author: Simon Janes
 tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
 ---

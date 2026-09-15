@@ -8,6 +8,7 @@ description: >-
   counterexample traces. Use to find design flaws before or alongside
   implementation — not as proof of an unbounded production system.
 version: 1.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [formal-methods, tla-plus, model-checking, concurrency, distributed-systems, verification]
 ---

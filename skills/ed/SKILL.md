@@ -7,6 +7,7 @@ description: >-
   line-oriented edits with `ed`, especially to indentation-sensitive YAML or
   structurally sensitive Rust.
 version: 1.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [editing, ed, terminal, yaml, rust, toml, refactoring]
 ---

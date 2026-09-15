@@ -19,6 +19,7 @@ description: >-
   `design-of-experiments`), and not a licence to call an observational
   association causal.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [statistics, statistical-inference, estimation, confidence-intervals, hypothesis-testing, likelihood, bootstrap, regression, multiple-testing, bayesian-inference, model-checking, regime]
 ---

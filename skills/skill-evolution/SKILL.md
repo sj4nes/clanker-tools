@@ -23,6 +23,7 @@ description: >-
   not a licence to let the loop self-apply edits in a running production
   automation (that is agent-automation's self-revision gate).
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [skill-evolution, prompt-optimization, skill-authoring, self-improvement, evaluation-driven, issue-tracker, edit-budget, acceptance-gate, held-out-evaluation, llm-agents]
 ---

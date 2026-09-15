@@ -11,6 +11,7 @@ description: >-
   `uv run` instead of imperative shell, classifying commands by side effect, and
   gating lockfile regeneration, `uv pip sync`, cache clean, and `uv publish`.
 version: 1.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [python, uv, packaging, virtualenv, dependencies, terminal, reproducibility]
 ---

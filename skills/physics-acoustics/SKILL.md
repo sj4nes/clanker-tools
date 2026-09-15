@@ -2,6 +2,7 @@
 name: physics-acoustics
 description: Linear (small-signal) acoustics in fluids as a curated, dependency-ordered knowledge capsule -- the floor physics-thermoacoustics needs and previously lacked. The linearized continuity and Euler equations, the adiabatic bulk modulus, the speed of sound (general thermodynamic and ideal-gas forms), the linear acoustic wave equation, plane-wave solutions and the dispersion relation, specific and characteristic impedance, intensity and the decibel scale, superposition/interference/standing waves/pipe resonance, normal-incidence reflection and transmission, and the Doppler effect. Every formula carries its symbols, SI units, dimensions, exactness label, assumptions as first-class graph nodes, one limiting-case check, failure modes, and a source. Built with the physics-formula-tree method; its roots are discharged against physics-newtonian and physics-thermodynamics by physics-formula-atlas in the same release, rather than left as undischarged duplicates. Use when solving or checking a linear-acoustics problem (wave speed, impedance, SPL, resonance, Doppler shift), when you need the minimum prerequisite chain for an acoustics formula, or when tracing a physics-thermoacoustics result's full dependency chain back to Newtonian/thermodynamic primitives via physics-formula-atlas.
 version: 1.0.0
+archetype: capsule
 ---
 
 # physics-acoustics

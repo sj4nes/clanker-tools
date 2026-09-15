@@ -16,6 +16,7 @@ description: >-
   executor. NOT a vector-database or retrieval-tuning guide, and not a
   method for writing the artifacts themselves.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [memory, skill-library, agents, retention, distillation, retrieval, rsi]
 ---

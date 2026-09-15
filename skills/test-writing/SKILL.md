@@ -13,6 +13,7 @@ description: >-
   tutorial on a test framework or a runner, not a coverage-percentage target,
   and not a substitute for deciding what in the system is actually risky.
 version: 1.1.0
+archetype: behaviour
 author: Simon Janes
 tags: [testing, verification, oracles, property-testing, fuzzing, fixtures, code-review]
 ---

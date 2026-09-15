@@ -11,6 +11,7 @@ description: >-
   contradicted) with an auditable evidence packet. NOT a bibliography formatter,
   and "unresolved" is never reported as "does not exist".
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [citations, references, verification, bibliography, evidence, research-integrity, doi, isbn]
 ---

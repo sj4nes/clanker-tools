@@ -16,6 +16,7 @@ description: >-
   domain evaluation or benchmarking, not a way to prove a methodology works,
   and not applicable to claims that are already structurally provable.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [evaluation, experiments, methodology, agents, pre-registration, falsification]
 ---

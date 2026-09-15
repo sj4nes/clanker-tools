@@ -23,6 +23,7 @@ description: >-
   electrode microkinetics, the double layer, photo-electrochemistry, corrosion
   engineering, and non-flow battery chemistries are out of scope.
 version: 3.0.0
+archetype: capsule
 author: Simon Janes
 tags: [chemistry, electrochemistry, electrolysis, electrosynthesis, faraday, nernst, flow-battery, redox, knowledge-capsule]
 ---

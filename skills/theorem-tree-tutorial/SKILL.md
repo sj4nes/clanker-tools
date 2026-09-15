@@ -14,6 +14,7 @@ description: >-
   `bc`, and `tsort` skills; the deliverable is an `upmd`-executable `.md`. The
   math analogue of `formula-tree-tutorial` (which does physics).
 version: 1.0.0
+archetype: meta
 author: Simon Janes
 tags: [tutorial, upmd, executable-markdown, teaching, mathematics, theorem-tree, lean, meta-skill]
 ---

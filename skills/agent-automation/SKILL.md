@@ -18,6 +18,7 @@ description: >-
   Security guidance. NOT for one-off manual agent tasks a human is watching, and
   not a licence to let a model call arbitrary APIs from raw prose.
 version: 1.2.0
+archetype: behaviour
 author: Simon Janes
 tags: [agent-automation, ai-agent-security, llm-safety, tool-use, policy-engine, human-in-the-loop, idempotency, audit-logging, least-privilege, circuit-breaker, owasp]
 ---

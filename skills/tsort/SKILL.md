@@ -8,6 +8,7 @@ description: >-
   Covers deriving evidence-backed edges, detecting and resolving cycles,
   handling multiple valid orders, and keeping planning separate from execution.
 version: 2.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [planning, tsort, dependencies, topological-sort, migrations, deployment, terminal]
 ---

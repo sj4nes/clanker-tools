@@ -18,6 +18,7 @@ description: >-
   demand, and not a licence to turn an unobserved possibility into a confident
   forecast.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [foresight, uncertainty, assumptions, premortem, red-team, competing-hypotheses, horizon-scanning, anomaly-detection, value-of-information, forecasting, calibration]
 ---

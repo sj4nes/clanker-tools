@@ -19,6 +19,7 @@ description: >-
   entity-linking or knowledge-graph-embedding pipeline, and not a licence to
   treat an extracted or inferred edge as a source-backed fact.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [hypergraph, situation-model, n-ary-relations, provenance, knowledge-representation, retrieval, preconditions, contradiction-detection, temporal-reasoning, grounded-action]
 ---

@@ -16,6 +16,7 @@ description: >-
   and not a general LaTeX or word-processor substitute for documents that must
   ship as `.docx`.
 version: 1.0.0
+archetype: tool-fact
 author: Simon Janes
 tags: [typst, typesetting, pdf, markdown-migration, latex-migration, document-production, cli, terminal]
 ---

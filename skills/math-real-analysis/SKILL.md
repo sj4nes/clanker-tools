@@ -14,6 +14,7 @@ description: >-
   and what breaks without it. Built with, and maintained per, the
   math-theorem-tree method.
 version: 2.1.0
+archetype: capsule
 author: Simon Janes
 tags: [mathematics, real-analysis, calculus, theorems, dependencies, knowledge-capsule, lean]
 ---

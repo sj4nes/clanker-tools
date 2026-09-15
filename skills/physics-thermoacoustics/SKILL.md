@@ -14,6 +14,7 @@ description: >-
   with, and maintained per, the physics-formula-tree method. Assumes the
   physics-newtonian capsule plus elementary thermodynamics.
 version: 3.0.0
+archetype: capsule
 author: Simon Janes
 tags: [physics, thermoacoustics, acoustics, thermodynamics, rott, stirling, engines, refrigerators]
 ---

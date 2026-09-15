@@ -16,6 +16,7 @@ description: >-
   mechanics, open systems and chemical potential, phase equilibria, and real-gas
   equations of state.
 version: 1.0.0
+archetype: capsule
 author: Simon Janes
 tags: [physics, thermodynamics, entropy, carnot, ideal-gas, first-law, second-law, formulas, dependencies, knowledge-capsule]
 ---

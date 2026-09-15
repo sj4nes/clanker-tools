@@ -17,6 +17,7 @@ description: >-
   self-published interior or a formatted sample). NOT a ghostwriter (voice stays
   the author's), and not a book-marketing or distribution skill.
 version: 1.0.0
+archetype: meta
 author: Simon Janes
 tags: [nonfiction, book, writing, editorial, claim-ledger, positioning, developmental-editing, fact-checking, meta-skill]
 ---

@@ -15,6 +15,7 @@ description: >-
   not a statistics course, and not a substitute for deciding what capability
   you actually care about.
 version: 1.0.0
+archetype: behaviour
 author: Simon Janes
 tags: [evaluation, benchmarks, judges, reward-hacking, selection-bias, measurement, rsi]
 ---

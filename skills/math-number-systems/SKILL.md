@@ -13,6 +13,7 @@ description: >-
   which axiom (Peano, choice) a result rests on. Built with, and maintained per,
   the math-theorem-tree method; discharges the primitives of math-real-analysis.
 version: 4.0.0
+archetype: capsule
 author: Simon Janes
 tags: [mathematics, foundations, number-systems, construction-of-reals, dependencies, knowledge-capsule, lean]
 ---

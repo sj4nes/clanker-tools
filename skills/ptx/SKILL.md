@@ -8,6 +8,7 @@ description: >-
   or code-aware tools, and no code, architecture, security, or dependency
   conclusion may rest on `ptx` output alone.
 version: 1.1.0
+archetype: tool-fact
 author: Simon Janes
 tags: [discovery, ptx, indexing, search, terminology, documentation, terminal]
 ---
