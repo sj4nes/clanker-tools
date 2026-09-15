@@ -10,7 +10,7 @@ Not a skill yet: no `SKILL.md`, deliberately outside `skills/` so
 | File | What it is |
 |---|---|
 | `decks/diagnose.json` | the rulebook: artifact types with fields, cards (role, copies, requires, produces, instrument), required roles |
-| `check_deck.py` | ten static gates over the deck, by exhaustive state-space exploration |
+| `check_deck.py` | eleven static gates over the deck, by exhaustive state-space exploration |
 | `budget.py` | the budget model, and why it enters through legality rather than as a wall |
 | `mutation-check.sh` | plants one defect per gate and asserts each is caught |
 | `run_deck.py` | the runner: external draw, artifact validation, append-only ledger, replay-based `verify` |
@@ -136,6 +136,30 @@ recorded with the card it was spent avoiding. "The agent rerolled away from
 BLACK four times out of five" is then a measurement rather than a suspicion —
 the process analogue of `experience-library`'s contribution log.
 
+**Finding 6: grounding has to execute, not attest.** The weak reading of
+condition 3 — *"the artifact must cite its source"* — is just another field a
+model can fabricate. The real version is `agent-automation`'s split: the agent
+**proposes a command**, the runner **executes it and records the result**. The
+output in the ledger is produced by the runner, so an agent cannot forge a
+result it never obtained.
+
+The deck names which roles must be grounded (`instrumented_roles`: WHITE and
+EXECUTE here) and `check_deck.py` asserts they declare an instrument. At play
+time a grounded card without `--command` is **refused** — that hat may not be
+worn on introspection alone — and a `--command` on an ungrounded card is
+refused too, so grounding cannot leak.
+
+Run on the real diagnosis, the EXECUTE hat captured:
+
+    $ printf '*** FAIL: x' | grep -q '*** FAIL'; echo "regex form: $?"; ...
+    regex form: 2
+    fixed form: 0
+    grep: repetition-operator operand invalid
+
+That is the finding of the original audit, produced by the runner rather than
+asserted by the model. The stored output is hashed, so editing it after the
+fact fails `verify`.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -151,9 +175,12 @@ the process analogue of `experience-library`'s contribution log.
 - **Field presence is not field quality.** The runner checks that every
   declared field is present and non-empty. Nothing checks that `discriminator`
   actually discriminates — that stays human, or needs the instrument.
-- **`instrument` is declared but unenforced.** Cards name an instrument
-  (`retrieval`, `execution`); nothing requires that the phase actually invoked
-  one. Grounding condition 3 from the design conversation is still advisory.
+- **A command is not the right command.** Grounding proves a command ran and
+  records what it printed. Nothing checks it was *relevant* — `--command true`
+  satisfies the gate. This is the same boundary as field presence vs field
+  quality, one level down, and it is where the human stays.
+- **The runner executes what it is given**, with `shell=True` and a timeout.
+  Fine for a local tool whose deck and operator you trust; it is not a sandbox.
 - **No simulator.** The gates say what is *possible*; they say nothing about
   the *distribution* of sequences a random draw actually produces. That is the
   thing designers are reliably wrong about.

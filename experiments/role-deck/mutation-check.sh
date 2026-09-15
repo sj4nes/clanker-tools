@@ -116,6 +116,14 @@ plant "two producers for one artifact type" \
 # safe under an EXTERNAL draw. Turning it off must reintroduce dead ends --
 # if this mutation is ever caught by nothing, the look-ahead has stopped
 # doing anything and `no-deadlock` has gone vacuous again.
+plant "an ungrounded evaluative hat: EXECUTE with no instrument" \
+      "instrument-grounding" \
+      'cards["run"]["instrument"]=None'
+
+plant "an instrument kind the deck never declares" \
+      "instrument-grounding" \
+      'cards["gather"]["instrument"]="vibes"'
+
 echo
 echo "=== regression: disabling look-ahead must reintroduce strands ==="
 $PY - <<'PYEOF'

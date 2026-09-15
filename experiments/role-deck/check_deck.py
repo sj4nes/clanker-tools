@@ -14,7 +14,7 @@ choice has nothing to verify; a bounded machine with resources has deadlocks,
 unreachable terminals, decorative hats, and paths that skip the hat you most
 wanted worn. Those are design bugs you cannot playtest your way to.
 
-Ten gates. See budget.py for why the budget enters through legality rather
+Eleven gates. See budget.py for why the budget enters through legality rather
 than as a wall.
 
 Usage:  python3 check_deck.py decks/diagnose.json
@@ -79,6 +79,34 @@ def gate_exclusivity(deck):
                 owner[f] = aname
     if not clash:
         ok("exclusivity", f"{len(owner)} fields, each owned by exactly one artifact")
+
+
+def gate_instrument_grounding(deck):
+    """Condition 3 from the design: an evaluative hat with no external
+    instrument is introspection in costume. The deck names which roles must be
+    grounded; this asserts they are, and that no card invents an unknown kind."""
+    must = set(deck.get("instrumented_roles", []))
+    kinds = set(deck.get("instrument_kinds", []))
+    problems = []
+    for c in deck["cards"]:
+        inst = c.get("instrument")
+        if c["role"] in must and inst is None:
+            problems.append(f"card '{c['id']}' has role {c['role']}, which the deck "
+                            f"requires to be grounded, but declares no instrument")
+        if inst is not None and kinds and inst not in kinds:
+            problems.append(f"card '{c['id']}' declares unknown instrument "
+                            f"'{inst}' (known: {sorted(kinds)})")
+    if not must:
+        ok("instrument-grounding", "no roles declared as requiring an instrument")
+        return
+    if problems:
+        for pr in problems:
+            fail("instrument-grounding", pr)
+    else:
+        grounded = [c["id"] for c in deck["cards"] if c.get("instrument")]
+        ok("instrument-grounding",
+           f"roles {sorted(must)} are grounded; {len(grounded)} card(s) carry an "
+           f"instrument: {grounded}")
 
 
 def gate_acyclic(deck):
@@ -257,6 +285,7 @@ def main(path):
 
     gate_schema(deck)
     gate_exclusivity(deck)
+    gate_instrument_grounding(deck)
     gate_acyclic(deck)
     if any(g in FAILS for g in ("schema", "acyclic")):
         print("\n*** structural gates failed; skipping budget and state-space gates")

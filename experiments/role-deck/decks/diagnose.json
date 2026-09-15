@@ -1,8 +1,8 @@
 {
   "deck": "diagnose",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "goal_shape": "Something is wrong and the cause is not known.",
-  "_note": "Hand-written first, then corrected by check_deck.py. v0.1.0 had RED and YELLOW decorative (nothing consumed their output). v0.3.0 adds a global budget, which the checker showed cannot be a hard wall -- it enters through legality instead. See FINDINGS.md and budget.py.",
+  "_note": "Hand-written first, then corrected by check_deck.py at every step. v0.1.0 had RED and YELLOW decorative; v0.3.0 added a budget, which cannot be a hard wall; v0.5.0 grounds WHITE and EXECUTE in instruments the runner actually invokes. See FINDINGS.md.",
   "artifacts": {
     "question": {
       "fields": [
@@ -152,5 +152,13 @@
     }
   ],
   "budget": 11,
-  "rerolls": 2
+  "rerolls": 2,
+  "instrument_kinds": [
+    "retrieval",
+    "execution"
+  ],
+  "instrumented_roles": [
+    "WHITE",
+    "EXECUTE"
+  ]
 }

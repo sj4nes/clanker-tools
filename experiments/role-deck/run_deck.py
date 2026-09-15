@@ -34,9 +34,13 @@ Commands:
 import argparse
 import hashlib
 import json
+import subprocess
 import sys
+import time
 
 import budget as B
+
+STDOUT_CAP = 4000        # bytes of captured output stored in the ledger
 
 
 # ---------------------------------------------------------------- the die
@@ -93,6 +97,75 @@ def current_draw(deck, led):
     if st["terminal"]:
         return None, st
     return draw(led["seed"], st["step"], led.get("pending_rerolls", 0), st["legal"]), st
+
+
+# ---------------------------------------------------------------- instruments
+def instrument_of(deck, card_id):
+    by = {c["id"]: c for c in deck["cards"]}
+    return by[card_id].get("instrument")
+
+
+def digest(text):
+    return hashlib.sha256(text.encode("utf-8", "replace")).hexdigest()
+
+
+def invoke(kind, command, timeout):
+    """Run the agent's proposed command and record what actually happened.
+
+    The agent proposes; deterministic code executes and records. The output in
+    the ledger is produced by the RUNNER, so the agent cannot forge a result it
+    never obtained -- which is the whole difference between an instrument and a
+    claim to have used one.
+
+    A nonzero exit is NOT a refusal. A failing test is a result, and EXECUTE
+    recording a failure is exactly what the hat is for.
+    """
+    started = time.time()
+    try:
+        r = subprocess.run(command, shell=True, capture_output=True,
+                           text=True, timeout=timeout)
+        out, err, code = r.stdout, r.stderr, r.returncode
+    except subprocess.TimeoutExpired:
+        out, err, code = "", f"timed out after {timeout}s", 124
+    except Exception as e:                                # noqa: BLE001
+        out, err, code = "", f"could not execute: {e}", 127
+    captured = (out + err)[:STDOUT_CAP]
+    return {
+        "kind": kind,
+        "command": command,
+        "exit": code,
+        "output": captured,
+        "output_sha256": digest(captured),
+        "truncated": len(out + err) > STDOUT_CAP,
+        "elapsed_s": round(time.time() - started, 3),
+    }
+
+
+def check_instrument_block(deck, card_id, block):
+    """A play record's instrument block must have been written by the runner."""
+    want = instrument_of(deck, card_id)
+    problems = []
+    if want is None:
+        if block is not None:
+            problems.append(f"card '{card_id}' declares no instrument but the "
+                            f"ledger carries an instrument block")
+        return problems
+    if block is None:
+        problems.append(f"card '{card_id}' requires a '{want}' instrument and "
+                        f"the ledger has no instrument block")
+        return problems
+    if block.get("kind") != want:
+        problems.append(f"instrument kind is '{block.get('kind')}', "
+                        f"card '{card_id}' declares '{want}'")
+    if not str(block.get("command", "")).strip():
+        problems.append(f"instrument block for '{card_id}' records no command")
+    if "exit" not in block:
+        problems.append(f"instrument block for '{card_id}' records no exit status")
+    got = block.get("output", "")
+    if digest(got) != block.get("output_sha256"):
+        problems.append(f"instrument output for '{card_id}' does not match its "
+                        f"recorded sha256 -- the captured output was edited")
+    return problems
 
 
 # ---------------------------------------------------------------- validation
@@ -161,6 +234,7 @@ def cmd_next(a):
         "role": c["role"],
         "brief": c["brief"],
         "instrument": c.get("instrument"),
+        "command_required": c.get("instrument") is not None,
         "produce_artifact": atype,
         "fields_required": deck["artifacts"][atype]["fields"],
         "cost": B.cost_of(c),
@@ -195,10 +269,30 @@ def cmd_play(a):
         for p in problems:
             print(f"      - {p}", file=sys.stderr)
         return 1
+
+    kind = instrument_of(deck, card)
+    block = None
+    if kind is not None:
+        if not a.command:
+            print(f"*** refused: card '{card}' is grounded in a '{kind}' "
+                  f"instrument and no --command was supplied.", file=sys.stderr)
+            print("      This hat may not be worn on introspection alone.",
+                  file=sys.stderr)
+            return 1
+        block = invoke(kind, a.command, a.timeout)
+        print(f"    [{kind}] $ {a.command}", file=sys.stderr)
+        print(f"    [{kind}] exit {block['exit']}, "
+              f"{len(block['output'])} bytes captured", file=sys.stderr)
+    elif a.command:
+        print(f"*** refused: card '{card}' declares no instrument, "
+              f"so --command is not accepted", file=sys.stderr)
+        return 1
+
     led["plays"].append({
         "n": st["step"], "drawn": card, "played": card,
         "rerolls": led.get("pending_rerolls", 0),
         "artifact": artifact,
+        "instrument": block,
     })
     led["pending_rerolls"] = 0
     save(a.ledger, led)
@@ -260,6 +354,8 @@ def cmd_verify(a):
                             f"(legal were {st['legal']})")
         for bad in validate_artifact(deck, p["played"], p.get("artifact", {})):
             problems.append(f"play {i} ('{p['played']}'): {bad}")
+        for bad in check_instrument_block(deck, p["played"], p.get("instrument")):
+            problems.append(f"play {i}: {bad}")
         replay["plays"].append(p)
 
     st = state_of(deck, replay)
@@ -283,7 +379,12 @@ def cmd_verify(a):
             print(f"*** FAIL {p}")
         print(f"\n*** {len(problems)} LEDGER PROBLEM(S)")
         return 1
+    used = [(p["played"], p["instrument"]["kind"], p["instrument"]["exit"])
+            for p in led["plays"] if p.get("instrument")]
     print(f"    roles worn: {sorted(roles_worn)}")
+    print(f"    instruments invoked: {len(used)}")
+    for cid, kind, code in used:
+        print(f"      {cid} [{kind}] exit {code}")
     print(f"    rerolls spent: {total_rr}/{led['rerolls_allowed']}")
     print("\nLEDGER VERIFIED")
     return 0
@@ -327,6 +428,8 @@ def main():
     p.add_argument("--ledger", required=True); p.add_argument("--card")
     g = p.add_mutually_exclusive_group(required=True)
     g.add_argument("--artifact"); g.add_argument("--artifact-file")
+    p.add_argument("--command", help="required for cards declaring an instrument")
+    p.add_argument("--timeout", type=int, default=60)
 
     p = sub.add_parser("reroll"); p.set_defaults(fn=cmd_reroll)
     p.add_argument("--ledger", required=True); p.add_argument("--reason", required=True)
