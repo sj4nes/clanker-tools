@@ -1,4 +1,4 @@
-#import "../../preamble.typ": keyterm, headline
+#import "../../preamble.typ": keyterm, headline, practice
 
 = A proof that proved nothing
 
@@ -74,3 +74,18 @@ went from #keyterm[36 claimed to 25], and `math-statistics` from #keyterm[44 to
 `.lean` file compiled clean before and after, with no `sorry` and no `axiom`
 anywhere in the repository. What was wrong was the index — a third of the claims
 pointed at nothing.
+
+#practice[Resolve every pointer your document claims to have.][
+  Find each place your skill asserts something is verified, proved, tested,
+  benchmarked or measured, and ask what a machine could #emph[locate] from
+  that claim. A declaration name. A file and a section. A test id.
+
+  Then resolve them, mechanically, and count. Prose describing a technique is
+  not a pointer. A reference to a file that contains different evidence than
+  the one claimed is not a pointer. An empty field is not a pointer.
+
+  The number you get is your honest count of verified claims, and it will be
+  lower than the number you would have quoted. Here it went from 36 to 25 in
+  one capsule and 44 to 28 in another, with every proof intact — the index was
+  wrong, not the mathematics.
+]

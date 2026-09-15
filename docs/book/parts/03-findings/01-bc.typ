@@ -1,4 +1,4 @@
-#import "../../preamble.typ": keyterm, headline
+#import "../../preamble.typ": keyterm, headline, practice
 
 = A harness that could not fail
 
@@ -71,3 +71,17 @@ The checklist gained a line that reads oddly until you have been here:
 counter untouched — banner still printed, `bc` still exiting 0 — must make the
 run fail. That is the only way to see the grep clause work, and it is how the
 broken form hid in eight files.
+
+#practice[Break each guard on its own.][
+  List the guards your verification step actually has. A typical one has
+  three — the tool's exit status, a pass banner, a failure marker — and they
+  mask each other.
+
+  Then break them #emph[one at a time], leaving the others intact. Plant a
+  failure marker without touching the failure counter, so the banner still
+  prints and the tool still exits zero. If the run stays green, that guard is
+  dead and the other two were carrying it.
+
+  A guard you have only ever seen fail #emph[alongside] another guard has not
+  been tested. That is how a broken pattern hid in eight of nine files here.
+]

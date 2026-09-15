@@ -1,4 +1,4 @@
-#import "../../preamble.typ": keyterm
+#import "../../preamble.typ": keyterm, practice
 
 = The shape they share
 
@@ -59,3 +59,39 @@ level at which you stop having to plant a defect and check that something
 screams.] The discipline does not terminate in a tool that is finally
 trustworthy. It terminates in the habit of breaking the thing on purpose,
 applied one level up, every time.
+
+== The four questions
+
+Each audit produced one practice. Together they are four questions to ask of any
+check you own, in the order that finds the most for the least effort.
+
+#table(
+  columns: (auto, 1fr),
+  align: (left, left),
+  table.header([*Ask*], [*Because*]),
+  [Have I broken each guard #emph[alone]?],
+    [guards mask each other, and one only ever seen to fail alongside another
+     has not been tested],
+  [Does every claim of verification #emph[resolve]?],
+    [a compile checks the artifact, never the index that points at it],
+  [What does this artifact state #emph[twice]?],
+    [the duplicate written separately is a free independent oracle],
+  [Has anyone measured the premise?],
+    [the sentence justifying the whole thing is the one nobody checks],
+)
+
+#practice[Assume the check is dead until you have seen it die.][
+  This is the rule the four questions come from, and the only one worth
+  carrying away.
+
+  A passing check and an impossible check are indistinguishable in every log you
+  will ever read. The difference is not visible, not inferable, and not
+  something more careful reading will surface — the four defects in this part
+  were found by people reading carefully, and none of them were found by
+  reading.
+
+  So the evidence that a check works is not that it passed. It is that you broke
+  the thing on purpose and watched it complain. Until then you have a check
+  nobody has observed doing its job, which is a different object from a check
+  that works — and the two are identical from outside.
+]

@@ -68,6 +68,21 @@
   #text(size: 10.5pt)[#what]
 ]
 
+// Closes a chapter in a prescriptive book: the thing the reader does to their
+// own work. Without this, an audit chapter is a war story.
+#let practice(title, body) = block(
+  width: 100%, inset: (x: 13pt, y: 12pt), radius: 3pt,
+  fill: rgb("#f4f6f8"), stroke: (left: 3pt + rgb("#40566b")),
+  breakable: false,
+)[
+  #set par(first-line-indent: 0pt, justify: false, leading: 0.62em)
+  #text(size: 8.5pt, fill: rgb("#40566b"), weight: "bold")[#smallcaps[The practice]]
+  #v(0.3em)
+  #text(size: 12pt, weight: "bold")[#title]
+  #v(0.5em)
+  #text(size: 10pt)[#body]
+]
+
 // A claim under test, and its verdict. Used once per case study.
 #let verdict(claim, result) = block(
   width: 100%, inset: 9pt, radius: 3pt,

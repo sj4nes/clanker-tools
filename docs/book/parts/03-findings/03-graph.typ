@@ -1,4 +1,4 @@
-#import "../../preamble.typ": keyterm, headline
+#import "../../preamble.typ": keyterm, headline, practice
 
 = A graph that could not be wrong
 
@@ -64,3 +64,19 @@ do nothing: #keyterm[a mutation that reports itself as surviving].
 
 A falsifiability harness that cannot falsify itself is the same defect one level
 up, and it appeared while fixing the first instance of it.
+
+#practice[Find the oracle you already have.][
+  Your artifact almost certainly states the same thing twice, in two places
+  written at different times — a declared dependency list and prose that names
+  what a step needs; a frontmatter summary and a body that explains; a schema
+  and an example.
+
+  That duplication is not redundancy to be tidied away. It is the only
+  independent oracle you will get for free, and it is independent precisely
+  because the two were written separately. Gate one against the other and make
+  disagreement a build failure.
+
+  Then check the checker: delete a real edge, invent a false one, and confirm
+  each is caught. Hygiene checks — is it well formed, does everything resolve —
+  pass happily on a structure that is perfectly formed and entirely wrong.
+]

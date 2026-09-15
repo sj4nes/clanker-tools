@@ -1,4 +1,4 @@
-#import "../../preamble.typ": keyterm, headline, verdict
+#import "../../preamble.typ": keyterm, headline, verdict, practice
 
 = Two premises, measured
 
@@ -81,3 +81,19 @@ that is independent of any claim about agents.
 
 The measurements cost sixteen agents and roughly four minutes of wall time. They
 should have been taken first.
+
+#practice[Measure the sentence your skill rests on.][
+  Find the sentence that justifies your document — the one asserting what goes
+  wrong without it. #emph[Agents skip verification. Reviewers rubber-stamp.
+  People do not read the spec.] Write it down as a claim.
+
+  Then split it. Part of it is usually structural and already settled by
+  inspection; only the behavioural half needs subjects, and dropping the other
+  half often halves the work. Recruit subjects who cannot know the hypothesis —
+  which means not you. Make the measurement an artefact of doing the work or an
+  execution of the subject's own output, never a self-report. Commit the scorer
+  and the outcome bands #emph[before] any result exists, in their own commit.
+
+  Sixteen fresh agents and four minutes of wall time refuted both claims this
+  skill was built on. That is cheaper than the day spent building on them.
+]

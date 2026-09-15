@@ -6,8 +6,8 @@ that is surfaced, not quietly resolved.
 
 Status: **Phase 1, one gate condition outstanding.** Promise, exclusions and
 comps are written (comps from the author's own Amazon survey, 2026-09-15, in
-[`comps-table.md`](comps-table.md)). No reader interviews have been run, which
-is the remaining gate failure and is recorded at the end.
+[`comps-table.md`](comps-table.md)). Reader interviews are recorded as an
+**accepted exception**, not an outstanding failure — see the end.
 
 ```yaml
 positioning_brief:
@@ -138,12 +138,36 @@ the manuscript it needs either the two or three closest comps read, or
 rephrasing as a characterisation of the genre rather than an assertion about
 titles. Recorded here so it cannot be forgotten at draft time.
 
-## Reader interviews: none run
+## Reader interviews: accepted exception
 
-The skill asks for 10–20. The corpus has one adopter, who is the author. That
-is worth stating rather than working around: every claim in this brief about
-what the reader believes and wants is an assumption held by one person about
-people he has not spoken to.
+The skill asks for 10–20. There will be none, and the reason is not neglect:
+**the corpus is ten days old.** The category itself is younger than a year —
+every direct comp is dated February to August 2026. There is no population of
+people maintaining a corpus of agent skills to interview, because the practice
+barely exists yet.
 
-It is also directly testable with the method the book itself teaches, which is
-the obvious first application of `claim-fixture` outside its own repository.
+The skill's acceptance checklist admits exactly this case: an item may be an
+evidenced yes **or an explicitly recorded exception**. This is the exception,
+recorded here so it travels with the brief rather than being quietly forgotten
+at draft time.
+
+### What this costs, stated plainly
+
+Every claim in this brief about what the reader believes, wants, or already
+knows is **one person's assumption about people he has not spoken to** — the
+same shape as the two premises this book's own Part III reports measuring and
+striking. The brief should be read with that in mind, and the irony is not lost
+on its author.
+
+### The mitigation available
+
+Two, neither a substitute for a reader:
+
++ **The author is a genuine instance of the reader**, having built fifty skills
+  and hit the problem the book describes. An n of one that is not invented is
+  worth more than a fabricated ten.
++ **The claims are testable with the book's own method.** `claim-fixture`
+  exists to measure a behavioural claim cheaply, and "skill authors cannot tell
+  whether their documents work" is such a claim. Running it would be the
+  method's first use outside the repository that produced it, and is the
+  obvious thing to do the moment a second adopter exists.
