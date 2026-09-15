@@ -4,41 +4,51 @@ The constitution for this book. Every later choice — a chapter, an example, a
 cut — is checked against this. When this brief and a draft chapter disagree,
 that is surfaced, not quietly resolved.
 
-Status: **Phase 1, gate not yet passed.** The promise and exclusions are
-written; the comps table is thin and unverified (see below), and no reader
-interviews have been run.
+Status: **Phase 1, one gate condition outstanding.** Promise, exclusions and
+comps are written (comps from the author's own Amazon survey, 2026-09-15, in
+[`comps-table.md`](comps-table.md)). No reader interviews have been run, which
+is the remaining gate failure and is recorded at the end.
 
 ```yaml
 positioning_brief:
   working_title: "The Missing Manual"
-  working_subtitle: "Writing instructions an agent follows, and knowing whether they work"
+  working_subtitle: "Building skills for AI agents, with an AI agent, and knowing whether they work"
 
   one_sentence_promise: >-
-    For someone who writes instruction documents an LLM agent will follow — a
-    skill, a system prompt, a runbook, a tool contract — this book shows how to
-    tell whether the document changes anything, by holding it to a standard
-    that can fail and by measuring its premise before building on it.
+    For someone building a corpus of skills for AI agents, this book shows how
+    to work WITH an agent to produce skills that are known to work rather than
+    merely written — by holding each to a standard that can fail, and by
+    measuring the default behaviour it claims to displace.
 
   promise_check:
     who_is_it_for: >-
-      A person who writes and maintains agent-facing instruction documents, and
-      increasingly a corpus of them. Not "prompt engineers" in general: this
-      reader has more than one document, expects to keep them, and has started
-      to worry about whether the pile is an asset.
+      Someone who already writes skills for AI agents — SKILL.md files, system
+      prompts, runbooks, tool contracts — and is accumulating a corpus. The
+      direct comps have taught them the format; this reader is past that and
+      has started to worry about whether the pile is an asset or a liability.
+      They work alongside an agent daily and are comfortable having it do work,
+      but have not thought of it as a collaborator in QUALITY.
     what_problem: >-
       Costly and quietly frustrating. You write a document, it reads well, it
       sounds right, and you have no way to know whether it helps, hurts, or
       does nothing. So you keep writing more, and each one inherits the
       uncertainty of the last.
     what_outcome: >-
-      They can do three things they could not do before: name the default
-      behaviour their document displaces; build a harness that has been SEEN to
-      fail; and test the premise a document rests on before building on it.
+      They can do four things they could not do before: name the default
+      behaviour a skill displaces; build a harness that has been SEEN to fail;
+      measure whether that default is real before building on it; and direct an
+      agent to do most of that work, including the part where it disproves
+      them.
     unique_angle: >-
-      Evidence and experience, from a real corpus rather than a worked example.
-      Fifty instruction documents held to the standard, four audits of what
-      that found, and two premises measured and struck — including the
-      author's own.
+      Two things together, and the pairing is the angle. First, EVIDENCE from a
+      real corpus rather than a worked example: fifty skills held to the
+      standard, four audits of what that found, and two premises measured and
+      struck, including the author's own. Second, the COLLABORATION itself —
+      every skill in the corpus was produced by a human and an agent working
+      together, with the agent doing much of the verification work and
+      repeatedly proving its own author wrong. The comps teach a person to
+      write a SKILL.md. This is about a pair producing one that is known to
+      work.
     why_a_book: >-
       The standard is a system, not a tip: the parts depend on each other and
       need sustained explanation. And the corpus itself has reference value
@@ -79,13 +89,19 @@ positioning_brief:
     has two halves that are usually both skipped: a harness that can fail, and
     a measurement of whether the default was ever real.
 
-  comparable_titles: []          # SEE BELOW — deliberately empty, not yet earned
+  comparable_titles:             # full table + limitations in comps-table.md
+    - "Claude Code Skills — The SKILL.md Playbook (J Cook, Mar 2026)"
+    - "AI Agent Skills: The Complete SKILL.md Standard Guide (\"Prompt Master\", Jun 2026)"
+    - "AI Agent Skills for Claude, Codex, and Beyond (Erik Volkmann, Aug 2026)"
+    - "AI Agent Skills: The New Standard… (Tung KnowYa, Feb 2026)"
+    - "CLAUDE SKILLS: Master Prompt Engineering, AI Workflows… (Eslam Wahba, May 2026)"
 
   differentiation_sentence: >-
-    Existing books teach how to write prompts and how to test software; this
-    book helps someone who writes agent instruction documents find out whether
-    a specific document does anything, using a standard applied to a real
-    corpus and a method for measuring the premise underneath it.
+    Existing books teach the SKILL.md format and how to ship a first skill
+    quickly; this book helps someone who already writes skills find out whether
+    a specific skill does anything — by building verification that can fail,
+    and by measuring the default behaviour the skill claims to displace —
+    working with the agent as a collaborator rather than writing at it.
 
   author_credibility: >-
     Built and maintains the corpus the book is about, including the audits that
@@ -99,26 +115,28 @@ positioning_brief:
     - "The domain content of the corpus's knowledge capsules."
     - "Evaluation of model capability. This is about documents, not models."
     - "Marketing, distribution, and publishing."
+    - "Monetisation. The adjacent shelf is full of make-money-with-AI titles;
+       this book is defined against that genre and will not gesture at it."
+    - "Getting started. The reader already writes skills. A beginner's on-ramp
+       is what the direct comps already do well enough."
 ```
 
-## The comps table is not written, and should not be faked
+## Comps: written, with a limitation that must travel with them
 
-The skill's gate asks for at least three comparable titles, and the guardrails
-forbid fabricating them. Both apply here, in tension.
+Six direct comps and four adjacent ones are in
+[`comps-table.md`](comps-table.md), from the author's Amazon survey.
 
-The honest position: **this reader's attention is not currently competed for by
-books.** It is competed for by vendor documentation, blog posts, and framework
-READMEs. The adjacent book shelf — testing discipline, measurement under
-uncertainty, evidence-based engineering practice — is real but addresses a
-different reader.
+**None of them have been read.** Their positioning is inferred from titles,
+subtitles and series placement. That supports a claim about *the shelf* — every
+direct comp is dated February to August 2026, and all promise production rather
+than evaluation — and it does not support any claim about a specific book's
+content.
 
-Naming specific titles, editions and publishers from memory is exactly the
-failure mode `citation-check` exists to catch, and a positioning brief that
-rests on remembered bibliography is a brief resting on a discovery source.
-
-**Action required before this gate passes:** the author names the three to five
-things this reader currently reads instead, from their own experience, and each
-is verified before it enters the table.
+The differentiation sentence therefore rests on a **hypothesis about the
+category**, not a finding about competitors. Before that sentence appears in
+the manuscript it needs either the two or three closest comps read, or
+rephrasing as a characterisation of the genre rather than an assertion about
+titles. Recorded here so it cannot be forgotten at draft time.
 
 ## Reader interviews: none run
 
