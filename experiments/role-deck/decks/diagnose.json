@@ -1,0 +1,155 @@
+{
+  "deck": "diagnose",
+  "version": "0.3.0",
+  "goal_shape": "Something is wrong and the cause is not known.",
+  "_note": "Hand-written first, then corrected by check_deck.py. v0.1.0 had RED and YELLOW decorative (nothing consumed their output). v0.3.0 adds a global budget, which the checker showed cannot be a hard wall -- it enters through legality instead. See FINDINGS.md and budget.py.",
+  "artifacts": {
+    "question": {
+      "fields": [
+        "scope",
+        "symptom",
+        "stop_condition"
+      ]
+    },
+    "evidence": {
+      "fields": [
+        "observations",
+        "provenance"
+      ]
+    },
+    "hunch": {
+      "fields": [
+        "gut_call"
+      ]
+    },
+    "hypotheses": {
+      "fields": [
+        "candidates"
+      ]
+    },
+    "support": {
+      "fields": [
+        "explains"
+      ]
+    },
+    "discriminator": {
+      "fields": [
+        "test",
+        "predicted_outcomes"
+      ]
+    },
+    "result": {
+      "fields": [
+        "observed"
+      ]
+    },
+    "verdict": {
+      "fields": [
+        "conclusion",
+        "residual_uncertainty",
+        "ranking"
+      ]
+    }
+  },
+  "required_roles": [
+    "WHITE",
+    "RED",
+    "GREEN",
+    "YELLOW",
+    "BLACK",
+    "EXECUTE"
+  ],
+  "cards": [
+    {
+      "id": "open",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [],
+      "produces": "question",
+      "instrument": null,
+      "brief": "Name the diagnostic question, its scope, and what would end it."
+    },
+    {
+      "id": "gather",
+      "role": "WHITE",
+      "copies": 2,
+      "requires": [
+        "question"
+      ],
+      "produces": "evidence",
+      "instrument": "retrieval",
+      "brief": "Observations only. No interpretation, no candidate causes."
+    },
+    {
+      "id": "hunch",
+      "role": "RED",
+      "copies": 1,
+      "requires": [
+        "question"
+      ],
+      "produces": "hunch",
+      "instrument": null,
+      "brief": "State the gut call in one line, deliberately WITHOUT justification."
+    },
+    {
+      "id": "hypothesize",
+      "role": "GREEN",
+      "copies": 2,
+      "requires": [
+        "evidence"
+      ],
+      "produces": "hypotheses",
+      "instrument": null,
+      "brief": "At least two competing explanations. Do not rank them."
+    },
+    {
+      "id": "support",
+      "role": "YELLOW",
+      "copies": 1,
+      "requires": [
+        "hypotheses"
+      ],
+      "produces": "support",
+      "instrument": null,
+      "brief": "What each hypothesis would explain if true. Value before fault."
+    },
+    {
+      "id": "falsify",
+      "role": "BLACK",
+      "copies": 2,
+      "requires": [
+        "hypotheses",
+        "support"
+      ],
+      "produces": "discriminator",
+      "instrument": null,
+      "brief": "A test whose outcome DIFFERS between hypotheses, derived from what each was said to explain. Not a confirmation."
+    },
+    {
+      "id": "run",
+      "role": "EXECUTE",
+      "copies": 2,
+      "requires": [
+        "discriminator"
+      ],
+      "produces": "result",
+      "instrument": "execution",
+      "brief": "Actually run the discriminating test and record what happened. Costs 2: this is the hat that spends real resources.",
+      "cost": 2
+    },
+    {
+      "id": "close",
+      "role": "BLUE",
+      "copies": 1,
+      "requires": [
+        "result",
+        "hunch"
+      ],
+      "produces": "verdict",
+      "instrument": null,
+      "terminal": true,
+      "brief": "Conclusion, what remains uncertain, and whether the opening hunch was borne out."
+    }
+  ],
+  "budget": 11
+}
