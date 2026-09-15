@@ -14,7 +14,7 @@ choice has nothing to verify; a bounded machine with resources has deadlocks,
 unreachable terminals, decorative hats, and paths that skip the hat you most
 wanted worn. Those are design bugs you cannot playtest your way to.
 
-Fifteen gates. See budget.py for why the budget enters through legality rather
+Sixteen gates. See budget.py for why the budget enters through legality rather
 than as a wall.
 
 Usage:  python3 check_deck.py decks/diagnose.json
@@ -187,12 +187,13 @@ def gate_unlocks(deck):
                             f"but the deck declares no budget")
         pa = u.get("played_at_least")
         if pa is not None:
-            if not isinstance(pa, dict) or "card" not in pa or "n" not in pa:
-                problems.append(f"card '{c['id']}' played_at_least needs "
-                                f"{{card, n}}")
-            elif pa["card"] not in {x["id"] for x in deck["cards"]}:
-                problems.append(f"card '{c['id']}' unlocks on unknown card "
-                                f"'{pa['card']}'")
+            for req in (pa if isinstance(pa, list) else [pa]):
+                if not isinstance(req, dict) or "card" not in req or "n" not in req:
+                    problems.append(f"card '{c['id']}' played_at_least needs "
+                                    f"{{card, n}} or a list of them")
+                elif req["card"] not in {x["id"] for x in deck["cards"]}:
+                    problems.append(f"card '{c['id']}' unlocks on unknown card "
+                                    f"'{req['card']}'")
     if problems:
         for pr in problems:
             fail("unlocks", pr)
@@ -535,6 +536,70 @@ def gate_coverage(deck, ids, edges):
         ok("coverage", f"every exit wears its required roles ({summary})")
 
 
+def gate_work_floor(deck, ids, edges):
+    """The LEAST work a complete run can do while breaking no other gate.
+
+    Every other gate is a safety property -- does anything bad happen on any
+    path. This is an extremal query over paths, and it catches a defect class
+    none of them can see: a deck that is perfectly well formed and satisfiable
+    by doing almost nothing. `invent` v0.1.0 passed all fourteen other gates
+    and the simulator, and its laziest legal run padded six `generate` plays to
+    reach an exhaustion unlock and ran ONE trial.
+
+    `coverage` is already the n=1 case of this (min_plays(role) >= 1). A deck
+    declares `minimum_work` as {card: n}, or as a map from exit id to its own
+    {card: n} -- a `defer` owes less than a `commit`, so a single global floor
+    can only express what is true of the laziest exit.
+    """
+    spec = deck.get("minimum_work")
+    terminals = [c["id"] for c in deck["cards"] if c.get("terminal")]
+    per_exit = {}
+    if isinstance(spec, dict) and spec and all(k in terminals for k in spec):
+        per_exit = {k: v for k, v in spec.items()}
+    elif spec:
+        per_exit = {None: spec}
+
+    # always report the table -- it is information whether or not it fails
+    lo, hi, wit = B.min_max_plays(deck, ids, edges)
+    skippable = [c["id"] for c in deck["cards"]
+                 if not c.get("terminal") and lo.get(c["id"]) == 0]
+    rng = ", ".join(f"{c['id']} {lo[c['id']]}..{hi[c['id']]}"
+                    for c in deck["cards"] if not c.get("terminal"))
+    print(f"    --  plays per complete run (min..max): {rng}")
+    if skippable:
+        print(f"    --  skippable entirely: {skippable}")
+
+    if not per_exit:
+        ok("work-floor", "no minimum_work declared -- the min..max line above "
+                         "is the laziest run this deck permits")
+        return
+
+    bad = False
+    for exit_id, want in sorted(per_exit.items(), key=lambda kv: kv[0] or ""):
+        elo, _, ewit = (lo, hi, wit) if exit_id is None else \
+            B.min_max_plays(deck, ids, edges, exit_id=exit_id)
+        for cid, n in sorted(want.items()):
+            if cid not in {c["id"] for c in deck["cards"]}:
+                fail("work-floor", f"minimum_work names unknown card '{cid}'")
+                bad = True
+                continue
+            got = elo.get(cid, B.INF)
+            if got is B.INF:
+                fail("work-floor", f"exit '{exit_id}' is unreachable, so its "
+                                   f"work floor is vacuous")
+                bad = True
+            elif got < n:
+                where = f"a run ending at '{exit_id}'" if exit_id else "a run"
+                fail("work-floor",
+                     f"{where} can play '{cid}' only {got}x, floor is {n}x")
+                print(f"        laziest witness: {' '.join(ewit.get(cid, ()))}")
+                bad = True
+    if not bad:
+        desc = "; ".join(f"{k or 'every exit'}: {dict(sorted(v.items()))}"
+                         for k, v in sorted(per_exit.items(), key=lambda kv: kv[0] or ""))
+        ok("work-floor", f"every complete run meets its work floor ({desc})")
+
+
 def gate_no_orphans(deck):
     consumed = set()
     for c in deck["cards"]:
@@ -599,6 +664,7 @@ def main(path):
         gate_no_deadlock(deck, ids, edges)
         gate_terminal_live(deck, ids, edges)
         gate_coverage(deck, ids, edges)
+        gate_work_floor(deck, ids, edges)
         gate_no_orphans(deck)
 
         # every other option count must pass the state-space gates too

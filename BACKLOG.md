@@ -1173,12 +1173,13 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       (5) `decide`'s `expected_order` has no regression mutation, where
       `diagnose`'s does.  (2026-09-15)
 
-- [ ] **role-deck: no laziness search in the harness.** Finding 16 — that an
-      exhaustion unlock is satisfiable by padding with the cheapest legal card
-      — was found by hand, by searching for the complete run that does the
-      least work while staying legal. `invent` v0.1.0 passed every gate and
-      every simulator check and was still wrong, so this is a class of defect
-      the whole existing harness cannot see. The search is cheap (a DFS over
-      the same state space the gates already build) and should be a gate:
-      report the laziest legal run for any deck carrying an `unlock`, and let
-      the author look at it.  (2026-09-15)
+- [x] **role-deck: the laziness search.** DONE 2026-09-15 as the `work-floor`
+      gate (role-deck 2.1.0). It is the only gate in the skill that is not a
+      safety property: the others ask whether anything bad happens on any path,
+      this asks what the LEAST work a run can do is while breaking none of
+      them. `coverage` turns out to be its n=1 case. `check_deck.py` always
+      prints min..max plays per card -- that line is the laziest run the deck
+      permits -- and `minimum_work` (per deck or per exit) asserts intent with
+      a laziest witness path on failure. Found two further holes on first
+      application: invent could trial the same development twice, and decide
+      could commit on one round of evidence.

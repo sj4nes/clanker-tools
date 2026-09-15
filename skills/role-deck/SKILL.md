@@ -15,7 +15,7 @@ description: >-
   a procedure shipped on intuition rather than simulated. NOT a workflow engine,
   not a task queue, and not a way to make a model's judgement trustworthy —
   it constrains WHEN and WHETHER, never how good the thinking is.
-version: 2.0.0
+version: 2.1.0
 author: Simon Janes
 tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
 ---
@@ -74,7 +74,8 @@ runs it — exhaustively, over every reachable state.
    not depend on the model complying, which matters because non-compliance is
    the expected case, not the exceptional one.
 
-6. **Check and simulate a deck before you run it.** The gates say what is
+6. **Check and simulate a deck before you run it — and ask what its laziest
+   legal run does.** The gates say what is
    possible; the simulator says what actually happens, and designers are
    reliably wrong about what their generative objects generate. Every deck in
    [`decks/`](decks/) was hand-written naive first and was wrong — decorative
@@ -82,13 +83,15 @@ runs it — exhaustively, over every reachable state.
    evidence in half of all runs. None of that was visible by reading. And the
    check that a deck **passes** is not the end of it: `invent` v0.1.0 passed
    every gate and every simulator check and was still wrong, because nothing
-   asked what its **laziest legal run** looked like.
+   asked what its **laziest legal run** looked like. `check_deck.py` now always
+   prints the min..max plays per card; that line *is* the laziest run the deck
+   permits, and `minimum_work` turns what you intended into an assertion.
 
 ## Workflow
 
 ```sh
 # design-time — run both, always, before a deck is used
-python3 check_deck.py decks/<name>.json      # 15 gates, exhaustive
+python3 check_deck.py decks/<name>.json      # 16 gates, exhaustive
 python3 simulate.py  decks/<name>.json       # exact marginals, by DP over states
 
 # run-time
@@ -128,6 +131,10 @@ the design:
   still lie — but the lie is now logged and auditable instead of silent.
 - **Per-option cards need an index field and a declared maximum.** Distinctness
   at runtime is what makes "every option covered" a countable thing.
+- **Declare a `minimum_work` floor and keep a mutation that breaks it.** The
+  floor *describes*; an `unlock` is what *enforces* it. Strip the unlock and
+  confirm the floor fails, or the declaration may be describing what the deck
+  would have done anyway.
 - **An `unlock` gates a card on resources, never on judgement.** It is the only
   way to say *"you may not stop yet"*, because no artifact's existence means
   *enough*. Exhaustion alone is not sufficient: it measures **spend, not
@@ -157,9 +164,8 @@ Everything here constrains **when** and **whether**. None of it touches quality:
 - the deck's **floor** is a larger process than the task deserves — a six-phase
   deck on a trivial question is pure cost, and the floor is printed so you can
   see it;
-- a deck has an `unlock` and nobody has asked what the **laziest legal run**
-  looks like — an exhaustion gate is padded, not respected, by an agent with a
-  cheap card available;
+- the min..max line shows a card can be played once, or not at all, and you
+  expected more — declare the floor and find out whether the deck delivers it;
 - `check_deck.py` fails and the fix is to relax a gate rather than the deck;
 - you want the die to choose an **outcome** rather than a step;
 - the procedure's steps cannot be written down and defended — then this is the
@@ -167,12 +173,12 @@ Everything here constrains **when** and **whether**. None of it touches quality:
 
 ## Verification
 
-[`verification/`](verification/) runs four harnesses: 15 gates over three decks,
-26 planted deck defects each asserted caught by the gate that claims it, three
+[`verification/`](verification/) runs four harnesses: 16 gates over three decks,
+30 planted deck defects each asserted caught by the gate that claims it, three
 simulators, two die-driven property tests, and 20 runner refusal/tamper cases.
-100 assertions. `sh verification/run.sh`, ~48 s.
+107 assertions. `sh verification/run.sh`, ~50 s.
 
-Eighteen findings from building it — including three cases where *the test was
+Nineteen findings from building it — including three cases where *the test was
 broken rather than the thing under test*, and one where the skill itself
 shipped a broken check — are in
 [`references/findings.md`](references/findings.md).
@@ -183,7 +189,10 @@ shipped a broken check — are in
   conditional field: the model proposes, deterministic code authorises and
   records.
 - **`tla-checker`** — the same bounded-state-machine argument, for concurrent
-  systems rather than processes.
+  systems rather than processes. The gates here are safety properties in its
+  sense; the **work floor is neither safety nor liveness** but an extremal
+  query over paths, which is the one thing a model checker is not usually
+  asked for.
 - **`causal-sandbox`** — authored-rule transitions an agent drives; a deck is
   that shape applied to its own process.
 - **`unknown-discovery`** — supplies the *content* of a diagnose deck's cards

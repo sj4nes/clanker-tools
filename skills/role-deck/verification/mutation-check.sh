@@ -224,6 +224,26 @@ uplant "an unlock on remaining budget in a deck with no budget" \
        "unlocks" \
        'd.pop("budget",None)'
 
+uplant "a work floor the deck does not deliver" \
+       "work-floor" \
+       'd["minimum_work"]={"try":3}'
+
+uplant "minimum_work naming a card that does not exist" \
+       "work-floor" \
+       'd["minimum_work"]={"ponder":1}'
+
+# The regression that matters: the work floor must be LOAD-BEARING. Strip the
+# unlock that enforces it and the floor must fail -- otherwise the declaration
+# is describing something the deck would do anyway, and finding 16 could
+# silently come back.
+uplant "the unlock enforcing invent's work floor removed" \
+       "work-floor" \
+       'cards["harvest"]["unlock"]={"remaining_at_most":2}'
+
+cplant "the unlock enforcing decide's commit floor removed" \
+       "work-floor" \
+       'cards["commit"].pop("unlock",None)'
+
 echo
 echo "=== ordering regression (simulate.py) ==="
 # The v0.5.0 bug, replanted: with `gather` no longer requiring `hunch`, the die

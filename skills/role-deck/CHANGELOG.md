@@ -10,6 +10,30 @@ skill has held. The full record is
 
     git log -- skills/role-deck/
 
+## 2.1.0 — 2026-09-15
+
+**MINOR.** Adds the laziness search as a sixteenth gate, `work-floor` — the
+only gate that is not a safety property. Every other asks *does anything bad
+happen on any path*; this asks *what is the least work a run can do while
+breaking none of them*, which is the defect class that let `invent` v0.1.0 pass
+everything and still be wrong. `coverage` is its n=1 case.
+
+- `check_deck.py` always prints **min..max plays per card per complete run**;
+  that line is the laziest run the deck permits. `minimum_work` (per deck, or
+  per exit) turns an intention into an assertion, with a **laziest witness
+  path** printed on failure.
+- `played_at_least` now accepts a list, so one unlock can require work on
+  several cards.
+- Applying it found two more holes: `invent` could trial the **same**
+  development twice (fixed: two each of develop, cull, try — `generate`'s range
+  fell 1..6 → 1..4 as padding was squeezed out), and `decide` could **commit on
+  a single round of evidence** (fixed: commit unlocks after two, while defer and
+  drop stay reachable on one).
+- Four new mutations, two of which strip the enforcing unlock and assert the
+  floor then fails — because a floor *describes* and an unlock *enforces*, and
+  a declaration nothing can break may be describing what the deck would have
+  done anyway. 107 assertions.
+
 ## 2.0.0 — 2026-09-15
 
 **MAJOR — the skill was wrong.** `run_deck.py verify` reported *"run completed

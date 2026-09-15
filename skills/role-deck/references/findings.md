@@ -477,6 +477,39 @@ terminal**, because every `decide` playthrough stopped at the exits rather than
 taking one. The skill shipped at 1.0.0 with it. A completed map-form run is now
 part of `runner-check.sh`.
 
+**Finding 19: the laziness search is not liveness, and it is the one gate that
+is not a safety property.** Every other gate asks *does anything bad happen on
+any path* — `coverage` included, which is "every terminating path wears role
+R". Liveness would be "something good eventually happens". This asks a third
+thing: **what is the least work a run can do while breaking none of the
+others?** It is an extremal query, and it catches a defect class the other
+fifteen gates are structurally blind to — `invent` v0.1.0 passed all of them
+and the simulator.
+
+The computation is cheap for the same reason everything else here is: play
+counts only increase, so the state graph is a DAG, and min/max plays per card
+is a shortest/longest path problem over it. `check_deck.py` now always prints
+the min..max line — that *is* the laziest run the deck permits — and
+`minimum_work` turns an intention into an assertion with a witness path on
+failure.
+
+Applying it found two more holes immediately:
+
+- **`invent` could trial the same development twice.** `played_at_least{try, 2}`
+  was satisfied by `develop cull try try` — one development, trialled twice.
+  Two trials of the same candidate is not two trials. Fixed by requiring two
+  each of develop, cull and try; `generate`'s range fell from 1..6 to 1..4 as
+  the padding was squeezed out by real work.
+- **`decide` could commit on a single round of evidence.** Now `commit`
+  unlocks only after two — while `defer` and `drop` remain reachable on one,
+  which is the right asymmetry: you may hesitate on thin evidence, not commit
+  on it.
+
+And the discipline that keeps it honest: **a floor describes, it does not
+enforce.** The harness strips the enforcing unlock from each deck and asserts
+the floor then fails. Without that, a declaration might be describing what the
+deck would have done anyway, and finding 16 could quietly return.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -502,9 +535,9 @@ part of `runner-check.sh`.
   little. `improve` is the one shape this machinery structurally **cannot**
   express — L5 means the process revises itself, and every gate assumes the
   deck is fixed for the duration of a run.
-- **No laziness search in the harness.** Finding 16 was found by hand, by
-  searching for the legal run that does the least work. Nothing runs that
-  search automatically, so the next deck with an unlock can repeat the mistake.
+- **A work floor is evaluated at the maximum option count**, so it cannot be
+  declared on a per-option card. `requires_all` covers those at every count,
+  but the two mechanisms do not compose.
 - **An unlock cannot key on artifact content**, deliberately — that is what
   keeps it incorruptible, and it is also why it cannot express "stop when the
   result is good", which remains outside the model.
@@ -520,7 +553,7 @@ part of `runner-check.sh`.
   not the right command", one level up.
 - **Conditions key on presence, not value.** `is the field non-null` is the
   only predicate. There is no *"if cost > X"* or comparison of any kind.
-- **The suite is 48s**, over the repo's seconds-not-minutes bar. Most of it is
+- **The suite is 50s**, over the repo's seconds-not-minutes bar. Most of it is
   process spawn across ~80 python invocations in the mutation harnesses; user
   time is 10s.
 - **Weights are state-independent.** `weight * decay^plays` depends only on how

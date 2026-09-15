@@ -82,7 +82,7 @@ than adding a dimension to it: no state-space blow-up.
 #   plays_at_least      n   total cards played so far
 #   spent_at_least      n   budget consumed so far
 #   remaining_at_most   n   budget left  -- the exhaustion gate
-#   played_at_least   {card, n}
+#   played_at_least   {card, n}, or a list of them (all must hold)
 
 UNLOCK_KEYS = ("plays_at_least", "spent_at_least", "remaining_at_most",
                "played_at_least")
@@ -105,8 +105,9 @@ def unlock_open(deck, card, counts):
             return False
     if "played_at_least" in u:
         pa = u["played_at_least"]
-        if counts.get(pa["card"], 0) < pa["n"]:
-            return False
+        for req in (pa if isinstance(pa, list) else [pa]):
+            if counts.get(req["card"], 0) < req["n"]:
+                return False
     return True
 
 
@@ -453,6 +454,72 @@ def explore(deck, lookahead=True):
                     seen.add(nxt)
                     q.append(nxt)
     return ids, seen, edges
+
+
+def min_max_plays(deck, ids, edges, exit_id=None):
+    """For every card: the fewest and most times it can appear in a COMPLETE
+    run, with a witness path for the minimum.
+
+    This is an extremal query over paths, not a safety property -- the existing
+    gates all ask "does anything bad happen on any path", and this asks "what is
+    the LEAST work a run can do while breaking none of them". `coverage` is
+    already its n=1 special case (min_plays(role) >= 1); this generalises to any
+    n, per card.
+
+    Computable by DP because play counts only increase, so the state graph is a
+    DAG: min-additional-plays from a state is a shortest-path problem, and
+    max-additional is a longest-path problem on the same DAG.
+    """
+    order = sorted(edges, key=lambda st: -sum(st[0] if isinstance(st[0], tuple)
+                                              else (st,)))
+    lo = {}
+    hi = {}
+    wit = {}
+    for st in order:
+        moves = edges[st]
+        if not moves:
+            # With `exit_id`, only runs that END at that exit count -- a `defer`
+            # legitimately owes less work than a `commit`, so a single global
+            # floor can only ever express what is true of the laziest exit.
+            counts = dict(zip(ids, st[0]))
+            live = exit_id is None or counts.get(exit_id, 0) > 0
+            lo[st] = {c["id"]: (0 if live else INF) for c in deck["cards"]}
+            hi[st] = {c["id"]: (0 if live else -1) for c in deck["cards"]}
+            wit[st] = {c["id"]: () for c in deck["cards"]}
+            continue
+        lo[st] = {}
+        hi[st] = {}
+        wit[st] = {}
+        for c in deck["cards"]:
+            cid = c["id"]
+            best = None
+            worst = None
+            bw = ()
+            for m in moves:
+                j = ids.index(m)
+                counts, flags = st
+                nc = tuple(n + 1 if k == j else n for k, n in enumerate(counts))
+                # a move may branch on a condition; take the branch that is
+                # cheapest (for min) or dearest (for max) in this card
+                cands = [(nc, nf) for nf in branch(deck, dict(zip(ids, nc)),
+                                                   flags, m)]
+                cands = [x for x in cands if x in lo]
+                if not cands:
+                    continue
+                add = 1 if m == cid else 0
+                mn = min(lo[x][cid] for x in cands)
+                mx = max(hi[x][cid] for x in cands)
+                if mn is not INF and (best is None or add + mn < best):
+                    best = add + mn
+                    arg = min(cands, key=lambda x: lo[x][cid])
+                    bw = (m,) + wit[arg][cid]
+                if mx >= 0 and (worst is None or add + mx > worst):
+                    worst = add + mx
+            lo[st][cid] = INF if best is None else best
+            hi[st][cid] = -1 if worst is None else worst
+            wit[st][cid] = bw
+    start = min(edges, key=lambda st: sum(st[0]))
+    return lo[start], hi[start], wit[start]
 
 
 def floor_cost(deck):

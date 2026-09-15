@@ -1,8 +1,8 @@
 {
   "deck": "decide",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "goal_shape": "Several options are on the table and one of them has to be chosen, deferred, or refused.",
-  "_note": "Hand-written first. v0.1.0 had THREE decorative hats and a floor of 5 that let you defer having gathered nothing. v0.2.0 gave each exit its own requirements, which forced `coverage` to become per-terminal. v0.3.0 made YELLOW wait for the evidence, and made the exits AGENT-CHOSEN rather than drawn -- the die decides what work to do next, never what the answer is. v0.4.0 preserves the affordability of `commit`: without it the die spends the budget on repeats and prices the strongest exit out of reach. v0.5.0 makes the probe CONDITIONAL on the attack declaring a disputed fact. v0.6.0 makes YELLOW and BLACK per-option and requires MATCHED DEPTH: commit and drop need every option steelmanned and attacked. See FINDINGS.md.",
+  "_note": "Hand-written first. v0.1.0 had THREE decorative hats and a floor of 5 that let you defer having gathered nothing. v0.2.0 gave each exit its own requirements, which forced `coverage` to become per-terminal. v0.3.0 made YELLOW wait for the evidence, and made the exits AGENT-CHOSEN rather than drawn -- the die decides what work to do next, never what the answer is. v0.4.0 preserves the affordability of `commit`: without it the die spends the budget on repeats and prices the strongest exit out of reach. v0.5.0 makes the probe CONDITIONAL on the attack declaring a disputed fact. v0.6.0 makes YELLOW and BLACK per-option and requires MATCHED DEPTH: commit and drop need every option steelmanned and attacked. v0.7.0 adds a work floor: commit unlocks only after two rounds of evidence, where defer and drop may be reached on one. See references/findings.md.",
   "instrument_kinds": [
     "retrieval",
     "execution"
@@ -240,11 +240,17 @@
       "produces": "commitment",
       "instrument": null,
       "terminal": true,
-      "brief": "The option chosen, why, and when the choice gets revisited. Requires every option to have been steelmanned AND attacked.",
+      "brief": "The option chosen, why, and when the choice gets revisited. Requires every option to have been steelmanned AND attacked, and at least two rounds of evidence -- you may DEFER or DROP on one, never commit.",
       "requires_all": [
         "support",
         "faults"
-      ]
+      ],
+      "unlock": {
+        "played_at_least": {
+          "card": "gather",
+          "n": 2
+        }
+      }
     },
     {
       "id": "defer",
@@ -297,5 +303,16 @@
     "field": "options",
     "max": 3,
     "index_field": "option"
+  },
+  "minimum_work": {
+    "commit": {
+      "gather": 2
+    },
+    "defer": {
+      "gather": 1
+    },
+    "drop": {
+      "gather": 1
+    }
   }
 }

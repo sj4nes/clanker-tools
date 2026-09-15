@@ -1,8 +1,8 @@
 {
   "deck": "invent",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "goal_shape": "Something new is wanted and nobody knows what it is yet.",
-  "_note": "Hand-written first. v0.1.0 passed every gate and every simulator check, and was still wrong: its exhaustion unlock was satisfiable by padding with the cheapest card, so the laziest legal run generated six candidates and tried exactly ONE. v0.2.0 gates on work done as well as budget spent. See references/findings.md.",
+  "_note": "Hand-written first. v0.1.0 passed every gate and every simulator check and was still wrong: gated on exhaustion alone, its laziest legal run padded six `generate` plays and ran ONE trial. v0.2.0 added a work requirement to the unlock; the work-floor gate then showed the laziest run trialling the SAME single development twice. v0.3.0 requires two of each. See references/findings.md.",
   "instrument_kinds": [
     "retrieval",
     "execution"
@@ -181,12 +181,27 @@
       "terminal": true,
       "unlock": {
         "remaining_at_most": 2,
-        "played_at_least": {
-          "card": "try",
-          "n": 2
-        }
+        "played_at_least": [
+          {
+            "card": "try",
+            "n": 2
+          },
+          {
+            "card": "develop",
+            "n": 2
+          },
+          {
+            "card": "cull",
+            "n": 2
+          }
+        ]
       },
-      "brief": "What survived, what the budget bought, and whether another round is worth it. UNLOCKS ONLY near exhaustion AND after two real trials -- exhaustion alone measures SPEND, not work, and is satisfiable by padding with the cheapest card."
+      "brief": "What survived, what the budget bought, and whether another round is worth it. UNLOCKS only near exhaustion AND after two developments, two culls and two trials -- exhaustion alone measures SPEND, not work, and two trials of the SAME development is not two trials."
     }
-  ]
+  ],
+  "minimum_work": {
+    "try": 2,
+    "develop": 2,
+    "cull": 2
+  }
 }

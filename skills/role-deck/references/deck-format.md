@@ -22,6 +22,7 @@ Field reference for a deck JSON. Every field here is exercised by
 | `rerolls` | no | default 0. Reroll tokens the agent may spend |
 | `preserve_exit` | no | one exit id whose affordability legality preserves — **yields** rather than stranding |
 | `expected_order` | no | `[[a, b], ...]` pairs the simulator asserts always hold |
+| `minimum_work` | no | `{card: n}`, or a map from exit id to its own `{card: n}`. See *Work floors* |
 | `conditions` | no | see *Conditional requirements* |
 | `option_source` | no | see *Per-option cards* |
 
@@ -61,7 +62,7 @@ content, never on judgement:
 | `plays_at_least` | n cards have been played |
 | `spent_at_least` | n budget consumed |
 | `remaining_at_most` | budget left ≤ n — the **exhaustion** gate |
-| `played_at_least` | `{card, n}` — that card played n times |
+| `played_at_least` | `{card, n}`, or a list of them (all must hold) |
 
 Keys are ANDed. They cost nothing structurally: plays, spend and per-card
 counts are all functions of the counts vector, which is **already the state**,
@@ -77,6 +78,38 @@ of — at the cost of not being able to stop early when you got lucky.
 padding with the cheapest legal card — see finding 16. Pair
 `remaining_at_most` with a `played_at_least` on the card that represents real
 work.
+
+## Work floors
+
+```json
+"minimum_work": {"commit": {"gather": 2}, "defer": {"gather": 1}}
+```
+
+Every other gate is a **safety** property — *does anything bad happen on any
+path*. This is an **extremal query over paths**: *what is the least work a run
+can do while breaking none of them?* A deck can be perfectly well formed and
+satisfiable by doing almost nothing.
+
+`coverage` is already the n=1 case of this — `min_plays(role) >= 1`. A work
+floor generalises it to any n, per card, and optionally per exit, because a
+`defer` legitimately owes less than a `commit`.
+
+`check_deck.py` always prints the **min..max plays per complete run** whether
+or not a floor is declared; that line *is* the laziest run the deck permits.
+`minimum_work` turns an intention into an assertion, and a failure prints the
+**laziest witness path** so the hole is visible rather than inferred:
+
+    *** FAIL [work-floor] a run ending at 'commit' can play 'gather' only 1x, floor is 2x
+            laziest witness: frame criteria hunch gather alternatives steelman ... commit
+
+A floor **describes**; it does not enforce. The mechanism that makes it true is
+usually an `unlock`. Keep a mutation that strips the unlock and confirms the
+floor fails — otherwise the declaration is describing what the deck would do
+anyway.
+
+**Limitation:** the floor is evaluated at the maximum option count, so do not
+declare floors on per-option cards — `requires_all` already guarantees their
+coverage at every count.
 
 ## Conditional requirements
 
@@ -121,6 +154,7 @@ the deck at every option count.
 | `options` | per-option cards with no bound, index, or a `requires_all` on a fixed-count producer |
 | `conditions` | a condition on a non-nullable field, or one that never changes what is legal |
 | `unlocks` | an unknown unlock key; an unlock that never blocks (decorative) or never opens (unplayable) |
+| `work-floor` | **a complete run that does less work than declared** — the only gate that is not a safety property |
 | `acyclic` | a precedence cycle |
 | `budget-feasible` | a budget below the floor; no reachable terminal |
 | `budget-binding` | a budget at or above the whole deck's cost — decorative |
