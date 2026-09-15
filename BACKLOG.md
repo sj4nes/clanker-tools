@@ -1267,3 +1267,28 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       and a primed subject inflates a positive. Options: run subjects in a
       directory with no repo access, or instrument what they read.
       (2026-09-15)
+
+- [ ] **NEW SKILL: `skill-authoring` — the standard this corpus enforces is not
+      itself invocable.** Found by building the book's fat outline as a concept
+      dependency graph (`docs/book/outline/`): of the 23 concepts the book
+      needs, **10 are backed only by `docs/`** — displacement table, judgement
+      row, harness shape, negative contrast, guard isolation, skill taxonomy,
+      version-as-wrongness, changelog. 889 lines of standard governing 50
+      skills, cited by 3 of them and loadable by none. There is a meta-skill for
+      building a physics capsule, a math capsule and a tutorial from a capsule,
+      and none for authoring a skill to the standard every skill here is held
+      to. `tsort` puts `authoring-to-the-standard` at position 21 of 23 — it
+      depends on nearly everything, which is why it keeps being re-explained by
+      hand. Absorbing the ten docs-only concepts is the largest single payoff
+      available in the corpus.  (2026-09-15)
+
+- [ ] **NEW SKILL (or a section of the above): the collaboration itself.**
+      Three concepts have no source at all and they cluster on the book's own
+      stated differentiator: `agent-as-collaborator` (the agent as participant
+      in quality, not producer of text), `directing-verification` (getting an
+      agent to build the harness, plant the defect, run the fixture, and report
+      what it found AGAINST you), and `authoring-to-the-standard`. Fifty skills,
+      every one of them produced by a human and an agent working together, and
+      not one skill about doing that. Same shape as the refuted premises: the
+      thing most relied on was the thing never written down. Decide whether it
+      is a distinct workflow or a chapter of `skill-authoring`.  (2026-09-15)

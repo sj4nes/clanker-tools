@@ -1,0 +1,24 @@
+# concept	introduced-in	backed-by (skill, doc, or GAP)
+skill-as-document	I.1	—
+corpus	I.1	—
+default-behaviour	I.2	docs/verifying-skills.md §7
+displacement-claim	I.2	docs/verifying-skills.md §7
+displacement-table	II.3	docs/verifying-skills.md §7
+judgement-row	II.3	docs/verifying-skills.md §7
+harness	II.4	docs/verifying-skills.md §2
+negative-contrast	II.4	docs/verifying-skills.md §8
+guard-isolation	II.4	docs/verifying-skills.md §8
+independent-oracle	II.5	skills/test-writing
+fixture-first	II.5	skills/test-writing
+premise	II.6	skills/claim-fixture
+pre-registration	II.6	skills/claim-fixture
+unforgeable-measurement	II.6	skills/claim-fixture
+naive-subject	II.6	skills/claim-fixture
+version-as-wrongness	II.7	docs/skill-versioning.md
+changelog	II.7	docs/skill-versioning.md
+agent-as-collaborator	II.8	GAP
+directing-verification	II.8	GAP
+authoring-to-the-standard	II.9	GAP
+skill-taxonomy	IV.1	docs/verifying-skills.md §7
+gap-reporting	V.1	BACKLOG.md convention
+source-authority	II.5	GAP (backlogged)
