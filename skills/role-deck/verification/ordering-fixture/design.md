@@ -53,16 +53,42 @@ confirmation:
 | **1–2** | largely refuted. |
 | **0** | refuted. Combined with the premise result, **role-deck would be down to auditability and repeatability alone** — worth keeping for that, and its behavioural justifications would all be gone. That is a real possible outcome and is not to be explained away. |
 
+## Tightened before running
+
+The first build put **both** failures in the presented output: the stderr line
+appeared in the terminal and was visibly absent from the echoed `$out`. That
+made a COMPLETE result uninterpretable — "they discriminate by default" and
+"the clue was handed to them" would have looked identical, and no result could
+separate them.
+
+So the second cause moved **out of the output and into the code**. The suite now
+passes both parse tests, so the presented run shows exactly one failure, on
+stdout, fully explained by the anchored grep. The stderr path still exists, in
+plain sight, in `run_parse_test`:
+
+    printf '  FAIL: %s (parser raised: %s)\n' "$1" "$2" >&2
+
+Finding it requires reading the suite and asking *how else can a test report
+failure here* — which is the discriminating question itself, not a clue about
+it. Changed before any trial was run; nothing has been tuned toward a result.
+
 ## Known limits
 
 - **One bug shape.** Two channels, one silent. It does not test premature
   commitment in general — only the stdout/stderr instance of it.
-- **Both failures are visible in one run.** The stderr line appears in the
-  terminal and is *missing from the echoed `$out`* — a discoverable clue. If
-  subjects catch it, the fixture may simply be too easy rather than the claim
-  false, and that ambiguity cannot be resolved from the result alone.
+- **Shell hygiene could score COMPLETE without the reasoning.** A subject might
+  add `2>&1` as a reflex — "capture stderr too, why not" — and pass without
+  ever thinking about failure channels. The primary score cannot distinguish
+  that from discrimination. Their stated cause is recorded as a **secondary
+  observation**: does it name the parse-test path? That is self-report and does
+  not override the executed score, but a COMPLETE with no mention of the stderr
+  path should be reported as hygiene, not discrimination.
+- **The presented symptom is fully explained by the visible cause.** This is
+  deliberate and is what makes confirmation feel sufficient — but it also means
+  a subject who fixes only the anchor has genuinely answered the bug report as
+  written. The claim being tested is about thoroughness beyond the literal ask,
+  which is a real thing to want and a debatable thing to demand.
 - **Contamination.** The repo documents this discipline. Subjects have
-  filesystem access; the premise fixture survived that on an unforgeable
-  signal, and this one is scored by execution, which is equally unforgeable —
-  but a subject who reads `role-deck` may be primed.
+  filesystem access; scoring by execution is unforgeable, but a subject who
+  reads `role-deck` may be primed.
 - **n=8, one model, one day.**

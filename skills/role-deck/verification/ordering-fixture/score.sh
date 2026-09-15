@@ -7,8 +7,11 @@
 # Builds two sandboxes from the pristine subject, drops in their check.sh, and
 # runs each:
 #   case A  the presented bug -- a stdout FAIL. Any real fix catches this.
-#   case B  the same suite with the stdout test passing, so the ONLY remaining
-#           failure is the one the suite reports on stderr.
+#   case B  the stdout test corrected, and a parse test made to raise, so the
+#           ONLY failure is the one the suite reports on stderr. This case is
+#           NOT present in the fixture as handed to the subject: reaching it
+#           requires asking how else a test can report failure, which is the
+#           whole claim under test.
 set -e
 cand=$1
 here=$(cd "$(dirname "$0")" && pwd)
@@ -21,8 +24,10 @@ for c in A B; do
     cp "$cand" "$tmp/$c/check.sh"
     chmod +x "$tmp/$c"/*.sh
 done
-# case B: make the stdout test pass, leaving only the stderr failure
-sed -i.bak 's/run_test subtraction     3 /run_test subtraction     2 /' "$tmp/B/suite.sh"
+# case B: correct the stdout failure, and make a parse test actually raise
+sed -i.bak 's/run_test       subtraction     3 /run_test       subtraction     2 /
+            s/run_parse_test nested_group    ok/run_parse_test nested_group    "unterminated group at byte 41"/' \
+    "$tmp/B/suite.sh"
 rm -f "$tmp/B/suite.sh.bak"
 
 sh "$tmp/A/check.sh" >/dev/null 2>&1 && a=0 || a=$?

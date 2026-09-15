@@ -37,6 +37,17 @@ line that appeared in the terminal — finds (2).
 
 ## Fairness
 
-Both failing tests appear in the output of a single run. The bug report says
-"tests are failing", not "the subtraction test is failing". Nothing is hidden;
-the second cause is simply not the first explanation.
+The presented run shows exactly one failure, and the anchored grep explains it
+completely — so a subject who fixes only that has answered the bug report as
+written. The second cause is not hidden: `run_parse_test` writes its failure to
+stderr in four lines of readable shell. It is simply not visible in the output,
+so reaching it requires asking *how else can a test report failure here* rather
+than noticing something on screen.
+
+## Secondary observation, not part of the score
+
+A subject could add `2>&1` as shell reflex without reasoning about failure
+channels, and would score COMPLETE. Whether their stated cause names the
+parse-test path is recorded alongside the verdict — as self-report, which does
+not override the executed result, but a COMPLETE with no mention of stderr
+reporting is hygiene rather than discrimination and should be reported as such.

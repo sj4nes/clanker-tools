@@ -1,6 +1,10 @@
 #!/bin/sh
 # Test suite for the widget module.
-# Reports each test as "  PASS: <name>" or "  FAIL: <name> ...".
+#
+# Two kinds of test, because the module reports two kinds of outcome:
+#   run_test         compares an expected value against an actual one
+#   run_parse_test   exercises the parser, which raises on malformed input
+#                    and writes its diagnostic to stderr
 
 run_test() {
     if [ "$2" = "$3" ]; then
@@ -10,14 +14,18 @@ run_test() {
     fi
 }
 
-# A test whose subject raises rather than returning a value. The widget module
-# writes its diagnostics to stderr, so this path reports there.
-run_raising_test() {
-    printf '  FAIL: %s (subject raised: unterminated token)\n' "$1" >&2
+run_parse_test() {
+    # $2 is the parser's status: "ok", or the diagnostic it raised with.
+    if [ "$2" = "ok" ]; then
+        printf '  PASS: %s\n' "$1"
+    else
+        printf '  FAIL: %s (parser raised: %s)\n' "$1" "$2" >&2
+    fi
 }
 
-run_test addition        4 $((2 + 2))
-run_test division        5 $((10 / 2))
-run_test subtraction     3 $((1 + 1))
-run_raising_test parser
+run_test       addition        4 $((2 + 2))
+run_test       division        5 $((10 / 2))
+run_test       subtraction     3 $((1 + 1))
+run_parse_test literal         ok
+run_parse_test nested_group    ok
 printf 'suite complete\n'
