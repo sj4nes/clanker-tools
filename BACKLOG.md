@@ -1183,3 +1183,49 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       a laziest witness path on failure. Found two further holes on first
       application: invent could trial the same development twice, and decide
       could commit on one round of evidence.
+
+- [ ] **role-deck: nothing sizes the question to the budget.** Found by the first
+      real run of the `diagnose` deck (StructOrder drift, 2026-09-15). The `open`
+      card asks for a `stop_condition` and nothing anywhere checks it is
+      REACHABLE within the budget. The run scoped "a per-capability inventory
+      across all the brief's must-ship claims" and 11 budget bought depth on one
+      capability; the mismatch only became visible at the exit, where it had to
+      be confessed in `residual_uncertainty` rather than fixed. Mostly a
+      judgement gap — a stop condition is prose and no gate can read it — but
+      two parts are mechanical and worth doing: (a) `next` already prints
+      `spent`/`budget` and should also print the FLOOR and the remaining play
+      headroom, so the author sizes the question against what is actually left;
+      (b) the `open` card's brief should say so explicitly. Note the shape: this
+      is the same class as the founding-premise gap — the deck constrains
+      execution well and says nothing about whether the question was the right
+      size to ask.  (2026-09-15)
+
+- [ ] **role-deck: an instrument can be aimed at a corpse, and nothing catches it.**
+      Found by the first real `diagnose` run (StructOrder, 2026-09-15), where it
+      cost the entire recommendation. Grounding worked perfectly: three commands
+      ran, output captured, hashed, replay-verified, nothing fabricable. And it
+      was worthless, because the WHITE hat gathered
+      `_bmad-output/sprint-status.yaml` (last touched 2026-07-29, commit message
+      "wip lots of weird lol") and the brief's Current Build State block —
+      both artifacts of a process the project had ABANDONED in favour of `kata`.
+      The code they described was a month newer. The facts gathered were true
+      and the conclusion drawn from them ("the tracker is stale, update it") was
+      wrong, because the tracker had already been replaced. An authoritative-
+      LOOKING dead file is indistinguishable from a live one at the instrument
+      layer.
+
+      This is the skill's own documented "a command is not the right command"
+      limitation, which was filed as a mild caveat about relevance and is not
+      mild. Unlike relevance, though, part of this IS mechanizable, which is why
+      it is worth building rather than just noting: a deck should be able to
+      declare its AUTHORITATIVE SOURCES (paths, globs, a command that lists
+      them), and a grounded card should warn — or refuse — when its command
+      reads outside that set. A staleness check is a cheap second gate: warn
+      when a gathered path's mtime or last-commit date predates the code it
+      purports to describe. Neither is a judgement call.
+
+      One part of the design did hold up and should not be lost in the fix: the
+      LEDGER DID NOT LIE ABOUT WHAT WAS DONE. It recorded exactly which sources
+      were read, so the error was diagnosable in seconds rather than mysterious.
+      That is the audit trail earning its keep in failure, which is the only
+      time it matters.  (2026-09-15)
