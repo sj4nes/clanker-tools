@@ -1,6 +1,6 @@
 {
   "deck": "diagnose",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "goal_shape": "Something is wrong and the cause is not known.",
   "_note": "Hand-written first, then corrected by check_deck.py. v0.1.0 had RED and YELLOW decorative (nothing consumed their output). v0.3.0 adds a global budget, which the checker showed cannot be a hard wall -- it enters through legality instead. See FINDINGS.md and budget.py.",
   "artifacts": {
@@ -151,5 +151,6 @@
       "brief": "Conclusion, what remains uncertain, and whether the opening hunch was borne out."
     }
   ],
-  "budget": 11
+  "budget": 11,
+  "rerolls": 2
 }

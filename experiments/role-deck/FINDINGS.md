@@ -13,6 +13,8 @@ Not a skill yet: no `SKILL.md`, deliberately outside `skills/` so
 | `check_deck.py` | ten static gates over the deck, by exhaustive state-space exploration |
 | `budget.py` | the budget model, and why it enters through legality rather than as a wall |
 | `mutation-check.sh` | plants one defect per gate and asserts each is caught |
+| `run_deck.py` | the runner: external draw, artifact validation, append-only ledger, replay-based `verify` |
+| `runner-check.sh` | six refusals and seven ledger-tamper cases, all asserted caught |
 
 A deck is a bounded state machine: state is the multiset of cards played, a
 card is legal when a copy remains and its required artifacts are present, play
@@ -95,6 +97,45 @@ reappear. An assertion that can never fail is worth labelling as one.
 It makes "the agent routed around Black" impossible by construction rather
 than detectable after the fact.
 
+## The runner
+
+    python3 run_deck.py init   --deck decks/diagnose.json --seed 4271 --ledger run.json
+    python3 run_deck.py next   --ledger run.json     # what the die drew, and what to fill
+    python3 run_deck.py play   --ledger run.json --artifact-file a.json
+    python3 run_deck.py reroll --ledger run.json --reason "..."
+    python3 run_deck.py verify --ledger run.json     # replay and re-check everything
+
+The agent never chooses its next hat. The runner computes the legal moves, the
+draw picks one, and the agent's only job is to produce that card's artifact.
+
+**Three properties make the ledger worth trusting.** The draw is a pure
+function of `(seed, step, rerolls-at-that-step)` — nothing random is stored, so
+`verify` recomputes every draw from an empty state and a hand-edited ledger does
+not survive replay. Artifacts are validated against the card's declared fields
+*exactly*: a missing field is an unfinished hat, an extra field is **runtime hat
+bleed** — an agent still wearing the last hat or reaching into the next one.
+And `spent` is derived from the play history rather than stored, so there is no
+mutable counter to corrupt.
+
+That second property is the answer to "some models ignore instructions". The
+static `exclusivity` gate checks the *deck* declares its fields cleanly; the
+runtime check catches an *agent* that fills in a field belonging to another
+hat. Neither depends on the model complying.
+
+`runner-check.sh` asserts six refusals (missing field, hat bleed, empty field,
+playing a card the die did not draw, malformed JSON, a reroll past the
+allowance) and seven tamper cases (a play deleted from the middle, a field
+emptied after the fact, another hat's field spliced in, the recorded draw
+rewritten, a play forged and appended, the reroll count inflated, rerolls
+beyond the allowance). All thirteen are caught. Four of the seven tamper cases
+are caught by the draw failing to reproduce, which is the property doing the
+work.
+
+**Finding 5: the reroll log is the behavioural signal.** A reroll is priced and
+recorded with the card it was spent avoiding. "The agent rerolled away from
+BLACK four times out of five" is then a measurement rather than a suspicion —
+the process analogue of `experience-library`'s contribution log.
+
 ## Known limitations
 
 - **Monotone artifacts.** Cards are consumed; artifacts are not. The budget now
@@ -103,11 +144,17 @@ than detectable after the fact.
 - **One producer per artifact type** — now checked (`schema`), after the
   mutation harness found that two producers would silently collapse the
   precedence map.
-- **No runner.** Nothing yet executes a deck, writes the ledger file, or
-  validates a produced artifact against its declared fields. The schema check
-  is static only — it verifies the deck declares the fields, not that an agent
-  filled them.
+- **Tamper-evident, not tamper-proof.** `verify` catches drift, hand-editing,
+  and a bypassed runner. It does not stop an adversary who runs the same draw
+  algorithm and forges a self-consistent ledger. The threat model is a model
+  that wanders, not one that attacks.
+- **Field presence is not field quality.** The runner checks that every
+  declared field is present and non-empty. Nothing checks that `discriminator`
+  actually discriminates — that stays human, or needs the instrument.
+- **`instrument` is declared but unenforced.** Cards name an instrument
+  (`retrieval`, `execution`); nothing requires that the phase actually invoked
+  one. Grounding condition 3 from the design conversation is still advisory.
 - **No simulator.** The gates say what is *possible*; they say nothing about
   the *distribution* of sequences a random draw actually produces. That is the
   thing designers are reliably wrong about.
-- **No dice.** The external draw is the whole point and is not implemented.
+
