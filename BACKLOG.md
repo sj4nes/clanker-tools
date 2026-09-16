@@ -1310,12 +1310,20 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       Remediation lowers baseline.txt. Note the ratchet's known weakness: it
       cannot distinguish "fixed two, broke two".  (2026-09-15)
 
-- [ ] **`directed-verification` b1 is measurable and unmeasured.** The claim:
-      an agent asked to "verify this" produces a weaker artifact than one asked
-      to "make this able to fail, then show me it failing". Exactly the shape
-      `claim-fixture` handles — two instructions, naive subjects, and an
-      unforgeable measurement (does a harness that can fail exist at the end?
-      plant a defect in the subject and run it). This would be `claim-fixture`'s
-      first use on a claim that might come back POSITIVE, which is also the
-      control the method still lacks: two refutations and no confirmations means
-      nothing shows it can confirm a true claim. Two birds.  (2026-09-15)
+- [ ] **`directed-verification` b1: RERUN REQUIRED — first attempt INVALID
+      2026-09-15.** The claim (an agent asked to "verify this" produces a weaker
+      artifact than one asked to "make this able to fail") is still unmeasured.
+      The first run failed for two independent reasons, both recorded in
+      `skills/directed-verification/verification/b1-fixture/RESULT.md`: the
+      SUBJECT WAS BUGGY, so a good harness failed on the clean implementation
+      and scored BROKEN — the measurement inverted quality for the best
+      subjects; and four of five arm-B agents died on an API session limit,
+      leaving n=1. Three fixes before rerunning: (1) assert `clean=0` as a
+      PRECONDITION verified by an independent oracle before any subject sees
+      the file, rather than assuming it; (2) run subjects OUTSIDE this
+      repository, since all 52 skills including `test-writing` are wired into
+      `.claude/skills` and the six behaviours the subjects exhibited mirror it
+      closely — a confound the two earlier fixtures escaped only because they
+      scored unforgeable artifacts; (3) n>=5 per arm, both arms completing.
+      Still `claim-fixture`'s best candidate for a first POSITIVE, which is the
+      control that method lacks.  (2026-09-15)
