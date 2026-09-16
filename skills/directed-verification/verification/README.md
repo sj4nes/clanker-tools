@@ -60,19 +60,19 @@ instructions, naive subjects, and an unforgeable measurement — does a harness
 that can fail exist at the end, checked by planting a defect in the subject and
 running it.
 
-**Attempted twice; still unmeasured.** Run 1 was invalid — the subject function
-itself was buggy, so arm-A agents scored `BROKEN` for correct work
-([`b1-fixture/RESULT.md`](b1-fixture/RESULT.md)). Run 2 was clean, pre-registered
-(`e3e8498`, before any subject ran), and hit the **ceiling**: arm A scored 5/5,
-so arm B had nowhere to go and Δ = 0 is uninterpretable
-([`b1-fixture/RESULT2.md`](b1-fixture/RESULT2.md)). The pre-registered ceiling
-rule says report *no headroom*, not *refuted*, and that is what is reported.
+**Attempted twice; both runs invalid; still unmeasured.** Run 1 — the subject
+function itself was buggy, so arm-A agents scored `BROKEN` for correct work
+([`b1-fixture/RESULT.md`](b1-fixture/RESULT.md)). Run 2 — the **control arm
+received the treatment**: every arm-A subject had `test-writing` in context,
+whose behaviour 1 prescribes exactly what this behaviour prescribes, and their
+transcripts quote it verbatim ([`b1-fixture/RESULT2.md`](b1-fixture/RESULT2.md)).
+Both arms were one condition, so Δ = 0 was structural.
 
-The lesson is about fixture design, not about the claim: the plant had headroom
-(it differed from correct code only at negative ties) but the *population* did
-not — all five undirected agents named the tie-and-sign discrimination unprompted.
-A third run needs a defect a competent undirected suite genuinely misses, which
-means leaving the self-contained pure function behind.
+Run 2 was first reported as *no headroom* under a pre-registered ceiling rule.
+That was wrong, and the correction is kept in the file. The ceiling rule fired on
+the symptom and concealed the cause — a design able to report "no headroom" needs
+a prior **manipulation check** that the arms differed at all. Run 3 needs a
+genuinely clean control environment and that check before anything is scored.
 
 Until that runs, behaviour 1 is an assumption stated confidently, which is the
 position two other premises in this corpus were in before they were refuted 8/8.

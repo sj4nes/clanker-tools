@@ -7,7 +7,31 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/directed-verification/
 
-## 1.1.0 — 2026-09-15
+## 1.2.0 — 2026-09-15
+
+Corrects 1.1.0, which reported b1 run 2 as *no headroom*. It was **invalid**:
+the control arm received the treatment.
+
+Every arm-A subject had `test-writing` loaded in context — its behaviour 1
+("Name the risky area first"; "Get the expected value from somewhere other than
+the code") is `directed-verification` behaviour 1 addressed to the agent. Their
+transcripts quote it verbatim. The arms were one condition, so Δ = 0 was
+structural and no sample size would have fixed it.
+
+The tell was five arm-A reports sharing a near-identical "Risky area and
+targeted mistake" heading. 1.1.0 read that as independent convergence on good
+practice; independent agents do not converge on a section heading.
+
+Withdrawn from 1.1.0: the claim that undirected agents already test the
+discriminating case, and the filing of this run alongside the two `role-deck`
+refutations. Neither is supported — arm A was not undirected.
+
+Added: run 3 must run subjects in an environment without this corpus's skills,
+and must run a **manipulation check** confirming the arms differ before scoring.
+The pre-registered ceiling rule is kept but demoted — it fired on the symptom and
+hid the cause.
+
+## 1.1.0 — 2026-09-15 (superseded by 1.2.0)
 
 Behaviour 1's fixture ran twice. It is still unmeasured, and the page now says
 so precisely rather than calling it "logged as work".

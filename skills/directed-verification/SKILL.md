@@ -13,7 +13,7 @@ description: >-
   prompting-technique guide, NOT multi-agent orchestration, and NOT a way to
   make an agent's judgement trustworthy — it changes what you can check, never
   how good the thinking was.
-version: 1.1.0
+version: 1.2.0
 archetype: behaviour
 author: Simon Janes
 tags: [agents, verification, collaboration, sycophancy, evidence, review]
@@ -84,17 +84,17 @@ assumption.** The evidence is one author, one corpus, ten days.
 
 Behaviours 1 and 4 are exactly the shape `claim-fixture` exists to test — *an
 agent asked to "verify" produces weaker artifacts than one asked to "make it
-fail"* is a measurable claim. **Behaviour 1 has now been fixtured twice and is
-still unmeasured**: run 1 was invalid (the subject was buggy), and run 2 hit the
-ceiling — all five *undirected* agents caught the planted defect, so the design
-could not detect a difference. Reported as *no headroom* per a pre-registered
-rule, not as a refutation. See
+fail"* is a measurable claim. **Behaviour 1 has been fixtured twice and both runs
+were invalid**: run 1's subject was buggy, and run 2's *control arm received the
+treatment* — every arm-A agent had `test-writing` in context, which prescribes
+the same thing this behaviour does. Δ = 0 there measures nothing, because the two
+arms were the same condition. See
 [`verification/b1-fixture/RESULT2.md`](verification/b1-fixture/RESULT2.md).
 
 Two premises in this corpus were asserted with this much confidence and refuted
-8/8. This one has not been refuted — but nor has it been supported, and the fact
-that undirected agents did the aiming themselves on a small, well-specified
-function is worth knowing before leaning on behaviour 1 for tasks of that size.
+8/8. This one has been neither refuted nor supported — and two failed attempts
+are a reason to trust it *less*, not more, because the easy ways of testing it
+have now been used up without producing evidence.
 
 ## What this cannot do
 

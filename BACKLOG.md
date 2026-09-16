@@ -1310,30 +1310,35 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       Remediation lowers baseline.txt. Note the ratchet's known weakness: it
       cannot distinguish "fixed two, broke two".  (2026-09-15)
 
-- [ ] **`directed-verification` b1: THIRD RUN NEEDS A HARDER PLANT — run 2 hit
-      the CEILING 2026-09-15.** The claim (an agent asked to "verify this"
+- [ ] **`directed-verification` b1: TWO INVALID RUNS — run 3 blocked on ARM
+      ISOLATION 2026-09-15.** The claim (an agent asked to "verify this"
       produces a weaker artifact than one asked to "make this able to fail") is
-      still unmeasured after two attempts.
-      **Run 1 INVALID** — the subject function was itself buggy, so a good
-      harness failed on the clean implementation and scored BROKEN; the
-      measurement inverted quality for the best subjects
+      unmeasured, and neither attempt tested it.
+      **Run 1 INVALID** — the subject function was buggy, so a good harness
+      failed on the clean implementation and scored BROKEN
       (`skills/directed-verification/verification/b1-fixture/RESULT.md`).
-      **Run 2 NO HEADROOM** — all three run-1 fixes applied (clean=0 asserted as
-      a precondition by a 28,824-case `Fraction` oracle; subjects run outside
-      the repo; n=5 per arm, both arms completing). Design pre-registered at
-      `e3e8498` before any subject ran. Both arms scored 5/5 `CATCHES`, Δ = 0,
-      and the pre-registered ceiling rule requires reporting *no headroom*
-      rather than *refuted* (`.../RESULT2.md`).
-      The blocker is now the PLANT, not the apparatus. The defect had headroom
-      (differed from correct code only at negative ties) but the population did
-      not: every undirected agent named the tie-and-sign discrimination
-      unprompted. A run 3 needs a defect a competent undirected suite genuinely
-      misses — which means leaving the self-contained pure function whose
-      docstring states the rule. Candidates: a defect in an interaction between
-      modules, one reachable only through a state sequence, or one in code whose
-      intended behaviour is not recoverable from the code under test. **Do not
-      run a third arm-A/arm-B comparison until a candidate plant has been shown
-      to survive arm A.**
-      Still `claim-fixture`'s best candidate for a first POSITIVE, which is the
-      control that method lacks — and note that method has now produced two
-      refutations and one ceiling, and zero confirmations.  (2026-09-15)
+      **Run 2 INVALID** — the CONTROL ARM RECEIVED THE TREATMENT. Every arm-A
+      subject had `test-writing` in context, whose behaviour 1 prescribes the
+      same thing; their transcripts quote `test-writing/SKILL.md` lines 37 and
+      48 verbatim. Δ = 0 was structural, not a ceiling (`.../RESULT2.md`, which
+      records the superseded "no headroom" reading and the correction).
+      The run-1 fixes all held — clean=0 asserted by a 28,824-case `Fraction`
+      oracle, n=5 per arm, interleaved spawn. What failed is the assumption that
+      running subjects in a different WORKING DIRECTORY isolates them from the
+      corpus. It does not; skills load from the session.
+      **Run 3 preconditions, in order — do not spawn subjects until 1 and 2 are
+      solved:** (1) a genuinely clean control environment with none of this
+      corpus's skills in context; (2) a MANIPULATION CHECK run before scoring,
+      grepping each subject's context and transcript for the treatment's
+      fingerprints, which invalidates the run if arm A shows them; (3) only then
+      the plant question — whether a defect a competent undirected suite
+      genuinely misses can be built, which probably means leaving self-contained
+      pure functions behind.
+      Still `claim-fixture`'s best candidate for a first POSITIVE — and note
+      that method has now produced two refutations, two invalid runs, and zero
+      confirmations. **`claim-fixture` needs its own review**: it caught the
+      run-1 defect (buggy subject) via a precondition, but had nothing to say
+      about a contaminated control, and a pre-registered ceiling rule actively
+      CONCEALED the contamination by supplying a respectable reading of the
+      symptom. A manipulation check belongs in `claim-fixture` itself, not just
+      in this fixture.  (2026-09-15)
