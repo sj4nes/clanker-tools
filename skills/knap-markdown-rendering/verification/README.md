@@ -27,6 +27,20 @@ certified the defect indefinitely. `check.sh` reproduces exactly that shape:
 it reverts the fence to `***` **and** updates the `.expected` to match, so
 section 1 goes fully green, and asserts the semantic guard still fires.
 
+## On the version check
+
+`run.sh` prints a note when the installed knap is not `0.6.x`, and does **not**
+fail. That is deliberate and should stay that way: every expected file here was
+captured from 0.6.0, so on a different version a passing run means "the
+assumptions still hold" and a failing one means "an assumption changed" — both
+of which are information. Turning the note into a hard failure would convert
+every upgrade into a red harness before anyone had looked at whether anything
+actually broke.
+
+The note exists because the assumptions *can* change on a version bump. When one
+does, the fix is to re-capture the affected `.expected` file and correct the
+prose in `references/` that quoted it — never to relax the case.
+
 ## Adding a case
 
 Batch-row templates live in `cases/batch/` and are exercised in section 2. A row
