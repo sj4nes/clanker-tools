@@ -1346,6 +1346,23 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       named failure), and `verification/preflight.sh`, which blocks the b1
       fixture at G2a, the gate that caused its failure. Run 3 must clear the
       gate before subjects are spawned.  (2026-09-15)
+      **PRE-REGISTERED 2026-09-16, NOT YET RUN (`c60a32d`).** All three
+      preconditions are now met and `design3.md` clears all seven gates.
+      (1) Isolation: subjects are Bash-invoked separate `claude -p
+      --disable-slash-commands` processes outside the repo, verified by
+      `check_isolation.sh` to see ZERO skills. (2) Manipulation check: arm A
+      transcripts grepped against `fingerprints.txt`, ordered before the bands,
+      contamination VOIDS. (3) The plant question is answered by dropping the
+      single plant: the measure is now a KILL RATE over a frozen 20-mutant set,
+      so the run no longer depends on guessing the one defect an undirected
+      agent misses. The subject (`subject3/`, a duration parser/formatter) keeps
+      its intent in a separate `SPEC.md` and carries no worked examples — run
+      2's docstring spelled out the discriminating case for the subject to read.
+      A third arm C (handed the risky areas) is the positive control; if C does
+      not beat A by +0.20 the run is UNINTERPRETABLE and no Δ is reported.
+      **What remains is spending 15 subject runs**: `sh run3.sh <work-dir>`,
+      which refuses to spawn unless the gate and the isolation probe pass.
+      (2026-09-16)
 
 - [ ] **`claim-fixture` owes a POSITIVE CONTROL of itself.** Four runs: two
       refutations, two invalid, ZERO positives. The method has never detected an
@@ -1356,3 +1373,14 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       answer vs not), run through the full apparatus. Until it exists, every
       `claim-fixture` refutation should be read as "no effect detected by an
       instrument of unknown sensitivity".  (2026-09-15)
+      **PARTIALLY ADDRESSED 2026-09-16 (`c60a32d`), at the instrument level
+      only.** b1 run 3 carries two positive controls. The INSTRUMENT one is
+      already measured, before any subject exists: `score3-check.sh` scores a
+      two-assertion suite at 4/20 and an oracle-based suite at 20/20, so the
+      scorer has a demonstrated dynamic range of 16 mutants. The SUBJECT-level
+      one is arm C — an agent handed the risky areas — and it is **not yet
+      measured**, because run 3 has not been spawned. This item does not close
+      until arm C beats arm A in a real run. Note the distinction is the whole
+      point: an instrument that separates a known-weak artifact from a
+      known-strong one still says nothing about whether a POPULATION of agents
+      moves under a prompt.  (2026-09-16)
