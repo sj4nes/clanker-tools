@@ -60,5 +60,19 @@ instructions, naive subjects, and an unforgeable measurement — does a harness
 that can fail exist at the end, checked by planting a defect in the subject and
 running it.
 
+**Attempted twice; still unmeasured.** Run 1 was invalid — the subject function
+itself was buggy, so arm-A agents scored `BROKEN` for correct work
+([`b1-fixture/RESULT.md`](b1-fixture/RESULT.md)). Run 2 was clean, pre-registered
+(`e3e8498`, before any subject ran), and hit the **ceiling**: arm A scored 5/5,
+so arm B had nowhere to go and Δ = 0 is uninterpretable
+([`b1-fixture/RESULT2.md`](b1-fixture/RESULT2.md)). The pre-registered ceiling
+rule says report *no headroom*, not *refuted*, and that is what is reported.
+
+The lesson is about fixture design, not about the claim: the plant had headroom
+(it differed from correct code only at negative ties) but the *population* did
+not — all five undirected agents named the tie-and-sign discrimination unprompted.
+A third run needs a defect a competent undirected suite genuinely misses, which
+means leaving the self-contained pure function behind.
+
 Until that runs, behaviour 1 is an assumption stated confidently, which is the
 position two other premises in this corpus were in before they were refuted 8/8.
