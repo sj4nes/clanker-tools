@@ -770,6 +770,35 @@ not a tutorial.
       *emit* the §7 displacement table as a required artifact, and refuse a
       section that neither displaces a nameable default nor declares itself
       judgement. Row annotated.
+- [ ] **test-writing (+ docs/verifying-skills.md §7, this file ×2): the danluu
+      citation overstates its source.** Found 2026-09-16 while building the
+      book's claim ledger, by reading https://danluu.com/agentic-testing/ rather
+      than a restatement of it. Corrections: the fall-back finding covers the
+      techniques and libraries *named*, not "all 26 conditions" (the 26 include
+      Default and "Make no mistakes"; the 4 skills were separate); the
+      five-bullet skill scored highest but "didn't work as intended"; the
+      "worse than no skill" result is ECC on an exposure analysis, Hegel
+      "close enough that this could've been random", ToB confounded — not
+      "several tutorial-style skills". Missing caveats: one task (Zstd/Rust),
+      one harness/model (codex, GPT-5.6 Sol), author warns against reading the
+      ordering. The direction survives; the strength does not. Fix is a MINOR
+      bump to `test-writing`. Full comparison table in
+      `docs/book/claim-ledger.md`. A `source-authority` instance: every
+      restatement was copied from an earlier restatement.  (2026-09-16)
+      **Origin traced:** first appears in `2c387db` (2026-09-09), already
+      overstated; the article's URL has never been in the repo, so nothing
+      shows the source was read. `883c698` strengthened it into §7.
+      **Second, worse misattribution in the same commit:** "agents
+      overwhelmingly encode the code's own output as the expected value" is
+      NOT an eval finding — it is Yossi Kreinin's hedged comment ("i think …
+      in machines and humans alike") quoted in the article. It motivated
+      `test-oracle-design`, which was folded into `test-writing`, so
+      **behaviour 3's displaced default is assumed, not observed.** Behaviour 4
+      (asymmetric fixtures: palindromic tests missing a reversed bitstream) and
+      behaviour 3's independence test ("write the same thing twice") ARE backed
+      by transcript observations. Options: fixture behaviour 3's default with
+      `claim-fixture`, or restate its justification honestly. Ledger rows
+      C-I-17, C-I-18.  (2026-09-16)
 
 ## Tutorials
 

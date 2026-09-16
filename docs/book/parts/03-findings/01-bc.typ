@@ -1,6 +1,6 @@
-#import "../../preamble.typ": keyterm, headline, practice
+#import "../../preamble.typ": keyterm, headline, practice, chref
 
-= A harness that could not fail
+= A harness that could not fail <ch-bc>
 
 #headline[4 of 24][
   `bc` verification harnesses could catch a wrong number. The other twenty
@@ -33,18 +33,23 @@ print "  dimensional check: ", lhs, " (want 4.5)\n"
 ```
 
 Nothing fails when the formula drifts. The file reads as verification and
-provides none. Worse, several capsules had already computed an #emph[independent
+// intro: knowledge-capsule
+provides none. Worse, several #emph[capsules] — the corpus's
+packaged bodies of domain knowledge, described properly in #chref(<ch-graph>) — had
+already computed an #emph[independent
 oracle] — the quantity derived a second way — and simply never compared the two.
 
 Two checks were vacuous in a sharper sense: `statistics` had a Cramér–Rao bound
 check where the two sides were the same expression, and the Poisson line read
 literally `(lam/n)/(lam/n)`. It printed the expected `1` by construction.
-`visualization-design`'s zero-baseline lie-factor check had the identical shape.
+// intro: visualization-design
+So did a check in `visualization-design`, the corpus's skill for designing
+charts: its zero-baseline lie-factor check had the identical shape.
 
-== The guard that was itself dead
+== The guard that could never fire
 
 The remediation added a failure marker — assertions print `*** FAIL: <claim>` —
-and a runner that greps the output for it. That grep was then found dead in
+and a runner that greps the output for it. That grep turned out to match nothing, ever, in
 #keyterm[eight of nine harnesses, plus the template they were all copied from]:
 
 ```sh
@@ -79,8 +84,8 @@ broken form hid in eight files.
 
   Then break them #emph[one at a time], leaving the others intact. Plant a
   failure marker without touching the failure counter, so the banner still
-  prints and the tool still exits zero. If the run stays green, that guard is
-  dead and the other two were carrying it.
+  prints and the tool still exits zero. If the run stays green, that guard
+  never worked, and the other two were doing its job.
 
   A guard you have only ever seen fail #emph[alongside] another guard has not
   been tested. That is how a broken pattern hid in eight of nine files here.

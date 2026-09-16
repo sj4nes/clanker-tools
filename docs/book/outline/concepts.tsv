@@ -1,24 +1,52 @@
-# concept	introduced-in	backed-by (skill, doc, or GAP)
-skill-as-document	I.1	—
-corpus	I.1	—
-default-behaviour	I.2	docs/verifying-skills.md §7
-displacement-claim	I.2	docs/verifying-skills.md §7
-displacement-table	II.3	docs/verifying-skills.md §7
-judgement-row	II.3	docs/verifying-skills.md §7
-harness	II.4	docs/verifying-skills.md §2
-negative-contrast	II.4	docs/verifying-skills.md §8
-guard-isolation	II.4	docs/verifying-skills.md §8
-independent-oracle	II.5	skills/test-writing
-fixture-first	II.5	skills/test-writing
-premise	II.6	skills/claim-fixture
-pre-registration	II.6	skills/claim-fixture
-unforgeable-measurement	II.6	skills/claim-fixture
-naive-subject	II.6	skills/claim-fixture
-version-as-wrongness	II.7	docs/skill-versioning.md
-changelog	II.7	docs/skill-versioning.md
-agent-as-collaborator	II.8	GAP
-directing-verification	II.8	GAP
-authoring-to-the-standard	II.9	GAP
-skill-taxonomy	IV.1	docs/verifying-skills.md §7
-gap-reporting	V.1	BACKLOG.md convention
-source-authority	II.5	GAP (backlogged)
+# The book's term register: every concept and every named skill or tool a reader
+# must be introduced to, and the chapter that introduces it. Checked against the
+# DRAFTS (not only the outline) by tools/check-intro-order.py.
+#
+# id           unique; concept ids are the node names in deps.txt
+# kind         concept | skill | tool
+# introduced   outline chapter id (I.1, II.3, III.2 ...). "Introduced" means the
+#              reader first gets enough to follow — a gloss counts; the full
+#              treatment may come later.
+# match        Python regex for a USE of the term in prose, case-insensitive.
+#              "auto" = the name in backticks (skills and tools).
+#              "-" = no usage check (the word is too ordinary to find); the
+#              marker and dependency checks still apply.
+# backed-by    skill, doc, or GAP
+#
+# id	kind	introduced	match	backed-by
+skill-as-document	concept	I.1	-	—
+corpus	concept	I.1	-	—
+default-behaviour	concept	I.2	-	docs/verifying-skills.md §7
+displacement-claim	concept	I.2	-	docs/verifying-skills.md §7
+tool-fact	concept	I.2	tool-fact	docs/verifying-skills.md §7; skills/skill-authoring
+displacement-table	concept	II.1	displacement table	docs/verifying-skills.md §7
+judgement-row	concept	II.1	judgement row	docs/verifying-skills.md §7
+harness	concept	II.2	\bharness(es)?\b	docs/verifying-skills.md §2
+negative-contrast	concept	II.2	negative contrast	docs/verifying-skills.md §8
+guard-isolation	concept	II.2	each guard (alone|on its own)	docs/verifying-skills.md §8
+independent-oracle	concept	II.3	independent oracle	skills/test-writing
+fixture-first	concept	II.3	fixture-first	skills/test-writing
+source-authority	concept	II.3	source-authority	GAP (backlogged)
+premise	concept	II.4	-	skills/claim-fixture
+pre-registration	concept	II.4	pre-regist	skills/claim-fixture
+unforgeable-measurement	concept	II.4	unforgeable	skills/claim-fixture
+naive-subject	concept	II.4	naive subject	skills/claim-fixture
+version-as-wrongness	concept	II.5	-	docs/skill-versioning.md
+changelog	concept	II.5	\bchangelog	docs/skill-versioning.md
+agent-as-collaborator	concept	II.6	-	skills/directed-verification (reported weak)
+directing-verification	concept	II.6	-	skills/directed-verification (reported weak)
+authoring-to-the-standard	concept	II.7	-	skills/skill-authoring
+knowledge-capsule	concept	III.1	\bcapsules?\b	skills/math-theorem-tree, skills/physics-formula-tree
+skill-taxonomy	concept	IV.1	archetype	docs/verifying-skills.md §7; skills/skill-authoring
+gap-reporting	concept	V.1	-	BACKLOG.md convention
+test-writing	skill	I.1	auto	skills/test-writing
+role-deck	skill	I.2	auto	skills/role-deck
+bc	tool	I.2	auto	skills/bc
+tsort	tool	I.2	auto	skills/tsort
+statistics	skill	II.1	auto	skills/statistics
+directed-verification	skill	II.1	auto	skills/directed-verification
+visualization-design	skill	III.1	auto	skills/visualization-design
+lean	tool	III.2	auto	skills/lean
+math-linear-algebra	skill	III.2	auto	skills/math-linear-algebra
+math-probability	skill	III.2	auto	skills/math-probability
+math-statistics	skill	III.2	auto	skills/math-statistics

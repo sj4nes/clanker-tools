@@ -9,7 +9,9 @@
 
 == The same hole, one tool over
 
-A day after the `bc` audit, the same question was put to Lean. Several
+// intro: lean
+A day after the `bc` audit, the same question was put to Lean, the proof
+assistant the corpus uses to machine-check mathematics. Several
 knowledge capsules carry machine-checked proof cores: a node asserts
 `lean_status: core` and a `.lean` file in the capsule is supposed to prove the
 general statement of that node.
@@ -57,6 +59,7 @@ the index.
 
 == The control
 
+// intro: math-linear-algebra
 One capsule had zero findings: `math-linear-algebra`. It already carried an
 authoritative status map whose default is the weakest status, so a spec cannot
 overclaim, plus a reference checker. #keyterm[The guard worked. It had simply
@@ -68,6 +71,8 @@ it is a demonstration that the guard is the difference.
 
 == What changed
 
+// intro: math-probability
+// intro: math-statistics
 After the fixes, `math-probability`'s honest count of machine-verified nodes
 went from #keyterm[36 claimed to 25], and `math-statistics` from #keyterm[44 to
 28]. And the part worth stating plainly: #emph[no proof was wrong]. Every

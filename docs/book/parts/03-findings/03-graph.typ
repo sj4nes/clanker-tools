@@ -1,6 +1,6 @@
 #import "../../preamble.typ": keyterm, headline, practice
 
-= A graph that could not be wrong
+= A graph that could not be wrong <ch-graph>
 
 #headline[36 edges][
   that the node text required and the dependency graph did not carry — plus 7
@@ -8,10 +8,42 @@
   anything.
 ]
 
+== What a capsule is
+
+// DRAFT 2026-09-16 (agent-written, at the author's request). Ledger: C-III-01.
+Most skills in this corpus are what the earlier chapters describe: a SKILL.md
+of instructions that changes what an agent does. Fourteen are something less
+familiar, and this chapter is about them. The corpus calls them
+#keyterm[knowledge capsules].
+
+A capsule packages a body of domain knowledge — probability, linear algebra,
+thermodynamics, electrochemistry — as a graph rather than as prose. Each
+definition, axiom, theorem, formula or counterexample is a #keyterm[node], with
+an entry of its own: the precise statement, its symbols, its hypotheses, what
+it depends on, and how it is checked. Each #keyterm[edge] records that one node
+is a prerequisite of another, with a comment giving the evidence. `tsort` turns
+the edges into an order in which nothing is used before it is stated.
+
+A single node shows the shape. In `math-probability`, Bayes' theorem lists
+three dependencies in its entry — conditional probability, the law of total
+probability, the multiplication rule — and the capsule's edge file carries the
+same three as edges into `bayes_theorem`. Its entry also points at a Lean
+proof of the step that needs one, and the capsule's `bc` script checks a
+numeric instance.
+
+The fourteen hold about 1,500 nodes between them. What they are #emph[for] is
+traceability: an agent asked what a result rests on reads a chain it can
+follow and check, instead of recalling one. The domain content is outside this
+book's scope. The structure is not, because every part of it makes a claim — an
+edge claims a dependency, a `lean_status` claims a proof — and each of those
+claims can be checked or left unchecked.
+
 == Hygiene has no opinion about truth
 
-The capsules are dependency graphs: each node's prerequisites precede it, and
-`tsort` produces a valid linearisation. The build checked the emitted order
+`tsort` must be able to order every capsule's nodes so that each node's
+prerequisites come before it.#footnote[The
+previous two chapters mention capsules in passing; this is where their
+structure starts to matter.] The build checked the emitted order
 against the edge list it had been handed.
 
 Restating the edges and comparing them to themselves certifies nothing — the

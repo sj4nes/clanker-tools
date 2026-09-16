@@ -4,7 +4,10 @@ Part III is drafted (`../parts/03-findings/`). Governing structure pattern:
 **problem → solution → evidence → worked examples → open**.
 
 Concept introduction order is fixed by `deps.txt` via `tsort`; no chapter may
-use a term an earlier chapter has not introduced. Chapters marked **GENERATED**
+use a term an earlier chapter has not introduced. That rule is checked against
+the DRAFTS, not just this outline: `tools/check-intro-order.py` (register in
+`concepts.tsv`, which also lists named skills and tools; `// intro: <id>` markers
+in the prose; gates self-tested by `tools/check-intro-order-mutations.py`). Chapters marked **GENERATED**
 are produced from the repository and gated for freshness, not authored.
 
 ---
@@ -36,7 +39,8 @@ are produced from the repository and gated for freshness, not authored.
   better one. That is falsifiable, and naming it is the whole difference
   between a document and a check.
 - **Evidence.** danluu's eval, cited by `test-writing`: agents fell back to poor
-  default testing across all 26 conditions. And the counter-case from Part III —
+  default testing across the techniques named (NOT "all 26 conditions" —
+  see claim-ledger.md, C-I-02). And the counter-case from Part III —
   two defaults asserted here and measured false.
 - **Objection.** *"My skill teaches something the model does not know; there is
   no default to displace."* Real, and it is the tool-fact case — a genuine
@@ -78,6 +82,36 @@ The prescriptive heart. Each chapter is one move, in dependency order.
   one of the twenty was.
 - **Reader can now** plant a defect, watch a guard fail in isolation, and
   revert.
+- **Lineage — name it, do not claim it (added 2026-09-16).** Deliberate
+  breakage is not new. Its nearest relative is TDD's red step, and its exact
+  ancestor is **mutation testing**: traced to a 1971 student paper by Lipton,
+  with the field's birth in DeMillo, Lipton & Sayward (1978) and Hamlet (1977)
+  (Jia & Harman's survey; ledger C-II-01, C-II-02). Part III currently reads as
+  if the corpus invented the practice — fix there too.
+- **Objection to answer: "Isn't this just TDD?"** Same instinct (never trust a
+  test you have not seen fail), four differences:
+  1. **Red proves the test can fail, not that it fails for the reason you care
+     about.** Red comes from absence. Worked case, measured (C-II-03): a `bc`
+     harness written test-first goes RED on a missing file (exit 4), GREEN once
+     the file exists — a textbook cycle — and a FALSE claim still exits 0.
+     Red-green exercised *nothing → something*; the defect lived on
+     *right → wrong*, which only mutating a correct artifact reaches.
+  2. **Each guard alone.** One red per test says nothing about guards masking
+     each other (the graph table: 3 caught, 2 not).
+  3. **Retroactive.** Most corpus checks were written after the artifact —
+     capsules, proofs, graphs — so there was never a red step. Breakage
+     manufactures one.
+  4. **It recurses.** Red happens once, at authorship; the check on the check
+     needs the same treatment (the mutation that reported itself surviving).
+- **Evidence that "just do TDD" is not the answer for agents** (C-II-04): in
+  Luu's eval the TDD prompt DID produce red steps — failing tests before
+  substantial implementation in 67 of 160 runs vs 0 of 160 under Default — and
+  still gave worse tests and worse implementations: more small trivial tests,
+  hard cases avoided (four identical, trivial Huffman streams), and iterating to
+  green "tended to get agents to write more incorrect tests that would enforce
+  incorrect behavior". The red step happened; it was not aimed at the defect.
+  Do NOT say the red steps "passed trivially" — an earlier chat summary said so
+  and the source does not.
 - **Backed by:** `docs/verifying-skills.md` §2, §8 — **docs only.**
 
 ## II.3 — Choose an oracle that is not the thing you are checking
@@ -90,6 +124,13 @@ The prescriptive heart. Each chapter is one move, in dependency order.
   source-authority gap. Flagged here, not solved.
 - **Reader can now** name their oracle and say what it shares with the subject.
 - **Backed by:** `skills/test-writing`.
+- **⚠ Evidence flag (2026-09-16).** Do NOT present "agents copy the expected
+  value from the code's output" as an observed default. It is Yossi Kreinin's
+  hypothesis, misattributed to the danluu eval in `2c387db` and inherited by
+  `test-writing` behaviour 3 (ledger C-I-17). The independence test ("same
+  thing twice") and asymmetric fixtures (palindromic tests) are observed
+  (C-I-18). Candidate move: use behaviour 3 openly as the corpus's own
+  unmeasured default — Part I.2's argument, applied to the running example.
 
 ## II.4 — Measure the premise before you build on it
 

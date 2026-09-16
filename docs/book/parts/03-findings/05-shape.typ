@@ -55,8 +55,8 @@ two claims that had never been measured.
 
 The defect appeared inside every attempt to fix the defect. That is not irony
 for its own sake; it is the practical content of this part. #keyterm[There is no
-level at which you stop having to plant a defect and check that something
-screams.] The discipline does not terminate in a tool that is finally
+level at which you stop having to plant a defect and check that the check
+fails.] The discipline does not terminate in a tool that is finally
 trustworthy. It terminates in the habit of breaking the thing on purpose,
 applied one level up, every time.
 
@@ -80,15 +80,14 @@ check you own, in the order that finds the most for the least effort.
     [the sentence justifying the whole thing is the one nobody checks],
 )
 
-#practice[Assume the check is dead until you have seen it die.][
+#practice[Treat a check as broken until you have seen it fail.][
   This is the rule the four questions come from, and the only one worth
   carrying away.
 
   A passing check and an impossible check are indistinguishable in every log you
   will ever read. The difference is not visible, not inferable, and not
-  something more careful reading will surface — the four defects in this part
-  were found by people reading carefully, and none of them were found by
-  reading.
+  something more careful reading will surface: none of the four defects in
+  this part was found by reading the check.
 
   So the evidence that a check works is not that it passed. It is that you broke
   the thing on purpose and watched it complain. Until then you have a check
