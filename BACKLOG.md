@@ -1360,8 +1360,29 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       2's docstring spelled out the discriminating case for the subject to read.
       A third arm C (handed the risky areas) is the positive control; if C does
       not beat A by +0.20 the run is UNINTERPRETABLE and no Δ is reported.
-      **What remains is spending 15 subject runs**: `sh run3.sh <work-dir>`,
-      which refuses to spawn unless the gate and the isolation probe pass.
+      **RUN 3 SPENT AND INVALID 2026-09-16 (`5d73988`,
+      `b1-fixture/RESULT3.md`).** All 15 subjects scored `NO-HARNESS`. Two
+      unrelated defects, neither about the subjects: 6 ran with every `Write`
+      and every `python3` refused by the permission layer (`claude -p` is
+      non-interactive, no approval flow), and 9 hit an account session limit.
+      `run3.sh` had launched subjects with NO TOOL PERMISSIONS. The isolation
+      probe passed — it proved the environment CLEAN, and nothing asked whether
+      it was CAPABLE. Because arm B's treatment *is* an instruction to execute,
+      an incapable environment makes the treatment undeliverable and Δ is
+      structurally zero regardless: run 2 turned the control into the treatment,
+      run 3 turned the treatment into the control. Fixed: explicit identical
+      toolset per arm, `claim-fixture` G9 + `check_capability.sh` before
+      spawning, and attrition no longer written as `.done` (a session-limit stub
+      used to be, so a resumed run would have skipped the 9 that never ran).
+      **Confirmed working, and worth keeping:** run 2's contamination is gone
+      (probe saw `NONE`, all 5 arm-A transcripts clean), interleaving held (the
+      limit truncated all three arms equally, vs run 1 losing 4 of 5 arm-B), and
+      `NO-HARNESS` staying distinct from `0 killed` is the only reason the
+      failure was legible at all.
+      **HELD 2026-09-16 at the user's direction** — the account hit its API
+      limit, and a run 4 waits on a more cost-effective approach. Before
+      spending 15 again: run an n=1-per-arm pilot end to end first. Three runs
+      have now died to harness defects a 3-subject pilot would have exposed.
       (2026-09-16)
 
 - [ ] **`claim-fixture` owes a POSITIVE CONTROL of itself.** Four runs: two
@@ -1383,4 +1404,6 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       until arm C beats arm A in a real run. Note the distinction is the whole
       point: an instrument that separates a known-weak artifact from a
       known-strong one still says nothing about whether a POPULATION of agents
-      moves under a prompt.  (2026-09-16)
+      moves under a prompt. **Still unmeasured after run 3** — arm C was spawned
+      but produced nothing, for the same harness reason as arms A and B.
+      (2026-09-16)
