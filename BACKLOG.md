@@ -1341,4 +1341,18 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       about a contaminated control, and a pre-registered ceiling rule actively
       CONCEALED the contamination by supplying a respectable reading of the
       symptom. A manipulation check belongs in `claim-fixture` itself, not just
-      in this fixture.  (2026-09-15)
+      in this fixture. **DONE 2026-09-15** — `claim-fixture` 2.0.0 adds
+      behaviour 3, `references/pre-flight.md` (7 gates, each derived from a
+      named failure), and `verification/preflight.sh`, which blocks the b1
+      fixture at G2a, the gate that caused its failure. Run 3 must clear the
+      gate before subjects are spawned.  (2026-09-15)
+
+- [ ] **`claim-fixture` owes a POSITIVE CONTROL of itself.** Four runs: two
+      refutations, two invalid, ZERO positives. The method has never detected an
+      effect it knew was there, so its sensitivity is untested and its two
+      refutations are weaker than they look — G4 demands a positive control of
+      every fixture it gates, and the method does not have one. Cheapest form: a
+      fixture whose treatment has a known large effect (subjects handed the
+      answer vs not), run through the full apparatus. Until it exists, every
+      `claim-fixture` refutation should be read as "no effect detected by an
+      instrument of unknown sensitivity".  (2026-09-15)
