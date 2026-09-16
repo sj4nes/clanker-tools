@@ -7,6 +7,29 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/claim-fixture/
 
+## 2.1.0 — 2026-09-16
+
+**MINOR: G3 now scores the scorer the design actually claims.** A fixture
+directory accumulates runs. `preflight.sh` took the newest `score*` file off a
+glob, so a run-3 design cleared G3 on a run-2 scorer written for a different
+subject — the gate said CLEAR while the scorer for the run being flown did not
+exist.
+
+A design in a multi-run directory must now carry a line `Scorer: <file>`. The
+declared file must exist, or G3 is BLOCKED. Single-run directories are
+unaffected and still fall back to the glob.
+
+The first version of this inferred the scorer from prose instead of a
+declaration, and promptly picked the scorer's own *check harness* out of a
+sentence about it. Inference from prose is not a declaration.
+
+`preflight-check.sh` §3 is rebuilt. It asserted the b1 fixture blocks at a named
+gate; repairing that fixture moved the gate twice and broke the assertion twice.
+It now checks both sides against the real fixture: run 2's state, reconstructed
+from the files that run actually used, must be blocked at G2a/G2b/G4 — and the
+repaired fixture must CLEAR, so the first half cannot be satisfied by a gate
+that refuses everything.
+
 ## 2.0.0 — 2026-09-15
 
 **MAJOR: the method was missing a step, and a run was lost to it.** Any fixture

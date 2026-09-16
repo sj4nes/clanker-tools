@@ -7,6 +7,37 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/directed-verification/
 
+## 1.2.1 — 2026-09-16
+
+**PATCH: no statement changed.** Behaviour 1 is still marked unmeasured; this is
+run 3's pre-registration, committed before any run-3 subject exists.
+
+`b1-fixture/design3.md` clears all seven pre-flight gates and records the G5
+judgement by hand. What changed from run 2:
+
+- **The measure.** A kill rate over a frozen 20-mutant set replaces the single
+  planted defect. One plant makes the whole run depend on guessing the one
+  defect an undirected agent misses; guess wrong and Δ is zero whatever the
+  truth is.
+- **The subject.** `subject3/` is a duration parser/formatter whose intent lives
+  in a separate `SPEC.md` and whose code carries no worked examples. Run 2's
+  docstring wrote out the plant's discriminating case for the subject to read.
+- **A third arm.** Arm C is handed the risky areas — a positive control. If C
+  does not beat A, the run is UNINTERPRETABLE and Δ is not reported. This method
+  has four runs and no positive result behind it; until an effect it knows is
+  there shows up, every refutation it has produced is an unknown-sensitivity
+  null.
+- **Subjects are Bash-invoked separate processes**, not Agent-tool subagents,
+  and the isolation probe runs before spawning.
+
+Two defects were found by running the scorer's preconditions rather than by
+reasoning about them: one of the first twenty mutants was equivalent to the
+reference (unkillable, and it would have depressed both arms invisibly), and the
+probe corpus mislabelled a string as valid. Measured instrument range before any
+subject exists: a two-assertion suite scores 4/20, an oracle-based suite 20/20.
+
+Run 1 and run 2's prompts move to `b1-fixture/archive-runs-1-2/`.
+
 ## 1.2.0 — 2026-09-15
 
 Corrects 1.1.0, which reported b1 run 2 as *no headroom*. It was **invalid**:

@@ -73,6 +73,14 @@ printf '#!/bin/sh\nexit 0\n' > "$T/f/score.sh"
 expect "G3  scorer without precondition" 1 "G3   \*\*\*FAIL"
 
 rm -rf "$T/f"; build "$T/f"
+printf 'Scorer: score9.sh\n' >> "$T/f/design1.md"
+expect "G3  design declares a scorer that is absent" 1 "G3   BLOCKED"
+
+rm -rf "$T/f"; build "$T/f"
+printf 'Scorer: score.sh\n' >> "$T/f/design1.md"
+expect "G3  design declares the scorer it has"  0 "PRE-FLIGHT CLEAR"
+
+rm -rf "$T/f"; build "$T/f"
 sed -i '' '/[Pp]ositive control/d' "$T/f/design1.md"
 expect "G4  no positive control"         1 "G4   BLOCKED"
 
@@ -85,18 +93,36 @@ sed -i '' '/Bands:/d' "$T/f/design1.md"
 expect "G7  no refuting band"            1 "G7   \*\*\*FAIL"
 
 echo
-echo "=== 3. the gate blocks the run that actually failed ==="
+echo "=== 3. against the real fixture, in both of its states ==="
 B=../../directed-verification/verification/b1-fixture
-# The b1 fixture is a live artifact: as it is repaired, the gate that stops it
-# moves. What must hold is that it is STILL BLOCKED -- never that a specific
-# gate fires -- so this asserts the block and NAMES the gate, so a change in
-# which one is visible in the output rather than a stale assertion.
-out=$($PF "$B" 2>&1); got=$?
-unmet=$(printf '%s' "$out" | grep -E 'BLOCKED|\*\*\*FAIL' | sed 's/^ *//' | cut -d' ' -f1 | tr '\n' ' ')
-if [ "$got" -eq 1 ] && [ -n "$unmet" ]; then
-    echo "    ok   b1-fixture run 2 is still blocked, at: ${unmet%% }"
+
+# 3a. Run 2's state, reconstructed: the design that was actually used, no
+# fingerprint list, no manipulation check, no positive control. The gate has to
+# stop THIS -- it is the run that was spent and lost. Reconstructed rather than
+# asserted against the live directory, because the live directory has since
+# been repaired and now legitimately clears.
+rm -rf "$T/r2"; mkdir -p "$T/r2"
+cp "$B/design.md" "$B/design2.md" "$B/score.sh" "$B/score2.sh" "$T/r2/"
+cp "$B/archive-runs-1-2/task-A.md" "$B/archive-runs-1-2/task-B.md" "$T/r2/"
+out=$($PF "$T/r2" 2>&1); got=$?
+miss=""
+for g in "G2a  BLOCKED" "G2b  BLOCKED" "G4   BLOCKED"; do
+    printf '%s' "$out" | grep -q "$g" || miss="$miss [$g]"
+done
+if [ "$got" -eq 1 ] && [ -z "$miss" ]; then
+    echo "    ok   run 2 as it was actually run is blocked at G2a, G2b and G4"
 else
-    echo "*** b1-fixture should be blocked but was not (exit $got)"
+    echo "*** run 2 should be blocked at G2a/G2b/G4 (exit $got) missing:$miss"
+    printf '%s\n' "$out" | sed 's/^/      /'; rc=1
+fi
+
+# 3b. The live fixture, repaired for run 3, must now clear -- otherwise 3a only
+# proves the gate says no to everything.
+out=$($PF "$B" 2>&1); got=$?
+if [ "$got" -eq 0 ]; then
+    echo "    ok   the repaired fixture clears the gate"
+else
+    echo "*** the repaired b1 fixture no longer clears (exit $got)"
     printf '%s\n' "$out" | sed 's/^/      /'; rc=1
 fi
 

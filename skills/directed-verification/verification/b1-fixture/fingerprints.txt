@@ -16,3 +16,12 @@ Name the risky area first
 Get the expected value from somewhere other than the code
 able to fail
 negative contrast
+
+# SCOPE (run 3): the manipulation check greps ARM-A transcripts only. Arm B's
+# prompt contains the treatment and arm C's contains the targets by design, so
+# a hit there is the experiment working, not contamination.
+#
+# A prose fingerprint must be VERBATIM text from a contaminating skill. Do not
+# add good practice to this list -- "wrote a mutant", "tested the boundary" are
+# the OUTCOME being measured, and listing them would void every run that
+# succeeded.

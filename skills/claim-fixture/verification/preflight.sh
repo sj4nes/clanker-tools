@@ -14,7 +14,9 @@
 # Conventions (a fixture that does not follow them is BLOCKED, not excused):
 #   design*.md        the design doc: bands, isolation plan, minimum n
 #   task-*.md         one file per arm; >=2 required
-#   score*.sh|.py     the scorer
+#   score*.sh|.py     the scorer. If the directory holds more than one run's
+#                     worth, the design must carry a line `Scorer: <file>`;
+#                     otherwise the newest by name is taken.
 #   fingerprints.txt  grep patterns marking the treatment (G2)
 set -u
 
@@ -32,7 +34,21 @@ gate() {  # gate <id> <verdict> <message>
 }
 
 design=$(ls "$dir"/design*.md 2>/dev/null | tail -1)
-scorer=$(ls "$dir"/score*.sh "$dir"/score*.py 2>/dev/null | tail -1)
+
+# A fixture directory accumulates runs. Picking the newest scorer off the glob
+# lets a run-3 design clear G3 on a run-2 scorer that was written to score a
+# different subject -- so if the design NAMES its scorer, that is the scorer,
+# and it must exist. Falling back to the glob only when the design names none.
+# Declared as a line `Scorer: <file>` in the design, not inferred from prose --
+# inference picked the scorer's own check harness out of a sentence about it.
+named=""
+[ -n "$design" ] && named=$(sed -n 's/^[[:space:]]*[Ss]corer:[[:space:]]*`\{0,1\}\([^`[:space:]]*\)`\{0,1\}.*/\1/p' "$design" | head -1)
+if [ -n "$named" ]; then
+    scorer=""
+    [ -f "$dir/$named" ] && scorer="$dir/$named"
+else
+    scorer=$(ls "$dir"/score*.sh "$dir"/score*.py 2>/dev/null | tail -1)
+fi
 arms=$(ls "$dir"/task-*.md "$dir"/arm-*.md 2>/dev/null)
 narms=$(printf '%s\n' "$arms" | grep -c . || true)
 
@@ -74,7 +90,9 @@ else
 fi
 
 # --- G3 the instrument is readable: scorer asserts a precondition ----------
-if [ -z "$scorer" ]; then
+if [ -z "$scorer" ] && [ -n "$named" ]; then
+    gate G3 BLOCKED "design names scorer '$named', which does not exist yet"
+elif [ -z "$scorer" ]; then
     gate G3 BLOCKED "no scorer found"
 elif grep -qiE 'precondition|assert|refuse to score' "$scorer"; then
     gate G3 PASS "scorer asserts a precondition ($(basename "$scorer"))"
