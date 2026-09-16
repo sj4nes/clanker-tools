@@ -36,7 +36,7 @@ strictly before its first result, treating *the same commit* as a failure.
 The failure is permanent and deliberate. The premise fixture's scorer *was*
 written before any result — in-session, while the agents ran — and committed
 alongside them. The record cannot distinguish that from writing it afterwards,
-which is exactly the point behaviour 4 makes when it says *separate commit*.
+which is exactly the point behaviour 5 makes when it says *separate commit*.
 Repairing it by rewriting history would destroy the only honest demonstration
 this skill has.
 

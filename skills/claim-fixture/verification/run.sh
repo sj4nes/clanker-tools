@@ -5,6 +5,10 @@ set -e
 cd "$(dirname "$0")"
 V=../../role-deck/verification
 
+echo "=== pre-flight gate: can it pass, fail, and fail SPECIFICALLY? ==="
+sh preflight-check.sh
+echo
+
 echo "=== case study 2: the ordering fixture ==="
 sh check_preregistration.sh \
    "skills/role-deck/verification/ordering-fixture/score.sh" \
@@ -24,7 +28,7 @@ if [ "$o" -eq 0 ] && [ "$p" -eq 1 ]; then
     echo "  The ordering fixture is provably pre-registered."
     echo "  The premise fixture is NOT, and that is the point: its scorer was"
     echo "  written first but committed alongside the results, so the record"
-    echo "  cannot show it. Behaviour 4 says SEPARATE COMMIT for this reason."
+    echo "  cannot show it. Behaviour 5 says SEPARATE COMMIT for this reason."
     exit 0
 fi
 echo "*** unexpected: ordering=$o premise=$p (want 0 and 1)" >&2
