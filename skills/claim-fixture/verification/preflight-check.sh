@@ -87,11 +87,17 @@ expect "G7  no refuting band"            1 "G7   \*\*\*FAIL"
 echo
 echo "=== 3. the gate blocks the run that actually failed ==="
 B=../../directed-verification/verification/b1-fixture
+# The b1 fixture is a live artifact: as it is repaired, the gate that stops it
+# moves. What must hold is that it is STILL BLOCKED -- never that a specific
+# gate fires -- so this asserts the block and NAMES the gate, so a change in
+# which one is visible in the output rather than a stale assertion.
 out=$($PF "$B" 2>&1); got=$?
-if [ "$got" -eq 1 ] && printf '%s' "$out" | grep -q 'G2a  BLOCKED'; then
-    echo "    ok   b1-fixture run 2 is blocked, on the gate that caused its failure"
+unmet=$(printf '%s' "$out" | grep -E 'BLOCKED|\*\*\*FAIL' | sed 's/^ *//' | cut -d' ' -f1 | tr '\n' ' ')
+if [ "$got" -eq 1 ] && [ -n "$unmet" ]; then
+    echo "    ok   b1-fixture run 2 is still blocked, at: ${unmet%% }"
 else
-    echo "*** b1-fixture should be blocked at G2a (exit $got)"; rc=1
+    echo "*** b1-fixture should be blocked but was not (exit $got)"
+    printf '%s\n' "$out" | sed 's/^/      /'; rc=1
 fi
 
 echo

@@ -1,0 +1,18 @@
+# Contaminants for behaviour 1: anything that prescribes aiming verification
+# at a risky area, or demanding a harness that can fail.
+#
+# Names checked against a subject environment's skill list (check_isolation.sh)
+# and against each control subject's transcript (the manipulation check).
+test-writing
+directed-verification
+claim-fixture
+evaluator-integrity
+verifying-skills
+# built-ins that prescribe review discipline; lower risk, still checked
+code-review
+security-review
+# prose fingerprints -- these appear in a transcript, not a skill list
+Name the risky area first
+Get the expected value from somewhere other than the code
+able to fail
+negative contrast

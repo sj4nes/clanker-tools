@@ -42,13 +42,51 @@ a blocked gate by assuming it would have passed.
 
 That last clause is the one that failed. Arm A's prompt was clean; arm A's
 **context** was not, because the corpus's own `test-writing` skill prescribes
-the intervention under test and loads from the session rather than the working
-directory. Changing directory is not isolation.
+the intervention under test.
+
+**The isolation boundary is the SESSION, not the working directory.** Run 2's
+subjects already ran outside the repo and were contaminated anyway. A subagent
+spawned by the Agent tool inherits the parent session's project skills wherever
+it does its work. Only a separate `claude` process, launched with a cwd outside
+the project, drops them.
 
 **A corpus of installed skills makes its own claims hard to test.** Any
 behaviour your skills teach is contamination for any fixture asking whether
 that behaviour needs teaching. Assume contamination and prove its absence;
 never assume isolation and hope.
+
+#### The isolation recipe, verified 2026-09-15
+
+Three layers, each measured rather than assumed:
+
+| Subject launched as | Skills visible | Verdict |
+|---|---|---|
+| Agent-tool subagent, cwd anywhere | all 52 project skills | **contaminated** — this is what run 2 did |
+| `claude -p`, cwd outside the repo | 5 user + plugin + built-ins, incl. `code-review` | residual |
+| `claude -p --disable-slash-commands`, cwd outside the repo | **NONE** | **clean** |
+
+So a run-3 subject is a **Bash-invoked separate process**, not an Agent-tool
+subagent:
+
+```sh
+cd "$SUBJECT_DIR" && claude -p --disable-slash-commands "$(cat task-A.md)"
+```
+
+This changes the harness shape, and in a useful direction: the subject's full
+transcript is now a file you own, which makes the manipulation check a `grep`
+rather than an inference.
+
+Prove it before every run, with the flags the subjects will actually use:
+
+```sh
+sh verification/check_isolation.sh <subject-cwd> <fingerprints.txt> "--disable-slash-commands"
+```
+
+The probe refuses a cwd whose git root has a `.claude/skills` directory without
+spending an API call, then launches a throwaway session and greps its skill list
+against the fingerprints. It proves absence of the **named** contaminants only —
+a fingerprint you did not think of is still unchecked, which is why the list is
+a fixture artifact under review, not a constant.
 
 ### G2 — Can you prove the contrast held?
 
