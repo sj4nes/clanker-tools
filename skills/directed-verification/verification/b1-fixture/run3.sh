@@ -20,7 +20,18 @@ set -u
 here=$(cd "$(dirname "$0")" && pwd)
 work=${1:?usage: sh run3.sh <work-dir>   (must be outside the repo)}
 N=${N:-5}
-FLAGS="--disable-slash-commands"
+
+# The subject configuration is a PARAMETER, and it is recorded. RESULT2.md does
+# not say which model produced its transcripts, so run 2 is not reproducible
+# even if it had been valid. A result that does not name its configuration is a
+# claim about nothing in particular.
+#
+# Whether a configuration is also a FACTOR -- more than one, compared -- is a
+# design question, not a runtime one. See design3.md section 8.
+MODEL=${MODEL:-opus}
+EFFORT=${EFFORT:-medium}
+CONFIG="$MODEL-$EFFORT"
+FLAGS="--disable-slash-commands --model $MODEL --effort $EFFORT"
 
 mkdir -p "$work" || exit 2
 work=$(cd "$work" && pwd)
@@ -29,6 +40,13 @@ case "$work" in
         echo "*** work dir is inside the repository. Subjects would inherit the corpus." >&2
         exit 2 ;;
 esac
+
+echo "run 3 / config $CONFIG"
+echo "  model  : $MODEL"
+echo "  effort : $EFFORT"
+echo "  n      : $N per arm, 3 arms"
+echo "  work   : $work"
+echo
 
 echo "=== 1. pre-flight ==="
 sh "$here/../../../claim-fixture/verification/preflight.sh" "$here" || {
@@ -46,10 +64,15 @@ echo "=== 3. spawn, interleaved ==="
 i=1
 while [ "$i" -le "$N" ]; do
     for arm in A B C; do
-        d="$work/$arm$i"
+        d="$work/$CONFIG/$arm$i"
         [ -f "$d/.done" ] && { echo "    skip $arm$i (already run)"; continue; }
         rm -rf "$d"; mkdir -p "$d"
         cp "$here/subject3/duration.py" "$here/subject3/SPEC.md" "$d/"
+        # The manifest travels with the subject, so a transcript can never be
+        # read later without knowing what produced it.
+        printf 'arm=%s\nindex=%s\nmodel=%s\neffort=%s\nflags=%s\nspawned=%s\nfixture=%s\n' \
+            "$arm" "$i" "$MODEL" "$EFFORT" "$FLAGS" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            "$(git -C "$here" rev-parse HEAD)" > "$d/.manifest"
         echo "    spawn $arm$i"
         ( cd "$d" && claude -p $FLAGS "$(cat "$here/task-$arm.md")" </dev/null ) \
             > "$d/.transcript" 2>&1
@@ -66,7 +89,7 @@ echo "=== 4. manipulation check (arm A only) ==="
 void=0
 i=1
 while [ "$i" -le "$N" ]; do
-    t="$work/A$i/.transcript"
+    t="$work/$CONFIG/A$i/.transcript"
     if [ ! -f "$t" ]; then
         echo "    A$i  no transcript (attrition)"
     else
@@ -92,12 +115,15 @@ echo "=== 5. score ==="
 for arm in A B C; do
     i=1
     while [ "$i" -le "$N" ]; do
-        [ -d "$work/$arm$i" ] && sh "$here/score3.sh" "$work/$arm$i"
+        [ -d "$work/$CONFIG/$arm$i" ] && sh "$here/score3.sh" "$work/$CONFIG/$arm$i"
         i=$((i+1))
     done
 done
 
 echo
-echo "Kill rates above. design3.md section 5 is the reading, in this order:"
+echo "Kill rates above, for config $CONFIG ONLY. A kill rate carries its"
+echo "configuration or it carries nothing."
+echo
+echo "design3.md section 5 is the reading, in this order:"
 echo "  manipulation check -> positive control (C-A >= +0.20) -> attrition"
 echo "  -> ceiling -> the bands. Nothing is read until everything above it passed."
