@@ -61,6 +61,10 @@ sh "$here/../../../claim-fixture/verification/check_isolation.sh" \
 
 echo
 echo "=== 3. spawn, interleaved ==="
+TO=""
+command -v timeout  >/dev/null 2>&1 && TO=timeout
+command -v gtimeout >/dev/null 2>&1 && TO=gtimeout
+[ -z "$TO" ] && { echo "*** no timeout(1); a hung subject would stall the run" >&2; exit 2; }
 i=1
 while [ "$i" -le "$N" ]; do
     for arm in A B C; do
@@ -74,7 +78,11 @@ while [ "$i" -le "$N" ]; do
             "$arm" "$i" "$MODEL" "$EFFORT" "$FLAGS" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             "$(git -C "$here" rev-parse HEAD)" > "$d/.manifest"
         echo "    spawn $arm$i"
-        ( cd "$d" && claude -p $FLAGS "$(cat "$here/task-$arm.md")" </dev/null ) \
+        # A hung subject must cost one cell, not the run. A non-zero .done is
+        # attrition and is reported as such; design3.md section 5 has the floor.
+        SUBJECT_TIMEOUT=${SUBJECT_TIMEOUT:-1800}
+        ( cd "$d" && $TO $SUBJECT_TIMEOUT claude -p $FLAGS \
+              "$(cat "$here/task-$arm.md")" </dev/null ) \
             > "$d/.transcript" 2>&1
         echo "$?" > "$d/.done"
     done
