@@ -1,0 +1,4 @@
+{% if cast %}## Cast
+
+{{ cast | sort:"Actor" | table }}
+{% endif %}

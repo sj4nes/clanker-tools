@@ -1,0 +1,10 @@
+{
+  "title": "The Matrix",
+  "year": 1999,
+  "plot": "A hacker discovers that reality is a simulation.",
+  "directors": ["Lana Wachowski", "Lilly Wachowski"],
+  "cast": [
+    { "Actor": "Keanu Reeves", "Role": "Neo" },
+    { "Actor": "Carrie-Anne Moss", "Role": "Trinity" }
+  ]
+}

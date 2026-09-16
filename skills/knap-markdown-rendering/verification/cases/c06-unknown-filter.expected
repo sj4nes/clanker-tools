@@ -1,0 +1,2 @@
+cases/c06-unknown-filter.knap:1:12: error UNKNOWN_FILTER: Unknown filter "nosuch"
+  Help: knap help filters
