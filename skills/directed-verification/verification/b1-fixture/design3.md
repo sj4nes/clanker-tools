@@ -161,10 +161,30 @@ sh ../../../claim-fixture/verification/check_isolation.sh \
    "$SUBJECT_DIR" fingerprints.txt "--disable-slash-commands"
 ```
 
+**Also before spawning:** the **capability probe** must pass, with the same
+flags. Added after run 3, which this design did not survive.
+
+```sh
+sh ../../../claim-fixture/verification/check_capability.sh "$SUBJECT_DIR" "$FLAGS"
+```
+
+Run 3 spawned fifteen subjects with no tool permissions. Every `Write` and every
+`python3` was refused, `claude -p` is non-interactive so no approval existed, and
+all fifteen scored `NO-HARNESS`. The isolation probe had passed — it proved the
+environment was **clean**, and nothing had asked whether it was **capable**.
+
+That is not merely lost data. Arm B's treatment is an instruction to *execute*
+something ("confirm it actually fails against a wrong implementation"), so an
+environment that cannot execute makes the treatment **undeliverable**, and Δ is
+structurally zero whatever the truth is. Run 2 turned the control into the
+treatment; run 3 turned the treatment into the control. Same failure, opposite
+end. See [`RESULT3.md`](RESULT3.md).
+
 Subjects are **Bash-invoked separate processes**, not Agent-tool subagents:
 
 ```sh
-cd "$SUBJECT_DIR" && claude -p --disable-slash-commands "$(cat task-A.md)" </dev/null
+cd "$SUBJECT_DIR" && claude -p --disable-slash-commands \
+    --allowedTools "Read Write Edit Bash Glob Grep" "$(cat task-A.md)" </dev/null
 ```
 
 The working directory is not the isolation boundary — the session is. Run 2's
@@ -190,7 +210,7 @@ respectable "no headroom" because a pre-registered reading of a null fired
 before anyone asked whether the experiment was intact. Nothing below is read
 until everything above it has passed.
 
-1. **Isolation probe** failed → do not spawn. No run.
+1. **Isolation probe or capability probe** failed → do not spawn. No run.
 2. **Manipulation check** (§4) failed → **VOID**. Report nothing else.
 3. **Positive control:** if mean kill rate (C) − mean kill rate (A) < **+0.20**,
    the run is **UNINTERPRETABLE**. The instrument could not detect an effect it

@@ -26,6 +26,7 @@ A manipulation check runs BEFORE the outcome is interpreted; failure voids it.
 Positive control: a subject handed the answer must score CATCHES, confirming
 the instrument can detect an effect it knows is there.
 Primary configuration: opus / medium; any other is a labelled replication.
+A capability probe runs before subjects are spawned; it must write and execute.
 EOD
     printf 'Do the task.\n'                      > "$d/task-A.md"
     printf 'Do the task. It must be able to fail.\n' > "$d/task-B.md"
@@ -86,6 +87,14 @@ sed -i '' '/[Pp]ositive control/d' "$T/f/design1.md"
 expect "G4  no positive control"         1 "G4   BLOCKED"
 
 rm -rf "$T/f"; build "$T/f"
+sed -i '' '/capability probe/d' "$T/f/design1.md"
+expect "G9  no capability probe"         1 "G9   BLOCKED"
+
+rm -rf "$T/f"; build "$T/f"
+sed -i '' 's/^A capability probe runs before subjects are spawned.*/A capability probe is performed./' "$T/f/design1.md"
+expect "G9  probe declared but unordered" 1 "G9   \*\*\*FAIL"
+
+rm -rf "$T/f"; build "$T/f"
 sed -i '' '/Primary configuration:/d' "$T/f/design1.md"
 expect "G8  no configuration declared"   1 "G8   BLOCKED"
 
@@ -115,13 +124,13 @@ cp "$B/design.md" "$B/design2.md" "$B/score.sh" "$B/score2.sh" "$T/r2/"
 cp "$B/archive-runs-1-2/task-A.md" "$B/archive-runs-1-2/task-B.md" "$T/r2/"
 out=$($PF "$T/r2" 2>&1); got=$?
 miss=""
-for g in "G2a  BLOCKED" "G2b  BLOCKED" "G4   BLOCKED" "G8   BLOCKED"; do
+for g in "G2a  BLOCKED" "G2b  BLOCKED" "G4   BLOCKED" "G8   BLOCKED" "G9   BLOCKED"; do
     printf '%s' "$out" | grep -q "$g" || miss="$miss [$g]"
 done
 if [ "$got" -eq 1 ] && [ -z "$miss" ]; then
-    echo "    ok   run 2 as it was actually run is blocked at G2a, G2b, G4 and G8"
+    echo "    ok   run 2 as it was actually run is blocked at G2a, G2b, G4, G8 and G9"
 else
-    echo "*** run 2 should be blocked at G2a/G2b/G4/G8 (exit $got) missing:$miss"
+    echo "*** run 2 should be blocked at G2a/G2b/G4/G8/G9 (exit $got) missing:$miss"
     printf '%s\n' "$out" | sed 's/^/      /'; rc=1
 fi
 

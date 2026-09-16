@@ -13,7 +13,7 @@ description: >-
   prompting-technique guide, NOT multi-agent orchestration, and NOT a way to
   make an agent's judgement trustworthy — it changes what you can check, never
   how good the thinking was.
-version: 1.2.1
+version: 1.2.2
 archetype: behaviour
 author: Simon Janes
 tags: [agents, verification, collaboration, sycophancy, evidence, review]

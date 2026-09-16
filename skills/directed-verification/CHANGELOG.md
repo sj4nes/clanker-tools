@@ -7,6 +7,30 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/directed-verification/
 
+## 1.2.2 — 2026-09-16
+
+**PATCH: no statement changed. Behaviour 1 is still unmeasured, after three
+attempts.** Run 3 is recorded INVALID in `b1-fixture/RESULT3.md`.
+
+All fifteen subjects scored `NO-HARNESS`: they were spawned with no tool
+permissions, so none could write a file or execute anything. Six ran and were
+blocked; the other nine hit an account session limit. The two are unrelated —
+the permission defect would have struck on a fresh quota.
+
+What run 3 did establish, none of it about the claim:
+
+- **Run 2's contamination is fixed.** The isolation probe saw `NONE`, and all
+  five arm-A transcripts were clean of every fingerprint.
+- **Interleaving works.** The session limit truncated A3–5, B3–5 and C3–5 —
+  all three arms equally. Run 1's F4 wiped four of five arm-B subjects.
+- **`NO-HARNESS` kept distinct from `0 killed` is why the failure was legible**
+  rather than reading as fifteen agents writing useless tests.
+
+Fixed for the next attempt: an explicit identical toolset per arm, a capability
+probe before spawning (`claim-fixture` G9), and attrition no longer recorded as
+completion — a session-limit stub used to be written with a `.done`, so a
+resumed run would have skipped the nine subjects that never ran.
+
 ## 1.2.1 — 2026-09-16
 
 **PATCH: no statement changed.** Behaviour 1 is still marked unmeasured; this is

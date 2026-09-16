@@ -153,6 +153,17 @@ else
     fi
 fi
 
+# --- G9 the environment can produce the artifact --------------------------
+if [ -z "$design" ]; then
+    gate G9 BLOCKED "no design doc"
+elif ! grep -qi 'capability probe' "$design"; then
+    gate G9 BLOCKED "design declares no capability probe (F9)"
+elif grep -qiE 'capability probe.{0,200}(before|precede|prior to)|(before|precede|prior to).{0,200}capability probe' "$design"; then
+    gate G9 PASS "capability probe declared, and ordered before spawning"
+else
+    gate G9 FAIL "capability probe declared but not ordered before spawning"
+fi
+
 echo
 echo "  G5 (the shortcut passes its own check) is JUDGEMENT -- no gate here."
 echo "     Confirm by hand that the distinguishing evidence is absent from"

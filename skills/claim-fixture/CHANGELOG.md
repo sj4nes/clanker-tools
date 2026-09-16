@@ -7,6 +7,32 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/claim-fixture/
 
+## 2.3.0 — 2026-09-16
+
+**MINOR: a new gate, G9 — can a subject here actually produce the artifact?**
+The sibling of G2, asking the other question. G2 asks whether the environment is
+clean; G9 asks whether it is capable. An environment can be perfectly clean and
+completely useless, and the isolation probe will pass it.
+
+From F9: b1 run 3 spawned fifteen subjects with no tool permissions. Every
+`Write` and every `python3` was refused, `claude -p` is non-interactive so no
+approval flow existed, and all fifteen scored `NO-HARNESS`. The isolation probe
+had passed.
+
+This is a gate rather than advice because it is not a data-loss failure. Where
+the treatment is an instruction to **do** something — "confirm it actually fails
+against a wrong implementation" — an incapable environment makes the treatment
+**undeliverable**, and Δ is structurally zero whether or not the claim is true.
+That is F5 with the sign reversed: run 2 turned the control into the treatment,
+run 3 turned the treatment into the control.
+
+`verification/check_capability.sh` is the probe. Its evidence is unforgeable:
+the subject must write a file containing the machine's epoch clock, which it
+cannot know without executing, and which the harness bounds against its own wall
+clock. Claiming success in prose does not create the file.
+
+A capability probe costs one subject. F9 cost fifteen.
+
 ## 2.2.0 — 2026-09-16
 
 **MINOR: a new gate, G8 — what population is this a claim about?** An agent

@@ -21,6 +21,7 @@ Nothing here is invented. Each gate below exists because of a specific run.
 | F6 | b1 run 2 | a pre-registered ceiling rule supplied a respectable reading of Δ=0 that concealed F5 | yes — ordering of checks |
 | F7 | all four | no positive control; the method has never detected an effect it knew was there | yes — by declaration |
 | F8 | b1 runs 1 and 2 | neither result names the model or effort that produced its subjects; the runs are not reproducible and the claims have no stated scope | yes — by declaration |
+| F9 | b1 run 3 | subjects were spawned with no tool permissions; none could write or execute, so the treatment (*"confirm it actually fails"*) was undeliverable and all 15 scored `NO-HARNESS` | yes — mechanical, one probe |
 
 Two of these (F2, F6) are the dangerous kind: the run completes, the numbers
 look clean, and the design produces a confident wrong reading rather than an
@@ -209,6 +210,29 @@ registered in advance** ("the effect is larger at low effort") to an
 after-the-fact comparison of cells. An interaction chosen once the cells are
 visible is a description of noise.
 
+### G9 — Can a subject here actually produce the artifact?
+
+> *From F9. The sibling of G2, asking the other question.*
+
+G2 asks whether the environment is **clean**. G9 asks whether it is **capable**.
+An environment can be perfectly clean and completely useless, and the isolation
+probe will pass it.
+
+- [ ] A **capability probe** runs **before** subjects are spawned, with the same
+      flags they will be launched with.
+- [ ] The probe's evidence is unforgeable — a file the subject must write
+      containing something it can only obtain by executing.
+- [ ] The subjects' toolset is explicit, identical across arms, and recorded.
+
+This is not a data-loss gate, which is why it is a gate rather than advice.
+Where the treatment is an instruction to **do** something — *"confirm it
+actually fails against a wrong implementation"* — an incapable environment makes
+the treatment undeliverable, and Δ is structurally zero whether or not the claim
+is true. That is F5 with the sign reversed: run 2 turned the control into the
+treatment, run 3 turned the treatment into the control.
+
+A capability probe costs one subject. F9 cost fifteen.
+
 ## The pre-flight is not a guarantee
 
 - It cannot tell you the claim is worth measuring.
@@ -216,6 +240,6 @@ visible is a description of noise.
   one day.
 - It cannot supply a positive control you do not have; G4 can only make its
   absence explicit.
-- **It is itself unmeasured.** This rubric is derived from four runs by one
+- **It is itself unmeasured.** This rubric is derived from five runs by one
   author. It is a checklist against known failures, not a theory of
   experimental design, and a fifth run will probably add a gate.

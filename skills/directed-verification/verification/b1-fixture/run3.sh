@@ -31,7 +31,11 @@ N=${N:-5}
 MODEL=${MODEL:-opus}
 EFFORT=${EFFORT:-medium}
 CONFIG="$MODEL-$EFFORT"
-FLAGS="--disable-slash-commands --model $MODEL --effort $EFFORT"
+# An explicit, identical toolset for every arm. Run 3 granted none, so no
+# subject could write or execute, and arm B's treatment -- which IS an
+# instruction to execute -- was undeliverable. See RESULT3.md.
+TOOLS=${TOOLS:-"Read Write Edit Bash Glob Grep"}
+FLAGS="--disable-slash-commands --model $MODEL --effort $EFFORT --allowedTools $TOOLS"
 
 mkdir -p "$work" || exit 2
 work=$(cd "$work" && pwd)
@@ -60,6 +64,11 @@ sh "$here/../../../claim-fixture/verification/check_isolation.sh" \
     echo "*** DO NOT SPAWN. The subject environment is not clean." >&2; exit 2; }
 
 echo
+echo "=== 2b. capability probe ==="
+sh "$here/../../../claim-fixture/verification/check_capability.sh" "$probe" "$FLAGS" || {
+    echo "*** DO NOT SPAWN. A subject here cannot produce the artifact." >&2; exit 2; }
+
+echo
 echo "=== 3. spawn, interleaved ==="
 TO=""
 command -v timeout  >/dev/null 2>&1 && TO=timeout
@@ -84,7 +93,16 @@ while [ "$i" -le "$N" ]; do
         ( cd "$d" && $TO $SUBJECT_TIMEOUT claude -p $FLAGS \
               "$(cat "$here/task-$arm.md")" </dev/null ) \
             > "$d/.transcript" 2>&1
-        echo "$?" > "$d/.done"
+        st=$?
+        # Attrition is NOT completion. A session-limit stub used to be written
+        # with a .done, so a resumed run SKIPPED the subjects that never ran.
+        if [ "$st" -ne 0 ] || [ ! -s "$d/.transcript" ] \
+           || grep -qi 'hit your session limit' "$d/.transcript"; then
+            echo "    ---- $arm$i did not complete (status $st); left for a resumed run"
+            rm -f "$d/.done"
+        else
+            echo "$st" > "$d/.done"
+        fi
     done
     i=$((i+1))
 done
