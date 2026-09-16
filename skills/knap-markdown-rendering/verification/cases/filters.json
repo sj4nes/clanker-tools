@@ -1,0 +1,20 @@
+{
+  "title": "the matrix reloaded",
+  "messy": "  Padded Text  ",
+  "prose": "First line.\nSecond line.",
+  "md": "**bold** and _em_ and [a link](http://x)",
+  "risky": "a*b_c[d]",
+  "url": "https://example.com/a b?q=1&r=2",
+  "n": 1234567.891,
+  "secs": 3725,
+  "when": "2026-09-16T14:30:00Z",
+  "tags": ["beta", "alpha", "beta", "", null, "gamma"],
+  "nums": [3, 1, 2],
+  "people": [
+    {"name": "Ada", "role": "eng", "score": 90},
+    {"name": "Bo", "role": "ops", "score": 70},
+    {"name": "Cy", "role": "eng", "score": 80}
+  ],
+  "obj": {"a": 1, "b": 2},
+  "html": "<p class=\"x\">hi <b>there</b></p>"
+}

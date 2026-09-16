@@ -1,0 +1,18 @@
+upper          | THE MATRIX RELOADED
+title          | The Matrix Reloaded
+capitalize     | The matrix reloaded
+kebab          | the-matrix-reloaded
+snake          | the_matrix_reloaded
+camel          | theMatrixReloaded
+pascal         | TheMatrixReloaded
+uncamel        | some value here
+trim           | [Padded Text]
+truncate       | the mat...
+truncatewords  | the matrix…
+length         | 19
+replace        | the MATRIX reloaded
+slice          | matrix
+split          | ["the","matrix","reloaded"]
+safe_name      | notes2024 recap
+escape_md      | a\*b\_c\[d\]
+strip_md       | bold and em and a link

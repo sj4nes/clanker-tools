@@ -1,0 +1,18 @@
+upper          | {{ title | upper }}
+title          | {{ title | title }}
+capitalize     | {{ title | capitalize }}
+kebab          | {{ title | kebab }}
+snake          | {{ title | snake }}
+camel          | {{ title | camel }}
+pascal         | {{ title | pascal }}
+uncamel        | {{ "someValueHere" | uncamel }}
+trim           | [{{ messy | trim }}]
+truncate       | {{ title | truncate:(10, "...") }}
+truncatewords  | {{ title | truncatewords:2 }}
+length         | {{ title | length }}
+replace        | {{ title | replace:"matrix":"MATRIX" }}
+slice          | {{ title | slice:(4, 10) }}
+split          | {{ title | split:" " }}
+safe_name      | {{ "notes/2024: recap?" | safe_name }}
+escape_md      | {{ risky | escape_md }}
+strip_md       | {{ md | strip_md }}

@@ -64,6 +64,25 @@ writing YAML front matter. Three ways out, in order of preference:
 2. `--template=---...` with an equals sign.
 3. `-t-` immediately followed by the text, per the tool's own error message.
 
+## CSV values are strings, and zero is the trap
+
+`knap --help` states it plainly: **"CSV values stay strings."** The consequence
+is not the one you would guess. Comparisons still coerce, so `Count > 5` works
+on CSV data. What diverges is **truthiness**:
+
+| data | `{% if Count %}` with `Count` = 0 |
+|---|---|
+| CSV row `C,0` | **true** — it is the string `"0"` |
+| JSON `{"Count": 0}` | **false** — it is the number `0` |
+
+So a section guarded by `{% if Count %}` renders for a zero-count CSV row and
+vanishes for a zero-count JSON record, from the same logical data. Pinned in
+`run.sh` section 2; if knap ever changes it, the harness fails and this page is
+what gets corrected.
+
+Guard on what you mean: `{% if Count != "0" and Count %}` for CSV, or convert
+the field before rendering.
+
 ## Values render as their JSON type
 
 A bare array interpolates as JSON, not as a list:

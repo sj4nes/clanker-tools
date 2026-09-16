@@ -31,7 +31,7 @@ esac
 
 echo
 echo "=== 1. every documented template renders as documented ==="
-# cases/*.knap render against cases/movie.json. Batch-row templates take one
+# cases/*.knap render against cases/<name>.json if it exists, else movie.json. Batch-row templates take one
 # record each and live in cases/batch/, exercised in section 2 -- a row template
 # rendered against the movie data is meaningless, which section 1 told me by
 # failing when I first put it here.
@@ -39,7 +39,11 @@ for t in cases/*.knap; do
     name=$(basename "$t" .knap)
     want_rc=0
     [ -f "cases/$name.rc" ] && want_rc=$(cat "cases/$name.rc")
-    got=$(knap render "$t" -d cases/movie.json 2>&1); got_rc=$?
+    # A case names its data in a .data sidecar; otherwise movie.json. Explicit,
+    # so one shared fixture is not copied once per case to satisfy a glob.
+    data=cases/movie.json
+    [ -f "cases/$name.data" ] && data="cases/$(cat "cases/$name.data")"
+    got=$(knap render "$t" -d "$data" 2>&1); got_rc=$?
 
     if [ "$got_rc" -ne "$want_rc" ]; then
         echo "*** $name: exit $got_rc, want $want_rc"          # G-exit
@@ -112,6 +116,32 @@ if knap batch cases/batch/row.knap \
     echo "*** a duplicate filename in one batch was accepted silently"; rc=1
 else
     echo "    ok   a duplicate filename in one batch is an error, not last-write-wins"
+fi
+
+# --data also takes a CSV file. The SKILL.md description says so, which makes
+# it a claim this harness owes a case.
+if knap batch cases/batch/count.knap --data cases/batch/nums.csv \
+       --output-dir "$B/csv" --filename '{{ Name }}.txt' >/dev/null 2>&1 \
+   && [ -f "$B/csv/A.txt" ] && [ -f "$B/csv/C.txt" ]; then
+    echo "    ok   batch accepts a CSV file as --data"
+else
+    echo "*** batch did not accept the documented CSV input"; rc=1
+fi
+
+# "CSV values stay strings" (knap --help). The consequence is NOT that
+# comparisons break -- they coerce -- but that TRUTHINESS diverges: the string
+# "0" is true, the number 0 is false. So {% if Count %} guards a section in one
+# input format and drops it in the other, on the same data.
+csv=$(cat "$B/csv/C.txt" 2>/dev/null)
+json=$(knap render cases/batch/count.knap --data-json '{"Name":"C","Count":0}' 2>&1)
+if [ "$csv" = "C gt5=N truthy=Y" ] && [ "$json" = "C gt5=N truthy=N" ]; then
+    echo "    ok   zero is truthy from CSV and falsy from JSON (documented hazard)"
+else
+    echo "*** the CSV/JSON zero-truthiness split changed:"
+    echo "      csv  = '$csv'"
+    echo "      json = '$json'"
+    echo "      references/failure-modes.md is now wrong; fix the doc, not this."
+    rc=1
 fi
 
 echo

@@ -1,0 +1,39 @@
+h2             | ## the matrix reloaded
+bold/italic    | **x** *y* ~~z~~ ==h==
+code           | `a=1`
+code_block     | ```python
+a=1
+```
+blockquote     | > First line.
+> Second line.
+callout        | > [!warning]
+> careful
+hr             | mid
+
+---
+indent         |   First line.
+  Second line.
+hard_break     | First line.  
+Second line.
+comment        | %%hidden%%
+link           | [Example](https://example.com/a%20b?q=1&r=2)
+image          | ![Alt](https://example.com/a%20b?q=1&r=2)
+wikilink       | [[Page|Alias]]
+embed          | ![[Page]]
+yaml           | a: 1
+b: 2
+yaml_property  | tags:
+  - "beta"
+  - "alpha"
+  - "beta"
+  - "gamma"
+number_format  | 1,234,567.89
+round          | 1234567.9
+calc           | 1234.567891
+duration       | 01:02:05
+date           | 2026-09-16
+date_modify    | 2026-09-17
+encode_uri     | https%3A%2F%2Fexample.com%2Fa%20b%3Fq%3D1%26r%3D2
+strip_tags     | hi there
+strip_attr     | <p>hi <b>there</b></p>
+remove_tags    | <p class="x">hi there</p>

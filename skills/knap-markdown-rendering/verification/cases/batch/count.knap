@@ -1,0 +1,1 @@
+{{ Name }} gt5={% if Count > 5 %}Y{% else %}N{% endif %} truthy={% if Count %}Y{% else %}N{% endif %}

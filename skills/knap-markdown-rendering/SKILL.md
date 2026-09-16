@@ -12,7 +12,7 @@ description: >-
   reasoning aid — compose prose that needs judgement first and pass it in as
   data — and NOT usable for the DOM-dependent filters or host integrations the
   CLI does not supply.
-version: 2.0.0
+version: 2.1.0
 archetype: tool-fact
 author: Simon Janes
 tags: [markdown, templating, knap, reporting, data-to-document, yaml-front-matter]
@@ -71,6 +71,9 @@ checking `$?`.
 3. **Guard every optional section** with `{% if field %}`, so absent data leaves
    no empty heading. `[]`, `""`, `0`, `false` and `null` are all false.
 4. **Render**, then **read the output** against the data — not the exit status.
+   If the data came from CSV, remember every value is a string; see the
+   zero-truthiness trap in
+   [`references/failure-modes.md`](references/failure-modes.md).
 5. **Snapshot it** if the layout matters. A committed expected-output file is
    what turns "it looked right once" into something that can fail later.
 
@@ -78,7 +81,7 @@ checking `$?`.
 
 | | |
 |---|---|
-| [`references/filters.md`](references/filters.md) | which filter to reach for, by the shape of the job; what the CLI does not supply |
+| [`references/filters.md`](references/filters.md) | which filter to reach for; verified output for ~50 filters; the non-uniform parameter syntax; which ones emit Obsidian-only Markdown |
 | [`references/recipes.md`](references/recipes.md) | verified templates — front matter, conditional table, batch — each naming its case |
 | [`references/failure-modes.md`](references/failure-modes.md) | silent empties, `validate`'s limits, the `-t` dash problem, exit codes |
 

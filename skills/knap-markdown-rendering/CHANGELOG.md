@@ -7,6 +7,40 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/knap-markdown-rendering/
 
+## 2.1.0 — 2026-09-16
+
+**MINOR: the filter reference grew from a selection map into verified output.**
+knap is new enough that an agent has no prior about it, which is the whole
+reason this is a `tool-fact` skill — so 2.0.0's decision to document only *which
+filter to reach for* was too thin. `references/filters.md` now shows what ~50
+filters actually produce, every line copied from a verification case.
+
+Three cases added (`c08-text`, `c09-collections`, `c10-markdown`), so the new
+material is pinned rather than asserted. Cases may now name their data in a
+`.data` sidecar instead of one fixture being copied per case.
+
+Gotchas the probing turned up, none of which were guessable:
+
+- **Parameter syntax is not uniform** — `truncate:(10, "...")` takes a tuple,
+  `replace:"a":"b"` repeated colons, `nth:2` a bare number.
+- **`compact` and `unique` are complementary** — `compact` drops `null`/`""` and
+  keeps duplicates; `unique` does the reverse. Chain both.
+- **`merge:4` yields the string `"4"`**, not the number.
+- **`template` returns text, not an array**, so a following `join` silently does
+  nothing.
+- **`highlight`, `comment`, `callout`, `wikilink`, `embed` emit Obsidian-only
+  syntax** that does not render on GitHub or under CommonMark.
+- `capitalize` lowercases the rest; `safe_name` keeps spaces; `link`/`image`
+  already percent-encode, so `encode_uri` on top double-encodes.
+
+**CSV coverage, which 2.0.0 listed as an unverified claim in its own
+description.** `--data <file>.csv` now has a case. It also exposed a real trap:
+knap documents that "CSV values stay strings", and the consequence is not that
+comparisons break — they coerce — but that **truthiness diverges**. The string
+`"0"` is true where the number `0` is false, so `{% if Count %}` guards a
+section for a CSV row and drops it for the equivalent JSON record. Pinned in
+`run.sh` section 2.
+
 ## 2.0.0 — 2026-09-16
 
 **MAJOR: the skill was wrong, and it was wrong about the thing it was most

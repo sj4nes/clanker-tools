@@ -1,0 +1,26 @@
+h2             | {{ title | h2 }}
+bold/italic    | {{ "x" | bold }} {{ "y" | italic }} {{ "z" | strike }} {{ "h" | highlight }}
+code           | {{ "a=1" | code }}
+code_block     | {{ "a=1" | code_block:"python" }}
+blockquote     | {{ prose | blockquote }}
+callout        | {{ "careful" | callout:"warning" }}
+hr             | {{ "mid" | hr }}
+indent         | {{ prose | indent:2 }}
+hard_break     | {{ prose | hard_break }}
+comment        | {{ "hidden" | comment }}
+link           | {{ url | link:"Example" }}
+image          | {{ url | image:"Alt" }}
+wikilink       | {{ "Page" | wikilink:"Alias" }}
+embed          | {{ "Page" | embed }}
+yaml           | {{ obj | yaml }}
+yaml_property  | {{ tags | compact | yaml_property:"tags" }}
+number_format  | {{ n | number_format:2 }}
+round          | {{ n | round:1 }}
+calc           | {{ n | calc:"/1000" }}
+duration       | {{ secs | duration }}
+date           | {{ when | date:"YYYY-MM-DD" }}
+date_modify    | {{ when | date_modify:"+1 day" | date:"YYYY-MM-DD" }}
+encode_uri     | {{ url | encode_uri }}
+strip_tags     | {{ html | strip_tags }}
+strip_attr     | {{ html | strip_attr }}
+remove_tags    | {{ html | remove_tags:"b" }}

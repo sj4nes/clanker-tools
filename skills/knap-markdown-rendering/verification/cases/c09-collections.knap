@@ -1,0 +1,18 @@
+sort           | {{ nums | sort }}
+sort:prop      | {{ people | sort:"score" | map:"name" | join:"," }}
+reverse        | {{ nums | reverse }}
+first/last     | {{ tags | first }} / {{ nums | last }}
+unique         | {{ tags | unique }}
+compact        | {{ tags | compact }}
+join           | {{ nums | join:" + " }}
+length(arr)    | {{ people | length }}
+map            | {{ people | map:"role" | unique | join:"," }}
+where          | {{ people | where:"role","eng" | map:"name" | join:"," }}
+nth            | {{ nums | nth:2 }}
+merge          | {{ nums | merge:4 }}
+sum            | {{ nums | sum }}
+sum:prop       | {{ people | sum:"score" }}
+slice(arr)     | {{ nums | slice:(0, 2) }}
+object         | {{ obj | object:"array" }}
+template       | {{ people | template:"${name} (${role})" | join:"; " }}
+list           | {{ nums | list }}
