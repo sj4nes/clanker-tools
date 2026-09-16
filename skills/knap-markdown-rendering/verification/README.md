@@ -29,6 +29,11 @@ section 1 goes fully green, and asserts the semantic guard still fires.
 
 ## Adding a case
 
+Batch-row templates live in `cases/batch/` and are exercised in section 2. A row
+template rendered against the movie data is meaningless — which section 1 said,
+by failing, the first time one was put in `cases/`.
+
+
 1. `cases/<name>.knap` — the template.
 2. `cases/<name>.expected` — output captured from the real tool.
 3. `cases/<name>.rc` — expected exit status, if not `0`.

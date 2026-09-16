@@ -31,6 +31,10 @@ esac
 
 echo
 echo "=== 1. every documented template renders as documented ==="
+# cases/*.knap render against cases/movie.json. Batch-row templates take one
+# record each and live in cases/batch/, exercised in section 2 -- a row template
+# rendered against the movie data is meaningless, which section 1 told me by
+# failing when I first put it here.
 for t in cases/*.knap; do
     name=$(basename "$t" .knap)
     want_rc=0
@@ -83,6 +87,31 @@ if knap validate -t '{{ definitely_not_in_any_data }}' >/dev/null 2>&1; then
 else
     echo "*** validate now checks runtime values; references/failure-modes.md is wrong"
     rc=1
+fi
+
+# batch is documented in references/recipes.md, so it owes a case. The README
+# rule is that a claim no case covers is a claim nobody checked -- and that
+# applies to the file stating the rule.
+B=$(mktemp -d); trap 'rm -rf "$B"' EXIT INT HUP
+if knap batch cases/batch/row.knap \
+       --data-json '[{"Actor":"Neo","Role":"The One"},{"Actor":"Trinity","Role":"Pilot"}]' \
+       --output-dir "$B/out" --filename '{{ Actor | safe_name }}.md' >/dev/null 2>&1 \
+   && [ "$(cat "$B/out/Neo.md" 2>/dev/null)" = "Neo played The One" ] \
+   && [ "$(cat "$B/out/Trinity.md" 2>/dev/null)" = "Trinity played Pilot" ]; then
+    echo "    ok   batch writes one file per record, named by --filename"
+else
+    echo "*** batch did not produce the documented files"
+    ls -R "$B/out" 2>&1 | sed 's/^/      /'; rc=1
+fi
+
+# Duplicate filenames within one batch must FAIL rather than last-write-wins.
+# recipes.md says so, and that is the direction that protects data.
+if knap batch cases/batch/row.knap \
+       --data-json '[{"Actor":"Neo","Role":"The One"},{"Actor":"Neo","Role":"Again"}]' \
+       --output-dir "$B/dup" --filename '{{ Actor | safe_name }}.md' >/dev/null 2>&1; then
+    echo "*** a duplicate filename in one batch was accepted silently"; rc=1
+else
+    echo "    ok   a duplicate filename in one batch is an error, not last-write-wins"
 fi
 
 echo
