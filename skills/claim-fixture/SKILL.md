@@ -16,7 +16,7 @@ description: >-
   and strike a refuted claim instead of rewording it. NOT a replacement for
   domain evaluation or benchmarking, not a way to prove a methodology works,
   and not applicable to claims that are already structurally provable.
-version: 2.1.0
+version: 2.2.0
 archetype: behaviour
 author: Simon Janes
 tags: [evaluation, experiments, methodology, agents, pre-registration, falsification]

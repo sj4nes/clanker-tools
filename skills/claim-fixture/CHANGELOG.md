@@ -7,6 +7,35 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/claim-fixture/
 
+## 2.2.0 — 2026-09-16
+
+**MINOR: a new gate, G8 — what population is this a claim about?** An agent
+subject is a model at an effort level. Neither b1 run 1 nor run 2 records which
+model produced its subjects (F8), so neither is reproducible and neither claim
+has a stated scope. A design must now carry a line `Primary configuration:
+<what a subject is>`, recorded per subject at spawn time rather than
+reconstructed afterwards.
+
+G8's third checkbox is the one with teeth: if more than one configuration will
+be run, the design must say which is **primary** and which are labelled
+replications. Configuration is cheap to vary and expensive to vary honestly —
+*k* models × *m* effort levels is *k·m* chances to land the band you wanted at
+n=5. Behaviour 5 pre-commits the bands; it does not by itself pre-commit which
+cell counts. Block, do not cross. Where a configuration is varied deliberately,
+the rubric asks for a directional prediction registered in advance, because an
+interaction chosen once the cells are visible is a description of noise.
+
+A fixture whose subjects are not model-driven still declares the line — it
+declares people, or a fixed program. The gate asks you to name your subjects.
+
+The first version of G8 tested only the extracted value, which collapsed
+"absent" into "present but empty" and left its FAIL arm unreachable. The label
+and the value are now tested separately, and `preflight-check.sh` asserts both
+arms fire.
+
+`references/pre-flight.md` predicted, in 2.0.0, that "a fifth run will probably
+add a gate". The fifth run has not been spawned yet and has already added one.
+
 ## 2.1.0 — 2026-09-16
 
 **MINOR: G3 now scores the scorer the design actually claims.** A fixture

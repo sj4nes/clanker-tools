@@ -18,6 +18,10 @@
 #                     worth, the design must carry a line `Scorer: <file>`;
 #                     otherwise the newest by name is taken.
 #   fingerprints.txt  grep patterns marking the treatment (G2)
+#
+# The design must also carry a line `Primary configuration: <...>` (G8): an
+# agent subject is a model at an effort level, and a score that does not name
+# its configuration cannot be reproduced or contradicted.
 set -u
 
 dir=${1:?usage: preflight.sh <fixture-dir>}
@@ -129,6 +133,23 @@ else
         gate G7 PASS "bands name the refuting outcome"
     else
         gate G7 FAIL "no band written for the outcome that refutes you"
+    fi
+fi
+
+# --- G8 the claim has a stated population -------------------------------
+if [ -z "$design" ]; then
+    gate G8 BLOCKED "no design doc"
+else
+    # The LABEL and the VALUE are tested separately. Testing only the extracted
+    # value collapses "absent" into "present but empty", which made the FAIL
+    # branch below unreachable -- a gate arm that cannot fire.
+    cfg=$(sed -n 's/^[[:space:]]*[Pp]rimary configuration:[[:space:]]*\(.*\)/\1/p' "$design" | head -1)
+    if ! grep -qE '^[[:space:]]*[Pp]rimary configuration:' "$design"; then
+        gate G8 BLOCKED "design declares no 'Primary configuration:' (F8)"
+    elif [ -z "$(printf '%s' "$cfg" | tr -d '[:space:]`')" ]; then
+        gate G8 FAIL "'Primary configuration:' is declared but empty"
+    else
+        gate G8 PASS "primary configuration: $cfg"
     fi
 fi
 

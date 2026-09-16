@@ -20,6 +20,7 @@ Nothing here is invented. Each gate below exists because of a specific run.
 | F5 | b1 run 2 | **the control arm had the treatment** (`test-writing` in context) | yes — mechanical |
 | F6 | b1 run 2 | a pre-registered ceiling rule supplied a respectable reading of Δ=0 that concealed F5 | yes — ordering of checks |
 | F7 | all four | no positive control; the method has never detected an effect it knew was there | yes — by declaration |
+| F8 | b1 runs 1 and 2 | neither result names the model or effort that produced its subjects; the runs are not reproducible and the claims have no stated scope | yes — by declaration |
 
 Two of these (F2, F6) are the dangerous kind: the run completes, the numbers
 look clean, and the design produces a confident wrong reading rather than an
@@ -179,6 +180,34 @@ gate is only satisfied when a competent control would plausibly miss.
 
 Subject to G2's ordering: bands are read only after the manipulation check
 passes.
+
+### G8 — What population is this a claim about?
+
+> *From F8.*
+
+An agent subject is a **model at an effort level**. A score that does not name
+its configuration is a claim about nothing in particular, and cannot be
+reproduced or contradicted.
+
+- [ ] The design declares a line `Primary configuration: <what a subject is>`.
+- [ ] That configuration is recorded **per subject, at spawn time**, not
+      reconstructed afterwards from memory.
+- [ ] If more than one configuration will be run, the design says which one is
+      **primary** and which are labelled replications.
+
+The third box is the one with teeth. Configuration is cheap to vary and
+expensive to vary honestly: *k* models × *m* effort levels is *k·m* chances to
+find the band you wanted at n=5. Behaviour 5 pre-commits the bands; it does not
+by itself pre-commit **which cell counts**. Block, do not cross.
+
+A fixture whose subjects are not model-driven still declares the line — it just
+declares people, or a fixed program. The gate asks you to name your subjects,
+not to be running an LLM.
+
+If a configuration is varied deliberately, prefer a **directional prediction
+registered in advance** ("the effect is larger at low effort") to an
+after-the-fact comparison of cells. An interaction chosen once the cells are
+visible is a description of noise.
 
 ## The pre-flight is not a guarantee
 

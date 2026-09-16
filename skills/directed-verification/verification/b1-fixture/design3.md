@@ -6,6 +6,7 @@ had already received the treatment. Run 3 changes three things — the measure,
 the subject, and the arms — and each change is traceable to a named failure.
 
 Scorer: `score3.sh`
+Primary configuration: `opus` / `medium`
 
 **Pre-registered before any run-3 subject exists.** Nothing below may be edited
 once a subject has been spawned; a change after that voids the run.
@@ -255,3 +256,63 @@ already most of the way to a strong suite. If that is enough on its own, arm A
 scores high, Δ is small, and behaviour 1 is refuted. That is a real outcome of
 this design and not a flaw in it — arm C is what distinguishes "no effect" from
 "no instrument".
+
+---
+
+## 8. Configuration: one primary block, and a directional prediction
+
+*Added 2026-09-16, before any subject was spawned. Permitted for that reason and
+no other; §0 says nothing here may be edited once one has been.*
+
+A subject is a model at an effort level, and run 2 recorded neither. A kill rate
+that does not name its configuration is a claim about nothing in particular.
+`run3.sh` now writes a `.manifest` into every subject directory before the
+process starts.
+
+### The primary block
+
+**`--model opus --effort medium`, n=5 per arm, 15 subjects.** This is *the*
+experiment. It is chosen for ecological validity rather than for headroom: it is
+what people actually run, so a result generalizes to the population this skill
+is written for. The cost of that choice is a real risk of a ceiling — a model
+this strong may do the discipline unprompted — and arm C is what separates that
+from "no instrument".
+
+Every other configuration is a **labelled replication, reported alongside the
+primary block and never substituted for it.** Block, do not cross. With 3
+models and 5 effort levels there are 15 cells, which at n=5 is 15 chances to
+find a Δ ≥ +0.20 in noise. Behaviour 5 pre-commits the bands; it does not, on
+its own, pre-commit *which cell counts*. This section does.
+
+### The moderator prediction, registered in advance
+
+If behaviour 1 is real, the effect is not constant across configurations — it
+should be **largest where an agent is least likely to direct itself**:
+
+> **Prediction: Δ(low effort) > Δ(high effort), both computed under the §5
+> bands.** Directing helps most where self-direction is weakest, and should
+> shrink toward zero as the model becomes strong enough to do the discipline
+> without being asked.
+
+This is registered now because registering it later is worthless: an
+interaction chosen after the cells are visible is a description of noise. It is
+a **secondary** analysis and does not gate §5 — the primary block is read on its
+own terms whatever the replication shows.
+
+It also has teeth in the unwelcome direction. If the primary block shows Δ ≈ 0
+*and* a low-effort replication also shows Δ ≈ 0, the claim has failed where its
+own theory says it should have been easiest to see, and behaviour 1 is struck
+with more confidence than the primary block alone would justify. If instead
+Δ(low) < Δ(high) — directing helping *more* as the model gets stronger — the
+mechanism I have assumed is wrong, whatever the sign of Δ.
+
+### Out of scope for run 3
+
+Non-Claude subjects (a local model under LM Studio, Hermes, anything not driven
+by this CLI) are the cleanest imaginable control for contamination: run 2's
+failure mode is structurally impossible there, because the corpus's skills
+cannot load at all. Three things break, and none is a run-3 problem:
+`check_isolation.sh` proves isolation by launching `claude`, so the probe does
+not transfer; a model endpoint is not an agent, and the subject must write files;
+and the population changes — this skill is about directing coding agents, and a
+raw completion endpoint is not one.
