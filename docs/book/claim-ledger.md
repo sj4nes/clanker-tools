@@ -5,9 +5,11 @@ Phase 2. Fact, interpretation and recommendation are separate rows even when
 they share a paragraph. A row enters drafting only when `drafting_status` is
 `resolved` or explicitly `draft-anyway`.
 
-Rows so far: **Part I only** (built 2026-09-16, before drafting Part I). Part
-III was drafted before this ledger existed and has no rows yet — that is a
-recorded gap, not an implied pass.
+Rows: **Parts I, II and III**, plus the authored framing chapters of Parts
+IV–VI and the preface (backfilled 2026-09-17). The generated chapters of IV–VI
+have no rows and need none: every number in them is read from the repository at
+build time and gated by `tools/check-book.sh`, which fails the build if it
+drifts.
 
 ---
 
@@ -2216,6 +2218,273 @@ Corpus findings (closed 2026-09-17, see the Closed list at the end; at the time:
   citation_check: n/a
   drafting_status: resolved
 ```
+
+## Parts IV–VI and preface rows (backfilled 2026-09-17)
+
+Only the **authored** chapters need rows. Parts IV, V and VI are generated from
+the repository and gated by `tools/check-book.sh`: every count in them is read
+off disk at build time and the build fails if it drifts, which is a stronger
+guarantee than a ledger row. What needs rows is the framing prose around them,
+and the preface — none of which had any (`drift-check.md` §3).
+
+- id: C-IV-01
+  claim_text: "A MAJOR version bump means the skill said something false, and
+    work done under the old text has to be redone."
+  claim_type: fact
+  evidence_needed: the corpus's own versioning contract
+  source: "docs/skill-versioning.md §3; gated by tools/check-changelogs.py"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "A definition this corpus adopted, not a general property of semver."
+  chapter: IV.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-IV-02
+  claim_text: "A high gap count is a better sign than a zero one: a skill with
+    four gaps has a harness good enough to have located four places where it is
+    trusting itself; a skill with none has usually not been asked."
+  claim_type: interpretation
+  evidence_needed: none available — this is a reading, not a measurement
+  source: "docs/verifying-skills.md §7 ('the gaps block is the yield'), and the
+    statistics case: 7 covered / 5 judgement / 5 gaps with no SKILL.md claim
+    found wrong"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: "Plausible and load-bearing for how Part IV is read, but untested.
+    The rival reading — a high gap count means a weak skill — is not excluded by
+    anything in the corpus. Stated as a reading in the chapter, not as a
+    finding; keep it that way."
+  chapter: IV.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway
+
+- id: C-IV-03
+  claim_text: "That a verification harness exists says nothing about whether its
+    checks can fail."
+  claim_type: interpretation
+  evidence_needed: audits of harnesses that existed and could not fail
+  source: "Part III: 4 of 24 bc harnesses could fail; 41 unbacked Lean claims;
+    36 missing graph edges"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Established for this corpus. Generalising to other corpora is the
+    n-of-one problem the preface states."
+  chapter: IV.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-IV-04
+  claim_text: "The archetype decides which standard applies: a tool-fact skill
+    has no wrong default to displace, so having no displacement table is not a
+    failure for it."
+  claim_type: fact
+  evidence_needed: the standard's own statement
+  source: "docs/verifying-skills.md §7, the two-column table (behaviour-
+    modification vs tool-fact)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "§7 classifies SECTIONS, not documents; the book's archetype field
+    classifies documents. The entry is a coarser instrument than the rule."
+  chapter: IV.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-V-01
+  claim_text: "The method of II.4 has never returned a positive result: every
+    case study run under it refuted the claim it tested."
+  claim_type: fact
+  evidence_needed: the run record
+  source: "BACKLOG.md, '`claim-fixture` owes a POSITIVE CONTROL of itself' —
+    five runs, three invalid, zero positives (2026-09-17)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Duplicates the caveat on the II.4 row; kept separate because V.0
+    states it as the book's own limitation rather than as a finding about the
+    method."
+  chapter: V.0
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-V-02
+  claim_text: "This book has no reader interviews."
+  claim_type: fact
+  evidence_needed: the positioning brief
+  source: "docs/book/positioning-brief.md, 'Reader interviews: accepted
+    exception' — the skill asks for 10–20; there are none"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The brief argues the population barely exists. V.0 reports the gap
+    without repeating the excuse, which is the right division."
+  chapter: V.0
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-V-03
+  claim_text: "Roughly half the open backlog items were opened by the audits of
+    Part III rather than by anyone planning the work."
+  claim_type: statistic
+  evidence_needed: a classification of each open item by what opened it
+  source: "NONE. A keyword proxy over the 46 open items matches 29, but the
+    matcher (displacement table|harness|mutation|audit|lean|bc|graph|premise|
+    fixture) also hits capsule items unrelated to the Part III audits, so it
+    overcounts by an unknown amount."
+  source_tier: discovery
+  date_checked: 2026-09-17
+  confidence: low
+  caveats: "WRITTEN WITHOUT A COUNT. Found by backfilling this section, which is
+    what the backfill was for. Either hand-classify the items by origin, or drop
+    the fraction. Softened in the draft to 'many' pending that."
+  chapter: V.0
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway   # as 'many'; 'roughly half' is blocking
+
+- id: C-VI-01
+  claim_text: "The tutorials were cut from the capsules rather than written
+    beside them: the prerequisite order is the capsule's tsort order, the
+    calculation closing a section is its bc check, and the identity the reader
+    is asked to believe is its Lean core."
+  claim_type: fact
+  evidence_needed: the tutorials' own provenance and blocks
+  source: "Every tutorial's opening blockquote ('Generated from the `X` capsule
+    (Release N) with the `Y` skill'); block names are capsule node ids
+    (chk_<node_id>), checked against indexes/tsort-order.txt by
+    tools/gen-tutorials.py"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Block-name-to-node-id resolution is partial — one tutorial resolves
+    none of its names. The provenance line is the load-bearing evidence, not the
+    resolution rate."
+  chapter: VI.0
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-VI-02
+  claim_text: "A check that can fail and a lesson that teaches are the same
+    event: the dimensional check that catches a mis-stated formula is the line
+    that shows a student their units do not balance."
+  claim_type: interpretation
+  evidence_needed: none available — this is the part's thesis, not a measurement
+  source: "The 24 tutorials and the capsules they were cut from; no comparison
+    against tutorials written the other way exists"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: "THE CENTRAL CLAIM OF PART VI AND IT IS UNTESTED. No reader has
+    worked through one of these tutorials and been measured against a reader
+    given a conventionally-written one. It is an argument from how the artifacts
+    turned out, offered as such."
+  chapter: VI.0
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway
+
+- id: C-VI-03
+  claim_text: "Two tutorials declare no prerequisites and carry no author
+    numbering, and the capsule's own graph still orders them: one ends 24 nodes
+    into the tsort order, the other 126."
+  claim_type: statistic
+  evidence_needed: the computed depths
+  source: "tools/gen-tutorials.py tutorial_depth() over
+    skills/math-probability/indexes/tsort-order.txt (131 nodes): three-axioms
+    max depth 24, concentration-ladder 126"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Recomputed on every build; a change in the capsule moves it and the
+    gate fails. The two numbers are in authored prose, so they are NOT gated —
+    this row is what holds them."
+  chapter: VI.0
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-P-01
+  claim_text: "Most of the prose in this book was drafted by the agent, from an
+    outline, a claim ledger and decisions that are the author's, and then
+    revised by the author."
+  claim_type: fact
+  evidence_needed: the author's own account of the working relationship
+  source: "The author, 2026-09-17, on the preface's framing: 'the majority of
+    the writing I have done is by proxy'"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "No proportion is stated and none should be invented; 'most' is the
+    author's characterisation, not a measurement. The git history would support
+    a real figure if one is ever wanted."
+  chapter: preface
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-P-02
+  claim_text: "By the book's own oracle standard, its evidence is not
+    independent of it: the corpus, the standard, the audits and the instruments
+    are all the author's."
+  claim_type: interpretation
+  evidence_needed: the standard it is being judged against
+  source: "II.3 (independence as the property); docs/book/positioning-brief.md
+    (author credibility: 'built and maintains the corpus the book is about')"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The preface's whole job. Deliberately stated as a limitation of the
+    general claims, not of the specific defects, which hold regardless of who
+    found them."
+  chapter: preface
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-P-03
+  claim_text: "Nobody else has adopted the method."
+  claim_type: fact
+  evidence_needed: evidence of adoption, which would be evidence of absence
+  source: "No known second adopter as of 2026-09-17; the corpus is 12 days old
+    and unpublished"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: "An absence claim the author cannot fully verify — someone could have
+    read the repository and used it. Safe while the work is unpublished; it
+    expires the moment the book ships, and must be re-checked then."
+  chapter: preface
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-P-04
+  claim_text: "An audit of this book's plan produced five findings and withdrew
+    two of them on closer reading."
+  claim_type: fact
+  evidence_needed: the audit
+  source: "docs/book/drift-check.md (1bb3797): five findings, plus two raised
+    and withdrawn — the practice count that missed Part III's cross-references,
+    and the conditionally-blocking ledger row"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: none
+  chapter: preface
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
 
 ## Unresolved-research list
 

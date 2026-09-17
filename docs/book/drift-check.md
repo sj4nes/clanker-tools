@@ -113,7 +113,7 @@ return to it. The through-line the outline promised is not kept.
 **Fix:** one paragraph returning to `test-writing` in `03-findings/05-shape.typ`
 or in Part IV's framing chapter. Cheap, and it closes the promise.
 
-### 3. Parts IV–VI have no claim-ledger rows
+### 3. Parts IV–VI have no claim-ledger rows — FIXED 2026-09-17
 
 The ledger runs `C-I` (19 rows), `C-II` (62), `C-III` (22), and stops. The
 **generated** chapters do not need rows — every number in them is read from the
@@ -125,6 +125,19 @@ three **authored** framing chapters do, and have none:
 - `05-open/00-intro.typ` — the three things "a book would normally leave out".
 - `06-tutorials/00-intro.typ` — "a check that can fail and a lesson that teaches
   are the same event" is the part's central interpretive claim, unledgered.
+
+**Backfilled 2026-09-17**: 14 rows, `C-IV-01..04`, `C-V-01..03`, `C-VI-01..03`,
+`C-P-01..04` (the preface, which postdates this check). The generated chapters
+still have none and need none.
+
+The backfill earned itself immediately. V.0 claimed "roughly half the open
+backlog items were opened by the audits of Part III" — **written without a
+count**. A keyword proxy matches 29 of 46, but the matcher also hits capsule
+items unrelated to those audits, so it overcounts by an unknown amount. The
+prose now says "many"; `C-V-03` records the fraction as `low` confidence with
+the real fix (hand-classify the items by origin) named. Two more rows came out
+marked as untested theses rather than findings: `C-IV-02` (a high gap count is
+the better sign) and `C-VI-02` (Part VI's central claim).
 
 ### 4. The corpus counts have rotted, exactly as the ledger predicted
 
@@ -150,11 +163,13 @@ book's own subject. Those values are therefore *stamped*, not gated: carried
 forward untouched until someone runs `gen-facts.py --stamp`. The mutation suite
 asserts both halves, including that a stale stamp leaves the gate green.
 
-### 5. Two stale planning artifacts
+### 5. Two stale planning artifacts — ledger header FIXED 2026-09-17
 
 - `claim-ledger.md`'s header says *"Rows so far: **Part I only**… Part III was
   drafted before this ledger existed and has no rows yet"*. Both false: 84 rows
-  exist beyond Part I, including 22 for Part III.
+  existed beyond Part I, including 22 for Part III. **Rewritten 2026-09-17** to
+  state what the ledger actually covers, and why the generated chapters are
+  exempt.
 - `outline/fat-outline.md` is titled *"Fat outline — Parts I, II, IV, V"* and
   describes a five-part book.
 

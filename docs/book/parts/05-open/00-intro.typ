@@ -61,7 +61,7 @@ harness does.
 == How to use it
 
 Not as a roadmap. The items are not ordered by importance, they close without
-ceremony, and roughly half of them were opened by the audits of Part III rather
+ceremony, and many of them were opened by the audits of Part III rather
 than by anyone planning the work — which is the pattern to take from this part
 rather than any particular entry. A standard that is working generates backlog.
 
