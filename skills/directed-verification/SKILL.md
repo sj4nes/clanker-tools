@@ -13,7 +13,7 @@ description: >-
   prompting-technique guide, NOT multi-agent orchestration, and NOT a way to
   make an agent's judgement trustworthy — it changes what you can check, never
   how good the thinking was.
-version: 1.2.2
+version: 1.3.0
 archetype: behaviour
 author: Simon Janes
 tags: [agents, verification, collaboration, sycophancy, evidence, review]
@@ -49,9 +49,9 @@ document half is [`skill-authoring`](../skill-authoring/SKILL.md).
 3. **Suspect the test before the subject.** When a check behaves surprisingly —
    passing what should fail, or failing what should pass — the *check* is the
    first candidate, not the code. This repository records **at least three**
-   occasions where the harness was wrong and the subject was fine
-   ([`verification/`](verification/) counts them, and the count is a lower
-   bound). A surprising green is not good news, and a surprising red is not
+   occasions where the harness was wrong and the subject was fine, read by
+   hand ([`verification/`](verification/) checks its detector against those
+   commits; the count it prints is not a bound either way). A surprising green is not good news, and a surprising red is not
    necessarily a bug found.
 
 4. **Keep proposing separate from deciding.** The agent proposes; deterministic
@@ -78,7 +78,7 @@ assumption.** The evidence is one author, one corpus, ten days.
 
 | behaviour | evidence |
 |---|---|
-| 3 suspect the test | ≥3 recorded incidents, mechanically counted |
+| 3 suspect the test | ≥3 recorded incidents, read by hand and checked against history |
 | 2, 5 artifact over prose | every skill here traces its numbers to a harness |
 | 1, 4, 6 | **argued, not measured** |
 
@@ -120,10 +120,12 @@ have now been used up without producing evidence.
 
 [`verification/`](verification/) counts, from this repository's own commit
 history, the occasions where the harness was found wrong rather than the
-subject — behaviour 3's evidence. The detector is self-tested in both
-directions: four real admissions it must match, four ordinary messages it must
-reject, because a detector that only ever says yes is the defect this whole
-corpus keeps finding. `sh verification/run.sh`.
+subject — behaviour 3's evidence. The detector is tested in both directions
+twice: on sentences (four admissions to match, five non-admissions to reject,
+one of them a real sentence it once miscounted), and on the real history (three
+hand-read admissions it must find, two known non-admissions it must not).
+Version 1.2.2 published a count of 5 that held 2 false matches, one of them this
+skill's own release commit; see the changelog. `sh verification/run.sh`.
 
 ## Related skills
 

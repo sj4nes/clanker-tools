@@ -7,6 +7,27 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/directed-verification/
 
+## 1.3.0 — 2026-09-17
+
+**MINOR: behaviour 3's evidence was restated; no prescription changed.** Re-read
+it. The count of self-corrections published in 1.2.2 was overstated, and the
+claim now rests on commits read by hand.
+
+The detector reported 5. Two were not admissions: a hypothetical in `0fbb03c`,
+and this skill's own release commit (`6fbfac2`), describing what the detector
+counts. At release the published "at least three" rested on 2 real matches.
+Found while drafting the book's II.6 (ledger C-II-47), by reading each matched
+sentence rather than the total.
+
+- The count was called a lower bound. It is no bound: it matched false
+  sentences and misses true ones (`dde3f82`). Withdrawn everywhere.
+- The claim ≥3 is kept, because it is true: `197b313`, `95a8cb1`, `d084b25`,
+  read by hand.
+- `--history` checks the scan against those commits and the two known false
+  ones. A real sentence it miscounted joins the negatives. Commits that touch
+  the detector are skipped. Each guard broken alone fails the run.
+- README: `test-writing` has 5 covered rows, not 6.
+
 ## 1.2.2 — 2026-09-16
 
 **PATCH: no statement changed. Behaviour 1 is still unmeasured, after three

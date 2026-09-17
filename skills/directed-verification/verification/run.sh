@@ -12,7 +12,11 @@ echo "=== 1. the detector must be able to say NO ==="
 python3 "$D" --self-test
 
 echo
-echo "=== 2. behaviour 3's evidence, from this repo's history ==="
+echo "=== 2. on the real history: find the admissions, reject the rest ==="
+python3 "$D" --history
+
+echo
+echo "=== 3. behaviour 3's evidence, from this repo's history ==="
 python3 "$D"
 
 echo
