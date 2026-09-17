@@ -28,8 +28,10 @@ CHECK = "docs/book/tools/check-book.sh"
 def scratch():
     """A copy of everything the gate reads, with nothing it writes."""
     d = pathlib.Path(tempfile.mkdtemp(prefix="book-mut-"))
-    (d / "docs").mkdir()
-    shutil.copytree(ROOT / "docs/book", d / "docs/book",
+    # The whole of docs/, not just docs/book: Part VI's capsule ordering reads
+    # docs/tutorial-map.md, and a fixture missing it made every mutation look
+    # caught for the wrong reason (2026-09-17). Copy what the gate READS.
+    shutil.copytree(ROOT / "docs", d / "docs",
                     ignore=shutil.ignore_patterns("build", "__pycache__"))
     shutil.copytree(ROOT / "skills", d / "skills",
                     ignore=shutil.ignore_patterns("__pycache__", ".lake"))
@@ -98,6 +100,13 @@ MUTATIONS = [
      lambda d: edit(d, "BACKLOG.md", "\n## Skill standard & verification debt\n",
                     "\n- [ ] **misfiled:** open, under Done\n"
                     "\n## Skill standard & verification debt\n")),
+    # The ordering is load-bearing: Part VI is in dependency order, so a cycle
+    # in the evidence must stop the build rather than emit an arbitrary order.
+    ("tutorial prerequisites form a cycle", {"gen-tutorials"},
+     lambda d: edit(d, "skills/physics-acoustics/tutorial/how-fast-does-sound-travel.md",
+                    "## What you need first\n",
+                    "## What you need first\n\nNeeds [horns-and-reciprocity.md]"
+                    "(horns-and-reciprocity.md) first.\n")),
     ("a skill declares an unknown archetype", {"gen-catalogue"},
      lambda d: edit(d, "skills/simulation/SKILL.md",
                     "archetype: behaviour", "archetype: invented")),

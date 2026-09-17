@@ -6,7 +6,7 @@
 
 #import "../../preamble.typ": note, backlogitem, points
 
-#note[44 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
+#note[45 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
 
 = Physics
 
@@ -153,8 +153,13 @@
 
 = Tutorials
 
-#note[2 open.]
+#note[3 open.]
 
+== formula-tree-tutorial
+
+#backlogitem(none, none)[
+  the 5 physics tutorials have no hook paragraph. #raw("pendulum"), #raw("why-heat-engines-have-a-ceiling"), #raw("how-fast-does-sound-travel"), #raw("designing-an-organ-pipe") and #raw("horns-and-reciprocity") go straight from the provenance blockquote to #raw("## How to run this"), so a reader browsing has nothing telling them what the tutorial is for. All 19 chemistry and math tutorials open with one. Found 2026-09-17 by #raw("docs/book/tools/gen-tutorials.py"), which generates Part VI of the book and has to print "no lead paragraph" for exactly these five. Either add the hook to each, or make it a required beat in the skill so the next one cannot ship without it — the second is the reason this sits under the skill rather than under the capsules.
+]
 == theorem-tree-tutorial  (new meta skill — started 2026-09-06)
 
 #backlogitem(none, none)[

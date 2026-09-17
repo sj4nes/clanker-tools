@@ -53,6 +53,21 @@ the command. What the counts are for is the ratio: a tutorial with twenty
 runnable blocks is not longer than one with three, it is more of a laboratory
 and less of an essay.
 
+They are in dependency order, and that order is derived rather than chosen. A
+capsule comes before one that builds on it — which the repository states in
+three different places, none of them a list of capsules in order: a `SKILL.md`
+that says it builds on another, the cross-capsule `requires` edges of the atlas
+capsule, and the "discharges into" column of the tutorial map. Within a capsule,
+a tutorial comes after any tutorial it names as a prerequisite; where the
+author numbered them, that numbering wins; and where neither settles it, the
+tie is broken by how deep into the capsule's own `tsort` order the tutorial
+reaches, since a lesson that ends on a later node is a later lesson.
+
+That last rule is the one that earns its place. Two of these tutorials declare
+no prerequisites and have no declared numbering, and the capsule's graph still
+knows which comes first: one ends twenty-four nodes in, the other a hundred and
+twenty-six. The ordering falls out of the same artifact the checks run on.
+
 One entry names its method as the "executable-tutorial method" rather than a
 skill. That one came first, and the skill was written afterwards by generalising
 what had worked — which is the order most of this corpus was built in, and the

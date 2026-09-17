@@ -875,6 +875,20 @@ not a tutorial.
 
 ## Tutorials
 
+### formula-tree-tutorial
+
+- [ ] **formula-tree-tutorial:** the 5 physics tutorials have no hook paragraph.
+      `pendulum`, `why-heat-engines-have-a-ceiling`, `how-fast-does-sound-travel`,
+      `designing-an-organ-pipe` and `horns-and-reciprocity` go straight from the
+      provenance blockquote to `## How to run this`, so a reader browsing has
+      nothing telling them what the tutorial is for. All 19 chemistry and math
+      tutorials open with one. Found 2026-09-17 by
+      `docs/book/tools/gen-tutorials.py`, which generates Part VI of the book
+      and has to print "no lead paragraph" for exactly these five. Either add
+      the hook to each, or make it a required beat in the skill so the next one
+      cannot ship without it — the second is the reason this sits under the
+      skill rather than under the capsules.
+
 ### theorem-tree-tutorial  (new meta skill — started 2026-09-06)
 
 Math analogue of `formula-tree-tutorial`. `skills/theorem-tree-tutorial/`:
