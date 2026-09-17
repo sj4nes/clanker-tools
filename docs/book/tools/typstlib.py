@@ -31,8 +31,14 @@ def inline(s):
     """Convert `code`, **strong** and *emph* to Typst; escape everything else.
 
     Returns Typst markup intended for the inside of a content block.
+
+    Bold and italic RECURSE: `**10 are backed only by `docs/`**` is one bold run
+    containing a code span, and escaping its inside wholesale printed the
+    backticks as literal characters (found by reading page 79, 2026-09-17 —
+    it compiled, and looked deliberate).
     """
-    tokens = re.split(r"(`[^`]+`|\*\*[^*]+\*\*|(?<!\*)\*[^*]+\*(?!\*))", s)
+    tokens = re.split(r"(`[^`]+`|\*\*.+?\*\*|(?<!\*)\*[^*]+\*(?!\*))", s,
+                      flags=re.S)
     out = []
     for i, t in enumerate(tokens):
         if not t:
@@ -45,9 +51,9 @@ def inline(s):
             body = t[1:-1].replace("\\", "\\\\").replace('"', '\\"')
             out.append(f'#raw("{body}")')
         elif t.startswith("**"):
-            out.append(f"#strong[{esc(t[2:-2])}]")
+            out.append(f"#strong[{inline(t[2:-2])}]")
         else:
-            out.append(f"#emph[{esc(t[1:-1])}]")
+            out.append(f"#emph[{inline(t[1:-1])}]")
     return "".join(out)
 
 
@@ -76,6 +82,13 @@ def _selftest():
         # every star in the suite was inside a matched pair.
         ("2 * 3, and a lone ** pair", "2 \\* 3, and a lone \\*\\* pair"),
         ("`x` then a stray * star", '#raw("x") then a stray \\* star'),
+        # Markup INSIDE bold or italic: escaping the run wholesale printed the
+        # backticks (page 79, 2026-09-17).
+        ("**10 are backed only by `docs/`**",
+         '#strong[10 are backed only by #raw("docs/")]'),
+        ("*see `run.sh` first*", '#emph[see #raw("run.sh") first]'),
+        ("**13 `scope` failures**",
+         '#strong[13 #raw("scope") failures]'),
     ]
     bad = 0
     for src, want in cases:
