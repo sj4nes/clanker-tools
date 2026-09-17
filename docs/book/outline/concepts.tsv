@@ -37,7 +37,7 @@ agent-as-collaborator	concept	II.6	-	skills/directed-verification (reported weak
 directing-verification	concept	II.6	-	skills/directed-verification (reported weak)
 authoring-to-the-standard	concept	II.7	-	skills/skill-authoring
 knowledge-capsule	concept	III.1	\bcapsules?\b	skills/math-theorem-tree, skills/physics-formula-tree
-skill-taxonomy	concept	IV.1	archetype	docs/verifying-skills.md §7; skills/skill-authoring
+skill-taxonomy	concept	II.7	archetype	docs/verifying-skills.md §7; skills/skill-authoring
 gap-reporting	concept	V.1	-	BACKLOG.md convention
 test-writing	skill	I.1	auto	skills/test-writing
 role-deck	skill	I.2	auto	skills/role-deck
@@ -52,3 +52,4 @@ math-probability	skill	III.2	auto	skills/math-probability
 math-statistics	skill	III.2	auto	skills/math-statistics
 claim-fixture	skill	II.4	auto	skills/claim-fixture
 experience-library	skill	II.6	auto	skills/experience-library
+skill-authoring	skill	II.7	auto	skills/skill-authoring

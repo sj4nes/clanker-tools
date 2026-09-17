@@ -1618,6 +1618,215 @@ wrote, never the repository's own prose.
   drafting_status: resolved
 ```
 
+### II.7 rows (built 2026-09-17, before drafting II.7)
+
+Developmental note: II.7 is the synthesis, so it must not retell II.1–II.6. It
+adds three things only the synthesis can: the ORDER of the moves (and where the
+evidence disagrees with `skill-authoring`'s numbering, which puts the premise
+fifth, after the harness); the archetype, which decides which moves apply
+(concept `skill-taxonomy` moves from IV.1 to II.7, since `skill-authoring`
+behaviour 1 is where a reader first needs it); and the standard held to itself.
+
+Corpus findings (not fixed here; skill changes, logged in the unresolved list):
+- **Commit order cannot see harness-first for 17 of 21 behaviour skills.**
+  `skill-authoring`'s gap 2 proposes proving behaviour 3 from commit order, as
+  `claim-fixture` proves pre-registration. Measured: the check would be silent
+  on every skill whose harness and prose arrived in one commit —
+  `skill-authoring` itself among them.
+- **`skill-authoring` SKILL.md l.93-95 carries the danluu overstatement** the
+  Part I ledger corrected ("tutorial-style documents measured worse than no
+  document at all"; C-I-04). The standard's own boundary cites the drifted text.
+- **Its verification README still says "35 places across 29 skills"**; the
+  ratchet baseline is 34 and the run reports 28 skills. Ungated prose, decaying.
+
+```yaml
+- id: C-II-53
+  claim_text: "skill-authoring's behaviour 1: declare the archetype, because it
+    decides which standard applies. behaviour has a wrong default and owes a
+    harness and a displacement table; tool-fact has an empty prior and owes
+    reference material; capsule owes build/ and validation/; meta must name
+    the skills it orchestrates."
+  claim_type: fact
+  evidence_needed: the skill text
+  source: "skills/skill-authoring/SKILL.md v1.0.0, behaviour 1"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: none
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-54
+  claim_text: "The archetype field did not exist before skill-authoring; it was
+    added to all 50 existing skills, and the checker's first run found 35
+    failures across 29 of 51 skills. On 2026-09-17 it reports 34 across 28 of
+    53: scope 13, displacement 10, frontmatter 8, harness 3. Declared
+    archetypes: behaviour 21, capsule 15, tool-fact 11, meta 6."
+  claim_type: fact
+  evidence_needed: commit body and a fresh run
+  source: "commit 197b313; sh skills/skill-authoring/verification/run.sh and
+    check_authoring.py, 2026-09-17; grep archetype: skills/*/SKILL.md"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Rots with every skill; say 'at the time of writing'."
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway   # counts rot
+
+- id: C-II-55
+  claim_text: "Two of the checker's first corrections went to the checker: its
+    boundary pattern accepted only the word NOT, and 12 of the first 25 scope
+    failures were false positives on descriptions that state a boundary in
+    other words ('Excludes kinetics...')."
+  claim_type: fact
+  evidence_needed: the verification record
+  source: "skills/skill-authoring/verification/README.md 'Two corrections';
+    commit 197b313"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Recorded in-build; the 25-count run is not in history."
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-56
+  claim_text: "Of 21 behaviour skills, commit history shows the harness before
+    the prose for 2 (test-writing, fixture 352703c at 11:15 and SKILL.md
+    65d9656 at 11:17 on 13 Sept; role-deck, deck checker in experiments/ at
+    00:16, SKILL.md at 02:43 on 15 Sept), the prose first for 2
+    (design-of-experiments, simulation, harness 5 and 3 minutes later on 6
+    Sept), and one commit holding both for 17, including skill-authoring and
+    directed-verification."
+  claim_type: fact
+  evidence_needed: first commit touching SKILL.md vs verification/ per skill
+  source: "git log --reverse per skills/*/SKILL.md and verification/ for every
+    archetype: behaviour skill, 2026-09-17; experiments/role-deck for role-deck"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Commit order is not session order: experience-library (same
+    commit) records a harness-first failure in-build (C-II-44). 'Same commit'
+    means UNKNOWN, not prose-first. The two prose-first skills predate the
+    standard (§7, 883c698, 13 Sept) and design-of-experiments' late harness
+    found no correctness fix in the body."
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway   # count rots
+
+- id: C-II-57
+  claim_text: "skill-authoring names 'nothing checks that the harness preceded
+    the prose' as a gap and proposes commit order as the check. On this
+    corpus that check would be silent for 17 of 21 skills, itself included,
+    unless the harness is committed on its own first."
+  claim_type: interpretation
+  evidence_needed: C-II-56 and the verification README
+  source: "skills/skill-authoring/verification/README.md 'Gaps' 2; C-II-56"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: none
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-58
+  claim_text: "skill-authoring's own 'What this cannot do' says tutorial-style
+    documents 'measured worse than no document at all' in the test-writing
+    eval. The Part I ledger found that statement overstated: one skill worse
+    only on the runs it influenced, one possibly by chance, one confounded."
+  claim_type: fact
+  evidence_needed: skill text and C-I-04
+  source: "skills/skill-authoring/SKILL.md l.93-95; claim-ledger C-I-04 and
+    the opening finding"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Corpus fix, not made in the book commit."
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-59
+  claim_text: "skill-authoring's table is 4 covered, 2 judgement, 2 gaps; its
+    verification runs the standard over every skill in the corpus and breaks
+    each of its eight gates alone. Its verification README still states 35
+    failures across 29 skills against a baseline of 34."
+  claim_type: fact
+  evidence_needed: README and a fresh run
+  source: "skills/skill-authoring/verification/README.md; baseline.txt (34);
+    run.sh 2026-09-17"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: none
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-60
+  claim_text: "The order the evidence supports is: archetype, default,
+    premise, harness, prose, version. skill-authoring numbers the premise after
+    the harness; role-deck built for most of a day on a premise that fixtures
+    refuted in about four minutes. The premise goes first when it is cheap to
+    measure; when it is not (b1: three invalid runs), record it as unmeasured,
+    as skill-authoring's checklist allows."
+  claim_type: interpretation
+  evidence_needed: skill numbering, role-deck and b1 records
+  source: "skill-authoring SKILL.md; Part III ch. 4 (8/8 twice, ~4 min);
+    C-II-20..22"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: "'Most of a day' = role-deck experiments from 00:16 to the premise
+    fixture on 15 Sept (7e1704e); do not give an hour count."
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-61
+  claim_text: "Conformance to the standard is not evidence a skill helps:
+    skill-authoring says so, and a document that restates what the model
+    already does would pass every gate."
+  claim_type: interpretation
+  evidence_needed: skill text
+  source: "skill-authoring SKILL.md 'What this cannot do for you'"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Do not cite the Luu eval as having measured this (C-II-58)."
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-62
+  claim_text: "Recommendation: author in the order archetype, default,
+    premise, harness, prose, version; commit the harness before the prose so
+    the order can be proved; and run the standard on the standard."
+  claim_type: recommendation
+  evidence_needed: C-II-53..61
+  source: C-II-53..61
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: none
+  chapter: II.7
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+```
+
 ## Unresolved-research list
 
 - **C-I-08** — the corpus figures rot; generate them (same mechanism as Parts IV/V).
@@ -1648,3 +1857,10 @@ wrote, never the repository's own prose.
   bound. Corpus fix: add the repository's real matched sentences as negatives,
   exclude commits that describe the detector, and stop calling it a bound.
 - **C-II-43** — the co-authored commit count rots; generate it.
+- **C-II-58** — `skill-authoring` SKILL.md "What this cannot do" repeats the
+  overstated Luu result ("worse than no document at all"). Corpus fix.
+- **C-II-59** — `skill-authoring` verification README says 35 failures across
+  29 skills; baseline is 34 across 28. Corpus fix.
+- **C-II-57** — `skill-authoring` gap 2 (prove harness-before-prose from commit
+  order) is silent for 17 of 21 behaviour skills. The fix is procedural: commit
+  the harness on its own first. Record it in the skill.

@@ -23,4 +23,5 @@ harness authoring-to-the-standard
 version-as-wrongness authoring-to-the-standard
 agent-as-collaborator authoring-to-the-standard
 displacement-table skill-taxonomy
+skill-taxonomy authoring-to-the-standard
 authoring-to-the-standard gap-reporting

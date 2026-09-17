@@ -185,7 +185,10 @@ The prescriptive heart. Each chapter is one move, in dependency order.
 - **Reader can now** author a new skill end to end.
 - **Backed by:** `skills/skill-authoring` (built 2026-09-15, 197b313): the six
   behaviours, the `archetype:` field across the corpus, and a checker whose
-  gates are each broken alone. Not yet drafted.
+  gates are each broken alone. **Drafted 2026-09-17** (ledger C-II-53..62).
+  Drafting moved the premise ahead of the harness in the order, moved
+  `skill-taxonomy` here from IV.1, and found commit order silent on
+  harness-first for 17 of 21 behaviour skills (C-II-56).
 
 > **Through-line.** The standard is worth what it finds — and what it found is
 > Part III.

@@ -14,7 +14,7 @@ sections below are kept as that record.
 
 | gap | now | backs | state |
 |---|---|---|---|
-| the standard is not a skill | `skills/skill-authoring` 1.0.0 (197b313) | II.7, and the ten docs-only concepts | harness passes; its checker's gates are each broken alone. **II.7 not yet drafted.** |
+| the standard is not a skill | `skills/skill-authoring` 1.0.0 (197b313) | II.7, and the ten docs-only concepts | harness passes; its checker's gates are each broken alone. **II.7 drafted 2026-09-17**; drafting found two stale statements in the skill and that its proposed harness-first check is silent for 17 of 21 skills (ledger C-II-56..59). |
 | the collaboration | `skills/directed-verification` 1.2.2 (6fbfac2) | II.6 (`directing-verification`, `agent-as-collaborator`) | built, and **reported weak**: 1 covered, 4 judgement, 2 gaps. **II.6 drafted 2026-09-17.** |
 | `source-authority` | — | II.3's open problem; `directed-verification` behaviour 6 | still backlogged, still unbuilt |
 
