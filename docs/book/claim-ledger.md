@@ -1720,7 +1720,8 @@ knap has none). Zero declared/moved mismatches in 51 transitions.
   source_tier: primary
   date_checked: 2026-09-16
   confidence: high
-  caveats: "Rots with every bump; generate it for Part IV. The two skills at
+  caveats: "UPDATED 2026-09-17: 28, after claim-fixture 3.0.0 (9346d0e); 24 still
+    on the 13th/14th, four afterwards. Rots with every bump; generate it for Part IV. The two skills at
     4.0.0 (math-number-systems, math-probability) each took 2.0.0 on the 13th
     (re-base) and 3.0.0 + 4.0.0 on the 14th (graph audit, Lean audit)."
   chapter: II.5

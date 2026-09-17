@@ -4,7 +4,7 @@
 
 = Version what you got wrong <ch-version>
 
-#headline[27 corrections, 24 of them in two days][
+#headline[28 corrections, 24 of them in two days][
   Every major-version bump across the corpus's 53 skills. Almost all were
   recorded on the two days someone went looking.
 ]
@@ -158,12 +158,13 @@ have reset the decay to zero.
 
 == What the count is worth
 
-Twenty-seven corrections sounds like a record of failure. Look at when they
+Twenty-eight corrections sounds like a record of failure. Look at when they
 happened. Nine were recorded on 13 September, when every skill's version was
 rebuilt from its git history. Fifteen were recorded on 14 September, the day of
 two audits that asked whether the dependency graphs and proof claims in the corpus's
 mathematics and science skills
-could be wrong. Three came afterwards.
+could be wrong. Four came afterwards, the latest from the evidence pass on this
+book's own Part III.
 
 The count does not measure how often skills were wrong. It measures how often
 someone looked. Thirty-five skills are still at major version 1. Some of them
