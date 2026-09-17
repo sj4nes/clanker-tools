@@ -65,6 +65,25 @@ to displace and is not failing the displacement rule by having no table, while a
 behaviour skill with no table has simply not been held to the standard this book
 spends Part II describing.
 
+== The running example, as an entry
+
+`test-writing` has been this book's worked example since Part I: the skill whose
+six behaviours displace six known ways a test fails to fail. Its entry is in the
+next chapter, and reading it the way this one describes is a fair test of
+whether the format carries anything.
+
+It does, and not flatteringly. Its *displaces* field does not report counts. It
+reports that the skill has a displacement table and states the counts in prose
+instead — which is what the standard asks for, done in the form the standard
+says not to use. That is the skill the standard's own documentation names as the
+worked example of the rule.
+
+Nobody noticed that by reading the skill, which has been read many times. It
+surfaced because a generator tried to read the counts off the page and found
+none, and it is in the backlog now. The entry format's contribution was to make
+one skill's omission visible next to fifty-odd others that either have the
+counts or have no table at all.
+
 #practice[Find the nearest entry before writing the skill.][
   Before writing a new skill, find the entry closest to it in archetype and in
   shape, and open that skill's `verification/` directory. The question is not

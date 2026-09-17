@@ -124,9 +124,12 @@ been the thing that caught it.
 [`drift-check.md`](drift-check.md) — the built book audited against the
 positioning brief, fat outline, claim ledger and GAPS, per the `nonfiction-book`
 skill's Pass 1. Last run 2026-09-17 at `845ea24`: Parts I–III match the outline
-chapter for chapter and all four promised outcomes are delivered; five findings
-open, one of which (Part VI against the brief's exclusions) needs an author
-decision. Re-run it whenever a part is added or the brief changes.
+chapter for chapter and all four promised outcomes are delivered. **All five
+findings are now closed** — the brief was amended for Part VI (recorded under
+"Amendments" there), the running example returns in IV.1, the ledger was
+backfilled, the corpus counts became a generated registry, and the stale
+artifacts were rewritten. Re-run it whenever a part is added or the brief
+changes.
 
 ## Layout
 

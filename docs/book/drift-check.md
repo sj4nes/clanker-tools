@@ -21,7 +21,7 @@ nothing had checked that since Part III.
 | The four promised outcomes | **all four delivered**, one chapter each |
 | The two drafting warnings | **both honored** |
 | Mode-mixing mitigation | **met by a different mechanism than planned** — ratify or revert |
-| Findings raised | **5**, one of which needs an author decision |
+| Findings raised | **5** — 1, 2, 3 and 5 resolved 2026-09-17; **4** resolved by the corpus-count registry |
 | Findings withdrawn on checking | **2** |
 
 ---
@@ -66,7 +66,7 @@ appears in II.3 as an open problem rather than being quietly dropped.
 
 ## Drift, worst first
 
-### 1. Part VI sits outside the constitution — author decision
+### 1. Part VI sits outside the constitution — RESOLVED 2026-09-17
 
 The brief's `will_not_cover` list excludes **"The domain content of the corpus's
 knowledge capsules."** Part VI's 24 generated entries are that content: what
@@ -85,7 +85,14 @@ secondary mode and whose over-use it already flags as the mode-mixing risk.
 This was added from a conversation without checking the brief — the quiet
 resolution the brief forbids — so it is recorded here rather than defended.
 
-**Options, author's call:**
+**Resolved: the brief was amended** (option 1), recorded under "Amendments" in
+[`positioning-brief.md`](positioning-brief.md) with the reasoning and the cost.
+A `secondary_promise` now covers reuse of verified material, and the exclusion
+narrowed from the capsules' *content* to *developing* that content. Part VI is
+unchanged. The appendix option stays available if a developmental pass finds the
+close weakened.
+
+The options as they stood:
 
 + **Amend the brief** — add a second promise clause about reuse of verified
   material, and narrow the exclusion to *undeveloped* capsule content.
@@ -96,7 +103,7 @@ resolution the brief forbids — so it is recorded here rather than defended.
 + **Record an explicit exception**, as the brief already does for reader
   interviews.
 
-### 2. The running example stops at Part II
+### 2. The running example stops at Part II — RESOLVED 2026-09-17
 
 The outline specified one real skill *"followed through the whole book"*, with
 `test-writing` as the candidate. Counted across the authored chapters:
@@ -110,8 +117,13 @@ The outline specified one real skill *"followed through the whole book"*, with
 Part III audits capsules, so its absence there is natural; Parts IV–VI never
 return to it. The through-line the outline promised is not kept.
 
-**Fix:** one paragraph returning to `test-writing` in `03-findings/05-shape.typ`
-or in Part IV's framing chapter. Cheap, and it closes the promise.
+**Resolved 2026-09-17** in `04-catalogue/00-howtoread.typ`, which was the better
+of the two homes: that chapter tells the reader to find the entry nearest their
+own skill, and the running example has an entry. The new section reads
+`test-writing`'s entry through the four fields and lands on the uncomfortable
+result — its *displaces* field reports that the counts are stated in prose
+rather than reported, in the skill the standard names as the worked example of
+that very rule. Written without restating any count, so it cannot rot.
 
 ### 3. Parts IV–VI have no claim-ledger rows — FIXED 2026-09-17
 

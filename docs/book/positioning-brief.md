@@ -20,6 +20,12 @@ positioning_brief:
     merely written — by holding each to a standard that can fail, and by
     measuring the default behaviour it claims to displace.
 
+  secondary_promise: >-                 # added 2026-09-17, see "Amendments"
+    And that a corpus held to this standard yields teaching material nearly for
+    free: the checks that make a body of knowledge falsifiable turn out to be
+    the beats that teach it, so a verified capsule can be cut into a lesson
+    rather than having one written beside it.
+
   promise_check:
     who_is_it_for: >-
       Someone who already writes skills for AI agents — SKILL.md files, system
@@ -112,7 +118,9 @@ positioning_brief:
     - "Prompt engineering technique — phrasing, few-shot, chain-of-thought."
     - "Model selection, fine-tuning, RAG, context-window management."
     - "Agent frameworks and orchestration — the harness that runs the agent."
-    - "The domain content of the corpus's knowledge capsules."
+    - "DEVELOPING the domain content of the capsules. Part VI catalogues
+       what was cut from them and how; it does not teach the chemistry,
+       and no reader should arrive at it to learn electrochemistry."
     - "Evaluation of model capability. This is about documents, not models."
     - "Marketing, distribution, and publishing."
     - "Monetisation. The adjacent shelf is full of make-money-with-AI titles;
@@ -171,3 +179,36 @@ Two, neither a substitute for a reader:
   whether their documents work" is such a claim. Running it would be the
   method's first use outside the repository that produced it, and is the
   obvious thing to do the moment a second adopter exists.
+
+
+## Amendments
+
+### 2026-09-17 — Part VI, and the promise it needed
+
+Part VI (*What the Checks Turned Into*) was built on 2026-09-17 from a
+conversation rather than from the fat outline, and the drift check
+([`drift-check.md`](drift-check.md) §1) found it outside this brief: its 24
+entries describe capsule domain content, which the `will_not_cover` list
+excluded, and they serve a reader who wants to learn chemistry rather than one
+auditing a corpus of agent skills.
+
+Resolved by amending the brief, not by trimming the part. Two changes above: a
+`secondary_promise`, and the exclusion narrowed from the capsules' *content* to
+*developing* that content.
+
+**Why this way.** The part's argument — that a check which can fail and a lesson
+which teaches are the same event, so the tutorials were cut from the harnesses
+rather than written beside them — is a claim about the standard, and it is one
+of the few places the book shows the method paying a return that was not the
+return it was built for. Cutting the catalogue would have kept the brief intact
+and removed the evidence for its own new clause.
+
+**What it costs.** The book is now a little more reference-shaped, which this
+brief lists as a secondary mode and flags as the mode-mixing risk. Part VI has
+one practice and 24 entries; if a developmental pass finds the close weakened by
+following Part V's open problems with a catalogue, the appendix option is still
+open and is the obvious fix.
+
+**What it does not license.** Teaching the domain. If a future part explains
+electrochemistry rather than cataloguing what was cut from it, this amendment
+does not cover it and the brief should stop it.
