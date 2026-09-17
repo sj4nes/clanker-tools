@@ -174,7 +174,7 @@ The prescriptive heart. Each chapter is one move, in dependency order.
 - **Backed by:** `skills/directed-verification` (built 2026-09-15, 6fbfac2),
   reported weak by its own table: 1 covered, 4 judgement, 2 gaps. **Drafted
   2026-09-17** (ledger C-II-43..52). Drafting found the covered row's detector
-  overcounts (C-II-47), and the chapter's claim narrowed to the skill's own
+  overcounted (C-II-47; fixed in directed-verification 1.3.0), and the chapter's claim narrowed to the skill's own
   boundary: directing changes what you can check, not how careful the agent is.
 
 ## II.7 — Author a skill to the standard

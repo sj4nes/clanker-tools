@@ -66,6 +66,11 @@ independence test — not its expected-value rule).
 MINOR bump under `docs/skill-versioning.md`) and is logged in `BACKLOG.md`
 rather than done silently inside book work.
 
+**Update 2026-09-17.** The overstated Luu citation was fixed in `test-writing`
+1.2.0 and `docs/verifying-skills.md` §7 (a92cc8f), and in `skill-authoring`
+1.1.0 (b3ad6e6). The behaviour-3 misattribution is **not** fixed: it is C-I-17,
+still open.
+
 ---
 
 ## Part I rows
@@ -928,7 +933,7 @@ runs (not in III), retells the refutations in one paragraph, and gets its own
 practice: prove the experiment can come out either way before spending a
 subject.
 
-Corpus finding (not fixed here): `claim-fixture` SKILL.md (v2.3.0) and
+Corpus finding (closed 2026-09-17, see the Closed list at the end; at the time: not fixed here): `claim-fixture` SKILL.md (v2.3.0) and
 `references/case-studies.md` still say "four runs … two invalid … 50%
 design-failure rate". b1 run 3 (RESULT3.md, af42b12, 2026-09-16) makes it five
 runs, three invalid — and 2.3.0's own G9 came from run 3.
@@ -1183,7 +1188,7 @@ premise is MINOR (role-deck 2.2.0, 2.4.0): the version counts wrong
 PRESCRIPTIONS, not wrong reasons. II.5 must say that plainly rather than let the
 hook imply the premise refutations were MAJOR.
 
-Corpus findings (not fixed here; skill changes, logged in the unresolved list):
+Corpus findings (closed 2026-09-17, see the Closed list at the end; at the time: not fixed here; skill changes, logged in the unresolved list):
 `tools/check-skills.sh` gates one clause of the changelog contract (newest
 heading = `version:`). `tools/audit-changelog-levels.py`, written for this
 chapter, reports the rest: three entries that do not open with their level
@@ -1408,7 +1413,7 @@ boundary: directing changes what the director can CHECK, not how good the
 agent's work is. The clean evidence about undirected agents (role-deck, 8/8
 twice) cuts AGAINST a "the agent will cut corners" framing; use it that way.
 
-Corpus finding (not fixed here; a skill change, logged in the unresolved list):
+Corpus finding (closed 2026-09-17, see the Closed list at the end; at the time: not fixed here; a skill change, logged in the unresolved list):
 **the one covered row's detector overcounts.** `detect_selfcorrection.py`
 reports 5 self-corrections on 2026-09-17. Reading each matched sentence: 3 are
 real admissions (197b313, 95a8cb1, d084b25). 2 are false positives: 0fbb03c
@@ -1513,7 +1518,8 @@ wrote, never the repository's own prose.
   confidence: high
   caveats: "The claim '>= 3 occasions' is TRUE today (197b313, 95a8cb1,
     d084b25, and dde3f82 unmatched). What fails is the instrument, not the
-    conclusion. Corpus fix, not made in the book commit."
+    conclusion. Corpus fix, not made in the book commit; made later
+    (see the Closed list)."
   chapter: II.6
   citation_status: no-citation-needed
   citation_check: n/a
@@ -1627,7 +1633,7 @@ fifth, after the harness); the archetype, which decides which moves apply
 (concept `skill-taxonomy` moves from IV.1 to II.7, since `skill-authoring`
 behaviour 1 is where a reader first needs it); and the standard held to itself.
 
-Corpus findings (not fixed here; skill changes, logged in the unresolved list):
+Corpus findings (closed 2026-09-17, see the Closed list at the end; at the time: not fixed here; skill changes, logged in the unresolved list):
 - **Commit order cannot see harness-first for 17 of 21 behaviour skills.**
   `skill-authoring`'s gap 2 proposes proving behaviour 3 from commit order, as
   `claim-fixture` proves pre-registration. Measured: the check would be silent
@@ -1749,7 +1755,8 @@ Corpus findings (not fixed here; skill changes, logged in the unresolved list):
   source_tier: primary
   date_checked: 2026-09-17
   confidence: high
-  caveats: "Corpus fix, not made in the book commit."
+  caveats: "Corpus fix, not made in the book commit; made later
+    (see the Closed list)."
   chapter: II.7
   citation_status: no-citation-needed
   citation_check: n/a
@@ -1839,28 +1846,28 @@ Corpus findings (not fixed here; skill changes, logged in the unresolved list):
 - **C-II-18** — verify the first-edition year of Beck's TDD book (Hamlet 1977
   now Crossref-verified; C-II-01 closed).
 - **C-II-12** — behaviour-skill table count rots; generate it.
-- **claim-fixture docs** — "four runs, two invalid, 50%" is stale; five runs,
-  three invalid (run 3, af42b12). Corpus fix.
-- **directed-verification README** — "test-writing at 6 covered" is 5; a
-  corpus fix, not book work.
 - **Part III** — reword wherever deliberate breakage reads as the corpus's
   invention; it is mutation testing.
 - **Reader** — every statement of what the reader believes is the author's
   assumption (brief: accepted exception, no interviews).
-- **Changelog contract (II.5, C-II-40)** — three entries do not open with their
-  level; three changelogs lack a `## 1.0.0` heading. Corpus fix, and a candidate
-  for `tools/check-skills.sh` (promote `tools/audit-changelog-levels.py`).
 - **C-II-39** — MAJOR totals rot; generate them with Part IV.
-- **C-II-47** — `directed-verification`'s self-correction detector counts 2
-  false positives in 5 (one is the skill's own release commit) and misses
-  incidents phrased otherwise; its README and SKILL.md call the count a lower
-  bound. Corpus fix: add the repository's real matched sentences as negatives,
-  exclude commits that describe the detector, and stop calling it a bound.
 - **C-II-43** — the co-authored commit count rots; generate it.
-- **C-II-58** — `skill-authoring` SKILL.md "What this cannot do" repeats the
-  overstated Luu result ("worse than no document at all"). Corpus fix.
-- **C-II-59** — `skill-authoring` verification README says 35 failures across
-  29 skills; baseline is 34 across 28. Corpus fix.
-- **C-II-57** — `skill-authoring` gap 2 (prove harness-before-prose from commit
-  order) is silent for 17 of 21 behaviour skills. The fix is procedural: commit
-  the harness on its own first. Record it in the skill.
+
+### Closed 2026-09-17 (corpus fixes; chapters reworded to past tense)
+
+- **claim-fixture docs** — "four runs, two invalid, 50%" → five runs, three
+  invalid, case study 5 added. `claim-fixture` 2.4.0, 50fc972.
+- **directed-verification README** — "test-writing at 6 covered" → 5. 8097530.
+- **C-II-47** — detector false positives; "lower bound" withdrawn, history check
+  added. `directed-verification` 1.3.0, 8097530.
+- **C-II-57** — commit the harness on its own: now `skill-authoring` behaviour 3.
+  b3ad6e6. (The commit-order check itself is still unbuilt; it waits on the
+  habit leaving a trace.)
+- **C-II-58** — overstated Luu result in `skill-authoring` (b3ad6e6), and the
+  same in `test-writing` 1.2.0 and `docs/verifying-skills.md` §7 (a92cc8f).
+- **C-II-59** — stale failure count in `skill-authoring`'s README; the count is
+  no longer restated in prose. b3ad6e6.
+- **Changelog contract (II.5, C-II-40)** — the six entries fixed, and the
+  clauses gated as `tools/check-changelogs.py`, check 7 of
+  `tools/check-skills.sh`. `docs/book/tools/audit-changelog-levels.py` is now a
+  wrapper that adds the by-date MAJOR report. b08e99e.

@@ -158,20 +158,27 @@ checker runs the standard over every skill in the corpus and breaks each of its
 eight gates alone. Its own table reports 4 covered, 2 judgement and 2 gaps. By
 this corpus's measure it is one of the better-evidenced skills.
 
-It has also started to decay in the places nothing checks. Its verification
-notes still say the corpus fails in 35 places across 29 skills. The ratchet
-beside that sentence has moved to 34. More seriously, its list of what it
-cannot do cites the Luu experiment as showing that tutorial-style documents
-#emph[measured worse than no document at all]. That is the strong version of
-the result, and Part I read the article and found it weaker. The measured result was
+It had also started to decay in the places nothing checks. When this chapter
+was drafted, its verification notes said the corpus failed in 35 places across
+29 skills, while the ratchet beside that sentence had moved to 34. More
+seriously, its list of what it cannot do cited the Luu experiment as showing
+that tutorial-style documents #emph[measured worse than no document at all].
+That is the strong version of the result. Part I read the article and found it
 weaker: one skill did worse only on the runs it influenced, one did worse
-possibly by chance, and one was confounded. The standard's own statement of
-its limits quotes a source it never re-read.
+possibly by chance, and one was confounded. The standard's own statement of its
+limits quoted a source it had never re-read.
 
-Neither defect changes what the skill tells you to do. Both are #emph[source]
+Neither defect changed what the skill tells you to do. Both were #emph[source]
 problems, the kind #chref(<ch-oracle>) left open: a restatement made from an
-earlier restatement. They are logged as fixes to the skill. They are here
-because a standard is a skill, and it goes stale in the same way.
+earlier restatement. They are told here because a standard is a skill, and it
+goes stale in the same way.
+
+Both are fixed in `skill-authoring` 1.1.0, and so is the order problem from the
+previous section: behaviour 3 now tells authors to commit the harness on its
+own. The notes no longer restate the failure count at all, because a count in
+prose is a clause nothing keeps true. The same overstated citation turned out
+to be in `test-writing` and in the documentation both skills copied it from.
+It was corrected there too.
 
 == The objection
 

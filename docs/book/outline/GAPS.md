@@ -14,8 +14,8 @@ sections below are kept as that record.
 
 | gap | now | backs | state |
 |---|---|---|---|
-| the standard is not a skill | `skills/skill-authoring` 1.0.0 (197b313) | II.7, and the ten docs-only concepts | harness passes; its checker's gates are each broken alone. **II.7 drafted 2026-09-17**; drafting found two stale statements in the skill and that its proposed harness-first check is silent for 17 of 21 skills (ledger C-II-56..59). |
-| the collaboration | `skills/directed-verification` 1.2.2 (6fbfac2) | II.6 (`directing-verification`, `agent-as-collaborator`) | built, and **reported weak**: 1 covered, 4 judgement, 2 gaps. **II.6 drafted 2026-09-17.** |
+| the standard is not a skill | `skills/skill-authoring` 1.1.0 (197b313; stale statements fixed b3ad6e6) | II.7, and the ten docs-only concepts | harness passes; its checker's gates are each broken alone. **II.7 drafted 2026-09-17**; drafting found two stale statements in the skill and that its proposed harness-first check is silent for 17 of 21 skills (ledger C-II-56..59). |
+| the collaboration | `skills/directed-verification` 1.3.0 (6fbfac2; evidence fixed 8097530) | II.6 (`directing-verification`, `agent-as-collaborator`) | built, and **reported weak**: 1 covered, 4 judgement, 2 gaps. **II.6 drafted 2026-09-17.** |
 | `source-authority` | — | II.3's open problem; `directed-verification` behaviour 6 | still backlogged, still unbuilt |
 
 "Built" is not "backed", and drafting II.6 is how that showed:
@@ -23,11 +23,12 @@ sections below are kept as that record.
 - **Behaviour 1 is unmeasured after three fixture runs**, all invalid (ledger
   C-II-20..22). The concept the book calls its differentiator rests on a skill
   whose most testable claim has never produced a result.
-- **The one covered row overcounts** (C-II-47). The self-correction detector
-  reports 5; two are false positives, one of them the skill's own release
+- **The one covered row overcounted** (C-II-47). The self-correction detector
+  reported 5; two were false positives, one of them the skill's own release
   commit. The "at least three" shipped at release rested on two real matches.
-  The claim is true by hand; the instrument did not show it. A corpus fix, not
-  made in the book.
+  The claim is true by hand; the instrument did not show it. **Fixed in
+  directed-verification 1.3.0 (8097530)**: the claim now rests on three
+  hand-read commits, which a history check holds the detector to.
 - **The clean evidence points the other way.** The two premise fixtures that
   did produce results found agents doing the expensive work unprompted, 8/8
   twice. So II.6 argues for directing verification on the skill's narrower
@@ -36,8 +37,8 @@ sections below are kept as that record.
 
 So the collaboration gap is closed as a *document* and open as *evidence*. The
 next thing it needs is not more prose but a fourth b1 run that clears
-`claim-fixture`'s pre-flight gates, and a detector tested on the repository's
-own sentences.
+`claim-fixture`'s pre-flight gates. (The other need, a detector tested on the
+repository's own sentences, was met in 8097530.)
 
 ## The headline: the standard governing 50 skills is not itself a skill
 

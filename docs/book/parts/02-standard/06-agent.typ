@@ -129,11 +129,11 @@ before the subject], leaves a trace in a repository that records its
 corrections, because the corrections are in the commit messages. A detector
 searches the history for admissions that the harness was wrong. The skill
 reported #emph[at least three], and called the number a lower bound. The
-detector is self-tested in both directions: four real admissions it must match,
-and four ordinary messages it must reject.
+detector was self-tested in both directions: four real admissions it had to
+match, and four ordinary messages it had to reject.
 
-Run it today and it reports five. Read the five sentences it matched, one at a
-time, and two of them are not admissions.
+While this chapter was being drafted, the detector reported five. Read the five
+sentences it matched, one at a time, and two of them were not admissions.
 
 One is a hypothetical. The versioning commit says that where the record does
 not show #emph[whether the instruction content or the harness was wrong], the
@@ -159,8 +159,12 @@ author wrote, and none came from the repository the detector reads. This is
 say no to sentences chosen for it, and it was never tested on the text it
 actually reads.
 
-The fix belongs to the skill, not to this book, and it is logged. It is worth
-saying where this was found. It was found in the evidence for the one behaviour
+The fix belonged to the skill, not to this book, so it went there, as
+`directed-verification` 1.3.0. The claim of at least three now rests on the three
+commits read by hand. A new check makes the detector find those three and
+reject the two known false matches, and one real sentence it miscounted joined
+its negatives. The word #emph[bound] is gone. It is worth saying where this was
+found. It was found in the evidence for the one behaviour
 about suspecting evidence. That is not irony. That is the behaviour working, a
 day late.
 

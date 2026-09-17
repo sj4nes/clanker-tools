@@ -647,7 +647,7 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
 
 Promoted on the strength of danluu's "How well do agents use test/verification
 techniques?" eval (Sept 2026): given only the name of a technique or library,
-agents fall back to poor default testing across all 26 conditions tested — the
+agents fall back to poor default testing across all 26 conditions tested [overstated: across the techniques named; see the danluu item below] — the
 gap is real and a nudge-style skill is the thing that helped (the author's
 5-bullet skill beat every tutorial-style skill, including ones with 250k GitHub
 stars). Analysis-methodology archetype; a *nudge away from known failure modes*,
@@ -770,8 +770,10 @@ not a tutorial.
       *emit* the §7 displacement table as a required artifact, and refuse a
       section that neither displaces a nameable default nor declares itself
       judgement. Row annotated.
-- [ ] **test-writing (+ docs/verifying-skills.md §7, this file ×2): the danluu
-      citation overstates its source.** Found 2026-09-16 while building the
+- [x] **test-writing (+ docs/verifying-skills.md §7, this file ×2): the danluu
+      citation overstates its source.** **Fixed 2026-09-17** in `test-writing`
+      1.2.0 + §7 (a92cc8f) and `skill-authoring` 1.1.0 (b3ad6e6); this file's
+      two restatements are annotated in place. Found 2026-09-16 while building the
       book's claim ledger, by reading https://danluu.com/agentic-testing/ rather
       than a restatement of it. Corrections: the fall-back finding covers the
       techniques and libraries *named*, not "all 26 conditions" (the 26 include
@@ -1285,7 +1287,7 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       thorough, possibly because both claims were simply false. The control is
       a fixture against a default that is already known real: danluu's eval
       (cited by `test-writing`) found agents fall back to poor default testing
-      across all 26 conditions, so a fixture reproducing that shape SHOULD come
+      across all 26 conditions [overstated: across the techniques named], so a fixture reproducing that shape SHOULD come
       back positive. If it does not, the method is broken rather than the
       claims being false, and every result from it is suspect.  (2026-09-15)
 
@@ -1415,7 +1417,8 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       (2026-09-16)
 
 - [ ] **`claim-fixture` owes a POSITIVE CONTROL of itself.** Four runs: two
-      refutations, two invalid, ZERO positives. The method has never detected an
+      refutations, two invalid, ZERO positives. [Now five runs, three invalid,
+      still zero positives — 2026-09-17.] The method has never detected an
       effect it knew was there, so its sensitivity is untested and its two
       refutations are weaker than they look — G4 demands a positive control of
       every fixture it gates, and the method does not have one. Cheapest form: a

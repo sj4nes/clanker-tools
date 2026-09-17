@@ -137,17 +137,24 @@ The file is per skill rather than per repository for the reason this chapter
 started with. A skill copied out for use travels alone, and a changelog at the
 root of the repository would not go with it.
 
-The contract has several clauses, and `tools/check-skills.sh` gates one of them:
-the newest entry must match the version field. A bump with no entry fails the
-build. That clause holds across all 53 skills.
+The contract has several clauses. When this chapter was drafted,
+`tools/check-skills.sh` gated one of them: the newest entry must match the
+version field. A bump with no entry failed the build, and that clause held
+across all 53 skills.
 
-The other clauses are written down and not checked, so a script written for
-this chapter checks them. Over 51 version changes, no entry declared a level different from the digit that moved. But three entries do not
-open with their level at all, and three changelogs have no entry for 1.0.0: two
-kept their release notes under an older heading, and one never recorded 1.0.0
-anywhere. This is small, cosmetic decay. What matters is where it is: entirely
-in the clauses nothing checks. That is #chref(<ch-harness>)'s lesson again, in
-a file written about honesty.
+The other clauses were written down and not checked, so a script was written
+for this chapter to check them. Over 51 version changes, no entry declared a
+level different from the digit that moved. But three entries did not open with
+their level at all, and three changelogs had no entry for 1.0.0: two kept their
+release notes under an older heading, and one never recorded 1.0.0 anywhere.
+This was small, cosmetic decay. What mattered was where it was: entirely in the
+clauses nothing checked. That is #chref(<ch-harness>)'s lesson again, in a file
+written about honesty.
+
+The fix took two steps, and the order matters. The six entries were corrected,
+and the script was then promoted into `tools/check-skills.sh`, so each clause now
+fails the build on its own. Correcting the entries without the gate would only
+have reset the decay to zero.
 
 == What the count is worth
 
@@ -187,7 +194,8 @@ it is allowed to be embarrassing.
   Write the changelog entry in the same commit as the bump. It should open with
   the level and state what the reader must do. Then look at your changelog
   contract and find every clause that no check enforces. Those are the clauses
-  that are already decaying.
+  that are already decaying. Fix what has decayed, then gate the clause, or it
+  will decay again.
 ] <pr-version>
 
 Everything so far — the table, the harness, the oracle, the fixture, the
