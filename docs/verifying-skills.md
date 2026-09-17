@@ -451,9 +451,15 @@ done anyway?**
 
 The evidence is danluu's "How well do agents use test/verification techniques?"
 (Sept 2026). Given only the name of a technique or library, agents fell back to
-poor default testing across **all 26 conditions tested**. The skill that helped
-most was a five-bullet nudge. Several tutorial-style skills — including ones
-from repositories with ~250k stars — performed **worse than no skill at all**.
+poor default testing: "regardless of the library or technique suggested, agents
+failed to use the technique". The highest-scoring condition was a five-bullet
+nudge, which its author says did not work as intended. A test skill from a
+collection with ~250k stars scored almost as well as no instructions overall,
+and **worse than no instructions on the runs it actually influenced**. One task,
+one model family; the author cautions against strong conclusions from the
+ordering. (Corrected 2026-09-17: this paragraph said "all 26 conditions" and
+"several tutorial-style skills … worse than no skill at all", both overstated;
+see `docs/book/claim-ledger.md`, the opening finding.)
 A skill modifies a default behaviour distribution; it does not teach from zero,
 and prose that reads like a tutorial spends context restating the default it
 was supposed to displace.
@@ -470,7 +476,7 @@ document:
 | examples | `test-writing`, `statistics`, `simulation`, `design-of-experiments`, `unknown-discovery`, `citation-check` | `bc`, `ed`, `csplit`, `tsort`, `ptx`, `octave`, `uv`, `typst` |
 | the agent's prior | already has a default behaviour, and it is **wrong** | genuinely **does not know** — BSD `bc` rejects `_` in identifiers, BSD `tsort` exits 0 on a cycle, `abs` is reserved on macOS |
 | what the document is | a short list of displacements | facts the agent cannot derive, organised for lookup |
-| how it fails | tutorial prose restates what the model already does — measurably worse than nothing | vagueness or omission; one missing quirk costs a run |
+| how it fails | tutorial prose restates what the model already does — and can be worse than nothing | vagueness or omission; one missing quirk costs a run |
 
 For the left-hand column the rule is checkable, not stylistic:
 

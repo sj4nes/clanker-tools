@@ -12,7 +12,7 @@ description: >-
   possible answer, and checks never run against code believed correct. NOT a
   tutorial on a test framework or a runner, not a coverage-percentage target,
   and not a substitute for deciding what in the system is actually risky.
-version: 1.1.0
+version: 1.2.0
 archetype: behaviour
 author: Simon Janes
 tags: [testing, verification, oracles, property-testing, fuzzing, fixtures, code-review]
@@ -25,9 +25,11 @@ A test that only confirms today's output is a regression lock, not a test, and
 the two are easy to confuse because both run green.
 
 This skill is short on purpose. It is a **nudge away from documented default
-behaviour**, not a tutorial: agents given only the name of a technique fall
-back to poor default testing across every condition the danluu eval measured,
-and the tutorial-style skills in that eval performed *worse than no skill*.
+behaviour**, not a tutorial: in Dan Luu's eval, agents given the name of a
+technique or library mostly wrote the tests they would have written anyway,
+and a test skill from a widely starred collection did worse than no
+instructions on the runs it actually influenced. The eval is one task and one
+model family, and its author cautions against reading much into the ordering.
 If you want the detail, it is in
 [`verification/README.md`](verification/README.md) — six planted bugs, each
 with the naive test that misses it.
