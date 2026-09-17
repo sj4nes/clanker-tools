@@ -220,3 +220,26 @@
   spacing: 0.65em, tight: false, indent: 0.2em, body-indent: 0.55em,
   ..items,
 )
+
+// A Part VI tutorial entry. Same shape as `skillentry`, but the meta line
+// carries the capsule and the method that cut the tutorial from it rather than
+// a version and an archetype.
+#let tutorialentry(title, meta, facts) = block(
+  width: 100%, breakable: false, above: 1.4em, below: 0.4em,
+)[
+  #set par(first-line-indent: 0pt, justify: false)
+  #text(size: 11.5pt, weight: "bold")[#title]
+  #v(0.2em)
+  #text(size: 8.5pt, fill: luma(110))[#meta]
+  #v(0.5em)
+  #block(inset: (left: 10pt), stroke: (left: 1.5pt + luma(210)))[
+    #set par(first-line-indent: 0pt, justify: true, leading: 0.6em)
+    #grid(columns: (4.4em, 1fr), row-gutter: 0.55em, column-gutter: 0.6em,
+      ..facts.map(((label, body)) => (
+        text(size: 8.5pt, fill: rgb("#40566b"), weight: "bold")[
+          #smallcaps[#label]
+        ],
+        text(size: 9.5pt)[#body],
+      )).flatten())
+  ]
+]

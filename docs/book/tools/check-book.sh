@@ -7,6 +7,8 @@
 #      produces from skills/*/ RIGHT NOW
 #   3. Part V (parts/05-open/01-backlog.typ) is what gen-open.py produces from
 #      BACKLOG.md RIGHT NOW
+#   3b. Part VI (parts/06-tutorials/01-entries.typ) is what gen-tutorials.py
+#      produces from skills/*/tutorial/*.md RIGHT NOW
 #   4. the book still compiles
 #
 # Exists because Parts IV and V state ~500 facts that live somewhere else.
@@ -48,6 +50,7 @@ trap 'rm -rf "$TMP"' EXIT
 if [ "$1" = "--fix" ]; then
     python3 tools/gen-catalogue.py
     python3 tools/gen-open.py
+    python3 tools/gen-tutorials.py
 fi
 
 if ! python3 tools/typstlib.py; then
@@ -57,6 +60,7 @@ fi
 
 check_generated "Part IV" parts/04-catalogue/01-entries.typ gen-catalogue.py part4
 check_generated "Part V"  parts/05-open/01-backlog.typ      gen-open.py part5
+check_generated "Part VI" parts/06-tutorials/01-entries.typ gen-tutorials.py part6
 
 if ! typst compile book.typ "$TMP/book.pdf" 2> "$TMP/typst.txt"; then
     echo "*** FAIL: typst compile"

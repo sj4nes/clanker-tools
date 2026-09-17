@@ -13,7 +13,7 @@ the least readable artifact a project has. At the time of writing: 4,122 lines
 of commit-message body across 161 commits, 24 of whose subject lines report a
 finding. Nobody reads a git log as a document.
 
-## Status: Parts I (draft), II (draft), III, IV and V
+## Status: Parts I (draft), II (draft), III, IV, V and VI
 
 | Part | Source | Rots? | Built |
 |---|---|---|---|
@@ -22,6 +22,7 @@ finding. Nobody reads a git log as a document.
 | **III — What the standard found** | authored | no | **yes**; evidence pass 2026-09-17 (ledger C-III-01..21) |
 | IV — The catalogue (53 skills) | **generated** from frontmatter | cannot | **yes** (2026-09-17); framing chapter authored |
 | V — What's still wrong | **generated** from `BACKLOG.md` | cannot | **yes** (2026-09-17); framing chapter authored |
+| VI — What the checks turned into (24 tutorials) | **generated** from `skills/*/tutorial/` | cannot | **yes** (2026-09-17); framing chapter authored |
 
 Parts IV and V are *generated* so they cannot go stale, and gated by
 `tools/check-book.sh` in the spirit of `tools/check-skills.sh` — a book that can
@@ -31,7 +32,7 @@ silently rot is the failure this repo spends its time closing.
     sh docs/book/tools/check-book.sh --fix   regenerate first, then gate
     python3 docs/book/tools/check-book-mutations.py   prove the gate can fail
 
-The gate has five named gates (`typstlib`, `part4`, `part5`, `compile`,
+The gate has named gates (`typstlib`, `part4`, `part5`, `part6`, `compile`,
 `warnings`, plus each generator's own refusal), and
 `check-book-mutations.py` breaks each one on a scratch copy and requires it to
 fire **alone** — the standard of `docs/verifying-skills.md` §8, and the same
@@ -42,6 +43,12 @@ too, without which a broken scratch copy would score every mutation as caught.
     tools/typstlib.py      Markdown -> Typst escaping, with a self-test
     tools/gen-catalogue.py Part IV, from frontmatter/CHANGELOG/verification
     tools/gen-open.py      Part V, from the open `- [ ]` items of BACKLOG.md
+    tools/gen-tutorials.py Part VI, from skills/*/tutorial/*.md
+
+Part VI is a **catalogue, not a reprint**: the tutorials run under `upmd` in a
+terminal, which is the point of them, and they come to ~58,000 words. The entry
+gives what each teaches, how much of it the reader runs rather than reads, and
+the command.
 
 The generators **report absence rather than guessing**: a skill with no
 displacement table says so, and a skill with a table whose counts are only in

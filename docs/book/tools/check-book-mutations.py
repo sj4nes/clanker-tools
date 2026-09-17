@@ -82,6 +82,17 @@ MUTATIONS = [
      # moves gets disabled rather than fixed.
      lambda d: edit(d, "docs/book/parts/05-open/01-backlog.typ",
                     "open items, read from", "open items, silently miscounted,")),
+    ("a tutorial gains a runnable block", {"part6"},
+     lambda d: append(d, "skills/physics-newtonian/tutorial/pendulum.md",
+                      "\n```bash [name:chk_invented, deps:setup]\nbc -l <<< '1+1'\n```\n")),
+    ("a tutorial is added", {"part6"},
+     lambda d: (d / "skills/physics-acoustics/tutorial/invented.md").write_text(
+         "# An Invented Tutorial\n\n> Generated from the `physics-acoustics`"
+         " capsule (Release 0.1) with the `formula-tree-tutorial` skill.\n\n"
+         "It teaches nothing.\n\n```bash [name:setup]\ntrue\n```\n")),
+    ("Part VI is hand-edited", {"part6"},
+     lambda d: append(d, "docs/book/parts/06-tutorials/01-entries.typ",
+                      '\n#tutorialentry([Hand-written], [by hand], ())\n')),
     # --- the generators' own refusals ---------------------------------------
     ("an open item is filed under Done", {"gen-open"},
      lambda d: edit(d, "BACKLOG.md", "\n## Skill standard & verification debt\n",

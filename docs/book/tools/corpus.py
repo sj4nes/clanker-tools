@@ -156,6 +156,21 @@ def read_skill(d):
         "has_runner": (vdir / "run.sh").exists(),
         "has_verification_readme": (vdir / "README.md").exists(),
     }
+    # A capsule keeps its checks in build/ and validation/, not verification/ —
+    # looking only for verification/ reported 15 capsules as harness-less when
+    # each runs a graph check, Lean cores and bc checks (2026-09-17).
+    runner = next((p for p in ("build/all.sh", "build/run.sh")
+                   if (d / p).exists()), None)
+    rec["capsule_harness"] = {
+        "runner": runner,
+        "graph": (d / "validation/graph-check.sh").exists(),
+        "lean": sorted(p.name for p in d.rglob("*.lean")
+                       if ".lake" not in p.parts),
+        "bc": sorted(p.name for p in d.rglob("*.bc")),
+        "mutation": sorted(p.name for p in d.glob("validation/*mutation*.sh")),
+        "tutorials": sorted(p.name for p in (d / "tutorial").glob("*.md")
+                            if p.name != "README.md"),
+    }
     for k, v in FM_SCALAR.findall(fm):
         rec[k] = v
     rec["claim"] = _first_sentence(rec["description"])

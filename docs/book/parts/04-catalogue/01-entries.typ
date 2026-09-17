@@ -308,7 +308,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [The Bayesian inferential apparatus as a bridge between the #raw("math-probability") capsule's Bayes' theorem and the #raw("math-statistics") skill's estimation machinery — priors/likelihood/posterior, worked conjugate families (Beta-Bernoulli, Normal-Normal, Gamma-Poisson), Bayes factors and marginal likelihood, Bayesian model comparison with Lindley's paradox as its hypothesis-dropped counterexample, and a credible-vs-confidence-interval contrast on the same worked example.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c #emph[no Lean core] #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [1 MAJOR of 2 versions held: \
 #h(0.6em) 2.0.0 (2026-09-14) — 1 prerequisite edge the node text uses were missing from the graph.]),
   ))
@@ -316,7 +316,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Electrochemistry for making substances and storing energy, as a curated, dependency-ordered knowledge capsule — the Faraday charge/electron/mass bookkeeping (m = ItM/zF), current efficiency and specific energy consumption, electrochemical cells and the anode/cathode convention, standard reduction potentials and the SHE, E°\_cell and ΔG = -zFE and ΔG° = -RT ln K, the Nernst equation, overpotential (activation/concentration/ohmic) and why real electrolysis costs more than E°, product selectivity (Cl2 vs O2), electrolyte transport (molar conductivity, mobility, transport number, Kohlrausch), seven named production processes (water electrolysis, chlor-alkali, chlorate, Hall-Heroult, copper refining, zinc electrowinning, reversible fuel cell), and redox flow batteries (energy-power decoupling, state of charge, the coulombic / voltage / energy efficiencies, crossover, capacity fade, the low-cost all-iron chemistry and the all-vanadium reference).],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [2 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-13) — The capsule README documented #raw("bc -q -l validation/…bc") with no stdin redirect, so the capsule's own validation command #strong[hung] when run as written — for 8 days. \
 #h(0.6em) 3.0.0 (2026-09-14) — 3 prerequisite edges the node text uses were missing from the graph.]),
@@ -325,7 +325,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Quantitative general chemistry (general chem I) as a curated, dependency-ordered knowledge capsule — the mole and atomic bookkeeping, formulas and percent composition, balancing equations, limiting reagent and yield, solution and gas stoichiometry, thermochemistry through Hess's law and formation enthalpies, chemical equilibrium (K, Q, Kp/Kc, ICE tables, the reaction isotherm), acid–base equilibria (Kw, pH, Ka, Ka·Kb=Kw, Henderson–Hasselbalch, buffers), and redox balancing.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [2 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-13) — The capsule README documented #raw("bc -q -l validation/…bc") with no stdin redirect, so the capsule's own validation command #strong[hung] when run as written — for 8 days. \
 #h(0.6em) 3.0.0 (2026-09-14) — 2 prerequisite edges the node text uses were missing from the graph.]),
@@ -334,7 +334,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Linear algebra as a curated, dependency-ordered knowledge capsule — the layer below math-statistics and beside math-real-analysis.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [1 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-14) — 19 prerequisite edges were missing]),
   ))
@@ -342,7 +342,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Logic and proof as a curated, dependency-ordered knowledge capsule — the deepest floor under the set / number-system / analysis stack.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [1 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-14) — 4 prerequisite edges the node text uses were missing from the graph.]),
   ))
@@ -350,7 +350,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [The number systems as a curated, dependency-ordered knowledge capsule: ℕ → ℤ → ℚ → ℝ, constructed and characterized.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [3 MAJOR of 4 versions held: \
 #h(0.6em) 2.0.0 (2026-09-13) — An unquoted comma in a #raw("{ … }") flow scalar #strong[silently truncated] the #raw("meaning") field in three #raw("results/*.yaml") (#raw("integer"), #raw("rational_number"), #raw("lub_property")) for two days. \
 #h(0.6em) 3.0.0 (2026-09-14) — 3 prerequisite edges the node text uses were missing from the graph. \
@@ -360,7 +360,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Probability theory as a curated, dependency-ordered knowledge capsule — the missing foundational floor under design-of-experiments, simulation, and unknown-discovery.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [3 MAJOR of 4 versions held: \
 #h(0.6em) 2.0.0 (2026-09-13) — #raw("validation/proof-checks.lean") named #raw("Prob.markov_finite") in its header while the theorem body was missing — a claim of machine verification for something no longer verified. \
 #h(0.6em) 3.0.0 (2026-09-14) — 9 prerequisite edges the node text uses were missing from the graph. \
@@ -370,7 +370,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Real Analysis I as a curated, dependency-ordered knowledge capsule — the real line as a complete ordered field, sequences and series, the topology of the reals, limits and continuity, differentiation, Riemann integration, and uniform convergence.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [1 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-14) — 1 prerequisite edge the node text uses were missing from the graph.]),
   ))
@@ -378,7 +378,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Sets, functions, orders, and cardinality as a curated, dependency-ordered knowledge capsule — the layer below the number systems.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [2 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-14) — 5 prerequisite edges the node text uses were missing from the graph. \
 #h(0.6em) 3.0.0 (2026-09-14) — #raw("countable_closure_properties") carried #raw("lean_status: instance") whose only evidence was #raw("validation/instance-checks.bc") — bc arithmetic, not Lean.]),
@@ -387,7 +387,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Mathematical statistics as a curated, dependency-ordered knowledge capsule — the theorem layer on top of math-probability, and the floor under a future statistics analysis-methodology skill and the bayes-bridge connector.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [2 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-14) — 17 prerequisite edges were missing \
 #h(0.6em) 3.0.0 (2026-09-14) — 16 nodes claimed Lean verification that nothing backed]),
@@ -396,21 +396,21 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Linear (small-signal) acoustics in fluids as a curated, dependency-ordered knowledge capsule -- the floor physics-thermoacoustics needs and previously lacked.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c #emph[no Lean core] #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [never revised (at 1.0.0, 2026-09-11)]),
   ))
 #skillentry("physics-formula-atlas", "1.0.0", "capsule",
   [A bridge capsule connecting physics-newtonian, physics-thermodynamics, physics-thermoacoustics, and physics-acoustics with real cross-capsule requires edges (not prose-only discharge -- this hierarchy has no mutual-grounding cycle), plus a working prereq-path.py tool that walks any formula's full prerequisite chain backward across capsule boundaries down to its terminal primitives, axioms, assumptions, and conventions.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c #emph[no Lean core] #sym.dot.c #emph[no bc check]]),
     ([wrong], [never revised (at 1.0.0, 2026-09-11)]),
   ))
 #skillentry("physics-newtonian", "2.1.0", "capsule",
   [Newtonian point-particle mechanics as a curated, dependency-ordered knowledge capsule — kinematics, Newton's three laws, work/energy and its conservation, momentum/impulse, simple harmonic motion, and Newtonian gravitation.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [1 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-13) — The capsule README documented #raw("bc -q -l validation/…bc") with no stdin redirect, so the capsule's own validation command #strong[hung] when run as written — for 8 days.]),
   ))
@@ -418,7 +418,7 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Linear thermoacoustics as a curated, dependency-ordered knowledge capsule — the coupling of acoustic oscillations and heat transport in thermoacoustic engines and refrigerators.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/all.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [2 MAJOR of 3 versions held: \
 #h(0.6em) 2.0.0 (2026-09-13) — The capsule README documented #raw("bc -q -l validation/…bc") with no stdin redirect, so the capsule's own validation command #strong[hung] when run as written — for 8 days. \
 #h(0.6em) 3.0.0 (2026-09-14) — 1 prerequisite edge the node text uses were missing from the graph.]),
@@ -427,6 +427,6 @@ Dependency-ordered graphs of a domain's results, verified by their own graph, Le
   [Classical equilibrium thermodynamics as a curated, dependency-ordered knowledge capsule — the zeroth/first/second/third laws, the ideal-gas model, heat capacities and enthalpy, reversible adiabats, the Carnot results and the thermodynamic temperature scale, entropy and the entropy-increase principle, and the thermodynamic potentials with the Maxwell relations.],
   (
     ([displaces], [#emph[not applicable to this archetype]]),
-    ([harness], [#emph[no verification directory]]),
+    ([harness], [#raw("build/run.sh") #sym.dot.c graph check #sym.dot.c 1 Lean core #sym.dot.c 1 bc check #sym.dot.c 2 mutation checks]),
     ([wrong], [never revised (at 1.0.0, 2026-09-06)]),
   ))

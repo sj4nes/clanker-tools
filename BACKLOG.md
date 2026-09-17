@@ -585,6 +585,77 @@ bridges" section of [`BACKLOG-BACKLOG.md`](BACKLOG-BACKLOG.md).
       `math-logic-and-proof/edges/cross-capsule.md`), not as a graph edge.
       `proposition_logic`/`predicate_logic` promoted `active` → `reviewed`.
 
+## Chemistry
+
+Both chemistry capsules were built on 2026-09-09, and the verification work that
+now defines the standard came *after* them: the `bc` audit (2026-09-13), the
+graph and Lean audits (2026-09-14). They were remediated by those audits rather
+than built to them — which is why each has been to `3.0.0` and why both MAJOR
+bumps were found by a tool nobody had written when the capsule shipped. The
+items below are the part that predates the standard and has not been revisited.
+
+Until 2026-09-17 there was no `## Chemistry` heading here at all: the capsules'
+Release 0.2 work was tracked only in their own `validation/consistency-audit.md`
+and READMEs, so none of it reached `BACKLOG.md` — or Part V of the book, which
+is generated from this file. Found by asking why the book's open-problems part
+had no chemistry in it.
+
+### chemistry-foundations  (Release 0.1 COMPLETE, 2026-09-09; 113 nodes, all draft)
+
+- [ ] **chemistry-foundations:** the review pass — all 113 nodes are still
+      `status: draft` in `nodes/nodes.tsv`. Release 0.1 was declared complete
+      with no node ever reviewed, which is the capsule-scale version of a check
+      that cannot fail: the status column has only ever held one value, so
+      nothing distinguishes a reviewed node from an unreviewed one.
+      (`validation/consistency-audit.md`)
+- [ ] **chemistry-foundations:** promote `ideal_gas` to a first-class assumption
+      node — it is currently prose inside the `bridge_imported` `ideal_gas_law`
+      entry, so every gas-law dependent lacks the explicit edge that
+      `dilute_ideal_solution` gets. An assumption that is prose rather than a
+      node is invisible to the graph audit that found the 2 missing edges in
+      `3.0.0`.  (`validation/consistency-audit.md`)
+- [ ] **chemistry-foundations:** per-node detail pages under `nodes/`, plus
+      `formulas/*.yaml` structured entries and `sources/source-map.tsv` —
+      primitives and conventions currently live in `conventions.md` and formula
+      nodes in `formulas/chemistry-foundations.md`. The `math-*` capsules have
+      all three.
+- [ ] **chemistry-foundations:** upgrade the Lean instance checks to universal
+      `by ring` / `by nlinarith` proofs once Mathlib is on the toolchain. The
+      lean-core audit (`docs/lean-core-audit.md`) counts a numeral-instance
+      check as unbacked, and this capsule has 1 Lean core.
+
+### chemistry-electrochemistry  (Release 0.1 COMPLETE, 2026-09-09; 112 nodes, all draft)
+
+- [ ] **chemistry-electrochemistry:** the review pass — all 112 nodes are still
+      `status: draft`.  (`validation/consistency-audit.md`)
+- [ ] **chemistry-electrochemistry:** import the electrical primitives properly
+      — `electric_charge` / `electric_current` / `electric_potential` /
+      `electrical_work` / `electrical_power` / `resistance` / `ohms_law` are a
+      root set here and should be owned by a `physics-circuits` capsule. This is
+      the same undischarged-root shape `physics-formula-atlas` was built to
+      audit, and no atlas edge reaches chemistry yet (see the atlas Release 0.2
+      item under Physics).
+- [ ] **chemistry-electrochemistry:** promote the embedded assumptions to nodes
+      — `298.15 K`, `ideal_gas` for electrolysis products, `α ≈ 0.5` (transfer
+      coefficient), ideal membrane selectivity.
+- [ ] **chemistry-electrochemistry:** per-node detail pages, `formulas/*.yaml`,
+      `sources/source-map.tsv`; and upgrade the Lean instance checks to
+      universal `by ring` proofs with Mathlib.
+
+### chemistry — cross-capsule
+
+- [ ] **chemistry:** neither capsule is reachable from `physics-formula-atlas`,
+      though both claim `physics-thermodynamics` as background in prose. Tracked
+      as the atlas's Release 0.2 under Physics; noted here because the
+      undischarged roots are on this side.
+- [ ] **chemistry:** capsules have no displacement-table analogue. §7 of
+      `docs/verifying-skills.md` gives behaviour skills a table whose gap count
+      is the deliverable; a capsule's equivalent question — which claims rest on
+      the capsule's authority rather than on a check that could fail — has no
+      artifact. The chemistry capsules are the cheapest place to try one,
+      because their Lean cores are instance checks and their `status` column has
+      never moved off `draft`.
+
 ## Analysis & inference methodology
 
 ### simulation

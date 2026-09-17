@@ -6,7 +6,7 @@
 
 #import "../../preamble.typ": note, backlogitem, points
 
-#note[34 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
+#note[44 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
 
 = Physics
 
@@ -78,6 +78,47 @@
 
 #backlogitem(none, none)[
   Mathlib-backed completeness formalisation — connect #raw("godel_completeness_theorem") to #raw("Mathlib.ModelTheory") (#raw("FirstOrder.Language") + its completeness development) and upgrade #raw("lean_status") from #raw("cited") to #raw("mathlib_cited") where the kernel actually verifies the link. Also #raw("post_completeness_theorem") for a countable atom set is feasible in plain Lean (Lindenbaum by #raw("Nat")\-recursion + LEM, truth lemma by structural induction — no Mathlib). (#raw("validation/proof-checks.lean"), #raw("validation/proof-checks.md"))
+]
+
+= Chemistry
+
+#note[10 open.]
+
+== chemistry-foundations  (Release 0.1 COMPLETE, 2026-09-09; 113 nodes, all draft)
+
+#backlogitem(none, none)[
+  the review pass — all 113 nodes are still #raw("status: draft") in #raw("nodes/nodes.tsv"). Release 0.1 was declared complete with no node ever reviewed, which is the capsule-scale version of a check that cannot fail: the status column has only ever held one value, so nothing distinguishes a reviewed node from an unreviewed one. (#raw("validation/consistency-audit.md"))
+]
+#backlogitem(none, none)[
+  promote #raw("ideal_gas") to a first-class assumption node — it is currently prose inside the #raw("bridge_imported") #raw("ideal_gas_law") entry, so every gas-law dependent lacks the explicit edge that #raw("dilute_ideal_solution") gets. An assumption that is prose rather than a node is invisible to the graph audit that found the 2 missing edges in #raw("3.0.0"). (#raw("validation/consistency-audit.md"))
+]
+#backlogitem(none, none)[
+  per-node detail pages under #raw("nodes/"), plus #raw("formulas/*.yaml") structured entries and #raw("sources/source-map.tsv") — primitives and conventions currently live in #raw("conventions.md") and formula nodes in #raw("formulas/chemistry-foundations.md"). The #raw("math-*") capsules have all three.
+]
+#backlogitem(none, none)[
+  upgrade the Lean instance checks to universal #raw("by ring") / #raw("by nlinarith") proofs once Mathlib is on the toolchain. The lean-core audit (#raw("docs/lean-core-audit.md")) counts a numeral-instance check as unbacked, and this capsule has 1 Lean core.
+]
+== chemistry-electrochemistry  (Release 0.1 COMPLETE, 2026-09-09; 112 nodes, all draft)
+
+#backlogitem(none, none)[
+  the review pass — all 112 nodes are still #raw("status: draft"). (#raw("validation/consistency-audit.md"))
+]
+#backlogitem(none, none)[
+  import the electrical primitives properly — #raw("electric_charge") / #raw("electric_current") / #raw("electric_potential") / #raw("electrical_work") / #raw("electrical_power") / #raw("resistance") / #raw("ohms_law") are a root set here and should be owned by a #raw("physics-circuits") capsule. This is the same undischarged-root shape #raw("physics-formula-atlas") was built to audit, and no atlas edge reaches chemistry yet (see the atlas Release 0.2 item under Physics).
+]
+#backlogitem(none, none)[
+  promote the embedded assumptions to nodes — #raw("298.15 K"), #raw("ideal_gas") for electrolysis products, #raw("α ≈ 0.5") (transfer coefficient), ideal membrane selectivity.
+]
+#backlogitem(none, none)[
+  per-node detail pages, #raw("formulas/*.yaml"), #raw("sources/source-map.tsv"); and upgrade the Lean instance checks to universal #raw("by ring") proofs with Mathlib.
+]
+== chemistry — cross-capsule
+
+#backlogitem([chemistry], none)[
+  neither capsule is reachable from #raw("physics-formula-atlas"), though both claim #raw("physics-thermodynamics") as background in prose. Tracked as the atlas's Release 0.2 under Physics; noted here because the undischarged roots are on this side.
+]
+#backlogitem([chemistry], none)[
+  capsules have no displacement-table analogue. §7 of #raw("docs/verifying-skills.md") gives behaviour skills a table whose gap count is the deliverable; a capsule's equivalent question — which claims rest on the capsule's authority rather than on a check that could fail — has no artifact. The chemistry capsules are the cheapest place to try one, because their Lean cores are instance checks and their #raw("status") column has never moved off #raw("draft").
 ]
 
 = Analysis & inference methodology

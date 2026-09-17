@@ -77,6 +77,29 @@ def fact_displaces(r):
 
 
 def fact_harness(r):
+    """What this skill's checks actually consist of, by archetype.
+
+    A capsule is verified by its own build: a tsort graph check, Lean cores and
+    bc checks under validation/, run by build/all.sh. Judging it on the
+    presence of verification/ — the behaviour-skill convention — printed "no
+    verification directory" for all 15 of them, which was true and useless.
+    """
+    if r["archetype"] == "capsule":
+        h = r["capsule_harness"]
+        if not h["runner"] and not h["graph"]:
+            return "#emph[no build or validation harness]"
+        bits = []
+        bits.append(f'#raw("{h["runner"]}")' if h["runner"]
+                    else "#emph[no single runner]")
+        bits.append("graph check" if h["graph"] else "#emph[no graph check]")
+        for label, key in (("Lean core", "lean"), ("bc check", "bc")):
+            n = len(h[key])
+            bits.append(f"{n} {label}{'s' if n != 1 else ''}" if n
+                        else f"#emph[no {label}]")
+        if h["mutation"]:
+            bits.append(f"{len(h['mutation'])} mutation check"
+                        f"{'s' if len(h['mutation']) != 1 else ''}")
+        return " #sym.dot.c ".join(bits)
     if not r["has_verification"]:
         return "#emph[no verification directory]"
     bits = []

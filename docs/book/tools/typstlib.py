@@ -37,6 +37,12 @@ def inline(s):
     backticks as literal characters (found by reading page 79, 2026-09-17 —
     it compiled, and looked deliberate).
     """
+    # A Markdown link is reduced to its TEXT. The targets in this corpus are
+    # relative paths between repository files ("[per-amp-hour.md](per-amp-hour.md)"),
+    # which are meaningless to a reader holding a PDF and were printing raw
+    # (page 87, 2026-09-17). Where text and target are the same file, the text
+    # alone already names it.
+    s = re.sub(r"\[([^\]\n]+)\]\(([^)\n]+)\)", r"\1", s)
     tokens = re.split(r"(`[^`]+`|\*\*.+?\*\*|(?<!\*)\*[^*]+\*(?!\*))", s,
                       flags=re.S)
     out = []
@@ -89,6 +95,13 @@ def _selftest():
         ("*see `run.sh` first*", '#emph[see #raw("run.sh") first]'),
         ("**13 `scope` failures**",
          '#strong[13 #raw("scope") failures]'),
+        # Markdown links: keep the text, drop the repo-relative target.
+        ("see [per-amp-hour.md](per-amp-hour.md) first",
+         "see per-amp-hour.md first"),
+        ("[`docs/verifying-skills.md`](../docs/verifying-skills.md) §7",
+         '#raw("docs/verifying-skills.md") §7'),
+        # A bracket that is NOT a link must still be escaped.
+        ("[Now five runs] and (a note)", "\\[Now five runs\\] and (a note)"),
     ]
     bad = 0
     for src, want in cases:

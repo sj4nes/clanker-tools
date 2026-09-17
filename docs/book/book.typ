@@ -26,7 +26,7 @@
   #text(14pt)[Building skills for AI agents, with an AI agent,\ and knowing whether they work]
   #v(2.5em)
   #note[Simon Janes · #datetime.today().display("[month repr:long] [year]") ·
-        draft: Parts I, II and III of five]
+        draft: Parts I and II of six]
 ]
 
 #pagebreak()
@@ -103,3 +103,13 @@
 ]
 #include "parts/05-open/00-intro.typ"
 #include "parts/05-open/01-backlog.typ"
+
+#part("VI", "What the Checks Turned Into")[
+  Twenty-four interactive tutorials, cut from the capsules of Part IV rather
+  than written beside them: the prerequisite order is the #raw("tsort") order,
+  the calculation closing a section is the capsule's own #raw("bc") check, and
+  the identity the reader is asked to believe is its Lean core, run in their
+  terminal. The catalogue is generated from the tutorials themselves.
+]
+#include "parts/06-tutorials/00-intro.typ"
+#include "parts/06-tutorials/01-entries.typ"
