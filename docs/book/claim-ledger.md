@@ -2228,13 +2228,6 @@ Corpus findings (closed 2026-09-17, see the Closed list at the end; at the time:
 - **C-II-18** — verify the first-edition year of Beck's TDD book (Hamlet 1977
   now Crossref-verified; C-II-01 closed).
 - **C-II-12** — behaviour-skill table count rots; generate it.
-- **C-III-18 (corpus fix, and a decision)** — the first `role-deck` premise
-  fixture's scorer accepted evidence the repository's docs already held; only
-  3 of 8 trials prove execution. `role-deck/verification/premise-fixture/
-  RESULT.md`, `role-deck` SKILL.md's table ("8/8 executed") and
-  `claim-fixture/references/case-studies.md` §1 still say 8/8 unforgeable. The
-  book now says 3 proven, 5 self-reported. Decide: restate the records, and/or
-  re-run the fixture with subjects outside the repository (cheap: 8 agents).
 - **C-III-09 (corpus fix)** — `dde3f82`'s claim that ugrep emits
   `repetition-operator operand invalid` is repeated in
   `docs/bc-verification-audit.md` (addendum), `docs/verifying-skills.md` l.146,
@@ -2249,6 +2242,12 @@ Corpus findings (closed 2026-09-17, see the Closed list at the end; at the time:
 - **C-II-43** — the co-authored commit count rots; generate it.
 
 ### Closed 2026-09-17 (corpus fixes; chapters reworded to past tense)
+
+- **C-III-18** — premise-fixture records restated to 8/8 scored, 3/8 proven:
+  `role-deck` 2.5.0, `claim-fixture` 3.0.0 (F10, G5 rewritten),
+  `skill-authoring` 1.2.0, `directed-verification` 1.4.0, the research note.
+  9346d0e. The re-run outside the repository is in BACKLOG.md for the week of
+  2026-09-21.
 
 - **C-I-10, C-I-12 / Part III evidence pass** — rows C-III-05..21. Text
   corrected: bc headline (the other twenty did not all "report success"), the
