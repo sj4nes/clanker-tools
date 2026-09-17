@@ -7,6 +7,16 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/claim-fixture/
 
+## 2.4.0 — 2026-09-17
+
+**MINOR: the evidence base is restated; re-read it, nothing to re-do.** The body
+and references still said "four runs, two invalid", with a "50% design-failure
+rate". b1 run 3 (`af42b12`) made it five runs, three invalid — and 2.3.0's own
+G9 came from that run. `references/case-studies.md` gains case study 5, and the
+body now says all three invalid runs were knowable in advance (run 3's missing
+permissions, by a one-subject probe: `pre-flight.md` F9).
+Found drafting the book's II.4 (ledger note before C-II-19).
+
 ## 2.3.0 — 2026-09-16
 
 **MINOR: a new gate, G9 — can a subject here actually produce the artifact?**

@@ -16,7 +16,7 @@ description: >-
   and strike a refuted claim instead of rewording it. NOT a replacement for
   domain evaluation or benchmarking, not a way to prove a methodology works,
   and not applicable to claims that are already structurally provable.
-version: 2.3.0
+version: 2.4.0
 archetype: behaviour
 author: Simon Janes
 tags: [evaluation, experiments, methodology, agents, pre-registration, falsification]
@@ -34,11 +34,11 @@ That risk is the reason to check. A methodology whose premise is false is not
 merely unhelpful; it spends attention and credibility on a problem that is not
 there, and it crowds out the problem that is.
 
-This skill is short because the method is short. Its evidence base is four
-runs: two that **refuted the claims they were built to support**, and two that
+This skill is short because the method is short. Its evidence base is five
+runs: two that **refuted the claims they were built to support**, and three that
 were **invalid** — see [`references/case-studies.md`](references/case-studies.md).
-That 50% design-failure rate is why behaviour 3 and the pre-flight gate exist;
-both invalid runs were knowable before a subject was spawned.
+Three design failures in five runs is why behaviour 3 and the pre-flight gate
+exist; all three invalid runs were knowable before a subject was spawned.
 
 ## The seven behaviours
 
@@ -104,8 +104,8 @@ both invalid runs were knowable before a subject was spawned.
 
 ## Before you spend subjects
 
-Run the pre-flight gate. Two of four runs in this corpus were invalid, and both
-were knowable in advance — the gate exists so the cost is judgement rather than
+Run the pre-flight gate. Three of five runs in this corpus were invalid, and
+all three were knowable in advance — the gate exists so the cost is judgement rather than
 a wasted run.
 
 ```sh
@@ -143,8 +143,8 @@ shortcut pass its own check?) stays judgement and is reported as owed.
 - **Anything, if the fixture was too easy.** If a null result and "the answer
   was handed to them" are indistinguishable, the fixture is not ready — tighten
   it before running, not after.
-- **Whether this method can detect anything at all.** Four runs: two
-  refutations, two invalid, and **zero positives**. The method has never been
+- **Whether this method can detect anything at all.** Five runs: two
+  refutations, three invalid, and **zero positives**. The method has never been
   shown to find an effect it knew was there, so its sensitivity is untested and
   its refutations are weaker than they look. The pre-flight gate demands a
   positive control of every fixture (G4); the method still owes one of itself.

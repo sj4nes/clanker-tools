@@ -19,7 +19,7 @@ Nothing here is invented. Each gate below exists because of a specific run.
 | F4 | b1 run 1 | 4 of 5 arm-B subjects died on a session limit, leaving n=1 | partly — spawn order |
 | F5 | b1 run 2 | **the control arm had the treatment** (`test-writing` in context) | yes — mechanical |
 | F6 | b1 run 2 | a pre-registered ceiling rule supplied a respectable reading of Δ=0 that concealed F5 | yes — ordering of checks |
-| F7 | all four | no positive control; the method has never detected an effect it knew was there | yes — by declaration |
+| F7 | all five | no positive control; the method has never detected an effect it knew was there | yes — by declaration |
 | F8 | b1 runs 1 and 2 | neither result names the model or effort that produced its subjects; the runs are not reproducible and the claims have no stated scope | yes — by declaration |
 | F9 | b1 run 3 | subjects were spawned with no tool permissions; none could write or execute, so the treatment (*"confirm it actually fails"*) was undeliverable and all 15 scored `NO-HARNESS` | yes — mechanical, one probe |
 
@@ -135,7 +135,7 @@ the precondition held. This gate works.
       result as uninterpretable.
 
 A method with no demonstrated sensitivity cannot distinguish *no effect* from
-*no instrument*. `claim-fixture` has produced two refutations and two invalid
+*no instrument*. `claim-fixture` has produced two refutations and three invalid
 runs and has **never once returned a positive**, so its ability to detect one
 is itself untested. Refutations from an instrument of unknown sensitivity are
 weaker evidence than they look.

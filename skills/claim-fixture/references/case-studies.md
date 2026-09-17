@@ -1,4 +1,4 @@
-# Four runs: two refutations, two invalid
+# Five runs: two refutations, three invalid
 
 Case studies 1 and 2 are refutations and are written up in full below. Case
 studies 3 and 4 are the **invalid** runs, summarised at the end — they are the
@@ -94,9 +94,9 @@ permanently for that reason.
 
 ---
 
-## Case studies 3 and 4 — the invalid runs
+## Case studies 3, 4 and 5 — the invalid runs
 
-Both are attempts to fixture `directed-verification` behaviour 1: *an agent
+All three are attempts to fixture `directed-verification` behaviour 1: *an agent
 asked to "verify this" produces a weaker artifact than one asked to "make this
 able to fail"*. Records in
 [`../../directed-verification/verification/b1-fixture/`](../../directed-verification/verification/b1-fixture/).
@@ -144,9 +144,25 @@ The tell was visible and missed: five arm-A reports shared a near-identical
 converge on a section heading. It was a prompt echo, and one `grep` would have
 caught it.
 
-## What four runs say about the method
+### 5 — the environment was clean but not capable (run 3)
 
-Two refutations, two invalid, **zero positives**. The method has never been
+Run 2's contamination was fixed: the isolation probe saw nothing, and every
+arm-A transcript was clean of every fingerprint. All fifteen subjects still
+scored `NO-HARNESS`. They were spawned with no tool permissions, so none could
+write a file or run anything, and the treatment — *"confirm it actually fails
+against a wrong implementation"* — was undeliverable. Nine of the fifteen also
+hit a session limit; interleaving meant it cut all three arms equally.
+
+Run 2 turned the control into the treatment; run 3 turned the treatment into
+the control. **A probe that proves an environment clean says nothing about
+whether an experiment is possible in it.** Hence **G9**, a capability probe
+costing one subject where this run cost fifteen. Keeping `NO-HARNESS` distinct
+from `0 killed` is the only reason the failure was legible. Record:
+[`RESULT3.md`](../../directed-verification/verification/b1-fixture/RESULT3.md).
+
+## What five runs say about the method
+
+Two refutations, three invalid, **zero positives**. The method has never been
 shown to detect an effect it knew was present, so its sensitivity is untested —
 which makes its two refutations weaker evidence than they appear. G4 demands a
 positive control of every fixture; `claim-fixture` still owes one of itself.
