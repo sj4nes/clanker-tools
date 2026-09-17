@@ -1,4 +1,5 @@
 #import "../../preamble.typ": keyterm, headline, practice, chref
+#import "../../corpus-facts.typ": corpus-asof, n-behaviour, n-capsule, n-meta, n-skills, n-tool-fact
 
 // DRAFT 2026-09-17. Ledger rows: C-II-53..62.
 
@@ -56,15 +57,15 @@ for bureaucracy. So the first move is to declare the skill's #keyterm[archetype]
 Every requirement in this book is conditional on that one field. Before the
 field existed, no check could tell which requirements applied, so no check
 could enforce any of them. When the field was added to the corpus, the checker's
-first run found 35 failures across 29 of 51 skills. Two of the first
+first run found 35 failures across 29 of the 51 skills the corpus held then. Two of the first
 corrections went to the checker itself. Its test for a stated boundary accepted
 only the word #emph[NOT], so 12 of its first 25 complaints were about
 descriptions that said #emph[excludes] instead. That is #chref(<ch-agent>)'s
 lesson on a new instrument: suspect the check first.
 
 // not-a-use: knowledge-capsule — the archetype label again, as counted by the checker
-At the time of writing, the corpus's 53 skills declare 21 behaviour, 15 capsule,
-11 tool-fact and 6 meta, and the checker reports 34 failures across 28 of
+As of #corpus-asof, the corpus's #n-skills skills declare #n-behaviour behaviour, #n-capsule capsule,
+#n-tool-fact tool-fact and #n-meta meta, and the checker reports 34 failures across 28 of
 them. That number is allowed to fall and not to rise.
 
 The rest of this chapter is about behaviour skills, because they owe the most.

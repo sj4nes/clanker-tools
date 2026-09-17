@@ -3,6 +3,10 @@
 # tools/check-skills.sh.  Asserts what reading the PDF cannot:
 #
 #   1. tools/typstlib.py's escaping self-test passes
+#   1b. corpus-facts.typ's STRUCTURAL constants are what gen-facts.py produces
+#      RIGHT NOW (its stamped as-of/commit values are carried forward, not
+#      gated -- they move on every commit, and a gate that fails after every
+#      commit gets switched off)
 #   2. Part IV (parts/04-catalogue/01-entries.typ) is what gen-catalogue.py
 #      produces from skills/*/ RIGHT NOW
 #   3. Part V (parts/05-open/01-backlog.typ) is what gen-open.py produces from
@@ -51,6 +55,7 @@ if [ "$1" = "--fix" ]; then
     python3 tools/gen-catalogue.py
     python3 tools/gen-open.py
     python3 tools/gen-tutorials.py
+    python3 tools/gen-facts.py
 fi
 
 if ! python3 tools/typstlib.py; then
@@ -58,6 +63,7 @@ if ! python3 tools/typstlib.py; then
     note typstlib
 fi
 
+check_generated "facts"   corpus-facts.typ                  gen-facts.py facts
 check_generated "Part IV" parts/04-catalogue/01-entries.typ gen-catalogue.py part4
 check_generated "Part V"  parts/05-open/01-backlog.typ      gen-open.py part5
 check_generated "Part VI" parts/06-tutorials/01-entries.typ gen-tutorials.py part6

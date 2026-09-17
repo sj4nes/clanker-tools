@@ -44,6 +44,7 @@ too, without which a broken scratch copy would score every mutation as caught.
     tools/gen-catalogue.py Part IV, from frontmatter/CHANGELOG/verification
     tools/gen-open.py      Part V, from the open `- [ ]` items of BACKLOG.md
     tools/gen-tutorials.py Part VI, from skills/*/tutorial/*.md
+    tools/gen-facts.py     corpus-facts.typ — the corpus counts as constants
 
 Part VI is a **catalogue, not a reprint**: the tutorials run under `upmd` in a
 terminal, which is the point of them, and they come to ~58,000 words. The entry
@@ -57,6 +58,41 @@ book the day they are fixed in the repository.
 
 Part III was built first deliberately: it is the content that would justify the
 rest. If it does not read well, little is lost.
+
+## The corpus-count registry
+
+`corpus-facts.typ` holds every corpus figure as a named constant, so a chapter
+writes `#n-skills` and a number is typed once:
+
+    #import "../../corpus-facts.typ": corpus-asof, n-skills
+
+It exists because the same figures were retyped into four places and had already
+drifted apart (`drift-check.md` §4). It is a sibling of `preamble.typ`, not part
+of it: the preamble's first line is that nothing in it is content, and these are
+content.
+
+Two kinds of value, and the split is the point:
+
+- **gated** — structural counts (skills, archetypes, tables, tutorials, MAJOR
+  bumps). Regenerated and diffed by `check-book.sh` like any generated part.
+- **stamped** — the as-of date, commit count, corpus age. These move with *every
+  commit*, so diff-gating them would fail the build after each one, and a gate
+  that cries wolf gets switched off. They are carried forward untouched and move
+  only on `gen-facts.py --stamp`. The mutation suite asserts both halves: a
+  hand-edited structural count fails the gate, a stale stamp does not.
+
+## Rewrite-pass markers
+
+Parts I and II are agent drafts awaiting the author's rewrite. Defects that must
+be decided *during* that rewrite are marked in place, as Typst comments, so they
+cannot be missed by reading the PDF:
+
+    grep -rn "REWRITE-PASS" docs/book/parts/
+
+Each names the finding in [`drift-check.md`](drift-check.md) it comes from and
+the decision needed. They are comments, so they never render. Four are open, all
+from §4 (corpus counts stated with inconsistent as-of discipline). Delete a
+marker when its decision is made.
 
 ## Drift checks
 

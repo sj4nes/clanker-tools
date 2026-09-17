@@ -63,10 +63,10 @@ MUTATIONS = [
     ("a skill's version moves", {"part4"},
      lambda d: edit(d, "skills/citation-check/SKILL.md",
                     "version: 1.0.0", "version: 1.1.0")),
-    ("a skill gains a displacement table", {"part4"},
+    ("a skill gains a displacement table", {"facts", "part4"},
      lambda d: append(d, "skills/simulation/verification/README.md",
                       "\n## Displacement table\n\n**3 covered · 1 judgement · 2 gaps.**\n")),
-    ("a skill is added", {"part4"},
+    ("a skill is added", {"facts", "part4"},
      lambda d: _add_skill(d)),
     ("an open backlog item is added", {"part5"},
      lambda d: edit(d, "BACKLOG.md", "\n## Done\n",
@@ -84,10 +84,10 @@ MUTATIONS = [
      # moves gets disabled rather than fixed.
      lambda d: edit(d, "docs/book/parts/05-open/01-backlog.typ",
                     "open items, read from", "open items, silently miscounted,")),
-    ("a tutorial gains a runnable block", {"part6"},
+    ("a tutorial gains a runnable block", {"facts", "part6"},
      lambda d: append(d, "skills/physics-newtonian/tutorial/pendulum.md",
                       "\n```bash [name:chk_invented, deps:setup]\nbc -l <<< '1+1'\n```\n")),
-    ("a tutorial is added", {"part6"},
+    ("a tutorial is added", {"facts", "part6"},
      lambda d: (d / "skills/physics-acoustics/tutorial/invented.md").write_text(
          "# An Invented Tutorial\n\n> Generated from the `physics-acoustics`"
          " capsule (Release 0.1) with the `formula-tree-tutorial` skill.\n\n"
@@ -107,9 +107,15 @@ MUTATIONS = [
                     "## What you need first\n",
                     "## What you need first\n\nNeeds [horns-and-reciprocity.md]"
                     "(horns-and-reciprocity.md) first.\n")),
-    ("a skill declares an unknown archetype", {"gen-catalogue"},
+    ("a skill declares an unknown archetype", {"facts", "gen-catalogue"},
      lambda d: edit(d, "skills/simulation/SKILL.md",
                     "archetype: behaviour", "archetype: invented")),
+    # The registry itself. Isolating: nothing else reads corpus-facts.typ, so a
+    # hand-edit of it moves this gate alone -- which is what makes the four
+    # multi-gate expectations above readable as "this really did change a count".
+    ("corpus-facts.typ is hand-edited", {"facts"},
+     lambda d: edit(d, "docs/book/corpus-facts.typ",
+                    "#let n-skills = ", "#let n-skills = 999 // ")),
     # --- the escaper, and the two defects it exists to prevent --------------
     # Isolating only because no generated text currently contains an unmatched
     # `*`.  When first run this fired {part4} and NOT typstlib: the suite's
@@ -169,6 +175,24 @@ if __name__ == "__main__":
     bad += not ok
     print(f"{'caught ' if ok else '*** FAIL'}  CONTROL (no mutation): exit {rc},"
           f" gates {sorted(gates)} (want exit 0, none)")
+    if not ok:
+        print("\n".join("      " + x for x in out.splitlines()[:12]))
+
+    # The stamped values are deliberately NOT gated: they move on every commit,
+    # and a gate that fails after each one gets switched off. That is a design
+    # decision, so it gets a test -- an out-of-date stamp must leave the gate
+    # GREEN, while the structural counts beside it stay gated (above).
+    d = scratch()
+    try:
+        edit(d, "docs/book/corpus-facts.typ",
+             "#let n-commits = ", "#let n-commits = 1 // ")
+        rc, gates, out = run(d)
+    finally:
+        shutil.rmtree(d)
+    ok = rc == 0 and not gates
+    bad += not ok
+    print(f"{'held   ' if ok else '*** FAIL'}  A STALE STAMP does not fail the "
+          f"gate: exit {rc}, gates {sorted(gates)} (want exit 0, none)")
     if not ok:
         print("\n".join("      " + x for x in out.splitlines()[:12]))
 

@@ -1,4 +1,5 @@
 #import "../../preamble.typ": keyterm, headline, practice
+#import "../../corpus-facts.typ": corpus-asof, corpus-days, n-commits, n-skills, skill-words
 
 // DRAFT 2026-09-16. Ledger rows: C-I-04..10, C-I-14.
 
@@ -85,6 +86,10 @@ problem handled. You stop looking at the behaviour it was written for, because
 you wrote something about it. If the document does not work, you have traded a
 problem you knew about for one you have stopped watching.
 
+// REWRITE-PASS (drift-check.md §4, ledger C-I-08): "Fifty" is rhetorical, but
+// it sits four lines above an as-of count that says 53 and reads as the same
+// number. Decide which it is: make it plainly illustrative (a hundred vs five),
+// or let it be the corpus figure and generate it with the sentence below.
 A corpus compounds both. Fifty skills nobody can evaluate is worse than five,
 because the context cost adds up and so does the number of things you have
 stopped watching.
@@ -93,8 +98,9 @@ stopped watching.
 
 // intro: corpus
 This book follows a real corpus rather than a worked example. As of
-16 September 2026 it held 53 skills, built over twelve days in 190 commits,
-whose SKILL.md files alone run to roughly 98,000 words. Every one was written
+#corpus-asof it held #n-skills skills, built over #corpus-days days in
+#n-commits commits, whose SKILL.md files alone run to roughly #skill-words
+words. Every one was written
 by a person and an agent working together, and every one is measured against a
 written standard, against which the corpus still records 34 open failures at
 the time of writing.

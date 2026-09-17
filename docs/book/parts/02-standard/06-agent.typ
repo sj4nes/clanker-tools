@@ -1,11 +1,15 @@
 #import "../../preamble.typ": keyterm, headline, practice, chref
+#import "../../corpus-facts.typ": corpus-asof, n-commits
 
 // DRAFT 2026-09-17. Ledger rows: C-II-43..52.
 
 = Work with the agent, not at it <ch-agent>
 
-#headline[181 of 194 commits][
-  At the time of writing, that many commits in this repository name an agent as
+// REWRITE-PASS (drift-check.md §4): the 181 is still hand-counted -- no
+// generator counts agent-co-authored commits yet. The denominator and date are
+// now from the registry, so only this one number can drift.
+#headline[181 of #n-commits commits][
+  As of #corpus-asof, that many commits in this repository name an agent as
   co-author. The one skill about working that way has a single covered row, and
   that row's count was wrong.
 ]
