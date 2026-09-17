@@ -29,8 +29,13 @@
   )
   set text(font: ("Libertinus Serif", "New Computer Modern", "Georgia"), size: 11pt, lang: "en")
   set par(justify: true, leading: 0.65em, first-line-indent: 1.25em)
-  set heading(numbering: "1.1")
   set math.equation(numbering: "(1)")
+
+  // Chapters are numbered, sections are not. The chapter number is not drawn
+  // (the opener below prints `it.body` only); it exists so the PDF bookmarks,
+  // which Typst builds from numbering + title, read "7 Version what ...".
+  set heading(numbering: none)
+  show heading.where(level: 1): set heading(numbering: "1")
 
   // Chapters open a page. `weak: true` avoids a blank leaf before the first.
   show heading.where(level: 1): it => {
@@ -46,8 +51,6 @@
       #text(size: 19pt, weight: "bold", hyphenate: false)[#it.body]
     ]
   }
-  show heading.where(level: 2): set text(size: 12.5pt)
-  set heading(numbering: none)
   show heading.where(level: 2): set text(size: 12.5pt)
   show raw.where(block: true): set block(fill: luma(245), inset: 8pt, radius: 3pt, width: 100%)
   show link: set text(fill: rgb("#1a5fb4"))
@@ -77,6 +80,12 @@
       block(above: 1.4em, below: 0.6em, text(size: 10pt, weight: "bold")[
         #smallcaps[Part #(it.element.numbering)(1)] #h(0.5em) #it.element.caption.body
       ])
+    } else if it.element.func() == heading and it.level == 1 {
+      // chapter number in the contents; the counter steps inside the heading's
+      // show rule, so its value at the heading is one short (as in chref)
+      let n = chapno.at(it.element.location()).first() + 1
+      // plain text colour, like the default entries (not the link colour)
+      link(it.element.location(), text(fill: black, it.indented([#n.], it.inner())))
     } else { it }
   }
 
