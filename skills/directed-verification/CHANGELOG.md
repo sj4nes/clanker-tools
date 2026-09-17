@@ -85,7 +85,7 @@ Run 1 and run 2's prompts move to `b1-fixture/archive-runs-1-2/`.
 
 ## 1.2.0 — 2026-09-15
 
-Corrects 1.1.0, which reported b1 run 2 as *no headroom*. It was **invalid**:
+**MINOR: a reported result was withdrawn; re-read it.** Corrects 1.1.0, which reported b1 run 2 as *no headroom*. It was **invalid**:
 the control arm received the treatment.
 
 Every arm-A subject had `test-writing` loaded in context — its behaviour 1
@@ -109,7 +109,7 @@ hid the cause.
 
 ## 1.1.0 — 2026-09-15 (superseded by 1.2.0)
 
-Behaviour 1's fixture ran twice. It is still unmeasured, and the page now says
+**MINOR: evidential status restated; re-read it.** Behaviour 1's fixture ran twice. It is still unmeasured, and the page now says
 so precisely rather than calling it "logged as work".
 
 - **Run 1 invalid.** The subject function was itself buggy (`int()` truncates

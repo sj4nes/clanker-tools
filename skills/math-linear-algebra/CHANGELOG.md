@@ -2,7 +2,7 @@
 
 ## 2.0.1 — 2026-09-14
 
-No content change. The repo-wide Lean-core audit
+**PATCH: nothing to do.** No content change. The repo-wide Lean-core audit
 ([`docs/verifying-skills.md` §5b](../../docs/verifying-skills.md)) found **41
 problems across six capsules and zero here** — this capsule already carried
 `build/leanmap.py` (an authoritative status map defaulting to the weakest
@@ -28,7 +28,7 @@ English-word matches, one route the prose itself marks as not-an-edge).
 `validation/mutation-check.sh` (new) plants five graph defects per build and
 asserts each is caught: 5/5, at 198 of 198 nodes falsifiable.
 
-## Release 0.1 — 2026-09-13
+## 1.0.0 — 2026-09-13 (Release 0.1)
 
 *(This release is the skill's `1.0.0` — "as verified at release" — under
 [`docs/skill-versioning.md`](../../docs/skill-versioning.md); it predates the

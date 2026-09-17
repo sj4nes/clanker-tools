@@ -40,7 +40,7 @@ Two soft hits adjudicated in `validation/edge-evidence-ignore.txt`.
 `validation/mutation-check.sh` (new) plants five graph defects per build and
 asserts each is caught: 5/5, at 206 of 206 nodes falsifiable.
 
-## Release 0.1 — 2026-09-08
+## 1.0.0 — 2026-09-08 (Release 0.1)
 
 *(This release is the skill's `1.0.0` — "as verified at release" — under
 [`docs/skill-versioning.md`](../../docs/skill-versioning.md); it predates the

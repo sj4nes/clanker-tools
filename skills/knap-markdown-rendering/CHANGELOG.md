@@ -72,3 +72,12 @@ the archetype name.
 
 The filter catalogue is deliberately **not** reproduced here: `knap help filter
 <name>` ships with the binary and cannot drift from it. A second copy could.
+
+## 1.0.0 — 2026-09-16
+
+First committed version. **Not verified at release**: it had no
+`verification/`, and its templates were written from knowledge of the tool
+rather than from its output, which is how 2.0.0's `***` error shipped. It
+arrived inside `0335014`, a commit whose message describes unrelated work, so
+`git log` for this skill starts there. (Entry added 2026-09-17: the changelog
+had no heading for 1.0.0.)

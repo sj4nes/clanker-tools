@@ -9,6 +9,9 @@
 #   5. every skills/*/ is wired into .claude/skills
 #   6. every skills/*/ has a CHANGELOG.md whose NEWEST version heading is the
 #      version in SKILL.md  (see docs/skill-versioning.md §4)
+#   7. the rest of the changelog contract (§3b): a 1.0.0 heading, every later
+#      entry opens with its level, and the level is the digit that moved --
+#      tools/check-changelogs.py.  Unchecked, those clauses decayed.
 #
 # Exists because two of these went wrong silently: `math-probability`'s symlink
 # dangled for a week (a 131-node capsule that was never loadable), and the
@@ -93,6 +96,10 @@ for l in .claude/skills/*; do
         fail=$((fail + 1))
     fi
 done
+
+if ! python3 tools/check-changelogs.py; then
+    fail=$((fail + 1))
+fi
 
 echo
 echo "checked $n skills, $(ls .claude/skills | wc -l | tr -d ' ') wired"
