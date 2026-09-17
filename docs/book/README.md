@@ -94,6 +94,21 @@ the decision needed. They are comments, so they never render. Four are open, all
 from §4 (corpus counts stated with inconsistent as-of discipline). Delete a
 marker when its decision is made.
 
+## The preface names the recursion
+
+[`preface.typ`](preface.typ) — front matter, outside `parts/` so the
+intro-order gate does not check it (a preface is read before any term is
+introduced and has to make sense cold). It states the loop plainly: an agent
+helped write the skills, the checks on the skills, the audits of the checks, the
+book about the audits, and the machinery that checks the book.
+
+Its job is the warning that follows from that. Chapter 5 tells the reader not to
+check a thing with an oracle that shares its assumptions, and by that standard
+this book's evidence is not independent of this book. The preface says so, says
+which parts can be checked anyway (IV–VI are generated), says the general claims
+are hypotheses with an n of one, and says what would settle it: a second
+adopter, including a run that finds nothing.
+
 ## Sidebars — what the standard caught while the book was built
 
 [`sidebars.md`](sidebars.md) — the running record of moments where the method

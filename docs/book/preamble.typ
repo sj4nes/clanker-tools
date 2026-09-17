@@ -34,14 +34,20 @@
       // title is already on the page
       let opener = query(heading.where(level: 1)).find(c => c.location().page() == here().page())
       let divider = query(<part-divider>).find(d => d.location().page() == here().page())
-      if here().page() > 2 and opener == none and divider == none [
+      // front-matter openers are chapter openers for this purpose: the title is
+      // already on the page
+      let front = query(figure.where(kind: "front")).find(f => f.location().page() == here().page())
+      if here().page() > 2 and opener == none and divider == none and front == none [
         #set text(size: 9pt, fill: luma(110))
         #smallcaps[The Missing Manual] #h(1fr) #counter(page).display()
       ]
     },
     footer: context {
       let opener = query(heading.where(level: 1)).find(c => c.location().page() == here().page())
-      if here().page() > 2 and opener != none { align(center, text(size: 9.5pt, counter(page).display())) }
+      let front = query(figure.where(kind: "front")).find(f => f.location().page() == here().page())
+      if here().page() > 2 and (opener != none or front != none) {
+        align(center, text(size: 9.5pt, counter(page).display()))
+      }
     },
   )
   set text(font: ("Libertinus Serif", "New Computer Modern", "Georgia"), size: 11pt, lang: "en")
@@ -115,14 +121,22 @@
     #it.body
   ]
 
-  // Part markers: invisible in the body, a heading row in the contents.
+  // Part and front-matter markers: invisible in the body, a row in the
+  // contents. Without this the figure's caption prints on the page too, beside
+  // the title the helper already drew (caught by reading the PDF, 2026-09-17).
   show figure.where(kind: "part"): none
+  show figure.where(kind: "front"): none
   show outline.entry: it => {
     if it.element.func() == figure and it.element.kind == "part" {
       set par(first-line-indent: 0pt)
       block(above: 1.4em, below: 0.6em, text(size: 10pt, weight: "bold")[
         #smallcaps[Part #(it.element.numbering)(1)] #h(0.5em) #it.element.caption.body
       ])
+    } else if it.element.func() == figure and it.element.kind == "front" {
+      // Front matter: listed, but unnumbered — it precedes the chapter count.
+      set par(first-line-indent: 0pt)
+      link(it.element.location(),
+           text(fill: black, it.indented([], it.element.caption.body)))
     } else if it.element.func() == heading and it.level == 1 {
       // chapter number in the contents; the counter steps inside the heading's
       // show rule, so its value at the heading is one short (as in chref)
@@ -298,3 +312,18 @@
   kind: "sidebar", supplement: [Sidebar], numbering: "1",
   caption: title, body,
 )
+
+// Front matter with a chapter-sized opener that does NOT step the chapter
+// counter and is not numbered: a preface comes before the count, not first in
+// it. A level-1 heading would do both, so this draws its own title and emits an
+// outlinable figure for the contents (the same device `part` uses).
+#let frontmatter(title, body) = {
+  pagebreak(weak: true)
+  figure(kind: "front", supplement: [], numbering: none,
+         outlined: true, caption: title, [])
+  block(above: 2.2em, below: 1.3em)[
+    #set par(first-line-indent: 0pt)
+    #text(size: 19pt, weight: "bold", hyphenate: false)[#title]
+  ]
+  body
+}

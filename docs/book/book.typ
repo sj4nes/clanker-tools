@@ -33,10 +33,14 @@
 
 #block(above: 1.5em, below: 1.1em, text(size: 19pt, weight: "bold")[Contents])
 #outline(title: none, indent: auto,
-  target: heading.where(level: 1).or(figure.where(kind: "part")))
+  target: heading.where(level: 1)
+    .or(figure.where(kind: "part"))
+    .or(figure.where(kind: "front")))
 
 #block(above: 2.2em, below: 1.1em, text(size: 19pt, weight: "bold")[Practices])
 #outline(title: none, target: figure.where(kind: "practice"))
+
+#include "preface.typ"
 
 #part("I", "The Pile")[
   This part asks one question before the rest of the book answers it: what are
