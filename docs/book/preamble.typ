@@ -99,7 +99,10 @@
     #set align(left)
     // Sans runs optically larger than the serif at the same point size, so the
     // body drops from 9.8pt to 9.3pt to sit level with the text around it.
-    #set text(font: sans, size: 9.4pt)
+    // Off-black rather than black: the sans already runs darker on the page than
+    // the serif at the same size, and full black made the aside compete with the
+    // body it is an aside to.
+    #set text(font: sans, size: 9.4pt, fill: luma(62))
     #set par(first-line-indent: 0pt, justify: true, leading: 0.68em)
     // Tracked uppercase rather than smallcaps: the stack's faces have no true
     // small-capital variants, and synthesised ones look like shrunk capitals.
