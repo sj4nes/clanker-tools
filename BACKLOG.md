@@ -1136,6 +1136,13 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
 - [x] **simulation:** new skill — SKILL.md + 4 references + M/M/1 DES verification
       run; merged to main.  (2026-09-06)
 
+## Skill standard & verification debt
+
+Appended below `## Done` until 2026-09-17, which filed 14 OPEN items under
+a heading that says they are finished. Found by `docs/book/tools/gen-open.py`,
+which generates Part V of the book from this file and refuses to read an
+open item out of the Done section.
+
 - [ ] **evaluator-integrity:** five harness gaps from the displacement table
       (`skills/evaluator-integrity/verification/README.md`) — (1) an
       evaluator-CALL budget section, showing a loop that wins on query count
@@ -1441,6 +1448,18 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       moves under a prompt. **Still unmeasured after run 3** — arm C was spawned
       but produced nothing, for the same harness reason as arms A and B.
       (2026-09-16)
+
+- [ ] **`test-writing` states a displacement table but not its counts.**
+      `docs/verifying-skills.md` §7 calls the counts "the deliverable, not the
+      prose", and names `test-writing` as the worked example of the rule — but
+      its `verification/README.md` gives the eight rows and then says "Two of
+      the eight rows are `judgement`" in prose, with no
+      `**N covered · N judgement · N gaps**` line. Every other skill that has a
+      table reports one. Found 2026-09-17 by `docs/book/tools/corpus.py`, which
+      parses the counts for Part IV of the book and had to print "a
+      displacement table, but its counts are stated in prose rather than
+      reported" for the one skill the rule points at. Add the line (6 covered,
+      2 judgement, 0 gaps, if the prose is right).
 
 - [ ] **Re-run the `role-deck` premise fixture with subjects that cannot read
       the repository** (planned week of 2026-09-21). The first run scored 8/8

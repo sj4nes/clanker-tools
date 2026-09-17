@@ -157,3 +157,31 @@
   #v(0.35em)
   #text(size: 10pt)[*Result.* #result]
 ]
+
+// A Part IV catalogue entry. The generator (tools/gen-catalogue.py) emits
+// calls to this and nothing else, so an entry's LOOK stays a decision of this
+// file while its CONTENT stays a fact of the repository.
+//
+// `facts` is an array of (label, body) pairs; a label with an empty body is
+// dropped by the generator rather than set as a blank row.
+#let skillentry(name, version, archetype, claim, facts) = block(
+  width: 100%, breakable: false, above: 1.5em, below: 0.4em,
+)[
+  #set par(first-line-indent: 0pt, justify: false)
+  #text(size: 12pt, weight: "bold")[#raw(name)]
+  #h(0.45em)
+  #text(size: 9pt, fill: luma(110))[#version #sym.dot.c #archetype]
+  #v(0.35em)
+  #text(size: 10pt)[#claim]
+  #v(0.5em)
+  #block(inset: (left: 10pt), stroke: (left: 1.5pt + luma(210)))[
+    #set par(first-line-indent: 0pt, justify: false, leading: 0.58em)
+    #grid(columns: (4.6em, 1fr), row-gutter: 0.55em, column-gutter: 0.6em,
+      ..facts.map(((label, body)) => (
+        text(size: 8.5pt, fill: rgb("#40566b"), weight: "bold")[
+          #smallcaps[#label]
+        ],
+        text(size: 9.5pt)[#body],
+      )).flatten())
+  ]
+]

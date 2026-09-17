@@ -84,3 +84,22 @@
 #include "parts/03-findings/03-graph.typ"
 #include "parts/03-findings/04-premises.typ"
 #include "parts/03-findings/05-shape.typ"
+
+#part("IV", "The Corpus as Worked Examples")[
+  Fifty-three skills, each an entry: what it claims to displace, what its
+  displacement table found, what its harness consists of, and how many times it
+  turned out to be wrong. The entries are generated from the repository at
+  build time, so the catalogue cannot drift from the corpus it describes. The
+  first chapter is how to read one; the rest are the entries.
+]
+#include "parts/04-catalogue/00-howtoread.typ"
+#include "parts/04-catalogue/01-entries.typ"
+
+#part("V", "What Is Still Wrong")[
+  The open backlog, generated from the file the work is actually tracked in.
+  It includes the items a closing chapter would omit: a method that has never
+  returned a positive result, a run invalidated by its own conditions, and a
+  book with no reader interviews.
+]
+#include "parts/05-open/00-intro.typ"
+#include "parts/05-open/01-backlog.typ"

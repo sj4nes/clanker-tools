@@ -13,19 +13,40 @@ the least readable artifact a project has. At the time of writing: 4,122 lines
 of commit-message body across 161 commits, 24 of whose subject lines report a
 finding. Nobody reads a git log as a document.
 
-## Status: Parts I (draft), II (draft) and III
+## Status: Parts I (draft), II (draft), III, IV and V
 
 | Part | Source | Rots? | Built |
 |---|---|---|---|
 | I — The pile | authored | no | **draft** (2026-09-16, agent-written, awaiting author rewrite; evidence in `claim-ledger.md`) |
 | II — The standard (verification bar, displacement tables, versioning) | authored | no | **II.1–II.7 draft** (2026-09-16/17, agent-written; ledger C-II-01..62) |
 | **III — What the standard found** | authored | no | **yes**; evidence pass 2026-09-17 (ledger C-III-01..21) |
-| IV — The catalogue (50 skills) | **generated** from frontmatter | cannot | — |
-| V — What's still wrong | **generated** from `BACKLOG.md` | cannot | — |
+| IV — The catalogue (53 skills) | **generated** from frontmatter | cannot | **yes** (2026-09-17); framing chapter authored |
+| V — What's still wrong | **generated** from `BACKLOG.md` | cannot | **yes** (2026-09-17); framing chapter authored |
 
-Parts IV and V are to be *generated* so they cannot go stale, and gated by a
-`check-book.sh` in the spirit of `tools/check-skills.sh` — a book that can
+Parts IV and V are *generated* so they cannot go stale, and gated by
+`tools/check-book.sh` in the spirit of `tools/check-skills.sh` — a book that can
 silently rot is the failure this repo spends its time closing.
+
+    sh docs/book/tools/check-book.sh         gate: stale? warns? compiles?
+    sh docs/book/tools/check-book.sh --fix   regenerate first, then gate
+    python3 docs/book/tools/check-book-mutations.py   prove the gate can fail
+
+The gate has five named gates (`typstlib`, `part4`, `part5`, `compile`,
+`warnings`, plus each generator's own refusal), and
+`check-book-mutations.py` breaks each one on a scratch copy and requires it to
+fire **alone** — the standard of `docs/verifying-skills.md` §8, and the same
+one `check-intro-order-mutations.py` is held to. It runs a no-mutation control
+too, without which a broken scratch copy would score every mutation as caught.
+
+    tools/corpus.py        reads skills/*/ into records (both generators)
+    tools/typstlib.py      Markdown -> Typst escaping, with a self-test
+    tools/gen-catalogue.py Part IV, from frontmatter/CHANGELOG/verification
+    tools/gen-open.py      Part V, from the open `- [ ]` items of BACKLOG.md
+
+The generators **report absence rather than guessing**: a skill with no
+displacement table says so, and a skill with a table whose counts are only in
+prose says that instead. Those absences are the corpus's, and they leave the
+book the day they are fixed in the repository.
 
 Part III was built first deliberately: it is the content that would justify the
 rest. If it does not read well, little is lost.
@@ -51,6 +72,10 @@ Four, all of which compiled cleanly:
   warns `no text within stars`, which is easy to scroll past.
 - `counter(heading)` never advances when `numbering: none`, so every chapter
   eyebrow read "Chapter 0". Fixed with a dedicated counter.
+- A changelog entry styled `**MAJOR.** **The headline.** body` put its second
+  pair of stars into Part IV as literal `\*\*`: the parser read the headline
+  as everything after the level, markers included. Found by the mutation test,
+  not by reading — the page looked plausible.
 - `#outline()` emits its own level-1 heading, which the chapter show-rule
   styled as a chapter and which stepped the counter — every chapter was off by
   one. Fixed with `title: none`.
