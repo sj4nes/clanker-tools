@@ -19,7 +19,7 @@ finding. Nobody reads a git log as a document.
 |---|---|---|---|
 | I — The pile | authored | no | **draft** (2026-09-16, agent-written, awaiting author rewrite; evidence in `claim-ledger.md`) |
 | II — The standard (verification bar, displacement tables, versioning) | authored | no | **II.1–II.7 draft** (2026-09-16/17, agent-written; ledger C-II-01..62) |
-| **III — What the standard found** | authored | no | **yes** |
+| **III — What the standard found** | authored | no | **yes**; evidence pass 2026-09-17 (ledger C-III-01..21) |
 | IV — The catalogue (50 skills) | **generated** from frontmatter | cannot | — |
 | V — What's still wrong | **generated** from `BACKLOG.md` | cannot | — |
 

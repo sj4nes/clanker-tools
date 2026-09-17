@@ -255,7 +255,10 @@ still open.
   source_tier: primary
   date_checked: 2026-09-16
   confidence: high
-  caveats: "Part III has no ledger rows yet; this row inherits whatever its
+  caveats: "UPDATED 2026-09-17 (Part III evidence pass): the marker-grep
+    defect was first NOTICED from a stray stderr line in a passing run
+    (dde3f82), then proved by planting; say 'established', not 'found', by
+    breakage (C-III-22). Earlier caveat: Part III has no ledger rows yet; this row inherits whatever its
     evidence pass finds."
   chapter: I.1
   citation_status: no-citation-needed   # internal cross-reference
@@ -284,7 +287,8 @@ still open.
 
 - id: C-I-12
   claim_text: "Two defaults this corpus asserted were measured and were false:
-    'an agent will skip the expensive step' (8/8 ran it) and 'an agent will
+    'an agent will skip the expensive step' (8/8 reported running it; 3/8
+    proven, C-III-18) and 'an agent will
     confirm rather than discriminate' (0/8 confirmatory)."
   claim_type: fact
   evidence_needed: the fixtures
@@ -439,7 +443,7 @@ still open.
   drafting_status: resolved
 ```
 
-## Part III rows (started 2026-09-16; Part III's evidence pass is still owed)
+## Part III rows (started 2026-09-16; evidence pass 2026-09-17, C-III-05..22)
 
 ```yaml
 - id: C-III-01
@@ -524,6 +528,384 @@ still open.
   chapter: III.4 (book chapter 6)
   citation_status: no-citation-needed
   citation_check: n/a
+  drafting_status: resolved
+```
+
+### Part III evidence pass (2026-09-17)
+
+Part III was drafted before this ledger existed. These rows trace every
+checkable claim in chapters III.0–III.5 to a primary record, re-run where the
+tool is on this machine (bc 7.0.3, Lean 4.34.0, BSD tsort, BSD grep). Three
+findings change the text:
+
+1. **The dead grep was blamed on the wrong binary.** Harness scripts run under
+   `/bin/sh`, where `grep` is BSD `/usr/bin/grep`; the message quoted in
+   `dde3f82` (`repetition-operator operand invalid`) is BSD grep's. ugrep is the
+   agent's interactive shell wrapper, which emits `error at position 4 …`.
+   Subjects of the premise fixture reported this on 2026-09-15 (RESULT.md,
+   "Bycatch"); `dde3f82`, `docs/bc-verification-audit.md` (addendum) and
+   `docs/verifying-skills.md` l.146 were never corrected (§3 l.112 was). Both
+   binaries exit 2, so every conclusion holds; the attribution does not.
+2. **"41 claims with nothing behind them" overstates the Lean audit.** abb9d0f
+   bumped logic-and-proof and real-analysis MINOR because their claims were TRUE
+   but unlocatable (5 prose refs naming techniques, 4 core-arith labels on real
+   sections). 41 is the count of claims a machine could not locate or that
+   named no general proof.
+3. **The first premise fixture's measurement was forgeable by reading the
+   repository.** score.py counts as EXECUTED: the stderr message, "operand
+   invalid", `grep -F`, "fixed-string", "ugrep", or "exit 2". Every one of
+   those was in `docs/verifying-skills.md` and commit `dde3f82` (2026-09-13)
+   when the fixture ran (1cb9ee5, 2026-09-15 11:28), and subjects had the repo
+   (RESULT.md: "several subjects cited them"). ugrep's own message ("error at
+   position 4", "empty (sub)expression") first entered the repo at 797188d,
+   17:05 that day, after the run. Three trials (4, 7, 8) quote it: execution
+   proven. Five (1, 2, 3, 5, 6) carry only doc-reachable evidence plus a
+   self-reported "verified". Under the pre-registered bands (READ-ONLY share),
+   counting the five as executed gives REFUTED; counting them as unproven
+   gives 5/8 = 0.625, "premise weakly supported". The second fixture is
+   unaffected: its scorer executes each subject's edited script.
+
+```yaml
+- id: C-III-05
+  claim_text: "Four audits ran between 13 and 15 September 2026: bc (13th),
+    graph edges and Lean cores (14th), premises (15th)."
+  claim_type: fact
+  evidence_needed: commit dates
+  source: "26de48f 09-13 09:50; dde3f82 09-13 12:01; 904ea6a 09-14 11:53;
+    abb9d0f 09-14 12:45; 1cb9ee5 09-15 11:28; da8cfa7 09-15"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The graph audit preceded the Lean audit by 52 minutes; chapter
+    order (Lean before graph) is not run order, though III.0 says 'in the order
+    they were run'."
+  chapter: III.0
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-06
+  claim_text: "bc exits 1 on a math error, 2 on a syntax error, 3 on an
+    undefined function, 4 on a missing file, and 0 on a false claim; quit 1
+    exits 0."
+  claim_type: fact
+  evidence_needed: a fresh run
+  source: "bc 7.0.3, re-run 2026-09-17 on five scratch files (exits 2, 3, 4, 1,
+    0; quit 1 -> 0); man bc EXIT STATUS; 9d807f9"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: none
+  chapter: III.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-07
+  claim_text: "Of 24 bc harnesses, 4 would catch a wrong number; 15 printed
+    numbers beside prose and asserted nothing; 1 printed FAIL lines no one read;
+    4 were documented but never run by any script."
+  claim_type: fact
+  evidence_needed: the audit table
+  source: "docs/bc-verification-audit.md 'Original findings' (26de48f)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The headline said the other twenty 'reported success on any input,
+    including one where every assertion was false'. The four unautomated files
+    reported nothing, and the BROKEN one was shown with ONE forced FAIL line.
+    Reworded."
+  chapter: III.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-08
+  claim_text: "Vacuous checks: statistics' two CRLB checks compared an
+    expression with itself (one literally (lam/n)/(lam/n)); visualization-
+    design's zero-baseline lie-factor check had the same shape; math-probability
+    computed an independent oracle and never compared it."
+  claim_type: fact
+  evidence_needed: the audit record
+  source: "docs/bc-verification-audit.md 'Defects found' 1-2 and the
+    math-probability reproduction; 7b7a3e3, d863651"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: none
+  chapter: III.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-09
+  claim_text: "grep -q '*** FAIL' exits 2 on this machine, so an if clause
+    around it never fires; it was dead in 8 of 9 harnesses plus the template.
+    The harnesses ran BSD /usr/bin/grep, whose message is 'repetition-operator
+    operand invalid'."
+  claim_type: fact
+  evidence_needed: a fresh run under /bin/sh, and the commit
+  source: "sh -c 'type grep' -> /usr/bin/grep; exit 2 with that message,
+    re-run 2026-09-17; dde3f82; premise-fixture/RESULT.md 'Bycatch'"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Part III, dde3f82, the bc audit addendum and verifying-skills.md
+    l.146 say ugrep. ugrep is the agent shell's wrapper and says 'error at
+    position 4'. GNU grep's tolerance of a leading * is documented in the
+    corpus but not re-run here (no GNU grep installed)."
+  chapter: III.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-10
+  claim_text: "After remediation, the nine harnesses that used the broken
+    grep form use grep -qF; the capsule runners use an escaped pattern,
+    '\\*\\*\\* FAIL', which matches correctly."
+  claim_type: fact
+  evidence_needed: a survey of runners and a test of the escaped form
+  source: "grep over skills/*/build/*.sh and verification/run.sh, 2026-09-17;
+    escaped form under /bin/sh: exit 0 on a marker, 1 without"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "III.1 said all 24 are 'grepped with grep -qF'; false for the
+    capsule runners. role-deck's premise-fixture subject keeps the broken form
+    on purpose."
+  chapter: III.1
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-11
+  claim_text: "The oldest bc harnesses date from 5 September; the audit was on
+    13 September."
+  claim_type: fact
+  evidence_needed: git history
+  source: "git log --diff-filter=A on skills/*/verification/checks.bc and
+    validation/*.bc: e35fa60, eb67ed8 (2026-09-05)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "III.5 said the harnesses 'ran green for weeks'; at most eight
+    days. Reworded."
+  chapter: III.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-12
+  claim_text: "lean exits 0 on a theorem proved by sorry, on an axiom from
+    which 3 = 4 follows, and on a numeral-only 'core'; it exits 1 on a false
+    universal statement closed by omega."
+  claim_type: fact
+  evidence_needed: a fresh run
+  source: "Lean 4.34.0, four scratch files re-run 2026-09-17 (0, 0, 0, 1);
+    abb9d0f; docs/verifying-skills.md §5b"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Re-run on scratch files, not planted in the capsule file as the
+    audit did."
+  chapter: III.2
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-13
+  claim_text: "The Lean audit found 41 problems in six capsules: 19 core
+    statuses with an empty lean_ref (6 probability, 13 statistics), 7 Lean
+    statuses whose ref was only a .bc file, 10 core refs naming no declaration
+    or section, 5 core-arith statuses outside the vocabulary. At least 9 of the
+    41 were true but unlocatable (logic-and-proof's 5 prose refs,
+    real-analysis's 4 core-arith labels), and were bumped MINOR."
+  claim_type: fact
+  evidence_needed: the commit and the rubric record
+  source: "abb9d0f body (findings table, 'Versions' paragraph);
+    docs/verifying-skills.md §5b"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Seven capsules make lean_status claims (the math capsules); five
+    physics/chemistry capsules carry a .lean file and gate it but make no
+    lean_status claims. 'Six of seven' is of the claim-bearing capsules."
+  chapter: III.2
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-14
+  claim_text: "math-linear-algebra had zero findings: it already carried a
+    status map defaulting to the weakest status and a ref checker. After the
+    fixes, math-probability's machine-verified count went from 36 claimed to
+    25, math-statistics' from 44 to 28; no .lean file used sorry or axiom."
+  claim_type: fact
+  evidence_needed: commit, and a fresh grep
+  source: "abb9d0f; grep of skills/**/*.lean 2026-09-17 (sorry appears only in
+    header comments 'no sorry'); lean-mutation-check.sh math-probability 6/6"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "'The guard is the difference' is an interpretation from one
+    control, not a controlled comparison."
+  chapter: III.2
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-15
+  claim_text: "Before 2026-09-14 the graph checks caught a planted cycle,
+    unregistered endpoint and self-edge, and passed a deleted real edge and a
+    spurious edge with exit 0. BSD tsort exits 0 on a cycle and writes 'cycle
+    in data' to stderr."
+  claim_type: fact
+  evidence_needed: the rubric record and a fresh tsort run
+  source: "904ea6a; docs/verifying-skills.md §5a table; tsort re-run
+    2026-09-17 (exit 0, 'tsort: cycle in data'); mutation-check.sh
+    math-probability 5/5 today"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The 'before' results are recorded, not replayed."
+  chapter: III.3
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-16
+  claim_text: "Gating edges against node text over 14 capsules found 18 hard
+    violations, about 55 soft hits of which 36 were real missing edges, and 7
+    result files in two capsules (math-real-analysis,
+    math-sets-functions-cardinality) that did not parse, in the two capsules
+    with no consistency checker. The soft scan first gave about 180 noisy hits;
+    the deleted-edge mutation first matched literally and did nothing on a line
+    with a trailing comment."
+  claim_type: fact
+  evidence_needed: commit and rubric record
+  source: "904ea6a (b); docs/verifying-skills.md §5a 'What the first run
+    found'"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "~55 and ~180 are approximate in the source too."
+  chapter: III.3
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-17
+  claim_text: "The diagnose deck's checker found RED and YELLOW decorative
+    (nothing consumed their artifacts); the decide deck could defer having
+    gathered no evidence; the simulator showed gather before hunch in 50.0% of
+    v0.5.0 runs, fixed by one edge."
+  claim_type: fact
+  evidence_needed: commits
+  source: "465bd44 (finding 1); 629d32a (finding 10); 914af76 (finding 7)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The 'ending before evidence' case is the decide deck, not diagnose."
+  chapter: III.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-18
+  claim_text: "Premise fixture: 8 fresh agents, no deck, no prompt to run
+    anything; all 8 reports scored EXECUTED. Three reports quote output that
+    existed nowhere the subjects could read at run time; five carry only
+    evidence also present in the repository's documentation, plus a
+    self-reported 'verified'."
+  claim_type: fact
+  evidence_needed: the trial reports, the scorer, and when each evidence string
+    entered the repo
+  source: "role-deck/verification/premise-fixture/results/trial1-8.txt;
+    score.py re-run 2026-09-17 (8/8); git log -S 'empty (sub)expression'
+    (first 797188d, 09-15 17:05) vs run 1cb9ee5 (09-15 11:28); dde3f82 and
+    docs/verifying-skills.md already held the stderr message, -F fix, ugrep,
+    exit 2"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Pre-registered bands on the READ-ONLY share: five unproven counted
+    as executed -> REFUTED; counted as not -> 0.625, 'weakly supported'. The
+    reports' self-reported verification is plausible and was excluded by the
+    design's own rule. Corpus fix: role-deck RESULT.md, SKILL.md table,
+    claim-fixture case study 1 all say 8/8 unforgeable."
+  chapter: III.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-19
+  claim_text: "Ordering fixture: 8 fresh agents; the scorer executed each
+    subject's edited check against a stderr-only failure absent from their
+    fixture: 8/8 COMPLETE, 0 CONFIRMATORY; every subject tested the all-pass
+    case; 4 of 8 closed a third, unplanted hole (the suite always exits 0)."
+  claim_type: fact
+  evidence_needed: the result record
+  source: "role-deck/verification/ordering-fixture/RESULT.md; score.sh"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Subjects had repo access (contamination noted in RESULT); the
+    execution-based score is not forgeable by reading."
+  chapter: III.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-20
+  claim_text: "Both fixtures together cost 16 agents and about four minutes of
+    wall time; both claims were struck, and role-deck's SKILL.md now states in a
+    table that it does not make an agent more thorough."
+  claim_type: fact
+  evidence_needed: records and skill text
+  source: "claim-fixture/references/case-studies.md 'What the two together
+    cost'; role-deck SKILL.md l.34-50 (v2.4.0)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: "'About four minutes' is recorded, not timed from logs."
+  chapter: III.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-22
+  claim_text: "Every Part III defect was established by planting a defect; the
+    marker-grep defect was first noticed from a stray stderr line in an
+    otherwise-passing run, then proved by a planted marker."
+  claim_type: fact
+  evidence_needed: the commit
+  source: "dde3f82 ('Found ... from a stray grep: repetition-operator operand
+    invalid on stderr in an otherwise-passing statistics run')"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "III.0 and III.5 said each was FOUND by deliberate breakage.
+    Reworded to 'established' / 'proved'."
+  chapter: III.0, III.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-III-21
+  claim_text: "Deliberate breakage is mutation testing, which predates this
+    corpus by decades (Lipton 1971; DeMillo, Lipton & Sayward 1978; Hamlet
+    1977)."
+  claim_type: fact
+  evidence_needed: C-II-01, C-II-02
+  source: C-II-01, C-II-02
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "III.5 said 'the practice has a name in this corpus'. Reworded to
+    name the lineage and point at II.2."
+  chapter: III.5
+  citation_status: see C-II-01
+  citation_check: verified
   drafting_status: resolved
 ```
 
@@ -1839,21 +2221,40 @@ Corpus findings (closed 2026-09-17, see the Closed list at the end; at the time:
 - **C-I-08** — the corpus figures rot; generate them (same mechanism as Parts IV/V).
 - **C-I-09** — read the two or three closest comps before any sentence about
   what they contain.
-- **C-I-10, C-I-12** — Part III needs its own ledger rows and evidence pass.
 - **C-I-17** — test-writing behaviour 3's default ("expected values copied from
   the code's output") is unmeasured. Either fixture it or restate the behaviour
   as resting on Kreinin's hypothesis.
 - **C-II-18** — verify the first-edition year of Beck's TDD book (Hamlet 1977
   now Crossref-verified; C-II-01 closed).
 - **C-II-12** — behaviour-skill table count rots; generate it.
-- **Part III** — reword wherever deliberate breakage reads as the corpus's
-  invention; it is mutation testing.
+- **C-III-18 (corpus fix, and a decision)** — the first `role-deck` premise
+  fixture's scorer accepted evidence the repository's docs already held; only
+  3 of 8 trials prove execution. `role-deck/verification/premise-fixture/
+  RESULT.md`, `role-deck` SKILL.md's table ("8/8 executed") and
+  `claim-fixture/references/case-studies.md` §1 still say 8/8 unforgeable. The
+  book now says 3 proven, 5 self-reported. Decide: restate the records, and/or
+  re-run the fixture with subjects outside the repository (cheap: 8 agents).
+- **C-III-09 (corpus fix)** — `dde3f82`'s claim that ugrep emits
+  `repetition-operator operand invalid` is repeated in
+  `docs/bc-verification-audit.md` (addendum), `docs/verifying-skills.md` l.146,
+  and `role-deck/verification/premise-fixture/scoring.md`. That is BSD grep's
+  message; harness scripts run BSD grep. Noticed by fixture subjects on
+  2026-09-15 and never corrected.
+- **C-III-02 (corpus fix)** — `role-deck` SKILL.md's workflow comment says 16
+  deck gates; the checker runs 17.
 - **Reader** — every statement of what the reader believes is the author's
   assumption (brief: accepted exception, no interviews).
 - **C-II-39** — MAJOR totals rot; generate them with Part IV.
 - **C-II-43** — the co-authored commit count rots; generate it.
 
 ### Closed 2026-09-17 (corpus fixes; chapters reworded to past tense)
+
+- **C-I-10, C-I-12 / Part III evidence pass** — rows C-III-05..21. Text
+  corrected: bc headline (the other twenty did not all "report success"), the
+  grep attribution, "grep -qF" for all 24, Lean's "41 with nothing behind
+  them", the first premise's 8/8, "ran green for weeks", audit order, and
+  mutation testing named as the lineage (III.5). The 8/8 correction also
+  reaches I.2, II.4, II.6 and II.7.
 
 - **claim-fixture docs** — "four runs, two invalid, 50%" → five runs, three
   invalid, case study 5 added. `claim-fixture` 2.4.0, 50fc972.

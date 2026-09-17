@@ -99,7 +99,7 @@ One step here is not where `skill-authoring` puts it. The skill numbers
 expensive lesson argues for moving it up. `role-deck` was built, verified,
 released, and revised to 2.0.0 over the first eleven hours of 15 September.
 Its founding premise was then fixtured: twelve minutes from the fixture's
-commit to the result, and it was false. The
+commit to the result, and it came back against the claim. The
 deck checker survived, and so did the ledger. The reason for the skill did not.
 
 The qualifier #emph[if it is cheap] matters just as much.

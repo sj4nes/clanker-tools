@@ -98,8 +98,8 @@ Three records show what that looks like.
 The first is a premise. `role-deck`'s founding claim, that an agent left alone
 will skip the expensive step, was written in commits the agent co-authored. It
 was fixtured and struck in commits the agent co-authored. #chref(<ch-premises>)
-tells that story: 8 of 8 fresh agents did the work unprompted, and then 8 of 8
-again for the second claim. The collaboration asserted something about agents,
+tells that story: all 8 fresh agents reported doing the work unprompted, 3 with
+proof, and then 8 of 8 did it again, provably, for the second claim. The collaboration asserted something about agents,
 built the test that could refute it, and published the refutation.
 
 The second is an experiment. In the first attempt to measure
@@ -183,7 +183,8 @@ directing an agent makes the agent more careful. Behaviour 1 is the most
 testable claim in the skill, and it has been fixtured three times. All three
 runs were invalid, for the reasons #chref(<ch-premise>) gives. The two clean
 measurements this corpus does have point the other way: agents left alone did
-the expensive work, 8 times out of 8, on both claims.
+the expensive work, provably in 8 of 8 on one claim and in at least 3 of 8 on
+the other.
 
 So the case for directing verification cannot rest on the idea that agents cut
 corners. It rests on something smaller, and better supported. Agreeable prose

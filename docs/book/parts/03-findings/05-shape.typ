@@ -29,19 +29,22 @@ is the same inference four times.
 == Three properties of the family
 
 #keyterm[It is silent by construction.] A check that cannot fail looks
-identical, in every log, to a check that passes. There is no symptom. The bc
-harnesses ran green for weeks.
+identical, in every log, to a check that passes. There is no symptom. The
+oldest bc harnesses ran green for eight days before anyone asked.
 
 #keyterm[Partial protection is what hides it.] `bc` does catch a syntax error.
 `lean` does catch a genuinely false closed statement. `tsort` does catch an
 unregistered node. That partial coverage is precisely why nobody looked
 further — the check demonstrably worked, on the cases it worked on.
 
-#keyterm[It is only ever found by deliberate breakage.] Not one of these was
-found by a failing build, because a failing build was the impossible event. Each
-was found by planting a defect and noticing that nothing complained. The
-practice has a name in this corpus — negative-contrast testing, or mutation —
-and it is now a required line in the checklist: #emph[an assertion never seen to
+#keyterm[It is only ever proved by deliberate breakage.] Not one of these was
+found by a failing build, because a failing build was the impossible event. One
+was first glimpsed as a stray error line in a passing run, which is luck, not
+method. Each was proved by planting a defect and noticing that nothing
+complained. The
+practice is not this corpus's invention. It is mutation testing, which
+#chref(<ch-harness>) traces to the 1970s. The corpus calls it negative-contrast
+testing, and it is now a required line in the checklist: #emph[an assertion never seen to
 fail is not known to be an assertion.]
 
 == The recursion, which is the honest part
@@ -50,8 +53,9 @@ The harness built to catch missing graph edges contained a mutation that
 #emph[reported itself as surviving] — it matched its target line literally, so a
 trailing comment made the deletion do nothing. The fixture built to test whether
 agents skip verification had a scorer that could not prove its own
-pre-registration. The skill built to force disciplined process was justified by
-two claims that had never been measured.
+pre-registration, and a measurement meant to be unforgeable that the
+repository's own documentation could satisfy. The skill built to force
+disciplined process was justified by two claims that had never been measured.
 
 The defect appeared inside every attempt to fix the defect. That is not irony
 for its own sake; it is the practical content of this part. #keyterm[There is no

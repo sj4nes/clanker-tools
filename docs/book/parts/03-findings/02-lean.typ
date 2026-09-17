@@ -3,8 +3,8 @@
 = A proof that proved nothing
 
 #headline[41 claims][
-  of machine verification with nothing behind them, across six of seven
-  capsules. Nineteen pointed at nothing at all.
+  of machine verification that no machine could locate or check, across six of
+  the seven capsules that make such claims. Nineteen pointed at nothing at all.
 ]
 
 == The same hole, one tool over
@@ -77,8 +77,11 @@ After the fixes, `math-probability`'s honest count of machine-verified nodes
 went from #keyterm[36 claimed to 25], and `math-statistics` from #keyterm[44 to
 28]. And the part worth stating plainly: #emph[no proof was wrong]. Every
 `.lean` file compiled clean before and after, with no `sorry` and no `axiom`
-anywhere in the repository. What was wrong was the index — a third of the claims
-pointed at nothing.
+anywhere in the repository. What was wrong was the index: a third of the
+claimed verifications did not survive. And not every one of the 41 was false.
+At least nine named a proof that was really there, in words no machine could
+follow. Those were recorded as a smaller correction than the ones with nothing
+behind them.
 
 #practice[Resolve every pointer your document claims to have.][
   Find each place your skill asserts something is verified, proved, tested,

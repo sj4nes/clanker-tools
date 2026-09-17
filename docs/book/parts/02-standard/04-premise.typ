@@ -26,7 +26,8 @@ reason to check.
 This corpus has one worked answer. `role-deck` rested on two premises: that an
 agent left alone skips the expensive step, and that an agent with a plausible
 explanation looks for confirmation instead of alternatives. Both were measured,
-and both were false, 8 of 8 each time. #chref(<ch-premises>) tells that story.
+and both came back against the claim: 8 of 8 subjects, though for the first
+claim only 3 of the 8 could prove it. #chref(<ch-premises>) tells that story.
 This chapter is about the method, and about the three experiments that did not
 get as far as a result.
 
@@ -53,10 +54,14 @@ measurement, and no amount of discipline repairs it.
 // intro: unforgeable-measurement
 *Make the measurement unforgeable.* Ask a subject whether they considered
 alternatives and they will say yes. An #keyterm[unforgeable measurement]
-is one the subject cannot produce without doing the work. In the first
-`role-deck` fixture, the evidence of having run the code was an error string
-that appeared nowhere in the source. In the second, the scorer applied each
-subject's fix and ran it against a failure they had never been shown.
+is one the subject cannot produce without doing the work. In the second
+`role-deck` fixture, the scorer applied each subject's fix and ran it against a
+failure they had never been shown. The first fixture shows how hard this is.
+Its evidence of having run the code was an error string that appeared nowhere
+in the code handed over. But the subjects could read the whole repository, and
+its documentation of that very bug quoted the string. Only 3 of 8 reports carry
+evidence that could not have come from reading. Unforgeable means unforgeable
+from everything a subject can read, not only from the files you gave them.
 
 // intro: pre-registration
 *Commit the scorer before any result exists, in a separate commit.* This is
@@ -123,7 +128,7 @@ its sources, not that it catches failures nobody has had yet.]
 
 Five runs, and #emph[zero positives]. The method has never been shown to detect
 an effect that was known to be there. Its sensitivity is untested, so its two
-refutations are weaker evidence than 8 of 8 makes them look: they mean
+refutations are weaker evidence than their headline counts make them look: they mean
 #emph[no effect was detected], by an instrument nobody has yet seen detect one.
 
 That does not rescue either `role-deck` premise. They were struck, and they stay

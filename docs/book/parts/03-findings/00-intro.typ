@@ -14,8 +14,10 @@ topological sort, and a methodology's own justification: each had a check whose
 success carried no information.
 
 None of these were discovered by a failing build. A failing build was, in every
-case, the thing that could not happen. They were discovered by deliberately
-breaking something and noticing that nothing complained.
+case, the thing that could not happen. Each was established by deliberately
+breaking something and noticing that nothing complained. One was first noticed
+by accident, as a stray error line in a passing run, and it took a planted
+defect to prove what that line meant.
 
-What follows is what each audit found, in the order they were run, and then the
-one structural property they share.
+What follows is what each audit found, and then the one structural property
+they share.

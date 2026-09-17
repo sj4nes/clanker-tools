@@ -2,9 +2,10 @@
 
 = Two premises, measured <ch-premises>
 
-#headline[8 of 8, twice][
+#headline[8 of 8, and 3 of 8][
   Both behavioural claims that justified a newly built skill were fixtured
-  against naive agents. Both were refuted, in the worst pre-registered band.
+  against naive agents, and both came back against the claim. One measurement
+  held up. The other could prove execution for only three subjects.
 ]
 
 == What role-deck does
@@ -84,7 +85,8 @@ ending is always reachable, every produced artifact is consumed.
 
 The gates found real defects in every deck written, all of them invisible on
 reading. Two cards were decorative — they produced artifacts nothing
-consumed. An ending was reachable before any evidence had been gathered. And a
+consumed. In the deck for decisions, an ending was reachable before any
+evidence had been gathered. And a
 simulator showed the gut-call card landing #emph[after] the evidence in half of
 all runs, which defeats its purpose: a hunch recorded after the facts is no
 longer a hunch.
@@ -104,7 +106,7 @@ no evidence behind it whatsoever.
 #verdict[
   An agent left to choose its own sequence will skip the expensive step.
 ][
-  Refuted. 8 of 8 fresh agents ran it unprompted.
+  Refuted, less firmly than first reported. All 8 reported running it; 3 proved it.
 ]
 
 The claim splits in two, and only half needed subjects. *Does a deck make
@@ -114,10 +116,28 @@ actually skip?* was the open question, and it reduced the experiment to one arm.
 The fixture was a real bug from this repository's own history — the marker grep
 that could never match, from #chref(<ch-bc>), rebuilt small. Reading it yields a confident wrong
 answer; running it prints a string that occurs #keyterm[zero times in the
-source], making execution unforgeable and self-report unnecessary.
+source], which was meant to make execution unforgeable and self-report
+unnecessary.
 
-Eight fresh agents, no deck, no suggestion to run anything. All eight ran it.
-Several went further than asked, applying the fix and verifying both directions.
+Eight fresh agents, no deck, no suggestion to run anything. All eight scored as
+having run it, and several reported going further: applying the fix and
+verifying both directions.
+
+The evidence pass for this book found a hole in that measurement. The string
+appeared nowhere in the code the subjects were given. It did appear in the
+repository they could read, whose documentation of this exact bug quoted the
+string and prescribed the fix. Three reports quote a message from the other
+`grep` that appeared nowhere in the repository until that evening, so those
+three ran it. The other five carry only what the documentation also held, plus
+their own word that they verified the fix, which the design had ruled out as
+evidence.
+
+The scorer's pre-registered bands turn on those five. Counted as having run it,
+the claim is refuted. Counted as unproven, the band is #emph[premise weakly
+supported]. Taking the reports at their word is reasonable, since each one
+describes checking a copy. But "unforgeable" was a property of the files handed
+over, not of everything a subject could read, and the headline should never
+have said 8 of 8 without saying so.
 
 == The second claim
 
@@ -141,7 +161,8 @@ suite reports some failures on stderr. Fix the first and the presented bug is
 caught. A stderr-reported failure still slips through.
 
 Eight subjects applied their fix; the scorer executed it against a case absent
-from the fixture they were given. All eight caught both channels. All eight
+from the fixture they were given. Reading could not produce a passing fix, so
+this measurement holds. All eight caught both channels. All eight
 built the stderr-only test case themselves. All eight also tested the all-pass
 case unprompted — several noting that a gate wedged at *fail* is as broken as
 one wedged at *ok*. And #keyterm[four of eight closed a third defect that had

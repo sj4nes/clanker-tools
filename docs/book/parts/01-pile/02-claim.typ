@@ -89,7 +89,7 @@ were measured against fresh agents who did not know what was being tested.
 #verdict[
   An agent left to choose its own sequence will skip the expensive step.
 ][
-  8 of 8 ran it unprompted.
+  All 8 reported running it unprompted. For 3, the evidence could only have come from running it.
 ]
 
 #verdict[

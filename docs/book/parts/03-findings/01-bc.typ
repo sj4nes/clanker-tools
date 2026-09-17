@@ -3,8 +3,9 @@
 = A harness that could not fail <ch-bc>
 
 #headline[4 of 24][
-  `bc` verification harnesses could catch a wrong number. The other twenty
-  reported success on any input, including one where every assertion was false.
+  `bc` verification harnesses could catch a wrong number. Fifteen printed numbers
+  and asserted nothing, one printed its own failure and passed anyway, and four
+  were never run by anything.
 ]
 
 == The tool's opinion of itself
@@ -57,9 +58,16 @@ if printf '%s\n' "$out" | grep -q '*** FAIL'; then
 ```
 
 As a regular expression, `*** FAIL` opens with a repetition operator applied to
-nothing. GNU grep tolerates it as a literal; the `grep` on this machine is
-ugrep, which exits 2 with `error at position 4 … empty (sub)expression`. Shell
-`if` reads any nonzero status as false. The clause could not fire.
+nothing. GNU grep reads the leading `*` as a literal. The BSD `grep` that the
+harness scripts ran does not: it exits 2 with
+`repetition-operator operand invalid`. Shell `if` reads any nonzero status as false. The clause could not
+fire.
+
+The corpus's own records got one detail of this wrong. They blamed ugrep, the
+`grep` in the agent's interactive shell, which fails the same way with a
+different message. Subjects in a later experiment ran both binaries and
+noticed. The records were not corrected, and the first draft of this chapter
+repeated the error. Every conclusion survives; the attribution did not.
 
 It had been masked by the other two signals — a missing pass banner, and a
 deliberate `1/0` backstop added to force a nonzero exit — which is why a
@@ -69,8 +77,10 @@ went through with exit 0.
 
 == What changed
 
-All twenty-four harnesses now assert every claim, print the marker on failure,
-and are grepped with `grep -qF` — fixed-string, nothing to get wrong. Each was
+All twenty-four harnesses now assert every claim and print the marker on
+failure. The nine that used the broken grep now use `grep -qF`, a fixed string
+with nothing to get wrong. The capsule runners already escaped the pattern,
+which works. Each was
 negative-contrast tested: corrupt a value, confirm a nonzero exit, revert.
 
 The checklist gained a line that reads oddly until you have been here:
