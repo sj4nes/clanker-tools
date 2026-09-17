@@ -43,7 +43,7 @@
         Chapter #chapno.display()
       ])
       #v(0.25em)
-      #text(size: 19pt, weight: "bold")[#it.body]
+      #text(size: 19pt, weight: "bold", hyphenate: false)[#it.body]
     ]
   }
   show heading.where(level: 2): set text(size: 12.5pt)

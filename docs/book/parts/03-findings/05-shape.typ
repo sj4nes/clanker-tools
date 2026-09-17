@@ -1,4 +1,4 @@
-#import "../../preamble.typ": keyterm, practice
+#import "../../preamble.typ": keyterm, practice, chref
 
 = The shape they share
 
@@ -80,17 +80,6 @@ check you own, in the order that finds the most for the least effort.
     [the sentence justifying the whole thing is the one nobody checks],
 )
 
-#practice[Treat a check as broken until you have seen it fail.][
-  This is the rule the four questions come from, and the only one worth
-  carrying away.
-
-  A passing check and an impossible check are indistinguishable in every log you
-  will ever read. The difference is not visible, not inferable, and not
-  something more careful reading will surface: none of the four defects in
-  this part was found by reading the check.
-
-  So the evidence that a check works is not that it passed. It is that you broke
-  the thing on purpose and watched it complain. Until then you have a check
-  nobody has observed doing its job, which is a different object from a check
-  that works — and the two are identical from outside.
-]
+The rule the four questions come from is to treat a check as broken until you
+have seen it fail. None of the four defects in this part was found by reading
+the check. The practice for it is @pr-harness, in #chref(<ch-harness>).

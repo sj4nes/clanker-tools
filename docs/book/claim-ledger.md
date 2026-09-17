@@ -558,7 +558,8 @@ inferred **journal/magazine article**.
     them. Lipton 1971 is an unpublished CMU student report."
   chapter: II.2
   citation_status: footnote
-  citation_check: verified   # DeMillo 1978; Hamlet not yet run
+  citation_check: verified   # DeMillo 1978; Hamlet 1977 Crossref-verified 2026-09-16:
+                             # IEEE TSE SE-3(4):279–290, July 1977, doi:10.1109/TSE.1977.231145
   drafting_status: resolved
 
 - id: C-II-02
@@ -812,6 +813,367 @@ Two findings from building these rows, neither fixed here:
   drafting_status: resolved
 ```
 
+### II.2 rows (built 2026-09-16, before drafting II.2)
+
+Developmental note: Part III chapter 1 (bc) already closes on the practice
+"Break each guard on its own", which is II.2's central move. II.2 states the
+rule and points at III.1 for the story; its own practice is planting a defect
+in a correct artifact. Outline correction: the "graph table: 3 caught, 2 not"
+is evidence about hygiene vs truth (III.3), not about guards masking each
+other; the masking evidence is the bc marker grep (C-II-15).
+
+```yaml
+- id: C-II-14
+  claim_text: "A bc check run written test-first goes red on a missing file
+    (exit 4), green once a true claim exists (exit 0), and a false claim prints
+    its failure marker and still exits 0."
+  claim_type: fact
+  evidence_needed: direct measurement
+  source: "re-measured 2026-09-16, bc 7.0.3 (macOS), `set -e; bc -lq checks.bc`
+    over: no file → 4; `x = 2 + 2` asserted != 4 → 0; asserted != 5 → prints
+    '*** FAIL: two plus two is five', exit 0"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Same measurement as C-II-03, re-run as the worked TDD case. Exit
+    codes are implementation-specific; state the version."
+  chapter: II.2
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-15
+  claim_text: "Of 24 bc harnesses, 15 printed numbers beside prose instead of
+    asserting, and only 4 would catch a wrong number. The failure-marker grep
+    added in remediation never fired in 8 of 9 harnesses plus the template
+    they were copied from, masked by the other two signals (pass banner, 1/0
+    backstop)."
+  claim_type: fact
+  evidence_needed: the audit record
+  source: "docs/bc-verification-audit.md (table l.68, 'Only 4 of 24' l.71,
+    l.255–257); docs/verifying-skills.md §3 grep -F row"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Told in full in Part III chapter 1; II.2 uses the numbers only.
+    PRECISION (audit addendum): a corrupted VALUE still failed the run (banner
+    + backstop); a marker planted ALONE, other signals passing, exited 0 on
+    skills/statistics. III.1 said 'a planted marker still failed the run' —
+    corrected 2026-09-16."
+  chapter: II.2 (also III.1)
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-16
+  claim_text: "The mutation script for capsule graphs matched its target line
+    literally, so a trailing evidence comment made the planted edge deletion
+    silently do nothing — a mutation that reported itself as surviving."
+  claim_type: anecdote
+  evidence_needed: the record
+  source: "docs/verifying-skills.md l.321–322; commit 904ea6a (2026-09-14)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Told in III.3. In II.2 describe without the word 'capsule'
+    (introduced III.1)."
+  chapter: II.2 (also III.3)
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-17
+  claim_text: "This book's own chapter-order check has a mutation script that
+    breaks each gate alone; with the dependency gate disabled in the checker,
+    the mutation script failed on exactly that mutation."
+  claim_type: anecdote
+  evidence_needed: the scripts and the run
+  source: "docs/book/tools/check-intro-order-mutations.py; run 2026-09-16
+    (gate disabled → '*** FAIL prerequisite introduced after its dependant',
+    exit 1; restored → all caught); commit 17d5c91"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Agent-built in the same session that drafted II.2."
+  chapter: II.2
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-18
+  claim_text: "TDD's red step: write a failing test before the code that makes
+    it pass (Beck, Test-Driven Development: By Example)."
+  claim_type: fact
+  evidence_needed: bibliographic record
+  source: "Kent Beck, Test-Driven Development: By Example, Addison-Wesley,
+    ISBN 978-0-321-14653-3 (Open Library ISBN record: title + publisher)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: medium
+  caveats: "Year NOT verified: the Open Library record shows 2006, likely a
+    printing; the first edition is commonly given as 2002/2003. Cite without a
+    year until checked. The red step itself is common knowledge."
+  chapter: II.2
+  citation_status: footnote
+  citation_check: likely
+  drafting_status: resolved
+```
+
+### II.4 rows (built 2026-09-16, before drafting II.4; II.3 not yet drafted)
+
+Developmental note: Part III chapter "Two premises, measured" tells both
+refutations in full and closes on "Measure the sentence your skill rests on",
+which is II.4's move. II.4 therefore carries the METHOD and the three INVALID
+runs (not in III), retells the refutations in one paragraph, and gets its own
+practice: prove the experiment can come out either way before spending a
+subject.
+
+Corpus finding (not fixed here): `claim-fixture` SKILL.md (v2.3.0) and
+`references/case-studies.md` still say "four runs … two invalid … 50%
+design-failure rate". b1 run 3 (RESULT3.md, af42b12, 2026-09-16) makes it five
+runs, three invalid — and 2.3.0's own G9 came from run 3.
+
+```yaml
+- id: C-II-19
+  claim_text: "This corpus has run five behavioural fixtures: two refuted the
+    claim under test, three were invalid, and none has ever returned a
+    positive."
+  claim_type: fact
+  evidence_needed: the run records
+  source: "skills/claim-fixture/references/case-studies.md (cases 1–4);
+    skills/directed-verification/verification/b1-fixture/RESULT3.md (run 3,
+    commit af42b12)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "claim-fixture's own docs say four runs (stale). Rots when a sixth
+    run lands."
+  chapter: II.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway   # count rots
+
+- id: C-II-20
+  claim_text: "Invalid run 1: the subject function used int(), wrong on negative
+    ties, so a harness good enough to test them failed on clean code — the
+    measurement inverted quality; four of five arm-B agents also hit a session
+    limit, leaving n=1."
+  claim_type: fact
+  evidence_needed: the record
+  source: "claim-fixture/references/case-studies.md §3; b1-fixture/RESULT.md"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: none
+  chapter: II.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-21
+  claim_text: "Invalid run 2: every control-arm subject had test-writing in
+    context, a skill prescribing the discipline under test; both arms scored
+    5/5. It was first reported as 'no headroom' under a pre-registered ceiling
+    rule, which supplied a respectable reading of the null. The tell — five
+    reports sharing a near-identical section heading — would have been caught
+    by one grep."
+  claim_type: fact
+  evidence_needed: the record
+  source: "claim-fixture/references/case-studies.md §4; b1-fixture/RESULT2.md;
+    commit 3cf2da3"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Skills load from the session, not the working directory."
+  chapter: II.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-22
+  claim_text: "Invalid run 3: all fifteen subjects scored NO-HARNESS. Six ran
+    with no tool permissions, so the treatment ('confirm it fails against a
+    wrong implementation') could not be carried out; nine hit a session limit.
+    The isolation probe had proved the environment clean; nothing proved it
+    capable."
+  claim_type: fact
+  evidence_needed: the record
+  source: "b1-fixture/RESULT3.md; commit af42b12 (claim-fixture 2.3.0 adds G9)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "D1 was a harness defect (author's), D2 a resource limit."
+  chapter: II.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-23
+  claim_text: "claim-fixture's pre-flight gate blocks run 2, as actually run, at
+    G2a, G2b, G4, G8 and G9, and clears the repaired fixture."
+  claim_type: fact
+  evidence_needed: a fresh run
+  source: "sh skills/claim-fixture/verification/run.sh, 2026-09-16, exit 0"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "The gates were derived FROM these failures, so blocking them is
+    expected, not a test of generality."
+  chapter: II.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-24
+  claim_text: "check_preregistration.sh passes the ordering fixture (scorer
+    2b75803 twelve minutes before results da8cfa7) and permanently fails the
+    premise fixture, whose scorer and results landed in one commit (1cb9ee5)."
+  claim_type: fact
+  evidence_needed: a fresh run
+  source: "sh skills/claim-fixture/verification/run.sh, 2026-09-16"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "The scorer was written first, in-session; the record cannot show it."
+  chapter: II.4
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+```
+
+### II.3 rows (built 2026-09-16, before drafting II.3)
+
+Developmental note: Part III chapter "A graph that could not be wrong" closes
+on "Find the oracle you already have" (node text as a free independent
+oracle). II.3 points there for that case; its own practice is naming the oracle
+and what it shares with the subject. Evidence flag honoured: C-I-17 (expected
+values copied from output) appears ONLY as the corpus's unmeasured default.
+
+```yaml
+- id: C-II-25
+  claim_text: "test-writing behaviour 3 names four sources of an expected value
+    — re-derivation from the spec sentence, a model-based reference, a
+    metamorphic relation, differential testing against a genuinely independent
+    implementation — and an independence test: does the oracle share code with
+    what it judges?"
+  claim_type: fact
+  evidence_needed: the skill text
+  source: "skills/test-writing/SKILL.md behaviour 3"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Behaviour 3's DEFAULT is unmeasured (C-I-17)."
+  chapter: II.3
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-26
+  claim_text: "Subject A: a discount rounded half-up; the planted bug truncates.
+    At 19.90 with 15% off the exact net is 1691.5 cents, half-up 1692,
+    truncated 1691. A suite built from captured output passes the bug and fails
+    the fix."
+  claim_type: fact
+  evidence_needed: a fresh run
+  source: "sh skills/test-writing/verification/run.sh, 2026-09-16, exit 0;
+    verification/README.md step 1 and 'A's fourth cell'"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Demonstrates the consequence of the default, not its frequency."
+  chapter: II.3
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-27
+  claim_text: "Subject F: two base-conversion renderers with different
+    algorithms share one defective digit helper; their diff is green over 2,000
+    random pairs, and a round trip through the standard library's parser, which
+    shares no code with either, catches it."
+  claim_type: fact
+  evidence_needed: a fresh run
+  source: "sh skills/test-writing/verification/run.sh, 2026-09-16 (F row
+    detects/green/misses); verification/README.md 'F's premise'"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: none
+  chapter: II.3
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-28
+  claim_text: "Two statistics checks compared a quantity with itself — one
+    literally (lam/n)/(lam/n) — and printed the expected 1 by construction."
+  claim_type: fact
+  evidence_needed: the audit
+  source: "docs/bc-verification-audit.md finding 1 (l.25–27)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Told in Part III chapter 1."
+  chapter: II.3 (also III.1)
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-29
+  claim_text: "In the first real role-deck run, the evidence gathered was a
+    status file last touched in July, from a process the project had abandoned;
+    the code it described was a month newer. Every fact was true and the
+    conclusion wrong. The proposed fix — declare authoritative sources, warn
+    when a source predates what it describes — is unbuilt."
+  claim_type: fact
+  evidence_needed: the backlog record
+  source: "BACKLOG.md l.1255–1279 (2026-09-15); Part III premises chapter"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "The project is the author's private one; describe generically."
+  chapter: II.3 (also III.4)
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-30
+  claim_text: "The corpus's citation of Luu's eval was restated from earlier
+    restatements; the article's URL had never been in the repository, and the
+    first version was already overstated."
+  claim_type: fact
+  evidence_needed: the ledger finding
+  source: "claim-ledger.md 'Finding that came out of building this ledger';
+    commits 2c387db, 883c698"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Framed as an oracle problem is the book's interpretation."
+  chapter: II.3
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-31
+  claim_text: "test-writing was built fixture-first: its planted-bug fixture was
+    committed (352703c, 11:15) before its SKILL.md (65d9656, 11:17) on
+    2026-09-13. skill-authoring's rule: prose written first becomes the thing
+    the fixture is bent to confirm."
+  claim_type: fact
+  evidence_needed: commit order; skill text
+  source: "git log --diff-filter=A on the two files; skills/test-writing/
+    verification/README.md 'Fixture-first'; skills/skill-authoring/SKILL.md b3"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Two minutes apart in one session: commit order shows the fixture
+    was finished first, not that the prose was not being thought about."
+  chapter: II.3
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+```
+
 ## Unresolved-research list
 
 - **C-I-08** — the corpus figures rot; generate them (same mechanism as Parts IV/V).
@@ -821,9 +1183,11 @@ Two findings from building these rows, neither fixed here:
 - **C-I-17** — test-writing behaviour 3's default ("expected values copied from
   the code's output") is unmeasured. Either fixture it or restate the behaviour
   as resting on Kreinin's hypothesis.
-- **C-II-01** — run citation-check on Hamlet (1977) directly; decide whether
-  TDD's red step needs a primary citation (Beck) or is common knowledge.
+- **C-II-18** — verify the first-edition year of Beck's TDD book (Hamlet 1977
+  now Crossref-verified; C-II-01 closed).
 - **C-II-12** — behaviour-skill table count rots; generate it.
+- **claim-fixture docs** — "four runs, two invalid, 50%" is stale; five runs,
+  three invalid (run 3, af42b12). Corpus fix.
 - **directed-verification README** — "test-writing at 6 covered" is 5; a
   corpus fix, not book work.
 - **Part III** — reword wherever deliberate breakage reads as the corpus's

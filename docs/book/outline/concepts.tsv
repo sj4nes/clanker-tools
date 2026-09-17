@@ -50,3 +50,4 @@ lean	tool	III.2	auto	skills/lean
 math-linear-algebra	skill	III.2	auto	skills/math-linear-algebra
 math-probability	skill	III.2	auto	skills/math-probability
 math-statistics	skill	III.2	auto	skills/math-statistics
+claim-fixture	skill	II.4	auto	skills/claim-fixture

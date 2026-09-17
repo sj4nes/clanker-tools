@@ -120,7 +120,7 @@ it."]
 Some of it is judgement, and this book will say which parts. But the objection
 usually carries a stronger claim: that because the #emph[writing] is craft, the
 #emph[effect] cannot be checked. Luu's own judgement was good: reading the
-skills beforehand, he pre-registered, at 55–65% confidence, that none of the three
+skills beforehand, he wrote down in advance, at 55–65% confidence, that none of the three
 public ones would outperform, and he was right. But his judgement came with a
 confidence he could not raise by reading more, and the one number everyone
 would have looked at said ECC was fine. What settled it was measuring the

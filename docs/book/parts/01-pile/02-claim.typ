@@ -145,7 +145,7 @@ the likely mistake before writing the assertion. Written out, its claim reads:
 
 That is a sentence someone could disagree with. Its verification half —
 #emph[do the prescribed checks catch planted bugs the default checks miss?] —
-has a harness, and it passes. Its behavioural half — #emph[does an agent handed
+has a checking script, and it passes. Its behavioural half — #emph[does an agent handed
 the skill actually do this, where it would not otherwise?] — has never been
 fixtured. The nearest attempt, a neighbouring claim about how verification
 work is requested, has been run three times, and all three runs were invalid

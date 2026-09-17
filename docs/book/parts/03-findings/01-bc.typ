@@ -62,8 +62,10 @@ ugrep, which exits 2 with `error at position 4 … empty (sub)expression`. Shell
 `if` reads any nonzero status as false. The clause could not fire.
 
 It had been masked by the other two signals — a missing pass banner, and a
-deliberate `1/0` backstop added to force a nonzero exit — which is why a planted
-marker still failed the run and nobody noticed the third guard was inert.
+deliberate `1/0` backstop added to force a nonzero exit — which is why a
+corrupted value still failed the run and nobody noticed the third guard was
+inert. A marker planted on its own, with the other two signals left passing,
+went through with exit 0.
 
 == What changed
 
@@ -77,16 +79,4 @@ counter untouched — banner still printed, `bc` still exiting 0 — must make t
 run fail. That is the only way to see the grep clause work, and it is how the
 broken form hid in eight files.
 
-#practice[Break each guard on its own.][
-  List the guards your verification step actually has. A typical one has
-  three — the tool's exit status, a pass banner, a failure marker — and they
-  mask each other.
-
-  Then break them #emph[one at a time], leaving the others intact. Plant a
-  failure marker without touching the failure counter, so the banner still
-  prints and the tool still exits zero. If the run stays green, that guard
-  never worked, and the other two were doing its job.
-
-  A guard you have only ever seen fail #emph[alongside] another guard has not
-  been tested. That is how a broken pattern hid in eight of nine files here.
-]
+The practice for this finding is @pr-harness, in #chref(<ch-harness>).

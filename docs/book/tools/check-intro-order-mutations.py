@@ -4,8 +4,8 @@
 Every mutation runs on a scratch copy of the book, never on the real files. A
 mutation passes only if the checker exits 1 and the set of gates it reports is
 exactly the expected one — a gate seen failing only alongside another has not
-been tested (docs/verifying-skills.md §8). The waiver mutation can only raise a
-WARN while II.2 is undrafted, so it asserts the warning count instead.
+been tested (docs/verifying-skills.md §8). The waiver mutation removes a waiver
+for `harness` in I.1; since II.2 is drafted, that is a before-intro failure.
 
 Usage: check-intro-order-mutations.py        Exit 0 if every mutation behaves.
 """
@@ -55,8 +55,10 @@ MUTATIONS = [
      lambda r: append(r, "parts/02-standard/01-default.typ", "\n// intro: nonesuch\nText.\n")),
     ("prerequisite introduced after its dependant", {"deps"},
      lambda r: append(r, "outline/deps.txt", "role-deck test-writing\n")),
+    # both endpoints must be in an UNDRAFTED chapter, or the reversed edge also
+    # trips the deps gate; move this pair when II.5 is drafted
     ("cycle between two undrafted concepts", {"cycle"},
-     lambda r: append(r, "outline/deps.txt", "pre-registration premise\n")),
+     lambda r: append(r, "outline/deps.txt", "changelog version-as-wrongness\n")),
     ("book.typ includes chapters out of order", {"order"},
      lambda r: edit(r, "book.typ",
                     '#include "parts/03-findings/04-premises.typ"\n#include "parts/03-findings/05-shape.typ"',
@@ -94,11 +96,11 @@ for name, want, mutate in MUTATIONS:
 d = scratch()
 try:
     edit(d, "parts/01-pile/01-asset.typ", "// not-a-use: harness", "// (waiver removed)")
-    rc, _, warns, _ = run(d)
+    rc, gates, _, _ = run(d)
 finally:
     shutil.rmtree(d)
-ok = rc == 0 and warns == base_warns + 1
-print(f"{'caught ' if ok else '*** FAIL'}  remove a waiver: exit {rc}, warnings {base_warns} -> {warns}")
+ok = rc == 1 and gates == {"before-intro"}
+print(f"{'caught ' if ok else '*** FAIL'}  remove a waiver: exit {rc}, gates {sorted(gates)} (want ['before-intro'])")
 bad += not ok
 
 if bad:
