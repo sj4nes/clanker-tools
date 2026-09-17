@@ -17,8 +17,10 @@ Python 3 + `/bin/sh`, < 2 s. Two parts.
 
 ### 1. A ratchet, not a zero
 
-The corpus currently fails the archetype standard in **35 places across 29
-skills**. Demanding zero would leave the suite permanently red and teach
+The corpus failed the archetype standard in **35 places across 29 skills** on
+the first run. The current count is `baseline.txt`, and the run prints it; it is
+not restated here, because a count in prose is a clause no gate keeps true (this
+paragraph said 35 after the baseline had moved to 34). Demanding zero would leave the suite permanently red and teach
 nothing, so the gate is that the count must not **grow**: remediation lowers
 `baseline.txt`, and a new non-conforming skill raises the count and fails.
 
@@ -80,5 +82,11 @@ the checker. Rewritten with heredocs.
 2. **Nothing checks that the harness preceded the prose (b3).** It is the
    behaviour most likely to be skipped and the only one with no mechanical
    trace. Commit order could prove it, exactly as `claim-fixture` proves
-   pre-registration — that check exists one skill over and has not been
-   borrowed.
+   pre-registration — **but only for a harness committed on its own.** Measured
+   2026-09-17 over the 21 behaviour skills (first commit touching `SKILL.md` vs
+   `verification/`): harness first 2 (`test-writing`; `role-deck`, via
+   `experiments/`), prose first 2 (`design-of-experiments`, `simulation`, both
+   before the standard existed), one commit holding both **17**, this skill
+   among them. "One commit" means unknown, not prose-first. A commit-order
+   check would be silent on 17 of 21, so behaviour 3 now prescribes the
+   separate commit; the check is worth building once the habit leaves a trace.

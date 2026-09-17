@@ -11,7 +11,7 @@ description: >-
   mistake. NOT a guide to prompt phrasing, NOT a way to make an agent more
   capable, and not applicable to a document nobody will maintain — the whole
   standard is about what happens to a skill on its second reading.
-version: 1.0.0
+version: 1.1.0
 archetype: behaviour
 author: Simon Janes
 tags: [skills, authoring, verification, standard, corpus, meta]
@@ -61,7 +61,12 @@ decides **which parts of those apply to the skill in front of you.**
    of taste: prose written first becomes the thing the fixture is bent to
    confirm. Build the failing case, watch it fail, and then write the document
    that quotes it. Every number in a skill body should be one the harness
-   produced.
+   produced. **Commit the harness on its own, before the prose.** A commit
+   records what was finished, not what was written first: of this corpus's 21
+   behaviour skills, 17 landed harness and prose in one commit, so their history
+   cannot show which came first — this skill's included. A separate commit is
+   the only trace the order leaves, the same way `claim-fixture` proves a scorer
+   preceded its results.
 
 4. **Break each guard on its own.** A harness typically has three signals — a
    tool's exit status, a pass banner, a failure marker — and they mask each
@@ -90,9 +95,11 @@ decides **which parts of those apply to the skill in front of you.**
   standard checks that you named one and that it is real, never that it was the
   one worth displacing.
 - **Tell you the skill helps.** It tells you the skill makes a checkable claim
-  and that the check can fail. The `test-writing` eval is the caution here:
-  tutorial-style documents measured *worse than no document at all*, and every
-  one of them would pass this standard.
+  and that the check can fail. The caution is Luu's eval, which `test-writing`
+  cites: a test skill from a widely starred collection scored almost as well as
+  no instructions overall, and worse than no instructions on the runs it
+  actually influenced. Only reading the runs showed it. Nothing in this standard
+  measures that; conformance says nothing about effect.
 
 ## Before you ship it
 
