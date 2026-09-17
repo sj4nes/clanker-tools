@@ -58,6 +58,15 @@ book the day they are fixed in the repository.
 Part III was built first deliberately: it is the content that would justify the
 rest. If it does not read well, little is lost.
 
+## Drift checks
+
+[`drift-check.md`](drift-check.md) — the built book audited against the
+positioning brief, fat outline, claim ledger and GAPS, per the `nonfiction-book`
+skill's Pass 1. Last run 2026-09-17 at `845ea24`: Parts I–III match the outline
+chapter for chapter and all four promised outcomes are delivered; five findings
+open, one of which (Part VI against the brief's exclusions) needs an author
+decision. Re-run it whenever a part is added or the brief changes.
+
 ## Layout
 
     book.typ                 the ONLY file compiled
