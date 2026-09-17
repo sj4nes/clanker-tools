@@ -126,6 +126,11 @@ MUTATIONS = [
     ("typstlib stops escaping", {"typstlib"},
      lambda d: edit(d, "docs/book/tools/typstlib.py",
                     'SPECIAL = "\\\\#$@*_<>`[]~"', 'SPECIAL = "\\\\#$@_<>`[]~"')),
+    # The exact regression this gate exists for: Inter is installed here
+    # upright-only, so a sidebar's #emph would set roman with no warning.
+    ("the sidebar face loses its italic", {"fonts"},
+     lambda d: edit(d, "docs/book/preamble.typ",
+                    '#let sans = ("Lato"', '#let sans = ("Inter"')),
     ("Markdown bold reaches Typst", {"warnings"},
      lambda d: append(d, "docs/book/parts/04-catalogue/00-howtoread.typ",
                       "\nA **bold** word straight from Markdown.\n")),

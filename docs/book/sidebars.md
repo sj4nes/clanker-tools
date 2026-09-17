@@ -34,6 +34,7 @@ Two directions, both counted:
 | 9 | 09-17 | inward | the no-mutation control | `gen-facts.py` shelled out to `git` unconditionally and could not run outside a checkout — where the harness runs it | `c503a9c` | II.2 (**cut in**) |
 | 10 | 09-17 | inward | reading the PDF, not the exit code | Markdown links printed raw; a tutorial's install instructions printed as what it teaches | `cb4c2aa`, `845ea24` | III intro (candidate) |
 | 11 | 09-17 | inward | the drift check (`nonfiction-book` Pass 1) | two of its own findings were wrong and were withdrawn on checking — the audit's own negative result | `1bb3797` | V (candidate) |
+| 12 | 09-17 | inward | looking at the page after a typographic change | setting sidebars in Inter made every `#emph` inside one render upright — the installed copy is the upright-only variable font, and nothing warned | `dac6db5`+ | II.2 (candidate) |
 
 ## The one that keeps recurring
 

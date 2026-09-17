@@ -138,6 +138,11 @@ Four, all of which compiled cleanly:
   pair of stars into Part IV as literal `\*\*`: the parser read the headline
   as everything after the level, markers included. Found by the mutation test,
   not by reading — the page looked plausible.
+- Sidebars set in a sans with no italic variant (the installed Inter is
+  upright-only) rendered every `#emph` inside them as roman. No warning: Typst
+  has the family, just not the style. `check-book.sh` now gates the sidebar
+  family for a real italic, and the mutation suite sets it back to Inter to
+  prove the gate fires.
 - `#outline()` emits its own level-1 heading, which the chapter show-rule
   styled as a chapter and which stepped the counter — every chapter was off by
   one. Fixed with `title: none`.

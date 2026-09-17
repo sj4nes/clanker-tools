@@ -13,7 +13,9 @@
 #      BACKLOG.md RIGHT NOW
 #   3b. Part VI (parts/06-tutorials/01-entries.typ) is what gen-tutorials.py
 #      produces from skills/*/tutorial/*.md RIGHT NOW
-#   4. the book still compiles
+#   4. the sidebar font family has a real italic (a face without one sets
+#      #emph upright and warns about nothing)
+#   5. the book still compiles
 #
 # Exists because Parts IV and V state ~500 facts that live somewhere else.
 # Without this, "generated" degrades to "was generated once", which is a
@@ -67,6 +69,24 @@ check_generated "facts"   corpus-facts.typ                  gen-facts.py facts
 check_generated "Part IV" parts/04-catalogue/01-entries.typ gen-catalogue.py part4
 check_generated "Part V"  parts/05-open/01-backlog.typ      gen-open.py part5
 check_generated "Part VI" parts/06-tutorials/01-entries.typ gen-tutorials.py part6
+
+# The sidebar face must have a REAL ITALIC. A family without one sets #emph
+# upright, and nothing warns -- the same silent class as Markdown `**bold**`
+# compiling to two empty bolds. The copy of Inter on the author's machine is
+# upright-only and did exactly this for one render (2026-09-17).
+fam=$(sed -n 's/^#let sans = ("\([^"]*\)".*/\1/p' preamble.typ)
+if [ -z "$fam" ]; then
+    echo "*** FAIL: cannot read the sidebar font family from preamble.typ"
+    note fonts
+elif ! typst fonts --variants 2>/dev/null | awk -v f="$fam" '
+        $0 == f { p = 1; next }
+        /^[A-Za-z]/ && !/^[[:space:]]/ { p = 0 }
+        p && /Style: Italic/ { found = 1 }
+        END { exit !found }'; then
+    echo "*** FAIL: sidebar face '$fam' has no italic variant installed."
+    echo "    #emph inside a sidebar would set UPRIGHT, silently."
+    note fonts
+fi
 
 if ! typst compile book.typ "$TMP/book.pdf" 2> "$TMP/typst.txt"; then
     echo "*** FAIL: typst compile"

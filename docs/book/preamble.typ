@@ -7,6 +7,23 @@
 
 #let chapno = counter("chapter")
 
+// The sidebar face. Sidebars are the ONLY sans in the book: practices already
+// own the grey panel, so a second boxed device would compete with them rather
+// than read as a different kind of thing. Switching typeface instead separates
+// them on a channel nothing else uses.
+//
+// Libertinus ships no sans companion, so this is a fallback stack rather than a
+// single face. Lato leads: humanist like Libertinus, open-licensed so the book
+// sets on someone else's machine, and — the deciding property — it has a REAL
+// ITALIC.
+//
+// Inter was first here for one render. The copy installed on this machine is the
+// upright-only variable font, so `#emph` inside a sidebar silently set roman:
+// the emphasis vanished and nothing warned, which is the same defect class as
+// `**bold**` rendering as two empty bolds (see README). check-book.sh now gates
+// the leading family for an italic.
+#let sans = ("Lato", "Helvetica Neue", "Avenir Next", "Arial")
+
 #let apply-base(body) = {
   set page(
     paper: "us-letter",
@@ -80,14 +97,19 @@
     stroke: (top: 0.6pt + luma(160), bottom: 0.6pt + luma(160)),
   )[
     #set align(left)
-    #set par(first-line-indent: 0pt, justify: true, leading: 0.62em)
-    #text(size: 8.5pt, fill: luma(95), weight: "bold")[#smallcaps[
-      Sidebar #context it.counter.display(it.numbering) · from building this book
-    ]]
-    #v(0.3em)
-    #text(size: 11pt, weight: "bold")[#it.caption.body]
-    #v(0.4em)
-    #text(size: 9.8pt)[#it.body]
+    // Sans runs optically larger than the serif at the same point size, so the
+    // body drops from 9.8pt to 9.3pt to sit level with the text around it.
+    #set text(font: sans, size: 9.4pt)
+    #set par(first-line-indent: 0pt, justify: true, leading: 0.68em)
+    // Tracked uppercase rather than smallcaps: the stack's faces have no true
+    // small-capital variants, and synthesised ones look like shrunk capitals.
+    #text(size: 7.4pt, fill: luma(95), weight: "semibold", tracking: 0.09em)[
+      #upper[Sidebar #context it.counter.display(it.numbering) · from building this book]
+    ]
+    #v(0.35em)
+    #text(size: 10.5pt, weight: "bold")[#it.caption.body]
+    #v(0.45em)
+    #it.body
   ]
 
   // Part markers: invisible in the body, a heading row in the contents.
