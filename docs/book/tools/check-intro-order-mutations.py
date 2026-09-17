@@ -56,9 +56,9 @@ MUTATIONS = [
     ("prerequisite introduced after its dependant", {"deps"},
      lambda r: append(r, "outline/deps.txt", "role-deck test-writing\n")),
     # both endpoints must be in an UNDRAFTED chapter, or the reversed edge also
-    # trips the deps gate; move this pair when II.5 is drafted
+    # trips the deps gate; move this pair when II.6 is drafted
     ("cycle between two undrafted concepts", {"cycle"},
-     lambda r: append(r, "outline/deps.txt", "changelog version-as-wrongness\n")),
+     lambda r: append(r, "outline/deps.txt", "agent-as-collaborator directing-verification\n")),
     ("book.typ includes chapters out of order", {"order"},
      lambda r: edit(r, "book.typ",
                     '#include "parts/03-findings/04-premises.typ"\n#include "parts/03-findings/05-shape.typ"',

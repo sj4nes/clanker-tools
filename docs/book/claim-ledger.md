@@ -1174,6 +1174,230 @@ values copied from output) appears ONLY as the corpus's unmeasured default.
   drafting_status: resolved
 ```
 
+### II.5 rows (built 2026-09-16, before drafting II.5)
+
+Developmental note: II.4 closes by promising that "a refuted premise changes
+what a skill is, and someone who relied on the old version needs to know. How to
+record that is the next chapter." The corpus's own answer is that a refuted
+premise is MINOR (role-deck 2.2.0, 2.4.0): the version counts wrong
+PRESCRIPTIONS, not wrong reasons. II.5 must say that plainly rather than let the
+hook imply the premise refutations were MAJOR.
+
+Corpus findings (not fixed here; skill changes, logged in the unresolved list):
+`tools/check-skills.sh` gates one clause of the changelog contract (newest
+heading = `version:`). `tools/audit-changelog-levels.py`, written for this
+chapter, reports the rest: three entries that do not open with their level
+(directed-verification 1.1.0, 1.2.0; math-linear-algebra 2.0.1) and three
+changelogs with no `## 1.0.0` heading (knap-markdown-rendering,
+math-linear-algebra, math-statistics — the last two keep it as "Release 0.1",
+knap has none). Zero declared/moved mismatches in 51 transitions.
+
+```yaml
+- id: C-II-32
+  claim_text: "In this corpus the three version numbers mean what a reader must
+    do: MAJOR, the skill was wrong, re-do work done under the old text; MINOR, a
+    statement changed or grew, re-read before relying on it; PATCH, nothing."
+  claim_type: fact
+  evidence_needed: the policy text
+  source: "docs/skill-versioning.md §1"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "A policy, not an observation that it is followed; see C-II-40."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-33
+  claim_text: "The policy exists because on 2026-09-13 two copies of the bc skill,
+    the repo's and a copy in ~/.claude/skills that had drifted 29 lines
+    including a correctness fix, both read version 1.0.0 with byte-identical
+    descriptions."
+  claim_type: fact
+  evidence_needed: the recorded audit
+  source: "docs/skill-versioning.md (preamble); docs/bc-verification-audit.md"
+  source_tier: secondary   # the corpus's own record; the drifted copy is gone
+  date_checked: 2026-09-16
+  confidence: medium
+  caveats: "The ~/.claude/skills copy was replaced by a symlink, so the 29-line
+    diff cannot be re-run. Attribute as 'recorded', not re-measured."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-34
+  claim_text: "A correction is MAJOR only if a published state carried the
+    error. bc was committed at 13:38 on 5 September, copied for use at 13:44,
+    and its portability fixes committed at 14:10; the copy served the broken
+    rounding idiom for a week, so the fix is MAJOR."
+  claim_type: fact
+  evidence_needed: commit timestamps
+  source: "docs/skill-versioning.md §2; git show 9dd8165 (13:38:11 -0500),
+    ffc32ff (14:10:37 -0500)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "13:44 (the copy) and 'a week' are recorded in the doc only; git
+    cannot show a copy outside the repo."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-35
+  claim_text: "role-deck was released as 1.0.0 at 02:43 on 15 September and went
+    to 2.0.0 at 08:56 the same morning, because verify reported 'run completed
+    without wearing required roles' on a valid completed run of any deck whose
+    required_roles is a map: set() of a dict yields its keys, card ids, which
+    were compared against role names."
+  claim_type: fact
+  evidence_needed: changelog and commits
+  source: "skills/role-deck/CHANGELOG.md 2.0.0; git fa25e11, 7304aaa"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Latent because no map-form deck had been played to a terminal.
+    1.0.0 shipped with 73 assertions (CHANGELOG 1.0.0)."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-36
+  claim_text: "When role-deck's founding premise was refuted, the bump was
+    MINOR, recorded as a judgement call: 'the skill's stated REASON was wrong;
+    none of its prescriptions were'. The second refutation (2.4.0) was MINOR
+    too."
+  claim_type: fact
+  evidence_needed: changelog
+  source: "skills/role-deck/CHANGELOG.md 2.2.0 (1cb9ee5), 2.4.0 (da8cfa7)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: none
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-37
+  claim_text: "claim-fixture 2.0.0 was MAJOR for an omission: the method had no
+    step proving the control arm did not receive the treatment, and 'any fixture
+    designed under 1.0.0 needs re-checking against the new gate before its
+    result is believed'."
+  claim_type: fact
+  evidence_needed: changelog
+  source: "skills/claim-fixture/CHANGELOG.md 2.0.0 (e9f5753)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "An omission is MAJOR when results produced under the old text may
+    be wrong — the 'produces an incorrect result' limb."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-38
+  claim_text: "directed-verification 1.1.0 published run 2 as 'no headroom';
+    1.2.0 corrected it to invalid (the control arm had the treatment) as a
+    MINOR bump."
+  claim_type: fact
+  evidence_needed: changelog
+  source: "skills/directed-verification/CHANGELOG.md 1.1.0, 1.2.0"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Neither entry declares its level in words (C-II-40); MINOR is read
+    from the digits."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-39
+  claim_text: "Across 53 skills the MAJOR digits sum to 27 corrections
+    (MAJOR − 1), spread over 18 skills; 35 skills are still at major version 1.
+    Of the 27, 9 were recorded on 13 September (the re-base, adjudicated from
+    git history) and 15 on 14 September (the graph-evidence and Lean-core
+    audits); 3 came afterwards."
+  claim_type: fact
+  evidence_needed: a count over SKILL.md and changelogs
+  source: "version: fields of skills/*/SKILL.md, 2026-09-16;
+    python3 docs/book/tools/audit-changelog-levels.py (24 dated MAJOR
+    transitions: 13th 9, 14th 13, 15th 2) plus the three with no 1.0.0 heading,
+    dated from git: math-linear-algebra and math-statistics 2.0.0 in 904ea6a
+    (14th), knap-markdown-rendering 2.0.0 in ef6578b (16th)"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Rots with every bump; generate it for Part IV. The two skills at
+    4.0.0 (math-number-systems, math-probability) each took 2.0.0 on the 13th
+    (re-base) and 3.0.0 + 4.0.0 on the 14th (graph audit, Lean audit)."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway   # count rots
+
+- id: C-II-40
+  claim_text: "tools/check-skills.sh gates one clause of the changelog contract,
+    newest heading = version. Of the ungated clauses, an audit of 51 version
+    transitions found no level that disagreed with its digits, three entries
+    that do not open with their level, and three changelogs with no 1.0.0
+    heading."
+  claim_type: fact
+  evidence_needed: the gate source and a fresh run
+  source: "tools/check-skills.sh (checks 2, 6); python3
+    docs/book/tools/audit-changelog-levels.py, 2026-09-16; each of its three
+    rules broken alone on a synthetic changelog, each fired only its own counter"
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: high
+  caveats: "Small, cosmetic decay; its interest is WHERE it is (ungated clauses
+    only), not its size."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-41
+  claim_text: "The count of MAJOR bumps measures how often a skill was found
+    wrong, not how often it was wrong: 24 of 27 were recorded on the two days
+    the corpus was systematically looked at, so a skill at 1.0.0 is either right
+    or not yet examined, and the number cannot say which."
+  claim_type: interpretation
+  evidence_needed: C-II-39
+  source: C-II-39
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: medium
+  caveats: "The two audits targeted capsules; the 35 skills at 1.x are mostly
+    methodology skills no audit of that kind has touched. Do not claim they are
+    wrong — only that the number is silent."
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-42
+  claim_text: "Recommendation: bump by what the reader must do, decide whether
+    the old text was ever published, keep wrong reasons separate from wrong
+    prescriptions, and gate every changelog clause you want to stay true."
+  claim_type: recommendation
+  evidence_needed: C-II-32..41
+  source: C-II-32..41
+  source_tier: primary
+  date_checked: 2026-09-16
+  confidence: medium
+  caveats: none
+  chapter: II.5
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+```
+
 ## Unresolved-research list
 
 - **C-I-08** — the corpus figures rot; generate them (same mechanism as Parts IV/V).
@@ -1194,3 +1418,7 @@ values copied from output) appears ONLY as the corpus's unmeasured default.
   invention; it is mutation testing.
 - **Reader** — every statement of what the reader believes is the author's
   assumption (brief: accepted exception, no interviews).
+- **Changelog contract (II.5, C-II-40)** — three entries do not open with their
+  level; three changelogs lack a `## 1.0.0` heading. Corpus fix, and a candidate
+  for `tools/check-skills.sh` (promote `tools/audit-changelog-levels.py`).
+- **C-II-39** — MAJOR totals rot; generate them with Part IV.
