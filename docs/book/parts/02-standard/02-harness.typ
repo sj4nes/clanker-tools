@@ -1,4 +1,4 @@
-#import "../../preamble.typ": keyterm, headline, practice, chref
+#import "../../preamble.typ": keyterm, headline, practice, chref, sidebar
 
 // DRAFT 2026-09-16. Ledger rows: C-II-01..04, C-II-14..18.
 
@@ -193,6 +193,31 @@ aimed at the defect.
   If the planting is scripted, run the script once against a checker you have
   deliberately broken, and watch the script fail.
 ] <pr-harness>
+
+#sidebar[The control that caught the fixture, twice][
+  The last clause of the practice above — run the planting script against a
+  checker you have deliberately broken — was added to this book's own toolchain
+  as an afterthought, and has since been the only thing standing between it and
+  two false results.
+
+  Parts IV to VI of this book are generated from the repository, and a script
+  breaks each of that generator's gates in turn on a scratch copy, requiring
+  each to fail alone. Alongside the deliberate breakages it runs one case with
+  #emph[no] mutation at all, which must pass.
+
+  Twice in two days, that unmutated case was the only one that failed
+  correctly. The first time, the scratch copy was missing a directory the
+  generator reads, so thirteen mutations reported "caught" while proving
+  nothing — every one of them was failing on the missing directory rather than
+  on the defect it had planted. The second time, a new generator called #raw("git")
+  unconditionally and could not run outside a checkout, which is exactly what a
+  scratch copy is.
+
+  Neither defect was in the thing under test. Both were in the fixture, and in
+  both cases the mutations all said #emph[caught]. A suite where every case
+  fails is indistinguishable from a suite where every case is broken, unless one
+  case is supposed to pass.
+]
 
 A harness that can fail still has to be told what #emph[right] looks like.
 Where that expected value comes from is the next chapter.

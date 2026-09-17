@@ -6,7 +6,7 @@
 
 #import "../../preamble.typ": note, backlogitem, points
 
-#note[45 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
+#note[46 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
 
 = Physics
 
@@ -187,7 +187,7 @@
 
 = Skill standard & verification debt
 
-#note[15 open.]
+#note[16 open.]
 
 #backlogitem([evaluator-integrity], [2026-09-14])[
   five harness gaps from the displacement table (#raw("skills/evaluator-integrity/verification/README.md"))
@@ -321,6 +321,9 @@
   #strong[PARTIALLY ADDRESSED 2026-09-16 (#raw("c60a32d")), at the instrument level only.] b1 run 3 carries two positive controls. The INSTRUMENT one is already measured, before any subject exists: #raw("score3-check.sh") scores a two-assertion suite at 4/20 and an oracle-based suite at 20/20, so the scorer has a demonstrated dynamic range of 16 mutants. The SUBJECT-level one is arm C — an agent handed the risky areas — and it is #strong[not yet measured], because run 3 has not been spawned. This item does not close until arm C beats arm A in a real run. Note the distinction is the whole point: an instrument that separates a known-weak artifact from a known-strong one still says nothing about whether a POPULATION of agents moves under a prompt.
 
   #strong[Still unmeasured after run 3] — arm C was spawned but produced nothing, for the same harness reason as arms A and B.
+]
+#backlogitem([Drafting prose for an outside reader is an unnamed verification technique.], none)[
+  Three corpus defects were found not by running a harness but by writing the book chapter about the skill: #raw("directed-verification")'s self-correction count held two false positives, one of them the skill's own release commit (#raw("8097530")); #raw("skill-authoring") carried two stale statements and a proposed check silent for 17 of 21 skills (#raw("b3ad6e6")); and the corpus's one external citation had drifted from its source in four places (#raw("a92cc8f")). In each case the defect survived the skill's own verification and did not survive having to state the claim precisely enough for a reader who cannot see the repository. #raw("docs/verifying-skills.md") does not name this, and the standard has no step for it. Decide whether it is a behaviour of #raw("skill-authoring") ("write the paragraph you would publish about this skill, then check it"), or a note that the audience is the instrument. Record 2026-09-17; instances tracked in #raw("docs/book/sidebars.md").
 ]
 #backlogitem([#raw("test-writing") states a displacement table but not its counts.], none)[
   #raw("docs/verifying-skills.md") §7 calls the counts "the deliverable, not the prose", and names #raw("test-writing") as the worked example of the rule — but its #raw("verification/README.md") gives the eight rows and then says "Two of the eight rows are #raw("judgement")" in prose, with no #raw("**N covered · N judgement · N gaps**") line. Every other skill that has a table reports one. Found 2026-09-17 by #raw("docs/book/tools/corpus.py"), which parses the counts for Part IV of the book and had to print "a displacement table, but its counts are stated in prose rather than reported" for the one skill the rule points at. Add the line (6 covered, 2 judgement, 0 gaps, if the prose is right).

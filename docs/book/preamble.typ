@@ -72,6 +72,24 @@
     #text(size: 10pt)[#it.body]
   ]
 
+  // Sidebars: an aside from the book's own construction. Deliberately unlike
+  // `practice` — no fill, hairline rules top and bottom — because a practice is
+  // something the reader DOES and a sidebar is something that happened.
+  show figure.where(kind: "sidebar"): it => block(
+    width: 100%, inset: (x: 0pt, y: 10pt), breakable: true,
+    stroke: (top: 0.6pt + luma(160), bottom: 0.6pt + luma(160)),
+  )[
+    #set align(left)
+    #set par(first-line-indent: 0pt, justify: true, leading: 0.62em)
+    #text(size: 8.5pt, fill: luma(95), weight: "bold")[#smallcaps[
+      Sidebar #context it.counter.display(it.numbering) · from building this book
+    ]]
+    #v(0.3em)
+    #text(size: 11pt, weight: "bold")[#it.caption.body]
+    #v(0.4em)
+    #text(size: 9.8pt)[#it.body]
+  ]
+
   // Part markers: invisible in the body, a heading row in the contents.
   show figure.where(kind: "part"): none
   show outline.entry: it => {
@@ -243,3 +261,15 @@
       )).flatten())
   ]
 ]
+
+// An aside from the book's own construction: a moment where the standard this
+// book describes, applied to the book's own toolchain, caught something reading
+// had not. The running record — including the candidates not yet cut into a
+// chapter — is docs/book/sidebars.md.
+//
+// A sidebar is not a practice. A practice is what the reader should do; a
+// sidebar is what happened when the author did it.
+#let sidebar(title, body) = figure(
+  kind: "sidebar", supplement: [Sidebar], numbering: "1",
+  caption: title, body,
+)

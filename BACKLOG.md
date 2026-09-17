@@ -1534,6 +1534,22 @@ open item out of the Done section.
       but produced nothing, for the same harness reason as arms A and B.
       (2026-09-16)
 
+- [ ] **Drafting prose for an outside reader is an unnamed verification
+      technique.** Three corpus defects were found not by running a harness but
+      by writing the book chapter about the skill: `directed-verification`'s
+      self-correction count held two false positives, one of them the skill's
+      own release commit (`8097530`); `skill-authoring` carried two stale
+      statements and a proposed check silent for 17 of 21 skills (`b3ad6e6`);
+      and the corpus's one external citation had drifted from its source in
+      four places (`a92cc8f`). In each case the defect survived the skill's own
+      verification and did not survive having to state the claim precisely
+      enough for a reader who cannot see the repository. `docs/verifying-skills.md`
+      does not name this, and the standard has no step for it. Decide whether it
+      is a behaviour of `skill-authoring` ("write the paragraph you would publish
+      about this skill, then check it"), or a note that the audience is the
+      instrument. Record 2026-09-17; instances tracked in
+      `docs/book/sidebars.md`.
+
 - [ ] **`test-writing` states a displacement table but not its counts.**
       `docs/verifying-skills.md` §7 calls the counts "the deliverable, not the
       prose", and names `test-writing` as the worked example of the rule — but

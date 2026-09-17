@@ -94,6 +94,16 @@ the decision needed. They are comments, so they never render. Four are open, all
 from §4 (corpus counts stated with inconsistent as-of discipline). Delete a
 marker when its decision is made.
 
+## Sidebars — what the standard caught while the book was built
+
+[`sidebars.md`](sidebars.md) — the running record of moments where the method
+this book describes, applied to the book's own construction, caught something
+reading had not. Eleven so far, in both directions: a corpus practice catching a
+defect in the book's toolchain, and writing the book catching a defect in the
+corpus. Each is a candidate for a `#sidebar[...]` in a chapter; one is cut in
+(II.2). Add a row whenever it happens — the bar is that the check has to have
+been the thing that caught it.
+
 ## Drift checks
 
 [`drift-check.md`](drift-check.md) — the built book audited against the
