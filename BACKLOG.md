@@ -1195,7 +1195,9 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       expensive hat" was the reason the skill existed and the largest gap in its
       displacement table. Eight fresh agents were handed a harness whose true
       cause is reachable only by executing it, with no deck, no prompt to run,
-      and no knowledge of what was measured. **8/8 ran it unprompted.** Scored
+      and no knowledge of what was measured. **8/8 ran it unprompted.** [2026-09-17:
+      3/8 proven — the scorer accepted strings the repo docs held; see
+      claim-fixture F10.] Scored
       by `score.py`, committed before any result was seen, against bands
       pre-registered in `design.md`. The claim was STRUCK from `SKILL.md` and
       the description rather than reworded into a similar-sounding untested one
@@ -1281,7 +1283,7 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       time it matters.  (2026-09-15)
 
 - [ ] **claim-fixture: the method has never returned a POSITIVE.** Both case
-      studies refuted their claims (8/8 each). Nothing demonstrates the method
+      studies refuted their claims (8/8 each) [one is 3/8 proven, F10]. Nothing demonstrates the method
       can confirm a true claim rather than being biased toward refutation —
       possibly because the fixtures are built by someone motivated to be
       thorough, possibly because both claims were simply false. The control is
@@ -1439,3 +1441,15 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       moves under a prompt. **Still unmeasured after run 3** — arm C was spawned
       but produced nothing, for the same harness reason as arms A and B.
       (2026-09-16)
+
+- [ ] **Re-run the `role-deck` premise fixture with subjects that cannot read
+      the repository** (planned week of 2026-09-21). The first run scored 8/8
+      EXECUTED but proved 3/8: `score.py` accepted strings that
+      `docs/verifying-skills.md` and `dde3f82` already held (claim-fixture F10,
+      role-deck 2.5.0, book ledger C-III-18). Before spending subjects: run the
+      isolation and capability probes (G2, G9), and apply G5 as rewritten —
+      search the subjects' whole readable environment for every pattern the
+      scorer accepts. Pilot n=1 first, per the run-3 note. If it comes back
+      REFUTED, restore 8/8 in role-deck, claim-fixture case study 1, the
+      research note and the book; if weakly supported, the premise was struck
+      on too little and SKILL.md's rationale needs revisiting.  (2026-09-17)

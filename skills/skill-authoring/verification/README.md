@@ -69,7 +69,7 @@ the checker. Rewritten with heredocs.
 | b2 name the default, or declare tool-fact | write prose about a topic | 10 behaviour skills with no displacement table; 13 descriptions stating no boundary at all |
 | b3 harness before prose | write the document, then justify it | `judgement` — no fixture can catch prose written in the wrong order |
 | b4 break each guard alone | run the suite and read green | `docs/bc-verification-audit.md`: a marker grep dead in 8 of 9 harnesses, masked by two other signals |
-| b5 measure the premise | assert the default and build on it | both `role-deck` premises, refuted 8/8 |
+| b5 measure the premise | assert the default and build on it | both `role-deck` premises, measured and struck (8/8; and 3/8 proven, see `claim-fixture` F10) |
 | b6 version a mistake as a mistake | bump minor, move on | `role-deck` 1.0.0 → 2.0.0 within a day |
 | what this cannot do (3 items) | treat conformance as evidence the skill helps | `judgement` |
 

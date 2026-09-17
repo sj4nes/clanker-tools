@@ -14,11 +14,11 @@ description: >-
   attests, a process bounded through legality, a ledger that replays, typed
   artifacts that catch a hat bleeding into the next, and a deck simulated
   before it is used. Measured, not assumed: agents do NOT skip cheap grounding
-  unprompted (8/8 ran it), so this buys auditability and repeatability, not
+  unprompted (8/8 reported running it, 3/8 proven), so this buys auditability and repeatability, not
   work that would otherwise go undone. NOT a workflow engine,
   not a task queue, and not a way to make a model's judgement trustworthy —
   it constrains WHEN and WHETHER, never how good the thinking is.
-version: 2.4.0
+version: 2.5.0
 archetype: behaviour
 author: Simon Janes
 tags: [process, thinking-hats, state-machine, verification, agents, decision, diagnosis]
@@ -35,11 +35,11 @@ the same either way.
 versions of this page asserted that an unconstrained agent *will* skip the
 expensive step, and then that it will confirm its first explanation rather than
 discriminate between rivals. Both were fixtured against fresh agents and both
-are refuted, 8/8:
+came back against the claim:
 
 | Claim | Fixture | Result |
 |---|---|---|
-| skips the expensive hat | a cause visible only by executing | **8/8 executed** |
+| skips the expensive hat | a cause visible only by executing | **8/8 reported executing; 3/8 proven** — the other five cite strings this repository's docs already held, so the band is refuted *or* weakly supported depending on how they are read |
 | confirms rather than discriminates | a second cause, invisible in the output | **8/8 found it**; 4/8 also found a third hole that was never planted |
 
 See [`verification/premise-fixture/RESULT.md`](verification/premise-fixture/RESULT.md)

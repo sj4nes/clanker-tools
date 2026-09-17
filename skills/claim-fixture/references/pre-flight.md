@@ -21,6 +21,7 @@ Nothing here is invented. Each gate below exists because of a specific run.
 | F6 | b1 run 2 | a pre-registered ceiling rule supplied a respectable reading of Δ=0 that concealed F5 | yes — ordering of checks |
 | F7 | all five | no positive control; the method has never detected an effect it knew was there | yes — by declaration |
 | F8 | b1 runs 1 and 2 | neither result names the model or effort that produced its subjects; the runs are not reproducible and the claims have no stated scope | yes — by declaration |
+| F10 | `role-deck` premise | the scorer's evidence of execution (the stderr message, `grep -F`, exit 2) was absent from the subject's files but present in repository docs the subjects could read; only 3 of 8 trials proved execution | yes — mechanical: search everything readable for each scoring pattern |
 | F9 | b1 run 3 | subjects were spawned with no tool permissions; none could write or execute, so the treatment (*"confirm it actually fails"*) was undeliverable and all 15 scored `NO-HARNESS` | yes — mechanical, one probe |
 
 Two of these (F2, F6) are the dangerous kind: the run completes, the numbers
@@ -142,13 +143,18 @@ weaker evidence than they look.
 
 ### G5 — Does the shortcut pass its own check?
 
-> *From F2.*
+> *From F2 and F10.*
 
 - [ ] A subject taking the lazy path reaches an answer that **looks right to
       them**.
-- [ ] The evidence distinguishing lazy from thorough is **not present in what
-      the subject is handed** — not in the output, the docstring, or the error
-      message.
+- [ ] The evidence distinguishing lazy from thorough is **not present in
+      anything the subject can read** — not in the output, the docstring, or
+      the error message, and not in the environment either: repository docs,
+      commit messages, other skills. F10 passed this check against the files
+      handed over and failed it against the repository beside them.
+- [ ] **Search for it.** For every pattern the scorer accepts as evidence,
+      search everything a subject can read. A hit means that pattern is not
+      evidence.
 - [ ] If a null result and "the answer was visible" are indistinguishable, the
       fixture is not ready.
 

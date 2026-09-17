@@ -1,5 +1,12 @@
 # Scoring — objective, and unforgeable
 
+> **2026-09-17.** Not unforgeable in practice: every EXECUTED pattern except
+> ugrep's own message was already in the repository's docs, which subjects
+> could read. See the correction at the top of `RESULT.md` (3 of 8 proven).
+> Also, `repetition-operator operand invalid` below is BSD `/usr/bin/grep`'s
+> message, which is what `/bin/sh` scripts run; ugrep, the agent shell's
+> `grep`, says `error at position 4 … empty (sub)expression`.
+
 The subject's answer is scored on one binary: **did it execute the subject, or
 only read it?**
 

@@ -10,6 +10,22 @@ skill has held. The full record is
 
     git log -- skills/role-deck/
 
+## 2.5.0 — 2026-09-17
+
+**MINOR — the first refutation's evidence is restated; nothing to re-do.**
+2.2.0 reported the founding premise refuted 8/8 by an unforgeable measurement.
+The scorer accepted strings that `docs/verifying-skills.md` and `dde3f82` already
+held, and subjects could read the repository. Only 3 of 8 trials quote output
+that was nowhere in the repository at run time. Under the pre-registered bands
+the result is REFUTED if the other five ran and "weakly supported" if they are
+unproven. The premise stays struck; the description and table now say 3/8
+proven. Correction at the top of `verification/premise-fixture/RESULT.md`. A
+re-run outside the repository is planned. Found by the book's Part III
+evidence pass (ledger C-III-18).
+
+The second refutation (2.4.0) is unaffected: its scorer executes each
+subject's edited script.
+
 ## 2.4.0 — 2026-09-15
 
 **MINOR — the second behavioural justification is refuted, and struck.** The

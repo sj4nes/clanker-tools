@@ -7,6 +7,12 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/skill-authoring/
 
+## 1.2.0 — 2026-09-17
+
+**MINOR: an example's evidence restated; nothing to re-do.** Behaviour 5 said
+both `role-deck` premises were "refuted 8/8". One was; the other has 3 of 8
+subjects' execution proven (`claim-fixture` F10, `role-deck` 2.5.0).
+
 ## 1.1.0 — 2026-09-17
 
 **MINOR: behaviour 3 asks for more, and one caution is restated.** Re-read

@@ -11,7 +11,7 @@ description: >-
   mistake. NOT a guide to prompt phrasing, NOT a way to make an agent more
   capable, and not applicable to a document nobody will maintain — the whole
   standard is about what happens to a skill on its second reading.
-version: 1.1.0
+version: 1.2.0
 archetype: behaviour
 author: Simon Janes
 tags: [skills, authoring, verification, standard, corpus, meta]
@@ -79,7 +79,9 @@ decides **which parts of those apply to the skill in front of you.**
    [`claim-fixture`](../claim-fixture/SKILL.md): split the claim, naive
    subjects, unforgeable measurement, pre-registration in its own commit. Two
    premises in this corpus were asserted confidently, built on for a day, and
-   refuted 8/8 in four minutes.
+   struck after fixtures took minutes — one refuted 8/8, the other with only
+   3 of 8 subjects' execution proven, because its scorer accepted strings the
+   repository's own docs held.
 
 6. **Version a mistake as a mistake.** `MAJOR` means *the skill was wrong* —
    re-do work done under the old text. So `MAJOR − 1` counts the times this

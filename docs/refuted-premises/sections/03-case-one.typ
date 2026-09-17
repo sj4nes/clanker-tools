@@ -58,15 +58,24 @@ no sequencing instruction, no suggestion to run anything.
 Several subjects went beyond the task, applying the fix and verifying it in
 both directions.
 
+#emph[Correction, 2026-09-17.] The table is what the scorer returned, not what
+it proved. Every EXECUTED pattern except the second `grep`'s own message was
+also in the repository's documentation, which subjects could read. Three
+reports quote that message, which entered the repository only after the run;
+five carry strings the documentation held plus a self-reported verification.
+Counted as unproven, the pre-registered band is #emph[weakly supported], not
+#emph[refuted]. The premise remains struck, since nothing supports it.
+
 == Confound, weighed
 
 The answer was independently documented elsewhere in the same repository, and
 several subjects cited it. The task was therefore easier than designed.
 
-This does not rescue the premise. Three subjects quoted the #emph[actual]
-stderr of a second `grep` implementation on the machine, a string that differs
-from the one in that documentation and is reachable only by execution. They ran
-it regardless of having found the answer.
+This does not rescue the premise, but it does limit the result. Three subjects
+quoted the #emph[actual] stderr of a second `grep` implementation on the machine,
+a string that differs from the one in that documentation and is reachable only
+by execution. Those three ran it. For the other five, reading and running
+produce the same report.
 
 A byproduct: those subjects also established that the repository's own
 documentation had attributed the error message to the wrong binary. Both

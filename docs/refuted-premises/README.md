@@ -20,7 +20,9 @@ inside it.
 ## What it reports
 
 Two claims that justified the `role-deck` skill, both fixtured against naive
-agents, both refuted 8/8. The method is now `skills/claim-fixture`; the raw
+agents, both struck (case two refuted 8/8 by execution; case one 3/8 proven —
+corrected 2026-09-17, see the top of
+`skills/role-deck/verification/premise-fixture/RESULT.md`). The method is now `skills/claim-fixture`; the raw
 records are under `skills/role-deck/verification/premise-fixture/` and
 `ordering-fixture/`.
 

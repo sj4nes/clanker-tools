@@ -16,7 +16,7 @@ description: >-
   and strike a refuted claim instead of rewording it. NOT a replacement for
   domain evaluation or benchmarking, not a way to prove a methodology works,
   and not applicable to claims that are already structurally provable.
-version: 2.4.0
+version: 3.0.0
 archetype: behaviour
 author: Simon Janes
 tags: [evaluation, experiments, methodology, agents, pre-registration, falsification]
@@ -76,8 +76,10 @@ exist; all three invalid runs were knowable before a subject was spawned.
    asked whether they considered alternatives will say yes. Two forms that
    work, both used in the case studies:
    - **an artefact of doing the work** — a string, a file, a side effect that
-     appears only if the work happened and cannot be reached from the material
-     the subject was given;
+     appears only if the work happened and cannot be reached from **anything
+     the subject can read** — not just the material it was given (the first
+     case study scored 8/8 on strings the repository's own docs held; 3/8 were
+     proven);
    - **executing the subject's own output** — apply their patch, run their
      query, and score what it does rather than what they said about it.
 

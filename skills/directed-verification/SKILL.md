@@ -13,7 +13,7 @@ description: >-
   prompting-technique guide, NOT multi-agent orchestration, and NOT a way to
   make an agent's judgement trustworthy — it changes what you can check, never
   how good the thinking was.
-version: 1.3.0
+version: 1.4.0
 archetype: behaviour
 author: Simon Janes
 tags: [agents, verification, collaboration, sycophancy, evidence, review]
@@ -91,8 +91,8 @@ the same thing this behaviour does. Δ = 0 there measures nothing, because the t
 arms were the same condition. See
 [`verification/b1-fixture/RESULT2.md`](verification/b1-fixture/RESULT2.md).
 
-Two premises in this corpus were asserted with this much confidence and refuted
-8/8. This one has been neither refuted nor supported — and two failed attempts
+Two premises in this corpus were asserted with this much confidence and struck
+after measurement (8/8, and 3/8 proven — `claim-fixture` F10). This one has been neither refuted nor supported — and two failed attempts
 are a reason to trust it *less*, not more, because the easy ways of testing it
 have now been used up without producing evidence.
 

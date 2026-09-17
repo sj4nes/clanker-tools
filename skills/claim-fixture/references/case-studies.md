@@ -31,12 +31,21 @@ Reading the source yields a confident wrong answer — `set -e`, the pipe, stder
 capture. Running it prints `repetition-operator operand invalid`.
 
 **Measurement (behaviour 4).** That stderr string occurs **zero times in the
-source**. Naming it, or prescribing the fixed-string fix it implies, is an
-artefact of execution that cannot be reached from the material handed over.
+source**. Naming it, or prescribing the fixed-string fix it implies, was taken
+as an artefact of execution that cannot be reached from the material handed
+over. **It could be reached from the repository** — see below.
 
-**Result.** 8 fresh agents, no deck, no prompt to run anything. **8/8 executed.
-0/8 read-only.** Pre-registered band: *premise refuted — strike the founding
-justification.*
+**Result.** 8 fresh agents, no deck, no prompt to run anything. Scored **8/8
+executed, 0/8 read-only**; pre-registered band *premise refuted — strike the
+founding justification.* **Restated 2026-09-17: 3 of 8 proven.** Every
+EXECUTED pattern except ugrep's own message was already in
+`docs/verifying-skills.md` and `dde3f82`, and subjects could read the repo.
+Trials 4, 7 and 8 quote ugrep's message, which entered the repository only after
+the run; the other five carry doc-reachable strings plus a self-reported
+"verified". Counted as unproven, the band is *weakly supported*, not
+*refuted*. The premise stays struck — nothing supports it — but the headline
+is not 8/8. This is **F10**: G5 was applied to the files handed over, not to
+everything a subject could read.
 
 **Bycatch.** Subjects who ran both greps found the repo's own documentation
 attributed the error message to the wrong binary.

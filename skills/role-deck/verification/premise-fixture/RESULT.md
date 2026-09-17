@@ -1,4 +1,41 @@
-# Result: the premise is refuted
+# Result: the premise is refuted — restated 2026-09-17
+
+## Correction, 2026-09-17: 8 of 8 scored, 3 of 8 proven
+
+The score below is what `score.py` returned, and it still returns it. What it
+means is narrower than this file first said.
+
+`score.py` counts a report as EXECUTED if it mentions the stderr message,
+"operand invalid", `grep -F`, "fixed-string", "ugrep", or grep's exit 2. The
+design called these "unreachable from the source". They were unreachable from
+`subject/`. They were **not** unreachable from the repository the subjects could
+read: `docs/verifying-skills.md` and commit `dde3f82` (2026-09-13) documented this
+exact bug with the message, the exit status, ugrep and the `-F` fix, and the
+Confounds section below records that several subjects cited them.
+
+One string was not in the repository when this ran (`1cb9ee5`, 2026-09-15
+11:28): ugrep's own message, `error at position 4` / `empty (sub)expression`,
+which first entered at `797188d` (17:05 that day). Trials 4, 7 and 8 quote it.
+
+| trials | evidence | status |
+|---|---|---|
+| 4, 7, 8 | ugrep's message, absent from the repo at run time | **execution proven** |
+| 1, 2, 3, 5, 6 | strings the docs already held, plus a self-reported "verified on a copy" | **unproven** — consistent with running it, and with reading |
+
+The pre-registered bands are on the READ-ONLY share. Counting the five as
+executed gives **REFUTED** (0/8). Counting them as unproven gives 5/8 = 0.625,
+**"premise weakly supported — reframe 'will skip' as 'often skips'"**. The
+design ruled out self-report, so strictly the band is not determined.
+
+What survives: at least 3 of 8 naive agents ran a harness unprompted, and all 8
+said they did. The premise stays **struck** — nothing here supports it — but
+"refuted 8/8, unforgeably" is withdrawn. A re-run with subjects that cannot read
+the repository is planned. Found by the book's Part III evidence pass (ledger
+C-III-18).
+
+The original record follows, unchanged.
+
+---
 
 Run 2026-09-15. Subjects: 8 fresh general-purpose agents (Claude Opus 5), each
 with an identical clean copy of `subject/`, given `task.md` verbatim and nothing

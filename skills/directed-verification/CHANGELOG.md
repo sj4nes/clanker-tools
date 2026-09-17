@@ -7,6 +7,11 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/directed-verification/
 
+## 1.4.0 — 2026-09-17
+
+**MINOR: a cited result restated; re-read it.** "Two premises … refuted 8/8" is
+now 8/8 and 3/8 proven, after `claim-fixture` F10 (`role-deck` 2.5.0).
+
 ## 1.3.0 — 2026-09-17
 
 **MINOR: behaviour 3's evidence was restated; no prescription changed.** Re-read

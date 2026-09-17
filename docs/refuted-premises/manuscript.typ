@@ -32,8 +32,11 @@
       about what goes wrong without it. We built an agent-process skill on two
       such assertions — that an unconstrained agent skips the expensive step,
       and that it confirms its first explanation rather than discriminating
-      between rivals — then fixtured both against naive subjects. Both were
-      refuted, 8 of 8 each, in the worst pre-registered band. Half of the second
+      between rivals — then fixtured both against naive subjects. Both came back
+      against the claim. The second was refuted 8 of 8 by execution; the first
+      scored 8 of 8, but only 3 of 8 proved execution, because its evidence
+      strings were also in documentation the subjects could read (corrected
+      2026-09-17). Half of the second
       cohort exceeded the fixture, closing a defect that had not been planted.
       We report the method that produced these results, the two case studies,
       and the discipline that made the negatives usable: striking a refuted

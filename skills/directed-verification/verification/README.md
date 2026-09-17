@@ -93,4 +93,4 @@ a prior **manipulation check** that the arms differed at all. Run 3 needs a
 genuinely clean control environment and that check before anything is scored.
 
 Until that runs, behaviour 1 is an assumption stated confidently, which is the
-position two other premises in this corpus were in before they were refuted 8/8.
+position two other premises in this corpus were in before they were measured and struck.

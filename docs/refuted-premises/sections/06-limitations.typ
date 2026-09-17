@@ -27,10 +27,12 @@ condition says #emph[separate commit].
 == Subject naivety is asserted, not verified
 
 Subjects were fresh agents with no shared context, but with filesystem access to
-a repository documenting the hypotheses under test. Unforgeable scoring means
-priming could not fabricate a result, but nothing measured what subjects read.
-A primed subject inflates a positive; neither case study produced one, so the
-direction of this bias is at least not toward the reported conclusion.
+a repository documenting the hypotheses under test. For case two, execution-based
+scoring means priming could not fabricate a result. For case one it could: the
+repository documented the very strings the scorer accepted, so reading inflated
+EXECUTED, which is the direction of the reported refutation. (This paragraph
+first said the bias could not point toward the conclusion. Corrected
+2026-09-17.)
 
 == Scope
 
@@ -42,6 +44,6 @@ costs an hour is untested, and these fixtures cannot answer it.
 
 Both runs used one model on one day, eight subjects per claim, one bug
 shape per claim. The confounds above are recorded because they are real, not in
-order to rescue a claim the results refuted: 8 of 8 with half a cohort exceeding
+order to rescue a claim the results refuted: for case two, 8 of 8 with half a cohort exceeding
 the fixture is not a marginal outcome, and the honest response is to change the
 methodology rather than to keep searching for a framing in which it was right.

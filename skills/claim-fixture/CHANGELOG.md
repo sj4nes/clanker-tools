@@ -7,6 +7,25 @@ it), **PATCH** = nothing semantic.
 
     git log -- skills/claim-fixture/
 
+## 3.0.0 — 2026-09-17
+
+**MAJOR: an omission in G5 let a forgeable measurement through, so a result
+produced under the old text may be wrong.** Re-check any fixture whose scorer
+accepts a string, a fix, or an exit code as evidence of work: search the
+subjects' whole readable environment for each pattern before believing it.
+
+Case study 1 reported 8/8 executed, unforgeably. Every pattern the scorer
+accepted, except ugrep's own message, was already in `docs/verifying-skills.md`
+and `dde3f82`, which subjects could read. Three of eight trials proved
+execution; under the pre-registered bands the result is refuted or weakly
+supported depending on the other five. Logged as **F10**. G5 now says "anything
+the subject can read" instead of "what the subject is handed", and requires a
+search for each scoring pattern. Behaviour 4 says the same. Found by the book's
+Part III evidence pass (ledger C-III-18).
+
+MAJOR by the rule 2.0.0 set: nothing G5 prescribed was false, but a fixture that
+passed it could still produce a wrong result, and case study 1 did.
+
 ## 2.4.0 — 2026-09-17
 
 **MINOR: the evidence base is restated; re-read it, nothing to re-do.** The body
