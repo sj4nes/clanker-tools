@@ -55,10 +55,13 @@ MUTATIONS = [
      lambda r: append(r, "parts/02-standard/01-default.typ", "\n// intro: nonesuch\nText.\n")),
     ("prerequisite introduced after its dependant", {"deps"},
      lambda r: append(r, "outline/deps.txt", "role-deck test-writing\n")),
-    # both endpoints must be in an UNDRAFTED chapter, or the reversed edge also
-    # trips the deps gate; move this pair when II.6 is drafted
+    # both endpoints are registered by the mutation itself, in one chapter no
+    # draft will ever have, so the reversed edge cannot also trip the deps gate
+    # and the pair never has to move as chapters are drafted
     ("cycle between two undrafted concepts", {"cycle"},
-     lambda r: append(r, "outline/deps.txt", "agent-as-collaborator directing-verification\n")),
+     lambda r: (append(r, "outline/concepts.tsv",
+                       "cyc-a\tconcept\tVI.99\t-\t-\ncyc-b\tconcept\tVI.99\t-\t-\n"),
+                append(r, "outline/deps.txt", "cyc-a cyc-b\ncyc-b cyc-a\n"))),
     ("book.typ includes chapters out of order", {"order"},
      lambda r: edit(r, "book.typ",
                     '#include "parts/03-findings/04-premises.typ"\n#include "parts/03-findings/05-shape.typ"',

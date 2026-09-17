@@ -7,6 +7,38 @@ backs it.
 
     gap = 4      docs-only = 10      skill-backed = 6
 
+That was the count when the outline was built (3890836, 2026-09-15). The
+sections below are kept as that record.
+
+## Status, 2026-09-17: two of three gaps built, one of them weak
+
+| gap | now | backs | state |
+|---|---|---|---|
+| the standard is not a skill | `skills/skill-authoring` 1.0.0 (197b313) | II.7, and the ten docs-only concepts | harness passes; its checker's gates are each broken alone. **II.7 not yet drafted.** |
+| the collaboration | `skills/directed-verification` 1.2.2 (6fbfac2) | II.6 (`directing-verification`, `agent-as-collaborator`) | built, and **reported weak**: 1 covered, 4 judgement, 2 gaps. **II.6 drafted 2026-09-17.** |
+| `source-authority` | — | II.3's open problem; `directed-verification` behaviour 6 | still backlogged, still unbuilt |
+
+"Built" is not "backed", and drafting II.6 is how that showed:
+
+- **Behaviour 1 is unmeasured after three fixture runs**, all invalid (ledger
+  C-II-20..22). The concept the book calls its differentiator rests on a skill
+  whose most testable claim has never produced a result.
+- **The one covered row overcounts** (C-II-47). The self-correction detector
+  reports 5; two are false positives, one of them the skill's own release
+  commit. The "at least three" shipped at release rested on two real matches.
+  The claim is true by hand; the instrument did not show it. A corpus fix, not
+  made in the book.
+- **The clean evidence points the other way.** The two premise fixtures that
+  did produce results found agents doing the expensive work unprompted, 8/8
+  twice. So II.6 argues for directing verification on the skill's narrower
+  boundary — it changes what the director can check — not on agents cutting
+  corners.
+
+So the collaboration gap is closed as a *document* and open as *evidence*. The
+next thing it needs is not more prose but a fourth b1 run that clears
+`claim-fixture`'s pre-flight gates, and a detector tested on the repository's
+own sentences.
+
 ## The headline: the standard governing 50 skills is not itself a skill
 
 **Ten of the book's twenty-three concepts — the entire core of the standard —
@@ -58,12 +90,13 @@ dependency of `independent-oracle`, which is mild corroboration that it belongs.
 
 ## What to build, in order
 
-+ **`skill-authoring`** — the standard, invocable. Largest payoff, clears ten
++ **`skill-authoring`** — **built 2026-09-15.** The standard, invocable. Largest payoff, clears ten
   concepts, and makes the book's Part II a description of a skill rather than a
   re-derivation of it.
-+ **The collaboration content** — either a section of `skill-authoring` or its
++ **The collaboration content** — **built 2026-09-15 as its own skill,
+  `directed-verification`; weak, see Status.** Either a section of `skill-authoring` or its
   own skill. Decide by whether it is a distinct *workflow* or a chapter of one.
-+ **`source-authority`** — already specified in the backlog.
++ **`source-authority`** — already specified in the backlog. **Still open.**
 
 None of these are book work. They are corpus work the book surfaced, which is
 the outline doing its job.

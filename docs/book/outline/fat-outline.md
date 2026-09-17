@@ -171,8 +171,11 @@ The prescriptive heart. Each chapter is one move, in dependency order.
   unforgeable or it is worthless — which is II.4, applied to your collaborator.
 - **Reader can now** direct a verification task and recognise a result that
   disagrees with them as the valuable case.
-- **Backed by:** **nothing. See GAPS.md — this is the book's differentiator and
-  the corpus has no skill for it.**
+- **Backed by:** `skills/directed-verification` (built 2026-09-15, 6fbfac2),
+  reported weak by its own table: 1 covered, 4 judgement, 2 gaps. **Drafted
+  2026-09-17** (ledger C-II-43..52). Drafting found the covered row's detector
+  overcounts (C-II-47), and the chapter's claim narrowed to the skill's own
+  boundary: directing changes what you can check, not how careful the agent is.
 
 ## II.7 — Author a skill to the standard
 
@@ -180,7 +183,9 @@ The prescriptive heart. Each chapter is one move, in dependency order.
 - **Framework.** The synthesis: fixture-first, then prose; displacement table
   before the checklist; harness before the claim; premise before the harness.
 - **Reader can now** author a new skill end to end.
-- **Backed by:** **nothing. The largest gap. See GAPS.md.**
+- **Backed by:** `skills/skill-authoring` (built 2026-09-15, 197b313): the six
+  behaviours, the `archetype:` field across the corpus, and a checker whose
+  gates are each broken alone. Not yet drafted.
 
 > **Through-line.** The standard is worth what it finds — and what it found is
 > Part III.

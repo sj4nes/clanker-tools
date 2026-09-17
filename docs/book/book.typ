@@ -3,7 +3,7 @@
 //   typst watch   book.typ build/book.pdf
 //   typst compile book.typ build/book.pdf
 //
-// Builds Parts I, II (II.1–II.5) and III. Parts I and II are agent DRAFTS (2026-09-16) pending the
+// Builds Parts I, II (II.1–II.6) and III. Parts I and II are agent DRAFTS (2026-09-16) pending the
 // author's rewrite. Parts IV and V will be GENERATED from the repository rather
 // than authored, so they cannot go stale. See README.md.
 
@@ -56,18 +56,20 @@
   Part I argued that a skill is a claim. This part is how to check one, one
   move per chapter, each depending on the one before: name the default the
   skill displaces, build a check that can fail, choose an oracle independent of
-  the thing checked, measure the premise, and version what turns out wrong.
+  the thing checked, measure the premise, version what turns out wrong, and
+  direct the agent that does most of the checking.
 
   #v(0.8em)
   #note[Draft, 2026-09-16: agent-written from the fat outline and the Part II
   rows of `claim-ledger.md`, to be rewritten in the author's voice. Chapters
-  II.1 to II.5 are drafted.]
+  II.1 to II.6 are drafted.]
 ]
 #include "parts/02-standard/01-default.typ"
 #include "parts/02-standard/02-harness.typ"
 #include "parts/02-standard/03-oracle.typ"
 #include "parts/02-standard/04-premise.typ"
 #include "parts/02-standard/05-version.typ"
+#include "parts/02-standard/06-agent.typ"
 
 #part("III", "What the Standard Found")[
   Four audits of a corpus of verified agent skills, run over three days in

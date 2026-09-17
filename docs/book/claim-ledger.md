@@ -1398,6 +1398,226 @@ knap has none). Zero declared/moved mismatches in 51 transitions.
   drafting_status: resolved
 ```
 
+### II.6 rows (built 2026-09-17, before drafting II.6)
+
+Developmental note: the outline's II.6 was "backed by nothing". Since then
+`directed-verification` exists (6fbfac2, 2026-09-15), reported weak by its own
+table (1 covered, 4 judgement, 2 gaps). II.6 must not borrow confidence the
+skill does not claim. The chapter's defensible claim is the skill's own
+boundary: directing changes what the director can CHECK, not how good the
+agent's work is. The clean evidence about undirected agents (role-deck, 8/8
+twice) cuts AGAINST a "the agent will cut corners" framing; use it that way.
+
+Corpus finding (not fixed here; a skill change, logged in the unresolved list):
+**the one covered row's detector overcounts.** `detect_selfcorrection.py`
+reports 5 self-corrections on 2026-09-17. Reading each matched sentence: 3 are
+real admissions (197b313, 95a8cb1, d084b25). 2 are false positives: 0fbb03c
+matches a hypothetical ("whether the instruction content or the harness was
+wrong"), and 6fbfac2 is the skill's OWN release commit describing what the
+detector counts. Replayed at the release parent (6fbfac2^), the scan reports 3,
+of which 0fbb03c is one: the "at least three" published at release rested on 2
+real matches. It also misses real incidents in other words (dde3f82, the dead
+marker grep; d084b25's own body calls itself "the fourth occasion"). A count
+with both false positives and misses is not a lower bound. The claim ">= 3" is
+true today, by hand. The self-test's negatives were four sentences the author
+wrote, never the repository's own prose.
+
+```yaml
+- id: C-II-43
+  claim_text: "181 of the repository's 194 commits carry a Co-Authored-By:
+    Claude trailer."
+  claim_type: fact
+  evidence_needed: a count over git log
+  source: "git log --format=%B, 2026-09-17 (HEAD 4bf0d7b)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "A missing trailer does not show a human-only commit (12 of the 13
+    are one day's capsule work, 2026-09-11). Rots with every commit; say
+    'at the time of writing'."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: draft-anyway   # count rots
+
+- id: C-II-44
+  claim_text: "While building experience-library, the first draft of checks.bc
+    hard-coded the optimum at n = 54; the true integer argmax is 55 (crossover
+    at 54.05). bc printed a FAIL line and exited 1 through the 1/0 backstop, and
+    the section was rewritten to find the optimum by scan rather than assert a
+    remembered constant."
+  claim_type: fact
+  evidence_needed: the recorded incident
+  source: "skills/experience-library/verification/README.md 'Findings folded
+    back'; checks.bc l.88-89 comment; commit d88d272 (agent co-authored)"
+  source_tier: secondary   # recorded in-build; the failing draft was never committed
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: "The failing run is not in git history; only the record of it is.
+    Say 'recorded', not 'shown'."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-45
+  claim_text: "directed-verification's premise is that an agent asked to verify
+    reports that it verified, fluently, whether the work was done well, badly,
+    or not at all; so the question is what it produced that could have come
+    out the other way. Six behaviours: ask for the failing case, demand an
+    artifact that can fail, suspect the test first, keep proposing separate
+    from deciding, re-run what you were told, check what the command was aimed
+    at."
+  claim_type: fact
+  evidence_needed: the skill text
+  source: "skills/directed-verification/SKILL.md v1.2.2"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "A statement of the skill, not evidence for it; see C-II-46."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-46
+  claim_text: "Its table is 1 covered, 4 judgement, 2 gaps. Behaviour 1, the
+    most testable, has been fixtured three times and all three runs were
+    invalid; it is still unmeasured."
+  claim_type: fact
+  evidence_needed: README table and run records
+  source: "directed-verification/verification/README.md; b1-fixture/RESULT.md,
+    RESULT2.md, RESULT3.md; CHANGELOG 1.2.2"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Runs already told in II.4 (C-II-20..22); cite, do not retell."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-47
+  claim_text: "The covered row's detector reports 5 self-corrections; 2 are
+    false positives, one of them the skill's own release commit. At release
+    its 'at least three' rested on 2 real matches. It also misses incidents
+    phrased otherwise, so the count is neither a lower bound nor an upper one."
+  claim_type: fact
+  evidence_needed: a fresh run, each match read in context, and a replay at
+    the release parent
+  source: "sh skills/directed-verification/verification/run.sh, 2026-09-17
+    (5 hits); matched sentences printed per commit; scan of git log 6fbfac2^
+    (3 hits: 197b313, 95a8cb1, 0fbb03c); dde3f82 as a missed incident"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The claim '>= 3 occasions' is TRUE today (197b313, 95a8cb1,
+    d084b25, and dde3f82 unmatched). What fails is the instrument, not the
+    conclusion. Corpus fix, not made in the book commit."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-48
+  claim_text: "In b1 run 1, the subject function was itself wrong, and the
+    defect was exposed by the subjects: arm-A agents' harnesses failed on the
+    'clean' code and were scored BROKEN. The commit reporting it opens its first
+    reason with 'it is mine' and calls the episode the fourth occasion where the
+    test was wrong and the subject fine."
+  claim_type: fact
+  evidence_needed: the commit and result record
+  source: "commit d084b25 (2026-09-15, agent co-authored); b1-fixture/RESULT.md"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "'Mine' is the author-plus-agent session that designed the fixture;
+    do not attribute it to a person or a model alone. Run 1's observation that
+    undirected agents also built oracles is CONFOUNDED (subjects had the
+    corpus's skills loaded; the same commit says so). Do not use it as
+    evidence about undirected agents."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-49
+  claim_text: "The agent's first reading of b1 run 2 was the agreeable one:
+    1.1.0 (22:38, 15 Sept) called both arms' 5/5 'no headroom' and read five
+    near-identical report headings as independent convergence on good
+    practice. 35 minutes later (3cf2da3, 23:13) 1.2.0 withdrew it: the control
+    arm had test-writing loaded, so the arms were one condition."
+  claim_type: fact
+  evidence_needed: commits and changelog
+  source: "commits 23f184c, 3cf2da3 (both agent co-authored);
+    directed-verification/CHANGELOG.md 1.1.0, 1.2.0"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The record does not say who spotted the tell; do not say."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-50
+  claim_text: "role-deck's premise that an agent will skip the expensive step
+    was written in agent co-authored commits (914af76, 2026-09-15) and
+    fixtured and struck in agent co-authored commits (1cb9ee5, da8cfa7): 8 of 8
+    fresh agents did the work unprompted, twice."
+  claim_type: fact
+  evidence_needed: commits
+  source: "git show 914af76, 1cb9ee5, da8cfa7; Part III ch. 4 (C-III-*)"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "Sessions differ; say 'the same collaboration', never 'the same
+    agent'. Unaffected by the run-1/2 confound: both measured unforgeable
+    artifacts."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-51
+  claim_text: "Interpretation: the evidence this corpus has does not support
+    directing verification because agents cut corners — the clean measurements
+    say they did not. It supports it because agreeable prose is present in
+    every case, so only an artifact that could have come out the other way lets
+    the director tell good work from bad. That is the skill's own stated
+    boundary."
+  claim_type: interpretation
+  evidence_needed: C-II-44..50
+  source: "C-II-44..50; directed-verification SKILL.md 'What this cannot do'"
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: "Two premise fixtures are not a general finding about agents; say
+    'in this corpus's two clean measurements'."
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+
+- id: C-II-52
+  claim_text: "Recommendation: ask for the case that would prove you wrong and
+    an artifact that could have failed; treat a result that disagrees with you
+    as the valuable case; and audit the evidence FOR your collaboration
+    practice with the same suspicion, including detectors that count your own
+    good behaviour."
+  claim_type: recommendation
+  evidence_needed: C-II-43..51
+  source: C-II-43..51
+  source_tier: primary
+  date_checked: 2026-09-17
+  confidence: medium
+  caveats: none
+  chapter: II.6
+  citation_status: no-citation-needed
+  citation_check: n/a
+  drafting_status: resolved
+```
+
 ## Unresolved-research list
 
 - **C-I-08** — the corpus figures rot; generate them (same mechanism as Parts IV/V).
@@ -1422,3 +1642,9 @@ knap has none). Zero declared/moved mismatches in 51 transitions.
   level; three changelogs lack a `## 1.0.0` heading. Corpus fix, and a candidate
   for `tools/check-skills.sh` (promote `tools/audit-changelog-levels.py`).
 - **C-II-39** — MAJOR totals rot; generate them with Part IV.
+- **C-II-47** — `directed-verification`'s self-correction detector counts 2
+  false positives in 5 (one is the skill's own release commit) and misses
+  incidents phrased otherwise; its README and SKILL.md call the count a lower
+  bound. Corpus fix: add the repository's real matched sentences as negatives,
+  exclude commits that describe the detector, and stop calling it a bound.
+- **C-II-43** — the co-authored commit count rots; generate it.
