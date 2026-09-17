@@ -35,6 +35,14 @@ build the machinery that checks the book. Where that produced something worth
 reading, it is reported here. Where it produced a defect, that is reported too,
 and there is a running log of the second kind.
 
+That includes these sentences. Most of the prose in this book was drafted by the
+agent, from an outline, a ledger of claims and a set of decisions that are mine,
+and then revised by me. I am not going to pretend otherwise in a book whose
+argument is that you should say what a document actually is. The judgements are
+mine and I stand behind them; the majority of the words arrived by proxy, which
+is the same working relationship the rest of the book describes — and the
+reason it can describe it in any detail.
+
 == The problem with that
 
 #chref(<ch-oracle>) of this book tells you not to check a thing with an oracle
@@ -43,10 +51,10 @@ A test whose expected value came out of the code proves the code agrees with
 itself.
 
 By that standard, this book's evidence is not independent of this book. The
-corpus is the author's. The standard is the author's. The audits were run by the
-author and his agent, on their own work, using instruments they wrote. Nobody
-else has adopted the method, and the one experiment designed to test the book's
-central premise on strangers has not produced a valid run.
+corpus is mine. The standard is mine. The audits were run by me and the agent,
+on our own work, using instruments we wrote. Nobody else has adopted the method,
+and the one experiment designed to test the book's central premise on strangers
+has not produced a valid run.
 
 That does not make the findings false. A harness that exits zero on a false
 claim is a fact about that harness, and a Lean proof that proves nothing is a
@@ -69,8 +77,7 @@ numbers.
 Parts I, II and III are argument, and their evidence is the corpus. Trust them
 the way you would trust a careful practitioner describing their own practice.
 
-The most credible things in the book are the places where it went against its
-author. Two premises this method was built on were measured and struck. A skill
+The most credible things in the book are the places where it went against me. Two premises this method was built on were measured and struck. A skill
 written to demonstrate the standard turned out, while its own chapter was being
 drafted, to have been overstating what it had measured. An audit of this book's
 plan produced five findings and then withdrew two of them on closer reading.
@@ -85,8 +92,9 @@ honestly-reported single case, and the method's own rules say a single case is
 where you start, not where you stop.
 
 #v(0.6em)
-#note[Parts I and II are drafts written by the agent from the outline and the
-claim ledger, awaiting rewrite in the author's voice. Where the prose sounds
-like a machine describing a person's opinions, it currently is one.]
+#note[Parts I and II are still at an earlier stage of that process than the
+rest: drafted from the outline and the claim ledger and not yet taken through a
+revision pass. The division of labour does not change when they are — only the
+voice.]
 
 ]
