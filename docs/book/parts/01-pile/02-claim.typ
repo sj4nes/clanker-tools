@@ -31,7 +31,7 @@ Luu's experiment is the clearest public evidence that default behaviour exists
 and that naming a technique does not dislodge it.#footnote[Luu, "How well do
 agents use test/verification techniques?" See the previous chapter for scope
 and caveats.] Agents were told to use TDD, property-based testing, fuzzing,
-mutation testing, Lean, TLA+, and a dozen more. In his reading of the
+mutation testing, Lean, TLA+, and a dozen more. In Luu's reading of the
 transcripts, they tended to "just write the tests they would normally write,
 but inside a framework for a different type of test technique." A proof
 assistant produced proofs of irrelevant properties. Property-based testing
@@ -49,7 +49,7 @@ result your skill has to beat.
 
 The highest-scoring condition was a skill Luu wrote in a couple of minutes: five
 bullets aimed at nudging agents away from their usual failures rather than
-teaching them testing. His own reasoning afterwards is close to this chapter's
+teaching them testing. The reasoning offered afterwards is close to this chapter's
 thesis:
 
 #quote(block: true)[
@@ -59,8 +59,8 @@ thesis:
   allow a human or non-knowledgeable agent to do the behavior at all.
 ]
 
-He is careful about how far it goes, and this book should be too. He calls it a naive
-guess from someone who has written one skill. Of the skill itself he writes,
+Luu is careful about how far it goes, and this book should be too — calling it a naive
+guess from someone who has written one skill. Of the skill itself the write-up says,
 "This got the highest score, but didn't work as intended": its instruction to
 re-derive results in a fresh context was almost never followed, so nobody knows
 whether that instruction helps.
@@ -133,7 +133,7 @@ takes up both answers.
 == The running example's claim
 
 `test-writing` was built after the Luu result and in its spirit. Its first two
-behaviours track the first bullet of his five: name the risky area, then state
+behaviours track the first bullet of Luu's five: name the risky area, then state
 the likely mistake before writing the assertion. Written out, its claim reads:
 
 #quote(block: true)[

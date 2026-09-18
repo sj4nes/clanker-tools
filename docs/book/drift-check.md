@@ -21,7 +21,7 @@ nothing had checked that since Part III.
 | The four promised outcomes | **all four delivered**, one chapter each |
 | The two drafting warnings | **both honored** |
 | Mode-mixing mitigation | **met by a different mechanism than planned** — ratify or revert |
-| Findings raised | **5** — 1, 2, 3 and 5 resolved 2026-09-17; **4** resolved by the corpus-count registry |
+| Findings raised | **6** — 1, 2, 3 and 5 resolved 2026-09-17; **4** resolved by the corpus-count registry |
 | Findings withdrawn on checking | **2** |
 
 ---
@@ -146,8 +146,17 @@ The backfill earned itself immediately. V.0 claimed "roughly half the open
 backlog items were opened by the audits of Part III" — **written without a
 count**. A keyword proxy matches 29 of 46, but the matcher also hits capsule
 items unrelated to those audits, so it overcounts by an unknown amount. The
-prose now says "many"; `C-V-03` records the fraction as `low` confidence with
-the real fix (hand-classify the items by origin) named. Two more rows came out
+prose said "many" pending a real count.
+
+**Hand-classified 2026-09-17** in [`backlog-origins.md`](backlog-origins.md),
+item by item: **2 of 46**. Both "roughly half" and the "many" that softened it
+were wrong by an order of magnitude — the audits mostly *closed* items rather
+than opening them, and the Lean and graph audits became gates rather than rows.
+The pass took two more things with it: V.0's neighbouring claim that the audits
+"mostly did not produce fixes" (they did, the same day), and a BACKLOG
+reference to a `docs/lean-core-audit.md` that has never existed. `C-V-03` is now
+`high` confidence and states the count; the body prose states none, because a
+hand classification cannot be regenerated. Two more rows came out
 marked as untested theses rather than findings: `C-IV-02` (a high gap count is
 the better sign) and `C-VI-02` (Part VI's central claim).
 
@@ -212,6 +221,20 @@ drafting-blocking claim is `high` or explicitly `draft-anyway`, and one row
 states the opposite. No violation.
 
 ---
+
+### 6. The book asserted a real person's pronouns — RESOLVED 2026-09-17
+
+Raised after this check, while working its leftovers. Seven sites in Parts I and
+II referred to Dan Luu as "he/his". No source states those pronouns: the About
+page is entirely first person, and no bio, byline or profile states them. The
+only support was third-party usage and the name itself, which is the inference
+the citation standard exists to refuse.
+
+All seven rewritten to name Luu or recast (`01-asset` ×2, `02-claim` ×4,
+`03-oracle` ×1); no other person in the book carried a gendered pronoun.
+Recorded as `C-I-20`, whose `citation_check` is `unresolved` — the row verifies
+the *absence of a source*, not a claim about what the pronouns are, and is
+superseded the day Luu states them.
 
 ## What this check does not cover
 

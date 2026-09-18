@@ -53,17 +53,27 @@ build it later: which claim, which fixture, what the fixture would have to
 show. That convention is the reason this part can be generated at all, and it
 is why a gap found on a Tuesday is still legible in November.
 
-The effect is that the audits of Part III mostly did not produce fixes. They
-produced entries. A skill whose harness was found to have no way of failing
-gets a row here for each way it could have one, and the row survives until the
-harness does.
+The effect is that a finding too large to fix in the moment survives as an
+entry. A skill whose harness was found to have no way of failing gets a row
+here for each way it could have one, and the row survives until the harness
+does.
+
+Part III's own audits are the counter-example, and worth stating plainly: they
+mostly produced fixes rather than entries. The `bc` remediation landed the day
+the audit ran; the Lean and graph audits turned into gates in each capsule's
+build rather than rows in this file. Only two of the open items below trace
+back to them.#footnote[Hand-classified by origin, item by item, in
+`docs/book/backlog-origins.md`. An earlier draft of this chapter said
+#emph[roughly half], written without a count; the count is two.]
 
 == How to use it
 
 Not as a roadmap. The items are not ordered by importance, they close without
-ceremony, and many of them were opened by the audits of Part III rather
-than by anyone planning the work — which is the pattern to take from this part
-rather than any particular entry. A standard that is working generates backlog.
+ceremony, and most of them are planned capsule work rather than findings. The
+ones to read are the dozen opened by the standard's own displacement tables:
+a table whose deliverable is its gap count turns each gap into a row nobody
+chose to write. That is the pattern to take from this part rather than any
+particular entry. A standard that is working generates backlog.
 
 #practice[Keep the open list where the work is, not where the reader is.][
   If you write up your own method, generate the open problems from whatever file

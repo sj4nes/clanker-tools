@@ -96,7 +96,7 @@
   per-node detail pages under #raw("nodes/"), plus #raw("formulas/*.yaml") structured entries and #raw("sources/source-map.tsv") — primitives and conventions currently live in #raw("conventions.md") and formula nodes in #raw("formulas/chemistry-foundations.md"). The #raw("math-*") capsules have all three.
 ]
 #backlogitem(none, none)[
-  upgrade the Lean instance checks to universal #raw("by ring") / #raw("by nlinarith") proofs once Mathlib is on the toolchain. The lean-core audit (#raw("docs/lean-core-audit.md")) counts a numeral-instance check as unbacked, and this capsule has 1 Lean core.
+  upgrade the Lean instance checks to universal #raw("by ring") / #raw("by nlinarith") proofs once Mathlib is on the toolchain. The lean-core audit (#raw("docs/verifying-skills.md") §5b; there is no #raw("docs/lean-core-audit.md") — the reference was dangling until 2026-09-17) counts a numeral-instance check as unbacked, and this capsule has 1 Lean core.
 ]
 == chemistry-electrochemistry  (Release 0.1 COMPLETE, 2026-09-09; 112 nodes, all draft)
 

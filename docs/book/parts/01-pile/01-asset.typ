@@ -34,7 +34,7 @@ The number was misleading. Luu looked at #emph[when] each agent had opened the
 skill. The seven runs that never read it scored perfectly, and so did the nine
 that read it late and were barely influenced. Among the runs the skill actually
 shaped, it scored below average, and "the earlier an agent looked at the skill,
-the more its behavior was impacted and the worse the correctness result." His
+the more its behavior was impacted and the worse the correctness result." Luu's
 summary of the whole episode: "superficially, if we just look at the score, ECC
 seems ok."
 
@@ -126,9 +126,9 @@ it."]
 Some of it is judgement, and this book will say which parts. But the objection
 usually carries a stronger claim: that because the #emph[writing] is craft, the
 #emph[effect] cannot be checked. Luu's own judgement was good: reading the
-skills beforehand, he wrote down in advance, at 55–65% confidence, that none of the three
-public ones would outperform, and he was right. But his judgement came with a
-confidence he could not raise by reading more, and the one number everyone
+skills beforehand, Luu predicted in advance, at 55–65% confidence, that none of the three
+public ones would outperform, and that prediction held. But it came with a
+confidence no further reading could raise, and the one number everyone
 would have looked at said ECC was fine. What settled it was measuring the
 effect and then reading the runs. In this corpus, likewise, what found the four
 checks that could not fail was breaking things on purpose, not reading them.

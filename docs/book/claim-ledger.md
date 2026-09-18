@@ -443,6 +443,30 @@ still open.
   citation_status: footnote
   citation_check: verified
   drafting_status: resolved
+
+- id: C-I-20
+  claim_text: "The book refers to Dan Luu without a third-person personal
+    pronoun. (Recorded as a claim because the earlier draft's 'he/his' WAS one:
+    an assertion about a real person's pronouns, made from the name.)"
+  claim_type: fact
+  evidence_needed: a self-statement of pronouns by the author, or by the site
+  source: "NONE FOUND. danluu.com/about is entirely first person (I/my) and
+    states no pronouns; no bio page, profile or byline located that states
+    them. Third-party usage exists (e.g. Hacker News commenters write 'he'),
+    which is the inference this ledger does not accept as a source."
+  source_tier: discovery
+  date_checked: 2026-09-17
+  confidence: high
+  caveats: "The claim verified here is the ABSENCE of a source, not a claim
+    about what the pronouns are. If Luu states them anywhere, this row is
+    superseded and the prose may use them. Seven sites rewritten to name Luu
+    or recast (01-asset x2, 02-claim x4, 03-oracle x1); 'they' was avoided in
+    the asset passage only because the surrounding plural nouns made it
+    ambiguous, not on principle."
+  chapter: I.1, I.2, II.3
+  citation_status: none needed
+  citation_check: unresolved
+  drafting_status: resolved
 ```
 
 ## Part III rows (started 2026-09-16; evidence pass 2026-09-17, C-III-05..22)
@@ -2333,20 +2357,25 @@ and the preface — none of which had any (`drift-check.md` §3).
   drafting_status: resolved
 
 - id: C-V-03
-  claim_text: "Roughly half the open backlog items were opened by the audits of
-    Part III rather than by anyone planning the work."
+  claim_text: "Two of the 46 open backlog items were opened by the audits of
+    Part III; most are planned capsule work, and the second-largest source (12)
+    is the standard's own displacement tables."
   claim_type: statistic
   evidence_needed: a classification of each open item by what opened it
-  source: "NONE. A keyword proxy over the 46 open items matches 29, but the
-    matcher (displacement table|harness|mutation|audit|lean|bc|graph|premise|
-    fixture) also hits capsule items unrelated to the Part III audits, so it
-    overcounts by an unknown amount."
-  source_tier: discovery
+  source: "docs/book/backlog-origins.md — a hand reading of each of the 46
+    items' own text (origin, date, and any 'found by' clause), 2026-09-17.
+    Cross-checked: exactly 2 open items cite audit machinery by name, and 4
+    CLOSED items carry it."
+  source_tier: primary
   date_checked: 2026-09-17
-  confidence: low
-  caveats: "WRITTEN WITHOUT A COUNT. Found by backfilling this section, which is
-    what the backfill was for. Either hand-classify the items by origin, or drop
-    the fraction. Softened in the draft to 'many' pending that."
+  confidence: high
+  caveats: "SUPERSEDES the 'roughly half' draft, which was written without a
+    count, and the 'many' that softened it — both wrong by an order of
+    magnitude. The classification is by hand and cannot be regenerated, so the
+    prose states no number in the body; the footnote states the two. The pass
+    also corrected V.0's claim that the audits 'mostly did not produce fixes'
+    (they did) and fixed a dangling BACKLOG reference to a
+    docs/lean-core-audit.md that never existed."
   chapter: V.0
   citation_status: no-citation-needed
   citation_check: n/a

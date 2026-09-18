@@ -621,7 +621,9 @@ had no chemistry in it.
       all three.
 - [ ] **chemistry-foundations:** upgrade the Lean instance checks to universal
       `by ring` / `by nlinarith` proofs once Mathlib is on the toolchain. The
-      lean-core audit (`docs/lean-core-audit.md`) counts a numeral-instance
+      lean-core audit (`docs/verifying-skills.md` §5b; there is no
+      `docs/lean-core-audit.md` — the reference was dangling until
+      2026-09-17) counts a numeral-instance
       check as unbacked, and this capsule has 1 Lean core.
 
 ### chemistry-electrochemistry  (Release 0.1 COMPLETE, 2026-09-09; 112 nodes, all draft)

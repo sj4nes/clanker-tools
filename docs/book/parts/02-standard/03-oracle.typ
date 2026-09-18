@@ -76,7 +76,7 @@ helper that turns a digit into a character, and the helper has a bug. Across
 identically. A round trip through the standard library's own parser, which
 shares no code with either, catches the bug at once.
 
-Luu saw the pattern in his transcripts: asked for differential testing,
+Luu saw the pattern in the transcripts: asked for differential testing,
 agents "would generally just write the same thing twice."#footnote[Luu, "How
 well do agents use test/verification techniques?", section on differential
 testing. A qualitative reading of transcripts, not a scored measure.] This
