@@ -2570,3 +2570,144 @@ and the preface — none of which had any (`drift-check.md` §3).
   clauses gated as `tools/check-changelogs.py`, check 7 of
   `tools/check-skills.sh`. `docs/book/tools/audit-changelog-levels.py` is now a
   wrapper that adds the by-date MAJOR report. b08e99e.
+
+---
+
+## Abramov rows (added 2026-09-18) — an outside case of the same discipline
+
+Source: Dan Abramov, "How I vibed a proof of Conway's conjecture",
+https://overreacted.io/how-i-vibed-a-proof-of-conways-conjecture/ (2026).
+A first-person account of one month's work. **Primary for what the author did,
+and for nothing else**: it is not peer-reviewed, and the author states plainly
+that the mathematics has not been independently checked by a human.
+
+The reason it earns rows: the author, working alone with agents and no
+mathematical training, independently arrived at this corpus's Lean gate — that
+a Lean proof passing is not the same as a Lean proof proving what you meant.
+
+```yaml
+- id: C-II-63
+  claim_text: "Working with agents to formalize a proof in Lean, an author with
+    no mathematical background independently built the same two guards this
+    corpus's Lean audit added: self-contained statements depending only on
+    Mathlib, and an automated audit for extra axioms."
+  claim_type: fact
+  evidence_needed: the article's description of its own infrastructure
+  source: "Abramov, ibid. — the 'standalone' folders and the axiom audits"
+  source_tier: primary
+  date_checked: 2026-09-18
+  confidence: high
+  caveats: "His own account of his own process; nothing external confirms the
+    audits work as described. The convergence is what the row is for — two
+    independent parties hitting the same failure mode of the same tool — not
+    any claim about the quality of his implementation."
+  chapter: II.2
+  citation_status: footnote
+  citation_check: verified
+  drafting_status: resolved
+
+- id: C-II-64
+  claim_text: "He caught a drifting argument by noticing the prose had gone
+    vague rather than by checking the mathematics: 'I think you're inventing
+    euphemisms for claims you haven't shown?'"
+  claim_type: fact
+  evidence_needed: the quoted exchange in the article
+  source: "Abramov, ibid. — quoted prompt to the model"
+  source_tier: primary
+  date_checked: 2026-09-18
+  confidence: high
+  caveats: "A single quoted exchange, chosen by the author for the write-up.
+    Usable as an illustration of a reader's-eye check; not evidence about how
+    often such prose signals a real defect."
+  chapter: II.6
+  citation_status: quotation
+  citation_check: verified
+  drafting_status: resolved
+
+- id: C-III-23
+  claim_text: "Auditing agent-produced formal work found a defect that
+    invalidated earlier results already treated as settled: a circular step and
+    'an object constructed without a required check' that was 'present in some
+    earlier papers too, invalidating their claimed results'."
+  claim_type: fact
+  evidence_needed: the article's account of the failure
+  source: "Abramov, ibid."
+  source_tier: primary
+  date_checked: 2026-09-18
+  confidence: medium
+  caveats: "The author's account of his own earlier drafts; no third party saw
+    them. Shape matches this corpus's dead marker grep (dde3f82) — a check that
+    read as passing and was not — which is the only use it should be put to."
+  chapter: III.5
+  citation_status: footnote
+  citation_check: verified
+  drafting_status: resolved
+
+- id: C-III-24
+  claim_text: "One month of full-time work, roughly 40 billion tokens (about
+    95% cache reads) and an estimated $40,000 in API cost, with the accumulated
+    work burned down and restarted twice."
+  claim_type: fact
+  evidence_needed: the article's own figures
+  source: "Abramov, ibid."
+  source_tier: primary
+  date_checked: 2026-09-18
+  confidence: medium
+  caveats: "Author-reported, unaudited, and the dollar figure is his estimate.
+    Cite as reported, never as measured. The author adds it could have been
+    '5x-10x cheaper' with better guidance."
+  chapter: III.5
+  citation_status: footnote
+  citation_check: verified
+  drafting_status: resolved
+
+- id: C-III-25
+  claim_text: "The author characterises roughly 40-50% of the accumulated
+    intermediate 'papers' as bullshit."
+  claim_type: interpretation   # his, about his own output
+  evidence_needed: the article
+  source: "Abramov, ibid."
+  source_tier: primary
+  date_checked: 2026-09-18
+  confidence: low
+  caveats: "An impression, not a measurement: no scoring rule, no sample, no
+    definition of the denominator. This is the shape of the Luu overstatement
+    (C-II-58). Quote it as his characterisation, attributed, or drop it. It may
+    not be restated as a rate."
+  chapter: III.5
+  citation_status: quotation
+  citation_check: verified
+  drafting_status: draft-anyway   # quotation only; blocking if paraphrased as a rate
+
+- id: C-II-65
+  claim_text: "The Palomar registry records a mathematical claim from a fixed
+    version of its source, checks the proof with Lean, and publishes the exact
+    statement, the libraries it depends on, and the review's comments."
+  claim_type: fact
+  evidence_needed: the registry's own description and repositories
+  source: "https://palomar-registry.org/ — 'Palomar records mathematical claims
+    from fixed versions of their source files, checks their proofs with Lean,
+    and publishes the exact statement, the libraries it uses, and the review's
+    comments'; github.com/PalomarRegistry — PalomarReviewer, 'Automated AI
+    review and registration tooling for Palomar'"
+  source_tier: primary
+  date_checked: 2026-09-18
+  confidence: medium
+  caveats: >-
+    The review is AUTOMATED and AI-performed, per the PalomarReviewer
+    repository's own description. So a Palomar entry attests: this Lean code,
+    at this commit, compiles and proves this statement against these libraries,
+    and an automated reviewer commented. It does NOT attest human peer review,
+    that the formal statement says what its English gloss says, or that the
+    result is novel. Abramov's 'the proof has passed the mechanical checks from
+    the Palomar registry' is accurate and must not be upgraded to
+    'verified'. Governance and operator are UNRESOLVED: one fetch of the site
+    returned an obviously spurious line ('Anthropic's official CLI for Claude'),
+    so the retrieval is not trustworthy enough to source a claim about who runs
+    it. A second reading, by hand, is owed before any sentence names the
+    operator.
+  chapter: II.2
+  citation_status: footnote
+  citation_check: likely   # purpose statement likely; operator unresolved
+  drafting_status: blocking   # for any sentence naming who runs it
+```
