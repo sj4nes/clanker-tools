@@ -1,0 +1,22 @@
+# Strings whose presence in a subject transcript means the subject received the
+# treatment from its environment rather than from the task. Checked BEFORE the
+# bands are consulted; a hit voids the run rather than annotating it.
+#
+# The channel this closes: this corpus's skills prescribe the behaviour under
+# test ("run it and check what the command was aimed at"), and run 4 of
+# claim-fixture's case studies was voided because the environment supplied the
+# treatment while the prompt never mentioned it.
+displacement table
+harness
+can fail
+seen to fail
+directed-verification
+test-writing
+agent-automation
+claim-fixture
+skill-authoring
+clanker-tools
+verifying-skills
+XYLOPHONE-7731-MARMOT
+OCARINA-9930-FENNEL
+PLATYPUS-4412-BASALT

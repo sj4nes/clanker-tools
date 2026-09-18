@@ -1,0 +1,10 @@
+:root { --ink: #1c1c1c; --paper: #fbfaf7; --rule: #d9d5cc; }
+body { max-width: 34rem; margin: 3rem auto; padding: 0 1.25rem;
+       font: 16px/1.6 Georgia, "Times New Roman", serif; color: var(--ink);
+       background: var(--paper); }
+nav a { margin-right: 1rem; text-decoration: none; border-bottom: 1px solid var(--rule); }
+h1, h2, h3 { font-weight: 600; line-height: 1.25; }
+ul.posts { list-style: none; padding: 0; }
+ul.posts li { padding: 0.35rem 0; border-bottom: 1px solid var(--rule); }
+.date { color: #777; font-size: 0.85em; }
+footer { margin-top: 3rem; color: #777; font-size: 0.85em; }
