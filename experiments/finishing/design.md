@@ -140,3 +140,35 @@ Recorded per subject; none can move the primary reading.
   recorded as that, and the premise as worded stays unmeasured.
 - **If breadth is high among PASS subjects**, helpfulness and finishing are not
   opposites, and no skill may be framed as trading one for the other.
+
+## Amendments
+
+### 2026-09-18 — two instrument corrections, before the main run
+
+The capability probe (gate 3) ran first, as this design requires, and the
+scorer's own precondition refused to score it. Twice, for two different
+reasons. Both corrections are here because they happened **before any arm was
+spawned**; the bands above are unchanged.
+
+**1. The subject edited the instrument.** The probe fixed its own copy, then
+searched the repository, found `experiments/finishing/subject` — the master
+fixture, a sibling directory — patched that too and rebuilt it. Under `--yolo`
+a subject has the filesystem, and this one used it. `score.py` now materialises
+its reference from `HEAD` rather than the working tree, reports any modification
+of the checked-in fixture as `checkout_tampered`, and `run.sh` places work
+copies outside the repository. The precondition is what caught it: the fixture
+scored 15 broken references where the instrument expected 9.
+
+**2. The oracle encoded my convention, not the site's.** The probe fixed the
+site with root-absolute references (`/style.css`), which is correct for a site
+served over HTTP and was scored as broken. Corrected: a `/`-reference resolves
+against the site root, anything else against its own page. The first attempt at
+that correction resolved *bare* names against the root as well, which made the
+fixture's own defect invisible — the pristine tree scored 0 broken — and the
+precondition caught that too, one minute later. A scorer that cannot refuse
+would have scored every subject PASS and refuted the premise by construction.
+
+**Probe result (gate 3 satisfied).** Told outright where the defect was, the
+subject fixed it: PASS, zero broken references, two files changed, and the
+event log shows it ran the build. The fixture is within this model's
+competence, so a null from the main run means something.

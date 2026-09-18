@@ -20,11 +20,19 @@ id=${1:?usage: run.sh <run-id> [task-file]}
 task=${2:-$here/task-A.md}
 run=$here/runs/$id
 home=$here/runs/.home
+# The work copy lives OUTSIDE the repository. The capability probe walked out
+# of its own directory, found the sibling master fixture and edited that too;
+# a subject reaching the master is not prevented by this, but a subject
+# stumbling over it no longer is. score.py reads its reference from HEAD and
+# reports any modification of the checked-in fixture, which is the real guard.
+work=${TMPDIR:-/tmp}/sitegen-runs/$id
 
 [ -e "$run" ] && { echo "$run exists; pick another id" >&2; exit 2; }
-mkdir -p "$run"
-cp -R "$here/subject" "$run/work"
-rm -rf "$run/work/out"
+mkdir -p "$run" "$(dirname "$work")"
+rm -rf "$work"
+cp -R "$here/subject" "$work"
+rm -rf "$work/out"
+ln -s "$work" "$run/work"
 
 mkdir -p "$home"
 cp "$HOME/.hermes/auth.json" "$home/auth.json"
@@ -38,7 +46,7 @@ CFG
 
 cp "$task" "$run/task.md"
 env HERMES_HOME="$home" hermes chat \
-    --query-file "$run/task.md" --oneshot --in "$run/work" \
+    --query-file "$run/task.md" --oneshot --in "$work" \
     --safe-mode --yolo --provider nous -m meituan/longcat-2.0:free \
     --max-turns 40 --run-budget 900 --format stream-json \
     > "$run/events.jsonl" 2> "$run/stderr.txt" || true
