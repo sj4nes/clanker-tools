@@ -20,3 +20,11 @@ verifying-skills
 XYLOPHONE-7731-MARMOT
 OCARINA-9930-FENNEL
 PLATYPUS-4412-BASALT
+# Added after run 1, which was voided by subjects teaching each other through a
+# shared HERMES_HOME. These catch the channel directly rather than by luck: the
+# run-1 hit was on 'clanker-tools' appearing in a path string.
+skill_view
+skill_create
+sitegen
+.home/skills
+curator_ledger

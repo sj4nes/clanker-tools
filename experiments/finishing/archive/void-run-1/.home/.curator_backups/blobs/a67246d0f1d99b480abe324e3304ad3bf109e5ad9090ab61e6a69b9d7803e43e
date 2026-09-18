@@ -1,0 +1,53 @@
+---
+name: sitegen
+description: Use when building or debugging the sitegen site generator.
+category: software-development
+---
+
+# sitegen
+
+Static site generator for a small blog. Builds `content/` Markdown into `out/` HTML.
+
+## Layout
+
+- `content/posts/*.md` -- blog posts (front-matter: title, date)
+- `content/index.md`, `content/about.md` -- top-level pages
+- `templates/page.html` -- shared template with `{{title}}`, `{{nav}}`, `{{stylesheet}}`, `{{content}}` placeholders
+- `static/style.css` -- shared stylesheet
+- `build.py` -- build script (stdlib only)
+- `tests/test_build.py` -- unit tests
+
+## Build & test
+
+    python3 build.py
+    python3 -m unittest discover -s tests -v
+
+## Key behavior
+
+- Posts go to `out/posts/<slug>.html`; top-level pages to `out/<slug>.html`
+- Nav and stylesheet links use relative prefixes (posts use `../`)
+- Index lists all posts sorted by date (newest first)
+- Markdown subset: headings (#, ##, ###), paragraphs, links, **bold**
+
+## Known pitfall & fix
+
+Posts in `out/posts/` need `../` prefixes on nav and stylesheet links, while
+top-level pages don't. `render_page` takes a `prefix` parameter — pass `"../"`
+for posts, `""` for top-level pages. The template uses `{{stylesheet}}` and
+`{{nav}}` placeholders so the prefix is applied consistently.
+
+**Fix is applied and verified (2026-09-18):** `render_page(title, body, prefix)` in `build.py`
+replaces the hardcoded `href="style.css"` in the template with `href="{{stylesheet}}"` and
+passes `prefix` to `nav_html()`. Posts call it with `prefix="../"`, top-level pages with
+`prefix=""`. Verified: build + 5/5 unit tests pass; all pages and the stylesheet return
+200 over HTTP; post pages use `../style.css` and `../index.html`.
+
+**Symptom if it breaks again:** post pages (`out/posts/*.html`) lose their CSS
+and nav links 404 — `href="style.css"` resolves to `out/posts/style.css` which
+doesn't exist. Build succeeds but the site looks broken in a browser.
+
+## Adding a post
+
+1. Create `content/posts/my-post.md` with front-matter header
+2. Run `python3 build.py`
+3. Link appears on index automatically

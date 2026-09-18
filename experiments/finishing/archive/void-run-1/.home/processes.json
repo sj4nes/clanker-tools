@@ -1,0 +1,25 @@
+[
+  {
+    "session_id": "proc_55b14a97c530",
+    "command": "cd /private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B12/out && python3 -m http.server 8123",
+    "pid": 95237,
+    "pid_scope": "host",
+    "host_start_time": 178974941139,
+    "systemd_unit": "",
+    "cwd": "/private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B12",
+    "started_at": 1789749411.384601,
+    "task_id": "default",
+    "owner_task_id": "a9ffe4c9-a75a-4a8d-8e00-705746c2d7d6",
+    "session_key": "20260918_113431_9b6b35",
+    "watcher_platform": "",
+    "watcher_chat_id": "",
+    "watcher_user_id": "",
+    "watcher_user_name": "",
+    "watcher_thread_id": "",
+    "watcher_message_id": "",
+    "watcher_interval": 0,
+    "parent_session_id": "20260918_113431_9b6b35",
+    "notify_on_complete": false,
+    "watch_patterns": []
+  }
+]

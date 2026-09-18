@@ -1,0 +1,5 @@
+model:
+  provider: nous
+  base_url: https://inference-api.nousresearch.com/v1
+  default: meituan/longcat-2.0:free
+  api_mode: chat_completions

@@ -25,7 +25,12 @@ here=$(cd "$(dirname "$0")" && pwd)
 id=${1:?usage: run.sh <run-id> [task-file]}
 task=${2:-$here/task-A.md}
 run=$here/runs/$id
-home=$here/runs/.home
+# A HOME PER SUBJECT, outside the repo and destroyed with the run directory.
+# Run 1 was voided because one home was shared: a subject wrote a skill
+# describing the fixture -- with the fix in it -- and ten later subjects
+# patched that same file. Subjects that can write where the next subject reads
+# are not independent subjects.
+home=${TMPDIR:-/tmp}/sitegen-homes/$id
 # The work copy lives OUTSIDE the repository. The capability probe walked out
 # of its own directory, found the sibling master fixture and edited that too;
 # a subject reaching the master is not prevented by this, but a subject
@@ -40,6 +45,7 @@ cp -R "$here/subject" "$work"
 rm -rf "$work/out"
 ln -s "$work" "$run/work"
 
+rm -rf "$home"
 mkdir -p "$home"
 cp "$HOME/.hermes/auth.json" "$home/auth.json"
 cat > "$home/config.yaml" <<'CFG'
@@ -49,6 +55,14 @@ model:
   default: meituan/longcat-2.0:free
   api_mode: chat_completions
 CFG
+
+# Close the fetch channel. --safe-mode stops skills being INJECTED; it does not
+# stop a subject fetching one with skill_view, and a fresh home ships thirteen
+# bundled categories. An empty read-only directory leaves the tool with nothing
+# to return and nowhere to write a new one.
+rm -rf "$home/skills"
+mkdir -p "$home/skills"
+chmod 555 "$home/skills"
 
 cp "$task" "$run/task.md"
 sandbox-exec -f "$here/sandbox.sb" \
@@ -66,5 +80,10 @@ sandbox-exec -f "$here/sandbox.sb" \
   echo "provider: nous"
   echo "hermes: $(hermes --version 2>/dev/null | head -1)"
   echo "task: $(basename "$task")"
+  echo "home: per-subject, skills dir emptied and read-only"
 } > "$run/meta.txt"
+# Leave the home for the manipulation check to inspect, then drop it.
+cp -R "$home" "$run/home-after" 2>/dev/null || true
+chmod -R u+w "$run/home-after" 2>/dev/null || true
+rm -rf "$home"
 echo "$run"

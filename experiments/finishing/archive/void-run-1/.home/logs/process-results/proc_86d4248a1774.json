@@ -1,0 +1,15 @@
+{
+  "id": "proc_86d4248a1774",
+  "command": "cd /private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B07 && python3 -m http.server 8765",
+  "cwd": "/private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B07",
+  "task_id": "default",
+  "owner_task_id": "fa117329-4c20-49f6-af27-5ac5e38345f6",
+  "session_key": "20260918_105546_67f84a",
+  "parent_session_id": "20260918_105546_67f84a",
+  "started_at": 1789747029.407681,
+  "exit_code": 143,
+  "completion_reason": "exited",
+  "termination_source": "",
+  "notify_on_complete": false,
+  "output": "Serving HTTP on :: port 8765 (http://[::]:8765/) ...\n::1 - - [18/Sep/2026 10:57:23] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:23] \"GET /index.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:23] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:23] \"GET /about.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:23] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:23] \"GET /style.css HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:23] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:23] \"GET /posts/kettle-logic.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:23] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:23] \"GET /posts/the-last-mile.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:23] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:23] \"GET /posts/two-clocks.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:39] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:39] \"GET /index.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:39] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:39] \"GET /about.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:39] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:39] \"GET /style.css HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:39] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:39] \"GET /posts/kettle-logic.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:39] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:39] \"GET /posts/the-last-mile.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:39] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:39] \"GET /posts/two-clocks.html HTTP/1.1\" 404 -\n::1 - - [18/Sep/2026 10:57:42] \"GET / HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 10:57:42] code 404, message File not found\n::1 - - [18/Sep/2026 10:57:42] \"GET /index.html HTTP/1.1\" 404 -\nbash: [84194: 6 (255)] tcsetattr: Inappropriate ioctl for device\n"
+}

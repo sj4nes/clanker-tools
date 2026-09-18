@@ -1,0 +1,15 @@
+{
+  "id": "proc_5ef48996b311",
+  "command": "cd /private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B12/out && python3 -m http.server 8123",
+  "cwd": "/private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B12",
+  "task_id": "default",
+  "owner_task_id": "a9ffe4c9-a75a-4a8d-8e00-705746c2d7d6",
+  "session_key": "20260918_113431_9b6b35",
+  "parent_session_id": "20260918_113431_9b6b35",
+  "started_at": 1789749289.020224,
+  "exit_code": 137,
+  "completion_reason": "exited",
+  "termination_source": "",
+  "notify_on_complete": false,
+  "output": "Serving HTTP on :: port 8123 (http://[::]:8123/) ...\n::1 - - [18/Sep/2026 11:35:00] \"GET /index.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:00] \"GET /about.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:00] \"GET /style.css HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:00] \"GET /posts/two-clocks.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:00] \"GET /posts/the-last-mile.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:00] \"GET /posts/kettle-logic.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:59] \"GET /index.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:59] \"GET /about.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:59] \"GET /style.css HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:59] \"GET /posts/two-clocks.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:59] \"GET /posts/the-last-mile.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:35:59] \"GET /posts/kettle-logic.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:36:26] \"GET /index.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:36:26] \"GET /posts/the-last-mile.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:36:26] \"GET /posts/the-last-mile.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:36:26] \"GET /posts/kettle-logic.html HTTP/1.1\" 200 -\nbash: [94591: 6 (255)] tcsetattr: Inappropriate ioctl for device\n"
+}

@@ -1,0 +1,15 @@
+{
+  "id": "proc_80016ecf80d9",
+  "command": "cd /private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B02/out && python3 -m http.server 8765",
+  "cwd": "/private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/B02",
+  "task_id": "default",
+  "owner_task_id": "cab64112-4357-4b15-9ee7-4b08cb918a30",
+  "session_key": "20260918_102322_04d6f5",
+  "parent_session_id": "20260918_102322_04d6f5",
+  "started_at": 1789745091.524381,
+  "exit_code": 1,
+  "completion_reason": "exited",
+  "termination_source": "",
+  "notify_on_complete": false,
+  "output": "Traceback (most recent call last):\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 197, in _run_module_as_main\n    return _run_code(code, main_globals, None,\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py\", line 87, in _run_code\n    exec(code, run_globals)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py\", line 1297, in <module>\n    test(\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py\", line 1252, in test\n    with ServerClass(addr, HandlerClass) as httpd:\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py\", line 452, in __init__\n    self.server_bind()\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py\", line 1295, in server_bind\n    return super().server_bind()\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/http/server.py\", line 138, in server_bind\n    socketserver.TCPServer.server_bind(self)\n  File \"/Applications/Xcode.app/Contents/Developer/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py\", line 466, in server_bind\n    self.socket.bind(self.server_address)\nOSError: [Errno 48] Address already in use\n"
+}

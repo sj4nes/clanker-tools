@@ -1,0 +1,2 @@
+context_lengths:
+  meituan/longcat-2.0:free@https://inference-api.nousresearch.com/v1: 1048576

@@ -1,0 +1,15 @@
+{
+  "id": "proc_47f049f9cf9a",
+  "command": "python3 -m http.server 8765 --directory /private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/A10/out",
+  "cwd": "/private/var/folders/pt/6z2c_t0x3nl8ng09lpdz61340000gp/T/sitegen-runs/A10",
+  "task_id": "default",
+  "owner_task_id": "29aec5a3-8f49-40a9-b8a1-477a9fde6490",
+  "session_key": "20260918_110937_1eed07",
+  "parent_session_id": "20260918_110937_1eed07",
+  "started_at": 1789747827.5112052,
+  "exit_code": -15,
+  "completion_reason": "exited",
+  "termination_source": "",
+  "notify_on_complete": false,
+  "output": "Serving HTTP on :: port 8765 (http://[::]:8765/) ...\n::1 - - [18/Sep/2026 11:10:33] \"GET /posts/two-clocks.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:10:33] \"GET /style.css HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:10:33] \"GET /index.html HTTP/1.1\" 200 -\n::1 - - [18/Sep/2026 11:10:33] \"GET /about.html HTTP/1.1\" 200 -\n"
+}
