@@ -953,6 +953,46 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
 
 ## Cross-cutting
 
+- [ ] **Lean cores record no toolchain.** Every capsule's cores are checked
+      against whatever `lean` is on PATH, and nothing records which. There is no
+      `lean-toolchain` file in the repository; the only version statement is
+      prose — `Lean 4.33's core grind and omega` in
+      `skills/math-probability/validation/proof-checks.lean` and its `.md`. The
+      other capsules with `.lean` files (`math-linear-algebra`,
+      `math-logic-and-proof`, `math-real-analysis`, `math-sets-functions-cardinality`,
+      `math-statistics`, `chemistry-foundations`, `chemistry-electrochemistry`)
+      say nothing at all.
+
+      This bites harder here than it would in a Mathlib project, because the
+      cores are deliberately Mathlib-free and lean on `grind` and `omega` —
+      automation whose strength changes between Lean releases. Two failure
+      modes, and the second is the bad one:
+
+      1. A core that closes today fails on an older or newer toolchain, and the
+         capsule looks broken to someone who has a different Lean.
+      2. A core closes on a later toolchain **for a different reason than the
+         capsule claims** — stronger automation discharging a goal the prose
+         says follows from the stated hypotheses. The exit status is identical,
+         so nothing surfaces it. This is the same shape as `lean-core-audit`'s
+         original finding (`abb9d0f`): Lean exits 0 and the claim behind the
+         exit is not the claim in the text.
+
+      Fix, smallest first: record the toolchain next to the cores rather than in
+      a prose aside (a `lean-toolchain` file, repo-wide or per capsule), then
+      have `check-lean-cores.py` assert the running version matches the recorded
+      one and refuse rather than warn — the shape `tools/check-changelogs.py`
+      (b08e99e) already uses. A version mismatch is a reason to re-read the
+      cores, not a reason to fail the build silently.
+
+      Prompted 2026-09-18 by the Palomar registry's entry format (exact
+      statement + libraries used + fixed source version), which is what a
+      machine-checked claim needs to stay meaningful and is the one part of that
+      triple this repo does not keep. Palomar itself is no use as a source: it
+      registers Mathlib-backed research results, and the capsules' 41 `cited`
+      claims are analytic theorems out of the cores' scope. See ledger
+      C-II-65.
+
+
 - [x] **verification harnesses:** `docs/verifying-skills.md` written — the shared
       `verification/` contract (run.sh shape, the "re-solve a known-answer case
       with the skill's own workflow + negative-contrast guardrail" bar) plus the
