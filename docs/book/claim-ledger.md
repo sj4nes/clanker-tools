@@ -1,4 +1,4 @@
-# Claim ledger — The Missing Manual
+# Claim ledger — Known to Work
 
 One row per assertion the book may make, per the `nonfiction-book` skill's
 Phase 2. Fact, interpretation and recommendation are separate rows even when

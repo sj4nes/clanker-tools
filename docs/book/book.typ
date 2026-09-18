@@ -10,7 +10,7 @@
 #import "preamble.typ": apply-base, note, part, colophon
 
 #set document(
-  title: "clanker-tools: The Missing Manual",
+  title: "Known to Work",
   author: ("Simon Janes",),
 )
 
@@ -21,9 +21,9 @@
 #align(center)[
   #text(10pt, fill: luma(110))[#smallcaps[clanker-tools]]
   #v(1.2em)
-  #text(30pt, weight: "bold")[clanker-tools: The Missing Manual]
+  #text(30pt, weight: "bold")[Known to Work]
   #v(0.5em)
-  #text(14pt)[Building skills for AI agents, with an AI agent,\ and knowing whether they work]
+  #text(14pt)[Building skills for AI agents,\ with an AI agent]
   #v(2.5em)
   #note[Simon Janes · #datetime.today().display("[month repr:long] [year]") ·
         draft: Parts I and II of six]

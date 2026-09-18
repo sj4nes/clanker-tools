@@ -1,4 +1,4 @@
-# Positioning brief — The Missing Manual
+# Positioning brief — Known to Work
 
 The constitution for this book. Every later choice — a chapter, an example, a
 cut — is checked against this. When this brief and a draft chapter disagree,
@@ -11,8 +11,8 @@ comps are written (comps from the author's own Amazon survey, 2026-09-15, in
 
 ```yaml
 positioning_brief:
-  working_title: "The Missing Manual"
-  working_subtitle: "Building skills for AI agents, with an AI agent, and knowing whether they work"
+  working_title: "Known to Work"
+  working_subtitle: "Building skills for AI agents, with an AI agent"
 
   one_sentence_promise: >-
     For someone building a corpus of skills for AI agents, this book shows how
@@ -212,3 +212,22 @@ open and is the obvious fix.
 **What it does not license.** Teaching the domain. If a future part explains
 electrochemistry rather than cataloguing what was cut from it, this amendment
 does not cover it and the brief should stop it.
+
+### 2026-09-18 — the title, and why it changed
+
+The working title was *clanker-tools: The Missing Manual*. MISSING MANUAL is a
+registered O'Reilly mark, and the title used it in that series' own
+`<product>: The Missing Manual` construction — the worst case for confusion,
+whatever the intent. Retitled **Known to Work**, which is the promise's own
+phrase ("skills that are known to work rather than merely written"), so the
+cover now carries the thesis rather than a borrowed shelf position.
+
+Two smaller changes travelled with it. The subtitle lost "and knowing whether
+they work", which the new title already says. And `clanker-tools` left the title
+line for a small overline above it: the book is about a method evidenced by that
+repository, not documentation for it, and leading with an unknown repo name said
+the opposite.
+
+Not to be reopened without a trademark check. The same rule retires *For
+Dummies*, *Head First*, *In a Nutshell* and *The Definitive Guide*; *Cookbook*,
+*Field Guide*, *Handbook* and *Notes* are free.

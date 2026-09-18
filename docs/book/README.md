@@ -1,4 +1,4 @@
-# The Missing Manual — a PDF release of this corpus
+# Known to Work — a PDF release of this corpus
 
     typst compile docs/book/book.typ build/book.pdf
     typst watch   docs/book/book.typ build/book.pdf   # drafting

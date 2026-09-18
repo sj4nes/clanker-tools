@@ -42,7 +42,7 @@
       let front = query(figure.where(kind: "front")).find(f => f.location().page() == here().page())
       if here().page() > 2 and opener == none and divider == none and front == none [
         #set text(size: 9pt, fill: luma(110))
-        #smallcaps[clanker-tools: The Missing Manual] #h(1fr) #counter(page).display()
+        #smallcaps[Known to Work] #h(1fr) #counter(page).display()
       ]
     },
     footer: context {
