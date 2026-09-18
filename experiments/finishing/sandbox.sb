@@ -1,0 +1,25 @@
+;; Confine one subject to its own work directory.
+;;
+;; Reads are open: the fixture is on disk and the agent needs its interpreter,
+;; libraries and certificates. WRITES are what the probe abused, so writes are
+;; denied everywhere except the work copy, the throwaway HERMES_HOME, and the
+;; temp directories Python and curl need to function at all.
+;;
+;; Network stays open: the subject is a model behind an HTTP API.
+(version 1)
+(allow default)
+
+(deny file-write*)
+
+(allow file-write*
+  (subpath (param "WORK"))
+  (subpath (param "HHOME"))
+  (subpath (param "TMP"))
+  (subpath "/private/var/folders")
+  (subpath "/private/tmp")
+  (literal "/dev/null")
+  (literal "/dev/dtracehelper")
+  (regex #"^/dev/tty")
+  (regex #"^/dev/fd/")
+  (literal "/dev/stdout")
+  (literal "/dev/stderr"))

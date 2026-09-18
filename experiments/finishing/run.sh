@@ -12,7 +12,13 @@
 #
 # --yolo is required because single-query mode otherwise blocks command
 # execution, which would force every subject down the read-only path and make
-# the result an artefact of the harness. The workdir is a throwaway copy.
+# the result an artefact of the harness.
+#
+# The blast radius of --yolo is then closed by sandbox.sb rather than by asking
+# the subject to stay put: the capability probe finished its own task and went
+# looking for other copies to fix, and an instruction not to would be a change
+# to the prompt -- which is the one thing that must stay identical between the
+# arms. The sandbox denies the write; it says nothing to the subject.
 set -eu
 
 here=$(cd "$(dirname "$0")" && pwd)
@@ -45,7 +51,9 @@ model:
 CFG
 
 cp "$task" "$run/task.md"
-env HERMES_HOME="$home" hermes chat \
+sandbox-exec -f "$here/sandbox.sb" \
+    -D WORK="$work" -D HHOME="$home" -D TMP="${TMPDIR:-/tmp}" \
+    env HERMES_HOME="$home" hermes chat \
     --query-file "$run/task.md" --oneshot --in "$work" \
     --safe-mode --yolo --provider nous -m meituan/longcat-2.0:free \
     --max-turns 40 --run-budget 900 --format stream-json \
