@@ -11,10 +11,10 @@
 
 // --- stamped: as-of the last deliberate stamp ------------------------
 #let corpus-asof = "18 September 2026"
-#let n-commits = 222
+#let n-commits = 223
 #let corpus-days = 13
 #let corpus-first-commit = "2026-09-05"
-#let tree-stamp = 1431839148
+#let tree-stamp = 178053608
 #let stamp-salt = 2008487135
 
 // --- gated: structural, regenerated and diffed ------------------------

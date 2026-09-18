@@ -351,15 +351,19 @@
   let given = sys.inputs.at("k", default: "")
   // A salt of 0 means unset: the book asks nothing of whoever renders it.
   let salted = stamp-salt == 0 or tree-fold(0, bytes(given)) == stamp-salt
-  pagebreak(weak: true)
+  // Sits on the copyright page, not the last page: a trailing leaf is the one
+  // a print shop, a page range or an end-matter trim takes away, and a copy
+  // that has lost the stamp looks like a clean copy.
   v(1fr)
-  align(center)[
-    #set text(size: 9pt, style: "italic")
-    #set par(first-line-indent: 0pt, justify: false)
+  set text(size: 9pt)
+  set par(first-line-indent: 0pt, justify: false, leading: 0.62em)
+  [
+    © 2026 Simon Janes. #h(0.4em) Draft; not for distribution.
+
+    #v(0.7em)
     Composed in Typst. Parts IV to VI were generated from the
     #raw("clanker-tools") repository as this copy was built.
     #if not (salted and live == tree-stamp) [
-      #linebreak()
       Rendered #datetime.today().display("[day] [month repr:long] [year]")
       from tree #live.
     ]

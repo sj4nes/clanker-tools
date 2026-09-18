@@ -31,6 +31,11 @@
 
 #pagebreak()
 
+// --- copyright page ---------------------------------------------------------
+#colophon()
+
+#pagebreak()
+
 #block(above: 1.5em, below: 1.1em, text(size: 19pt, weight: "bold")[Contents])
 #outline(title: none, indent: auto,
   target: heading.where(level: 1)
@@ -117,5 +122,3 @@
 ]
 #include "parts/06-tutorials/00-intro.typ"
 #include "parts/06-tutorials/01-entries.typ"
-
-#colophon()
