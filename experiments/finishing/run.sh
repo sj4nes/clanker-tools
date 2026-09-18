@@ -56,13 +56,19 @@ model:
   api_mode: chat_completions
 CFG
 
-# Close the fetch channel. --safe-mode stops skills being INJECTED; it does not
-# stop a subject fetching one with skill_view, and a fresh home ships thirteen
-# bundled categories. An empty read-only directory leaves the tool with nothing
-# to return and nowhere to write a new one.
-rm -rf "$home/skills"
-mkdir -p "$home/skills"
-chmod 555 "$home/skills"
+# The fetch channel, handled in two parts.
+#
+# What MATTERS is that no subject can read what another subject wrote: that is
+# what voided run 1, and a fresh home per subject closes it completely.
+#
+# What REMAINS is Hermes's own bundled skills, which it reinstalls into any
+# fresh home; emptying the directory does not stop it (verified -- probe2 got
+# them back). The `.no-bundled-skills` marker cuts that to the essential set.
+# Whatever survives is identical in every home and therefore identical in both
+# arms, so it is a property of the population -- "a Hermes agent" -- and not a
+# contrast between A and B. None of it mentions the fixture: the fixture is
+# generated fresh per subject and nothing about it exists until this run.
+touch "$home/.no-bundled-skills"
 
 cp "$task" "$run/task.md"
 sandbox-exec -f "$here/sandbox.sb" \

@@ -23,8 +23,10 @@ PLATYPUS-4412-BASALT
 # Added after run 1, which was voided by subjects teaching each other through a
 # shared HERMES_HOME. These catch the channel directly rather than by luck: the
 # run-1 hit was on 'clanker-tools' appearing in a path string.
-skill_view
+# NOT bare 'sitegen': the fixture is called sitegen and its own path contains
+# the word, so that pattern voids every run (it voided probe2). What matters is
+# a skill STORE entry about the fixture -- one subject's work reaching another.
+skills/sitegen
 skill_create
-sitegen
-.home/skills
 curator_ledger
+Use when building or debugging the sitegen
