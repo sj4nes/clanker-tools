@@ -115,12 +115,19 @@ A failure **voids** the run; it does not annotate it.
 
 ## Isolation
 
-None of this corpus's skills are installed in Hermes. The 139 that are, plus
-`SOUL.md`, `AGENTS.md`, memory and plugins, are suppressed by `--safe-mode`
-inside a throwaway `HERMES_HOME` holding only credentials and a pinned model.
-`iso-probe.sh` proves this in both directions with a canary in all three
-channels — quoted without the flags, invisible with them. A probe only ever seen
-to pass has not been tested.
+**Corrected 2026-09-18, after the first batch was voided.** This section
+previously claimed that installed skills "cannot load" under `--safe-mode`. That
+is false and the first run proved it. `--safe-mode` suppresses AUTO-INJECTION:
+`SOUL.md`, `AGENTS.md`, memory and preloaded skills do not enter the context,
+which is what `iso-probe.sh` tested and what it correctly showed. It does not
+make skills unreachable: a subject can still fetch any installed skill on
+demand with `skill_view`, and a fresh `HERMES_HOME` ships thirteen bundled
+categories of them.
+
+The probe asked "what is in your context?" — a question about injection — so it
+could not fail in the way the experiment actually failed. Any isolation claim
+here must now be proved against BOTH channels: what arrives unasked, and what
+can be fetched.
 
 ## Secondary measures — descriptive, never decisive
 
