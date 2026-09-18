@@ -2707,7 +2707,13 @@ a Lean proof passing is not the same as a Lean proof proving what you meant.
     it. A second reading, by hand, is owed before any sentence names the
     operator.
   chapter: II.2
-  citation_status: footnote
+  citation_status: supporting   # not cited in its own right
   citation_check: likely   # purpose statement likely; operator unresolved
   drafting_status: blocking   # for any sentence naming who runs it
+  why_this_row: >-
+    The book cites Abramov, not the registry. This row exists only to bound
+    what his sentence "passed the mechanical checks from the Palomar registry"
+    is allowed to mean when it is quoted, because a reader will hear
+    "registry" as "peer review" unless the difference is stated. If that
+    sentence is cut from the manuscript, this row goes with it.
 ```
