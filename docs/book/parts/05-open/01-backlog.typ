@@ -6,7 +6,7 @@
 
 #import "../../preamble.typ": note, backlogitem, points
 
-#note[47 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
+#note[48 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
 
 = Physics
 
@@ -171,8 +171,11 @@
 
 = Cross-cutting
 
-#note[4 open.]
+#note[5 open.]
 
+#backlogitem([Lean cores record no toolchain.], none)[
+  Every capsule's cores are checked against whatever #raw("lean") is on PATH, and nothing records which. There is no #raw("lean-toolchain") file in the repository; the only version statement is prose—#raw("Lean 4.33's core grind and omega") in #raw("skills/math-probability/validation/proof-checks.lean") and its #raw(".md"), and the same "Lean 4.33" in #raw("math-linear-algebra") and #raw("math-statistics"). Twelve capsules carry #raw(".lean") files—the three above plus #raw("math-logic-and-proof"), #raw("math-number-systems"), #raw("math-real-analysis"), #raw("math-sets-functions-cardinality"), #raw("chemistry-foundations"), #raw("chemistry-electrochemistry"), #raw("physics-newtonian"), #raw("physics-thermoacoustics"), #raw("physics-thermodynamics")—so #strong[nine of the twelve record no version at all], and the three that do record it in a comment no tool reads.
+]
 #backlogitem([British spelling throughout the corpus; the book is now American.], [2026-09-18])[
   The book's 21 authored chapters were converted 2026-09-18 (96 occurrences, #raw("603f270")) because the author is American and the drafts were not. The corpus was not: #strong[1,733 British forms across 1,253 files]—325 #raw("behaviour"), 119 #raw("judgement"), 120 #raw("generalis*"), 79 #raw("labelled"), 73 #raw("colour"), and the rest of the #raw("-ise")/#raw("-yse") family. Two of those are DATA, not prose, and that is what makes this more than a find-and-replace: #raw("archetype: behaviour") is declared in 21 SKILL.md frontmatters and read by #raw("docs/book/tools/corpus.py"), and #raw("judgement") is a column value in every displacement table (#raw("docs/verifying-skills.md") §7). So Part II of the book now says #emph[behavior] while Part IV's generated table says #emph[behaviour], six pages apart, because the generated chapters print what the repository says and the repository says the other thing. Three ways out, in preference order
 
