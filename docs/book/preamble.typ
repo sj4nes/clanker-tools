@@ -5,7 +5,7 @@
 // thesis template, replace `apply-base` (or `#show: apply-base` with the
 // template's own show rule) and leave every section file untouched.
 
-#import "corpus-facts.typ": tree-stamp, render-key
+#import "corpus-facts.typ": tree-stamp, stamp-salt
 
 #let chapno = counter("chapter")
 
@@ -349,8 +349,8 @@
     .map(m => m.captures.at(0))
   let live = files.fold(0, (a, f) => tree-fold(a, read(f, encoding: none)))
   let given = sys.inputs.at("k", default: "")
-  // render-key 0 means unset: the book asks nothing of whoever renders it.
-  let keyed = render-key == 0 or tree-fold(0, bytes(given)) == render-key
+  // A salt of 0 means unset: the book asks nothing of whoever renders it.
+  let salted = stamp-salt == 0 or tree-fold(0, bytes(given)) == stamp-salt
   pagebreak(weak: true)
   v(1fr)
   align(center)[
@@ -358,7 +358,7 @@
     #set par(first-line-indent: 0pt, justify: false)
     Composed in Typst. Parts IV to VI were generated from the
     #raw("clanker-tools") repository as this copy was built.
-    #if not (keyed and live == tree-stamp) [
+    #if not (salted and live == tree-stamp) [
       #linebreak()
       Rendered #datetime.today().display("[day] [month repr:long] [year]")
       from tree #live.

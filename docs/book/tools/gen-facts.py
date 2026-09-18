@@ -26,7 +26,7 @@ TWO KINDS OF FACT, and the difference is why this file is not simply generated:
     python3 docs/book/tools/gen-facts.py            write (stamps preserved)
     python3 docs/book/tools/gen-facts.py --stamp    also re-read git: new as-of,
                                                     and re-read the source tree
-    python3 docs/book/tools/gen-facts.py --set-key  set the render key (prompts,
+    python3 docs/book/tools/gen-facts.py --set-salt set the stamp salt (prompts,
                                                     no echo; only its checksum
                                                     is ever written down)
     python3 docs/book/tools/gen-facts.py --stdout   print instead of writing
@@ -43,7 +43,7 @@ from corpus import ROOT, read_corpus          # noqa: E402
 OUT = ROOT / "docs/book/corpus-facts.typ"
 BOOK = ROOT / "docs/book/book.typ"
 STAMPED = ("corpus-asof", "n-commits", "corpus-days", "corpus-first-commit",
-           "tree-stamp", "render-key")
+           "tree-stamp", "stamp-salt")
 
 
 def manifest():
@@ -139,16 +139,16 @@ def generate():
     # which is exactly where the mutation harness runs it, and the no-mutation
     # control is what caught it (2026-09-17).
     stamps = {} if "--stamp" in sys.argv else existing_stamps()
-    # The render key is never regenerated: it is set by hand, or it stays 0,
-    # which means "unset" and asks nothing of whoever renders.
-    key = existing_stamps().get("render-key", "0")
-    if "--set-key" in sys.argv:
+    # The salt is never regenerated: it is set by hand, or it stays 0, which
+    # means "unset" and asks nothing of whoever renders.
+    salt = existing_stamps().get("stamp-salt", "0")
+    if "--set-salt" in sys.argv:
         import getpass
-        a = getpass.getpass("render key: ")
+        a = getpass.getpass("salt: ")
         if a != getpass.getpass("again: "):
-            sys.exit("keys differ; nothing written")
-        key = str(fold(a.encode())) if a else "0"
-    stamps["render-key"] = key
+            sys.exit("they differ; nothing written")
+        salt = str(fold(a.encode())) if a else "0"
+    stamps["stamp-salt"] = salt
     if "--stamp" in sys.argv or any(k not in stamps for k in STAMPED):
         stamps = {**fresh_stamps(), **stamps}
     s = structural()

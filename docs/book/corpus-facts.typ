@@ -10,12 +10,12 @@
 // fail the build after each one.
 
 // --- stamped: as-of the last deliberate stamp ------------------------
-#let corpus-asof = "17 September 2026"
-#let n-commits = 221
-#let corpus-days = 12
+#let corpus-asof = "18 September 2026"
+#let n-commits = 222
+#let corpus-days = 13
 #let corpus-first-commit = "2026-09-05"
-#let tree-stamp = 828875671
-#let render-key = 0
+#let tree-stamp = 1431839148
+#let stamp-salt = 2008487135
 
 // --- gated: structural, regenerated and diffed ------------------------
 #let n-skills = 53
