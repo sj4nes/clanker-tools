@@ -38,7 +38,7 @@ and there is a running log of the second kind.
 That includes these sentences. Most of the prose in this book was drafted by the
 agent, from an outline, a ledger of claims and a set of decisions that are mine,
 and then revised by me. I am not going to pretend otherwise in a book whose
-argument is that you should say what a document actually is. The judgements are
+argument is that you should say what a document actually is. The judgments are
 mine and I stand behind them; the majority of the words arrived by proxy, which
 is the same working relationship the rest of the book describes—and the
 reason it can describe it in any detail.
@@ -94,7 +94,7 @@ where you start, not where you stop.
 #v(0.6em)
 #note[Parts I and II are still at an earlier stage of that process than the
 rest: drafted from the outline and the claim ledger and not yet taken through a
-revision pass. The division of labour does not change when they are—only the
+revision pass. The division of labor does not change when they are—only the
 voice.]
 
 ]

@@ -12,7 +12,7 @@ finished.
 
 This is the only arrangement that survives its own incentives. A closing chapter
 about unsolved problems is the chapter an author most wants to quietly let
-close, and the only defence against that is to not be the one writing it. The
+close, and the only defense against that is to not be the one writing it. The
 backlog is maintained because the work needs tracking; the book prints whatever
 it currently says.
 
@@ -22,7 +22,7 @@ Three things in particular, which a chapter written for the reader would have
 softened.
 
 The first is that the central method of this book's fourth chapter—measuring a
-claimed default behaviour before building on it—has never returned a positive
+claimed default behavior before building on it—has never returned a positive
 result. Every case study run under it refuted the claim it tested. That is
 either a method that works and a set of claims that were wrong, or a method that
 can only refute, and nothing in the corpus currently distinguishes those. It is
@@ -79,6 +79,6 @@ particular entry. A standard that is working generates backlog.
   If you write up your own method, generate the open problems from whatever file
   you actually track them in, and let the write-up print what that file says on
   the day it is built. A hand-maintained list of open problems in a document is
-  optimised by the same person it is supposed to hold to account, and it shortens
+  optimized by the same person it is supposed to hold to account, and it shortens
   over time whether or not the problems do.
 ]

@@ -117,7 +117,9 @@ def structural():
                  for p in tut)
     return {
         "n-skills": len(recs),
-        "n-behaviour": arche.get("behaviour", 0),
+        # The CONSTANT is the book's own name, so it follows the book's
+        # spelling; the KEY is the archetype as the skills declare it.
+        "n-behavior": arche.get("behaviour", 0),
         "n-capsule": arche.get("capsule", 0),
         "n-tool-fact": arche.get("tool-fact", 0),
         "n-meta": arche.get("meta", 0),

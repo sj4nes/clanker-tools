@@ -14,8 +14,8 @@ But every skill carries an unstated claim, and it is the one that matters:
 #keyterm[that an agent given this document will behave differently, and better,
 than it would have without it].
 
-// intro: default-behaviour
-That is a claim about a #keyterm[default behaviour]—what the agent does when
+// intro: default-behavior
+That is a claim about a #keyterm[default behavior]—what the agent does when
 you have said nothing—and about displacing it. Written out, it has a shape
 // intro: displacement-claim
 you can disagree with: #emph[without this, agents do X; with it, they do Y; and
@@ -27,7 +27,7 @@ you cannot write out is advice.
 
 == The default is real, and hard to move
 
-Luu's experiment is the clearest public evidence that default behaviour exists
+Luu's experiment is the clearest public evidence that default behavior exists
 and that naming a technique does not dislodge it.#footnote[Luu, "How well do
 agents use test/verification techniques?" See the previous chapter for scope
 and caveats.] Agents were told to use TDD, property-based testing, fuzzing,
@@ -74,7 +74,7 @@ is. Usually the author assumes it. This corpus shows how that goes wrong.
 
 // intro: role-deck
 Take `role-deck`, which comes up again later in this book. It exists because a
-procedure an agent follows on its own honour leaves no evidence that it was
+procedure an agent follows on its own honor leaves no evidence that it was
 followed: ask for a careful diagnosis and the transcript reads the same whether
 the care happened or not. `role-deck` writes the procedure as a
 #keyterm[deck] of cards—gather facts, propose rival explanations, design a
@@ -111,7 +111,7 @@ motivated to believe it, and the least likely to have checked.
 == Not every skill has a default
 
 #emph["My skill teaches the agent something it doesn't know. There's no default
-behaviour to displace."]
+behavior to displace."]
 
 That is a real case, not an evasion. Some skills carry facts an agent cannot
 // intro: tsort
@@ -125,7 +125,7 @@ by restating what the model already does.
 // intro: tool-fact
 This corpus treats that as a #keyterm[second kind of skill], judged by a
 different standard, and it classifies each section rather than each document.
-A behaviour skill may carry one reference table whose payload is fact, and a
+A behavior skill may carry one reference table whose payload is fact, and a
 tool skill may carry one habit worth displacing. The question is asked of every
 section: #emph[is this displacing a default, or supplying a fact?] Part II
 takes up both answers.
@@ -133,7 +133,7 @@ takes up both answers.
 == The running example's claim
 
 `test-writing` was built after the Luu result and in its spirit. Its first two
-behaviours track the first bullet of Luu's five: name the risky area, then state
+behaviors track the first bullet of Luu's five: name the risky area, then state
 the likely mistake before writing the assertion. Written out, its claim reads:
 
 #quote(block: true)[
@@ -143,9 +143,9 @@ the likely mistake before writing the assertion. Written out, its claim reads:
   somewhere other than the code, and every check has been seen to fail.
 ]
 
-That is a sentence someone could disagree with. Its verification half—#emph[do the prescribed checks catch planted bugs the default checks miss?]—has a checking script, and it passes. Its behavioural half—#emph[does an agent handed
+That is a sentence someone could disagree with. Its verification half—#emph[do the prescribed checks catch planted bugs the default checks miss?]—has a checking script, and it passes. Its behavioral half—#emph[does an agent handed
 the skill actually do this, where it would not otherwise?]—has never been
-fixtured. The nearest attempt, a neighbouring claim about how verification
+fixtured. The nearest attempt, a neighboring claim about how verification
 work is requested, has been run three times, and all three runs were invalid
 for reasons that had nothing to do with the claim. As of this writing, that
 half is unmeasured.

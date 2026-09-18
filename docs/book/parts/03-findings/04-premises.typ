@@ -3,7 +3,7 @@
 = Two premises, measured <ch-premises>
 
 #headline[8 of 8, and 3 of 8][
-  Both behavioural claims that justified a newly built skill were fixtured
+  Both behavioral claims that justified a newly built skill were fixtured
   against naive agents, and both came back against the claim. One measurement
   held up. The other could prove execution for only three subjects.
 ]
@@ -15,7 +15,7 @@ Ask an agent to diagnose a bug and it will produce a diagnosis. Ask it to
 diagnose the bug #emph[properly]—gather the facts, consider more than one
 cause, test the one that matters—and it will produce a diagnosis and say it
 did those things. The transcript reads the same whether it did or not. A
-procedure an agent follows on its own honour leaves no evidence that it was
+procedure an agent follows on its own honor leaves no evidence that it was
 followed.
 
 `role-deck`, first met in #chref(<ch-claim>), turns the procedure into an

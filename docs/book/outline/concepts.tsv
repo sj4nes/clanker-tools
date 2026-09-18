@@ -16,11 +16,11 @@
 # id	kind	introduced	match	backed-by
 skill-as-document	concept	I.1	-	—
 corpus	concept	I.1	-	—
-default-behaviour	concept	I.2	-	docs/verifying-skills.md §7
+default-behavior	concept	I.2	-	docs/verifying-skills.md §7
 displacement-claim	concept	I.2	-	docs/verifying-skills.md §7
 tool-fact	concept	I.2	tool-fact	docs/verifying-skills.md §7; skills/skill-authoring
 displacement-table	concept	II.1	displacement table	docs/verifying-skills.md §7
-judgement-row	concept	II.1	judgement row	docs/verifying-skills.md §7
+judgment-row	concept	II.1	judgment row	docs/verifying-skills.md §7
 harness	concept	II.2	\bharness(es)?\b	docs/verifying-skills.md §2
 negative-contrast	concept	II.2	negative contrast	docs/verifying-skills.md §8
 guard-isolation	concept	II.2	each guard (alone|on its own)	docs/verifying-skills.md §8

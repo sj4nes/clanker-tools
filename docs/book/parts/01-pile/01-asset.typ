@@ -55,7 +55,7 @@ wrong. The comparable books on the shelf reinforce that. Every one of them
 dated to 2026, and by title and subtitle all of them promise to get you
 #emph[building] skills—shipping one in a weekend, mastering the standard,
 building portable skills.#footnote[From a shelf survey on
-15 September 2026; see the comps table. This characterises how the genre
+15 September 2026; see the comps table. This characterizes how the genre
 presents itself, not what any one book contains.] Production is the genre's
 promise. Evaluation is not in it.
 
@@ -82,7 +82,7 @@ in tokens, in money, and in whatever else could have been in that context
 instead. A skill that does nothing still costs that much.
 
 #keyterm[It stops you watching the problem.] A document that reads well feels like a
-problem handled. You stop looking at the behaviour it was written for, because
+problem handled. You stop looking at the behavior it was written for, because
 you wrote something about it. If the document does not work, you have traded a
 problem you knew about for one you have stopped watching.
 
@@ -120,12 +120,12 @@ the same as knowing that it works.
 
 == The objection
 
-#emph["Quality in a document like this is a craft judgement. You can't measure
+#emph["Quality in a document like this is a craft judgment. You can't measure
 it."]
 
-Some of it is judgement, and this book will say which parts. But the objection
+Some of it is judgment, and this book will say which parts. But the objection
 usually carries a stronger claim: that because the #emph[writing] is craft, the
-#emph[effect] cannot be checked. Luu's own judgement was good: reading the
+#emph[effect] cannot be checked. Luu's own judgment was good: reading the
 skills beforehand, Luu predicted in advance, at 55–65% confidence, that none of the three
 public ones would outperform, and that prediction held. But it came with a
 confidence no further reading could raise, and the one number everyone

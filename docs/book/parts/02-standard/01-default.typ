@@ -56,7 +56,7 @@ columns:
 
 That row is from `test-writing`, and each cell does a separate job. The first
 names the section, so every section must appear. The second names the
-behaviour the section exists to replace. If you cannot fill it, the section is
+behavior the section exists to replace. If you cannot fill it, the section is
 either a fact the agent lacks—the tool-fact case from the previous chapter,
 where a table means nothing—or it is tutorial prose restating what the agent
 would do anyway. The third cell points at a run where the default is seen to
@@ -73,17 +73,17 @@ Sort the finished rows by their third cell, and they fall into three blocks.
 
 #keyterm[Gaps]: a run #emph[could] show it and does not yet. Each gap is a
 piece of checking work, small and specific. For `statistics`, one was a single
-simulation loop; one had already been demonstrated in a neighbouring skill and
+simulation loop; one had already been demonstrated in a neighboring skill and
 never carried across.
 
-// intro: judgement-row
-#keyterm[Judgement]: no run can show it, and the reason is structural. A test
+// intro: judgment-row
+#keyterm[Judgment]: no run can show it, and the reason is structural. A test
 case hands the checker its subject. The steps that consist of #emph[choosing]
 the subject cannot be tested by a case that has already chosen it. In
 `statistics` these were deciding what quantity the question is really about,
 deciding a list of assumptions is complete, routing to a method, choosing
 calibrated words, and refusing to answer. In `test-writing` they were the two
-behaviours about deciding what is risky enough to test.
+behaviors about deciding what is risky enough to test.
 
 The counts are the output. The prose around them is not. And of the three
 counts, #emph[gaps] is the one that pays: it is a work list that did not exist
@@ -98,24 +98,24 @@ check that had never been able to fire, in that script and eight
 others.#footnote[The whole story is #chref(<ch-bc>).] Writing the table is a
 review of the checks, not only of the document.
 
-== Judgement is a boundary, not a loophole
+== Judgment is a boundary, not a loophole
 
 The obvious way to game the table is to mark every awkward row
-#emph[judgement]. The honest reply is that you can, and the table will then say
+#emph[judgment]. The honest reply is that you can, and the table will then say
 so in public.
 
-#emph["Most of my skill is judgement."]
+#emph["Most of my skill is judgment."]
 
 Then most of it is advice, and the count tells you how much. This corpus holds
 // intro: directed-verification
 one skill that says exactly that about itself. `directed-verification`, about
-how to get an agent to check work, came out at 1 covered, 4 judgement, 2 gaps,
+how to get an agent to check work, came out at 1 covered, 4 judgment, 2 gaps,
 and its own notes call it "a weak table … reported as one." That sentence is
 worth more than a padded table. A reader of the skill now knows it rests mostly
 on argument. They know which one claim has evidence, and which two could have
 it next.
 
-A judgement row is not an excuse. It names where the checking stops, and it
+A judgment row is not an excuse. It names where the checking stops, and it
 belongs in the skill's statement of what it cannot do. Every skill has that
 limit somewhere. Without the table you only gesture at it. With the table you
 can list it.
@@ -147,7 +147,7 @@ out which defaults you are assuming.
 == How far the rule has got
 
 This corpus adopted the rule and enforces it with a script. As of this
-writing, 21 skills declare themselves behaviour skills, and 8 have a
+writing, 21 skills declare themselves behavior skills, and 8 have a
 displacement table. The other 13 fail the check.#footnote[From
 `check_authoring.py`, 16 September 2026. The count changes whenever a table
 is added.] That is not a
@@ -159,10 +159,10 @@ the check existed, those thirteen skills looked just as finished as
   Pick a skill whose instructions tell an agent how to behave. Give each section
   one row. In the second column, write what an agent does #emph[without] that
   section. In the third, point to a run where that default fails—or write
-  #emph[judgement] and one line saying why no run could show it, or leave it
+  #emph[judgment] and one line saying why no run could show it, or leave it
   empty.
 
-  Count the three blocks. Covered rows need nothing. Judgement rows go in
+  Count the three blocks. Covered rows need nothing. Judgment rows go in
   the skill's statement of what it cannot do. Each empty third cell is a gap:
   write it down as a check to build, not as a sentence to rewrite.
 

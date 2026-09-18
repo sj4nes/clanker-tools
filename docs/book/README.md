@@ -3,7 +3,7 @@
     typst compile docs/book/book.typ build/book.pdf
     typst watch   docs/book/book.typ build/book.pdf   # drafting
 
-typst **0.15.1**. US Letter, single column, chapter openers, running heads.
+typst **0.15.1**. 7"x10", single column, chapter openers, running heads.
 `build/` is gitignored: the PDF is a **release artifact**, not a tracked file.
 
 ## Why a book

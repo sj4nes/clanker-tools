@@ -1,8 +1,8 @@
 skill-as-document corpus
-skill-as-document default-behaviour
-default-behaviour displacement-claim
+skill-as-document default-behavior
+default-behavior displacement-claim
 displacement-claim displacement-table
-displacement-table judgement-row
+displacement-table judgment-row
 displacement-claim harness
 harness negative-contrast
 negative-contrast guard-isolation

@@ -41,7 +41,7 @@ and the check could come out the other way.
 == Fluency is present in every case
 
 Ask an agent to verify something and it will report that it verified it. The
-report will be clear and well organised, and it will agree with you. All of
+report will be clear and well organized, and it will agree with you. All of
 that is true whether the work was done well, done badly, or not done at all. A
 signal that is present in every case carries no information.
 
@@ -50,7 +50,7 @@ So the useful question is never #emph[did it verify this?] It is #emph[what did
 it produce that could have come out the other way?] Arranging the work so that
 you can answer that question is #keyterm[directing verification]. The corpus
 has a skill for it, `directed-verification`, first met in #chref(<ch-default>)
-as the skill that reports its own table as weak. It has six behaviours. Each is a
+as the skill that reports its own table as weak. It has six behaviors. Each is a
 move this book has already made, aimed at a collaborator instead of at a
 document.
 
@@ -61,7 +61,7 @@ document.
     align: left,
     stroke: 0.5pt + luma(180),
     inset: 6pt,
-    table.header[*Behaviour*][*The same move, earlier*],
+    table.header[*Behavior*][*The same move, earlier*],
     [Ask for what would prove you wrong, not for confirmation.],
       [The default a skill displaces, #chref(<ch-default>): name what failure
       looks like before you look.],
@@ -79,7 +79,7 @@ document.
       [The stale source, #chref(<ch-oracle>): every fact true, the conclusion
       wrong.],
   )},
-  caption: [`directed-verification`'s six behaviours, and where this book has
+  caption: [`directed-verification`'s six behaviors, and where this book has
   already made each move.],
 )
 
@@ -107,7 +107,7 @@ proof, and then 8 of 8 did it again, provably, for the second claim. The collabo
 built the test that could refute it, and published the refutation.
 
 The second is an experiment. In the first attempt to measure
-`directed-verification`'s own behaviour 1, the function given to the subjects
+`directed-verification`'s own behavior 1, the function given to the subjects
 was itself wrong. The subjects found it. Their harnesses were good enough to
 fail on the "clean" code, and the scorer marked them `BROKEN` for doing the job
 correctly. The commit that reported this opens its first reason with #emph["it
@@ -119,16 +119,16 @@ scored 5 of 5. The agent's first reading was the agreeable one: #emph[no
 headroom], and five near-identical report headings read as five agents
 independently converging on good practice. Thirty-five minutes later the next
 version withdrew that. Every control subject had `test-writing` loaded, which
-prescribes the behaviour under test, so the two arms were one condition.
+prescribes the behavior under test, so the two arms were one condition.
 Independent agents do not converge on a section heading.
 
-The agent agreed with itself first. What corrected it was not better judgement.
+The agent agreed with itself first. What corrected it was not better judgment.
 It was a record precise enough, the headings themselves, for the agreeable
 reading to be checked against.
 
 == Suspect the test, including this one
 
-`directed-verification` has one covered row. Behaviour 3, #emph[suspect the test
+`directed-verification` has one covered row. Behavior 3, #emph[suspect the test
 before the subject], leaves a trace in a repository that records its
 corrections, because the corrections are in the commit messages. A detector
 searches the history for admissions that the harness was wrong. The skill
@@ -168,8 +168,8 @@ The fix belonged to the skill, not to this book, so it went there, as
 commits read by hand. A new check makes the detector find those three and
 reject the two known false matches, and one real sentence it miscounted joined
 its negatives. The word #emph[bound] is gone. It is worth saying where this was
-found. It was found in the evidence for the one behaviour
-about suspecting evidence. That is not irony. That is the behaviour working, a
+found. It was found in the evidence for the one behavior
+about suspecting evidence. That is not irony. That is the behavior working, a
 day late.
 
 == What the evidence does and does not say
@@ -183,7 +183,7 @@ evidence. If the measurement is not unforgeable, the result is worth nothing
 whoever produced it.
 
 Be exact about what this corpus has shown. It has #emph[not] shown that
-directing an agent makes the agent more careful. Behaviour 1 is the most
+directing an agent makes the agent more careful. Behavior 1 is the most
 testable claim in the skill, and it has been fixtured three times. All three
 runs were invalid, for the reasons #chref(<ch-premise>) gives. The two clean
 measurements this corpus does have point the other way: agents left alone did
@@ -197,7 +197,7 @@ good work from bad is an artifact that could have come out the other way. The
 skill says this about itself: it changes what you can check, and it does not
 change how good the thinking was.
 
-That makes the valuable case easy to recognise, and it feels bad. It is the
+That makes the valuable case easy to recognize, and it feels bad. It is the
 `FAIL` line on a number the agent had stated. It is a subject harness marked
 `BROKEN` that turns out to be right. It is a withdrawn reading, 35 minutes
 after an agreeable one. Each of them disagreed with whoever was directing the
@@ -216,7 +216,7 @@ disagree.
   in words someone can find later.
 
   Then turn the same suspicion on the evidence for your own practice. If you
-  count your good behaviour, read what the counter matched. Test it on the text
+  count your good behavior, read what the counter matched. Test it on the text
   it will really read, not on examples you wrote for it. Check that it does not
   count the documents that describe it.
 ] <pr-agent>

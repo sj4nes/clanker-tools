@@ -10,7 +10,7 @@
 #let chapno = counter("chapter")
 
 // The sidebar face. Sidebars are the ONLY sans in the book: practices already
-// own the grey panel, so a second boxed device would compete with them rather
+// own the gray panel, so a second boxed device would compete with them rather
 // than read as a different kind of thing. Switching typeface instead separates
 // them on a channel nothing else uses.
 //
@@ -42,7 +42,7 @@
       let front = query(figure.where(kind: "front")).find(f => f.location().page() == here().page())
       if here().page() > 2 and opener == none and divider == none and front == none [
         #set text(size: 9pt, fill: luma(110))
-        #smallcaps[The Missing Manual] #h(1fr) #counter(page).display()
+        #smallcaps[clanker-tools: The Missing Manual] #h(1fr) #counter(page).display()
       ]
     },
     footer: context {
@@ -53,7 +53,7 @@
       }
     },
   )
-  set text(font: ("Canela Text", "New Computer Modern", "Libertinus Serif" , "Georgia"), size: 11pt, lang: "en")
+  set text(font: ("Canela Text", "New Computer Modern", "Libertinus Serif" , "Georgia"), size: 11pt, lang: "en", region: "US")
   set par(justify: true, leading: 0.65em, first-line-indent: 1.25em)
   set math.equation(numbering: "(1)")
 
@@ -114,7 +114,7 @@
     #set text(font: sans, size: 9.4pt, fill: luma(62))
     #set par(first-line-indent: 0pt, justify: true, leading: 0.68em)
     // Tracked uppercase rather than smallcaps: the stack's faces have no true
-    // small-capital variants, and synthesised ones look like shrunk capitals.
+    // small-capital variants, and synthesized ones look like shrunk capitals.
     #text(size: 7.4pt, fill: luma(95), weight: "semibold", tracking: 0.09em)[
       #upper[Sidebar #context it.counter.display(it.numbering) · from building this book]
     ]
@@ -144,7 +144,7 @@
       // chapter number in the contents; the counter steps inside the heading's
       // show rule, so its value at the heading is one short (as in chref)
       let n = chapno.at(it.element.location()).first() + 1
-      // plain text colour, like the default entries (not the link colour)
+      // plain text color, like the default entries (not the link color)
       link(it.element.location(), text(fill: black, it.indented([#n.], it.inner())))
     } else { it }
   }
@@ -176,7 +176,7 @@
   pagebreak()
 }
 
-// "Chapter N" for a labelled chapter heading, so inserting a chapter never
+// "Chapter N" for a labeled chapter heading, so inserting a chapter never
 // leaves a stale number in the prose. The counter steps inside the heading's
 // show rule, so its value at the heading is one short.
 #let chref(lbl) = context [Chapter #(chapno.at(locate(lbl)).first() + 1)]
@@ -218,7 +218,7 @@
   #text(size: 10pt)[*Result.* #result]
 ]
 
-// A Part IV catalogue entry. The generator (tools/gen-catalogue.py) emits
+// A Part IV catalog entry. The generator (tools/gen-catalog.py) emits
 // calls to this and nothing else, so an entry's LOOK stays a decision of this
 // file while its CONTENT stays a fact of the repository.
 //

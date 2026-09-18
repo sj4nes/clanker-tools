@@ -21,7 +21,7 @@
 #align(center)[
   #text(10pt, fill: luma(110))[#smallcaps[clanker-tools]]
   #v(1.2em)
-  #text(30pt, weight: "bold")[The Missing Manual]
+  #text(30pt, weight: "bold")[clanker-tools: The Missing Manual]
   #v(0.5em)
   #text(14pt)[Building skills for AI agents, with an AI agent,\ and knowing whether they work]
   #v(2.5em)
@@ -98,7 +98,7 @@
   Fifty-three skills, each an entry: what it claims to displace, what its
   displacement table found, what its harness consists of, and how many times it
   turned out to be wrong. The entries are generated from the repository at
-  build time, so the catalogue cannot drift from the corpus it describes. The
+  build time, so the catalog cannot drift from the corpus it describes. The
   first chapter is how to read one; the rest are the entries.
 ]
 #include "parts/04-catalogue/00-howtoread.typ"
@@ -118,7 +118,7 @@
   than written beside them: the prerequisite order is the #raw("tsort") order,
   the calculation closing a section is the capsule's own #raw("bc") check, and
   the identity the reader is asked to believe is its Lean core, run in their
-  terminal. The catalogue is generated from the tutorials themselves.
+  terminal. The catalog is generated from the tutorials themselves.
 ]
 #include "parts/06-tutorials/00-intro.typ"
 #include "parts/06-tutorials/01-entries.typ"

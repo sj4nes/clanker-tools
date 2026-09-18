@@ -164,9 +164,9 @@ you there. In Luu's experiment, agents prompted to use TDD did write failing
 tests before the code in 67 of 160 runs, against 0 of 160 with no
 instructions. They still produced worse tests: many small trivial ones, with the
 hard cases avoided. Luu adds that iterating to green tended to make agents write
-incorrect tests that enforced incorrect behaviour.#footnote[Luu, "How well do
+incorrect tests that enforced incorrect behavior.#footnote[Luu, "How well do
 agents use test/verification techniques?" The finding is about prompting agents
-with TDD, not about TDD as people practise it; Luu notes that a TDD advocate
+with TDD, not about TDD as people practice it; Luu notes that a TDD advocate
 would say the agents did not really do TDD, and that why they behaved this way
 is "not obvious from the outside". The remark about incorrect tests is made
 across conditions, not about TDD alone.] The red step happened. It was not

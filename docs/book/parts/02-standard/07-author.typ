@@ -1,12 +1,12 @@
 #import "../../preamble.typ": keyterm, headline, practice, chref
-#import "../../corpus-facts.typ": corpus-asof, n-behaviour, n-capsule, n-meta, n-skills, n-tool-fact
+#import "../../corpus-facts.typ": corpus-asof, n-behavior, n-capsule, n-meta, n-skills, n-tool-fact
 
 // DRAFT 2026-09-17. Ledger rows: C-II-53..62.
 
 = Author a skill to the standard <ch-author>
 
 #headline[2 of 21][
-  Behaviour skills whose history shows the check written before the prose.
+  Behavior skills whose history shows the check written before the prose.
   Seventeen arrived in a single commit, including the skill that requires the
   check to come first.
 ]
@@ -42,7 +42,7 @@ for bureaucracy. So the first move is to declare the skill's #keyterm[archetype]
     stroke: 0.5pt + luma(180),
     inset: 6pt,
     table.header[*Archetype*][*What the agent brings*][*What the skill owes*],
-    [behaviour], [A default, and it is wrong.],
+    [behavior], [A default, and it is wrong.],
       [A harness and a displacement table.],
     [tool-fact], [Nothing. The prior is empty.],
       [Reference material. A table would be meaningless.],
@@ -64,30 +64,30 @@ descriptions that said #emph[excludes] instead. That is #chref(<ch-agent>)'s
 lesson on a new instrument: suspect the check first.
 
 // not-a-use: knowledge-capsule—the archetype label again, as counted by the checker
-As of #corpus-asof, the corpus's #n-skills skills declare #n-behaviour behaviour, #n-capsule capsule,
+As of #corpus-asof, the corpus's #n-skills skills declare #n-behavior behavior, #n-capsule capsule,
 #n-tool-fact tool-fact and #n-meta meta, and the checker reports 34 failures across 28 of
 them. That number is allowed to fall and not to rise.
 
-The rest of this chapter is about behaviour skills, because they owe the most.
+The rest of this chapter is about behavior skills, because they owe the most.
 
 == The order
 
 // intro: authoring-to-the-standard
 #keyterm[Authoring to the standard] is making the moves in an order where each
 one produces what the next one needs, so that nothing is written before the
-thing it has to agree with. For a behaviour skill, the order is this. Each step
+thing it has to agree with. For a behavior skill, the order is this. Each step
 names what it produces.
 
 + *Name the default* (#chref(<ch-default>)). Write the displacement table
   before any prose. Produces the claim: which default, where it visibly fails,
-  and which rows are judgement.
+  and which rows are judgment.
 + *Measure the premise* (#chref(<ch-premise>)), if it is cheap to measure.
   Produces evidence that the default is real, or a refutation before you have
   built anything on it. If it is not cheap, record it as unmeasured and go on.
 + *Build the harness and watch it fail* (#chref(<ch-harness>)). Break each guard
   alone. Choose the oracle so that it shares as little as possible with the
   subject (#chref(<ch-oracle>)). Produces the numbers the prose may quote.
-+ *Write the prose.* Every number in it comes from the harness. Every judgement
++ *Write the prose.* Every number in it comes from the harness. Every judgment
   row becomes a line in what the skill cannot do.
 + *Release at 1.0.0 with a changelog* (#chref(<ch-version>)). From here, a
   correction to what a reader was told is a MAJOR bump.
@@ -104,7 +104,7 @@ commit to the result, and it came back against the claim. The
 deck checker survived, and so did the ledger. The reason for the skill did not.
 
 The qualifier #emph[if it is cheap] matters just as much.
-`directed-verification`'s behaviour 1 has used up three fixture runs without a
+`directed-verification`'s behavior 1 has used up three fixture runs without a
 result. A rule that said #emph[no harness until the premise is measured] would
 have stopped that skill from being written at all. The standard's own
 checklist accepts a premise #emph[measured, or explicitly recorded as
@@ -113,12 +113,12 @@ unmeasured]. The second option is honest. Silence is not.
 == What the order leaves behind
 
 An order you cannot check is advice, and `skill-authoring` says so about its
-own third behaviour. Its verification lists #emph[nothing checks that the
+own third behavior. Its verification lists #emph[nothing checks that the
 harness preceded the prose] as a gap. It proposes a fix: prove the order from
 commit history, the way `claim-fixture` proves that a scorer was committed
 before any result.
 
-That fix can be tried now, on the corpus. For each of the 21 behaviour skills,
+That fix can be tried now, on the corpus. For each of the 21 behavior skills,
 compare the first commit that touched its harness with the first commit that
 touched its `SKILL.md`.
 
@@ -137,7 +137,7 @@ touched its `SKILL.md`.
     [one commit, both], [17], [including `skill-authoring` and
       `directed-verification`],
   )},
-  caption: [Harness and prose, by first commit, for every behaviour skill.],
+  caption: [Harness and prose, by first commit, for every behavior skill.],
 )
 
 The proposed check would be silent on 17 of 21 skills. Silent does not mean
@@ -154,9 +154,9 @@ seventeen.
 
 == The standard, held to itself
 
-`skill-authoring` is a behaviour skill, so it owes what it asks for. Its
+`skill-authoring` is a behavior skill, so it owes what it asks for. Its
 checker runs the standard over every skill in the corpus and breaks each of its
-eight gates alone. Its own table reports 4 covered, 2 judgement and 2 gaps. By
+eight gates alone. Its own table reports 4 covered, 2 judgment and 2 gaps. By
 this corpus's measure it is one of the better-evidenced skills.
 
 It had also started to decay in the places nothing checks. When this chapter
@@ -175,7 +175,7 @@ earlier restatement. They are told here because a standard is a skill, and it
 goes stale in the same way.
 
 Both are fixed in `skill-authoring` 1.1.0, and so is the order problem from the
-previous section: behaviour 3 now tells authors to commit the harness on its
+previous section: behavior 3 now tells authors to commit the harness on its
 own. The notes no longer restate the failure count at all, because a count in
 prose is a clause nothing keeps true. The same overstated citation turned out
 to be in `test-writing` and in the documentation both skills copied it from.
@@ -195,14 +195,14 @@ What the process cannot give you is a skill that helps. `skill-authoring`
 says so plainly. A document can be conformant, verified, honestly versioned,
 and still say nothing the model did not already do. Every check in this part
 tells you that the skill makes a claim and that the claim could fail. None of
-them tells you that the claim was worth making. That judgement stays with the
+them tells you that the claim was worth making. That judgment stays with the
 author, and the standard makes it visible, not correct.
 
 #practice[Author in order, and commit the order.][
-  Declare the archetype first. If the skill is not a behaviour skill, find what
+  Declare the archetype first. If the skill is not a behavior skill, find what
   its archetype owes and stop there.
 
-  For a behaviour skill, write the displacement table before any prose. Measure
+  For a behavior skill, write the displacement table before any prose. Measure
   the premise if it is cheap. If it is not, write #emph[unmeasured] where a
   reader will see it. Build the harness, watch it fail, and break each guard
   alone. #emph[Commit the harness on its own.] Then write the prose, quoting

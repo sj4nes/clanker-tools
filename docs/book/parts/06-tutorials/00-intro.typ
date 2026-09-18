@@ -8,7 +8,7 @@
 The capsules in Part IV were built to be checked by machines. A capsule is a
 dependency-ordered graph of a domain's results where every node carries its
 symbols, units, dimensions, assumptions and a source; what makes it more than a
-formula sheet is that the graph is linearised by `tsort`, its algebra is
+formula sheet is that the graph is linearized by `tsort`, its algebra is
 kernel-checked by Lean, and its arithmetic is recomputed by `bc`. None of that
 is for a reader. It is there so that a claim which stops being true fails a run.
 
@@ -41,7 +41,7 @@ wrong is a body of knowledge you can hand somebody and let them try.
 
 == How to read this part
 
-The entries are a catalogue, not a reprint. The tutorials run under `upmd`, and
+The entries are a catalog, not a reprint. The tutorials run under `upmd`, and
 running them is the whole point: each is a plain Markdown file whose code blocks
 execute in a real terminal, in dependency order, so the reader does the
 arithmetic rather than reading someone else's. A book cannot do that, and
@@ -69,7 +69,7 @@ knows which comes first: one ends twenty-four nodes in, the other a hundred and
 twenty-six. The ordering falls out of the same artifact the checks run on.
 
 One entry names its method as the "executable-tutorial method" rather than a
-skill. That one came first, and the skill was written afterwards by generalising
+skill. That one came first, and the skill was written afterwards by generalizing
 what had worked—which is the order most of this corpus was built in, and the
 reason Part II is a standard rather than a plan.
 

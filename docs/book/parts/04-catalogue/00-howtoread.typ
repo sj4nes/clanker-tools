@@ -12,11 +12,11 @@ look better than it is: the entries are read out of `SKILL.md` frontmatter,
 built, and a gate refuses the build if what is printed here has drifted from
 what is on disk.
 
-That is not a convenience. A catalogue is the part of a book most likely to rot,
+That is not a convenience. A catalog is the part of a book most likely to rot,
 because it is the part whose facts live somewhere else and change without
 telling the author. Part III is four audits of exactly that failure—checks
 that had no way of failing, in a corpus that looked verified. A hand-written
-catalogue in the same book would be the same defect, committed on purpose.
+catalog in the same book would be the same defect, committed on purpose.
 
 == The four fields
 
@@ -24,9 +24,9 @@ Each entry names the skill, the version it is at, and its archetype, then gives
 three facts.
 
 *Displaces.* The counts from the skill's displacement table: how many sections
-name a default behaviour that the harness shows failing (#emph[covered]), how
+name a default behavior that the harness shows failing (#emph[covered]), how
 many name a step no fixture can falsify because the fixture supplies what the
-step is meant to find (#emph[judgement]), and how many could be falsified by a
+step is meant to find (#emph[judgment]), and how many could be falsified by a
 fixture and are not (#emph[gaps]). The rule is in the standard; the counts are
 the deliverable.
 
@@ -50,7 +50,7 @@ wrong. Everything else collapses to a count.
 
 == Why a high count is the better sign
 
-The temptation with a catalogue is to read it as a scoreboard, and the entries
+The temptation with a catalog is to read it as a scoreboard, and the entries
 do not support that reading. A skill with four gaps has a harness good enough
 to have located four places where it is trusting itself; a skill with none has
 usually not been asked. A skill with two MAJOR bumps has been wrong twice in
@@ -62,13 +62,13 @@ and read a long unbroken run at 1.0.0 as the thing most worth being suspicious
 of. The entries are ordered by archetype rather than by any score, because the
 archetype decides which standard applies: a tool-fact skill has no wrong default
 to displace and is not failing the displacement rule by having no table, while a
-behaviour skill with no table has simply not been held to the standard this book
+behavior skill with no table has simply not been held to the standard this book
 spends Part II describing.
 
 == The running example, as an entry
 
 `test-writing` has been this book's worked example since Part I: the skill whose
-six behaviours displace six known ways a test fails to fail. Its entry is in the
+six behaviors displace six known ways a test fails to fail. Its entry is in the
 next chapter, and reading it the way this one describes is a fair test of
 whether the format carries anything.
 
@@ -87,7 +87,7 @@ counts or have no table at all.
 #practice[Find the nearest entry before writing the skill.][
   Before writing a new skill, find the entry closest to it in archetype and in
   shape, and open that skill's `verification/` directory. The question is not
-  whether the neighbour is good. It is what its displacement table found, what
+  whether the neighbor is good. It is what its displacement table found, what
   its harness can demonstrate failing, and—where it has MAJOR bumps—what it
   turned out to be wrong about, since a skill in the same shape tends to be
   wrong in the same way.

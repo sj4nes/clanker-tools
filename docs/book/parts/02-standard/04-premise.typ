@@ -5,7 +5,7 @@
 = Measure the premise before you build on it <ch-premise>
 
 #headline[5 runs, 0 positives][
-  Every behavioural experiment this corpus has run. Two refuted the claim they
+  Every behavioral experiment this corpus has run. Two refuted the claim they
   tested, three were invalid, and none has ever confirmed anything.
 ]
 
@@ -41,7 +41,7 @@ six moves.
 *Split the claim.* Most premises are two claims. #emph[An agent will skip the
 step, so the process must force it] contains a structural half—does the
 process in fact make skipping impossible?—which an inspection or a gate can
-settle, and a behavioural half—would anyone skip?—which needs subjects.
+settle, and a behavioral half—would anyone skip?—which needs subjects.
 For `role-deck`, the structural half was already proven by a check over every
 reachable state, so the experiment shrank to a single arm.
 
@@ -100,7 +100,7 @@ limit also removed four of five subjects in one arm.
 Both arms scored 5 of 5, a difference of zero, and it was first reported as
 #emph[no headroom] under a pre-registered ceiling rule. It was not. Every
 control subject had `test-writing` loaded, a skill that prescribes the very
-behaviour under test, because skills load from the session and not from the
+behavior under test, because skills load from the session and not from the
 directory the subject works in. The arms were one condition. There was a clue:
 five supposedly independent reports shared a nearly identical section heading,
 and one `grep` would have caught it. But the pre-registered reading of a null

@@ -44,7 +44,7 @@ each digit one answer.
     [MAJOR], [The skill was wrong. It prescribed something that does not work,
       or that produces an incorrect result.],
       [Re-do work done under the old text. It may be wrong.],
-    [MINOR], [A statement changed or grew: a behaviour added, guidance
+    [MINOR], [A statement changed or grew: a behavior added, guidance
       reworded to ask for something different, a threshold moved.],
       [Re-read before relying on it. Nothing to re-do.],
     [PATCH], [Nothing a reader acts on: a typo, a repaired link.],
@@ -66,7 +66,7 @@ wrong]: `bc` prescribed a rounding idiom that, on the `bc` shipped with macOS,
 returned the unrounded value without complaint. It can also be #emph[loudly
 broken]: `tsort` told readers to check the exit status for a cycle, and BSD
 `tsort` exits 0 on one. The silent kind is more dangerous, and it is tempting
-to bump only for that kind. But "was it loud?" is a judgement that different
+to bump only for that kind. But "was it loud?" is a judgment that different
 people will make differently. "Did the prescribed thing work?" can be checked.
 
 == Published, not drafted
@@ -105,7 +105,7 @@ answer is more modest than that promise, and it is worth stating exactly.
 
 When `role-deck`'s founding premise was measured and refuted, the skill went
 from 2.1.0 to 2.2.0. That is a MINOR bump. The note recording the bump calls it a
-judgement call, because it was one: #emph[the skill's stated reason was wrong;
+judgment call, because it was one: #emph[the skill's stated reason was wrong;
 none of its prescriptions were.] Every mechanism still worked as documented.
 Anyone who had followed the skill had built a working deck, and there was
 nothing to re-do. What had changed was why you would adopt it, and that
