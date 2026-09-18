@@ -3,7 +3,7 @@
 = A graph that could not be wrong <ch-graph>
 
 #headline[36 edges][
-  that the node text required and the dependency graph did not carry — plus 7
+  that the node text required and the dependency graph did not carry—plus 7
   result files, in two capsules, that had never been successfully parsed by
   anything.
 ]
@@ -16,8 +16,8 @@ of instructions that changes what an agent does. Fourteen are something less
 familiar, and this chapter is about them. The corpus calls them
 #keyterm[knowledge capsules].
 
-A capsule packages a body of domain knowledge — probability, linear algebra,
-thermodynamics, electrochemistry — as a graph rather than as prose. Each
+A capsule packages a body of domain knowledge—probability, linear algebra,
+thermodynamics, electrochemistry—as a graph rather than as prose. Each
 definition, axiom, theorem, formula or counterexample is a #keyterm[node], with
 an entry of its own: the precise statement, its symbols, its hypotheses, what
 it depends on, and how it is checked. Each #keyterm[edge] records that one node
@@ -25,8 +25,8 @@ is a prerequisite of another, with a comment giving the evidence. `tsort` turns
 the edges into an order in which nothing is used before it is stated.
 
 A single node shows the shape. In `math-probability`, Bayes' theorem lists
-three dependencies in its entry — conditional probability, the law of total
-probability, the multiplication rule — and the capsule's edge file carries the
+three dependencies in its entry—conditional probability, the law of total
+probability, the multiplication rule—and the capsule's edge file carries the
 same three as edges into `bayes_theorem`. Its entry also points at a Lean
 proof of the step that needs one, and the capsule's `bc` script checks a
 numeric instance.
@@ -34,8 +34,8 @@ numeric instance.
 The fourteen hold about 1,500 nodes between them. What they are #emph[for] is
 traceability: an agent asked what a result rests on reads a chain it can
 follow and check, instead of recalling one. The domain content is outside this
-book's scope. The structure is not, because every part of it makes a claim — an
-edge claims a dependency, a `lean_status` claims a proof — and each of those
+book's scope. The structure is not, because every part of it makes a claim—an
+edge claims a dependency, a `lean_status` claims a proof—and each of those
 claims can be checked or left unchecked.
 
 == Hygiene has no opinion about truth
@@ -46,7 +46,7 @@ previous two chapters mention capsules in passing; this is where their
 structure starts to matter.] The build checked the emitted order
 against the edge list it had been handed.
 
-Restating the edges and comparing them to themselves certifies nothing — the
+Restating the edges and comparing them to themselves certifies nothing—the
 same objection the `bc` chapter makes about restating a formula. Established,
 again, by planting defects rather than by reading the scripts:
 
@@ -76,9 +76,8 @@ being used. Every node carries text written separately from the graph: a
 `dependencies:` list, a `Prereqs:` line, a proof or derivation naming what it
 rests on. That independence is what makes it evidence rather than an echo.
 
-Gating on it over fourteen capsules found #keyterm[18 hard violations] —
-dependency lists disagreeing with the graph, one formula entry with no
-prerequisite line at all, one holding prose where the list belongs — and about
+Gating on it over fourteen capsules found #keyterm[18 hard violations]—dependency lists disagreeing with the graph, one formula entry with no
+prerequisite line at all, one holding prose where the list belongs—and about
 55 soft hits, of which #keyterm[36 were real missing edges].
 
 And then the finding nobody was looking for. The checker had to *load* every
@@ -89,7 +88,7 @@ ever read them.
 == Two of the corrections were to the harness
 
 Which is the expected yield of building one. The soft scan first fired on
-contrast text and symbol definitions — about 180 hits, mostly noise — and had to
+contrast text and symbol definitions—about 180 hits, mostly noise—and had to
 be narrowed twice. And the deleted-edge mutation matched its target line
 #emph[literally], so a trailing `\# evidence` comment made the deletion silently
 do nothing: #keyterm[a mutation that reports itself as surviving].

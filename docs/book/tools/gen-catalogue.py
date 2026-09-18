@@ -45,7 +45,7 @@ GROUPS = [
      "of the workflow, so their harnesses verify a produced artefact rather "
      "than a single prescribed check."),
     ("tool-fact", "Tool-fact skills",
-     "These carry facts an agent cannot derive — which "
+     "These carry facts an agent cannot derive—which "
      "#raw(\"bc\") identifiers are legal, which exit code a cycle produces. "
      "The displacement rule does not apply: there is no wrong default to "
      "displace, only an absent fact, and the harness runs the real binary."),
@@ -107,7 +107,10 @@ def fact_harness(r):
                 else "#emph[no runner]")
     bits.append("README" if r["has_verification_readme"]
                 else "#emph[no README]")
-    return f"#raw(\"skills/{r['name']}/verification/\") — " + ", ".join(bits)
+    # An EN dash, spaced, not the closed em dash the prose uses: this is a
+    # separator between a path and what is inside it, and a closed em dash
+    # between two code spans reads as part of the path.
+    return f"#raw(\"skills/{r['name']}/verification/\") – " + ", ".join(bits)
 
 
 def fact_wrong(r):
@@ -127,7 +130,7 @@ def fact_wrong(r):
         return f"{tail} (at {esc(r['version'])}, {esc(vs[-1]['date'])})"
     lines = [f"{len(majors)} MAJOR of {held} versions held:"]
     for m in majors:
-        lines.append(f"#h(0.6em) {esc(m['version'])} ({esc(m['date'])}) — "
+        lines.append(f"#h(0.6em) {esc(m['version'])} ({esc(m['date'])})—"
                      f"{inline(m['headline'])}")
     return " \\\n".join(lines)
 

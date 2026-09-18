@@ -24,6 +24,17 @@ def esc(s):
     list or heading, so only those are escaped, and only at the start.
     """
     out = "".join("\\" + c if c in SPECIAL else c for c in s)
+    # An em dash is set closed up, as the authored chapters set it. The corpus
+    # writes " — " because Markdown source is read in a terminal; at 7x10in in
+    # a serif with a long em dash, the spaced form opens a hole in justified
+    # text. Both sides must be spaced to qualify, so an item that OPENS with a
+    # dash ("— the reference was dangling") keeps its following space.
+    #
+    # Deliberately NOT a Typst `show regex(" — ")` rule: that also rewrites the
+    # inside of #raw(), so quoted repository text would be silently retouched.
+    # Code spans never reach esc() -- inline() sends them to #raw() instead --
+    # which is why the substitution is safe here and was not safe there.
+    out = re.sub(r" +\u2014 +", "\u2014", out)
     return re.sub(r"^([-+=])", r"\\\1", out)
 
 
@@ -70,7 +81,15 @@ def _selftest():
         ("**MINOR** bump", "#strong[MINOR] bump"),
         ("the `test-oracle-design` candidate",
          'the #raw("test-oracle-design") candidate'),
-        ("*wrong* — the finding", "#emph[wrong] — the finding"),
+        ("*wrong* — the finding", "#emph[wrong]—the finding"),
+        # em dashes close up, on both sides of a markup boundary
+        ("a claim — and its check", "a claim\u2014and its check"),
+        ("**bold** — then text", "#strong[bold]\u2014then text"),
+        ("text — **bold**", "text\u2014#strong[bold]"),
+        # ... but a dash that OPENS a run is not a spaced dash
+        ("— the reference was dangling", "\u2014 the reference was dangling"),
+        # and a code span's contents are never touched
+        ("`a — b` — c", '#raw("a \u2014 b")\u2014c'),
         # bare specials that would otherwise open syntax
         ("a #hash and a $dollar", "a \\#hash and a \\$dollar"),
         ("see docs/verifying-skills.md §7", "see docs/verifying-skills.md §7"),

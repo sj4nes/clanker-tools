@@ -14,8 +14,8 @@ It is worth being explicit about the layers, because they are load-bearing and
 because one of them is a problem.
 
 An agent and I wrote fifty-odd instruction documents. To find out whether any of
-them worked, we built checks — small harnesses that would fail if a document's
-claim were false — and then, because a check nobody has seen fail is not a
+them worked, we built checks—small harnesses that would fail if a document's
+claim were false—and then, because a check nobody has seen fail is not a
 check, we broke each one on purpose to watch it fail. That produced a standard,
 which is Part II. Applying the standard to the documents produced four audits,
 which is Part III, and most of what they found was that the checks could not
@@ -26,7 +26,7 @@ six parts are not written at all: they are generated from the repository every
 time the book is built, and a gate refuses the build if what they say has
 drifted from what is on disk. That gate has its own checks. Those checks are
 broken on purpose too, one at a time, by a script that also runs one case it
-expects to *pass* — and twice, that unbroken case was the only thing that
+expects to *pass*—and twice, that unbroken case was the only thing that
 noticed the whole apparatus was measuring nothing.
 
 So: an agent helped write the skills, helped write the checks on the skills,
@@ -40,7 +40,7 @@ agent, from an outline, a ledger of claims and a set of decisions that are mine,
 and then revised by me. I am not going to pretend otherwise in a book whose
 argument is that you should say what a document actually is. The judgements are
 mine and I stand behind them; the majority of the words arrived by proxy, which
-is the same working relationship the rest of the book describes — and the
+is the same working relationship the rest of the book describes—and the
 reason it can describe it in any detail.
 
 == The problem with that
@@ -60,8 +60,8 @@ That does not make the findings false. A harness that exits zero on a false
 claim is a fact about that harness, and a Lean proof that proves nothing is a
 fact about that proof; those hold regardless of who noticed. But it does mean
 that everything here is one practitioner's corpus, held to one practitioner's
-standard, and you should read the general claims — about what agents do by
-default, about what other people's documents are like — as hypotheses with an n
+standard, and you should read the general claims— about what agents do by
+default, about what other people's documents are like— as hypotheses with an n
 of one, not as findings.
 
 == How to read it, given that
@@ -87,14 +87,14 @@ much.
 == What would settle it
 
 A second person, with their own corpus, running the method and reporting what it
-found — including a run where it finds nothing. Until then this is a detailed,
+found—including a run where it finds nothing. Until then this is a detailed,
 honestly-reported single case, and the method's own rules say a single case is
 where you start, not where you stop.
 
 #v(0.6em)
 #note[Parts I and II are still at an earlier stage of that process than the
 rest: drafted from the outline and the claim ledger and not yet taken through a
-revision pass. The division of labour does not change when they are — only the
+revision pass. The division of labour does not change when they are—only the
 voice.]
 
 ]

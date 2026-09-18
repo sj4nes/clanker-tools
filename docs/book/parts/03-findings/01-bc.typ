@@ -11,7 +11,7 @@
 == The tool's opinion of itself
 
 `bc` is the Unix arbitrary-precision calculator, used across this corpus to
-check formulas exactly — a dimensional identity, a closed form against an
+check formulas exactly—a dimensional identity, a closed form against an
 independent oracle, a rounding boundary. A harness ran `bc` over a file of
 checks and failed the build on a nonzero exit.
 
@@ -19,7 +19,7 @@ That is the defect, and it is invisible until stated precisely: #keyterm[`bc`'s
 exit status reports interpreter errors, never a false claim.] It exits 2 on a
 syntax error, 3 on an undefined function, 4 on a missing file, 1 on a math
 error. A claim that is simply *wrong* is a value to a calculator, not an error.
-And `quit` takes no status argument — `quit 1` exits 0.
+And `quit` takes no status argument—`quit 1` exits 0.
 
 So `set -e; bc checks.bc` catches a *broken* file and never a *wrong* one. That
 partial protection is exactly what made it look safe.
@@ -35,10 +35,10 @@ print "  dimensional check: ", lhs, " (want 4.5)\n"
 
 Nothing fails when the formula drifts. The file reads as verification and
 // intro: knowledge-capsule
-provides none. Worse, several #emph[capsules] — the corpus's
-packaged bodies of domain knowledge, described properly in #chref(<ch-graph>) — had
+provides none. Worse, several #emph[capsules]—the corpus's
+packaged bodies of domain knowledge, described properly in #chref(<ch-graph>)—had
 already computed an #emph[independent
-oracle] — the quantity derived a second way — and simply never compared the two.
+oracle]—the quantity derived a second way—and simply never compared the two.
 
 Two checks were vacuous in a sharper sense: `statistics` had a Cramér–Rao bound
 check where the two sides were the same expression, and the Poisson line read
@@ -49,8 +49,7 @@ charts: its zero-baseline lie-factor check had the identical shape.
 
 == The guard that could never fire
 
-The remediation added a failure marker — assertions print `*** FAIL: <claim>` —
-and a runner that greps the output for it. That grep turned out to match nothing, ever, in
+The remediation added a failure marker—assertions print `*** FAIL: <claim>`—and a runner that greps the output for it. That grep turned out to match nothing, ever, in
 #keyterm[eight of nine harnesses, plus the template they were all copied from]:
 
 ```sh
@@ -69,8 +68,8 @@ different message. Subjects in a later experiment ran both binaries and
 noticed. The records were not corrected, and the first draft of this chapter
 repeated the error. Every conclusion survives; the attribution did not.
 
-It had been masked by the other two signals — a missing pass banner, and a
-deliberate `1/0` backstop added to force a nonzero exit — which is why a
+It had been masked by the other two signals—a missing pass banner, and a
+deliberate `1/0` backstop added to force a nonzero exit—which is why a
 corrupted value still failed the run and nobody noticed the third guard was
 inert. A marker planted on its own, with the other two signals left passing,
 went through with exit 0.
@@ -85,7 +84,7 @@ negative-contrast tested: corrupt a value, confirm a nonzero exit, revert.
 
 The checklist gained a line that reads oddly until you have been here:
 #keyterm[test each signal in isolation]. A marker planted with the failure
-counter untouched — banner still printed, `bc` still exiting 0 — must make the
+counter untouched—banner still printed, `bc` still exiting 0—must make the
 run fail. That is the only way to see the grep clause work, and it is how the
 broken form hid in eight files.
 

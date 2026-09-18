@@ -57,8 +57,8 @@ columns:
 That row is from `test-writing`, and each cell does a separate job. The first
 names the section, so every section must appear. The second names the
 behaviour the section exists to replace. If you cannot fill it, the section is
-either a fact the agent lacks — the tool-fact case from the previous chapter,
-where a table means nothing — or it is tutorial prose restating what the agent
+either a fact the agent lacks—the tool-fact case from the previous chapter,
+where a table means nothing—or it is tutorial prose restating what the agent
 would do anyway. The third cell points at a run where the default is seen to
 fail. Not argued to fail: seen, with a number.
 
@@ -158,7 +158,7 @@ the check existed, those thirteen skills looked just as finished as
 #practice[Build the table for one skill, and count its blocks.][
   Pick a skill whose instructions tell an agent how to behave. Give each section
   one row. In the second column, write what an agent does #emph[without] that
-  section. In the third, point to a run where that default fails — or write
+  section. In the third, point to a run where that default fails—or write
   #emph[judgement] and one line saying why no run could show it, or leave it
   empty.
 

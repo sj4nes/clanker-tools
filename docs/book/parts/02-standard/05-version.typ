@@ -199,6 +199,6 @@ it is allowed to be embarrassing.
   will decay again.
 ] <pr-version>
 
-Everything so far — the table, the harness, the oracle, the fixture, the
-changelog — describes what to check. None of it says who does the checking. In
+Everything so far—the table, the harness, the oracle, the fixture, the
+changelog—describes what to check. None of it says who does the checking. In
 this corpus, it was almost always the agent. That is the next chapter.

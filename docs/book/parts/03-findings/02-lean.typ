@@ -17,7 +17,7 @@ knowledge capsules carry machine-checked proof cores: a node asserts
 general statement of that node.
 
 The harness ran `lean file.lean && echo ok`. Which is #keyterm[the same hole as
-`bc ... && echo ok`], and it was found the same way — by planting defects in a
+`bc ... && echo ok`], and it was found the same way—by planting defects in a
 real capsule file rather than by reading the script. All three of these exit
 zero:
 
@@ -28,7 +28,7 @@ zero:
   [`theorem t : ∀ n, n + 0 = n := by sorry`], [*0*],
     [a warning on stderr, nothing else. The theorem is unproved.],
   [`axiom cheat : ∀ n : Nat, n = n + 1`], [*0*],
-    [silent — and `3 = 4` now follows from it],
+    [silent—and `3 = 4` now follows from it],
   [`theorem "core" : (2:Nat) + 2 = 4 := by decide`], [*0*],
     [true, and proves nothing general],
   [`theorem t : ∀ n, n + 1 = n := by omega`], [1],
@@ -36,7 +36,7 @@ zero:
 )
 
 The `sorry` warning does not rescue it: it arrives on the same stream as benign
-deprecation notices, so it has to be grepped for by name — exactly like
+deprecation notices, so it has to be grepped for by name—exactly like
 `*** FAIL` one chapter earlier.
 
 == The claim the compiler never sees
@@ -66,8 +66,7 @@ overclaim, plus a reference checker. #keyterm[The guard worked. It had simply
 never been copied to its six siblings.]
 
 That is worth more than the 41. A defect found in six places and absent from the
-seventh, where a guard exists, is not a mystery about why software goes wrong —
-it is a demonstration that the guard is the difference.
+seventh, where a guard exists, is not a mystery about why software goes wrong—it is a demonstration that the guard is the difference.
 
 == What changed
 
@@ -94,6 +93,6 @@ behind them.
 
   The number you get is your honest count of verified claims, and it will be
   lower than the number you would have quoted. Here it went from 36 to 25 in
-  one capsule and 44 to 28 in another, with every proof intact — the index was
+  one capsule and 44 to 28 in another, with every proof intact—the index was
   wrong, not the mathematics.
 ]

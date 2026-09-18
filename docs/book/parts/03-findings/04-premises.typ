@@ -12,8 +12,8 @@
 
 // DRAFT 2026-09-16 (agent-written, at the author's request). Ledger: C-III-02..04.
 Ask an agent to diagnose a bug and it will produce a diagnosis. Ask it to
-diagnose the bug #emph[properly] — gather the facts, consider more than one
-cause, test the one that matters — and it will produce a diagnosis and say it
+diagnose the bug #emph[properly]—gather the facts, consider more than one
+cause, test the one that matters—and it will produce a diagnosis and say it
 did those things. The transcript reads the same whether it did or not. A
 procedure an agent follows on its own honour leaves no evidence that it was
 followed.
@@ -45,8 +45,8 @@ The deck for diagnosing a problem has eight cards:
 )
 
 The agent does not choose the order. At each step a runner works out which
-cards are playable — whose needs are met, and which still leave enough budget
-to finish — and rolls a seeded die to pick one. The agent fills in that card's
+cards are playable—whose needs are met, and which still leave enough budget
+to finish—and rolls a seeded die to pick one. The agent fills in that card's
 artifact and plays it. Two details make the record trustworthy. A card that
 declares an instrument, like `gather` or `run`, cannot be played without a
 command, and the runner executes the command and stores its output, so a test
@@ -70,7 +70,7 @@ reroll to record a corrected test rather than draw a fifth explanation.
 
 The conclusion was wrong. The run recommended updating a tracker the project
 had already abandoned: #keyterm[every fact gathered was true, and the
-conclusion was not]. The ledger did not prevent that — nothing in the skill
+conclusion was not]. The ledger did not prevent that—nothing in the skill
 checks whether a command was aimed at something still in use. What it did was
 make the mistake diagnosable in seconds, because it recorded exactly which
 files were read.
@@ -84,7 +84,7 @@ the deck is used: every card is playable somewhere, no state is a dead end, an
 ending is always reachable, every produced artifact is consumed.
 
 The gates found real defects in every deck written, all of them invisible on
-reading. Two cards were decorative — they produced artifacts nothing
+reading. Two cards were decorative—they produced artifacts nothing
 consumed. In the deck for decisions, an ending was reachable before any
 evidence had been gathered. And a
 simulator showed the gut-call card landing #emph[after] the evidence in half of
@@ -113,7 +113,7 @@ The claim splits in two, and only half needed subjects. *Does a deck make
 skipping impossible?* was already settled by an exhaustive gate. *Would anyone
 actually skip?* was the open question, and it reduced the experiment to one arm.
 
-The fixture was a real bug from this repository's own history — the marker grep
+The fixture was a real bug from this repository's own history—the marker grep
 that could never match, from #chref(<ch-bc>), rebuilt small. Reading it yields a confident wrong
 answer; running it prints a string that occurs #keyterm[zero times in the
 source], which was meant to make execution unforgeable and self-report
@@ -153,7 +153,7 @@ not tested. That reflex produced this:
 
 This one is measurable where "do they enumerate alternatives" is not, because a
 confirmatory fix #keyterm[passes its own confirmation] while the defect
-survives — and whether it survives is decided by execution, not by reading.
+survives—and whether it survives is decided by execution, not by reading.
 
 The fixture was a build gate with two real causes: an anchored pattern that
 completely explains the visible symptom, and a stdout-only capture while the
@@ -164,7 +164,7 @@ Eight subjects applied their fix; the scorer executed it against a case absent
 from the fixture they were given. Reading could not produce a passing fix, so
 this measurement holds. All eight caught both channels. All eight
 built the stderr-only test case themselves. All eight also tested the all-pass
-case unprompted — several noting that a gate wedged at *fail* is as broken as
+case unprompted—several noting that a gate wedged at *fail* is as broken as
 one wedged at *ok*. And #keyterm[four of eight closed a third defect that had
 never been planted]: the suite always exits zero, so a suite dying partway
 through reads as green.

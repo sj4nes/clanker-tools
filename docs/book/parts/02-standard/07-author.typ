@@ -46,7 +46,7 @@ for bureaucracy. So the first move is to declare the skill's #keyterm[archetype]
       [A harness and a displacement table.],
     [tool-fact], [Nothing. The prior is empty.],
       [Reference material. A table would be meaningless.],
-    // not-a-use: knowledge-capsule — the archetype's label, glossed in its own row; Part III treats capsules
+    // not-a-use: knowledge-capsule—the archetype's label, glossed in its own row; Part III treats capsules
     [capsule: a curated body of knowledge], [—],
       [A build and a validation of the knowledge it holds.],
     [meta], [—], [The names of the skills it drives.],
@@ -63,7 +63,7 @@ only the word #emph[NOT], so 12 of its first 25 complaints were about
 descriptions that said #emph[excludes] instead. That is #chref(<ch-agent>)'s
 lesson on a new instrument: suspect the check first.
 
-// not-a-use: knowledge-capsule — the archetype label again, as counted by the checker
+// not-a-use: knowledge-capsule—the archetype label again, as counted by the checker
 As of #corpus-asof, the corpus's #n-skills skills declare #n-behaviour behaviour, #n-capsule capsule,
 #n-tool-fact tool-fact and #n-meta meta, and the checker reports 34 failures across 28 of
 them. That number is allowed to fall and not to rise.

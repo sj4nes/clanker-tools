@@ -39,9 +39,9 @@ measuring a claimed default before anything is built on it. It comes down to
 six moves.
 
 *Split the claim.* Most premises are two claims. #emph[An agent will skip the
-step, so the process must force it] contains a structural half — does the
-process in fact make skipping impossible? — which an inspection or a gate can
-settle, and a behavioural half — would anyone skip? — which needs subjects.
+step, so the process must force it] contains a structural half—does the
+process in fact make skipping impossible?—which an inspection or a gate can
+settle, and a behavioural half—would anyone skip?—which needs subjects.
 For `role-deck`, the structural half was already proven by a check over every
 reachable state, so the experiment shrank to a single arm.
 
@@ -145,8 +145,8 @@ experiment is not the subjects. It is the design, and the design is where all
 three failures lived.
 
 #practice[Before the first subject, prove the experiment can come out either way.][
-  Find the sentence that justifies your document — the one asserting what goes
-  wrong without it — and write it down as a claim. Split off its structural
+  Find the sentence that justifies your document—the one asserting what goes
+  wrong without it—and write it down as a claim. Split off its structural
   half, which inspection can usually settle.
 
   Then, before spawning anyone, answer four questions with evidence rather than

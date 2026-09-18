@@ -21,8 +21,8 @@ it currently says.
 Three things in particular, which a chapter written for the reader would have
 softened.
 
-The first is that the central method of this book's fourth chapter — measuring a
-claimed default behaviour before building on it — has never returned a positive
+The first is that the central method of this book's fourth chapter—measuring a
+claimed default behaviour before building on it—has never returned a positive
 result. Every case study run under it refuted the claim it tested. That is
 either a method that works and a set of claims that were wrong, or a method that
 can only refute, and nothing in the corpus currently distinguishes those. It is
@@ -31,7 +31,7 @@ because the item is open.
 
 The second is that a run of that method was invalidated by the conditions it was
 run under rather than by its result, and that its subjects could read the
-repository they were being tested about — which is the one thing a subject must
+repository they were being tested about—which is the one thing a subject must
 not be able to do. The re-run is scheduled. Until it lands, what the method has
 established about this corpus is less than what the earlier chapters would like
 it to have established.
@@ -45,8 +45,8 @@ in Part IV: something a fixture could falsify, that nothing has yet.
 == Where the items come from
 
 // intro: gap-reporting
-Most of them are not plans. When a displacement table finds a gap — a claim a
-fixture could falsify and does not — the standard does not ask you to fix it
+Most of them are not plans. When a displacement table finds a gap—a claim a
+fixture could falsify and does not—the standard does not ask you to fix it
 there and then. It asks you to write it down as a concrete harness section in
 the one file the work is tracked in, named precisely enough that someone can
 build it later: which claim, which fixture, what the fixture would have to

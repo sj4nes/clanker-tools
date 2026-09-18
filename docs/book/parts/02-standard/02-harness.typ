@@ -2,7 +2,7 @@
 
 // DRAFT 2026-09-16. Ledger rows: C-II-01..04, C-II-14..18.
 
-// not-a-use: harness — the chapter title names what the chapter introduces
+// not-a-use: harness—the chapter title names what the chapter introduces
 = Build a harness that can fail <ch-harness>
 
 #headline[exit 0][
@@ -21,7 +21,7 @@ the script passes. Green. A test that was seen to fail and then seen to pass,
 in that order.
 
 Now change the claim to say two plus two is five. The script prints
-`*** FAIL: two plus two is five` — and exits 0.#footnote[Measured on
+`*** FAIL: two plus two is five`—and exits 0.#footnote[Measured on
 `bc` 7.0.3, macOS, 16 September 2026. `bc`'s exit status reports interpreter
 errors: 4 for a missing file, 2 for a syntax error. A false claim is a value,
 not an error.]
@@ -75,7 +75,7 @@ that a missing thing is noticed. A negative contrast moves from #emph[right] to
 #emph[wrong], which is where the bugs you care about live. The two-plus-two
 script passes the first test and fails the second.
 
-// not-a-use: guard-isolation — the section heading names what the section introduces
+// not-a-use: guard-isolation—the section heading names what the section introduces
 == Break each guard alone
 
 A serious harness has more than one guard. A typical `bc` harness in this corpus
@@ -90,7 +90,7 @@ was dead in 8 of 9 harnesses and in the template all nine were copied from.
 A corrupted value still turned the run red, because a wrong value also stopped
 the pass banner and tripped the backstop. Nobody could see that the third guard
 did nothing. Only a marker planted on its own, with everything else left
-passing, could show it — and when that was finally tried, the run passed.
+passing, could show it—and when that was finally tried, the run passed.
 
 // intro: guard-isolation
 So the rule is #keyterm[guard isolation]: break each guard alone. Plant a failure
@@ -183,8 +183,8 @@ aimed at the defect.
   check. If it stays green, the check never covered that claim.
 
   If it goes red, look at which guard caught it. List the guards the harness
-  actually has — typically the tool's exit status, a pass banner and a failure
-  marker — and break each of the others alone. Plant a failure marker without
+  actually has—typically the tool's exit status, a pass banner and a failure
+  marker—and break each of the others alone. Plant a failure marker without
   touching the failure counter, so the banner still prints and the tool still
   exits zero. A guard you have only seen fail alongside another guard has not
   been tested.
@@ -195,8 +195,8 @@ aimed at the defect.
 ] <pr-harness>
 
 #sidebar[The control that caught the fixture, twice][
-  The last clause of the practice above — run the planting script against a
-  checker you have deliberately broken — was added to this book's own toolchain
+  The last clause of the practice above—run the planting script against a
+  checker you have deliberately broken—was added to this book's own toolchain
   as an afterthought, and has since been the only thing standing between it and
   two false results.
 
@@ -208,7 +208,7 @@ aimed at the defect.
   Twice in two days, that unmutated case was the only one that failed
   correctly. The first time, the scratch copy was missing a directory the
   generator reads, so thirteen mutations reported "caught" while proving
-  nothing — every one of them was failing on the missing directory rather than
+  nothing—every one of them was failing on the missing directory rather than
   on the defect it had planted. The second time, a new generator called #raw("git")
   unconditionally and could not run outside a checkout, which is exactly what a
   scratch copy is.

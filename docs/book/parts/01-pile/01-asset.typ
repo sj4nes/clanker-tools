@@ -16,7 +16,7 @@ In September 2026 Dan Luu asked coding agents to implement Zstd in Rust, over
 and over, under different testing instructions, and scored each run against a
 hidden test suite.#footnote[Dan Luu, "How well do agents use test/verification
 techniques?", September 2026, #link("https://danluu.com/agentic-testing/").
-// not-a-use: harness — Luu's eval harness, not a verification harness
+// not-a-use: harness—Luu's eval harness, not a verification harness
 One task, one harness (codex, GPT-5.6 Sol, medium and xhigh effort), 80 runs per
 condition and effort level. The author describes the write-up as quick and
 "half-baked", and cautions against strong conclusions from the ordering of
@@ -39,7 +39,7 @@ summary of the whole episode: "superficially, if we just look at the score, ECC
 seems ok."
 
 Compare that with your own skills. That one had a quarter of a million
-stars, 160 runs, and a careful experimenter — and still needed someone to read
+stars, 160 runs, and a careful experimenter—and still needed someone to read
 the transcripts before anyone could say it was hurting. Yours have one reviewer, and it is the person who wrote them.
 
 == The pile
@@ -53,7 +53,7 @@ agents worse.
 The natural response is to write another one, for the next thing that went
 wrong. The comparable books on the shelf reinforce that. Every one of them
 dated to 2026, and by title and subtitle all of them promise to get you
-#emph[building] skills — shipping one in a weekend, mastering the standard,
+#emph[building] skills—shipping one in a weekend, mastering the standard,
 building portable skills.#footnote[From a shelf survey on
 15 September 2026; see the comps table. This characterises how the genre
 presents itself, not what any one book contains.] Production is the genre's
@@ -64,7 +64,7 @@ before it.
 
 == It is not neutral
 
-The tempting belief is that an unevaluated skill is at worst useless — that the
+The tempting belief is that an unevaluated skill is at worst useless—that the
 downside of a mediocre document is that it does nothing. The same experiment
 measured the opposite.
 
@@ -115,7 +115,7 @@ noticing that nothing complained.
 One skill from that corpus runs through the rest of the book: `test-writing`,
 149 lines, built by planting bugs and confirming the default test missed them
 before a word of the skill was written. It is short, it is verified, and it
-touches the Luu experiment directly — which, as the next chapter shows, is not
+touches the Luu experiment directly—which, as the next chapter shows, is not
 the same as knowing that it works.
 
 == The objection
@@ -146,4 +146,4 @@ checks that could not fail was breaking things on purpose, not reading them.
 ]
 
 To move a skill out of that third column, you need to know what it would mean
-for it to be wrong — which means knowing what it claims.
+for it to be wrong—which means knowing what it claims.

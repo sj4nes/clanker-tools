@@ -14,7 +14,7 @@ what is on disk.
 
 That is not a convenience. A catalogue is the part of a book most likely to rot,
 because it is the part whose facts live somewhere else and change without
-telling the author. Part III is four audits of exactly that failure — checks
+telling the author. Part III is four audits of exactly that failure—checks
 that had no way of failing, in a corpus that looked verified. A hand-written
 catalogue in the same book would be the same defect, committed on purpose.
 
@@ -42,7 +42,7 @@ and should be read as the weakest: that a harness exists says nothing about
 whether its checks can fail, which is the question Part III found the corpus
 answering badly.
 
-*Wrong.* The version history, read for one thing only — how many times this
+*Wrong.* The version history, read for one thing only—how many times this
 skill turned out to be wrong. In this corpus a MAJOR bump has a defined
 meaning: the skill said something false, and work done under the old text has
 to be redone. Those entries are printed in full, with the date and what was
@@ -74,7 +74,7 @@ whether the format carries anything.
 
 It does, and not flatteringly. Its *displaces* field does not report counts. It
 reports that the skill has a displacement table and states the counts in prose
-instead — which is what the standard asks for, done in the form the standard
+instead—which is what the standard asks for, done in the form the standard
 says not to use. That is the skill the standard's own documentation names as the
 worked example of the rule.
 
@@ -88,7 +88,7 @@ counts or have no table at all.
   Before writing a new skill, find the entry closest to it in archetype and in
   shape, and open that skill's `verification/` directory. The question is not
   whether the neighbour is good. It is what its displacement table found, what
-  its harness can demonstrate failing, and — where it has MAJOR bumps — what it
+  its harness can demonstrate failing, and—where it has MAJOR bumps—what it
   turned out to be wrong about, since a skill in the same shape tends to be
   wrong in the same way.
 ]

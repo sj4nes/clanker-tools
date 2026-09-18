@@ -2,8 +2,8 @@
 
 = The shape they share
 
-Four audits, four unrelated technologies — an arbitrary-precision calculator, a
-proof assistant, a topological sort, and a methodology's own justification — and
+Four audits, four unrelated technologies—an arbitrary-precision calculator, a
+proof assistant, a topological sort, and a methodology's own justification—and
 one defect.
 
 == The check was reading the tool's opinion of itself
@@ -15,7 +15,7 @@ silence as evidence about the claim.
   columns: (auto, 1fr, 1fr),
   align: (left, left, left),
   table.header([*tool*], [*exits 0 on*], [*what the check thought it meant*]),
-  [`bc`], [a false claim — it is a value, not an error], [the arithmetic holds],
+  [`bc`], [a false claim—it is a value, not an error], [the arithmetic holds],
   [`lean`], [`sorry`, `axiom`, a numeral-only proof], [the theorem is proved],
   [`tsort` (BSD)], [a cycle in the input], [the graph is acyclic],
   [a premise], [never being tested], [the methodology is needed],
@@ -23,7 +23,7 @@ silence as evidence about the claim.
 
 The tools are not at fault. `bc` is a calculator and a wrong answer is a number;
 Lean is a proof assistant and `sorry` is a legitimate placeholder. Each exit
-code means exactly what its manual says. The defect is in the inference — and it
+code means exactly what its manual says. The defect is in the inference—and it
 is the same inference four times.
 
 == Three properties of the family
@@ -35,7 +35,7 @@ oldest bc harnesses ran green for eight days before anyone asked.
 #keyterm[Partial protection is what hides it.] `bc` does catch a syntax error.
 `lean` does catch a genuinely false closed statement. `tsort` does catch an
 unregistered node. That partial coverage is precisely why nobody looked
-further — the check demonstrably worked, on the cases it worked on.
+further—the check demonstrably worked, on the cases it worked on.
 
 #keyterm[It is only ever proved by deliberate breakage.] Not one of these was
 found by a failing build, because a failing build was the impossible event. One
@@ -50,7 +50,7 @@ fail is not known to be an assertion.]
 == The recursion, which is the honest part
 
 The harness built to catch missing graph edges contained a mutation that
-#emph[reported itself as surviving] — it matched its target line literally, so a
+#emph[reported itself as surviving]—it matched its target line literally, so a
 trailing comment made the deletion do nothing. The fixture built to test whether
 agents skip verification had a scorer that could not prove its own
 pre-registration, and a measurement meant to be unforgeable that the

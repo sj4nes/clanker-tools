@@ -8,7 +8,7 @@ The question is: #keyterm[does this check have any way of failing?]
 
 It is not the question a passing build answers. A green run tells you the
 harness ran and did not object. It does not tell you the harness was capable of
-objecting — and the four audits below found, in four unrelated tools, that
+objecting—and the four audits below found, in four unrelated tools, that
 mostly it was not. Arbitrary-precision arithmetic, a proof assistant, a
 topological sort, and a methodology's own justification: each had a check whose
 success carried no information.

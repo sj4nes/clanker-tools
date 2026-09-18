@@ -36,7 +36,7 @@ itself falsifiable turns out to be the part that teaches.
 That is the return on the formal work, and it is not the return that was
 expected. The capsules were built to stop a corpus of knowledge from silently
 rotting. What they also produced, nearly for free, was interactive course
-material in nine subjects — because a body of knowledge that can prove itself
+material in nine subjects—because a body of knowledge that can prove itself
 wrong is a body of knowledge you can hand somebody and let them try.
 
 == How to read this part
@@ -54,7 +54,7 @@ runnable blocks is not longer than one with three, it is more of a laboratory
 and less of an essay.
 
 They are in dependency order, and that order is derived rather than chosen. A
-capsule comes before one that builds on it — which the repository states in
+capsule comes before one that builds on it—which the repository states in
 three different places, none of them a list of capsules in order: a `SKILL.md`
 that says it builds on another, the cross-capsule `requires` edges of the atlas
 capsule, and the "discharges into" column of the tutorial map. Within a capsule,
@@ -70,14 +70,14 @@ twenty-six. The ordering falls out of the same artifact the checks run on.
 
 One entry names its method as the "executable-tutorial method" rather than a
 skill. That one came first, and the skill was written afterwards by generalising
-what had worked — which is the order most of this corpus was built in, and the
+what had worked—which is the order most of this corpus was built in, and the
 reason Part II is a standard rather than a plan.
 
 #practice[Cut the lesson from the harness, not beside it.][
   If you have verified material and you want to teach it, do not write a
   tutorial about it. Walk the prerequisite order the graph already gives you,
-  and at each step hand the reader the check that step already has — the
-  dimensional check, the limiting case, the kernel-checked identity — and let
+  and at each step hand the reader the check that step already has—the
+  dimensional check, the limiting case, the kernel-checked identity—and let
   them run it. A lesson written beside a harness has to be kept true twice. One
   cut from the harness is true whenever the harness passes.
 ]

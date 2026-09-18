@@ -15,8 +15,8 @@ But every skill carries an unstated claim, and it is the one that matters:
 than it would have without it].
 
 // intro: default-behaviour
-That is a claim about a #keyterm[default behaviour] — what the agent does when
-you have said nothing — and about displacing it. Written out, it has a shape
+That is a claim about a #keyterm[default behaviour]—what the agent does when
+you have said nothing—and about displacing it. Written out, it has a shape
 // intro: displacement-claim
 you can disagree with: #emph[without this, agents do X; with it, they do Y; and
 Y is better]. Each clause can be wrong. The agent may not do X. The document
@@ -59,7 +59,7 @@ thesis:
   allow a human or non-knowledgeable agent to do the behavior at all.
 ]
 
-Luu is careful about how far it goes, and this book should be too — calling it a naive
+Luu is careful about how far it goes, and this book should be too—calling it a naive
 guess from someone who has written one skill. Of the skill itself the write-up says,
 "This got the highest score, but didn't work as intended": its instruction to
 re-derive results in a fresh context was almost never followed, so nobody knows
@@ -77,8 +77,8 @@ Take `role-deck`, which comes up again later in this book. It exists because a
 procedure an agent follows on its own honour leaves no evidence that it was
 followed: ask for a careful diagnosis and the transcript reads the same whether
 the care happened or not. `role-deck` writes the procedure as a
-#keyterm[deck] of cards — gather facts, propose rival explanations, design a
-test that tells them apart, run it, conclude — and takes the ordering away
+#keyterm[deck] of cards—gather facts, propose rival explanations, design a
+test that tells them apart, run it, conclude—and takes the ordering away
 from the agent. A runner decides which card comes next, cards that call for
 evidence execute a real command and store its output, and the whole run can be
 replayed from its seed. #chref(<ch-premises>) goes through a deck card by card.
@@ -143,10 +143,8 @@ the likely mistake before writing the assertion. Written out, its claim reads:
   somewhere other than the code, and every check has been seen to fail.
 ]
 
-That is a sentence someone could disagree with. Its verification half —
-#emph[do the prescribed checks catch planted bugs the default checks miss?] —
-has a checking script, and it passes. Its behavioural half — #emph[does an agent handed
-the skill actually do this, where it would not otherwise?] — has never been
+That is a sentence someone could disagree with. Its verification half—#emph[do the prescribed checks catch planted bugs the default checks miss?]—has a checking script, and it passes. Its behavioural half—#emph[does an agent handed
+the skill actually do this, where it would not otherwise?]—has never been
 fixtured. The nearest attempt, a neighbouring claim about how verification
 work is requested, has been run three times, and all three runs were invalid
 for reasons that had nothing to do with the claim. As of this writing, that
@@ -160,8 +158,7 @@ missing.
   Pick one skill. Complete: #emph[Without this, an agent does \_\_\_. With it,
   the agent does \_\_\_ instead.]
 
-  If the first blank will not fill, you are either describing a fact skill —
-  say so, and move to what it must not omit — or you do not yet know what the
+  If the first blank will not fill, you are either describing a fact skill—say so, and move to what it must not omit—or you do not yet know what the
   document is for.
 
   If it fills easily, ask the harder question: #emph[how do I know the agent

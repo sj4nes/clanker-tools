@@ -81,7 +81,7 @@ agents "would generally just write the same thing twice."#footnote[Luu, "How
 well do agents use test/verification techniques?", section on differential
 testing. A qualitative reading of transcripts, not a scored measure.] This
 corpus found the limiting case in its own checks. Two assertions in `statistics`
-compared a quantity with itself — one of them literally `(lam/n)/(lam/n)` — and
+compared a quantity with itself—one of them literally `(lam/n)/(lam/n)`—and
 printed the expected 1 by construction.
 
 So the question is not #emph[how many] ways you computed the answer. It is:
@@ -112,8 +112,8 @@ the source, and each was a copy of something older and weaker than it looked.
 Call this the #keyterm[source-authority] problem: which sources count as
 authoritative, and how to notice when a step reads one older than the thing it
 describes. It is flagged here, not solved. The corpus has a proposed fix for
-`role-deck` — declare the authoritative sources, and warn when a source
-predates what it describes — and has not built it. For prose, the only fix this
+`role-deck`—declare the authoritative sources, and warn when a source
+predates what it describes—and has not built it. For prose, the only fix this
 book has used is the plain one: go back to the original, and write down the
 date you read it.
 
@@ -135,8 +135,7 @@ means the prose had to agree with something it did not write.
 
 #practice[Name your oracle, and list what it shares with the subject.][
   Pick one check you trust. For each assertion, write down where the expected
-  value came from: the spec, a reference, a relation, another implementation —
-  or the code itself.
+  value came from: the spec, a reference, a relation, another implementation—or the code itself.
 
   Look first for an oracle you already have. Most artifacts state the same thing
   twice, in places written at different times: a declared dependency list and
