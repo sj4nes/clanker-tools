@@ -957,11 +957,15 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       against whatever `lean` is on PATH, and nothing records which. There is no
       `lean-toolchain` file in the repository; the only version statement is
       prose — `Lean 4.33's core grind and omega` in
-      `skills/math-probability/validation/proof-checks.lean` and its `.md`. The
-      other capsules with `.lean` files (`math-linear-algebra`,
-      `math-logic-and-proof`, `math-real-analysis`, `math-sets-functions-cardinality`,
-      `math-statistics`, `chemistry-foundations`, `chemistry-electrochemistry`)
-      say nothing at all.
+      `skills/math-probability/validation/proof-checks.lean` and its `.md`,
+      and the same "Lean 4.33" in `math-linear-algebra` and `math-statistics`.
+      Twelve capsules carry `.lean` files — the three above plus
+      `math-logic-and-proof`, `math-number-systems`, `math-real-analysis`,
+      `math-sets-functions-cardinality`, `chemistry-foundations`,
+      `chemistry-electrochemistry`, `physics-newtonian`,
+      `physics-thermoacoustics`, `physics-thermodynamics` — so **nine of the
+      twelve record no version at all**, and the three that do record it in a
+      comment no tool reads.
 
       This bites harder here than it would in a Mathlib project, because the
       cores are deliberately Mathlib-free and lean on `grind` and `omega` —
