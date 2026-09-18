@@ -24,7 +24,11 @@ TWO KINDS OF FACT, and the difference is why this file is not simply generated:
             a person runs `--stamp`.
 
     python3 docs/book/tools/gen-facts.py            write (stamps preserved)
-    python3 docs/book/tools/gen-facts.py --stamp    also re-read git: new as-of
+    python3 docs/book/tools/gen-facts.py --stamp    also re-read git: new as-of,
+                                                    and re-read the source tree
+    python3 docs/book/tools/gen-facts.py --set-key  set the render key (prompts,
+                                                    no echo; only its checksum
+                                                    is ever written down)
     python3 docs/book/tools/gen-facts.py --stdout   print instead of writing
 """
 import datetime
@@ -37,7 +41,36 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from corpus import ROOT, read_corpus          # noqa: E402
 
 OUT = ROOT / "docs/book/corpus-facts.typ"
-STAMPED = ("corpus-asof", "n-commits", "corpus-days", "corpus-first-commit")
+BOOK = ROOT / "docs/book/book.typ"
+STAMPED = ("corpus-asof", "n-commits", "corpus-days", "corpus-first-commit",
+           "tree-stamp", "render-key")
+
+
+def manifest():
+    """Every source file the book is made of, in the order Typst reads them.
+
+    Derived from book.typ's own `#include` lines rather than listed here, so
+    adding a chapter cannot silently fall outside the stamp. corpus-facts.typ
+    is excluded: it holds the stamp, so including it would not converge.
+    """
+    src = BOOK.read_text()
+    files = ["book.typ", "preamble.typ"]
+    files += re.findall(r'^#include "([^"]+)"', src, re.M)
+    return [(ROOT / "docs/book" / f) for f in files]
+
+
+def fold(data):
+    """The stamp itself. Mirrored byte for byte by the colophon in preamble.typ;
+    if the two ever disagree the book says so on every render, which is the
+    loudest possible failure and the intended one."""
+    acc = 0
+    for b in data:
+        acc = (acc * 31 + b) % 2147483647
+    return acc
+
+
+def tree_sum():
+    return fold(b"".join(p.read_bytes() for p in manifest() if p.exists()))
 
 
 def git(*args):
@@ -63,6 +96,7 @@ def fresh_stamps():
     today = datetime.date.today()
     days = (today - datetime.date.fromisoformat(first)).days
     return {
+        "tree-stamp": str(tree_sum()),
         "corpus-asof": f'"{today.strftime("%-d %B %Y")}"',
         "corpus-first-commit": f'"{first}"',
         "n-commits": git("rev-list", "--count", "HEAD"),
@@ -105,6 +139,16 @@ def generate():
     # which is exactly where the mutation harness runs it, and the no-mutation
     # control is what caught it (2026-09-17).
     stamps = {} if "--stamp" in sys.argv else existing_stamps()
+    # The render key is never regenerated: it is set by hand, or it stays 0,
+    # which means "unset" and asks nothing of whoever renders.
+    key = existing_stamps().get("render-key", "0")
+    if "--set-key" in sys.argv:
+        import getpass
+        a = getpass.getpass("render key: ")
+        if a != getpass.getpass("again: "):
+            sys.exit("keys differ; nothing written")
+        key = str(fold(a.encode())) if a else "0"
+    stamps["render-key"] = key
     if "--stamp" in sys.argv or any(k not in stamps for k in STAMPED):
         stamps = {**fresh_stamps(), **stamps}
     s = structural()

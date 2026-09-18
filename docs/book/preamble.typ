@@ -5,6 +5,8 @@
 // thesis template, replace `apply-base` (or `#show: apply-base` with the
 // template's own show rule) and leave every section file untouched.
 
+#import "corpus-facts.typ": tree-stamp, render-key
+
 #let chapno = counter("chapter")
 
 // The sidebar face. Sidebars are the ONLY sans in the book: practices already
@@ -26,8 +28,9 @@
 
 #let apply-base(body) = {
   set page(
-    paper: "us-letter",
-    margin: (top: 1.1in, bottom: 1in, inside: 1.25in, outside: 1in),
+    width: 7in,
+    height: 10in,
+    margin: (top: 0.75in, bottom: 0.75in, inside: 0.875in, outside: 0.625in),
     numbering: "1",
     header: context {
       // suppressed on the half-title and on any chapter opener, where the
@@ -50,7 +53,7 @@
       }
     },
   )
-  set text(font: ("Libertinus Serif", "New Computer Modern", "Georgia"), size: 11pt, lang: "en")
+  set text(font: ("Canela Text", "New Computer Modern", "Libertinus Serif" , "Georgia"), size: 11pt, lang: "en")
   set par(justify: true, leading: 0.65em, first-line-indent: 1.25em)
   set math.equation(numbering: "(1)")
 
@@ -326,4 +329,39 @@
     #text(size: 19pt, weight: "bold", hyphenate: false)[#title]
   ]
   body
+}
+
+// --- provenance ------------------------------------------------------------
+// A book whose last three parts are generated from a repository should be able
+// to say WHICH state of that repository produced the copy in your hands. The
+// stamp is a fold over every source file book.typ includes, mirrored byte for
+// byte by gen-facts.py's fold(); the file list comes from book.typ's own
+// #include lines, so a new chapter cannot fall outside it.
+//
+// Re-stamp after a deliberate change:  gen-facts.py --stamp
+#let tree-fold(acc, data) = array(data).fold(
+  acc, (a, x) => calc.rem(a * 31 + x, 2147483647))
+
+#let colophon() = context {
+  let src = read("book.typ")
+  let files = ("book.typ", "preamble.typ") + src
+    .matches(regex("(?m)^#include \"([^\"]+)\""))
+    .map(m => m.captures.at(0))
+  let live = files.fold(0, (a, f) => tree-fold(a, read(f, encoding: none)))
+  let given = sys.inputs.at("k", default: "")
+  // render-key 0 means unset: the book asks nothing of whoever renders it.
+  let keyed = render-key == 0 or tree-fold(0, bytes(given)) == render-key
+  pagebreak(weak: true)
+  v(1fr)
+  align(center)[
+    #set text(size: 9pt, style: "italic")
+    #set par(first-line-indent: 0pt, justify: false)
+    Composed in Typst. Parts IV to VI were generated from the
+    #raw("clanker-tools") repository as this copy was built.
+    #if not (keyed and live == tree-stamp) [
+      #linebreak()
+      Rendered #datetime.today().display("[day] [month repr:long] [year]")
+      from tree #live.
+    ]
+  ]
 }

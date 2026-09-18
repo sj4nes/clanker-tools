@@ -7,10 +7,10 @@
 // author's rewrite. Parts IV and V will be GENERATED from the repository rather
 // than authored, so they cannot go stale. See README.md.
 
-#import "preamble.typ": apply-base, note, part
+#import "preamble.typ": apply-base, note, part, colophon
 
 #set document(
-  title: "The Missing Manual",
+  title: "clanker-tools: The Missing Manual",
   author: ("Simon Janes",),
 )
 
@@ -117,3 +117,5 @@
 ]
 #include "parts/06-tutorials/00-intro.typ"
 #include "parts/06-tutorials/01-entries.typ"
+
+#colophon()
