@@ -6,7 +6,7 @@
 
 #import "../../preamble.typ": note, backlogitem, points
 
-#note[46 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
+#note[47 open items, read from #raw("BACKLOG.md") at generation time and grouped by the domain they sit under. The count is not a burndown: an item closes when the work is done, and new ones are opened by the audits of Part III.]
 
 = Physics
 
@@ -171,8 +171,23 @@
 
 = Cross-cutting
 
-#note[3 open.]
+#note[4 open.]
 
+#backlogitem([British spelling throughout the corpus; the book is now American.], [2026-09-18])[
+  The book's 21 authored chapters were converted 2026-09-18 (96 occurrences, #raw("603f270")) because the author is American and the drafts were not. The corpus was not: #strong[1,733 British forms across 1,253 files]—325 #raw("behaviour"), 119 #raw("judgement"), 120 #raw("generalis*"), 79 #raw("labelled"), 73 #raw("colour"), and the rest of the #raw("-ise")/#raw("-yse") family. Two of those are DATA, not prose, and that is what makes this more than a find-and-replace: #raw("archetype: behaviour") is declared in 21 SKILL.md frontmatters and read by #raw("docs/book/tools/corpus.py"), and #raw("judgement") is a column value in every displacement table (#raw("docs/verifying-skills.md") §7). So Part II of the book now says #emph[behavior] while Part IV's generated table says #emph[behaviour], six pages apart, because the generated chapters print what the repository says and the repository says the other thing. Three ways out, in preference order
+
+  #points(
+    [
+      rename in the corpus—21 frontmatters, the #raw("§7") column, #raw("corpus.py"), and the gates, after which everything agrees (#raw("corpus.py") already tolerates #raw("judgment"), so half is done)
+    ],
+    [
+      note in Part IV that the labels are quoted from the repository, and leave both spellings standing
+    ],
+    [
+      map at display time in the generators—one line each, but the generated chapters would stop printing the repository's literal bytes, which is the one claim those chapters exist to make good on. Do NOT do (3) without saying so in the chapter.
+    ],
+  )
+]
 #backlogitem([user-level symlinks are absolute], none)[
   (#raw("/Users/sjanes/work26/clanker-tools/...")) because #raw("~/.claude/skills") cannot use a relative path into the repo. They break if the repo moves or is renamed. Note it in the README's setup section, or provide an install script that rewrites them.
 ]

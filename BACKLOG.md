@@ -1076,6 +1076,29 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       and is the worse failure, and is exactly what `math-probability` was.
       Wired into `docs/verifying-skills.md` §8. **A field nothing checks is
       decoration** — that is the whole lesson of the `bc` fork.
+- [ ] **British spelling throughout the corpus; the book is now American.**
+      The book's 21 authored chapters were converted 2026-09-18 (96
+      occurrences, `603f270`) because the author is American and the drafts
+      were not. The corpus was not: **1,733 British forms across 1,253 files**
+      — 325 `behaviour`, 119 `judgement`, 120 `generalis*`, 79 `labelled`, 73
+      `colour`, and the rest of the `-ise`/`-yse` family. Two of those are
+      DATA, not prose, and that is what makes this more than a find-and-
+      replace: `archetype: behaviour` is declared in 21 SKILL.md frontmatters
+      and read by `docs/book/tools/corpus.py`, and `judgement` is a column
+      value in every displacement table (`docs/verifying-skills.md` §7).
+      So Part II of the book now says *behavior* while Part IV's generated
+      table says *behaviour*, six pages apart, because the generated chapters
+      print what the repository says and the repository says the other thing.
+      Three ways out, in preference order: (1) rename in the corpus — 21
+      frontmatters, the `§7` column, `corpus.py`, and the gates, after which
+      everything agrees (`corpus.py` already tolerates `judgment`, so half is
+      done); (2) note in Part IV that the labels are quoted from the
+      repository, and leave both spellings standing; (3) map at display time
+      in the generators — one line each, but the generated chapters would stop
+      printing the repository's literal bytes, which is the one claim those
+      chapters exist to make good on. Do NOT do (3) without saying so in the
+      chapter.  (2026-09-18)
+
 - [ ] **user-level symlinks are absolute** (`/Users/sjanes/work26/clanker-tools/...`)
       because `~/.claude/skills` cannot use a relative path into the repo. They
       break if the repo moves or is renamed. Note it in the README's setup
