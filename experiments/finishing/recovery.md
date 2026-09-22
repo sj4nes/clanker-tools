@@ -100,3 +100,39 @@ Even fully reconstructed, run 2 is evidence from an instrument whose work
 product was not preserved. `run.sh` must write work copies somewhere durable
 before run 3 exists. The tmp reaper is now a named failure mode of this fixture,
 not an accident.
+
+## Amendment — what the fidelity gate can and cannot see (before scoring)
+
+All 24 subjects came back RECONSTRUCTED, which is exactly the result a gate
+that cannot fail would also produce. So the gate was mutation-tested before any
+score was read.
+
+| Mutation | Expected | Result |
+|---|---|---|
+| **M1** — drop A01's *last* replayed event | UNRECONSTRUCTED | **RECONSTRUCTED — the gate did not catch it** |
+| **M2** — verify A01 against A12's surviving `out/` | UNRECONSTRUCTED | UNRECONSTRUCTED, 5 files differ |
+| **M3** — drop A01's *first* replayed event (the `nav_html` prefix fix) | UNRECONSTRUCTED | UNRECONSTRUCTED, 1 file differs |
+
+M1 is not a defect, but it fixes the gate's resolution and it is the reason
+this amendment exists. A01's last mutation is a patch to `README.md`, which no
+build reads. **The gate certifies the OUTPUT tree, not the source tree.** A
+source change that never reaches `out/` is invisible to it.
+
+Consequences, fixed now rather than after the numbers:
+
+- The **primary outcome is fully covered**. It is link resolution over the
+  generated pages, and the generated pages are precisely what the gate checks
+  byte for byte. M3 shows a dropped edit that touches the output is caught.
+- **`breadth` and `features_added` are NOT covered.** Both read the source
+  tree, and the gate is blind there. They were already "descriptive, never
+  decisive" in `design.md`; for run 2 they are downgraded further, to
+  **reconstructed, unverified** — reported with that label or not at all.
+- `executed_build` and `wandering` are read from the event log, which the
+  reaper never touched. They are unaffected.
+
+**Event-level corroboration, unplanned.** Two subjects had a replayed patch
+come back `no-match` (A05 on `build.py`, B07 on `page.html`). Both were checked
+against the transcripts: the subject's own tool call returned
+`"success": false, "error": "Could not find a match for old_string"` in each
+case. The replay reproduces not just the subjects' output but their failures,
+which is stronger evidence of fidelity than the gate itself asks for.
