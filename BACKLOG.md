@@ -879,7 +879,27 @@ not a tutorial.
 
 ### formula-tree-tutorial
 
-- [ ] **formula-tree-tutorial:** the 5 physics tutorials have no hook paragraph.
+- [x] **formula-tree-tutorial:** the 5 physics tutorials have no hook paragraph.
+      **DONE 2026-09-22 (`de2e22b`, skill 1.1.0).** The item offered two fixes
+      and the investigation chose the second for a reason worth keeping: the
+      five were the tutorials that followed
+      `references/document-structure.md` **exactly** — the skeleton had no lead
+      in it, and the other 19 authors each added one anyway. Nineteen
+      independent departures is the skeleton being wrong, so the beat went into
+      the skeleton (plus a "The lead" section with the shapes that work) and
+      workflow step 3, and then the five got leads. The skill also gained the
+      `verification/` it never had: `check_beats.py` over all 24 tutorials,
+      `mutation_check.py` (12 guards, one mutant each), and a displacement table
+      (5 covered · 3 judgement · 0 gaps). Its first runs found
+      `hole-in-the-rationals` missing `## Where to go next` (added) and **two
+      defects in the checker itself** — a capstone guard that matched only
+      headings starting with "Capstone", and `^#\s+` matching shell comments
+      inside fenced code blocks. Both were invisible to the corpus check, which
+      passed 24/24 before and after; only the mutation check saw them.
+
+      Superseded original text follows.
+
+- [x] ~~**formula-tree-tutorial:** the 5 physics tutorials have no hook paragraph.~~
       `pendulum`, `why-heat-engines-have-a-ceiling`, `how-fast-does-sound-travel`,
       `designing-an-organ-pipe` and `horns-and-reciprocity` go straight from the
       provenance blockquote to `## How to run this`, so a reader browsing has
@@ -1495,14 +1515,17 @@ open item out of the Done section.
       where the skill stops applying (ed, tsort, uv, math-linear-algebra,
       math-real-analysis, math-sets-functions-cardinality, math-theorem-tree,
       physics-acoustics, physics-formula-tree, physics-newtonian,
-      physics-thermoacoustics, formula-tree-tutorial, theorem-tree-tutorial);
+      physics-thermoacoustics, ~~formula-tree-tutorial~~ (done 2026-09-22,
+      `de2e22b`), theorem-tree-tutorial);
       **10 `displacement`** — behaviour skills with no displacement table,
       because §7 was applied going forward and never backfilled;
       **9 `frontmatter`** — missing `author:` or `tags:`;
       **3 `harness`** — verification/ with a run.sh and no README.md, which is
       a §6 violation of the same kind `statistics` had.
-      Remediation lowers baseline.txt. Note the ratchet's known weakness: it
-      cannot distinguish "fixed two, broke two".  (2026-09-15)
+      Remediation lowers baseline.txt (**34 → 33 on 2026-09-22**; the count was
+      already 34/28 rather than the 35/29 recorded here when remediation
+      resumed). Note the ratchet's known weakness: it cannot distinguish
+      "fixed two, broke two".  (2026-09-15)
 
 - [ ] **`directed-verification` b1: TWO INVALID RUNS — run 3 blocked on ARM
       ISOLATION 2026-09-15.** The claim (an agent asked to "verify this"
