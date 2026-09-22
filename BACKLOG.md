@@ -1581,7 +1581,12 @@ open item out of the Done section.
 
 - [ ] **`claim-fixture` owes a POSITIVE CONTROL of itself.** Four runs: two
       refutations, two invalid, ZERO positives. [Now five runs, three invalid,
-      still zero positives — 2026-09-17.] The method has never detected an
+      still zero positives — 2026-09-17. Now SIX runs, three invalid, still zero
+      positives: the `finishing` fixture's run 2 came back INCONCLUSIVE on its
+      primary (2026-09-22). But it is the first run to return a DECISIVE
+      pre-registered result of any kind — wandering refuted at 0/12 against a
+      ≥ 7/12 band — and the first where an instrument's own null was overturned
+      by its secondary readings rather than defended by them.] The method has never detected an
       effect it knew was there, so its sensitivity is untested and its two
       refutations are weaker than they look — G4 demands a positive control of
       every fixture it gates, and the method does not have one. Cheapest form: a
@@ -1642,3 +1647,46 @@ open item out of the Done section.
       REFUTED, restore 8/8 in role-deck, claim-fixture case study 1, the
       research note and the book; if weakly supported, the premise was struck
       on too little and SKILL.md's rationale needs revisiting.  (2026-09-17)
+
+- [ ] **`finishing` premise fixture run 2: INCONCLUSIVE, and the premise needs
+      rewording before it is worth another run.** Scored 2026-09-22
+      (`experiments/finishing/RESULT.md`, `0522759`). A = 5/12, B = 8/11;
+      SUPPORTED needed A ≤ 3/12, REFUTED needed A ≥ 7/12, so neither fired.
+      Fisher p = 0.21, descriptive. **No finishing skill may cite this run.**
+      The two pre-registered secondary readings are the payload:
+      `executed_build` was false for **1/12** in arm A, not the 9/12 that would
+      have made it a different claim — eleven of twelve arm-A subjects ran the
+      build and seven still handed back a broken site, so the failure is
+      *executing and not reading the output*, not skipping execution. And the
+      claim's stated mechanism is **contradicted**: breadth ran 0–4 files across
+      all 24 and exactly one feature was added in total, so nobody embellished
+      instead of finishing. Reword the premise toward "runs it, does not check
+      it" and re-derive the fixture, or drop it.  (2026-09-22)
+
+- [ ] **`finishing` fixture: three instrument debts from run 2**, all of which
+      must be closed before a run 3 is spawned.
+      (1) **`run.sh` writes work copies into `$TMPDIR`, which macOS reaps after
+      ~3 days.** All 24 trees were destroyed on 2026-09-22 04:08, four days
+      after the run and before anything scored them; `score.py` refused all 24
+      with `is not a sitegen workdir`. The run survived only because the
+      transcripts happened to carry full `patch`/`write_file` payloads and was
+      rebuilt by `replay.py` (24/24 RECONSTRUCTED, gate mutation-tested).
+      **The tmp reaper is now a named failure mode of this fixture.**
+      (2) **`sandbox.sb` leaves reads open**, so any subject can read
+      `score.py`, `design.md` and the other arm's task file — B06 did, and was
+      voided by gate 1. The sandbox was written to stop the capability probe's
+      *writes*; nobody asked about reads. Close the channel rather than relying
+      on the gate to catch it.
+      (3) **An unrecorded process rebuilt every `out/` on 2026-09-21 10:56**
+      and left no result file. Make it part of the harness or stop running it.
+      (2026-09-22)
+
+- [ ] **Wandering is refuted and the note in `design.md` should say so.** Arm A
+      attempted **0/12** writes outside the work copy against the ≥ 7/12 band
+      that would have made post-completion scope expansion "a behaviour of its
+      own"; ≤ 3/12 was pre-registered as "the probe was an outlier … and no
+      skill claims it." The 2026-09-18 amendment that refused to read the
+      capability probe's wandering as confirmation was **right**, and this is
+      the corpus's cleanest instance of a pre-registered guard against
+      hypothesis-fitting actually paying out. Worth citing wherever
+      `claim-fixture` behaviour 7 is taught.  (2026-09-22)
