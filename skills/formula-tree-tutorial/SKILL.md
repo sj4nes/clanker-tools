@@ -9,8 +9,13 @@ description: >-
   interactive lesson / walkthrough / explainer from a dependency-ordered formula
   graph, or build runnable course material from one. This is a META skill: it
   consumes a `physics-formula-tree` capsule and orchestrates the `bc`, `tsort`,
-  and `lean` skills; the deliverable is an `upmd`-executable `.md`.
-version: 1.0.0
+  and `lean` skills; the deliverable is an `upmd`-executable `.md`. NOT for a
+  mathematics capsule — `theorem-tree-tutorial` does those — and not a way to
+  author or check the physics: it introduces no formula the capsule does not
+  already carry, teaches at the capsule's own `draft`/`reviewed` status, and a
+  green `upmd` run shows the calculations execute, not that the physics is
+  complete.
+version: 1.1.0
 archetype: meta
 author: Simon Janes
 tags: [tutorial, upmd, executable-markdown, teaching, physics, formula-tree, meta-skill]
@@ -79,7 +84,17 @@ Filter `indexes/tsort-order.txt` to the nodes in scope, preserving order.
 Drop pure-primitive nodes the audience already knows (say so in a "prerequisites"
 note) but keep every assumption/regime node — those are the point.
 
-### 3. Draft one section per node, in order
+### 3. Write the lead, then one section per node, in order
+
+**The lead is required**: one short paragraph between the provenance blockquote
+and `## How to run this`, saying what question the tutorial answers and why the
+answer is not obvious. The file is browsed before it is read, and without it the
+first thing under the title is install text identical in every tutorial. Never
+open with "This tutorial covers X". See
+[`references/document-structure.md`](references/document-structure.md) —
+"The lead". `verification/check_beats.py` fails a tutorial that has none.
+
+Then the sections:
 
 See [`references/authoring-from-nodes.md`](references/authoring-from-nodes.md).
 Each section: a short heading with the plain-language name; 2–5 sentences from
@@ -123,6 +138,12 @@ Fix until green. A non-zero exit, a stray non-runnable fence, a missing `deps:`
 (block fails when run alone), or a check printing the wrong value blocks the
 tutorial.
 
+Then the structural check, which `upmd` cannot do — it runs blocks, not beats:
+
+- `python3 skills/formula-tree-tutorial/verification/check_beats.py <tutorial.md>`
+  — the lead, the prescribed sections, and the `setup` / `chk_` / `capstone`
+  blocks. Exits non-zero on any missing beat.
+
 ### 8. Place and record
 
 Write to `<capsule>/tutorial/<name>.md`. Add a row to the capsule's `README.md`
@@ -144,6 +165,13 @@ in beneath it and a header noting it is read-only.
   standard document skeleton, the "how to run this" preamble, block-naming
   convention (`setup`, `chk_<node>`, `try_<node>`, `capstone`), and the static
   Artifact companion format.
+
+## Verification
+
+[`verification/`](verification/) — `run.sh` checks all 24 shipped tutorials for
+the prescribed beats, then mutation-tests each guard against its own mutant
+(12/12). See [`verification/README.md`](verification/README.md) for the
+displacement table and what the gates do not cover.
 
 ## Completion report
 

@@ -4,6 +4,12 @@
 > `formula-tree-tutorial` skill. The physics, the prerequisite order, and
 > every calculation come from that capsule.
 
+A pipe of a given length plays one note rather than another because only
+certain wavelengths fit between its ends. This tutorial derives which ones
+from the wave equation, arrives at `f = n c / (2 L)` for a pipe open at both
+ends, and then runs the formula backwards — from the note you want to the
+length of pipe that plays it. Building a resonator, not just analysing one.
+
 ## How to run this
 
 Install `upmd` (https://upmd.dev), then run `upmd designing-an-organ-pipe.md`

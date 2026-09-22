@@ -4,6 +4,13 @@
 > `formula-tree-tutorial` skill. The physics, the prerequisite order, and
 > every calculation come from that capsule.
 
+No heat engine, however well built, can turn all of its heat into work. The
+ceiling is not an engineering limit that better materials will lift — it
+follows from the second law, and it depends on nothing but the two
+temperatures the engine runs between. This tutorial walks the argument from
+the zeroth law to `eta = 1 - T_c/T_h`, then applies it to a real coal-fired
+plant to see how much of the loss is physics rather than waste.
+
 ## How to run this
 
 Install `upmd` (https://upmd.dev), then run

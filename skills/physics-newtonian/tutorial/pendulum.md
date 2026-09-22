@@ -4,6 +4,13 @@
 > `formula-tree-tutorial` skill. The physics, the prerequisite order, and every
 > calculation come from that capsule.
 
+A pendulum keeps time because its period barely depends on how far you swing
+it — and that near-independence is not obvious, it is a consequence of one
+approximation applied at exactly the right place. This tutorial builds the
+chain that earns it, from `F = ma` to `T = 2*pi*sqrt(L/g)`, and then makes you
+check the price: how far the real period drifts once the swing is no longer
+small.
+
 ## How to run this
 
 Install [upmd](https://upmd.dev), then from the repository root run

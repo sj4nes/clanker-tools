@@ -4,6 +4,14 @@
 > `formula-tree-tutorial` skill. The physics, the prerequisite order, and
 > every calculation come from that capsule.
 
+Swap a loudspeaker and a microphone and the measurement between them is
+unchanged: that is reciprocity, and it is a genuine theorem rather than a
+rule of thumb. A horn looks like it should break it — but a horn is not an
+amplifier, it is an impedance match, and this tutorial pins down the
+difference. It ends at the Webster horn equation and its cutoff frequency
+`f_c = m c / (2 pi)`, which is what decides how much bass a given flare can
+carry.
+
 ## How to run this
 
 Install `upmd` (https://upmd.dev), then run `upmd horns-and-reciprocity.md`

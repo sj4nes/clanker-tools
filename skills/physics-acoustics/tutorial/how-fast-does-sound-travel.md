@@ -4,6 +4,14 @@
 > `formula-tree-tutorial` skill. The physics, the prerequisite order, and
 > every calculation come from that capsule.
 
+Sound travels at about 343 m/s in room-temperature air, and that number is
+not measured here — it is derived. The speed follows from how stiff air is
+against compression and how heavy it is, which for an ideal gas collapses to
+`c = sqrt(gamma R T / M)`: a speed that depends on temperature but, perhaps
+surprisingly, not on pressure. This tutorial takes the shortest honest path
+to it, then uses it to date a lightning strike from the delay before the
+thunder.
+
 ## How to run this
 
 Install `upmd` (https://upmd.dev), then run `upmd how-fast-does-sound-travel.md`

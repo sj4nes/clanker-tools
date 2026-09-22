@@ -9,6 +9,12 @@ The generated file is plain Markdown, runnable with `upmd`. Standard shape:
 > `formula-tree-tutorial` skill. The physics, the prerequisite order, and every
 > calculation come from that capsule.
 
+<THE LEAD. One short paragraph, required. What question the tutorial answers
+and why the answer is not obvious -- the thing a reader browsing the directory
+needs in order to pick this file. Name the destination formula in backticks.
+Do NOT open with "This tutorial covers X": say what is at stake, then where it
+lands. See "The lead" below.>
+
 ## How to run this
 
 Install upmd (https://upmd.dev), then run `upmd <name>.md` for the interactive
@@ -99,3 +105,37 @@ A second file, `<name>.artifact.html` or `.md`, for reading without upmd:
   block order identical to the runnable file.
 - Publish via the Artifact tool only on request; load `artifact-design` first.
 - Never describe it as interactive, and never let it collect input.
+
+
+## The lead
+
+The paragraph between the provenance blockquote and `## How to run this`.
+**Required.** `verification/check_beats.py` fails the tutorial without one.
+
+It exists because the file is browsed before it is read. A reader scanning
+`<capsule>/tutorial/` sees a title and then, if the lead is missing, install
+instructions -- which are identical in every tutorial and so distinguish
+nothing.
+
+This beat was added on 2026-09-22, after the first audit of all 24 shipped
+tutorials found 19 with a lead and 5 without. The 5 were the ones that followed
+this skeleton exactly; the skeleton had no lead in it, and the 19 authors each
+added one anyway. **Nineteen independent departures from a skeleton is the
+skeleton being wrong**, not nineteen authors being inconsistent, and that is
+why the fix is here rather than in the five files.
+
+Shapes that work, taken from the shipped set:
+
+- **The stakes, then the landing.** "No heat engine, however well built, can
+  turn all of its heat into work. The ceiling is not an engineering limit that
+  better materials will lift ... this tutorial walks the argument from the
+  zeroth law to `eta = 1 - T_c/T_h`."
+- **The chain, spelled out**, when the path is the point: end the lead with the
+  `a` -> `b` -> **`destination`** run of node ids
+  (`solving-an-equilibrium.md`).
+- **The handoff**, when the tutorial continues another: open by naming the file
+  it follows and what it changes (`kwh-per-kilogram.md`,
+  `zinc-iron-alternative.md`).
+
+Keep it to two to five sentences. It is a hook, not an abstract, and never a
+restatement of the title.

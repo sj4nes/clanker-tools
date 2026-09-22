@@ -380,3 +380,19 @@ echo
 echo "  VERDICT: completeness is not a technicality. It is the one axiom that"
 echo "           separates calculus from arithmetic."
 ```
+
+## Where to go next
+
+- The full [`math-real-analysis`](../SKILL.md) capsule — continuity, the
+  derivative, the Riemann integral, and the convergence of function sequences.
+- Straight ahead from Bolzano–Weierstrass: `heine_borel` (the same
+  completeness, restated as compactness), then the two theorems that spend it
+  on continuous functions — `intermediate_value_theorem` and
+  `extreme_value_theorem`.
+- Then the integral chain, where completeness is what makes the limit exist at
+  all: `riemann_integral` → `ftc_part1` → `ftc_part2`, with `mean_value_theorem`
+  supplying the step most of those proofs turn on.
+- Uniform convergence (`uniform_convergence`, `weierstrass_m_test`) is where
+  "the limit of nice functions is nice" stops being true, and is the natural
+  sequel to §4's definition of convergence.
+- Other cuts from this capsule: see [`docs/tutorial-map.md`](../../../docs/tutorial-map.md).
