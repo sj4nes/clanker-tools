@@ -8,7 +8,7 @@ system.
 ## Order the stages
 
 List stages and their dependencies as `before after` edges and topologically
-sort them with the [`tsort`](../tsort/SKILL.md) skill. This gives a valid linear
+sort them with the [`tsort`](../../tsort/SKILL.md) skill. This gives a valid linear
 order (or a set of them, exposing what can run in parallel) and fails loudly on a
 dependency cycle — which in a pipeline is a design bug, not a runtime condition.
 

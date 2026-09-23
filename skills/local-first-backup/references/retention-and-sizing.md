@@ -2,7 +2,7 @@
 
 Two questions: **how far back** must you be able to restore (retention), and
 **how much disk** does that take (sizing). Retention is a policy decision driven
-by cost-of-loss; sizing is arithmetic — do it with the [`bc`](../bc/SKILL.md)
+by cost-of-loss; sizing is arithmetic — do it with the [`bc`](../../bc/SKILL.md)
 skill, never shell `$(( ))`.
 
 ## Setting retention from cost-of-loss

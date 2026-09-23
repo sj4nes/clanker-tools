@@ -21,7 +21,7 @@ n ≈ 2·(z_{1−α/2} + z_{1−β})²·σ² / δ²
 - `δ` — the smallest effect worth detecting (the minimum practical effect, from
   the charter — **not** a guessed "expected" effect)
 
-Worked (via [`bc`](../bc/SKILL.md), `scale = 4`, lowercase identifiers):
+Worked (via [`bc`](../../bc/SKILL.md), `scale = 4`, lowercase identifiers):
 
 ```bc
 scale = 10

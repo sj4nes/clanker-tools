@@ -38,6 +38,6 @@ model choice, the estimand, evidence adjudication, developmental editing>` — a
 
 ---
 
-See [`docs/verifying-skills.md`](../../../docs/verifying-skills.md) for the
+See [`docs/verifying-skills.md`](../../docs/verifying-skills.md) for the
 shared run-script shape and the `bc` / Python / `tsort` / `lean` / `upmd`
 portability rules.

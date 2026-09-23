@@ -14,7 +14,7 @@ history rather than every change. The full record is
 
 ## 1.1.0 — 2026-09-22
 
-**The shared contract.** `docs/capsule-tutorial-contract.md` now holds the
+**MINOR.** The shared contract. `docs/capsule-tutorial-contract.md` now holds the
 document skeleton, the lead, the block vocabulary and the eight workflow steps
 that this skill and `formula-tree-tutorial` had been keeping in two copies.
 

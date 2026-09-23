@@ -1,7 +1,7 @@
 # Simulation-experiment mode
 
 Use this mode when the "experiment" is run against a simulation model rather than
-a real system. Pair it with the [`simulation`](../simulation/SKILL.md) skill,
+a real system. Pair it with the [`simulation`](../../simulation/SKILL.md) skill,
 which owns model formulation, verification, and validation; this file owns the
 *experiment design* over an already-built, already-validated model.
 

@@ -14,7 +14,7 @@ history rather than every change. The full record is
 
 ## 1.2.0 — 2026-09-22
 
-**The shared contract.** `docs/capsule-tutorial-contract.md` now holds the
+**MINOR.** The shared contract. `docs/capsule-tutorial-contract.md` now holds the
 document skeleton, the lead, the block vocabulary and the eight workflow steps
 that this skill and `theorem-tree-tutorial` had been keeping in two copies.
 
@@ -46,7 +46,7 @@ existing.
 
 ## 1.1.0 — 2026-09-22
 
-**The skeleton was missing a beat, and the corpus had been telling us so.**
+**MINOR.** The skeleton was missing a beat, and the corpus had been telling us so.
 Nineteen of the 24 shipped tutorials opened with a lead paragraph; the five that
 did not (`pendulum`, `why-heat-engines-have-a-ceiling`,
 `how-fast-does-sound-travel`, `designing-an-organ-pipe`,

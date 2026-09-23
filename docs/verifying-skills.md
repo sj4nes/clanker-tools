@@ -548,6 +548,58 @@ Two corollaries, and one caution:
 
 ---
 
+## 7a. Links: the claim no skill's own harness checks
+
+`sh tools/check-skills.sh` runs `tools/check-links.py` over every tracked
+Markdown file. Two gates, both hard:
+
+- **`[file]`** — the relative target exists.
+- **`[anchor]`** — a `file.md#section` link names a heading that is actually in
+  that file.
+
+**Why it is corpus-wide and not per-skill.** A link is a claim about the
+*repository*, not about the skill's subject. A skill's own `verification/`
+exercises its workflow on a case; nothing in that process ever resolves a path.
+So ten broken links survived 53 skills' harnesses and were found only when
+something looked across all of them at once (2026-09-22). Eight were the same
+shape — a sibling skill addressed as though skills nested, `../bc/SKILL.md`
+from inside `design-of-experiments/references/`, one `..` short. Two were
+`indexes/topic-index.md` in capsules that never built one, which is a content
+gap a path check surfaces and a prose review had not.
+
+**The anchor half earns its place separately.** A section can move out of a file
+while every path still resolves. That happened the same day: "The lead" moved
+into `capsule-tutorial-contract.md` and a skill kept pointing at the file it had
+left. Paths alone would have called that fine.
+
+**What it does not check**, and what stays human: whether the link is
+*pointing at the right thing*. A link to the wrong existing file passes both
+gates.
+
+### What it must not flag
+
+Three exclusions, each of which was a false positive before it was one:
+
+- **Code is not a link.** Fenced blocks and inline spans are masked. Both
+  tutorial skeletons carry illustrative `](...)` inside ```markdown fences, and
+  `skills/typst` documents the Markdown it migrates *from* with spans like
+  `` `[t](u)` `` — the first version reported `u`, `f`, `url` and `img.png` as
+  broken.
+- **Untracked files.** Only `git ls-files` output is checked. `paper/` is
+  gitignored working notes whose links are written relative to the repository
+  root; checking it produced 13 phantom failures.
+- **Experiment fixtures.** `experiments/*/subject/` and `.../archive/` are
+  skipped. The `finishing` fixture is a site generator whose pages deliberately
+  cannot reach each other — **those broken links are the defect under test**,
+  and a corpus check that "fixed" them would destroy the experiment. The
+  experiments' own prose is still checked.
+
+`sh tools/check-links-mutations.sh` demonstrates the gates can fail: a broken
+path, a broken anchor, a live anchor that must *not* fire, and a link inside
+code that must stay invisible.
+
+---
+
 ## 8. Checklist before marking a skill verified
 
 - [ ] `sh verification/run.sh` exits 0 from a clean checkout, from any directory.
@@ -596,5 +648,6 @@ Two corollaries, and one caution:
       A release-verification fix does not bump anything — that is how the skill
       reached `1.0.0`.
 - [ ] **`sh tools/check-skills.sh` exits 0** — version shape, `name:` matching
-      the directory, and the `.claude/skills` symlink resolving. A built skill
+      the directory, the `.claude/skills` symlink resolving, the changelog
+      contract, and (§7a) **every relative link and `#anchor` resolving**. A built skill
       nobody wired in is shelfware; a dangling link looks wired and is worse.

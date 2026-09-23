@@ -50,8 +50,10 @@ Symbol list: [`notation.md`](notation.md).
 
 ## How to use this capsule
 
-1. **Find the result** — [`indexes/topic-index.md`](indexes/topic-index.md)
-   (by system) or [`indexes/symbol-index.md`](indexes/symbol-index.md).
+1. **Find the result** — [`indexes/symbol-index.md`](indexes/symbol-index.md)
+   (by notation) or [`indexes/status-index.md`](indexes/status-index.md) (by
+   proof status). This capsule has no `topic-index.md`; six other capsules do,
+   and building one here is tracked in `BACKLOG.md`.
 2. **Read its entry** — [`results/<id>.yaml`](results/) for the 15 headline
    results; the full registry is [`nodes/nodes.tsv`](nodes/nodes.tsv); exemplar
    detail pages in [`nodes/`](nodes/).

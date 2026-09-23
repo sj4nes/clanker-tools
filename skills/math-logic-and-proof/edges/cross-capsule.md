@@ -20,7 +20,7 @@ develops. Recorded here; linearised in neither.
   `predicate_logic`, `quantifier_negation`, `quantifier_order`, `proof_methods`
   as primitives "cited to a future `math-logic-and-proof`". Its Release 0.2
   records the discharge in its own
-  [`edges/cross-capsule.md`](../math-sets-functions-cardinality/edges/cross-capsule.md)
+  [`edges/cross-capsule.md`](../../math-sets-functions-cardinality/edges/cross-capsule.md)
   and promotes `proposition_logic`/`predicate_logic` `active` → `reviewed`.
   **No `tsort` edge was added** — the two capsules' primitives are mutually
   grounding (this capsule's `naive_collection` is grounded by the set

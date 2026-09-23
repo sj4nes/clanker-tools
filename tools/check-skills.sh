@@ -12,6 +12,12 @@
 #   7. the rest of the changelog contract (§3b): a 1.0.0 heading, every later
 #      entry opens with its level, and the level is the digit that moved --
 #      tools/check-changelogs.py.  Unchecked, those clauses decayed.
+#   8. every relative Markdown link resolves, and every `#anchor` names a
+#      heading that exists -- tools/check-links.py.  Ten were broken when this
+#      clause was added (2026-09-22), eight of them a sibling skill addressed
+#      as though skills nested.  No skill's own verification looks at its
+#      links, because a link is a claim about the REPOSITORY, not about the
+#      skill's subject; only a corpus-wide gate sees them.
 #
 # Exists because two of these went wrong silently: `math-probability`'s symlink
 # dangled for a week (a 131-node capsule that was never loadable), and the
@@ -98,6 +104,10 @@ for l in .claude/skills/*; do
 done
 
 if ! python3 tools/check-changelogs.py; then
+    fail=$((fail + 1))
+fi
+
+if ! python3 tools/check-links.py; then
     fail=$((fail + 1))
 fi
 

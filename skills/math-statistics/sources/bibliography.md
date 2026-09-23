@@ -3,8 +3,8 @@
 Source keys used in `results/*.yaml` (`sources:` field). Two special keys point
 at sibling capsules rather than the literature:
 
-- **math-probability** — [`../math-probability/SKILL.md`](../math-probability/SKILL.md), Release 0.1. Every `prob_*` root node.
-- **math-real-analysis** — [`../math-real-analysis/SKILL.md`](../math-real-analysis/SKILL.md). Every `ra_*` root node.
+- **math-probability** — [`../math-probability/SKILL.md`](../../math-probability/SKILL.md), Release 0.1. Every `prob_*` root node.
+- **math-real-analysis** — [`../math-real-analysis/SKILL.md`](../../math-real-analysis/SKILL.md). Every `ra_*` root node.
 - **linear-algebra** — no capsule yet; `linear_algebra_background` cites standard
   linear-algebra texts (Strang; Axler; Horn & Johnson; Golub & Van Loan).
 
