@@ -12,6 +12,17 @@ history rather than every change. The full record is
 
     git log -- skills/math-sets-functions-cardinality/
 
+## 3.1.0 — 2026-09-22
+
+**MINOR.** "How to use this capsule" step 1 pointed at `indexes/topic-index.md`, which this capsule has never had — six
+other capsules do. The dead link was found by the new corpus link
+gate (`tools/check-links.py`, `docs/verifying-skills.md` §7a).
+
+Step 1 now names `symbol-index.md` and `status-index.md`, which exist, and says the topic index is missing rather than advertising
+a file that is not there. MINOR because a reader is sent somewhere
+different, not merely because a path was repaired. Building the
+index is filed in `BACKLOG.md`; no node, edge or result changed.
+
 ## 3.0.0 — 2026-09-14
 
 **MAJOR.** `countable_closure_properties` carried `lean_status: instance`

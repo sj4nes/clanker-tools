@@ -1728,7 +1728,7 @@ open item out of the Done section.
       `claim-fixture` behaviour 7 is taught.  (2026-09-22)
 
 
-- [ ] **Nine broken relative links across the corpus**, found 2026-09-22 while
+- [x] **Nine broken relative links across the corpus**, found 2026-09-22 while
       link-checking the tutorial-contract refactor (none of them in the files
       that refactor touched). Every one points at a sibling skill or index that
       is addressed as though skills nested: `../bc/SKILL.md` from
@@ -1742,3 +1742,27 @@ open item out of the Done section.
       standing link check in `docs/verifying-skills.md` rather than nine
       one-off fixes — the same argument as the displacement-table rule: a repo
       rule that only the newest file follows is not a rule.  (2026-09-22)
+      **DONE 2026-09-22 (`d68e2a6`).** Ten in the end, not nine: the standing
+      check found one more (`templates/verification/README.md`, one `..` too
+      many). `tools/check-links.py` is now clause 8 of `tools/check-skills.sh`
+      and §7a of `docs/verifying-skills.md`, checking every relative path
+      **and** every `#anchor` across 1,493 links in 1,276 tracked files;
+      `tools/check-links-mutations.sh` demonstrates it can fail. Eight of the
+      ten were the one shape; two were a content gap, below.
+
+
+- [ ] **`topic-index.md` is missing from `math-number-systems` and
+      `math-sets-functions-cardinality`.** Both capsules' SKILL.md advertised it
+      as step 1 of "How to use this capsule" — the entry point for finding a
+      result — and neither has ever had the file. Six other capsules do
+      (`chemistry-foundations`, `chemistry-electrochemistry`,
+      `math-real-analysis`, `physics-newtonian`, `physics-thermoacoustics`,
+      `physics-thermodynamics`). Found 2026-09-22 by the new link gate, which is
+      the point of §7a: a prose review had read past it repeatedly. Both SKILL.md
+      files now point at `symbol-index.md` and `status-index.md` and say the
+      topic index is absent (`4.1.0`, `3.1.0`), so nothing advertises a file that
+      is not there — but the navigational gap is real. A topic index is a
+      **curated** grouping of every node by area in rough prerequisite order
+      (see `math-real-analysis/indexes/topic-index.md`, 109 nodes), not a dump
+      of `nodes.tsv`, which is why this is capsule work and not a scripted
+      backfill: 100 nodes for number-systems, 106 for sets.  (2026-09-22)
