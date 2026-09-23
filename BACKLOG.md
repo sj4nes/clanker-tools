@@ -959,9 +959,22 @@ drafted. Adds over the physics version: the **Lean-beat wrapper** (heredoc +
       battery) and a `proof_methods` worksheet to `instance-checks.bc`, and
       caught two stale `lean_status` overclaims (`post_completeness_theorem`,
       `compactness_prop` → `cited`).
-- [ ] **theorem-tree-tutorial:** decide the "one skill or two" question
-      (`docs/tutorial-map.md` §7) — whether to merge with `formula-tree-tutorial`
-      into `capsule-tutorial` once both are exercised.
+- [x] **theorem-tree-tutorial:** decide the "one skill or two" question
+      (`docs/tutorial-map.md` §7). **SETTLED 2026-09-22 (`9af14b7`) — the
+      question was a false binary.** Measured: 8/8 workflow steps identical by
+      name and order, 4/4 SKILL.md sections identical, 3/3 reference filenames
+      identical, against only **22.5%** literal text overlap. The method and
+      document contract were shared; the check vocabulary genuinely is not.
+      Duplication had already cost a defect in each direction — the lead was in
+      the math skeleton only (five physics tutorials shipped without one), and
+      the Lean beat is prescribed in the math skill only while physics/chemistry
+      tutorials carry **23 `lean_` blocks to mathematics' 16**. Resolution:
+      `docs/capsule-tutorial-contract.md` is single-source for the skeleton,
+      the lead, the block vocabulary and the eight steps; both skills keep only
+      domain deltas. Full merge rejected on two costs §7 never named — 24
+      tutorials carry provenance naming their generating skill, and one
+      description spanning both domains blurs the routing the `scope` gate
+      polices. `check_contract.py` guards the drift (mutation-tested, 15/15).
 - [ ] **theorem-tree-tutorial:** settle the cross-capsule `deps:` convention
       before any Tier-4 (discharge-chain) tutorial — `docs/tutorial-map.md` §7.
 
@@ -1516,13 +1529,13 @@ open item out of the Done section.
       math-real-analysis, math-sets-functions-cardinality, math-theorem-tree,
       physics-acoustics, physics-formula-tree, physics-newtonian,
       physics-thermoacoustics, ~~formula-tree-tutorial~~ (done 2026-09-22,
-      `de2e22b`), theorem-tree-tutorial);
+      `de2e22b`), ~~theorem-tree-tutorial~~ (done 2026-09-22, `9af14b7`));
       **10 `displacement`** — behaviour skills with no displacement table,
       because §7 was applied going forward and never backfilled;
       **9 `frontmatter`** — missing `author:` or `tags:`;
       **3 `harness`** — verification/ with a run.sh and no README.md, which is
       a §6 violation of the same kind `statistics` had.
-      Remediation lowers baseline.txt (**34 → 33 on 2026-09-22**; the count was
+      Remediation lowers baseline.txt (**34 → 32 on 2026-09-22**; the count was
       already 34/28 rather than the 35/29 recorded here when remediation
       resumed). Note the ratchet's known weakness: it cannot distinguish
       "fixed two, broke two".  (2026-09-15)
@@ -1713,3 +1726,19 @@ open item out of the Done section.
       the corpus's cleanest instance of a pre-registered guard against
       hypothesis-fitting actually paying out. Worth citing wherever
       `claim-fixture` behaviour 7 is taught.  (2026-09-22)
+
+
+- [ ] **Nine broken relative links across the corpus**, found 2026-09-22 while
+      link-checking the tutorial-contract refactor (none of them in the files
+      that refactor touched). Every one points at a sibling skill or index that
+      is addressed as though skills nested: `../bc/SKILL.md` from
+      `design-of-experiments` and `local-first-backup`, `../tsort/SKILL.md` from
+      `unattended-automation`, `../math-probability/SKILL.md` and
+      `../math-real-analysis/SKILL.md` from `math-statistics/sources/`,
+      `../math-sets-functions-cardinality/edges/cross-capsule.md` from
+      `math-logic-and-proof/edges/`, and `indexes/topic-index.md` from
+      `math-number-systems` and `math-sets-functions-cardinality` (a file that
+      does not exist in either capsule). One `..` too few in most cases. Worth a
+      standing link check in `docs/verifying-skills.md` rather than nine
+      one-off fixes — the same argument as the displacement-table rule: a repo
+      rule that only the newest file follows is not a rule.  (2026-09-22)
