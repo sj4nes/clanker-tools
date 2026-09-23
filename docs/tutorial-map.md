@@ -278,10 +278,31 @@ skill — **verified 2026-09-06** by item 1. Item 3 is buildable now with
 
 ## 7. Open questions
 
-- **One skill or two?** `theorem-tree-tutorial` (math) and `formula-tree-tutorial`
-  (physics) share ~80% of their method. Merge into `capsule-tutorial`, or keep
-  the domain-specific check vocabulary (dimensional check vs type check)
-  separate?
+- ~~**One skill or two?**~~ **SETTLED 2026-09-22 — the question was a false
+  binary.** Measured rather than estimated: **8/8 workflow steps identical by
+  name and order, 4/4 SKILL.md sections identical, 3/3 reference filenames
+  identical**, against only **22.5%** literal text overlap (13.4% of the math
+  skill). The *method and document contract* were shared; the *check
+  vocabulary* genuinely is not — so neither "merge" nor "keep separate" was
+  right on its own.
+
+  Duplication had already cost a defect in each direction. The **lead
+  paragraph** was in the math skeleton and not the physics one, which is why
+  five physics tutorials shipped without one (`de2e22b`). The **Lean beat** is
+  prescribed only in the math skill, yet physics and chemistry tutorials carry
+  **23 `lean_` blocks to mathematics' 16** — their authors invented it
+  unprescribed. Drift in both directions, visible only by auditing outputs.
+
+  Resolution: **one contract, two skills.**
+  [`docs/capsule-tutorial-contract.md`](capsule-tutorial-contract.md) holds the
+  skeleton, the lead, the block vocabulary and the eight steps; each skill keeps
+  only its domain deltas. A full merge was rejected on two costs the original
+  question did not name: all 24 tutorials carry provenance naming the skill that
+  generated them (a merge falsifies it or leaves it dangling), and one
+  description covering both domains would blur the routing the `skill-authoring`
+  scope gate polices. `formula-tree-tutorial/verification/check_contract.py` is
+  the drift guard, mutation-tested; it caught a second copy of "The lead" within
+  a minute of existing.
 - **Cross-capsule `deps:` convention.** A Tier-4 tutorial references blocks and
   `validation/` scripts in two capsule directories. Relative paths from the
   tutorial's own location? A manifest? This blocks all of Tier 4.

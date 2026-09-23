@@ -27,6 +27,11 @@ carries every beat, so each mutant removes exactly one.
 
     sh skills/formula-tree-tutorial/verification/run.sh
 
+It checks tutorials from **both** tutorial skills, because both implement
+[`docs/capsule-tutorial-contract.md`](../../../docs/capsule-tutorial-contract.md).
+The harness lives here rather than being duplicated — duplicating it is the
+mistake the contract exists to undo.
+
 `python3` (stdlib only, no `bc` arithmetic in this skill). Wall time < 2 s.
 `upmd` is **not** invoked here — that each tutorial's blocks execute is checked
 by workflow step 7 at authoring time, per tutorial; this harness is about the
@@ -43,7 +48,8 @@ document's shape.
 | skeleton close | `## Where to go next` | 24/24 |
 | 4 "Build the `setup` block" | a `[name:setup]` block | 24/24 |
 | 5 "Convert each capsule check into a named block" | at least one `chk_<node>` block | 24/24 |
-| — | **every guard above fails on its own mutant** | 12/12 |
+| both skills' `## References` | both defer to the shared contract, and neither re-declares a section it owns | pass |
+| — | **every guard above fails on its own mutant** | 15/15 |
 
 ## Findings folded back into the skill
 
@@ -68,9 +74,23 @@ document's shape.
    because step 1 passed 24/24 both before and after that fix: **the corpus
    check could not see its own blind spot, and the mutation check could.**
 
+4. **The skeleton was maintained in two copies, and had drifted in both
+   directions.** Measured 2026-09-22 across both tutorial skills: 8/8 workflow
+   steps identical by name and order, 4/4 SKILL.md sections identical, 3/3
+   reference filenames identical — on 22.5% literal text overlap. The lead was
+   in the math skeleton only (causing finding 1); the Lean beat is prescribed in
+   the math skill only, yet physics and chemistry tutorials carry **23 `lean_`
+   blocks to mathematics' 16**. Resolved by single-sourcing the shared parts as
+   [`docs/capsule-tutorial-contract.md`](../../../docs/capsule-tutorial-contract.md),
+   thinning both skeletons to their domain deltas, and backporting the `cx_` and
+   `lean_` beats into this skill's step 5. `check_contract.py` is the guard.
+5. **`check_contract.py` caught a leftover on its first run** — the
+   `## The lead` section this skill had gained hours earlier survived the
+   thinning, because it sat after the Static Artifact section. Exactly the
+   second-copy failure it was written for, found within a minute of existing.
+
 No correctness fix was needed in `SKILL.md`'s workflow steps themselves; the
-change is to `references/document-structure.md`, which is where the skeleton
-lives.
+changes are to `references/document-structure.md` and the shared contract.
 
 ## The displacement table (§7)
 
@@ -99,4 +119,10 @@ check was surfaced, or whether the physics is taught well. It does not run the
 blocks: `upmd --ci --all` remains workflow step 7's job, per tutorial, at
 authoring time. And it checks only tutorials that exist in this repository — it
 says nothing about one an agent is about to write, which is why the beat also
-went into the skeleton where an author will read it.
+went into the contract where an author will read it.
+
+`check_contract.py` checks that both skills *point at* the contract and do not
+re-declare its sections. It cannot tell whether a skill's domain delta
+**contradicts** the contract — a skill could describe a different block
+vocabulary in its own words and pass. What stops that is that the beats
+themselves are checked, in step 1, against the tutorials both skills produce.

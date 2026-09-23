@@ -15,7 +15,7 @@ description: >-
   already carry, teaches at the capsule's own `draft`/`reviewed` status, and a
   green `upmd` run shows the calculations execute, not that the physics is
   complete.
-version: 1.1.0
+version: 1.2.0
 archetype: meta
 author: Simon Janes
 tags: [tutorial, upmd, executable-markdown, teaching, physics, formula-tree, meta-skill]
@@ -91,8 +91,9 @@ and `## How to run this`, saying what question the tutorial answers and why the
 answer is not obvious. The file is browsed before it is read, and without it the
 first thing under the title is install text identical in every tutorial. Never
 open with "This tutorial covers X". See
-[`references/document-structure.md`](references/document-structure.md) —
-"The lead". `verification/check_beats.py` fails a tutorial that has none.
+[`docs/capsule-tutorial-contract.md`](../../docs/capsule-tutorial-contract.md)
+— "The lead", with the shapes that work.
+`verification/check_beats.py` fails a tutorial that has none.
 
 Then the sections:
 
@@ -111,12 +112,32 @@ for how state persists (shell `export` + cwd carry forward; other languages need
 
 ### 5. Convert each capsule check into a named block
 
-For concept `X`, emit `bash [name:chk_X, deps:"setup | chk_<prereq1> | chk_<prereq2>"]`
-that runs the `bc` (or `lean`) calculation for `X` from the capsule and prints a
-clearly-labelled result. Prefer `bc -l` here-strings/heredocs. Keep each block
-**idempotent** and independent of run order beyond its declared `deps`.
-Dimensional checks should print the zero-vector; limiting cases should print the
-expected number with a `(want …)` annotation.
+The block vocabulary is the shared contract
+([`docs/capsule-tutorial-contract.md`](../../docs/capsule-tutorial-contract.md));
+what each beat looks like for a *formula* tree is in
+[`references/document-structure.md`](references/document-structure.md).
+For concept `X` (capsule node id `x`):
+
+- **`bash [name:chk_x, deps:"setup | chk_<prereq>"]`** — required. The
+  dimensional check (print the zero vector), the limiting case, or the capsule's
+  worked example. Print a labelled result with a `(want …)` annotation. Prefer
+  `bc -l` here-strings and heredocs.
+- **`bash [name:cx_x, deps:chk_x]`** — where the capsule names a regime or
+  assumption the formula depends on. Leave that regime, hold everything else,
+  and show the formula depart from reality: a 30° pendulum swing against
+  `small_angle_approximation`, an ideal-gas relation at a pressure where it
+  stops holding. **One per assumption/regime node the section rests on.** Where
+  a relation is exact and unconditional, say so in the prose instead.
+- **`bash [name:lean_x, deps:setup]`** — where the node has `lean_status: core`.
+  Heredoc the capsule's exact snippet from `validation/proof-checks.lean`
+  (cite the section), run `lean`, check the exit status, and guard with
+  `command -v lean >/dev/null || { echo "SKIP: lean not on PATH"; exit 0; }`.
+  Echo precisely what the kernel confirmed — the statement checked, not "the
+  physics is right".
+
+Keep every block **idempotent** and independent of run order beyond its declared
+`deps`. Reuse the capsule's numbers verbatim; introduce no number the capsule
+does not carry.
 
 ### 6. Add a capstone
 
@@ -153,6 +174,10 @@ in beneath it and a header noting it is read-only.
 
 ## References
 
+- [`docs/capsule-tutorial-contract.md`](../../docs/capsule-tutorial-contract.md)
+  — **the shared contract**: document skeleton, the lead, the block vocabulary,
+  and the eight workflow steps. `theorem-tree-tutorial` implements the same
+  contract for mathematics capsules; a change to it lands on both skills.
 - [`references/upmd-mechanics.md`](references/upmd-mechanics.md) — block
   attributes (`name`, `deps`, `bin`), the comma-vs-pipe dependency grammar, state
   persistence, the CLI (`--ci --all`, `-b`), install, and the gotchas

@@ -66,6 +66,57 @@ def run(path):
     return proc.returncode, proc.stdout + proc.stderr
 
 
+# --- the contract guard: mutate the repository copy, not a temp file, because
+# --- check_contract.py reads fixed paths. Each mutation is reverted immediately.
+CONTRACT_MUTANTS = {
+    "skill-drops-contract-ref": (
+        "skills/theorem-tree-tutorial/SKILL.md",
+        lambda t: t.replace("capsule-tutorial-contract.md", "nothing.md"),
+        "does not reference the contract"),
+    "skill-redeclares-owned-section": (
+        "skills/theorem-tree-tutorial/references/document-structure.md",
+        lambda t: t + "\n## The lead\n\nA second copy.\n",
+        "re-declares `## The lead`"),
+    "contract-loses-a-section": (
+        "docs/capsule-tutorial-contract.md",
+        lambda t: t.replace("## The lead", "## Opening"),
+        "has no `## The lead` section"),
+}
+
+
+def contract_mutations(root):
+    """Break the drift guard's own assumptions, one at a time."""
+    import shutil
+    dead = []
+    script = HERE / "check_contract.py"
+    proc = subprocess.run([sys.executable, str(script)], capture_output=True, text=True)
+    if proc.returncode != 0:
+        print("*** FAIL contract negative control: unmutated repo does not pass")
+        print(proc.stdout + proc.stderr)
+        return ["negative-control"]
+    print("PASS contract control      unmutated repo passes")
+
+    for name, (rel, mutate, expect) in CONTRACT_MUTANTS.items():
+        target = root / rel
+        backup = target.read_text()
+        try:
+            target.write_text(mutate(backup))
+            proc = subprocess.run([sys.executable, str(script)],
+                                  capture_output=True, text=True)
+            out = proc.stdout + proc.stderr
+            if proc.returncode != 0 and expect in out:
+                print(f"PASS {name:24} caught: {expect!r}")
+            elif proc.returncode != 0:
+                print(f"*** FAIL {name:20} failed, but not for the stated reason")
+                dead.append(name)
+            else:
+                print(f"*** FAIL {name:20} DEAD GUARD: mutant passed")
+                dead.append(name)
+        finally:
+            target.write_text(backup)
+    return dead
+
+
 def main():
     if not SUBJECT.exists():
         print(f"subject missing: {SUBJECT}", file=sys.stderr)
@@ -95,7 +146,10 @@ def main():
                 print(f"*** FAIL {name:20} DEAD GUARD: mutant passed the check")
                 dead.append(name)
 
-    total = len(MUTANTS)
+    print()
+    dead += contract_mutations(HERE.parents[2])
+
+    total = len(MUTANTS) + len(CONTRACT_MUTANTS)
     print(f"\n{total - len(dead)}/{total} guards demonstrated to fail on their "
           f"own mutant.")
     if dead:

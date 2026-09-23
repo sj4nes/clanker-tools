@@ -12,8 +12,13 @@ description: >-
   proof-dependency map into something a person works through. This is a META
   skill: it consumes a `math-theorem-tree` capsule and orchestrates the `lean`,
   `bc`, and `tsort` skills; the deliverable is an `upmd`-executable `.md`. The
-  math analogue of `formula-tree-tutorial` (which does physics).
-version: 1.0.0
+  math analogue of `formula-tree-tutorial` (which does physics and chemistry);
+  both implement `docs/capsule-tutorial-contract.md`. NOT for a physics or
+  chemistry capsule, and not a way to author or check the mathematics: it
+  introduces no result the capsule does not already carry, and a green `upmd`
+  run shows the checks execute — it does not upgrade a cited result into a
+  proved one.
+version: 1.1.0
 archetype: meta
 author: Simon Janes
 tags: [tutorial, upmd, executable-markdown, teaching, mathematics, theorem-tree, lean, meta-skill]
@@ -147,9 +152,19 @@ the discharged-primitive roots the audience already has (name them in a
 integral, from the two capsules below; here they are cited"). Keep **every**
 hypothesis / structure / grade node in scope — those are the point.
 
-### 3. Draft one section per node, in order
+### 3. Write the lead, then one section per node, in order
 
-See [`references/authoring-from-nodes.md`](references/authoring-from-nodes.md)
+**The lead is required**: one short paragraph between the provenance blockquote
+and `## How to run this`, naming the single object or question the tutorial
+follows and why the answer is not obvious. The file is browsed before it is
+read, and without it the first thing under the title is install text identical
+in every tutorial. See
+[`docs/capsule-tutorial-contract.md`](../../docs/capsule-tutorial-contract.md)
+— "The lead", with the shapes that work.
+`formula-tree-tutorial/verification/check_beats.py` fails a tutorial that has
+none, this skill's included.
+
+Then the sections. See [`references/authoring-from-nodes.md`](references/authoring-from-nodes.md)
 for the YAML-field → section-part mapping. Each section: a plain-language
 heading; the statement quoted once on its own line; 2–5 sentences (typed
 symbols, hypotheses named as nodes, the grade if the node carries one, the one
@@ -230,6 +245,13 @@ generate it with every block's real captured output pasted beneath it and a
 read-only header.
 
 ## References
+
+- [`docs/capsule-tutorial-contract.md`](../../docs/capsule-tutorial-contract.md)
+  — **the shared contract**: document skeleton, the lead, the block vocabulary,
+  and the eight workflow steps. `formula-tree-tutorial` implements the same
+  contract for physics and chemistry capsules; a change to it lands on both
+  skills, and its `verification/check_beats.py` checks this skill's tutorials
+  too.
 
 - [`references/upmd-mechanics.md`](references/upmd-mechanics.md) — block
   attributes (`name`, `deps`, `bin`), the comma-vs-pipe dependency grammar,
